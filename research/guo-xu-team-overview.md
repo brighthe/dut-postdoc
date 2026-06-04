@@ -96,7 +96,7 @@ $$\frac{\partial J}{\partial D_j^i} = \sum \left( \frac{\partial J}{\partial \te
   - [[literature/others/Wang2020-ML-MMC-realtime]] — _Machine learning-driven real-time topology optimization under MMC-based framework_（SVR/KNN + MMC 端到端映射）
 
 - **PIML 方法提出**
-  - [[literature/others/Zheng2021-PIML-universal]] — _Problem-independent machine learning (PIML)-based topology optimization—a universal approach_（ANN + EMsFEM，奠基之作）
+  - [[literature/others/Guo2017-PIML-universal]] — _Problem-independent machine learning (PIML)-based topology optimization—a universal approach_（ANN + EMsFEM，奠基之作）
 
 - **大规模结构分析拓展**
   - [[literature/others/Zheng2023-PIML-substructure]] — _PIML enhanced substructure-based approach for large-scale structural analysis_（力学先验约束，10 亿设计变量）
