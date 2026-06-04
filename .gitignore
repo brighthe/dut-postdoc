@@ -1,0 +1,14 @@
+# Obsidian 配置目录
+.obsidian/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# PDF 原文（本地存放，不纳入版本控制）
+literature/**/*.pdf
+research/**/*.pdf
+
+# 临时文件
+*.tmp
+*~
