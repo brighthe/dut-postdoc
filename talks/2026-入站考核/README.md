@@ -34,15 +34,16 @@ latexmk
 > 仓库无法保存 TeXstudio 的全局配置，换设备需按此设置一次。
 > 若 LaTeX 装在 WSL 里，命令需加 `wsl` 前缀。
 
-1. **选项 → 设置 TeXstudio → 命令**，把 **Latexmk** 一行改为：
+1. **「命令」页**（选项 → 设置 TeXstudio → 命令）：找到 **Latexmk** 一行
+   （默认是 `latexmk.exe -pdf -silent -synctex=1 %`），改为：
    ```
    wsl latexmk -silent %.tex
    ```
    （引擎与输出目录由本目录的 `latexmkrc` 接管，无需在此指定）
 
-2. **构建** 页 → **默认编译器** 选 `Latexmk`。
+2. **「构建」页** → **默认编译器**（构建 & 查看）选 `Latexmk`。
 
-3. **构建** 页 → **PDF 附加搜索路径（PDF Paths）** 填 `build`，
+3. **「构建」页** → **搜索路径 → PDF 文件** 填 `build`，
    这样内置预览器能在 `build/` 里找到 `template.pdf`。
 
 设置完成后，绿色编译按钮即走 latexmk，产物进 `build/`，源目录不再产生中间文件。
