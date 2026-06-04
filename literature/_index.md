@@ -18,7 +18,7 @@
 
 | 笔记 | 作者 | 年份 | 关键词 | 状态 |
 |------|------|------|--------|------|
-| [[others/Guo2017-PIML-universal]] | Guo et al. | 2017 | PIML, EMsFEM, topology-opt | done |
+| [[others/Huang2022-PIML-universal]] | Huang et al. | 2022 | PIML, EMsFEM, topology-opt | done |
 
 ---
 

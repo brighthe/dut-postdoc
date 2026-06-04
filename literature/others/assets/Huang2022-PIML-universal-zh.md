@@ -1,7 +1,7 @@
 # Problem-independent machine learning (PIML)-based topology optimization—A universal approach
 ## 完整中文译文
 
-> 原笔记：[[../Guo2017-PIML-universal]]
+> 原笔记：[[../Huang2022-PIML-universal]]
 
 ---
 

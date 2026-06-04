@@ -1,16 +1,25 @@
 ---
-title: "Problem-independent machine learning (PIML)-based topology optimization—A universal approach"
-authors: ["Guo, Xu", "et al."]
-year: 2017
-journal: ""
-doi: ""
+title: Problem-independent machine learning (PIML)-based topology optimization—A universal approach
+authors:
+  - Huang, Mengcheng
+  - Du, Zongliang
+  - Liu, Chang
+  - Zheng, Yonggang
+  - Cui, Tianchen
+  - Mei, Yue
+  - Li, Xiao
+  - Zhang, Xiaoyu
+  - Guo, Xu
+year: 2022
+journal: "Extreme Mechanics Letters"
+doi: "10.1016/j.eml.2022.101887"
 tags:
   - PIML
   - topology-opt
   - EMsFEM
   - machine-learning
   - multiscale-FEM
-status: "done"
+status: done
 rating: 5
 date_added: 2026-06-04
 date_read: 2026-06-04
@@ -18,7 +27,7 @@ date_read: 2026-06-04
 
 # Problem-independent machine learning (PIML)-based topology optimization—A universal approach
 
-> 完整中文译文：[[assets/Guo2017-PIML-universal-zh]]
+> 完整中文译文：[[assets/Huang2022-PIML-universal-zh]]
 
 ## 一句话概括
 
