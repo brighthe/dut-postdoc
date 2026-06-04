@@ -18,6 +18,8 @@ date_read: 2026-06-04
 
 # Problem-independent machine learning (PIML)-based topology optimization—A universal approach
 
+> 完整中文译文：[[assets/Guo2017-PIML-universal-zh]]
+
 ## 一句话概括
 
 在 EMsFEM 框架下，离线训练神经网络学习粗分辨率单元形函数与局部材料密度之间的映射，从而构造真正"问题无关"的机器学习模型，显著降低大规模拓扑优化中有限元分析的计算开销。
