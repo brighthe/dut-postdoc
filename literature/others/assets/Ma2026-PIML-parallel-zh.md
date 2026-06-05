@@ -63,4 +63,39 @@ $$\boldsymbol{K}^j \boldsymbol{u}^j = \begin{pmatrix} \boldsymbol{K}_{\text{bb}}
 
 $$\boldsymbol{K}_{\text{s}}^j \boldsymbol{u}_{\text{b}}^j = \boldsymbol{f}_{\text{b}}^j, \quad (4)$$
 
-其中 $\boldsymbol{K}_{\text{s}}^j = \boldsymbol{K}_{\text{bb}}^j - (\boldsymbol{K}_{\text{ib}}^j)^{\text{T}} (\boldsymbol{K}_{\text{ii}}^j)^{-1} \boldsymbol{K}_{\text{ib}}^j$
+其中 $\boldsymbol{K}_{\text{s}}^j = \boldsymbol{K}_{\text{bb}}^j - (\boldsymbol{K}_{\text{ib}}^j)^{\text{T}} (\boldsymbol{K}_{\text{ii}}^j)^{-1} \boldsymbol{K}_{\text{ib}}^j$ 即为所谓的第 $j$ 个子结构的缩聚刚度矩阵（condensed stiffness matrix）。
+
+![[Pasted image 20260605150710.png]]
+图 1：PIML 模型中 $m = 5$ 的三维子结构示意图。
+
+在子结构方法中，$\boldsymbol{K}_{\text{s}}^j$ 和 $\boldsymbol{f}_{\text{b}}^j, j = 1, 2, ..., N_s$ 可以分别被组装成全局缩聚刚度矩阵 $\boldsymbol{K}_{\text{s}} = \bigwedge_{j=1}^{N_s} \boldsymbol{K}_{\text{s}}^j$ 以及全局缩聚外载荷向量 $\boldsymbol{f}_{\text{s}} = \bigwedge_{j=1}^{N_s} \boldsymbol{f}_{\text{b}}^j$。缩聚位移向量 $\boldsymbol{u}_{\text{s}}$ 可以通过求解 $\boldsymbol{K}_{\text{s}}\boldsymbol{u}_{\text{s}} = \boldsymbol{f}_{\text{s}}$ 来确定。在确定了边界位移 $\boldsymbol{u}_{\text{b}}^j$ 之后，我们可以得到内部位移 $\boldsymbol{u}_{\text{i}}^j = -(\boldsymbol{K}_{\text{ii}}^j)^{-1}\boldsymbol{K}_{\text{ib}}^j\boldsymbol{u}_{\text{b}}^j, j = 1, 2, ..., N_s$。
+
+### _2.2.2 面向大规模结构分析与拓扑优化的 PIML 模型_
+
+基于经典子结构方法，子结构 $\Omega^j$ 内的连续位移场 $\tilde{\boldsymbol{u}}^j(\boldsymbol{x}) \in \mathbb{R}^{n^j} (n^j = n_b^j + n_i^j)$ 可以被插值为：
+
+$$\tilde{\boldsymbol{u}}^j(\boldsymbol{x}) = \tilde{\boldsymbol{N}}_b^j(\boldsymbol{x})\boldsymbol{u}_b^j + \tilde{\boldsymbol{N}}_i^j(\boldsymbol{x})\boldsymbol{u}_i^j = \tilde{\boldsymbol{N}}^j(\boldsymbol{x})\boldsymbol{u}_b^j, \quad (5)$$
+
+其中，$\tilde{\boldsymbol{N}}_b^j(\boldsymbol{x}) \in \mathbb{R}^{n^j \times n_b^j}$ 和 $\tilde{\boldsymbol{N}}_i^j(\boldsymbol{x}) \in \mathbb{R}^{n^j \times n_i^j}$ 分别是与 $\boldsymbol{u}_b^j$ 和 $\boldsymbol{u}_i^j$ 关联的传统形函数。 与子结构 $\Omega^j$ 关联的传统形函数可以通过下式计算得到：
+
+$$\tilde{\boldsymbol{N}}^j(\boldsymbol{x}) = \tilde{\boldsymbol{N}}_b^j(\boldsymbol{x}) - \tilde{\boldsymbol{N}}_i^j(\boldsymbol{x})(\boldsymbol{K}_{ii}^j)^{-1}\boldsymbol{K}_{ib}^j \in \mathbb{R}^{n^j \times n_b^j}. \quad (6)$$
+
+由于子结构中与每个节点相关联的形函数具有单位分解（partition of unity）特性，第 $j$ 个子结构的节点位移向量也可以表示为：
+
+$$u^j = \begin{pmatrix} u_i^j \\ u_b^j \end{pmatrix} = \begin{bmatrix} -(K_{ii}^j)^{-1}K_{ib}^j \\ I_{n_b^j \times n_b^j} \end{bmatrix} u_b^j \triangleq N^j u_b^j, \quad (7)$$
+
+其中 $N^j \in \mathbb{R}^{n^j \times n_b^j}$ 是一个常数矩阵，代表离散形函数或所谓的多尺度形函数 [43]。此外，第 $j$ 个子结构的缩聚刚度矩阵可计算为：
+
+$$K_s^j = (N^j)^{\text{T}} K^j N^j. \quad (8)$$
+
+子结构方法可应用于具有任意设计域和边界条件的结构优化问题。然而，在拓扑优化过程中，由于子结构中每个有限元的材料分布和弹性属性通常在迭代中不断变化，因此每次迭代都需要重新计算子结构的缩聚刚度矩阵。为了加速面向大规模结构分析的经典子结构方法，Huang 等人 [44] 建议在子结构的边界上附加一些变形假设，例如沿着子结构边缘的线性变形。因此，边界位移 $\boldsymbol{u}_{\text{b}}^j$ 可以由顶点节点的节点位移向量确定为 $\boldsymbol{u}_{\text{b}}^j = \boldsymbol{L}\boldsymbol{u}_{\text{v}}^j$，其中 $\boldsymbol{L} \in \mathbb{R}^{n_{\text{b}}^j \times n_{\text{v}}^j}$ 代表线性插值矩阵，$n_{\text{v}}^j$ 是第 $j$ 个子结构中顶点节点的自由度数量。那么，带有线性变形假设的多尺度形函数和单元缩聚刚度矩阵可以表示为：
+
+$$\begin{cases} \bar{\boldsymbol{N}}^j = \boldsymbol{N}^j \boldsymbol{L} = \begin{bmatrix} \bar{\boldsymbol{N}}_{\text{s}}^j \\ \boldsymbol{L} \end{bmatrix}, \\ \bar{\boldsymbol{K}}_{\text{s}}^j = (\bar{\boldsymbol{N}}^j)^{\text{T}} \boldsymbol{K}^j \bar{\boldsymbol{N}}^j = \boldsymbol{L}^{\text{T}}(\boldsymbol{N}^j)^{\text{T}}\boldsymbol{K}^j\boldsymbol{N}^j\boldsymbol{L}. \end{cases} \quad (9)$$
+
+对于由细观尺度上 $m \times m \times m$ 个有限元组成的三维子结构，当 $m = 5$ 时，其子结构缩聚刚度矩阵的维度为 273 × 273（当 $m = 10$ 时为 993 × 993）；而引入线性变形假设后，无论是 $m = 5$ 还是 $m = 10$，其单元缩聚刚度矩阵的维度均降为 24 × 24。尽管线性变形假设可能会高估子结构的刚度，但已有验证表明，当子结构的总体数量变得更大时，这一问题将得到显著缓解 [43, 44]。
+
+值得注意的是，在六种刚体运动状态下，子结构内部节点的位移值完全可以由顶点节点的位移来确定，而与内部的材料分布无关。在数学上，这种刚体运动要求可以表示为 $\bar{\boldsymbol{N}}^j\boldsymbol{\phi}_i = \boldsymbol{b}_i, i = 1, 2, ..., 6$，其中 $\boldsymbol{\phi}_i$ 和 $\boldsymbol{b}_i$ 的精确表达式在文献 [45] 中给出。因此，多尺度形函数 $\bar{\boldsymbol{N}}^j$ 可以通过使用维度为 $3(m - 1)^3 \times (24 - 6)$ 的缩减多尺度形函数 $\bar{\boldsymbol{N}}_{\text{sR}}^j$ 以及刚体运动要求来恢复。在文献 [44] 中，通过离线机器学习过程建立了一个问题无关的隐式映射，该映射将表征 $\Omega^j$ 内部材料分布的参数（即 $\rho_1, \rho_2, ..., \rho_{m^3}$ 或 $E_1, E_2, ..., E_{m^3}$）与 $\bar{\boldsymbol{N}}_{\text{sR}}^j$ 联系起来（示意图见图 2）。一旦建立了这种映射，它就可以用来分析和优化任何由包含 $m^3$ 个细观单元的类似子结构离散的线弹性拓扑优化问题。与传统的子结构分析方法相比，缩聚刚度矩阵的耗时计算被 PIML 模型预测的多尺度形函数的高效矩阵乘法所取代。
+
+![[Pasted image 20260605151010.png]]
+图 2：PIML增强的子结构分析算法示意图。
+
