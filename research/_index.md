@@ -7,6 +7,7 @@
 | 调研课题 | 开始日期 | 状态 | 关联文献 |
 |----------|----------|------|----------|
 | [[postdoc-research-plan]] | 2026-06-04 | in-progress | [[guo-xu-team-overview]] |
+| [[mmc-mmv-numerical-discretization-survey]] | 2026-06-07 | draft | [[guo-xu-team-overview]], [[postdoc-research-plan]] |
 
 ## 已完成
 
