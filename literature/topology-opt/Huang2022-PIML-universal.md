@@ -27,7 +27,7 @@ date_read: 2026-06-04
 
 # Problem-independent machine learning (PIML)-based topology optimization—A universal approach
 
-> 完整中文译文：[[assets/Huang2022-PIML-universal-zh]]
+> 完整中文译文：[[translations/Huang2022-PIML-universal-zh]]
 
 ## 一句话概括
 
@@ -122,12 +122,12 @@ $$
 ## 对我研究的启发
 
 - **与 MMC 结合**：论文本身已指出，将 PIML 置于 MMC 框架可进一步降低设计变量数量 1~2 个数量级，同时消除 OC 更新瓶颈——这是明确的后续方向
-- **双模量扩展**：EMsFEM 形函数学习目前仅针对线弹性 PDE；若底层本构为双模量非光滑材料，需结合 PVP 变分底座改造损失函数（见 [[../topology-opt/Guo2014-bimodulus-variational]]）
+- **双模量扩展**：EMsFEM 形函数学习目前仅针对线弹性 PDE；若底层本构为双模量非光滑材料，需结合 PVP 变分底座改造损失函数（见 [[Guo2014-bimodulus-variational]]）
 - **Data-free 改进**：损失函数第二项（刚度矩阵 MSE）仍需 FEA 标注数据；后续 data-free PIML 工作将其替换为最小势能原理，可完全消除标注依赖
 
 ## 相关文献
 
-- [[../topology-opt/Guo2022-MMC-review]] — MMC/MMV 综述，PIML 与显式优化结合的宏观背景
+- [[Guo2022-MMC-review]] — MMC/MMV 综述，PIML 与显式优化结合的宏观背景
 - [[Guo2023-PIML-substructure]] — 本文的子结构扩展，引入力学先验约束
 - [[Guo2023-PIML-data-free]] — data-free 版本，用最小势能原理替代监督学习
 - [[Guo2025-PIML-parallel]] — 128 亿变量并行扩展

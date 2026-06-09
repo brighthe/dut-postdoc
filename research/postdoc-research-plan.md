@@ -111,4 +111,4 @@ date_update: 2026-06-09
 - [[guo-xu-team-overview]] — 郭旭院士团队研究体系（MMC/MMV、PIML、工业软件）
 - [[piml-matrix-free-high-performance-solver-survey]] — 第一个研究计划题目：PIML、Matrix-Free、并行多重网格与 GPU 高性能求解调研
 - [[mmc-mmv-numerical-discretization-survey]] — 第二个研究计划题目：MMC/MMV 高效数值离散与快速分析调研
-- [[../literature/others/Huang2022-PIML-universal]] — PIML 奠基论文精读笔记
+- [[../literature/topology-opt/Huang2022-PIML-universal]] — PIML 奠基论文精读笔记

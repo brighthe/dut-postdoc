@@ -308,4 +308,4 @@ MMC 组件边界切割固定网格产生的正是多边形/带悬挂节点单元
 
 - [[postdoc-research-plan]] — 博士后科研计划（本调研对应第二个研究题目）
 - [[guo-xu-team-overview]] — 郭旭院士团队研究体系总览
-- [[../literature/others/Huang2022-PIML-universal]] — PIML 奠基论文精读笔记
+- [[../literature/topology-opt/Huang2022-PIML-universal]] — PIML 奠基论文精读笔记

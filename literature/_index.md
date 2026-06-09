@@ -6,7 +6,8 @@
 
 | 笔记 | 作者 | 年份 | 关键词 | 状态 |
 |------|------|------|--------|------|
-| [[topology-opt/]] | — | — | — | — |
+| [[topology-opt/Huang2022-PIML-universal]] | Huang et al. | 2022 | PIML, EMsFEM, topology-opt | done |
+| [[topology-opt/Ma2026-PIML-parallel]] | Ma et al. | 2026 | PIML, parallel-computing, large-scale | done |
 
 ## 有限元方法
 
@@ -18,7 +19,7 @@
 
 | 笔记 | 作者 | 年份 | 关键词 | 状态 |
 |------|------|------|--------|------|
-| [[others/Huang2022-PIML-universal]] | Huang et al. | 2022 | PIML, EMsFEM, topology-opt | done |
+| [[others/]] | — | — | — | — |
 
 ---
 
