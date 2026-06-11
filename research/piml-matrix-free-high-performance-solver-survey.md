@@ -51,15 +51,18 @@ $$
 
 | 时间 | 代表工作 | 方法推进 | 对本课题的意义 |
 |---|---|---|---|
+| 2019 | Lei et al., J. Appl. Mech. 86(1):011004 | 在 MMC 框架下用机器学习直接预测优化设计变量，实现实时拓扑优化 | PIML 路线的前史与范式对照：暴露“直接预测最终设计”在泛化性上的局限，促成转向学习局部力学算子；同时是 PIML 与 MMC/MMV 协同（方向 F）的文献入口 |
 | 2022 | Huang et al., EML 56:101887 | 在 EMsFEM 中学习粗单元多尺度形函数，提出问题无关 PIML | 建立“学习局部力学算子而非最终拓扑”的基本范式 |
 | 2023 | Huang et al., EML 63:102041 | 推广到三维子结构法，引入边界变形假设和秩保持约束 | 将 PIML 推向十亿级设计变量和三维大规模分析 |
 | 2024 | Zhang et al., EML 72:102237 | 以等参单元处理复杂设计域 | 弱化规则矩形/砖体子结构对几何的限制 |
 | 2024 | Huang et al., JMPS 193:105893 | 基于力学型代价函数构建 data-free PIML | 降低监督标签生成成本，增强物理一致性 |
 | 2026 | Ma et al., Acta Mech. Sin. 42 | PIML + MPI 并行 + 多重网格 + Matrix-Free 存储策略 | 形成面向个人工作站和超算平台的高性能实现 |
 
-从演化逻辑看，团队路线经历了五个连续步骤：
+从演化逻辑看，团队在 2019 年 ML 直接预测 MMC 设计变量的早期探索之后，转向学习局部力学算子，并经历了五个连续步骤：
 
 ```text
+ML 直接预测 MMC 设计变量（2019，前史/范式对照）
+  ⇒ 转向学习局部力学算子：
 二维 EMsFEM 形函数学习
   → 三维子结构缩聚
   → 复杂设计域
@@ -549,12 +552,13 @@ MMC/MMV 的设计变量维度较低，可缓解密度法中设计更新和过滤
 
 ## 参考文献与资料
 
-1. Huang M, Du Z, Liu C, et al. *Problem-independent machine learning (PIML)-based topology optimization—A universal approach*. Extreme Mechanics Letters, 2022, 56:101887. [DOI](https://doi.org/10.1016/j.eml.2022.101887). 仓库笔记：[[../literature/topology-opt/Huang2022-PIML-universal]]
-2. Huang M, Cui T, Liu C, et al. *A Problem-Independent Machine Learning (PIML) enhanced substructure-based approach for large-scale structural analysis and topology optimization of linear elastic structures*. Extreme Mechanics Letters, 2023, 63:102041. [DOI](https://doi.org/10.1016/j.eml.2023.102041).
-3. Zhang L, Huang M, Liu C, et al. *Problem-Independent Machine Learning-enhanced structural topology optimization of complex design domains based on isoparametric elements*. Extreme Mechanics Letters, 2024, 72:102237. [DOI](https://doi.org/10.1016/j.eml.2024.102237).
-4. Huang M, Liu C, Guo Y, et al. *A mechanics-based data-free Problem Independent Machine Learning (PIML) model for large-scale structural analysis and design optimization*. Journal of the Mechanics and Physics of Solids, 2024, 193:105893. [DOI](https://doi.org/10.1016/j.jmps.2024.105893).
-5. Ma X, Huang M, Du Z, et al. *A high-performance parallel algorithm based on problem independent machine learning (PIML) for large-scale topology optimization*. Acta Mechanica Sinica, 2026, 42. [DOI](https://doi.org/10.1007/s10409-025-25942-x). 仓库笔记：[[../literature/topology-opt/Ma2026-PIML-parallel]]
-6. 用户提供：*郭旭老师团队在大规模结构拓扑优化中 PIML 与 Matrix-Free 高性能求解的研究报告*，2026-06。
+1. Lei X, Liu C, Du Z, et al. *Machine learning-driven real-time topology optimization under moving morphable component-based framework*. Journal of Applied Mechanics, 2019, 86(1):011004. [DOI](https://doi.org/10.1115/1.4041319).
+2. Huang M, Du Z, Liu C, et al. *Problem-independent machine learning (PIML)-based topology optimization—A universal approach*. Extreme Mechanics Letters, 2022, 56:101887. [DOI](https://doi.org/10.1016/j.eml.2022.101887). 仓库笔记：[[../literature/topology-opt/Huang2022-PIML-universal]]
+3. Huang M, Cui T, Liu C, et al. *A Problem-Independent Machine Learning (PIML) enhanced substructure-based approach for large-scale structural analysis and topology optimization of linear elastic structures*. Extreme Mechanics Letters, 2023, 63:102041. [DOI](https://doi.org/10.1016/j.eml.2023.102041).
+4. Zhang L, Huang M, Liu C, et al. *Problem-Independent Machine Learning-enhanced structural topology optimization of complex design domains based on isoparametric elements*. Extreme Mechanics Letters, 2024, 72:102237. [DOI](https://doi.org/10.1016/j.eml.2024.102237).
+5. Huang M, Liu C, Guo Y, et al. *A mechanics-based data-free Problem Independent Machine Learning (PIML) model for large-scale structural analysis and design optimization*. Journal of the Mechanics and Physics of Solids, 2024, 193:105893. [DOI](https://doi.org/10.1016/j.jmps.2024.105893).
+6. Ma X, Huang M, Du Z, et al. *A high-performance parallel algorithm based on problem independent machine learning (PIML) for large-scale topology optimization*. Acta Mechanica Sinica, 2026, 42. [DOI](https://doi.org/10.1007/s10409-025-25942-x). 仓库笔记：[[../literature/topology-opt/Ma2026-PIML-parallel]]
+7. 用户提供：*郭旭老师团队在大规模结构拓扑优化中 PIML 与 Matrix-Free 高性能求解的研究报告*，2026-06。
 
 ## 关联文档
 
