@@ -19,7 +19,7 @@
 
 | 笔记 | 作者 | 年份 | 关键词 | 状态 |
 |------|------|------|--------|------|
-| [[others/]] | — | — | — | — |
+| [[others/Guo2023-PIML-substructure]] | 待确认 | 2023 | PIML, substructure, large-scale | unread |
 
 ---
 
