@@ -2,6 +2,9 @@
 
 > Append-only。每次 ingest / query / lint / 重要 edit 追加一条。格式：
 > `## [YYYY-MM-DD] <类型> | <简述>`，下挂改动文件或关键结论。只增不改历史条目。
+## [2026-06-24] edit | 在通用工作流中新增关联文件同步更新校验规则
+- 在通用规范 [[ai/common/llm-wiki-workflow.md]] 中增加了“关联更新与同步校验”的约定，要求在修改或新建任何 wiki 文件后，必须主动检查与它关联的其它文件，确保它们同步更新。
+
 ## [2026-06-24] edit | 重构并统一 Google DeepMind 代理规则 (Codex/Antigravity)
 - 将 Codex 与 Antigravity 的规则文件统一合并为 `ai/agents/AGENTS.md`，避免配置冗余。
 - 提炼了真正属于 Codex & Antigravity 专用的规则补充（包括 Git 沙箱路径约束、PowerShell 中文编码写入防乱码避坑指南、命令行 Python/Node 别名限制以及 Commit 权限限制），剔除了通用的 LLM Wiki 说明。
