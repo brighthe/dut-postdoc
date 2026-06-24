@@ -3,6 +3,10 @@
 > Append-only。每次 ingest / query / lint / 重要 edit 追加一条。格式：
 > `## [YYYY-MM-DD] <类型> | <简述>`，下挂改动文件或关键结论。只增不改历史条目。
 
+## [2026-06-24] edit | 完善文献笔记引用信息，对齐 PIML+HPC 统一文献精读模板
+- 在 [[literature/topology-opt/Huang2022-problemindependentmachine]] 与 [[literature/topology-opt/Ma2026-highperformanceparallel]] 笔记头部同时保留 Zotero 引用信息（包含作者、期刊、DOI、Zotero Link）和“完整中文译文”链接，实现引文与译文信息双收录。
+- 修复并优化了因服务器重置中断导致的 `Ma2026` 笔记历史格式损坏。
+
 ## [2026-06-24] edit | 搭建 Obsidian + Zotero + LLM 自动化知识流，重构文献引用键与笔记
 - 建立 Zotero Better BibTeX 到 `assets/refs.bib` 的后台自动增量导出。
 - 更换并配置 Obsidian 端的 `ZotLit` 插件（Eta 模板），使其无缝读取 Zotero 本地数据库及标注。
