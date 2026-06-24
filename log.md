@@ -4,7 +4,7 @@
 > `## [YYYY-MM-DD] <类型> | <简述>`，下挂改动文件或关键结论。只增不改历史条目。
 ## [2026-06-24] edit | 重构并统一 Google DeepMind 代理规则 (Codex/Antigravity)
 - 将 Codex 与 Antigravity 的规则文件统一合并为 `ai/agents/AGENTS.md`，避免配置冗余。
-- 在规则中总结了 Windows (PowerShell) 环境下多字节字符文件的保存/替换合并避坑指南，以及关于双链更新、按需 Commit 的规范约束。
+- 提炼了真正属于 Codex & Antigravity 专用的规则补充（包括 Git 沙箱路径约束、PowerShell 中文编码写入防乱码避坑指南、命令行 Python/Node 别名限制以及 Commit 权限规范），剔除了通用的 LLM Wiki 说明。
 - 删除了根目录下冗余的 `ANTIGRAVITY.md` 入口文件，将 root `AGENTS.md` 与 `CLAUDE.md` 更新为指向统一的 `ai/agents/AGENTS.md`。
 - 修复了 `CLAUDE.md` 与 `AGENTS.md` 中指向 `ai/claude/` 等文件夹的链接写法，统一修改为指向对应的 `.md` 规则文件，解决 Obsidian 因无法解析纯文件夹链接而频繁在根目录误创建文件夹/文件的 Bug。
 
