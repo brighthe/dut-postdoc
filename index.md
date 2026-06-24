@@ -1,6 +1,6 @@
 # 知识库总目录 · index
 
-> 全库内容地图。按 [Karpathy LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) 模式维护：原始源 → wiki → schema 三层。工作约定见 [[CLAUDE]]，时间线见 [[log]]。
+> 全库内容地图。按 [Karpathy LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) 模式维护：原始源 → wiki → schema 三层。工具入口见 [[AGENTS]] / [[CLAUDE]]，通用方法论见 [[concepts/llm-wiki]]，时间线见 [[log]]。
 >
 > **每次 ingest 后更新本页。** 分区细目见各 `_index.md`。
 
@@ -36,6 +36,7 @@
 
 | 概念 | 一句话 |
 |---|---|
+| [[concepts/llm-wiki]] | 个人 AI 知识库模式：由 AI 工具维护原始资料与研究者之间的持久 Markdown 中间层 |
 | [[concepts/piml]] | 物理信息机器学习：把物理约束嵌入学习模型，用于拓扑优化与高效求解 |
 
 ## 实体页

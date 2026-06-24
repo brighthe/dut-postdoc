@@ -3,6 +3,20 @@
 > Append-only。每次 ingest / query / lint / 重要 edit 追加一条。格式：
 > `## [YYYY-MM-DD] <类型> | <简述>`，下挂改动文件或关键结论。只增不改历史条目。
 
+## [2026-06-24] edit | 同步博士后入站集中考核安排
+- 根据 `C:\workspace\heliangos\wechat\大连理工大学博士后\teachers\石圣哲.md`，更新 `talks/2026-postdoc-entry-assessment/README.md`：记录 2026 年 7 月第一周集中考核、个人汇报 PPT 约 8 分钟、业绩一览表需确认/补交等约束。
+
+## [2026-06-24] edit | 英文化仓库路径名
+- 将入站考核答辩目录重命名为 `talks/2026-postdoc-entry-assessment/`，保留正文中文，降低 LaTeX、Git、AI 工具和跨平台路径处理的摩擦。
+
+## [2026-06-24] init | 按 Karpathy LLM Wiki 方法论补强 Codex 知识库初始化
+- 新增 [[concepts/llm-wiki]]：沉淀 LLM Wiki 的三层架构、ingest/query/lint 操作映射、人与 Codex 的分工。
+- 更新 [[index]]、[[concepts/_index]]、[[CLAUDE]]、`README.md`、`assets/refs.bib`，将仓库入口从 Claude 表述切换为 Codex，并登记 `KarpathyLLMWiki`。
+
+## [2026-06-24] edit | 参考 structural-dynamics-software 改为多 AI 工具入口
+- 新增 `ai/common/llm-wiki-workflow.md`、`ai/codex/AGENTS.md`、`ai/claude/CLAUDE.md`，把通用 LLM Wiki 工作流与工具专用入口分离。
+- 将根 [[AGENTS]]、[[CLAUDE]] 改为轻量入口，更新 [[index]]、[[concepts/llm-wiki]]、`README.md`，避免知识库 schema 绑定单一 AI 工具。
+
 ## [2026-06-18] lint | 归位根目录空文件 + 标记引用键不一致
 - 根目录空文件 `Guo2023-PIML-substructure.md` → 移入 [[literature/others/Guo2023-PIML-substructure]]，套模板做成「待精读」存根，保留文件名以维持 [[literature/topology-opt/Huang2022-PIML-universal]] 的反向链接。
 - 在 [[literature/_index]]「其他」区登记。
