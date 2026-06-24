@@ -6,6 +6,7 @@
 - 针对 Antigravity (Gemini Code Assistant) 新建了 `ANTIGRAVITY.md` 及 `ai/antigravity/ANTIGRAVITY.md` 规则。
 - 总结了 Windows (PowerShell) 环境下多字节字符文件的保存/替换合并避坑指南，以及关于双链更新、按需 Commit 的规范约束。
 - 同步更新了根目录下的 `AGENTS.md` 和 `CLAUDE.md` 以实现规则文件引用的完整互联。
+- 修复了 `CLAUDE.md`、`AGENTS.md` 与 `ANTIGRAVITY.md` 等文件中指向 `ai/claude/` 等文件夹的链接写法，统一修改为指向对应的规则文件（如 `CLAUDE.md`），以解决 Obsidian 因无法解析纯文件夹链接而频繁在根目录误创建文件夹/文件的 Bug。
 
 ## [2026-06-24] edit | 完善文献笔记引用信息，对齐 PIML+HPC 统一文献精读模板
 - 在 [[literature/topology-opt/Huang2022-problemindependentmachine]] 与 [[literature/topology-opt/Ma2026-highperformanceparallel]] 笔记头部同时保留 Zotero 引用信息（包含作者、期刊、DOI、Zotero Link）和“完整中文译文”链接，实现引文与译文信息双收录；并在 [[literature/topology-opt/Lei2018-machinelearningdriven]] 中新增了完整中文译文占位链接（待译）。
