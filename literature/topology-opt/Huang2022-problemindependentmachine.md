@@ -27,7 +27,8 @@ date_read: 2026-06-04
 
 # Problem-independent machine learning (PIML)-based topology optimization—A universal approach
 
-> 完整中文译文：[[translations/Huang2022-problemindependentmachine-zh]]
+> **引用**：Huang, Mengcheng; Du, Zongliang; Liu, Chang; Zheng, Yonggang; Cui, Tianchen; Mei, Yue; Li, Xiao; Zhang, Xiaoyu; Guo, Xu. *Extreme Mechanics Letters*, 2022. [DOI](https://doi.org/10.1016/j.eml.2022.101887) | [Zotero Link](zotero://select/library/items/TSLB5VAR)
+> **完整中文译文**：[[translations/Huang2022-problemindependentmachine-zh]]
 
 ## 一句话概括
 
