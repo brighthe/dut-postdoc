@@ -1,7 +1,7 @@
 # A high-performance parallel algorithm based on problem independent machine learning (PIML) for large-scale topology optimization
 ## 完整中文译文
 
-> 原笔记：[[../Ma2026-PIML-parallel]]
+> 原笔记：[[../Ma2026-highperformanceparallel]]
 
 ---
 

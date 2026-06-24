@@ -7,7 +7,7 @@
 | 调研课题 | 开始日期 | 状态 | 关联文献 |
 |----------|----------|------|----------|
 | [[postdoc-research-plan]] | 2026-06-04 | in-progress | [[guo-xu-team-overview]] |
-| [[piml-matrix-free-high-performance-solver-survey]] | 2026-06-07 | in-progress | [[../literature/topology-opt/Huang2022-PIML-universal]], [[../literature/topology-opt/Ma2026-PIML-parallel]] |
+| [[piml-matrix-free-high-performance-solver-survey]] | 2026-06-07 | in-progress | [[../literature/topology-opt/Huang2022-problemindependentmachine]], [[../literature/topology-opt/Ma2026-highperformanceparallel]] |
 | [[mmc-mmv-numerical-discretization-survey]] | 2026-06-07 | draft | [[guo-xu-team-overview]], [[postdoc-research-plan]] |
 | [[piml-matrix-free-execution-plan]] | 2026-06-10 | in-progress | [[piml-matrix-free-high-performance-solver-survey]], [[postdoc-research-plan]] |
 

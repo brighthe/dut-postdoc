@@ -1,26 +1,68 @@
-% 共用参考文献库
-% 按字母顺序排列，key 格式：FirstAuthorYYYY 或 FirstAuthorYYYYkeyword
+@article{Huang2022-problemindependentmachine,
+  title = {Problem-Independent Machine Learning ({{PIML}})-Based Topology Optimization---a Universal Approach},
+  author = {Huang, Mengcheng and Du, Zongliang and Liu, Chang and Zheng, Yonggang and Cui, Tianchen and Mei, Yue and Li, Xiao and Zhang, Xiaoyu and Guo, Xu},
+  year = 2022,
+  month = oct,
+  journal = {Extreme Mechanics Letters},
+  volume = {56},
+  pages = {101887},
+  issn = {23524316},
+  doi = {10.1016/j.eml.2022.101887},
+  urldate = {2026-05-04},
+  abstract = {Solving topology optimization problem is very computationally demanding especially when highresolution results are sought for. In the present work, a problem-independent machine learning (PIML) technique is proposed to reduce the computational time associated with finite element analysis (FEA) which constitutes the main bottleneck of the solution process. The key idea is to construct the structural analysis procedure under the extended multi-scale finite element method (EMsFEM) framework, and establish an implicit mapping between the shape functions of EMsFEM and elementwise material densities of a coarse-resolution element through machine learning (ML). Compared with existing works, the proposed mechanistic-based ML technique is truly problem-independent and can be used to solve any kind of topology optimization problems without any modification once the easyto-implement off-line training is completed. It is demonstrated that the proposed approach can reduce the FEA time significantly. In particular, with the use of the proposed approach, a topology optimization problem with 200 million of design variables can be solved on a personal workstation with an average of only two minutes for FEA per iteration step.},
+  langid = {english},
+  annotation = {JCR分区: Q1\\
+中科院分区升级版: 工程技术3区\\
+影响因子: 4.5\\
+5年影响因子: 5.1\\
+EI: 是\\
+南农高质量: A},
+  file = {C:\Users\brigh\Zotero\storage\TSLB5VAR\Huang 等 - 2022 - Problem-independent machine learning (PIML)-based topology optimization—A universal approach.pdf}
+}
 
-% ========== 拓扑优化 ==========
+@article{Huang2024-mechanicsbaseddatafree,
+  title = {A Mechanics-Based Data-Free Problem Independent Machine Learning ({{PIML}}) Model for Large-Scale Structural Analysis and Design Optimization},
+  author = {Huang, Mengcheng and Liu, Chang and Guo, Yilin and Zhang, Linfeng and Du, Zongliang and Guo, Xu},
+  year = 2024,
+  month = dec,
+  journal = {Journal of the Mechanics and Physics of Solids},
+  volume = {193},
+  pages = {105893},
+  issn = {00225096},
+  doi = {10.1016/j.jmps.2024.105893},
+  urldate = {2026-05-04},
+  abstract = {Machine learning (ML) enhanced fast structural analysis and design recently attracted considerable attention. In most related works, however, the generalization ability of the ML model and the massive cost of dataset generation are the two most criticized aspects. This work combines the advantages of the universality of the substructure method and the superior predictive ability of the operator learning architecture. Specifically, using a novel mechanics-based loss function, lightweight neural network mapping from the material distribution inside a substructure and the corresponding continuous multiscale shape function is well-trained without preparing a dataset. In this manner, a problem machine learning model (PIML) that is generally applicable for efficient linear elastic analysis and design optimization of large-scale structures with arbitrary size and various boundary conditions is proposed. Several examples validate the effectiveness of the present work on efficiency improvement and different kinds of optimization problems. This PIML model-based design and optimization framework can be extended to large-scale multiphysics problems.},
+  langid = {english},
+  annotation = {南农高质量: A},
+  file = {C:\Users\brigh\Zotero\storage\R85965MZ\Huang 等 - 2024 - A mechanics-based data-free Problem Independent Machine Learning (PIML) model for large-scale struct.pdf}
+}
 
-% @article{Bendsoe1988,
-%   author  = {Bends{\o}e, M. P. and Kikuchi, N.},
-%   title   = {Generating optimal topologies in structural design using a homogenization method},
-%   journal = {Computer Methods in Applied Mechanics and Engineering},
-%   year    = {1988},
-%   volume  = {71},
-%   number  = {2},
-%   pages   = {197--224},
-%   doi     = {10.1016/0045-7825(88)90086-2}
-% }
+@article{Lei2018-machinelearningdriven,
+  title = {Machine Learning-Driven Real-Time Topology Optimization under Moving Morphable Component-Based Framework},
+  author = {Lei, Xin and Liu, Chang and Du, Zongliang and Zhang, Weisheng and Et., Al},
+  year = 2018,
+  journal = {Journal of Applied Mechanics},
+  doi = {10.1115/1.4041319},
+  urldate = {2026-05-04},
+  annotation = {EI: 是},
+  file = {C:\Users\brigh\Zotero\storage\4287MX5D\Lei 等 - 2018 - Machine Learning-Driven Real-Time Topology Optimization Under Moving Morphable Component-Based Frame.pdf}
+}
 
-% ========== 有限元方法 ==========
-
-% ========== 其他 ==========
-
-@misc{KarpathyLLMWiki,
-  author       = {Karpathy, Andrej},
-  title        = {LLM Wiki: A Personal Knowledge Base Pattern},
-  howpublished = {\url{https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f}},
-  note         = {Accessed: 2026-06-24}
+@article{Ma2026-highperformanceparallel,
+  title = {A High-Performance Parallel Algorithm Based on Problem Independent Machine Learning ({{PIML}}) for Large-Scale Topology Optimization},
+  author = {Ma, Xinyu and Huang, Mengcheng and Du, Zongliang and Guo, Yilin and Liu, Chang and Mei, Yue and Guo, Xu},
+  year = 2026,
+  month = jan,
+  journal = {Acta Mechanica Sinica},
+  volume = {42},
+  number = {3},
+  pages = {425942},
+  issn = {1614-3116},
+  doi = {10.1007/s10409-025-25942-x},
+  urldate = {2026-05-04},
+  abstract = {Although supplying extensive design space, the curse of dimensionality restricts the widespread application of large-scale topology optimization in practical engineering. Various acceleration techniques have been integrated with topology optimization, achieving significant attention and progress in large-scale problems. This work aims to investigate how much benefit can be obtained by combining parallel computing and machine learning techniques to enhance the efficiency of large-scale topology optimization algorithms. Accordingly, a parallel problem independent machine learning (PIML)-enhanced topology optimization method is proposed. The PIML model substantially reduces the dimension of the condensed stiffness matrix and its computational cost, and parallel computing reduces the workload per process and enables the application of a parallel multigrid solver. Besides, several techniques, such as matrix-free implementation, direct condensation of uniform coarse elements, and adjusting computational resource limits, have been developed to enhance computational efficiency. The weak scaling efficiency, strong scaling speedup, and maximum achievable efficiency of the proposed method are validated across multiple numerical examples, showing significant improvement in the tractable problem size and solution efficiency compared to traditional topology optimization algorithms.},
+  langid = {english},
+  keywords = {Large-scale,Parallel computing,Problem independent machine learning (PIML),Topology optimization},
+  annotation = {南农高质量: B},
+  file = {C:\Users\brigh\Zotero\storage\KKMYSDLT\Ma 等 - 2026 - A high-performance parallel algorithm based on problem independent machine learning (PIML) for large.pdf}
 }

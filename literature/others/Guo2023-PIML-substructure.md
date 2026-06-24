@@ -29,7 +29,7 @@ date_read:
 
 ## 相关页面
 
-- [[Huang2022-PIML-universal]] 的子结构扩展（本文）
+- [[Huang2022-problemindependentmachine]] 的子结构扩展（本文）
 - [[../../concepts/piml]]
 - [[../../research/guo-xu-team-overview]]
 

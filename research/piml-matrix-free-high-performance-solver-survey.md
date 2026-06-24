@@ -553,11 +553,11 @@ MMC/MMV 的设计变量维度较低，可缓解密度法中设计更新和过滤
 ## 参考文献与资料
 
 1. Lei X, Liu C, Du Z, et al. *Machine learning-driven real-time topology optimization under moving morphable component-based framework*. Journal of Applied Mechanics, 2019, 86(1):011004. [DOI](https://doi.org/10.1115/1.4041319).
-2. Huang M, Du Z, Liu C, et al. *Problem-independent machine learning (PIML)-based topology optimization—A universal approach*. Extreme Mechanics Letters, 2022, 56:101887. [DOI](https://doi.org/10.1016/j.eml.2022.101887). 仓库笔记：[[../literature/topology-opt/Huang2022-PIML-universal]]
+2. Huang M, Du Z, Liu C, et al. *Problem-independent machine learning (PIML)-based topology optimization—A universal approach*. Extreme Mechanics Letters, 2022, 56:101887. [DOI](https://doi.org/10.1016/j.eml.2022.101887). 仓库笔记：[[../literature/topology-opt/Huang2022-problemindependentmachine]]
 3. Huang M, Cui T, Liu C, et al. *A Problem-Independent Machine Learning (PIML) enhanced substructure-based approach for large-scale structural analysis and topology optimization of linear elastic structures*. Extreme Mechanics Letters, 2023, 63:102041. [DOI](https://doi.org/10.1016/j.eml.2023.102041).
 4. Zhang L, Huang M, Liu C, et al. *Problem-Independent Machine Learning-enhanced structural topology optimization of complex design domains based on isoparametric elements*. Extreme Mechanics Letters, 2024, 72:102237. [DOI](https://doi.org/10.1016/j.eml.2024.102237).
 5. Huang M, Liu C, Guo Y, et al. *A mechanics-based data-free Problem Independent Machine Learning (PIML) model for large-scale structural analysis and design optimization*. Journal of the Mechanics and Physics of Solids, 2024, 193:105893. [DOI](https://doi.org/10.1016/j.jmps.2024.105893).
-6. Ma X, Huang M, Du Z, et al. *A high-performance parallel algorithm based on problem independent machine learning (PIML) for large-scale topology optimization*. Acta Mechanica Sinica, 2026, 42. [DOI](https://doi.org/10.1007/s10409-025-25942-x). 仓库笔记：[[../literature/topology-opt/Ma2026-PIML-parallel]]
+6. Ma X, Huang M, Du Z, et al. *A high-performance parallel algorithm based on problem independent machine learning (PIML) for large-scale topology optimization*. Acta Mechanica Sinica, 2026, 42. [DOI](https://doi.org/10.1007/s10409-025-25942-x). 仓库笔记：[[../literature/topology-opt/Ma2026-highperformanceparallel]]
 7. 用户提供：*郭旭老师团队在大规模结构拓扑优化中 PIML 与 Matrix-Free 高性能求解的研究报告*，2026-06。
 
 ## 关联文档
@@ -565,5 +565,5 @@ MMC/MMV 的设计变量维度较低，可缓解密度法中设计更新和过滤
 - [[postdoc-research-plan]] — 博士后科研计划
 - [[guo-xu-team-overview]] — 郭旭院士团队研究体系
 - [[mmc-mmv-numerical-discretization-survey]] — 第二个研究计划题目的技术调研
-- [[../literature/topology-opt/Huang2022-PIML-universal]] — 2022 PIML 奠基论文笔记
-- [[../literature/topology-opt/Ma2026-PIML-parallel]] — 2026 并行 PIML 论文笔记
+- [[../literature/topology-opt/Huang2022-problemindependentmachine]] — 2022 PIML 奠基论文笔记
+- [[../literature/topology-opt/Ma2026-highperformanceparallel]] — 2026 并行 PIML 论文笔记

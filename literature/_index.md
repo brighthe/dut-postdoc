@@ -6,8 +6,9 @@
 
 | 笔记 | 作者 | 年份 | 关键词 | 状态 |
 |------|------|------|--------|------|
-| [[topology-opt/Huang2022-PIML-universal]] | Huang et al. | 2022 | PIML, EMsFEM, topology-opt | done |
-| [[topology-opt/Ma2026-PIML-parallel]] | Ma et al. | 2026 | PIML, parallel-computing, large-scale | done |
+| [[topology-opt/Lei2018-machinelearningdriven]] | Lei et al. | 2018 | MMC, topology-opt, SVR, KNN | done |
+| [[topology-opt/Huang2022-problemindependentmachine]] | Huang et al. | 2022 | PIML, EMsFEM, topology-opt | done |
+| [[topology-opt/Ma2026-highperformanceparallel]] | Ma et al. | 2026 | PIML, parallel-computing, large-scale | done |
 
 ## 有限元方法
 

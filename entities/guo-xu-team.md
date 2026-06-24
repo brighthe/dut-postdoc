@@ -52,7 +52,7 @@ date_update: 2026-06-18
 
 - [[../research/guo-xu-team-overview]] — 团队研究体系详版（方法+文献谱系）。
 - [[../concepts/piml]] — 方向二核心概念页。
-- [[../literature/topology-opt/Huang2022-PIML-universal]]、[[../literature/topology-opt/Ma2026-PIML-parallel]]。
+- [[../literature/topology-opt/Huang2022-problemindependentmachine]]、[[../literature/topology-opt/Ma2026-highperformanceparallel]]。
 
 ## 相关页面
 

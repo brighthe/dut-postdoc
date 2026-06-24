@@ -53,7 +53,7 @@ dut-postdoc/
 ## 写作约定
 
 - **语言**：全中文（专有名词、方法名、变量保留英文）。
-- **文件名**：英文 kebab-case；文献笔记沿用 `<作者><年份>-<关键词>`，如 `Huang2022-PIML-universal.md`。
+- **文件名**：英文 kebab-case；文献笔记一律采用 Zotero 自动生成的 Citation Key 命名，如 `Huang2022-problemindependentmachine.md`。
 - **Frontmatter**：每个 wiki 页面顶部带 YAML（按对应模板）。`status`、`tags`、日期字段必填。
 - **双链**：页面间一律用 Obsidian `[[wikilink]]`，**链接要给足**。链一个尚不存在的页面也可以，它标记「将来要补的页」。
 - **引用要可溯源**：综合性结论尽量标注来源页（`[[...]]`）或 `refs.bib` 的 cite key，不凭空断言。

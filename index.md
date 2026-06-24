@@ -19,8 +19,9 @@
 
 | 笔记 | 方向 | 年份 | 状态 |
 |---|---|---|---|
-| [[literature/topology-opt/Huang2022-PIML-universal]] | 拓扑优化 | 2022 | done |
-| [[literature/topology-opt/Ma2026-PIML-parallel]] | 拓扑优化 | 2026 | done |
+| [[literature/topology-opt/Lei2018-machinelearningdriven]] | 拓扑优化 | 2018 | done |
+| [[literature/topology-opt/Huang2022-problemindependentmachine]] | 拓扑优化 | 2022 | done |
+| [[literature/topology-opt/Ma2026-highperformanceparallel]] | 拓扑优化 | 2026 | done |
 
 ## 调研
 
