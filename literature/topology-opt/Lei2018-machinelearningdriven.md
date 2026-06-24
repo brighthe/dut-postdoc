@@ -24,6 +24,7 @@ date_added: 2026-06-24
 # Machine Learning-Driven Real-Time Topology Optimization Under Moving Morphable Component-Based Framework
 
 > **引用**：Lei, Xin; Liu, Chang; Du, Zongliang; Zhang, Weisheng; Guo, Xu. *Journal of Applied Mechanics*, 2018. [DOI](https://doi.org/10.1115/1.4041319) | [Zotero Link](zotero://select/library/items/FFDWEI2C)
+> **完整中文译文**：[[translations/Lei2018-machinelearningdriven-zh]] (待译)
 
 ## 一句话概括
 
