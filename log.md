@@ -8,6 +8,8 @@
 - 在通用规则 [[ai/common/llm-wiki-workflow]] 中新增了“主动检查与自动更新索引/日志”的强制性 AI 行为规范，使其作为通用的 Wiki 准则同时适用于 Claude Code、Codex 和 Antigravity。
 - 删除了根目录下冗余的 `ANTIGRAVITY.md` 入口文件，将 root `AGENTS.md` 与 `CLAUDE.md` 更新为指向统一的 `ai/agents/AGENTS.md`。
 - 修复了 `CLAUDE.md` 与 `AGENTS.md` 中指向 `ai/claude/` 等文件夹的链接写法，统一修改为指向对应的 `.md` 规则文件，解决 Obsidian 因无法解析纯文件夹链接而频繁在根目录误创建文件夹/文件的 Bug。
+- 同步更新了根目录下的 `README.md`，增加 Antigravity 的说明并对齐了最新的目录结构图。
+
 
 
 ## [2026-06-24] edit | 完善文献笔记引用信息，对齐 PIML+HPC 统一文献精读模板

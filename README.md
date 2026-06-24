@@ -1,6 +1,6 @@
 # dut-postdoc
 
-大连理工大学博士后期间的个人研究知识库。按 [Karpathy「LLM Wiki」模式](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) 运转——由多种 AI 工具增量构建与维护的、相互链接的 Markdown wiki。Codex 入口见 [AGENTS.md](AGENTS.md)，Claude Code 入口见 [CLAUDE.md](CLAUDE.md)，通用工作流见 [ai/common/llm-wiki-workflow.md](ai/common/llm-wiki-workflow.md)。
+大连理工大学博士后期间的个人研究知识库。按 [Karpathy「LLM Wiki」模式](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) 运转——由多种 AI 工具增量构建与维护的、相互链接的 Markdown wiki。Codex & Antigravity 入口见 [AGENTS.md](AGENTS.md)，Claude Code 入口见 [CLAUDE.md](CLAUDE.md)，通用工作流见 [ai/common/llm-wiki-workflow.md](ai/common/llm-wiki-workflow.md)。
 
 ## 仓库用途
 
@@ -14,11 +14,11 @@
 
 ```
 dut-postdoc/
-├── AGENTS.md           # Codex 根入口
+├── AGENTS.md           # Codex & Antigravity 根入口
 ├── CLAUDE.md           # Claude Code 根入口
 ├── ai/                 # 多 AI 工具工作说明
 │   ├── common/         # 工具无关的 LLM Wiki 工作流
-│   ├── codex/          # Codex 专用说明
+│   ├── agents/         # Codex & Antigravity 专用说明
 │   └── claude/         # Claude Code 专用说明
 ├── index.md            # 根总目录：全库内容地图
 ├── log.md              # 时间线：每次 ingest/query/lint 追加
