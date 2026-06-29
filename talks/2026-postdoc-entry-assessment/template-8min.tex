@@ -112,7 +112,7 @@
 
 				\vspace{6pt}
 				\begin{tabular}{@{}l@{\hspace{3pt}}p{3.0cm}@{\hspace{10pt}}l@{\hspace{3pt}}p{3.0cm}@{}}
-					\circnum{01} & {\fontsize{7.5}{9.5}\selectfont\sffamily 高阶有限元拓扑优化方法} &
+					\circnum{01} & {\fontsize{7.5}{9.5}\selectfont\sffamily 任意次高阶有限元方法} &
 					\circnum{03} & {\fontsize{7.5}{9.5}\selectfont\sffamily 胡张混合有限元拓扑优化方法} \\[7pt]
 					\circnum{02} & {\fontsize{7.5}{9.5}\selectfont\sffamily 多分辨率拓扑优化框架} &
 					\circnum{04} & {\fontsize{7.5}{9.5}\selectfont\sffamily SOPTX 软件平台设计与实现} \\
@@ -137,91 +137,122 @@
 	% ============================================================
 
 	% ============================================================
-	%  帧 2 · 方法一 · 任意次拉格朗日高阶有限元
-	%  （合并 任意次拉格朗日FEM 总述 + 阶次对比结果）
+	%  帧 2 · 方法一 · 任意次多单元族拉格朗日有限元
+	%  （左：统一离散构造文字；右：经典算例 MBB 低阶 vs 高阶 构型对比[突出]）
+	%  内容依据：博士论文第三章 §3.2–3.3（构造）、§3.6（数值算例）、本章小结
 	% ============================================================
 	\begin{frame}
-		\frametitle{方法一 · 任意次拉格朗日高阶有限元}
+		\frametitle{方法一 · 任意次多单元族拉格朗日有限元}
 
 		% ── 顶部引导（无框）──
-		\accentintro{将状态方程从低阶位移元推广到\textbf{任意次拉格朗日有限元 $V_h^k$}，提升位移场及派生应力场逼近精度；以二维对称 MBB 梁为基准（统一四边形单元、体积约束、无过滤）考察离散阶次的影响。}
+		\accentintro{在统一框架下构造\textbf{任意次、多单元族}拉格朗日有限元——单纯形以重心坐标晶格 $\mathbb{T}_k^d$、张量积以一维基张量积 $\mathbb{S}_k^d$ 统一管理任意阶次的节点自由度，为变密度拓扑优化提供\textbf{可灵活调阶}的高精度状态离散。}
 
-		\vspace{0.7em}
+		\vspace{1.0em}
 
-		% ── 三栏：阶次对比 k=1/2/4（无框）──
 		\begin{columns}[T, totalwidth=\linewidth]
 
-			\begin{column}{0.325\linewidth}\centering
-				\imglabel{\circnum{01}\enspace 线性元 $k = 1$}
-				\includegraphics[width=\linewidth, height=0.265\paperheight, keepaspectratio]{topo_k1}\\[3pt]
-				{\fontsize{7.5}{11}\selectfont\sffamily $n = 53,\ c \approx 203.07$\\ 棋盘格现象明显，边界锯齿化突出}
+			% ── 左栏：统一离散构造（纯方法文字）──
+			\begin{column}{0.34\linewidth}
+				\imglabel{统一离散构造}
+				\vspace{3pt}
+				{\fontsize{8}{13}\selectfont\sffamily
+					\circnum{1}~\textbf{单纯形}：重心坐标晶格 $\mathbb{T}_k^d$ 构造任意次节点基；
+					\par\vspace{5pt}
+					\circnum{2}~\textbf{张量积}：一维基张量积 $\mathbb{S}_k^d$，统一四边形 / 六面体；
+					\par\vspace{5pt}
+					\circnum{3}~标量元按坐标分量扩展为矢量位移元 $\boldsymbol{V}_h\subset H^1$，建立统一 Galerkin 离散格式。}
 			\end{column}
 
-			\begin{column}{0.325\linewidth}\centering
-				\imglabel{\circnum{02}\enspace 二阶元 $k = 2$}
-				\includegraphics[width=\linewidth, height=0.265\paperheight, keepaspectratio]{topo_k2}\\[3pt]
-				{\fontsize{7.5}{11}\selectfont\sffamily $n = 36,\ c \approx 213.18$\\ 构型质量明显改善，局部伪结构减少}
-			\end{column}
+			\hfill
 
-			\begin{column}{0.325\linewidth}\centering
-				\imglabel{\circnum{03}\enspace 四阶元 $k = 4$}
-				\includegraphics[width=\linewidth, height=0.265\paperheight, keepaspectratio]{topo_k4}\\[3pt]
-				{\fontsize{7.5}{11}\selectfont\sffamily $n = 41,\ c \approx 218.66$\\ 相较 $k=2$ 改善有限，拓扑细节未同步提升}
+			% ── 右栏：经典算例·低阶 vs 高阶 构型 + 数值（MBB 梁，无过滤，突出）──
+			\begin{column}{0.62\linewidth}
+				\imglabel{经典算例 · 低阶 vs 高阶（MBB 梁，无过滤）}
+
+				\begin{center}
+					{\fontsize{8}{10.5}\selectfont\sffamily\color{structure.fg}\textbf{线性元 $k=1$}\quad $n=53,\ c\approx203.07$（刚度高估）}\par\vspace{2pt}
+					\includegraphics[width=0.92\linewidth, height=0.155\paperheight, keepaspectratio]{topo_k1}
+
+					\vspace{6pt}
+					{\fontsize{8}{10.5}\selectfont\sffamily\color{structure.fg}\textbf{高阶元 $k=4$}\quad $n=41,\ c\approx218.66$（回归真实）}\par\vspace{2pt}
+					\includegraphics[width=0.92\linewidth, height=0.155\paperheight, keepaspectratio]{topo_k4}
+				\end{center}
 			\end{column}
 
 		\end{columns}
 
-		\vspace{0.9em}
+		\vspace{0.4em}
 
 		% ── 结论（无框）──
-		\takeaway{提高分析阶次具有一定改善作用，但其收益受单分辨率设计空间限制 $\Rightarrow$ 引入多分辨率解耦}
+		\takeaway{高阶元改善离散精度与构型质量；设计分辨率受单分辨率框架限制 $\Rightarrow$ 引出方法二}
 
 	\end{frame}
 
 	% ============================================================
 	%  帧 3 · 方法二 · 高阶多分辨率拓扑优化框架
-	%  （合并 单分辨率精度错配[动机] + 多分辨率框架 + 表达优势[数据]）
+	%  （左：三层网格解耦文字；右：STOP→MTOP 三联数值结果[突出]，依据论文第四章 §4.5）
 	% ============================================================
 	\begin{frame}
 		\frametitle{方法二 · 高阶多分辨率拓扑优化框架}
 
 		% ── 引导（无框）──
-		\accentintro{单分辨率框架下设计与分析模型刚性绑定，分析精度与设计分辨率单侧提升难以兼顾；为此引入\textbf{“位移网格 — 密度积分网格 — 设计变量网格”}三层离散体系。}
+		\accentintro{单分辨率框架下设计与分析模型刚性绑定，分析精度与设计分辨率难以兼顾；为此引入\textbf{三层网格离散}，解耦分析与设计、在受控分析规模下释放高分辨率拓扑表达。}
 
-		\vspace{0.4em}
+		\vspace{1.0em}
 
-		% ── 中部：三层网格示意图 ──
-		\begin{center}
-			\includegraphics[width=0.88\linewidth, height=0.26\paperheight,
-			keepaspectratio]{multires_framework}
-		\end{center}
-
-		\vspace{-1.0em}
-
-		% ── 三栏说明（无框：彩色标签 + 文字）──
+		% ── 标题行（左右顶端对齐）──
 		\begin{columns}[T, totalwidth=\linewidth]
-
-			\begin{column}{0.32\linewidth}\centering
-				{\fontsize{8.5}{11}\selectfont\sffamily\bfseries\color{structure.fg}$\mathcal{T}_h$\enspace 高阶位移网格}\par\vspace{3pt}
-				{\fontsize{7.5}{11}\selectfont\sffamily 采用\textbf{较粗高阶位移单元}，控制分析自由度规模}
-			\end{column}
-
-			\begin{column}{0.32\linewidth}\centering
-				{\fontsize{8.5}{11}\selectfont\sffamily\bfseries\color{structure.fg}$\mathcal{T}_\rho$\enspace 密度积分网格}\par\vspace{3pt}
-				{\fontsize{7.5}{11}\selectfont\sffamily 进行\textbf{子单元密度积分}，保证刚度组装一致性}
-			\end{column}
-
-			\begin{column}{0.32\linewidth}\centering
-				{\fontsize{8.5}{11}\selectfont\sffamily\bfseries\color{structure.fg}$\mathcal{T}_d$\enspace 设计变量网格}\par\vspace{3pt}
-				{\fontsize{7.5}{11}\selectfont\sffamily 承载\textbf{高分辨率设计变量}，提升拓扑表达能力}
-			\end{column}
-
+			\begin{column}{0.33\linewidth}\imglabel{三层网格解耦}\end{column}
+			\hfill
+			\begin{column}{0.63\linewidth}\imglabel{单分辨率 STOP \,vs\, 多分辨率 MTOP（MBB 梁）}\end{column}
 		\end{columns}
 
-		\vspace{0.9em}
+		\vspace{2pt}
 
-		% ── 结论（无框，含表达优势数据）──
-		\takeaway{三层网格解耦在控制计算规模的同时兼顾高精度分析与高分辨率拓扑表达（MBB：设计自由度 $600\!\to\!9600$，构型更清晰、细节更丰富）}
+		% ── 行 1：T_h | STOP ──
+		\begin{columns}[c, totalwidth=\linewidth]
+			\begin{column}{0.33\linewidth}
+				{\fontsize{7.5}{11}\selectfont\sffamily\circnum{1}~位移网格 $\mathcal{T}_h$：较粗高阶单元，控制分析自由度规模。}
+			\end{column}
+			\hfill
+			\begin{column}{0.63\linewidth}\centering
+				{\fontsize{7.5}{9.5}\selectfont\sffamily\color{structure.fg}\textbf{STOP} $k{=}1$：$u_{\mathrm{dof}}{=}1342$,\ $\rho_{\mathrm{dof}}{=}600$\ ·\ 阶梯状}\par\vspace{1pt}
+				\includegraphics[width=0.93\linewidth, height=0.098\paperheight, keepaspectratio]{ch4_mbb_stop_k1_r1_2}
+			\end{column}
+		\end{columns}
+
+		\vspace{4pt}
+
+		% ── 行 2：T_rho | MTOP k=1 ──
+		\begin{columns}[c, totalwidth=\linewidth]
+			\begin{column}{0.33\linewidth}
+				{\fontsize{7.5}{11}\selectfont\sffamily\circnum{2}~密度积分网格 $\mathcal{T}_\rho$：子单元密度积分，保证刚度组装一致。}
+			\end{column}
+			\hfill
+			\begin{column}{0.63\linewidth}\centering
+				{\fontsize{7.5}{9.5}\selectfont\sffamily\color{structure.fg}\textbf{MTOP} $k{=}1$：$u_{\mathrm{dof}}{=}1342$,\ $\rho_{\mathrm{dof}}{=}9600$\ ·\ 清晰}\par\vspace{1pt}
+				\includegraphics[width=0.93\linewidth, height=0.098\paperheight, keepaspectratio]{ch4_mbb_mtop_k1_r1}
+			\end{column}
+		\end{columns}
+
+		\vspace{4pt}
+
+		% ── 行 3：T_d | MTOP k=4 ──
+		\begin{columns}[c, totalwidth=\linewidth]
+			\begin{column}{0.33\linewidth}
+				{\fontsize{7.5}{11}\selectfont\sffamily\circnum{3}~设计变量网格 $\mathcal{T}_d$：承载高分辨率设计变量，提升拓扑表达。}
+			\end{column}
+			\hfill
+			\begin{column}{0.63\linewidth}\centering
+				{\fontsize{7.5}{9.5}\selectfont\sffamily\color{structure.fg}\textbf{MTOP} $k{=}4$：$u_{\mathrm{dof}}{=}19762$,\ $\rho_{\mathrm{dof}}{=}9600$\ ·\ 精细构型}\par\vspace{1pt}
+				\includegraphics[width=0.93\linewidth, height=0.098\paperheight, keepaspectratio]{ch4_mbb_mtop_k4_r0_5}
+			\end{column}
+		\end{columns}
+
+		\vspace{0.5em}
+
+		% ── 结论（无框）──
+		\takeaway{同分析规模下，设计自由度提升 16$\times$、构型由阶梯状细化为多层级传力精细构型}
 
 	\end{frame}
 
@@ -233,9 +264,9 @@
 		\frametitle{方法三 · 任意次胡张混合有限元}
 
 		% ── 顶部引导（无框）──
-		\accentintro{以应力 $\boldsymbol{\sigma}$ 为独立未知量、构造 $H(\mathrm{div})$ 协调对称张量空间的\textbf{任意次胡张混合有限元}（北大胡俊教授方法），嵌入变密度拓扑优化闭环直接获得高精度应力场；下以二维轴承装置对比两类方法。}
+		\accentintro{以应力 $\boldsymbol{\sigma}$ 为独立未知量、构造 $H(\mathrm{div})$ 协调对称张量空间的\textbf{任意次胡张混合有限元}（北大胡俊教授方法），从底层变分免疫体积闭锁；下以二维轴承装置（近不可压）对比两类方法。}
 
-		\vspace{0.5em}
+		\vspace{1.0em}
 
 		% ── 列标题行 ──
 		\begin{columns}[T, totalwidth=\linewidth]
@@ -259,11 +290,11 @@
 					标准\\[3pt]位移法\\{\fontsize{6}{8}\selectfont ($k=2$)}}
 			\end{column}
 			\begin{column}{0.42\linewidth}\centering
-				\includegraphics[width=0.95\linewidth, height=0.178\paperheight, keepaspectratio]{bearing_disp_nu03}\\[2pt]
+				\includegraphics[width=0.95\linewidth, height=0.15\paperheight, keepaspectratio]{bearing_disp_nu03}\\[2pt]
 				{\fontsize{7}{9}\selectfont $c \approx 123.37$ (结构清晰，正常收敛)}
 			\end{column}
 			\begin{column}{0.42\linewidth}\centering
-				\includegraphics[width=0.95\linewidth, height=0.178\paperheight, keepaspectratio]{bearing_disp_nu4999}\\[2pt]
+				\includegraphics[width=0.95\linewidth, height=0.15\paperheight, keepaspectratio]{bearing_disp_nu4999}\\[2pt]
 				{\fontsize{7}{9}\selectfont $c \approx 55.78$ (刚度高估，构型异常)}
 			\end{column}
 		\end{columns}
@@ -277,19 +308,25 @@
 					胡张\\[3pt]混合法\\{\fontsize{6}{8}\selectfont ($k=2$)}}
 			\end{column}
 			\begin{column}{0.42\linewidth}\centering
-				\includegraphics[width=0.95\linewidth, height=0.178\paperheight, keepaspectratio]{bearing_mixed_nu03}\\[2pt]
+				\includegraphics[width=0.95\linewidth, height=0.15\paperheight, keepaspectratio]{bearing_mixed_nu03}\\[2pt]
 				{\fontsize{7}{9}\selectfont $c \approx 128.45$ (结构清晰，正常收敛)}
 			\end{column}
 			\begin{column}{0.42\linewidth}\centering
-				\includegraphics[width=0.95\linewidth, height=0.178\paperheight, keepaspectratio]{bearing_mixed_nu4999}\\[2pt]
+				\includegraphics[width=0.95\linewidth, height=0.15\paperheight, keepaspectratio]{bearing_mixed_nu4999}\\[2pt]
 				{\fontsize{7}{9}\selectfont $c \approx 102.79$ (抗体积闭锁，构型稳定)}
 			\end{column}
 		\end{columns}
 
-		\vspace{0.6em}
+		\vspace{0.4em}
+
+		% ── 任意阶推广（数据条）──
+		{\fontsize{8}{11}\selectfont\sffamily\centering
+			\textbf{\color{structure.fg}任意阶推广}（近不可压 $\nu_0=0.4999$）：$k{=}2/3/4 \to c=102.79/100.44/99.63$\par}
+
+		\vspace{0.4em}
 
 		% ── 结论（无框）──
-		\takeaway{胡张混合有限元有效缓解近不可压体积闭锁，并基于协调应力空间支撑局部应力约束的可靠评估。}
+		\takeaway{任意阶胡张混合免疫体积闭锁、精度随阶提升，并天然过滤孔洞伪应力}
 
 	\end{frame}
 
@@ -317,35 +354,36 @@
 
 			\hfill
 
-			% ── 右列：关键技术（无框）──
+			% ── 右列：关键技术 · 能力验证（无框）──
 			\begin{column}{0.47\linewidth}
-				{\fontsize{10}{12}\selectfont\bfseries\sffamily\color{structure.fg}关键技术}\\[3pt]
+				{\fontsize{10}{12}\selectfont\bfseries\sffamily\color{structure.fg}关键技术 · 能力验证}\\[3pt]
 				{\color{structure.fg!35}\rule{\linewidth}{0.8pt}}\\[7pt]
 				{\fontsize{8.5}{13.5}\selectfont\sffamily
-					\circnum{1}~\textbf{高效矩阵组装}：解析预计算 + 张量收缩 + 算子缓存。
+					\circnum{1}~\textbf{高效矩阵组装}：张量收缩 + 算子缓存；稳态装配 $0.787\!\to\!0.182\,\mathrm{s}$（\textbf{4.32$\times$}）。
 					\par\vspace{8pt}
-					\circnum{2}~\textbf{自动微分灵敏度}：PyTorch / JAX 自动求复杂目标/约束梯度（与手动一致）。
+					\circnum{2}~\textbf{自动微分灵敏度}：PyTorch / JAX 自动求梯度；与手动构型一致、稳态耗时差 \textbf{0.15\%}。
 					\par\vspace{8pt}
-					\circnum{3}~\textbf{多后端与异构}：NumPy / PyTorch / JAX 切换，CPU / GPU 可移植。}
+					\circnum{3}~\textbf{多后端与异构}：NumPy / PyTorch / JAX 切换、CPU / GPU 可移植，构型/收敛一致。}
 			\end{column}
 
 		\end{columns}
 
-		\vspace{1.1em}
+		\vspace{0.7em}
 
-		% ── GPU 加速亮点（无框：左侧色条 + 文字）──
-		{\fontsize{8.5}{13}\selectfont\sffamily
-			{\color{structure.fg}\rule[-1pt]{3pt}{12pt}}\hspace{8pt}%
-			\textbf{GPU 异构加速}（三维悬臂梁）：总耗时 $2789.9\,\mathrm{s}\!\to\!636.7\,\mathrm{s}$，
-			端到端 \textbf{4.38$\times$}、稳态 \textbf{4.36$\times$}；多后端构型与收敛一致。\par}
-
-		\vspace{1.2em}
-
-		% ── 结论（无框：居中粗体彩色一句）──
-		\begin{center}
-			{\fontsize{9.5}{14}\selectfont\sffamily\bfseries\color{structure.fg}
-				以“分析—优化解耦”为核心，集成 AD、多后端与 GPU 异构，提供高效可扩展的拓扑优化软件支撑。}
-		\end{center}
+		% ── 底部：基准图 + GPU 加速亮点 ──
+		\begin{columns}[c, totalwidth=\linewidth]
+			\begin{column}{0.30\linewidth}\centering
+				\includegraphics[width=0.82\linewidth, height=0.12\paperheight, keepaspectratio]{topo_backend_numpy}\\[1pt]
+				{\fontsize{7}{9}\selectfont\sffamily 统一基准 · 三维悬臂梁}
+			\end{column}
+			\hfill
+			\begin{column}{0.66\linewidth}
+				{\fontsize{8.5}{13.5}\selectfont\sffamily
+					{\color{structure.fg}\rule[-1pt]{3pt}{12pt}}\hspace{8pt}\textbf{GPU 异构加速}（13.4 万自由度）：
+					\par\vspace{3pt}
+					总耗时 $2789.9\,\mathrm{s}\!\to\!636.7\,\mathrm{s}$，端到端 \textbf{4.38$\times$}、稳态 \textbf{4.36$\times$}。}
+			\end{column}
+		\end{columns}
 
 	\end{frame}
 
@@ -391,6 +429,9 @@
 					\textbf{中建五局合作项目}\par\vspace{1pt}
 					建筑结构力学 C++ 计算内核，集成中建智拓平台；主要参与人.
 					\par\vspace{6pt}
+					\textbf{韶峰天工平台}\par\vspace{1pt}
+					国产智能 CAX 一体化软件平台研发，面向工业软件自主可控；主要参与人.
+					\par\vspace{6pt}
 					\textbf{FEALPy 开源引擎}\par\vspace{1pt}
 					计算固体力学库底层架构与多本构求解器；主要参与人.}
 			\end{column}
@@ -406,18 +447,262 @@
 
 
 	% ============================================================
-	%  结束页（临时；Part 2 写完后接到其后）
+	\section{二、博士后科研计划}
+	% ============================================================
+
+	% ============================================================
+	%  帧 6 · 科研计划总览与承接关系
+	% ============================================================
+	\begin{frame}[t]
+		\frametitle{博士后科研计划总览与承接关系}
+
+		% ── 顶部引导（无框）──
+		\accentintro{面向大规模与复杂结构拓扑优化，开展“PIML 增强多尺度分析 + Matrix-Free 高性能求解”与“MMC/MMV 显式几何先进数值分析”两大方面研究——四条主线均与博士工作形成直接承接。}
+
+		\vspace{-0.2em}
+
+		{\centering
+			\begin{tikzpicture}[x=1cm, y=1cm, >=stealth,
+				box/.style={draw=structure.fg!70, fill=white, rounded corners=2pt,
+							text width=4.3cm, align=center, inner sep=4pt,
+							font=\fontsize{7.2}{9}\selectfont\sffamily},
+				rbox/.style={draw=structure.fg, fill=white, rounded corners=2pt,
+							text width=4.4cm, align=center, inner sep=4pt,
+							font=\fontsize{7.2}{9}\selectfont\sffamily\color{structure.fg}},
+				lab/.style={font=\fontsize{8.5}{10}\selectfont\sffamily\bfseries\color{structure.fg}},
+				asp/.style={font=\fontsize{6.6}{8}\selectfont\sffamily\bfseries\color{structure.fg!85}},
+				arrow/.style={->, thick, structure.fg!80}]
+
+				% 列标题（贴近底板）
+				\node[lab] at (-3.6, 0.0) {博士积累};
+				\node[lab] at ( 3.15,0.0) {博后延伸 · 两方面四主线};
+
+				% 分组底板（左右对称：上=方面一一族，下=方面二一族）
+				\fill[structure.fg!4, rounded corners=3pt] (-6.0,-0.5) rectangle (-1.2,-2.7);
+				\fill[structure.fg!4, rounded corners=3pt] (-6.0,-2.9) rectangle (-1.2,-5.1);
+				\fill[structure.fg!8, rounded corners=3pt] (0.7,-0.5) rectangle (5.6,-2.7);
+				\fill[structure.fg!8, rounded corners=3pt] (0.7,-2.9) rectangle (5.6,-5.1);
+
+				% 分组标签
+				\node[asp, anchor=west] at (-5.85,-0.68) {计算基础 · 可微分 / 高性能};
+				\node[asp, anchor=west] at (-5.85,-3.08) {离散基础 · 高阶 / 多分辨率};
+				\node[asp, anchor=west] at (0.85,-0.68) {方面一 · PIML + Matrix-Free};
+				\node[asp, anchor=west] at (0.85,-3.08) {方面二 · MMC/MMV 先进数值分析};
+
+				% 左：博士积累（4）
+				\node[box] (L1) at (-3.6,-1.22) {SOPTX · 多后端 + 自动微分\\(PyTorch / JAX 可微分基础)};
+				\node[box] (L2) at (-3.6,-2.22) {SOPTX · 高效张量组装 + GPU 异构};
+				\node[box] (L3) at (-3.6,-3.65) {任意次高阶 / 胡张混合有限元};
+				\node[box] (L4) at (-3.6,-4.65) {高阶多分辨率框架（分析-设计解耦）};
+
+				% 右：博后四主线（源自计划书）
+				\node[rbox] (R1) at (3.15,-1.22) {\textbf{主线一}~PIML 预测多尺度形函数、构造粗尺度等效刚度};
+				\node[rbox] (R2) at (3.15,-2.22) {\textbf{主线二}~全局算子 Matrix-Free 高性能求解（CPU/GPU/异构）};
+				\node[rbox] (R3) at (3.15,-3.65) {\textbf{主线三}~MMC/MMV 高精度数值离散（切割单元 · 高阶/混合元）};
+				\node[rbox] (R4) at (3.15,-4.65) {\textbf{主线四}~MMC/MMV 高效结构分析（多重网格 / 子结构复用）};
+
+				% 承接实线
+				\draw[arrow] (L1) -- (R1);
+				\draw[arrow] (L2) -- (R2);
+				\draw[arrow] (L3) -- (R3);
+				\draw[arrow] (L4) -- (R4);
+
+				% 内部弧形虚线：主线二 → 主线四（Matrix-Free 迁移、两方面互通）
+				\draw[->, thick, dashed, structure.fg!70]
+					(R2.east) to[out=-15, in=15, looseness=1.0] (R4.east);
+				\node[rotate=-90, font=\fontsize{6}{7.5}\selectfont\sffamily\color{structure.fg!75}]
+					at (6.12,-3.43) {Matrix-Free 迁移};
+			\end{tikzpicture}\par}
+
+	\end{frame}
+
+	% ============================================================
+	%  帧 7 · 方向一 · PIML + Matrix-Free
+	% ============================================================
+	\begin{frame}
+		\frametitle{方向一 · PIML 增强多尺度分析 + Matrix-Free 高性能求解}
+
+		% ── 顶部引导（无框）──
+		\accentintro{面向大规模拓扑优化中反复细网格分析的高成本，用 PIML 在线预测多尺度形函数、构造粗尺度等效刚度，并进一步发展全局算子 Matrix-Free 高性能求解。}
+
+		\vspace{0.6em}
+
+		\begin{columns}[t, totalwidth=\linewidth]
+			
+			% 左栏：主线描述
+			\begin{column}{0.48\linewidth}
+				\blocktitle{主线 1：PIML 预测与粗尺度等效刚度}
+				{\fontsize{7.5}{11}\selectfont\sffamily
+					\circnum{1}~以粗网格单元已知细尺度材料密度为输入，离线训练 PIML 模型，在线预测多尺度形函数，减少重复局部求解；\\
+					\circnum{2}~重点研究等效刚度对称性、正定性与误差传播。}
+				
+				\vspace{1.0em}
+				\blocktitle{主线 2：全局算子 Matrix-Free 求解}
+				{\fontsize{7.5}{11}\selectfont\sffamily
+					\circnum{1}~复现并优化“按需预测—算后释放 + 全局缩聚刚度组装”基线流程；\\
+					\circnum{2}~进一步研究\textbf{不显式组装全局缩聚矩阵}的 Matrix-Free 算子作用，结合 Krylov 迭代与多层预条件，实现异构并行求解。}
+			\end{column}
+
+			% 右栏：TikZ 绘制的初步结果
+			\begin{column}{0.48\linewidth}
+				{\fontsize{8.5}{10}\selectfont\sffamily\bfseries\color{structure.fg}【前期基础】PIML 架构与 Matrix-Free 求解原型\par\vspace{3pt}}
+				
+				% 图1：PIML 示意图
+				\begin{center}
+					\begin{tikzpicture}[scale=0.8, transform shape, every node/.style={font=\sffamily}]
+						% 宏观网格
+						\draw[step=0.5, gray!50, thin] (0,0) grid (3,1.5);
+						\fill[structure.fg!30] (1,0.5) rectangle (1.5,1.0);
+						\node[font=\fontsize{7}{9}\selectfont] at (1.5, -0.3) {宏观结构与设计域};
+						% 箭头
+						\draw[->, thick, structure.fg] (1.25, 1.0) -- (1.25, 2.0) node[midway, right, font=\fontsize{6}{8}\selectfont] {PIML 预测};
+						% 微观网格
+						\draw[step=0.2, structure.fg!40, thin] (0.5, 2.0) grid (2.0, 3.5);
+						\fill[structure.fg!80] (1.0, 2.4) rectangle (1.4, 3.1);
+						\fill[structure.fg!80] (0.7, 2.6) rectangle (1.8, 2.9);
+						\node[font=\fontsize{7}{9}\selectfont] at (1.25, 3.8) {微观结构与等效刚度};
+					\end{tikzpicture}
+				\end{center}
+				
+				\vspace{-0.5em}
+				
+				% 图2：Matrix-Free 性能对比 (简单曲线图)
+				\begin{center}
+					\begin{tikzpicture}[scale=0.75, transform shape, every node/.style={font=\sffamily}]
+						\draw[->, thick] (0,0) -- (4,0) node[right, font=\fontsize{8}{10}\selectfont] {自由度 (DOF)};
+						\draw[->, thick] (0,0) -- (0,2.5) node[above, font=\fontsize{8}{10}\selectfont] {时间 (s)};
+						
+						% Direct solver curve
+						\draw[thick, red!80!black, smooth] plot coordinates {(0, 0.1) (1, 0.3) (2, 0.9) (2.5, 1.8)} node[above, font=\fontsize{7}{9}\selectfont] {直接求解 ($O(N^2)$) - 易 OOM};
+						
+						% Matrix-Free curve
+						\draw[thick, blue!80!black, smooth] plot coordinates {(0, 0.1) (1, 0.4) (2, 0.7) (3.5, 1.15)} node[right, font=\fontsize{7}{9}\selectfont] {无矩阵 CG ($O(N)$)};
+					\end{tikzpicture}
+				\end{center}
+				
+			\end{column}
+
+		\end{columns}
+
+	\end{frame}
+
+	% ============================================================
+	%  帧 8 · 方向二 · MMC/MMV 显式拓扑优化先进数值分析
+	% ============================================================
+	\begin{frame}
+		\frametitle{方向二 · MMC 显式拓扑优化先进数值分析}
+
+		% ── 顶部引导（无框）──
+		\accentintro{面向 MMC/MMV 显式几何描述，研究高精度数值离散与高效结构分析方法，结合高阶拉格朗日元或胡张混合元，提升复杂几何与应力约束问题的精度。}
+
+		\vspace{0.6em}
+
+		\begin{columns}[t, totalwidth=\linewidth]
+			
+			% 左栏：主线描述
+			\begin{column}{0.48\linewidth}
+				\blocktitle{主线 3：MMC 高精度数值离散}
+				{\fontsize{7.5}{11}\selectfont\sffamily
+					\circnum{1}~研究显式几何边界切割背景网格、数值积分与灵敏度的一致性，精确评估几何近似的影响；\\
+					\circnum{2}~将\textbf{高阶拉格朗日有限元与胡张混合有限元}与 MMC 显式描述直接结合，有效处理边界切割单元，提升求解精度。}
+				
+				\vspace{1.0em}
+				\blocktitle{主线 4：MMC 高效结构分析}
+				{\fontsize{7.5}{11}\selectfont\sffamily
+					\circnum{1}~利用 MMC 边界清晰、设计变量维数低的特点，研究分析模型高效更新与求解；\\
+					\circnum{2}~集成自适应局部加密与信息复用，\textbf{并将方向一的 Matrix-Free 迁移应用}，实现两方面的求解技术闭环支撑。}
+			\end{column}
+
+			% 右栏：TikZ 绘制的 MMC 边界切割与高阶积分示意图
+			\begin{column}{0.48\linewidth}
+				{\fontsize{8.5}{10}\selectfont\sffamily\bfseries\color{structure.fg}【前期基础】MMC 边界切割与高阶离散积分原型\par\vspace{3pt}}
+				
+				\begin{center}
+					\begin{tikzpicture}[scale=0.9, transform shape, every node/.style={font=\sffamily}]
+						% 背景网格 (4x3)
+						\draw[step=1.0, gray!50, dashed, thick] (0,0) grid (4,3);
+						
+						% MMC 组件 (倾斜的胶囊状)
+						\begin{scope}[rotate around={25:(2,1.5)}]
+							\fill[green!60!black, opacity=0.3] (0.5, 1.0) rectangle (3.5, 2.0);
+							\draw[green!60!black, thick] (0.5, 1.0) rectangle (3.5, 2.0);
+							\node[green!40!black, font=\fontsize{8}{10}\selectfont\bfseries] at (2, 2.3) {MMC 显式组件};
+						\end{scope}
+						
+						% 高亮一个被切割的单元 (2,1) 到 (3,2)
+						\fill[orange, opacity=0.2] (2,1) rectangle (3,2);
+						\draw[orange, thick] (2,1) rectangle (3,2);
+						\node[orange!80!black, font=\fontsize{7}{9}\selectfont, align=center] at (2.5, 0.7) {切割单元\\高阶积分};
+						
+						% 画高阶 Gauss 积分点 (3x3)
+						\foreach \x in {2.1127, 2.5, 2.8873} {
+							\foreach \y in {1.1127, 1.5, 1.8873} {
+								% 简单根据在不在中心带判断
+								\ifthenelse{\lengthtest{\x cm > 2.2cm} \AND \lengthtest{\y cm < 1.9cm}}{
+									\fill[black] (\x, \y) circle (1.5pt);
+								}{
+									\draw[black, fill=white] (\x, \y) circle (1.5pt);
+								}
+							}
+						}
+						
+						% 图例
+						\node[font=\fontsize{6}{8}\selectfont, right] at (0, -0.4) {\tikz{\fill[black] (0,0) circle (1.5pt);} : 材料内积分点};
+						\node[font=\fontsize{6}{8}\selectfont, right] at (2, -0.4) {\tikz{\draw[black, fill=white] (0,0) circle (1.5pt);} : 空隙内积分点};
+					\end{tikzpicture}
+				\end{center}
+				
+			\end{column}
+
+		\end{columns}
+
+	\end{frame}
+
+	% ============================================================
+	%  帧 9 · 工作计划 · 预期目标 · 平台依托
+	% ============================================================
+	\begin{frame}
+		\frametitle{工作计划、预期目标与平台依托}
+
+		% ── 工作计划（三阶段）──
+		\blocktitle{三阶段工作计划}
+		{\fontsize{8}{12}\selectfont\sffamily
+			\circnum{1}~\textbf{近期}：完成 PIML 增强分析与 MMC 基准复现，建立统一的典型算例与性能评估体系。\\
+			\circnum{2}~\textbf{中期}：深入 PIML 多尺度架构与 Matrix-Free 算子机制，攻克 MMC 与高阶/混合元离散的技术难点。\\
+			\circnum{3}~\textbf{远期}：实现 CPU/GPU 异构并行与软件模块封装，完成大规模三维结构验证。}
+		
+		\vspace{1.0em}
+
+		% ── 预期目标（三目标）──
+		\blocktitle{预期目标}
+		{\fontsize{8}{12}\selectfont\sffamily
+			\textbf{目标一}：建立 PIML 增强多尺度分析 + Matrix-Free 高性能求解方法体系（含并行原型）。\\
+			\textbf{目标二}：建立 MMC 显式几何高精度离散 + 高效结构分析方法（含一致灵敏度与高阶离散方案）。\\
+			\textbf{目标三}：形成可复用软件模块，衔接 FEALPy、SiPESC 与 DLUTopt，产出高水平学术成果。}
+
+		\vspace{1.5em}
+
+		% ── 结论条：平台依托 ──
+		\begin{center}
+			\accentintro{\textbf{平台依托}：郭旭院士团队（力学建模 / MMC / PIML / SiPESC 软件） $\times$ 算海团队（计算数学 / FEALPy 引擎），发挥力学方法与数值计算深度互补的优势，打造国产拓扑优化工业软件的核心竞争力。}
+		\end{center}
+
+	\end{frame}
+
+
+	% ============================================================
+	%  结束页
 	% ============================================================
 	\begin{frame}[plain]
 		\vspace{1.2cm}
 		\begin{center}
-			{\fontsize{20}{26}\selectfont\bfseries\sffamily\color{structure.fg} Part 1 完 · 待接 Part 2 博士后科研计划}
+			{\fontsize{26}{32}\selectfont\bfseries\sffamily\color{structure.fg} 汇报结束，谢谢聆听！}
 
 			\vspace{0.8cm}
 			{\color{structure.fg!35}\rule{0.5\linewidth}{0.8pt}}
 
 			\vspace{0.6cm}
-			{\fontsize{13}{18}\selectfont\bfseries\sffamily\color{structure.fg} 敬请各位专家老师批评指正！}
+			{\fontsize{13}{18}\selectfont\bfseries\sffamily\color{structure.fg} 敬请各位专家老师批评指正}
 		\end{center}
 	\end{frame}
 

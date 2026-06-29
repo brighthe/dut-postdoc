@@ -6,8 +6,9 @@
 
 Claude Code 开始任务前，应先读取并遵守：
 
-1. [../common/llm-wiki-workflow.md](../common/llm-wiki-workflow.md)：工具无关的 LLM Wiki 方法论、目录结构、ingest/query/lint 工作流。
-2. 本文件：Claude Code 专用补充。
+1. [../common/status.md](../common/status.md)：**项目状态 · AI 接续入口（hub）**——先读这一份掌握各工作线现状与下一步，再点进对应分支看细节。
+2. [../common/llm-wiki-workflow.md](../common/llm-wiki-workflow.md)：工具无关的 LLM Wiki 方法论、目录结构、ingest/query/lint 工作流。
+3. 本文件：Claude Code 专用补充。
 
 ## Claude Code 专用补充
 
