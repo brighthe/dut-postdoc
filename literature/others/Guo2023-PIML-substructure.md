@@ -1,15 +1,22 @@
 ---
 title: "PIML enhanced substructure-based approach for large-scale structural analysis"
-authors: []                # 待确认：仓库内 Guo2023 与 Zheng2023 两种写法并存，见下「附注」
+authors:
+  - Huang, Mengcheng
+  - Cui, Tianchen
+  - Liu, Chang
+  - Du, Zongliang
+  - Zhang, Jiameng
+  - He, Chuhui
+  - Guo, Xu
 year: 2023
-journal: ""
-doi: ""
+journal: "Extreme Mechanics Letters"
+doi: "10.1016/j.eml.2023.102041"
 tags:
   - PIML
   - substructure
   - large-scale
   - topology-opt
-status: "unread"           # unread | reading | done
+status: "redirect"
 rating:
 date_added: 2026-06-18
 date_read:
@@ -17,30 +24,31 @@ date_read:
 
 # PIML enhanced substructure-based approach for large-scale structural analysis
 
-> **存根页（待精读）**：本页由 lint 归位生成——原为根目录下的空文件，已移入 `literature/others/`。正式精读后用 [[../../assets/templates/literature-note]] 补全。
+> **重定向页**：这篇论文已确认真实条目为 Huang et al. 2023，正式精读页见 [[../topology-opt/Huang2023-PIML-substructure]]。
 
 ## 一句话概括
 
-<!-- 待精读 -->子结构方法 + PIML：引入力学先验约束，支撑大规模结构分析（约 10 亿设计变量级）。来源转述自 [[../../research/guo-xu-team-overview]]，**待原文核对**。
+子结构方法 + PIML：用局部材料分布预测子结构多尺度形函数/缩聚刚度，支撑大规模结构分析与拓扑优化（约 10 亿设计变量级）。
 
-## 待补
+## 已归并
 
-- 研究问题 / 方法 / 数值验证 / 结论 / 启发 — 精读后填。
+- 正式文献页：[[../topology-opt/Huang2023-PIML-substructure]]
+- 中文译注：[[../topology-opt/translations/Huang2023-PIML-substructure-zh]]
 
 ## 相关页面
 
 - [[Huang2022-problemindependentmachine]] 的子结构扩展（本文）
 - [[../../concepts/piml]]
-- [[../../research/guo-xu-team-overview]]
+- [[../../research/teams/guo-xu-team-overview]]
 
 ## 附注：引用键待统一（lint）
 
-仓库内对这篇及同系列论文存在**两种 cite key 写法**，需你确认真实第一作者后统一：
+仓库内曾对这篇及同系列论文存在**两种 cite key 写法**。本文已确认真实第一作者为 Huang：
 
 | 论文 | Huang2022 笔记用 | 团队综述用 |
 |---|---|---|
-| 子结构 | `Guo2023-PIML-substructure`（本文件名） | `Zheng2023-PIML-substructure` |
+| 子结构 | `Guo2023-PIML-substructure`（旧存根） | `Zheng2023-PIML-substructure` |
 | data-free | `Guo2023-PIML-data-free` | `Zheng2023-PIML-data-free` |
 | 并行 | `Guo2025-PIML-parallel` | `Zheng2025-PIML-parallel` |
 
-确认后我可统一重命名 + 修正所有反向链接。
+子结构论文统一使用 [[../topology-opt/Huang2023-PIML-substructure]]；其他同系列条目待后续精读时再统一。

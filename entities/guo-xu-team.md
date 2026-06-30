@@ -39,22 +39,22 @@ date_update: 2026-06-18
 4. **工业软件与高性能计算（SiPESC）** — 集成化 CAE 平台，承载上述方法工程化。
 5. **混合变分问题与极值型数值技术（PVP + 极值型杂交元）** — 绕开 LBB、构造全局 SPD 系统。
 
-> 各方向的方法细节、核心文献谱系与公式推导见详版综合页 [[../research/guo-xu-team-overview]]（本实体页是档案卡，不重复其内容）。
+> 各方向的方法细节、核心文献谱系与公式推导见详版综合页 [[../research/teams/guo-xu-team-overview]]（本实体页是档案卡，不重复其内容）。
 
 ## 与我的关联
 
-博士后课题围绕方向二（PIML）+ 方向五（PVP/双模量）+ 方向一（MMC/MMV）的交叉展开，切入点见 [[../research/postdoc-research-plan]]：
+博士后课题围绕方向二（PIML）+ 方向五（PVP/双模量）+ 方向一（MMC/MMV）的交叉展开，切入点见 [[../research/postdoc-plan/postdoc-research-plan]]：
 - A：双模量问题的极值型杂交元离散；
 - B：PIML 局部算子的物理约束增强（PVP 极小值作损失）；
 - C：MMC/MMV 与 PIML 协同加速。
 
 ## 相关来源
 
-- [[../research/guo-xu-team-overview]] — 团队研究体系详版（方法+文献谱系）。
+- [[../research/teams/guo-xu-team-overview]] — 团队研究体系详版（方法+文献谱系）。
 - [[../concepts/piml]] — 方向二核心概念页。
 - [[../literature/topology-opt/Huang2022-problemindependentmachine]]、[[../literature/topology-opt/Ma2026-highperformanceparallel]]。
 
 ## 相关页面
 
-- [[../research/postdoc-research-plan]]
-- [[../research/mmc-mmv-numerical-discretization-survey]]
+- [[../research/postdoc-plan/postdoc-research-plan]]
+- [[../research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey]]

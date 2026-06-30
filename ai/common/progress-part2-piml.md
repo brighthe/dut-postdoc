@@ -71,7 +71,7 @@ related:
 ## 6. 阅读状态
 
 - **已读**：Huang 2022（EMsFEM-PIML 奠基）、Ma 2026（并行 + Matrix-Free 子结构）、`piml-matrix-free-high-performance-solver-survey`（§3 含 Schur 缩聚推导，路线①直接依据）。
-- **待读**：**Huang 2023（子结构 PIML）**——路线①的方法本身。**不阻塞起步**（T1–T2–V1 用经典缩聚即可）；在 **T4（训练预测器）前**消化，用于保真 + V4 对照锚点 + 深入理解。**PDF 不在仓库**，需提供后才能精读并补 `literature/topology-opt/Huang2023-PIML-substructure.md` 笔记。
+- **待读 / 待精读**：**Huang 2023（子结构 PIML）**——路线①的方法本身。当前仅完成 Zotero 条目确认（Huang et al. 2023, *EML* 63:102041）与 [[../../literature/topology-opt/Huang2023-PIML-substructure]] / 中文译文页框架搭建，尚未正式阅读和消化论文。后续需精读后再回填：子结构边界变形假设、预测对象（`N` / `K_s`）、误差指标、V4 对照口径与答辩表述。
 - **理解校准**：后续工作两面交织——(a) 实现程序 T1→V4；(b) 读 Huang 2023 以保真/对照/理解，但仅 T4–V4 段需要。
 
 ## 7. 下一步待办
@@ -80,7 +80,7 @@ related:
 - [ ] T1 粗/细两级网格与局部映射
 - [ ] T2 子结构静力缩聚（精确 N^j / K_s^j）
 - [ ] V1 缩聚精确性测试（`rel_error < 1e-10`）—— 第一个机器精度正确性结果
-- [ ] 读 Huang 2023 + 补笔记 + 回填 V4 对照数
+- [ ] 读 Huang 2023 + 补笔记 + 回填 V4 对照口径（当前仅完成 Zotero 元数据确认与笔记/译文框架）
 - [ ] T4/T4b 极小预测器训练 + V4 预测精度 + 出图（`piml_baseline.pdf` / `piml_pred_error.pdf`）
 - [ ] 帧 7 LaTeX 按能力 B 口径填图；修帧 8 `\ifthenelse`
 

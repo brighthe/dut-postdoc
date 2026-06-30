@@ -8,6 +8,7 @@
 |------|------|------|--------|------|
 | [[topology-opt/Lei2018-machinelearningdriven]] | Lei et al. | 2018 | MMC, topology-opt, SVR, KNN | done |
 | [[topology-opt/Huang2022-problemindependentmachine]] | Huang et al. | 2022 | PIML, EMsFEM, topology-opt | done |
+| [[topology-opt/Huang2023-PIML-substructure]] | Huang et al. | 2023 | PIML, substructure, topology-opt | draft |
 | [[topology-opt/Ma2026-highperformanceparallel]] | Ma et al. | 2026 | PIML, parallel-computing, large-scale | done |
 
 ## 有限元方法
@@ -20,7 +21,7 @@
 
 | 笔记 | 作者 | 年份 | 关键词 | 状态 |
 |------|------|------|--------|------|
-| [[others/Guo2023-PIML-substructure]] | 待确认 | 2023 | PIML, substructure, large-scale | unread |
+| [[others/Guo2023-PIML-substructure]] | Huang et al. | 2023 | PIML, substructure, large-scale | redirect |
 
 ---
 

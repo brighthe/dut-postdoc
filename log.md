@@ -58,7 +58,30 @@
 ---
 
 ### 历史回填（据 git 记录，非当日逐条）
-- 2026-06-10 ingest | [[research/piml-matrix-free-execution-plan]] 执行计划，补 2019 ML-MMC 前史文献。
-- 2026-06-07 ingest | [[research/piml-matrix-free-high-performance-solver-survey]]、[[research/mmc-mmv-numerical-discretization-survey]] 两篇调研。
+- 2026-06-10 ingest | [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-execution-plan]] 执行计划，补 2019 ML-MMC 前史文献。
+- 2026-06-07 ingest | [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]]、[[research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey]] 两篇调研。
 - 2026-06-06 ingest | [[literature/topology-opt/Ma2026-highperformanceparallel]] 笔记 + 译文 + 配图。
-- 2026-06-04 init | 建库：[[literature/_index]]、[[research/_index]]、[[research/guo-xu-team-overview]]、[[research/postdoc-research-plan]]、模板与 `refs.bib`。
+- 2026-06-04 init | 建库：[[literature/_index]]、[[research/_index]]、[[research/teams/guo-xu-team-overview]]、[[research/postdoc-plan/postdoc-research-plan]]、模板与 `refs.bib`。
+## [2026-06-30] edit | Huang 2023 子结构 PIML Zotero 协同框架
+- 从 Zotero 本地库确认 Huang et al. 2023 条目（DOI: 10.1016/j.eml.2023.102041，Zotero key `5XMDKI6A`，Better BibTeX key `huangProblemindependentMachineLearning2023`）与 PDF 附件；当前 Zotero notes/annotations 为空。
+- 新增 `literature/topology-opt/Huang2023-PIML-substructure.md` 与 `literature/topology-opt/translations/Huang2023-PIML-substructure-zh.md`（完整中文译文承载页，当前仅建章节框架、后续逐步补译），将旧 `literature/others/Guo2023-PIML-substructure.md` 改为重定向页。
+- 更新 `assets/refs.bib`、`literature/_index.md`、`ai/common/progress-part2-piml.md` 与 `research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/soptx-piml-multiscale-integration-plan.md`：当前仅确认 Huang 2023 的 Zotero 元数据并建立笔记/译文框架，论文尚未正式精读；子结构路线、预测对象、误差指标与 V4 对照口径待后续精读回填。
+
+## [2026-06-30] edit | research 目录按博后计划重组
+- 将 `research/` 从单层混放重组为 `postdoc-plan/long-term/`、`postdoc-plan/defense-sprint/` 与 `teams/`：长期调研/执行计划归入 long-term，入站答辩短期数学原则与 SOPTX 集成计划归入 defense-sprint。
+- 更新 `research/_index.md`、根 `index.md` 以及显式 `research/...` 路径链接；保留 `research/assets/` 与 `research/figures/` 作为共享资源目录。
+
+## [2026-06-30] edit | 沉淀目录 `_index.md` 优先规则
+- 更新 `ai/agents/AGENTS.md` 与 `ai/common/llm-wiki-workflow.md`：Codex/AI 访问内容目录时应先读该目录 `_index.md`；新增、移动、删除或重组目录内容后，收尾必须检查并提醒同步对应 `_index.md`，必要时同步根 `index.md`。
+- 同步更新 `ai/claude/CLAUDE.md`，使 Claude Code 专用入口遵循同一目录 `_index.md` 优先与索引同步规则。
+
+## [2026-06-30] edit | 修正 Huang 2023 阅读状态
+- 修正 `ai/common/progress-part2-piml.md`、`literature/topology-opt/Huang2023-PIML-substructure.md`、`literature/_index.md` 与 PIML 短期集成计划中的表述：Huang 2023 目前仅完成 Zotero 元数据确认和笔记/译文框架，论文尚未正式精读；相关技术结论、V4 对照口径与答辩表述均待后续精读回填。
+
+## [2026-06-30] edit | 同步根目录门面文件
+- 更新根 `index.md`：补登 Huang 2023 draft 文献页与入站答辩短期执行计划入口。
+- 更新 `README.md`：说明 `research/` 新结构、目录 `_index.md` 优先规则，以及当前博士后研究计划两大方向与答辩冲刺入口。
+
+## [2026-06-30] edit | 沉淀根门面文件同步规则
+- 更新 `ai/common/llm-wiki-workflow.md`：明确 `index.md`、`log.md`、`README.md` 分别是全库地图、时间线与人类入口，是 LLM Wiki 根门面文件；重要内容、目录、规则或状态变化后需收尾检查三者是否同步。
+- 同步更新 `ai/agents/AGENTS.md` 与 `ai/claude/CLAUDE.md`，让 Codex/Antigravity 与 Claude Code 都遵循根门面文件同步规则。

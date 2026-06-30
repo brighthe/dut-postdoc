@@ -244,7 +244,7 @@ date_update: 2026-06-29
 
 # Part 2 — 博士后科研计划
 
-> 来源：`research/postdoc-research-plan.md`。两大研究方面、四条主线、三阶段、三目标，依托郭旭院士团队（MMC/MMV、PIML、SiPESC、DLUTopt）与算海团队（FEALPy）。
+> 来源：`research/postdoc-plan/postdoc-research-plan.md`。两大研究方面、四条主线、三阶段、三目标，依托郭旭院士团队（MMC/MMV、PIML、SiPESC、DLUTopt）与算海团队（FEALPy）。
 
 ## 帧 6 · 科研计划总览与承接关系
 

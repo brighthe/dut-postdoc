@@ -22,7 +22,7 @@ date: 2026-06-29
 | 考核 deck · Part 2（博后计划，帧 6–9） | 帧 6 定稿；帧 7 口径已定待真图；帧 8(MMC) 有 `\ifthenelse` 报错；帧 9 未动 | 实现 PIML 原型出图 → 填帧 7；修帧 8 | [[progress-part2-piml]] · [[outline-8min]] |
 | Matrix-Free 原型 · 能力 A（soptx） | **真·无矩阵 contraction**（2D/3D standard，不形成 `Ke`）+ matvec/CG 一致 + NumPy benchmark 已建（4 passed）；**无 GPU/MPI 性能** | GPU/多后端可行性 + benchmark | **soptx `ai/common/progress-matrix-free.md`（权威实时态）** · [[soptx-matrix-free-integration-plan]] |
 | PIML 多尺度原型 · 能力 B（soptx） | 文档体系建好、路线①(子结构缩聚)已定；soptx 暂无代码 | 开分支 `codex/piml-multiscale-prototype`，T1→T2→V1 | [[progress-part2-piml]] · [[soptx-piml-multiscale-integration-plan]] |
-| MMC 方向二 · 能力 C（帧 8） | 仅占位 TikZ + `\ifthenelse` 报错 | 待定 | （待建分支） |
+| MMC 方向二 · 能力 C（帧 8） | 范围已收敛于前向切割Demo，文档体系建好，锁定3篇文献 | 研读 SMO 2016，执行 T1→V1 写脚本出图；修帧 8 | [[progress-part2-mmc]] · [[soptx-mmc-integration-plan]] |
 
 ## 全局约定（速查）
 

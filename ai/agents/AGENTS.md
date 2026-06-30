@@ -12,6 +12,8 @@
 
 ## 专用补充
 
+- **目录 `_index.md` 优先规则**：Codex / Antigravity 访问任意内容目录（如 `literature/`、`research/`、`concepts/`、`entities/` 及其重要子目录）时，第一件事应先阅读该目录下的 `_index.md`（若存在），用它快速掌握目录内容、分组与入口；再打开具体文件。每次新增、移动、删除或重组某目录下的内容后，收尾时必须提醒并检查对应目录的 `_index.md` 是否需要同步更新。
+- **根门面文件同步规则**：`index.md`（全库地图）、`log.md`（时间线）与 `README.md`（人类入口）是 LLM Wiki 的三件根门面文件。目录结构、工具入口、协作规则或重要研究状态变化后，收尾时必须检查它们是否需要同步。
 - **Git 沙箱环境路径约束**：由于 PowerShell 沙箱环境 of 限制，直接运行常规 Git 命令会报错 `fatal: not a git repository`。在此环境下执行任何 Git 命令时，必须显式附加参数：`git --git-dir=c:\workspace\dut-postdoc\.git --work-tree=c:\workspace\dut-postdoc <command>` 以确保正常定位。
 - **多字节（中文）字符编辑防乱码**：避免使用内置 of `replace_file_content` 和 `multi_replace_file_content` 对包含中文 of Markdown 笔记进行局部替换，这在 Windows 环境下极易导致严重的编码匹配失败和 Mojibake（乱码）损坏。涉及中文的修改，优先使用 PowerShell 的 `Get-Content`/`Set-Content`（须指定 `-Encoding UTF8`）或 `[System.IO.File]::WriteAllText`（指定 UTF-8 无 BOM 编码）进行安全覆写，或直接使用 `write_to_file` 进行全文覆盖写入。
 - **命令行工具环境约束**：系统中的 `python` 与 `node` 命令行并未处于可用状态（如 python 仅为 Windows 应用商店的安装别名，运行会抛出退出码 1 ）。在需要进行文本处理或逻辑编写时，优先使用内置的 PowerShell 语言处理。

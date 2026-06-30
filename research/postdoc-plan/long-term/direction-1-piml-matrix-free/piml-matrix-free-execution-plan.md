@@ -57,11 +57,11 @@ related:
 | 子任务 | 内容 | 出版时间 | 阅读时间 | 交付物 | 状态 |
 |---|---|---|---|---|---|
 | T1.1.1 | 阅读 Lei et al. 2019（ML 驱动 MMC 实时拓扑优化，J. Appl. Mech. 86(1):011004）：作为"直接预测设计变量"范式的对照，理解团队从直接预测转向学习局部力学算子的方法论动机；同时为方向 F（PIML 与 MMC/MMV 协同）和第二个研究计划题目建立衔接，泛读即可 | 2019-01 | 2026-07 | `literature/topology-opt/Lei2019-ML-MMC-realtime.md` | ⬜ 待开始 |
-| T1.1.2 | 精读 Huang 2022（EMsFEM-PIML 奠基论文，EML 56:101887） | 2022 | 入站前已完成 | [[../literature/topology-opt/Huang2022-problemindependentmachine]]（含中文翻译） | ✅ 已完成 |
+| T1.1.2 | 精读 Huang 2022（EMsFEM-PIML 奠基论文，EML 56:101887） | 2022 | 入站前已完成 | [[literature/topology-opt/Huang2022-problemindependentmachine]]（含中文翻译） | ✅ 已完成 |
 | T1.1.3 | 精读 Huang 2023（三维子结构 PIML，EML 63:102041），整理边界变形假设与秩保持约束的笔记 | 2023 | 2026-07 | `literature/topology-opt/Huang2023-PIML-substructure.md` | ⬜ 待开始 |
 | T1.1.4 | 精读 Zhang 2024（等参单元复杂设计域，EML 72:102237） | 2024-10 | 2026-08 | `literature/topology-opt/Zhang2024-PIML-isoparametric.md` | ⬜ 待开始 |
 | T1.1.5 | 精读 Huang 2024（data-free PIML，JMPS 193:105893），重点是力学型代价函数构造 | 2024-12 | 2026-08 | `literature/topology-opt/Huang2024-PIML-datafree.md` | ⬜ 待开始 |
-| T1.1.6 | 精读 Ma 2026（PIML + MPI 并行 + 多重网格 + Matrix-Free 存储，Acta Mech. Sin. 42） | 2026 | 入站前已完成 | [[../literature/topology-opt/Ma2026-highperformanceparallel]]（含中文翻译） | ✅ 已完成 |
+| T1.1.6 | 精读 Ma 2026（PIML + MPI 并行 + 多重网格 + Matrix-Free 存储，Acta Mech. Sin. 42） | 2026 | 入站前已完成 | [[literature/topology-opt/Ma2026-highperformanceparallel]]（含中文翻译） | ✅ 已完成 |
 | T1.1.7 | 补充调研 Matrix-Free FEM 与多重网格生态：deal.II matrix-free 框架、MFEM、libCEED、PETSc MatShell/GMG，以及拓扑优化多重网格（如 Aage PETSc TopOpt） | — | 2026-08 | 调研文档新增"Matrix-Free 软件生态"一节 | ⬜ 待开始 |
 | T1.1.8 | 熟悉合作导师团队软件平台（SiPESC.FEMS/TOPO、DLUTopt）的接口与数据结构 | — | M1–M3 持续 | 平台接口笔记 | ⬜ 待开始 |
 
@@ -70,8 +70,8 @@ related:
 **阅读顺序**：按出版时间顺序阅读，与团队方法演化主线一致——Lei 2019（范式对照与 MMC 衔接，泛读）→ Huang 2023（补主线断环，T1.3.2 复现依据，本工作包最重一篇）→ Zhang 2024 EML（横向扩展，服务 T3.3.3）→ Huang 2024 JMPS（WP2.3 力学损失的理论输入）。完整六篇时间链为：Lei 2019 → Huang 2022 ✅ → Huang 2023 → Zhang 2024 → Huang 2024 → Ma 2026 ✅。
 
 已有笔记在后续任务中的直接作用：
-- [[../literature/topology-opt/Huang2022-problemindependentmachine]] 是 T1.3.1（复现 2022 EMsFEM-PIML）的实现依据；
-- [[../literature/topology-opt/Ma2026-highperformanceparallel]] 是 T1.3.3（形函数按需预测-释放存储策略）和 WP3.2（MPI 多节点扩展，PETSc. GMG 工具参考）的实现依据。
+- [[literature/topology-opt/Huang2022-problemindependentmachine]] 是 T1.3.1（复现 2022 EMsFEM-PIML）的实现依据；
+- [[literature/topology-opt/Ma2026-highperformanceparallel]] 是 T1.3.3（形函数按需预测-释放存储策略）和 WP3.2（MPI 多节点扩展，PETSc. GMG 工具参考）的实现依据。
 
 ### WP1.2 统一基准程序与评估框架（M1–M3，2026-07 ~ 2026-09）
 
@@ -210,5 +210,5 @@ related:
 
 - [[postdoc-research-plan]] — 博士后科研计划（上位文档）
 - [[piml-matrix-free-high-performance-solver-survey]] — 技术调研（方向与路线依据）
-- [[../literature/topology-opt/Huang2022-problemindependentmachine]] — 2022 PIML 奠基论文笔记
-- [[../literature/topology-opt/Ma2026-highperformanceparallel]] — 2026 并行 PIML 论文笔记
+- [[literature/topology-opt/Huang2022-problemindependentmachine]] — 2022 PIML 奠基论文笔记
+- [[literature/topology-opt/Ma2026-highperformanceparallel]] — 2026 并行 PIML 论文笔记

@@ -21,17 +21,19 @@
 |---|---|---|---|
 | [[literature/topology-opt/Lei2018-machinelearningdriven]] | 拓扑优化 | 2018 | done |
 | [[literature/topology-opt/Huang2022-problemindependentmachine]] | 拓扑优化 | 2022 | done |
+| [[literature/topology-opt/Huang2023-PIML-substructure]] | 拓扑优化 | 2023 | draft |
 | [[literature/topology-opt/Ma2026-highperformanceparallel]] | 拓扑优化 | 2026 | done |
 
 ## 调研
 
 | 课题 | 状态 |
 |---|---|
-| [[research/postdoc-research-plan]] | in-progress |
-| [[research/piml-matrix-free-high-performance-solver-survey]] | in-progress |
-| [[research/piml-matrix-free-execution-plan]] | in-progress |
-| [[research/mmc-mmv-numerical-discretization-survey]] | draft |
-| [[research/guo-xu-team-overview]] | done |
+| [[research/postdoc-plan/postdoc-research-plan]] | in-progress |
+| [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] | in-progress |
+| [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-execution-plan]] | in-progress |
+| [[research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey]] | draft |
+| [[research/postdoc-plan/defense-sprint/one-week-defense-sprint-plan]] | in-progress |
+| [[research/teams/guo-xu-team-overview]] | done |
 
 ## 概念页
 

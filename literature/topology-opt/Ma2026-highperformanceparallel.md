@@ -166,4 +166,4 @@ date_read: 2026-06-09
 ## 相关文献
 
 - [[Huang2022-problemindependentmachine]] — PIML 奠基论文，建立问题无关的局部形函数学习框架
-- [[../../research/piml-matrix-free-high-performance-solver-survey]] — PIML、matrix-free、高性能求解与后续研究路线综述
+- [[../../research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — PIML、matrix-free、高性能求解与后续研究路线综述

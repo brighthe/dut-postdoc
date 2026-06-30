@@ -27,7 +27,13 @@ dut-postdoc/
 │   ├── topology-opt/   # 拓扑优化
 │   ├── fem/            # 有限元方法
 │   └── others/
-├── research/           # 调研（课题/方向级 ≈ synthesis）
+├── research/           # 博后研究计划、长期调研与入站答辩短期验证
+│   ├── _index.md       # research 目录入口：先读这里
+│   ├── postdoc-plan/
+│   │   ├── postdoc-research-plan.md
+│   │   ├── long-term/       # 长期科研路线：两大方向调研与执行计划
+│   │   └── defense-sprint/  # 入站答辩短期数学原则、原型计划与出图
+│   └── teams/          # 合作团队与平台背景
 ├── concepts/           # 概念页（跨源提炼，如 PIML）
 ├── entities/           # 实体页（人/团队/方法/软件）
 ├── papers/             # 自己写的论文草稿
@@ -47,14 +53,17 @@ dut-postdoc/
 
 - 新建文献笔记：复制 `assets/templates/literature-note.md` 放入对应子目录
 - 新建调研 / 概念页 / 实体页：分别复制 `research-survey.md` / `concept-note.md` / `entity-note.md`
-- 页面间一律用 Obsidian `[[wikilink]]` 互链；新增页面后在对应 `_index.md` 与根 `index.md` 登记
+- 进入内容目录时先读该目录 `_index.md`；页面间一律用 Obsidian `[[wikilink]]` 互链
+- 新增、移动、删除或重组页面后，收尾检查对应目录 `_index.md`；影响全库导航时同步根 `index.md`
 - 所有 PDF 原文本地存放，不纳入版本控制（见 `.gitignore`）
 - 参考文献统一维护在 `assets/refs.bib`
 
 ## 研究方向
 
-- 拓扑优化（Topology Optimization）
-- 有限元方法（Finite Element Method）
+- 博后研究计划总领：`research/postdoc-plan/postdoc-research-plan.md`
+- 方向一：PIML 增强多尺度分析 + Matrix-Free 高性能求解
+- 方向二：MMC/MMV 显式拓扑优化先进数值分析
+- 入站答辩短期冲刺：`research/postdoc-plan/defense-sprint/`
 
 ---
 

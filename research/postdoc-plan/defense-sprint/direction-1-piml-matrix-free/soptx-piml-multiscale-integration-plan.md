@@ -28,7 +28,7 @@ related:
 （Huang 2022 的 EMsFEM 角节点形式即 T1.3.1，本原型不采用、作奠基引用）；同时对应
 [[one-week-defense-sprint-plan]] Day 3-4，目标是**打通单步前向管道并产出可视化图表**，
 不追求工业级完整度。理论依据见 [[piml_multiscale_math_principles]]，奠基论文见
-[[../literature/topology-opt/Huang2022-problemindependentmachine]]。
+[[literature/topology-opt/Huang2022-problemindependentmachine]]。
 
 **形函数构造形式（路线①·已定，2026-06-29）**：原型采用**子结构静力缩聚（Schur 补）**构造精确
 多尺度形函数与等效刚度——$\boldsymbol N^j=[-(\boldsymbol K_{ii}^j)^{-1}\boldsymbol K_{ib}^j;\ \boldsymbol I]$，
@@ -292,6 +292,6 @@ class TrainedPredictor(MultiscalePredictor):
 
 **参考论文（literature/topology-opt）**
 
-- [[../literature/topology-opt/Huang2022-problemindependentmachine]] — Huang 2022, *EML* 56:101887：EMsFEM-PIML 奠基；ANN 配方与"问题无关性"来源；其全 EMsFEM 复现归长期计划阶段一 T1.3.1。
-- [[../literature/topology-opt/Huang2023-PIML-substructure]] — Huang 2023, *EML* 63:102041：子结构 PIML；**V4 预测误差对照锚点**（待 T1.1.3 精读回填确切数）。
-- [[../literature/topology-opt/Ma2026-highperformanceparallel]] — Ma 2026, *Acta Mech. Sin.* 42：并行 + Matrix-Free 子结构形式；高性能终局、能力 A⊗B 的方法依据。
+- [[literature/topology-opt/Huang2022-problemindependentmachine]] — Huang 2022, *EML* 56:101887：EMsFEM-PIML 奠基；ANN 配方与"问题无关性"来源；其全 EMsFEM 复现归长期计划阶段一 T1.3.1。
+- [[literature/topology-opt/Huang2023-PIML-substructure]] — Huang 2023, *EML* 63:102041：子结构 PIML；当前仅完成 Zotero 元数据确认与笔记框架，尚未精读。待精读后回填其对子结构路线、预测对象、误差指标与 V4 对照口径的确切支撑。
+- [[literature/topology-opt/Ma2026-highperformanceparallel]] — Ma 2026, *Acta Mech. Sin.* 42：并行 + Matrix-Free 子结构形式；高性能终局、能力 A⊗B 的方法依据。

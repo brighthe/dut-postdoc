@@ -12,7 +12,7 @@ tags:
 status: "done"
 date_start: 2026-06-04
 date_update: 2026-06-04
-source: "[[../literature/_index]]"
+source: "[[literature/_index]]"
 ---
 
 # 大连理工大学郭旭院士团队研究体系
@@ -99,7 +99,7 @@ $$\frac{\partial J}{\partial D_j^i} = \sum \left( \frac{\partial J}{\partial \te
   - [[literature/topology-opt/Huang2022-problemindependentmachine]] — _Problem-independent machine learning (PIML)-based topology optimization—a universal approach_（ANN + EMsFEM，奠基之作）
 
 - **大规模结构分析拓展**
-  - [[literature/others/Zheng2023-PIML-substructure]] — _PIML enhanced substructure-based approach for large-scale structural analysis_（力学先验约束，10 亿设计变量）
+  - [[literature/topology-opt/Huang2023-PIML-substructure]] — _PIML enhanced substructure-based approach for large-scale structural analysis_（子结构缩聚与 PIML，约 10 亿设计变量）
   - [[literature/others/Zheng2024-PIML-isoparametric]] — _PIML-enhanced structural topology optimization based on isoparametric elements_（等参元，复杂几何域）
 
 - **Data-free 模型**

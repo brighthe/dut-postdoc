@@ -127,6 +127,6 @@ date_read: 2026-06-04
 ## 相关文献
 
 - [[Guo2022-MMC-review]] — MMC/MMV 综述，PIML 与显式优化结合的宏观背景
-- [[Guo2023-PIML-substructure]] — 本文的子结构扩展，引入力学先验约束
+- [[Huang2023-PIML-substructure]] — 本文的子结构扩展，引入力学先验约束
 - [[Guo2023-PIML-data-free]] — data-free 版本，用最小势能原理替代监督学习
 - [[Guo2025-PIML-parallel]] — 128 亿变量并行扩展
