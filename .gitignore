@@ -5,10 +5,6 @@
 .DS_Store
 Thumbs.db
 
-# PDF 原文（本地存放，不纳入版本控制）
-literature/**/*.pdf
-research/**/*.pdf
-
 # 临时文件
 *.tmp
 *.tmp.*
@@ -17,10 +13,6 @@ research/**/*.pdf
 # LaTeX 编译产物
 talks/**/build/
 
-# 幻灯片编译输出 PDF（位于讲稿根目录，如 template.pdf）
-# figures/ 下的矢量图在更深一层，不受影响；logo.pdf 显式保留
-talks/*/*.pdf
-!talks/*/logo.pdf
 *.aux
 *.log
 *.out
