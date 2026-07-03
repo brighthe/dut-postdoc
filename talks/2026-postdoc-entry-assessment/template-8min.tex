@@ -681,9 +681,9 @@
 					& 小规模 CG 解 $\equiv$ 组装直解，残差 $10^{-11}$--$10^{-10}$\\[2pt]
 					\circnum{3} & \textbf{GPU MatVec 加速}（单卡趋势）\\
 					& 13.2 万 DOF：\textbf{11.9$\times$}；内存估计 $42.1 \to 4.0$ MB\\[2pt]
-					\circnum{4} & \textbf{GPU/MPI + 预条件基础}（PA / Matrix-Free 算子）\\
-					& 650 万 DOF：1--32 进程，\textbf{3.72$\times$--12.74$\times$}\\
-					& P2 tet：Jacobi/Cheb., CPU 1.20$\times$--1.21$\times$；GPU 约 4$\times+$
+					\circnum{4} & \textbf{端到端 CG 加速 + 预条件}（PA / Matrix-Free 算子）\\
+					& 650 万 DOF：GPU/MPI solve，\textbf{3.72$\times$--12.74$\times$}\\
+					& P2 tet：Jacobi/Cheb.；CPU 1.20$\times$--1.21$\times$，GPU 约 4$\times+$
 				\end{tabular}
 
 				\vspace{0.1em}
@@ -758,7 +758,7 @@
 	\begin{frame}
 		\frametitle{方向二 · MMC/MMV 显式几何到数值分析接口}
 
-		\accentintro{当前重点展示 MMC/MMV 显式几何进入数值分析的前向验证路线：从组件 TDF 到网格切割、cut 单元识别与实体侧高阶积分点布设。}
+		\accentintro{当前重点展示 MMC/MMV 显式几何进入数值分析的前向验证路线：从组件 TDF 到网格切割、cut 单元识别与实体侧积分点布设。}
 
 		\vspace{0.70em}
 		\noindent\begin{minipage}[t]{0.48\linewidth}
@@ -786,7 +786,7 @@
 						\node[gbox] (b) at (0,-0.80) {背景网格几何映射};
 						\node[gbox] (c) at (0,-1.60) {solid / void / cut 单元分类};
 						\node[gbox] (d) at (0,-2.40) {cut 单元边界重构};
-						\node[gbox] (e) at (0,-3.20) {实体侧高阶 Gauss 积分点};
+						\node[gbox] (e) at (0,-3.20) {实体侧积分点 $(x,y,w)$};
 						\draw[arr] (a) -- (b);
 						\draw[arr] (b) -- (c);
 						\draw[arr] (c) -- (d);
@@ -899,7 +899,7 @@
 				\imglabel{近期：原型与基准}
 				{\color{structure.fg!35}\rule{\linewidth}{0.7pt}}\vspace{0.36em}
 				{\fontsize{7}{10.2}\selectfont\sffamily
-					PIML 前向流程\par
+					PIML 基本流程\par
 					Matrix-Free 基础算子\par
 					MMC/MMV 切割积分基础}
 			\end{column}

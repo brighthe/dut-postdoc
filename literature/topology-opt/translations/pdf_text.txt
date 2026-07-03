@@ -1,0 +1,5714 @@
+Accepted Manuscript
+Minimum length scale control in structural topology optimization
+based on the Moving Morphable Components (MMC) approach
+Weisheng Zhang, Dong Li, Jian Zhang, Xu Guo
+PII:
+DOI:
+Reference:
+
+S0045-7825(16)30983-5
+http://dx.doi.org/10.1016/j.cma.2016.08.022
+CMA 11103
+
+To appear in:
+
+Comput. Methods Appl. Mech. Engrg.
+
+Received date: 28 January 2016
+Revised date: 17 August 2016
+Accepted date: 19 August 2016
+Please cite this article as: W. Zhang, D. Li, J. Zhang, X. Guo, Minimum length scale control in
+structural topology optimization based on the Moving Morphable Components (MMC)
+approach, Comput. Methods Appl. Mech. Engrg. (2016),
+http://dx.doi.org/10.1016/j.cma.2016.08.022
+This is a PDF file of an unedited manuscript that has been accepted for publication. As a
+service to our customers we are providing this early version of the manuscript. The manuscript
+will undergo copyediting, typesetting, and review of the resulting proof before it is published in
+its final form. Please note that during the production process errors may be discovered which
+could affect the content, and all legal disclaimers that apply to the journal pertain.
+
+*Manuscript
+Click here to download Manuscript: Revised.docx
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+Click here to view linked References
+
+Minimum length scale control in structural topology optimization
+based on the Moving Morphable Components (MMC) approach
+
+Weisheng Zhang, Dong Li, Jian Zhang and Xu Guo1
+
+State Key Laboratory of Structural Analysis for Industrial Equipment,
+Department of Engineering Mechanics,
+Dalian University of Technology, Dalian, 116023, P.R. China
+
+Abstract
+A novel approach, which can control the minimum length scale in topology optimization in a straightforward
+and explicit way, is proposed in the present paper. This approach is constructed under the so-called Moving
+Morphable Components (MMC) based solution framework where optimized structural topology can be found by
+changing the shapes and layout of a set of trapezoid-shaped structural components on a fixed finite element mesh.
+The eXtended Finite Element Method (XFEM) is employed for structural response analysis and shape sensitivity
+information is obtained by carrying out numerical integration along the structural boundary. A precision definition
+of the minimum length scale of a structure is also suggested based on the proposed solution framework. Compared
+with existing approaches, the proposed approach can achieve minimum length scale control by simply setting lower
+bounds on a set of geometric design variables. Only a small number of purely geometric constraints imposed on the
+sizes of intersection regions should be considered explicitly in order to get a complete minimum length scale
+control. Numerical examples demonstrate the effectiveness of the proposed method.
+
+Keywords: Topology optimization; Moving Morphable Components (MMC); Minimum length scale; Shape
+optimization.
+
+1
+
+Corresponding author.
+
+E-mail guoxu@dlut.edu.cn
+
+Tel: +86-411-84707807
+1
+
+1. Introduction
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+Structural topology optimization, a computational method aiming at designing innovative structures by
+distributing a given amount of material within a design domain appropriately, has developed into a relatively
+mature stage since the seminal contributions of Rozvany [1], Cheng and Olhoff [2], Bendsøe and Kikuchi [3].
+Nowadays, in addition to mechanical problems, topology optimization has also found its applications in various
+physical disciplines including acoustics, electromagnetics and optics, just to name a few. We refer the readers to
+[4–7] and the references therein for a state-of-the-art review of the recent developments in topology optimization.
+Although remarkable achievements have been made in topology optimization, there still exist some
+challenging problems which have not been well addressed. One of them is how to control the minimum length scale
+of a structure (i.e., minimum feature size of a structure) in an explicit and local way [6]. Generally speaking, the
+minimum structural length scale is corresponding to the minimum cross-sectional diameter of a rod, the minimum
+thickness of a plate and the minimum radius of a set of circular holes in a continuum structure, just to name a few.
+Although controlling the minimum length scale was initially proposed to regularize the naive formulation for
+topology optimization of continuum structures and eliminate the numerical instabilities such as checkerboard
+phenomenon, it has been increasingly realized that this issue should also be considered seriously when the
+manufacturability/stability of a structural member or the robustness of a structure is taken into consideration [8–12].
+This is because a structural component with too small cross sectional areas is prone to buckle even under small
+magnitude of compressive force and the appearance of tiny-hinges in compliant mechanism designs may lead to
+unexpected breaking of the structure during a manufacture process.
+A lot of efforts have been devoted to control the minimum length scale in topology optimization. Within the
+Solid Isotropic Material with Penalization (SIMP) framework, Sigmund [13] proposed a sensitivity filter scheme to
+eliminate mesh-dependent phenomenon and checkerboard patterns in topology optimization. This scheme has also
+been found to have the capability of controlling the structural minimum length scale in an implicit way through the
+radius of filter. It is also observed that the slope-constrained formulation for topology optimization [14], where
+point-wise bounds on density slopes are considered to ensure the existence of solutions, can also control the
+minimum length scale implicitly. Paulsen [8] proposed a so-called MOLE (MOnotonicity based minimum LEngth
+scale) method to carry out minimum length scale control in topology optimization. The key idea is to introduce a
+global functional
+
+measuring the magnitude of density field (i.e.,
+
+directions within a prescribed length scale (i.e.,
+
+) variations along some specific
+
+) into the problem formulation. With use of this approach,
+
+minimum length scale control in a polygonal region circumscribed by a circle of diameter d can be guaranteed.
+2
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+Guest [15] suggested a minimum length scale control approach (Heaviside Projection Method (HPM)) by using
+nodal density values as primary design variables. In this approach, a projection operator is introduced to project the
+nodal values of density field onto the element space in order to determine the element density used for stiffness
+interpolation. Later on, the HPM approach had also been extended in a series of works to account for more general
+cases [16–18]. Minimum length scale control has also been studied under the level set-based topology optimization
+framework. For example, by introducing a non-local energy functional describing the interactions between different
+points on structural boundary into the objective functional, Chen [10] found that thin elongate structures with fixed
+widths can be obtained under the corresponding problem formulation. The same approach was also used by Luo
+[19] to design hinge-free compliant mechanisms in a subsequent study. Besides the above approaches, the perimeter
+constraint approaches [20–23], wavelet-based methods [24, 25] and robust topology optimization formulations [26]
+can also be used to control the minimum structural length scale in a global and implicit way. Detailed discussions
+on the advantages and problems associated with the above approaches can be found in [27].
+As pointed out in [27], all of the above mentioned approaches control the minimum structural length scale in
+an implicit way. Recent years also witnessed numerous attempts made for solving the same problem explicitly. Guo
+et al. proposed a level set-based approach which can achieve a complete, explicit and local length scale control in
+topology optimization [27]. In this approach, the medial line (for two-dimensional case)/medial surface (for
+three-dimensional case) of a structure and signed distance level set function are used simultaneously to give precise
+definitions of its minimum and maximum length scales. Based on the proposed definitions, minimum/maximum
+length scale control can be achieved by imposing the lower/upper bound on the minimum/maximum value of the
+signed distance level set function on the set of the medial line/surface of the structure. Furthermore, a systematic
+numerical solution approach was also established in this work. The same idea was also implemented in the
+SIMP-based topology optimization framework for explicit length scale control [12] and applied successfully to
+control the layout of structural systems with multiple embedding components [28]. Inspired by the idea in [27], Xia
+and Shi proposed an explicit length scale control approach by using the trimmed structural skeleton (medial
+line/surface) and constraining the distance from the boundary [29, 30] to the skeleton [31]. Later on, by identifying
+the inflection regions of solid and void phases through a so-called structural indicator function, Zhou et al. put
+forward a approach, which can obtain optimized topology designs with user-specified minimum length scale using
+a three-field filtering-threshold topology optimization scheme [32]. Another systematic study on signed distance
+level set function based length scale control method can be found in [33]. In this work, under the assumption that
+the boundary of a structure is
+
+smooth, a differentiable version of the definitions of minimum and maximum
+3
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+length scales is suggested. Corresponding numerical solution framework had also been developed systematically.
+Although numerous methods have already been developed to achieve explicit structural length scale control,
+there is still room for further improvement. For example, in [27–32], extra computational cost must be paid to
+extract the structural skeletons and the skeleton is only differentiable with respect to shape parameters when the
+boundary of a structure is at least
+
+smooth. In Allaire et al.’s approach [33], a double layer integration must be
+
+calculated to obtain the value of minimum length scale constraint function. This treatment is obviously
+computationally expensive from numerical implementation point of view. Furthermore, the value of the minimum
+length scale constraint function is not well defined and in general cannot be evaluated numerically at a non-smooth
+point of the boundary since it involves an internal optimization process to find the “worst-case” unit vector in the
+subdifferential at that point. Another problem associated with these methods is that a large number of point-wise
+constraints must be aggregated in order to make the numerical solution process computationally tractable. Under
+this circumstance, the aggregation schemes must be constructed very carefully otherwise a precise point-wise
+length scale control cannot be achieved. Last but not least, as demonstrated in many works, including the length
+scale constraints in topology optimization (especially in a hard way, which means that the constraints are imposed
+without any relaxation) may prevent topological changes in the process of optimization and therefore often leads to
+trapping in local optima.
+The objective of the present paper is to propose a new approach which can control the minimum length scale
+in topology optimization through a straightforward way. In this approach, unlike in all previous treatments,
+minimum length scale control is mainly achieved by simply setting lower bounds on a set of geometric design
+variables. Only a small number of purely geometric constraints should be considered explicitly in order to get a
+complete minimum length scale. Our approach is constructed based on a newly developed topology optimization
+framework, i.e., the Moving Morphable Components (MMC) based framework, where a set of structural
+components are used as the basic building blocks of optimization [34–37]. We shall give a detail description of this
+approach in Section 3. For the sake of simplicity, only two-dimensional problem is considered in the present study.
+The rest of the paper is organized as follows. In Section 2, we present the basic idea of doing topology
+optimization in MMC-based solution framework. Then a novel minimum length scale control method is put
+forward in Section 3. Numerical implementation issues are addressed in Section 4. In Section 5, some numerical
+examples are presented to demonstrate the effectiveness of the proposed method. Finally some concluding remarks
+are provided in the last section.
+
+4
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+2. MMC-based topology optimization framework
+Since the proposed approach closely relies on the so-called MMC-based topology optimization framework, a
+brief introduction of the basic idea of MMC will be given first.
+As described in [34], unlike in traditional approaches where structural topologies are represented by element
+densities (in SIMP approach) or nodal values of a level set function (in level set approach), in MMC-based
+approach, a set of moving morphable components are adopted as basic building blocks of topology optimization
+(see Fig. 1 for an illustration). These components are allowed to move, deform, overlap and merge in the design
+domain freely, and optimized structural topology can be obtained by changing the positions, inclined angles,
+lengths widths and the layout of these components. This treatment provides a new paradigm for topology
+optimization and has big potential to resolve some challenging issues that cannot be dealt with easily by traditional
+methods. We refer the readers to [34–37] for more detailed discussions on the merits of this approach.
+As discussed in [34–37], there are basically two kinds of ways to describe the geometry of a structural
+component in MMC framework. One is achieved by constructing an explicit topology description function (TDF)
+under Eulerian description framework (an elegant way to construct the TDF of a structural component with curved
+shape skeleton/medial surface is proposed in [37]) and the other is achieved by using a set of parameters to
+characterize the geometry of the components in a pure Lagrangian way. In the present work, the latter treatment is
+adopted. Under this circumstance, the topology optimization problem can be formulated in the MMC framework
+as:
+Find
+Minimize
+s.t.
+
+where
+=
+
+is the vector of design variables describing the TDF of the
+), respectively. The symbol
+
+is the admissible set that
+
+-th component (i.e.,
+
+denotes the total number of components in the design domain.
+
+belongs to. In Eq. (2.1),
+
+are the constraint functions/functionals (e.g.,
+
+material volume constraint, minimum length scale constraint, etc.) involved in the topology optimization problem.
+
+5
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+3. MMC-based minimum length scale control
+In this section, we shall discuss how to achieve minimum length scale control in a MMC-based topology
+optimization framework.
+
+3.1 TDF construction
+In the present work, we propose to use the components to describe the geometry and layout of a structure.
+As shown in Fig. 2, the geometry of a trapezoid-shaped component can be described by six parameters, namely
+and
+and
+
+denoting the coordinates of the end points of the medial line as well as
+
+denoting the half lengths of the left and right edges, respectively. Actually, we have
+
+where
+
+denotes the unit outward normal vector shown in Fig. 2 and
+
+denotes the length of the medial line. The symbols
+
+and
+
+represent four vertices of a
+
+trapezoid-shaped component respectively. It can be seen clearly from Fig. 2 that the geometry of a trapezoid-shaped
+component can be uniquely determined by a vector
+
+Furthermore, the TDF of a
+
+trapezoid-shaped component can be constructed as
+
+where
+
+and
+
+respectively. In Eqs. (3.5) and (3.6),
+
+represents an arbitrary point in the design domain.
+
+When multiple components are involved, as shown in [35], the TDF of the corresponding structure can be
+constructed with use of the TDF of each component as
+
+where
+
+denotes the TDF of the region occupied by the
+
+6
+
+-th component (i.e.,
+
+), that is,
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+and
+
+denotes the total number of structural components in a design domain
+
+where
+
+. Obviously,
+
+represents the region occupied by the structural components.
+
+In numerical implementation, the min/max operator appearing in the above equations can be approximated by
+the so-called differentiable R-operator. Actually, for any two TDFs (e.g.,
+
+and
+
+respectively), it yields that
+
+and
+
+where
+
+1 is a very small positive real number.
+
+It is worth noting that here the TDF of a structure (i.e.,
+
+) is constructed based on the Lagrangian description,
+
+where the geometries of structural components are characterized by a set of geometric variables explicitly. This is
+quite different from the traditional approaches where the TDF or level set function of a structure can only describe
+its shape and topology implicitly.
+
+3.2 Definition of the minimum length scale
+In order to give a complete control of the minimum length scale of a structure, a precise definition of it should
+be given first [12, 26, 27, 31, 33]. Note that there is actually no unique definition of the minimum length scale of a
+structure. The relevant one, however, should not only be mathematically precise but also consistent with
+engineering intuition.
+In the present MMC-based approach, it is clear that the minimum widths and lengths of all components (
+
+)
+
+in the design domain are natural measures of the minimum length scale of the structure. Since the width of each
+component
+
+is
+
+varied
+
+linearly
+
+along
+
+its
+
+length,
+
+then
+
+with
+at the left as well as right edges, and the length of the
+
+yields
+
+that
+
+denoting the half widths
+
+-th component, respectively (See Fig. 2 for reference).
+
+It should be pointed out, however, that only imposing a lower bound
+minimum length scale of the structure is larger than
+
+it
+
+on
+
+cannot guarantee that the
+
+This fact can be well illustrated by the cases shown in Fig.
+7
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+3a-3b. The problem is that even though
+
+and
+
+minimum length scale of the intersection region of
+
+and
+
+respectively, the
+
+(i.e.,
+
+) may not be greater than
+
+!
+
+Therefore special treatments are required to control the minimum length scales associated with the intersection
+regions of components.
+In the following discussions, we shall only focus on the case where two components are intersected. The case
+involving multiple intersected components will be discussed at the end of this subsection. Let us denote
+as the minimum length scale associated with the intersection region of
+address how to define
+
+We shall first
+
+in a mathematically precise and physically relevant way.
+
+Actually, for two intersected components, we propose to define
+Definition 1: For two regions
+
+and
+
+associated with
+belonging
+
+and
+
+to
+
+a
+
+as follows:
+
+such that
+
+the minimum length scale
+
+is the shortest distance between any two intersection points of
+set
+
+(e.g.,
+
+and
+
+in
+
+, where
+straight line passing through the intersection points
+the coordinates of the centers of
+
+and
+
+and
+
+Fig.
+
+and
+
+4).
+
+Here
+
+is the function of the
+
+, while
+
+and
+
+respectively. Furthermore, if
+
+are
+but
+
+then we set
+Note that the condition
+
+in the above definition is set to exclude some degenerated
+
+intersection patterns as shown in Fig. 5a-5c. It is also worth noting that the treatment for the case such that
+but
+
+is stemmed from the consideration that under this circumstance the size
+
+of the intersection region is totally controlled by the sizes of
+
+and
+
+(see Fig. 6a-6b for reference). From the
+
+schematic illustrations, it can be seen that the above definition does characterize the size of the intersection region
+in a geometrically meaningful way.
+Next, let us consider the case when multiple components are intersected. Let us denote
+as the minimum length scale associated with the region of
+as
+belong
+
+We can define
+where
+
+to.
+
+It
+
+is
+
+obvious
+
+that
+
+if
+
+is the index set that
+,
+
+then
+
+This means that the multiple intersection cases can be treated by considering
+corresponding cases where only two components are intersected.
+
+3.3 Minimum length scale constraint function
+8
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+From the above discussions, it can be concluded that in the proposed approach, minimum length scale control
+can be achieved in two steps. The first step is to impose lower bound constraint on the width and length of each
+component. This can be done very easily by introducing the following explicit lower bound constraints:
+
+The second step is to set lower bound on the size of each intersection region of two components. This can be
+achieved by introducing the following constraint functions:
+
+where
+
+(See Fig. 3a-3b for reference).
+
+As discussed in [38], for numerical implementation purpose, it is helpful to aggregate the local constraint
+functions in Eq. (3.13) into an equivalent single global constraint function. This can be done by the similar way to
+[38]. Actually, Eq. (3.13) is equivalent to
+
+where
+
+with
+
+denoting the total number of elements in
+is differentiable with respect to
+
+(i.e.,
+
+). It is worth noting that
+
+, respectively.
+
+In computational practice, Eq. (3.14) can also be written in the following -relaxed form
+
+in order to impose the constraint “softly”. In Eq. (3.16),
+implementation, the value of
+
+is a relaxation parameter. In numerical
+
+can also be changed in an adaptive way such that
+
+and
+
+as
+
+3.4 Problem formulation
+Based on the above discussions, the considered topology optimization problem can be formulated as (for the
+sake of simplicity, only the case of single-phase material is addressed here).
+Find
+
+and
+
+Minimize
+s.t.
+
+9
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+where
+with the
+
+represents the vector of design variables associated
+-th structural component. In Eq. (3.17),
+
+respectively and
+
+as well as
+. The symbol
+
+solid material and the surface traction on the Neumann boundary
+( and
+
+are the primary and test displacement fields,
+and
+
+denote the body force density of the
+
+respectively.
+
+denote the fourth and the second order identity tensor, respectively) is the fourth order
+
+isotropic elasticity tensor of the material constituting the
+
+-th component. In the expression of
+
+denote the corresponding Young’s modulus and Poisson’s ratio, respectively. In Eq. (3.17),
+
+and
+
+the Heaviside function. As a common practice in TDF-based topology optimization, the following
+is used to approximate
+
+where
+
+the symbols
+is
+function
+
+in a continuous way
+
+is a parameter that controls the degree of approximation. In Eq. (3.17),
+
+represents the upper bound of
+
+the available volume of the solid material and
+
+is the lower bound on the half width and length of each
+
+component.
+
+is the prescribed displacement on the Dirichlet boundary
+
+is the admissible set of
+
+Finally, in Eq. (3.17),
+
+and
+
+.
+
+is the relaxed form of the aggregated constraint function which is
+
+used to control the sizes of the intersection regions of structural components. It is also worth noting that for the
+adopted form of structural components, the dimension of
+
+is
+
+4. Numerical solution aspects
+In this section, we shall discuss several relevant issues for the numerical implementation of the proposed
+10
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+approach.
+
+4.1 Computational geometry issues
+In the present approach, we need to determine the relative positions of different components (e.g., intersecting
+or not) and calculate the coordinates of the intersection points of two components (if they do intersect) frequently.
+Thanks to the advancement of modern computational geometry, these operations can be implemented robustly by
+well-established algorithms. We refer the readers to [39] for more details on this aspect.
+
+4.2 Treatment of intersection case
+From the definition of
+
+it is known that when the minimum length scale of an intersected region
+
+is determined, one needs to calculate the distances between a set of intersection points. Actually, the corresponding
+computational effort can be saved by introducing the concept of effective intersection patterns. This stems from the
+consideration that for some specific intersection patterns,
+imply
+
+and
+
+. This can be seen clearly from the schematic illustrations shown in Fig. 7a-7b.
+
+For example, for the intersection patterns shown in Fig. 7a-7b, simple geometry arguments indicate that the
+minimum length scale of the intersected region is well controlled by the minimum length scale of the two
+components. Under this circumstance, there is no need to calculate the value of
+
+for intersection
+
+patterns. Actually, there are only seven effective intersection patterns that should be considered when calculating
+the value of
+
+. All these effective intersection patterns are shown in Fig. 8.
+
+4.3 Finite element analysis
+In order to fully utilize the advantage of explicit description of structural boundary in MMC-based topology
+optimization framework, the XFEM approach proposed in [40] is adopted for structural and sensitivity analysis
+(calculating the primary and adjoint displacement fields). The key point of this approach is to re-construct the finite
+element (FE) mesh around the structural boundary based on the nodal values of the TDF function (i.e.,
+through linear interpolation. We refer the readers to [35] for more numerical implementation details. It is worth
+noting that since exact geometry information of the structural boundary is available in the proposed approach,
+non-uniform body-fitted FE mesh (See Fig. 9 for reference) can also be constructed adaptively to obtain the values
+of stress and strain along structural boundary with high degree of accuracy and reduce the degrees of freedom in FE
+analysis [41, 42].
+11
+
+)
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+4.4 Sensitivity analysis
+Under the assumption that the objective/constraint functions/functionals are differentiable with respect to
+design variables, the sensitivities of
+
+(usually the structural compliance) and
+
+(i.e., the volume of the available
+
+solid material) can be evaluated in the same way as described in [35]. The key point is to calculate a series of
+boundary integrals in the following general form:
+
+where
+
+is a scalar function of the primary displacement field
+
+The symbol
+
+and the adjoint displacement field
+
+in Eq. (3.19) denotes the variation of the structural boundary along its outward normal direction
+
+resulting from the variation of
+
+. We refer the readers to [35] for more technical details. The sensitivity of
+
+with respect to each geometry design variable is somewhat complicated and the corresponding derivation is
+provided in Appendix A.
+
+4.5 Treatment of the point-wise minimum length scale constraints
+As observed in previous works [12, 27], the existence of the minimum length scale constraints may hinder the
+formation of load carrying structures especially at initial stages of optimization. This is because in these approaches,
+optimized structural topology is typically found through a degenerating process where unnecessary subregions are
+eliminated from the design domain by shrinking their minimum length scales to zero values. This process, however,
+will inevitably violate the minimum length scale constraints. Therefore, in these approaches, the minimum length
+scale constraints are either imposed in a soft way [12, 27] or imposed only after an appropriate topology has been
+formed.
+In the present work, however, the minimum length scale constraints for each component (i.e.,
+and
+
+respectively) can be imposed in a hard way (i.e., without any relaxation). In contrast to
+
+the previous approaches, this treatment will not prevent the components from forming a load carrying structure
+since in MMC-based topology optimization framework topology change can also be achieved through a component
+hiding mechanism (see Fig. 10 for reference). This means that the unnecessary components can make no
+contribution to overall stiffness of the structure even though their characteristic length scales are not taking small
+values! The minimum length scale constraints on the intersection regions of components, however, should be
+imposed in a soft way (i.e.,
+
+) or even imposed after an initial topology is created. This is
+
+due to the fact that these constraints are local in nature and generally will not influence the creation of an
+12
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+appropriate structural topology.
+Of course, the minimum length scale constraints for each component can also be imposed in a soft way.
+Actually, we can replace
+respectively. The value of
+
+and
+
+by
+
+and
+
+may decrease adaptively during the process of optimization. It is also worth noting
+
+that once both the values of
+
+and the value of
+
+associated with the -th component is less than the size
+
+of the FE mesh, the -th component can be seen as being eliminated from the design domain since under this
+circumstance its existence cannot be detected by the computational model anymore.
+
+5. Numerical examples
+In this part, several numerical examples are presented to illustrate the effectiveness of the proposed approach
+for minimum length scale control. Since the main purpose of the present section is to test the numerical
+performance of the suggested approach, unless otherwise stated, the material, load and geometric data are all
+chosen as dimensionless. Young’s modulus and Poisson’s ratio of the solid material are taken as E = 1 and
+
+= 0.3,
+
+respectively. Four-node bilinear square elements are adopted for background finite element discretization. The
+well-known Method of Moving Asymptotes (MMA) [43] is adopted to solve the optimization problems. Unless
+otherwise stated, the objective functional is adopted as the structural compliance and besides minimum length scale
+constraints, volume constraint on available solid material is always considered in all examples.
+
+5.1 A pure geometric example
+We will first test the effectiveness of the proposed approach through a pure geometric example. In this
+example, only two components are considered. The initial design is shown in Fig. 11 where the two components are
+intersected with an area of 0.0225 for the intersection region. The optimization problem is formulated as
+minimizing the area of the intersection region while controlling the minimum length scale of the structure. The
+lower bound of the minimum length scale is set as
+
+for this problem and the length scale constraint is
+
+imposed in a hard way (i.e., without any relaxation).
+Some intermediate optimization results are shown in Fig. 12a-12d. It can be seen from these figures that the
+two components move apart and the value of the area of the intersection region decreases monotonically at the
+initial stage of optimization until the minimum length scale constraint is violated. Then the two components will
+approach each other to satisfy the length scale constraint imposed on the intersection region. This process will
+13
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+repeat until a stable solution is obtained. For this solution we have
+and
+
+respectively. Fig. 13 plots the corresponding iteration history of
+
+numerical optimization.
+
+5.2 A short beam example
+In this example, a short beam example with different numbers of initial structural components and load cases
+will be investigated.
+First, let us consider the case shown in Fig. 14 where there are three components locating in the design domain
+and a concentrated downward vertical load
+
+is imposed at the middle point of the right side of the design
+
+domain. The design domain is discretized with a
+one (with
+
+and
+
+mesh for FE analysis. Among the three components, the
+) locating in the vicinity of the loading point is assumed to be
+
+fixed during the process of optimization. The upper bound of the available volume of the components (including
+the fixed one) is
+Fig. 15a-15b show the optimization results under different situations (i.e., whether minimum length scale
+constraints are considered or not). The corresponding initial and optimized values of design variables and objective
+functionals are listed in Tab. 1.
+It can be seen from these figures that when no minimum length scale constraint is considered (i.e.,
+
+), the
+
+connections between two designable components (i.e., component 1 and component 2, respectively) and the fixed
+component (i.e., component 3) are relatively weak and the widths of the two designable components are relatively
+large in the optimized structure. Obviously, the formation of weak connections in a structure is not favorable from
+engineering application point of view since this will always lead to reliability and fatigue issues.
+The second case considered is such that the minimum length scale constraints are imposed on individual
+component and the intersection regions. For this case, the lower bound
+lower bound constraints on
+
+and
+
+is taken as
+
+Moreover the
+
+are imposed in a hard way from the very beginning of numerical
+
+optimization. The length scale constraint on the intersection regions is imposed from the 15-th iteration step. It can
+be observed obviously from Fig. 15b that compared with the optimized structure in Fig. 15a, the intersection region
+in the current optimized structure becomes stronger. Moreover component 1 and component 2 becomes thinner (but
+still satisfying the length scale constraint!) due to the existence of total volume constraint. This optimization result
+clearly demonstrates the capability of the present approach for minimum length scale controlling. Fig. 16 plots the
+histories of the minimum length scale of the structure and the value of
+14
+
+during the process of numerical
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+optimization.
+Next, let us consider the case where there are eight structural components in the initial design domain with the
+size of
+
+which is the only difference from that in Fig. 14. The upper bound on the available volume of the
+
+components and the lower bound of the minimum length scale are
+example, if considered, the lower bound constraints on
+
+and
+
+and
+
+respectively. In this
+
+are imposed in a hard way from the very
+
+beginning of numerical optimization and the length scale constraint on the intersection regions is imposed from the
+30-th iteration step.
+Fig. 17 provides some intermediate results during the process of optimization when minimum length scale
+constraints are considered. Fig. 18 gives a comparison of the corresponding optimized structures obtained without
+and with minimum length scale constraints (the corresponding values of the objective functions are 74.46 and 75.88
+respectively), respectively. It can be found from this figure that when no length scale constraint is considered, the
+two components indicated by the red circles in Fig. 18a are relatively slender (as shown in Tab. 2, their widths are
+less than
+
+) since they are not in the primary load transferring path. The corresponding components in the
+
+optimized structure obtained with length scale constraints, however, look strong and their widths do satisfy the
+prescribed lower bound
+
+Fig. 19 plots the histories of values of the objective functional and
+
+during
+
+the process of numerical optimization. From this figure, it can be found that the minimum length scale constraint is
+very sensitive to the variations of design variables. This can be well demonstrated by the schematic illustration
+presented in Fig. 20. Therefore, it is suggested to reduce the move-limit in optimization algorithm appropriately at
+the final stage of optimization. In addition, optimized structural topologies with different lower bounds of the
+minimum length scale are also shown in Tab. 3.
+For the last case considered in this subsection, the design domain is a
+load
+
+rectangle and the external
+
+is imposed at its right bottom corner. The design domain is discretized with a
+
+FE analysis and the upper bound of the available volume of the components is
+minimum length scale is taken as
+and
+
+mesh for
+
+The lower bound of the
+
+. In this example, if considered, the lower bound constraints on
+
+are imposed in a hard way from the very beginning of numerical optimization and the length scale
+
+constraint on the intersection regions is imposed from the 400-th iteration step.
+There are totally 16 structural components in the initial design domain. Fig. 21 provides some intermediate
+results during the process of optimization when minimum length scale constraints are considered. An interesting
+thing that can be observed from this figure is that although minimum length scale constraints are taken into
+consideration (this means that unnecessary components cannot be “eliminated” from the design domain by
+15
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+shrinking to small sizes!), topology changes can still be achieved by the unique hiding mechanism of the MMC
+approach. Actually, it can be seen from Fig. 21 that some of the components with relatively large size have been
+gradually overlapped by other components during the process of optimization. Another mechanism is that the
+components can adjust their sizes and positions smartly to form an appropriate structure. These features cannot be
+achieved easily by existing approaches where imposing the minimum length scale constraints (especially from the
+initial stage of optimization) will inevitably hinder the change of structural topology. Fig. 22 gives a comparison of
+the corresponding optimized structures obtained without and with considering length scale constraints for this case
+(the corresponding values of the objective functions are 54.00 and 56.01 respectively). It is clear from this figure
+that the minimum length scale constraints do take effect and including these constraints in optimization formulation
+improves the stability of the optimized structure substantially. Finally, Fig. 23 plots the histories of values of the
+objective functional and
+
+during the process of numerical optimization for this case.
+
+5.3 A compliant mechanism example
+In this example, a compliant mechanism design problem is considered. The design domain and the problem
+description are shown in Fig. 24. The design objective is to minimize the geometric advantage (GA) of the
+compliant mechanism. Here GA is defined as
+
+where
+
+, where
+
+denotes the horizontal displacements at point
+
+point
+
+induced by a virtual unit force imposed at
+
+respectively. Considering the symmetry property of this problem, only half of the design domain is
+
+discretized for FE analysis (by a
+solid material (for half of the structure) is
+
+mesh) and optimized. The upper bound on the available volume of the
+. The actuation force
+
+at point 1, the reaction force
+
+point 2 and the elastic constants of the artificial springs are
+respectively. The elastic modulus for the solid material is designated as
+
+,
+
+at
+
+and
+and the Poisson’s ratio is
+
+.
+Fig. 25 depicts the optimization results obtained under different values of
+
+. For these test cases, we only
+
+enforce the minimum length scale constraints on the intersection regions (i.e.,
+
+) while the
+
+widths and lengths of the components can be very small. This means that the components can be eliminated from
+the design domain by shrinking themselves to very small sizes. Moreover, the constraint
+is imposed in a hard way only after a stable structural topology has been created. As discussed in previous section,
+16
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+this post-processing treatment will not prevent the numerical algorithm from arriving an optimized topology. It can
+be found from Fig. 25a that when there is no minimum length constraint, a hinge, which can provide larger output
+displacement under the prescribed actuation force, appears in the optimized structure. In contrast, when length scale
+constraints are considered, the tiny hinge disappears and all the intersection regions have relatively large sizes. This
+demonstrates clearly the effectiveness of the proposed length scale control approach. Fig. 26 and Fig. 27 plot some
+intermediate optimization results and the iteration history of the value of
+
+when
+
+The same problem is also solved by imposing the minimizing length scale constraints on the widths of the
+components from the very beginning of numerical optimization. This time the lengths of the components can be
+changed freely. Under this circumstance, the unnecessary components can be eliminated from the design domain
+through two mechanisms: (1) being hidden by other components or (2) reducing their lengths to very small values.
+These two mechanisms are well illustrated in Fig. 28a, where the optimized structure for
+
+is plotted.
+
+Fig.28b plots the optimized structure obtained when the lower bounds are imposed on both the widths and lengths
+of the components. It can be seen from these two figures that the corresponding optimized structures are almost the
+same under two treatments.
+It is also worth noting that although only two dimensional (2D) problems are considered here, extending the
+basic idea of the present approach to three dimensional (3D) problems is also possible. For example, in 3D case, the
+minimum length scale associated with the intersection region of two components can be defined in a similar way as
+that in Definition 1 (see Fig. 29 for reference). It is also worth noting that the current treatment of minimum length
+scale control is conservative due to the following facts. Firstly, in the present formulation, it is required that both
+and
+
+of a component should be greater than
+
+. Actually this is only a sufficient condition since as shown in
+
+Fig. 30a, one end of the component where the width is less than
+
+may be covered by another component
+
+satisfying the minimum length scale constraint. There is also the case such that the two points, which attains the
+shortest distance among all point pairs in the set of
+
+may be covered by another component (see Fig. 30b
+
+for reference). Under this circumstance, there is actually no need to constraint the value of
+
+Secondly,
+
+as pointed out in Section 3, for the case of multiple intersected components,
+is also only a sufficient condition to guarantee
+
+6. Concluding remarks
+In the present paper, a minimum length scale control approach in structural topology optimization is developed
+17
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+based on the MMC framework. Numerical examples show that this approach is capable of giving an explicit
+control of the minimum structural length scale in a very straightforward way with use of some purely geometric
+constraints. Compared with existing approaches, the present approach achieves the corresponding goal in a very
+straightforward way. It is also found that hiding mechanism is very important for the present approach to achieve
+minimum length scale control without preventing the topological changes. This mechanism provides the possibility
+to include the minimum length scale control constraints from the very beginning of optimization, which cannot be
+achieved easily by other approaches. Current works are focusing on applying the same idea to deal with the more
+challenging maximum length scale control problems. Corresponding results will be reported in a separate work.
+
+18
+
+Appendix A: Sensitivities of
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+with respect to design variables
+
+For a specific design variable
+
+and
+
+if
+
+it yields that
+
+.
+
+Now let us only consider the case where
+
+Supposing that
+
+corresponding to a region intersected by component
+that
+
+only when
+
+and after the variations of
+
+where
+
+and component
+
+is one of the components of
+
+and
+
+and
+
+is associated with
+
+and
+
+i.e,
+
+or
+
+and
+
+before
+
+we have
+
+respectively. The symbols
+
+the coordinates of the four vertex points of component
+
+It is obvious
+
+Assuming that
+
+. Here
+
+coordinates of the intersection point
+
+is the minimum length scale
+
+and
+
+denote the vectors of the
+denote the vectors of
+
+We refer the readers to Fig. A1 for the schematic
+
+illustration of the above description.
+Since
+
+, it is easy to find that
+
+As shown in Fig. A2, when two line segments
+can be expressed as
+
+where
+
+coordinates of the end points of
+
+where
+
+and
+
+and
+
+are intersected, the corresponding intersection point
+and
+
+are vectors of the
+
+Here
+
+are vectors of the coordinates of the end points of
+
+that
+
+where
+
+and
+
+are Kronecker symbols and
+
+is a
+
+unit matrix, respectively. In Eq. (A.6),
+
+19
+
+Then it yields
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+Finally, let us calculate the values of
+
+. Actually we have
+
+and
+
+then we have
+
+where
+
+20
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+Acknowledgements
+The financial supports from the National Natural Science Foundation (10925209, 91216201, 11372004, 11402048),
+the Fundamental Research Funds for the Central Universities (DUT15RC(3)057), Program for Changjiang Scholars,
+Innovative Research Team in University (PCSIRT) and 111 Project (B14013) are gratefully acknowledged.
+
+21
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+References
+[1] W. Prager, G.I.N. Rozvany, Optimal layout of grillages, J. Struct. Mech. 5 (1977) 1–18.
+[2] K.T. Cheng, N. Olhoff, An investigation concerning optimal design of solid elastic plate, Int. J. Solids Struct.
+17 (1981) 305–323.
+[3] M.P. Bendsøe, N. Kikuchi, Generating optimal topologies in structural design using a homogenization method,
+Comput. Methods Appl. Mech. Engrg. 71 (1988) 197–224.
+[4] G.I.N. Rozvany, A critical review of established methods of structural topology optimization, Struct.
+Multidiscip. Optim. 37 (2009) 217–237.
+[5] X. Guo, G.D. Cheng, Recent development in structural design and optimization, Acta Mech. Sin. 26 (2010)
+807–823.
+[6] O. Sigmund, K. Maute, Topology optimization approaches: A comparative review, Struct. Multidiscip. Optim.
+48 (2013) 1031–1055.
+[7] J.D. Deaton, R.V. Grandhi, A survey of structural and multidisciplinary continuum topology optimization: post
+2000, Struct. Multidiscip. Optim. 49 (2014) 1–38.
+[8] T.A. Poulsen, A new scheme for imposing minimum length scale in topology optimization, Int. J. Numer.
+Methods Engrg. 57 (2003) 741–760.
+[9] O. Sigmund, Morphology-based black and white filters for topology optimization, Struct. Multidiscip. Optim.
+33 (2007) 401–424.
+[10] S.K. Chen, M.Y. Wang, A.Q. Liu, Shape feature control in structural topology optimization, Comput. Aided
+Des. 40 (2008) 951–962.
+[11] J.K. Guest, Imposing maximum length scale in topology optimization, Struct. Multidiscip. Optim. 37 (2009)
+463–473.
+[12] W.S. Zhang, W.L. Zhong, X. Guo, An explicit length scale control approach in SIMP-based topology
+optimization, Comput. Methods Appl. Mech. Engrg. 282 (2014) 71–86.
+[13] O. Sigmund, On the design of compliant mechanisms using topology optimization, Mech. Struct. Mach. 25
+(1997) 493–524.
+[14] J. Petersson, O. Sigmund, Slope constrained topology optimization, Int. J. Numer. Methods Engrg. 41 (1998)
+1417–1434.
+[15] J.K. Guest, Achieving minimum length scale in topology optimization using nodal design variables and
+22
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+projection functions, Int. J. Numer. Methods Engrg. 61 (2004) 238–254.
+[16] J.K. Guest, Topology optimization with multiple phase projection, Comput. Methods Appl. Mech. Engrg. 199
+(2009) 123–135.
+[17] J.K. Guest, A. Asadpoure, S.H. Ha, Eliminating beta-continuation from Heaviside projection and density filter
+algorithms, Struct. Multidiscip. Optim. 44 (2011) 443–453.
+
+[18] J.K. Guest, Optimizing the layout of discrete objects in structures and materials: A projection-based topology
+optimization approach, Comput. Methods Appl. Mech. Engrg. 283 (2015) 330–351.
+[19] J.Z. Luo, Z. Luo, S.K. Chen, L.Y. Tong, M.Y. Wang, A new level set method for systematic design of
+hinge-free compliant mechanisms, Comput. Method Appl. Mech. Engrg. 198 (2008) 318–331.
+[20] L. Ambrosio, G. Buttazzo, An optimal design problem with perimeter penalization, Calcu. Varia. Partial Diff.
+Equa. 1 (1993) 55–69.
+[21] R.B. Haber, C.S. Jog, M.P. Bendsøe, A new approach to variable-topology shape design using a constraint on
+perimeter, Struct. Multidiscip. Optim. 11 (1996) 1–12.
+[22] J. Petersson, Some convergence results in perimeter-controlled topology optimization, Comput. Method Appl.
+Mech. Engrg. 171 (1999) 123–140.
+[23] T. Borrvall, J. Petersson, Topology optimization using regularized intermediate density control, Comput.
+Method Appl. Mech. Engrg. 190 (2001) 4911–4928.
+[24] Y.Y. Kim, G.H. Yoon, Multi-resolution multi-scale topology optimization—a new paradigm, Int. J. Solids
+Struct. 37 (2000) 5529–5559.
+[25] T.A. Poulsen, Topology optimization in wavelet space, Int. J. Numer. Methods Engrg. 53 (2002) 567–582.
+[26] F.W. Wang, B. Lazarov, O. Sigmund, On projection methods, convergence and robust formulations in
+topology optimization, Struct. Multidiscip. Optim. 43 (2011) 767–784.
+[27] X. Guo, W.S. Zhang, W.L. Zhong, Explicit feature control in structural topology optimization via level set
+method, Comput. Methods Appl. Mech. Engrg. 272 (2014) 354–378.
+[28] W.S. Zhang, W.L. Zhong, X. Guo, Explicit layout control in optimal design of structural systems with multiple
+embedding components, Comput. Methods Appl. Mech. Engrg. 290 (2015) 290–313.
+[29] Q. Xia, M.Y. Wang, T.L. Shi, Topology optimization with pressure load through a level set method, Comput.
+Methods Appl. Mech. Engrg. 283 (2015) 177–195.
+[30] Q. Xia, M.Y. Wang, T.L. Shi, A level set method for shape and topology optimization of both structure and
+support of continuum structures, Comput. Methods Appl. Mech. Engrg. 272 (2014) 340–353.
+23
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+[31] Q. Xia, T.L. Shi, Constraints of distance from boundary to skeleton: For the control of length scale in level set
+based structural topology optimization, Comput. Methods Appl. Mech. Engrg. 295 (2015) 525-542.
+[32] M.D. Zhou, B.S. Lazarov, F.W. Wang, O. Sigmund, Minimum length scale in topology optimization by
+geometric constraints, Comput. Methods Appl. Mech. Engrg. 293 (2015) 266-282.
+[33] G. Allaire, F. Jouve, G. Michailidis, Thickness control in structural optimization via a level set method, Struct.
+Multidiscip. Optim. 53 (2016) 1349–1382.
+[34] X. Guo, W.S. Zhang, W.L. Zhong, Doing topology optimization explicitly and geometrically—a new moving
+morphable components based framework, ASME Trans. J. Appl. Mech. 81 (2014) 081009-1–081009-12.
+[35] W.S. Zhang, J. Yuan, J. Zhang, X. Guo, A new topology optimization approach based on Moving Morphable
+Components (MMC) and the ersatz material model, Struct. Multidiscip. Optim. 53 (2016) 1243–1260.
+[36] W.S. Zhang, J. Zhang, X. Guo, Lagrangian description based topology optimization—A revival of shape
+optimization, ASME Trans. J. Appl. Mech. 83 (2016) 041010-1–041010-16.
+[37] X. Guo, W.S. Zhang, J. Zhang, Explicit structural topology optimization based on moving morphable
+components (MMC) with curved skeletons, Comput. Methods Appl. Mech. Engrg. 310 (2016) 711-748.
+[38] W.S. Zhang, X. Guo, M.Y. Wang, P. Wei, Optimal topology design of continuum structures with stress
+concentration alleviation via level set method, Int. J. Numer. Methods Engrg. 93 (2013) 942–959.
+[39] Mark de Berg, Otfried Cheong, Marc van Kreveld, Mark Overmars, Computational Geometry: Algorithms and
+Applications, Springer-Verlag, Berlin, Heidelberg, New York, 1998.
+[40] P. Wei, M.Y. Wang, X.H. Xing, A study on X-FEM in continuum structural optimization using a level set
+model, Comput. -Aided Des. 42 (2010) 708–719.
+[41] Q. Xia, T.L. Shi, S.Y. Liu, M.Y. Wang, A level set solution to the stress-based structural shape and topology
+optimization, Comput. Struct. 90–91 (2012) 55–64.
+[42] G. Allaire, C. Dapogny, P. Frey, Shape optimization with a level set based mesh evolution method, Comput.
+Methods Appl. Mech. Engrg. 282 (2014) 22–53.
+[43] K. Svanberg, The method of moving asymptotes—a new method for structural optimization, Int. J. Numer.
+Methods Engrg. 24 (1987) 359–373.
+
+24
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+Component 1 Component 7
+
+Component 3
+
+Component 5
+Component 6
+
+Component 1 Component 8
+
+Component 4
+
+Fig. 1 The basic idea of moving morphable components-based topology optimization.
+
+25
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+Upper edge
+
+Left edge
+
+Right edge
+
+Lower edge
+
+Fig. 2 Geometry description of a trapezoid-shaped structural component.
+
+26
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+Center point
+
+Center point
+
+(a)
+
+(b)
+
+Fig. 3 A schematic illustration of the definition of
+(a) two components case with
+(b) three components case with
+
+:
+
+,
+,
+
+27
+
+and
+and
+
+;
+.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+Fig. 4 A schematic illustration of the terminologies appeared in the definition of
+
+28
+
+.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+(a)
+
+(b)
+
+Fig. 5 Three degenerated intersection patterns where
+
+29
+
+(c)
+
+but
+
+.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+Center point
+
+(a)
+
+Center point
+
+(b)
+
+Fig. 6 A schematic illustration of the case where
+
+30
+
+and
+
+.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+Center point
+
+Center point
+
+(a)
+
+(b)
+
+Fig. 7 A schematic illustration of the case where
+
+31
+
+and
+
+.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+(b)
+
+(a)
+
+(d)
+
+(c)
+
+(e)
+
+(g)
+
+Fig. 8 A schematic illustration of seven effective intersection patterns.
+
+32
+
+(f)
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+Components
+
+Fig. 9 FEM analysis based on a non-uniform body-fitted mesh.
+
+33
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+(a)
+
+(b)
+
+Fig. 10 A schematic illustration of the component hiding mechanism.
+
+34
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+Fig. 11 The initial design of example 5.1 with
+
+35
+
+.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+(a) Step 10
+
+(b) Step 30
+
+(c) Step 60
+
+(d) Step 100
+Fig. 12 Some intermediate iteration steps of example 5.1 with
+
+36
+
+.
+
+d
+
+0.22
+
+0.20
+
+Minimum length scale
+on the intersection region
+
+0.18
+
+Minimum length scale
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+0.16
+
+0.14
+
+0.12
+
+0.10
+0
+
+20
+
+40
+
+60
+
+80
+
+100
+
+Iteration number
+
+Fig. 13 The iteration history in example 5.1 with
+
+37
+
+.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+1.5
+
+1.0
+
+Fig. 14 The short beam example with three initial components.
+
+38
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+(a) Without minimum length scale constraints.
+
+(b) With minimum length scale constraints (
+
+).
+
+Fig. 15 The optimized design of the short beam example with three initial components.
+
+39
+
+0.26
+7
+
+0.24
+
+Minimum length scale
+Constraint function value
+
+Minimum length scale
+
+0.22
+0.20
+
+6
+5
+
+0.18
+
+4
+
+0.16
+3
+
+0.14
+
+2
+
+0.12
+0.10
+
+1
+
+0.08
+
+0
+
+0.06
+-1
+15
+
+30
+
+45
+
+60
+
+75
+
+90
+
+Iteration number
+
+Fig. 16 The iteration history of the short beam example with three initial components.
+
+40
+
+Constraint function value H
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+(a) Step 1
+
+(b) Step 10
+
+(c) Step 50
+
+(d) Step 800
+Fig. 17 Some intermediate optimization results of the short beam example with eight initial components.
+
+41
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+(a) Without minimum length scale constraints.
+
+(b) With minimum length scale constraints (
+
+).
+
+Fig. 18 The optimized design of the short beam example with eight initial components.
+
+42
+
+220
+Objective
+Constraint function value
+
+200
+
+25
+
+180
+
+Objective value
+
+30
+
+160
+
+20
+
+140
+
+15
+
+120
+10
+100
+5
+
+80
+
+0
+
+60
+0
+
+100
+
+200
+
+300
+
+400
+
+500
+
+600
+
+700
+
+800
+
+Iteration number
+
+Fig. 19 The iteration history of the short beam example with eight initial components.
+
+43
+
+Constraint function value H
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+1.64
+
+0.75
+
+Fig. 20 A schematic illustration of the sensitivity of the minimum length scale constraint
+with respect to the variations of geometry variables.
+
+44
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+(a) Step 1
+
+(b) Step 20
+
+(c) Step 400
+
+(d) Step 800
+Fig. 21 Some intermediate results of the short beam example with sixteen initial components.
+
+45
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+(a) Without minimum length scale constraints.
+
+(b) With minimum length scale constraints (
+
+)
+
+Fig. 22 The optimized design of the short beam example with sixteen initial components.
+
+46
+
+7000
+
+40
+
+6000
+
+Objective value
+Constraint function value
+
+35
+30
+
+5000
+
+Objective value
+
+25
+4000
+20
+3000
+
+15
+
+2000
+
+10
+5
+
+1000
+
+0
+0
+-5
+0
+
+200
+
+400
+
+600
+
+800
+
+1000
+
+1200
+
+1400
+
+Iteration number
+
+Fig. 23 The iteration history of the short beam example with sixteen initial components.
+
+47
+
+Constraint function value H
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+2mm
+2
+
+1
+
+2mm
+
+(a)
+
+2
+
+1
+1mm
+2mm
+
+(b)
+
+Fig. 24 The compliant mechanism example.
+
+48
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+(a)
+
+(i.e., without minimum length scale constraints) and
+
+(b)
+
+and
+
+.
+
+(c)
+
+and
+
+.
+
+(d)
+
+and
+
+.
+
+Fig. 25 The optimized design of the compliant mechanism example.
+
+49
+
+.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+(a) Step 1
+
+(b) Step 100
+
+(c) Step 500
+
+(d) Step 1000
+Fig. 26 Some intermediate results of the compliant mechanism example.
+
+50
+
+0.0008
+
+Constraint function value
+
+Constraint function value H
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+0.0006
+
+0.0004
+
+0.0002
+
+0.0000
+
+900
+
+1000
+
+1100
+
+1200
+
+1300
+
+Iteration number
+
+Fig. 27 The iteration history of the compliant mechanism example.
+
+51
+
+1400
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+Length-reduced mechanism
+
+Hiding mechanism
+
+Fig. 28a The optimized design of the compliant mechanism example where the lower bounds (i.e.,
+
+)
+
+of structural length scale are only imposed on the widths of the components.
+
+Fig. 28a The optimized design of the compliant mechanism example where the lower bounds (i.e.,
+of structural length scale are imposed on both the widths and lengths of the components.
+
+52
+
+)
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+D
+
+C
+
+A
+
+B
+
+H
+E
+
+G
+F
+
+Fig. 29 A schematic illustration of the definition of minimum structural length scale in 3D case.
+
+53
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+but is inactive
+
+(a)
+
+(b)
+
+Fig. 30 Two cases that lead to a conservative estimation of the minimum structural length scale.
+
+54
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+
+M
+N
+A
+
+S
+
+B
+
+Q
+R
+
+P
+C
+
+D
+
+Fig. A1 A schematic illustration of
+
+for the intersection region of component
+
+and component
+
+q
+j
+k
+
+i
+p
+
+Fig. A2 A schematic illustration of the intersection point of
+
+55
+
+and
+
+.
+
+.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+
+Table 1. Optimized results of the short beam example with three initial components
+
+Initial
+Final
+
+0.0500
+
+0.0500
+
+0.500
+
+0.0500
+
+0.0500
+
+unconstrained
+
+0.111
+
+0.0946
+
+1.26
+
+0.112
+
+0.0948
+
+constrained
+
+0.107
+
+0.100
+
+1.42
+
+0.101
+
+0.100
+
+56
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+
+Table 2. Optimized results of the short beam example with eight initial components
+Components
+Widths
+Left end
+
+0.0775
+
+0.0727
+
+0.0727
+
+0.0808
+
+0.0551
+
+0.0551
+
+Right end
+
+0.0835
+
+0.0620
+
+0.0552
+
+0.0801
+
+0.0550
+
+0.0550
+
+57
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+
+Table 3. Optimized topologies of the short beam example with eight initial components obtained under d
+Objective
+
+Topology
+
+67.78
+
+67.36
+
+66.70
+
+58
+
+

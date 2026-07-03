@@ -17,11 +17,19 @@ date: 2026-07-03
 
 | 工作线 | 当前状态 | 下一步 | 主要入口 |
 |---|---|---|---|
-| 考核 deck · Part 1（博士工作，帧 1-5b） | 已初步讨论完，待 Part 2 最终 QA 后回看一致性 | 回看 Part 1 与 Part 2 的叙事衔接 | `talks/2026-postdoc-entry-assessment/template-8min.tex` |
-| 考核 deck · Part 2（博后计划，帧 6-11；帧 10 拆为 10a/10b） | 版式与答辩口径基本定稿；帧 6/7/8/9/10a/10b/11 均有 guide 或专题入口 | 最终 QA：检查帧 6/8/9/10a/10b/11 takeaway、编译 PDF、确认无新增 Overfull | 本文件 §2-§6；逐帧 guide 见 §3 |
+| 考核 deck · Part 1（博士工作，帧 1-5b） | 已可定稿；承担“计算数学基础、先进有限元、博士成果”铺垫 | 正式答辩前只按时间和口播习惯微调讲法，不再重构内容 | `talks/2026-postdoc-entry-assessment/template-8min.tex`；`talks/2026-postdoc-entry-assessment/script-8min.md` |
+| 考核 deck · Part 2（博后计划，帧 6-11；帧 10 拆为 10a/10b） | PPT 主体与逐帧 guide 均可定稿；Part 2 不再汇总进 `script-8min.md`，以各帧 guide 为准 | 后续只做错别字、事实源或版式级 QA，不再重构路线 | 本文件 §2-§6；逐帧 guide 见 §3 |
 | Matrix-Free 原型 · 能力 A（入站前基础验证） | 真·无矩阵 contraction、MatVec/CG 一致、NumPy/PyTorch CPU/CUDA 三档跑通；另有 GPU/MPI/预条件子基础 | 后续迁移到 PIML × Matrix-Free 全局原型；帧 8 侧已作为入站前基础验证 | `research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame8_matrix_free_pipeline_guide.md` |
 | PIML 多尺度原型 · 能力 B（soptx） | 帧 7 PPT + guide 已定稿；真实 PIML 预测误差已回填：`L=5 1.6e-3` / `L=10 8.2e-3` | 非阻塞可选：补 `piml_baseline.pdf` 宏微映射图，或继续推进结构保持参数化/全局 Matrix-Free 咬合 | `research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame7_piml_pipeline_guide.md` |
 | MMC 方向二 · 能力 C（帧 10a/10b） | 范围收敛为前向切割 Demo + 后续接入路线；帧 10a/10b guide 已统一入口 | 非阻塞可选：输出更清晰/矢量局部图，或将 `mmc_cut_mesh_prototype.py` 整理进 soptx 包并加最小测试 | `research/postdoc-plan/defense-sprint/direction-2-mmc-mmv/frame10_mmc_pipeline_guide.md` |
+
+## 入站考核答辩最终口径（2026-07-03）
+
+- **整体可定稿**：当前 16 页 PPT 的宏观叙事、Part 1/Part 2 承接关系、帧 6-11 的逐帧 guide 口径均已完成最终审查，可作为入站考核答辩定稿版本。
+- **Part 2 管理方式**：Part 2 不需要汇总进 `script-8min.md`；后续讲法以帧 6/7/8/9/10/11 的 guide 为权威入口。不要把 `script-8min.md` 中 Part 2 未闭环误判为答辩内容未完成。
+- **与郭旭老师期望的对应关系**：PPT 已体现拓扑优化、PIML、MMC/MMV、工业软件/工程场景，以及非线性分析扩展等方向；对应关系主要由帧 6 总览、帧 10/11 计划与平台支撑承接。
+- **数学方向特色**：PPT 结构中已有“计算数学 → 先进有限元/高精度离散 → 快速算法/预条件子/高性能实现 → 计算力学问题”的优势链条；正式讲述时可在帧 6 或帧 11 主动点明，不需要再在 PPT 主帧增加文字。
+- **最终检查顺序**：先做全局叙事审查，再逐帧检查 PPT 与对应 guide；Part 1 可参考 `script-8min.md`，Part 2 只看逐帧 guide。
 
 ## Part 2 Deck 当前结构
 
@@ -65,7 +73,7 @@ date: 2026-07-03
 ### 帧 10a · MMC/MMV 显式几何接口
 
 - 题目和核心口径收束为 **“显式几何到数值分析接口”**。
-- 当前只证明 TDF → 背景网格映射 → solid/void/cut 分类 → cut 单元边界重构 → 实体侧 Gauss 积分点的前向接口。
+- 当前只证明 TDF → 背景网格映射 → solid/void/cut 分类 → cut 单元边界重构 → 实体侧积分点 `(x,y,w)` 的前向接口。
 - 当前数值：`40×20=800` 单元；`Solid 140 / Void 580 / Cut 80`；全域 Ersatz `3200` 点 → 实体侧 `1028` 点。
 - 不声称完成刚度组装、结构求解、灵敏度或优化闭环。
 - 三篇 MMC/MMV 文献只在帧 10a 底部出现一次；支撑路线依据，不是当前数值来源。
@@ -98,7 +106,12 @@ date: 2026-07-03
 - 帧 7/8/9/10a/10b 的蓝色小标题区域保持一致：标题与顶部段落距离略增，标题到下方横线距离收紧。
 - 帧 10a/10b 底部参考文献只在 10a 出现完整三篇 MMC/MMV 文献，10b 不重复。
 - 帧 9 底部参考文献只保留 Ma 2026，不附长括号解释。
-- 所有 PPT 修改后必须 XeLaTeX 编译；本轮多次编译均通过，PDF 16 页，Overfull 保持 13，未新增 Overfull。
+- 所有 PPT 修改后必须 XeLaTeX 编译；2026-07-03 帧 10a 术语更新后，已通过工作区内 MiKTeX 用户目录重定向完成两遍 XeLaTeX 编译，PDF 16 页，Overfull 保持 13，未新增 Overfull。
+- 2026-07-03 更新帧 10a 可见口径：顶部引导句和左侧流程末框均收束为“实体侧积分点 `(x,y,w)`”，避免误读为已完成高阶离散；frame10 guide 已同步说明当前只证明积分数据入口。
+- 2026-07-03 仅重排 `frame10_mmc_pipeline_guide.md` 为与帧 7/8/9 一致的定稿型结构；PPT 未改，因此未重新编译。
+- 2026-07-03 仅补充 `frame10_mmc_pipeline_guide.md` 8.9：明确帧 10b 右侧流程中前两步是数据入口/离散接口，后三步才是快速算法主体；PPT 未改，因此未重新编译。
+- 2026-07-03 恢复帧 11 平台支撑可见口径为“算海团队（计算数学 / 高性能数值实现）”；`frame11_work_plan_goals_platform_guide.md` 已说明“计算数学”具体包含高精度离散、先进有限元、快速算法、预条件子与数值 PDE 求解等能力，技术任务仍由帧 10b 和方法体系承接。
+- 2026-07-03 更新帧 11 近期栏：`PIML 前向流程` 改为 `PIML 基本流程`；guide 中说明其含义为离线训练、在线预测和嵌入粗尺度分析的基本链路，不等于完整拓扑优化闭环已完成。guide 第 7 节讲稿已精简为一个约 90 秒版本。
 
 重要 QA 图：
 
@@ -110,7 +123,7 @@ date: 2026-07-03
 | 帧 9 标题区和 Ma 2026 脚注口径 | `talks/2026-postdoc-entry-assessment/qa-render/frame9-12-balanced-title-clean-ref.png` |
 | 帧 10a 标题区间距 | `talks/2026-postdoc-entry-assessment/qa-render/frame10a-13-balanced-title-spacing.png` |
 | 帧 10b 预条件子术语 | `talks/2026-postdoc-entry-assessment/qa-render/frame10b-14-preconditioner-term.png` |
-| 帧 11 方法体系更新 | `talks/2026-postdoc-entry-assessment/qa-render/frame11-15-method-system-advanced-discretization.png` |
+| 帧 11 PIML 基本流程与平台支撑 | `talks/2026-postdoc-entry-assessment/qa-render/frame11-15-piml-basic-flow-platform-15.png` |
 
 ## 后续不要轻易推翻的共识
 
@@ -126,6 +139,7 @@ date: 2026-07-03
 
 - `talks/` 下 PPT 修改必须先方案后动手；确认后只改指定帧；详见 `ai/common/talks-ppt-editing-rules.md`。
 - 若继续讨论 Part 2，先读本文件对应段落，再读具体帧 guide。
+- `script-8min.md` 只作为 Part 1 连续讲稿入口；Part 2 不需要汇总到该文件，直接以逐帧 guide 为最终口径。
 - 帧 7/8/10 的数值事实仍以 `C:\workspace\soptx_heliang\docs\frame7*_pipeline_results.md`、`frame8*_pipeline_results.md`、`frame10*_pipeline_results.md` 为唯一事实源。
 
 ## 如何续接本项目
