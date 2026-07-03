@@ -1,7 +1,26 @@
+---
+title: "<%= it.title.replace(/:/g, ' -') %>"
+authors: [<% if (it.creators && it.creators.length > 0) { %><%= it.creators.map(c => '"' + (c.lastName ? c.lastName + ", " + c.firstName : c.name) + '"').join(', ') %><% } %>]
+year: <%= it.date ? (String(it.date).match(/\d{4}/) ? String(it.date).match(/\d{4}/)[0] : String(it.date)) : "" %>
+journal: "<%= it.publicationTitle || "" %>"
+volume: <%= it.volume || "" %>
+pages: "<%= it.pages || "" %>"
+doi: "<%= it.DOI || "" %>"
+zotero_key: "<%= it.key || "" %>"
+zotero_citation_key: "<%= it.citekey || "" %>"
+tags: []
+status: "draft"
+rating: 
+date_added: <%~ it.dateAdded %>
+date_read: 
+---
+
 # <%= it.title %>
 
 > **引用**：<% if (it.creators && it.creators.length > 0) { %><%= it.creators.map(c => c.lastName ? c.lastName + ", " + c.firstName : c.name).join("; ") %><% } %>. *<%= it.publicationTitle || "" %>*, <%= it.date ? (String(it.date).match(/\d{4}/) ? String(it.date).match(/\d{4}/)[0] : String(it.date)) : "" %>. [DOI](https://doi.org/<%= it.DOI || "" %>) | [Zotero Link](<%= it.backlink %>)
-
+> **完整中文译文**：[[translations/<%= it.citekey || "citekey" %>-zh]]
+> **Zotero/Better BibTeX key**：`<%= it.citekey || "citekey" %>`
+> **阅读状态**：当前为 Zotero 元数据确认 + 精读笔记框架页；论文尚未正式精读，正文技术结论需后续逐节核对后再定稿。
 ## 一句话概括
 
 <!-- 用一句话说明本文最核心的贡献 -->

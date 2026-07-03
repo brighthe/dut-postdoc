@@ -54,7 +54,7 @@ dut-postdoc/
 
 - **语言**：全中文（专有名词、方法名、变量保留英文）。
 - **文件名**：英文 kebab-case；文献笔记一律采用 Zotero 自动生成的 Citation Key 命名，如 `Huang2022-problemindependentmachine.md`。
-- **Frontmatter**：每个 wiki 页面顶部带 YAML（按对应模板）。`status`、`tags`、日期字段必填。
+- **强制 Frontmatter (笔记属性)**：**任何时候新建或撰写/更新文档，必须严格按照对应模板将顶部的 YAML 属性信息（如 `status`、`tags`、`date_read/update`、作者/年份等）全部真实、完整地填写好，绝不可遗漏或留白**。
 - **双链**：页面间一律用 Obsidian `[[wikilink]]`，**链接要给足**。链一个尚不存在的页面也可以，它标记「将来要补的页」。
 - **引用要可溯源**：综合性结论尽量标注来源页（`[[...]]`）或 `refs.bib` 的 cite key，不凭空断言。
 - **不编造**：拿不准的事实标注「待确认」，绝不虚构数据、结论或文献。
@@ -119,3 +119,8 @@ dut-postdoc/
 
 - 原始 PDF 不入版本控制（已在 `.gitignore`）。
 - 这是用户个人的研究积累；涉及未发表想法、团队内部信息时谨慎措辞，不外传、不联网检索敏感人名/单位细节。
+
+## 专项辅助工作流
+
+除以上通用流外，针对特定复杂任务，定义了专项工作流：
+- **论文翻译协作工作流**：详见 [paper-translation-workflow.md](file:///c:/workspace/dut-postdoc/ai/common/paper-translation-workflow.md)，涵盖大纲准备、逐节双语推进、图表公式精排版与最终 Lint 审查。

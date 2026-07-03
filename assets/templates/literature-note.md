@@ -3,9 +3,13 @@ title: ""
 authors: []
 year: 
 journal: ""
+volume: 
+pages: 
 doi: ""
+zotero_key: ""
+zotero_citation_key: ""
 tags: []
-status: "unread"          # unread | reading | done
+status: "draft"          # draft | read
 rating:                   # 1–5
 date_added: 
 date_read: 
@@ -13,7 +17,10 @@ date_read:
 
 # {{title}}
 
-> **引用**：{{authors}}. *{{journal}}*, {{year}}. [DOI](https://doi.org/{{doi}})
+> **引用**：{{authors}}. *{{journal}}*, {{year}}. [DOI](https://doi.org/{{doi}}) | [Zotero Link](zotero://select/library/items/{{zotero_key}})
+> **完整中文译文**：[[translations/{{zotero_citation_key}}-zh]]
+> **Zotero/Better BibTeX key**：`{{zotero_citation_key}}`
+> **阅读状态**：当前为 Zotero 元数据确认 + 精读笔记框架页；论文尚未正式精读，正文技术结论需后续逐节核对后再定稿。
 
 ## 一句话概括
 

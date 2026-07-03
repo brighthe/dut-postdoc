@@ -12,22 +12,23 @@
 
 | 文件/目录 | 说明 |
 |-----------|------|
-| `template.tex` | 主文件，幻灯片内容 |
+| `template-8min.tex` | 8 分钟进站考核汇报版正式主文件（精简至13内容帧） |
+| `outline-8min.md` | 8 分钟版本的结构大纲与排版设计记录 |
+| `script-8min.md` | 8 分钟版本的配套逐字口语讲稿 |
 | `pptheader.tex` | 导言区：宏包、主题、样式 |
 | `mycommand.tex` | 自定义命令 |
 | `figures/` | 插图（矢量 PDF） |
-| `logo.png` / `logo.pdf` / `photo.jpg` | 封面/页眉素材 |
+| `photo.jpg` | 封面照片素材 |
 
 ## 如何编译
 
 用 **XeLaTeX**（支持中文）编译，编译**两次**以生成目录：
 
-- **TeXstudio**：默认编译器选 XeLaTeX，点编译即可（按两次或用"构建并查看"）
-- **命令行**：`xelatex template.tex` 执行两遍
+- **TeXstudio**：打开 `template-8min.tex`，默认编译器选 XeLaTeX，点编译即可（按两次或用"构建并查看"）。
+- **命令行**：`xelatex template-8min.tex` 执行两遍。
 
 ## 注意
 
 编译产生的中间文件（`*.aux` / `*.log` / `*.nav` / `*.snm` / `*.toc` /
-`*.synctex.gz` 等）和成品 `template.pdf` 都已被仓库根目录 `.gitignore` 忽略，
-直接在本目录编译即可，不会污染版本控制。`figures/` 下的矢量图与
-`logo.pdf` 正常跟踪。
+`*.synctex.gz` 等）和成品 `template-8min.pdf` 都已被仓库根目录 `.gitignore` 忽略，
+直接在本目录编译即可，不会污染版本控制。`figures/` 下的矢量图正常跟踪。

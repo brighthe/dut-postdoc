@@ -47,3 +47,11 @@ talks/*/*.pdf
 *.acr
 *.alg
 *.xdy
+.winuser/
+tmp/
+
+# Local MiKTeX cache created when compiling under sandboxed user dirs
+.miktex/
+talks/**/.miktex/
+talks/**/.miktex-userconfig/
+talks/**/.miktex-userdata/

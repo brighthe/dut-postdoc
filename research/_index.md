@@ -30,18 +30,16 @@
 
 | 文档 | 状态 | 说明 |
 |---|---|---|
-| [[postdoc-plan/defense-sprint/direction-1-piml-matrix-free/matrix_free_math_principles]] | in-progress | Matrix-Free 数学原则与答辩口径 |
-| [[postdoc-plan/defense-sprint/direction-1-piml-matrix-free/piml_multiscale_math_principles]] | in-progress | PIML 多尺度/子结构缩聚数学原则 |
-| [[postdoc-plan/defense-sprint/direction-1-piml-matrix-free/soptx-matrix-free-integration-plan]] | in-progress | SOPTX Matrix-Free 原型集成计划 |
-| [[postdoc-plan/defense-sprint/direction-1-piml-matrix-free/soptx-piml-multiscale-integration-plan]] | in-progress | SOPTX PIML 多尺度原型集成计划 |
+| [[postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame7_piml_pipeline_guide]] | in-progress | 帧 7 PIML 主入口：子结构缩聚、实测结果、答辩口径与补数方式 |
+| [[postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame8_matrix_free_pipeline_guide]] | in-progress | 帧 8 Matrix-Free 主入口：参考文献、数学原理、数值结果与答辩口径 |
+| [[postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame9_piml_matrix_free_pipeline_guide]] | in-progress | 帧 9 融合路线主入口：PIML 与 Matrix-Free 咬合与长期愿景 |
 | [[postdoc-plan/defense-sprint/direction-1-piml-matrix-free/plot_mf_scaling.py]] | legacy | 旧 Matrix-Free 合成出图脚本，真实 benchmark 已优先 |
 
 ### 能力 C：MMC 显式几何
 
 | 文档 | 状态 | 说明 |
 |---|---|---|
-| [[postdoc-plan/defense-sprint/direction-2-mmc-mmv/mmc_math_principles]] | in-progress | MMC 显式几何与高阶离散数学原则 |
-| [[postdoc-plan/defense-sprint/direction-2-mmc-mmv/soptx-mmc-integration-plan]] | in-progress | SOPTX/FEALPy MMC 前向切割 Demo 集成计划 |
+| [[postdoc-plan/defense-sprint/direction-2-mmc-mmv/frame10_mmc_pipeline_guide]] | in-progress | 帧 10 MMC 主入口：显式几何、cut-cell 积分、出图任务与答辩口径 |
 
 ## 团队与平台背景
 

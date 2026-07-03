@@ -5,37 +5,133 @@ tags:
   - hub
   - ai-context
 status: "in-progress"
-date: 2026-06-29
+date: 2026-07-03
 ---
 
 # 项目状态 · AI 接续入口
 
 > **新窗口 / 新 AI 对话先读这一份**（工具无关：Claude / Codex / Antigravity）。
-> 这是**薄索引（hub）**：每条工作线一行（状态 + 下一步 + 分支文档），点进分支看细节。
-> 进度推进时，更新对应**分支文档**与本表对应行。
+> 本文件是本仓库唯一状态 hub：记录当前工作线状态、Part 2 deck 共识、逐帧 guide 入口和后续续接方式。
 
 ## 工作线一览
 
-| 工作线 | 状态 | 下一步 | 分支 / 文档 |
+| 工作线 | 当前状态 | 下一步 | 主要入口 |
 |---|---|---|---|
-| 考核 deck · Part 1（博士工作，帧 1–5b） | 已初步讨论完 | Part 2 收尾后回看一致性 | [[outline-8min]] · `template-8min.tex` |
-| 考核 deck · Part 2（博后计划，帧 6–9） | 帧 6 定稿；帧 7 口径已定待真图；帧 8(MMC) 有 `\ifthenelse` 报错；帧 9 未动 | 实现 PIML 原型出图 → 填帧 7；修帧 8 | [[progress-part2-piml]] · [[outline-8min]] |
-| Matrix-Free 原型 · 能力 A（soptx） | **真·无矩阵 contraction**（2D/3D standard，不形成 `Ke`）+ matvec/CG 一致 + NumPy benchmark 已建（4 passed）；**无 GPU/MPI 性能** | GPU/多后端可行性 + benchmark | **soptx `ai/common/progress-matrix-free.md`（权威实时态）** · [[soptx-matrix-free-integration-plan]] |
-| PIML 多尺度原型 · 能力 B（soptx） | 文档体系建好、路线①(子结构缩聚)已定；soptx 暂无代码 | 开分支 `codex/piml-multiscale-prototype`，T1→T2→V1 | [[progress-part2-piml]] · [[soptx-piml-multiscale-integration-plan]] |
-| MMC 方向二 · 能力 C（帧 8） | 范围已收敛于前向切割Demo，文档体系建好，锁定3篇文献 | 研读 SMO 2016，执行 T1→V1 写脚本出图；修帧 8 | [[progress-part2-mmc]] · [[soptx-mmc-integration-plan]] |
+| 考核 deck · Part 1（博士工作，帧 1-5b） | 已初步讨论完，待 Part 2 最终 QA 后回看一致性 | 回看 Part 1 与 Part 2 的叙事衔接 | `talks/2026-postdoc-entry-assessment/template-8min.tex` |
+| 考核 deck · Part 2（博后计划，帧 6-11；帧 10 拆为 10a/10b） | 版式与答辩口径基本定稿；帧 6/7/8/9/10a/10b/11 均有 guide 或专题入口 | 最终 QA：检查帧 6/8/9/10a/10b/11 takeaway、编译 PDF、确认无新增 Overfull | 本文件 §2-§6；逐帧 guide 见 §3 |
+| Matrix-Free 原型 · 能力 A（入站前基础验证） | 真·无矩阵 contraction、MatVec/CG 一致、NumPy/PyTorch CPU/CUDA 三档跑通；另有 GPU/MPI/预条件子基础 | 后续迁移到 PIML × Matrix-Free 全局原型；帧 8 侧已作为入站前基础验证 | `research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame8_matrix_free_pipeline_guide.md` |
+| PIML 多尺度原型 · 能力 B（soptx） | 帧 7 PPT + guide 已定稿；真实 PIML 预测误差已回填：`L=5 1.6e-3` / `L=10 8.2e-3` | 非阻塞可选：补 `piml_baseline.pdf` 宏微映射图，或继续推进结构保持参数化/全局 Matrix-Free 咬合 | `research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame7_piml_pipeline_guide.md` |
+| MMC 方向二 · 能力 C（帧 10a/10b） | 范围收敛为前向切割 Demo + 后续接入路线；帧 10a/10b guide 已统一入口 | 非阻塞可选：输出更清晰/矢量局部图，或将 `mmc_cut_mesh_prototype.py` 整理进 soptx 包并加最小测试 | `research/postdoc-plan/defense-sprint/direction-2-mmc-mmv/frame10_mmc_pipeline_guide.md` |
+
+## Part 2 Deck 当前结构
+
+| PDF 页 | 帧 | 定位 | 主入口 |
+|---|---|---|---|
+| 9/16 | 帧 6 | 博士后科研计划总览与承接关系 | `research/postdoc-plan/defense-sprint/frame6_postdoc_plan_overview_guide.md` |
+| 10/16 | 帧 7 | PIML 增强多尺度前向分析原型 | `research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame7_piml_pipeline_guide.md` |
+| 11/16 | 帧 8 | Matrix-Free 无矩阵高性能求解原型 | `research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame8_matrix_free_pipeline_guide.md` |
+| 12/16 | 帧 9 | PIML × Matrix-Free × GPU 融合路线 | `research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame9_piml_matrix_free_pipeline_guide.md` |
+| 13/16 | 帧 10a | MMC/MMV 显式几何到数值分析接口 | `research/postdoc-plan/defense-sprint/direction-2-mmc-mmv/frame10_mmc_pipeline_guide.md` |
+| 14/16 | 帧 10b | 先进离散与快速算法接入路线 | `research/postdoc-plan/defense-sprint/direction-2-mmc-mmv/frame10_mmc_pipeline_guide.md` |
+| 15/16 | 帧 11 | 工作计划、预期目标与平台支撑 | `research/postdoc-plan/defense-sprint/frame11_work_plan_goals_platform_guide.md` |
+
+## Part 2 已定共识
+
+### 帧 6 · 总览与承接关系
+
+- 右侧第四条已定为 **“高效分析与快速算法接入”**。
+- guide 中左侧第四项按 **“分析-设计解耦与信息复用”** 解释，不再强绑定具体“高阶多分辨率框架”。
+- 承接链：分析-设计解耦与信息复用 → 减少优化迭代中的重复分析成本 → 可复用局部/全局算子、快速更新和高性能求解 → 高效分析与快速算法接入。
+- 主线三解决“离散得准”；主线四解决“求解得快、软件可复用”。
+
+### 帧 7 · PIML 原型
+
+- 帧 7 是方向一的局部层证据：PIML 从局部密度/材料分布预测子结构等效刚度或等效算子。
+- 真实预测误差已回填，不能再用 Mock 误差替代。
+- 数值不得凭记忆修改；后续看 `frame7_piml_pipeline_guide.md` 和 soptx 权威结果。
+
+### 帧 8 · Matrix-Free 原型
+
+- 帧 8 是入站前基础验证，不声称博士后方向一一体化系统已经完成。
+- Matrix-Free 表达“不改变有限元离散，只把全局矩阵存储/组装替换为按需算子作用”。
+- GPU/MPI/预条件结果说明已有并行和预条件子工程经验；PPT 主帧不强调具体软件包名。
+
+### 帧 9 · 融合路线
+
+- 帧 9 是 **帧 7 + 帧 8 合起来的方向一融合路线页**，不是新的数值结果页。
+- 底部参考文献只保留 Ma 2026；Huang 2022/2023 已在帧 7 支撑 PIML 基础。
+- Ma 2026 的“形函数按需预测/释放”和本路线进一步“指向全局算子作用”的区别放在 guide 中解释，不压入 PPT 脚注。
+
+### 帧 10a · MMC/MMV 显式几何接口
+
+- 题目和核心口径收束为 **“显式几何到数值分析接口”**。
+- 当前只证明 TDF → 背景网格映射 → solid/void/cut 分类 → cut 单元边界重构 → 实体侧 Gauss 积分点的前向接口。
+- 当前数值：`40×20=800` 单元；`Solid 140 / Void 580 / Cut 80`；全域 Ersatz `3200` 点 → 实体侧 `1028` 点。
+- 不声称完成刚度组装、结构求解、灵敏度或优化闭环。
+- 三篇 MMC/MMV 文献只在帧 10a 底部出现一次；支撑路线依据，不是当前数值来源。
+
+### 帧 10b · 先进离散与快速算法接入
+
+- 右侧流程已定：
+
+```text
+实体侧积分点 (x,y,w)
+→ 先进离散局部积分 / 局部算子
+→ 算子接口：组装 / Matrix-Free
+→ Krylov 求解 + 预条件子
+→ GPU / 多后端并行加速
+```
+
+- “已有基础”已定：高阶/混合离散的快速求解与预条件子构造经验，可作为后续求解底座。
+- 底部收束为 GPU/Matrix-Free 等可作为方向二后续求解底座，不写“也可服务方向一”。
+- PPT 主帧不反复强调算海团队/FEALPy；来源背景放在 guide 与答辩追问中。
+
+### 帧 11 · 工作计划、目标与平台支撑
+
+- 中期栏保留 **“非线性分析扩展”**，因为有郭旭老师 2026-07-01 微信交流依据：PIML 在非线性问题上也很出色。
+- “先进离散方法接入”不写进平台支撑；它属于方法体系/方向二中期任务。
+- “方法体系”已定为：**PIML + Matrix-Free + GPU 高性能分析；MMC/MMV 显式几何 + 先进离散 + 快速算法。**
+- 平台支撑只讲能力来源：郭旭院士团队提供拓扑优化、MMC/MMV、PIML、工业软件场景；算海团队提供计算数学、先进离散、快速算法和高性能实现基础。
+
+## Part 2 版式与 QA 约定
+
+- 帧 7/8/9/10a/10b 的蓝色小标题区域保持一致：标题与顶部段落距离略增，标题到下方横线距离收紧。
+- 帧 10a/10b 底部参考文献只在 10a 出现完整三篇 MMC/MMV 文献，10b 不重复。
+- 帧 9 底部参考文献只保留 Ma 2026，不附长括号解释。
+- 所有 PPT 修改后必须 XeLaTeX 编译；本轮多次编译均通过，PDF 16 页，Overfull 保持 13，未新增 Overfull。
+
+重要 QA 图：
+
+| 内容 | QA 图 |
+|---|---|
+| 帧 6 第四条改为“高效分析与快速算法接入” | `talks/2026-postdoc-entry-assessment/qa-render/frame6-09-mainline4-fast-algorithms.png` |
+| 帧 7 标题区间距 | `talks/2026-postdoc-entry-assessment/qa-render/frame7-10-balanced-title-spacing.png` |
+| 帧 8 标题区间距 | `talks/2026-postdoc-entry-assessment/qa-render/frame8-11-balanced-title-spacing.png` |
+| 帧 9 标题区和 Ma 2026 脚注口径 | `talks/2026-postdoc-entry-assessment/qa-render/frame9-12-balanced-title-clean-ref.png` |
+| 帧 10a 标题区间距 | `talks/2026-postdoc-entry-assessment/qa-render/frame10a-13-balanced-title-spacing.png` |
+| 帧 10b 预条件子术语 | `talks/2026-postdoc-entry-assessment/qa-render/frame10b-14-preconditioner-term.png` |
+| 帧 11 方法体系更新 | `talks/2026-postdoc-entry-assessment/qa-render/frame11-15-method-system-advanced-discretization.png` |
+
+## 后续不要轻易推翻的共识
+
+- 帧 9 不补独立数值结果；数值证据由帧 7 和帧 8 承担。
+- 帧 10a 当前只证明几何到积分数据接口，不证明结构求解或优化闭环。
+- 帧 10b 是后续接入路线，不是已完成耦合结果。
+- 帧 11 中“非线性分析扩展”保留，因为有郭老师交流依据。
+- “先进离散方法接入”属于方法体系/方向二中期任务，不应写进平台支撑。
+- “预条件子”是帧 10b 和 frame10 guide 的标准术语。
+- PPT 主帧尽量不主动强调算海/FEALPy 标签；来源背景、具体例子和文档依据放在 guide 与答辩追问中。
 
 ## 全局约定（速查）
 
-- **记忆两层模型**、**聊天数学公式用 widget 渲染 KaTeX** 等 → 见全局 `~/.claude/CLAUDE.md`；本仓库工作流见 [[llm-wiki-workflow]] 与 `ai/claude/CLAUDE.md`。
-- 持久事实沉淀：跨项目 → 全局 `~/.claude/CLAUDE.md`；本仓库相关 → `ai/claude/CLAUDE.md` 与 wiki；**不用** project 级 auto-memory。
+- `talks/` 下 PPT 修改必须先方案后动手；确认后只改指定帧；详见 `ai/common/talks-ppt-editing-rules.md`。
+- 若继续讨论 Part 2，先读本文件对应段落，再读具体帧 guide。
+- 帧 7/8/10 的数值事实仍以 `C:\workspace\soptx_heliang\docs\frame7*_pipeline_results.md`、`frame8*_pipeline_results.md`、`frame10*_pipeline_results.md` 为唯一事实源。
 
-## 如何续接本项目（标准流程，新窗口/新 AI 必走）
+## 如何续接本项目
 
-1. **读本 hub** → 在「工作线一览」找到要继续的那一行。
-2. **顺链读分支**：进入该行的分支文档；若要写代码/动手，继续读分支指向的**专题文档**（`research/*` 与 soptx 的 `ai_*_context` / 架构备忘录）。
-3. **复述确认（验证闸）**：先用三五句回述"当前进度 / 已定关键决策 / 下一步与实现计划"，**等用户确认后再动手**。
-4. **收尾回写**：工作结束前更新本 hub 对应行与分支文档——**保持最新是本机制有效的前提**。
-
-> 用户侧固定提问（二选一）：
-> - 续接了解：`按 status.md 续接：读 hub 与对应分支，复述当前进度与下一步，确认后继续。`
-> - 续接干活：`按 status.md 续接 <工作线>，读到专题文档，复述理解 + 实现计划，确认后动手。`
+1. 先读本文件。
+2. 找到对应工作线或 Part 2 帧号。
+3. 进入对应 guide。
+4. 若要改 PPT，先复述当前理解和修改方案，等待用户确认。
+5. 修改后编译 PDF，确认无新增 Overfull，并按需渲染目标页截图。

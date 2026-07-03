@@ -13,13 +13,15 @@ authors:
 year: 2022
 journal: "Extreme Mechanics Letters"
 doi: "10.1016/j.eml.2022.101887"
+zotero_key: TSLB5VAR
+zotero_citation_key: huangProblemindependentMachineLearning2022
 tags:
   - PIML
   - topology-opt
   - EMsFEM
   - machine-learning
   - multiscale-FEM
-status: done
+status: read
 rating: 5
 date_added: 2026-06-04
 date_read: 2026-06-04
@@ -29,6 +31,7 @@ date_read: 2026-06-04
 
 > **引用**：Huang, Mengcheng; Du, Zongliang; Liu, Chang; Zheng, Yonggang; Cui, Tianchen; Mei, Yue; Li, Xiao; Zhang, Xiaoyu; Guo, Xu. *Extreme Mechanics Letters*, 2022. [DOI](https://doi.org/10.1016/j.eml.2022.101887) | [Zotero Link](zotero://select/library/items/TSLB5VAR)
 > **完整中文译文**：[[translations/Huang2022-problemindependentmachine-zh]]
+> **Zotero/Better BibTeX key**：`huangProblemindependentMachineLearning2022`
 
 ## 一句话概括
 

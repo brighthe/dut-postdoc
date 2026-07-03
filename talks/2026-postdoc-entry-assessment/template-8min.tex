@@ -1,6 +1,6 @@
 % ============================================================
 %  template-8min.tex —— 8 分钟进站考核精简版（先写 Part 1）
-%  内容定稿见 outline-8min.md；原 28 帧完整版见 template.tex（素材库）
+%  内容定稿见 outline-8min.md
 %  编译方式：XeLaTeX（支持中文），编译两次生成目录
 % ============================================================
 \documentclass[notheorems]{beamer}
@@ -26,6 +26,11 @@
 % 图注小标题：粗体彩色（替代图卡片色头）
 \newcommand{\imglabel}[1]{%
 	{\fontsize{8}{10}\selectfont\sffamily\bfseries\color{structure.fg}#1}\par\vspace{2pt}}
+\newcommand{\mmcrefs}{%
+	{\parbox{\linewidth}{\raggedright\fontsize{3.45}{4.15}\selectfont\sffamily\color{structure.fg!62}
+		参考文献\quad[1] W. Zhang, J. Yuan, J. Zhang, X. Guo. A new topology optimization approach based on Moving Morphable Components (MMC) and the ersatz material model. \textit{Structural and Multidisciplinary Optimization}, 53:1243--1260, 2016.\quad
+		[2] W. Zhang, D. Li, J. Zhang, X. Guo. Minimum length scale control in structural topology optimization based on the Moving Morphable Components (MMC) approach. \textit{Computer Methods in Applied Mechanics and Engineering}, 311:327--355, 2016.\quad
+		[3] W. Zhang, J. Chen, X. Zhu, J. Zhou, X. Guo. Explicit three dimensional topology optimization via Moving Morphable Void (MMV) approach. \textit{Computer Methods in Applied Mechanics and Engineering}, 322:590--614, 2017.}}}
 
 \begin{document}
 
@@ -252,12 +257,12 @@
 		\vspace{0.5em}
 
 		% ── 结论（无框）──
-		\takeaway{同分析规模下，设计自由度提升 16$\times$、构型由阶梯状细化为多层级传力精细构型}
+		\takeaway{三层解耦释放高分辨率构型表达；应力评估仍依赖位移后处理 $\Rightarrow$ 引出方法三}
 
 	\end{frame}
 
 	% ============================================================
-	%  帧 4 · 方法三 · 任意次胡张混合有限元
+	%  帧 4a · 方法三 · 任意次胡张混合有限元
 	%  （合并 胡张混合方法[总述] + 近不可压抗闭锁结果）
 	% ============================================================
 	\begin{frame}
@@ -326,7 +331,49 @@
 		\vspace{0.4em}
 
 		% ── 结论（无框）──
-		\takeaway{任意阶胡张混合免疫体积闭锁、精度随阶提升，并天然过滤孔洞伪应力}
+		\takeaway{抗闭锁 + $H(\mathrm{div})$ 协调对称应力离散，支撑应力约束拓扑优化}
+
+	\end{frame}
+
+	% ============================================================
+	%  帧 4b · 方法三 · 应力约束拓扑优化结果
+	% ============================================================
+	\begin{frame}
+		\frametitle{方法三拓展 · 应力约束拓扑优化结果}
+
+		\accentintro{在局部应力约束体积最小化问题中，标准位移法的应力由位移后处理得到，容易出现单元间跳跃；胡张混合法直接以对称应力张量为主未知量，并在 $H(\mathrm{div})$ 协调有限元空间中求解，可获得更可靠的 von Mises 应力评估。}
+
+		\vspace{0.55em}
+
+		\begin{columns}[c, totalwidth=\linewidth]
+			\begin{column}{0.48\linewidth}\centering
+				\includegraphics[width=0.96\linewidth, height=0.125\paperheight, keepaspectratio]{stress_topo_disp}\\[-1pt]
+				{\fontsize{6.6}{8.2}\selectfont\sffamily (a) 标准位移法（$k=2$）最终拓扑构型}
+			\end{column}
+			\hfill
+			\begin{column}{0.48\linewidth}\centering
+				\includegraphics[width=0.96\linewidth, height=0.125\paperheight, keepaspectratio]{stress_vm_disp}\\[-1pt]
+				{\fontsize{6.6}{8.2}\selectfont\sffamily (b) 标准位移法（$k=2$）归一化 von Mises 应力}
+			\end{column}
+		\end{columns}
+
+		\vspace{0.5em}
+
+		\begin{columns}[c, totalwidth=\linewidth]
+			\begin{column}{0.48\linewidth}\centering
+				\includegraphics[width=0.96\linewidth, height=0.125\paperheight, keepaspectratio]{stress_topo_mixed}\\[-1pt]
+				{\fontsize{6.6}{8.2}\selectfont\sffamily (c) 胡张混合法（$k=2$）最终拓扑构型}
+			\end{column}
+			\hfill
+			\begin{column}{0.48\linewidth}\centering
+				\includegraphics[width=0.96\linewidth, height=0.125\paperheight, keepaspectratio]{stress_vm_mixed}\\[-1pt]
+				{\fontsize{6.6}{8.2}\selectfont\sffamily (d) 胡张混合法（$k=2$）归一化 von Mises 应力}
+			\end{column}
+		\end{columns}
+
+		\vspace{0.4em}
+
+		\takeaway{胡张混合元把高精度应力场直接纳入优化闭环，为局部应力约束拓扑优化提供可靠分析基底}
 
 	\end{frame}
 
@@ -456,10 +503,9 @@
 	\begin{frame}[t]
 		\frametitle{博士后科研计划总览与承接关系}
 
-		% ── 顶部引导（无框）──
-		\accentintro{面向大规模与复杂结构拓扑优化，开展“PIML 增强多尺度分析 + Matrix-Free 高性能求解”与“MMC/MMV 显式几何先进数值分析”两大方面研究——四条主线均与博士工作形成直接承接。}
+		\accentintro{博士后科研计划围绕既定两大方面展开：PIML + Matrix-Free 面向大规模结构分析的效率与存储瓶颈，MMC/MMV 先进数值分析面向显式几何与高阶/混合离散融合；四条主线均与博士阶段工作直接承接。}
 
-		\vspace{-0.2em}
+		\vspace{0.25em}
 
 		{\centering
 			\begin{tikzpicture}[x=1cm, y=1cm, >=stealth,
@@ -473,220 +519,418 @@
 				asp/.style={font=\fontsize{6.6}{8}\selectfont\sffamily\bfseries\color{structure.fg!85}},
 				arrow/.style={->, thick, structure.fg!80}]
 
-				% 列标题（贴近底板）
 				\node[lab] at (-3.6, 0.0) {博士积累};
 				\node[lab] at ( 3.15,0.0) {博后延伸 · 两方面四主线};
 
-				% 分组底板（左右对称：上=方面一一族，下=方面二一族）
 				\fill[structure.fg!4, rounded corners=3pt] (-6.0,-0.5) rectangle (-1.2,-2.7);
 				\fill[structure.fg!4, rounded corners=3pt] (-6.0,-2.9) rectangle (-1.2,-5.1);
 				\fill[structure.fg!8, rounded corners=3pt] (0.7,-0.5) rectangle (5.6,-2.7);
 				\fill[structure.fg!8, rounded corners=3pt] (0.7,-2.9) rectangle (5.6,-5.1);
 
-				% 分组标签
 				\node[asp, anchor=west] at (-5.85,-0.68) {计算基础 · 可微分 / 高性能};
 				\node[asp, anchor=west] at (-5.85,-3.08) {离散基础 · 高阶 / 多分辨率};
 				\node[asp, anchor=west] at (0.85,-0.68) {方面一 · PIML + Matrix-Free};
 				\node[asp, anchor=west] at (0.85,-3.08) {方面二 · MMC/MMV 先进数值分析};
 
-				% 左：博士积累（4）
-				\node[box] (L1) at (-3.6,-1.22) {SOPTX · 多后端 + 自动微分\\(PyTorch / JAX 可微分基础)};
-				\node[box] (L2) at (-3.6,-2.22) {SOPTX · 高效张量组装 + GPU 异构};
+				\node[box] (L1) at (-3.6,-1.22) {多后端计算 + 自动微分\\(PyTorch / JAX 可微分基础)};
+				\node[box] (L2) at (-3.6,-2.22) {张量化组装 + GPU 异构};
 				\node[box] (L3) at (-3.6,-3.65) {任意次高阶 / 胡张混合有限元};
 				\node[box] (L4) at (-3.6,-4.65) {高阶多分辨率框架（分析-设计解耦）};
 
-				% 右：博后四主线（源自计划书）
-				\node[rbox] (R1) at (3.15,-1.22) {\textbf{主线一}~PIML 预测多尺度形函数、构造粗尺度等效刚度};
-				\node[rbox] (R2) at (3.15,-2.22) {\textbf{主线二}~全局算子 Matrix-Free 高性能求解（CPU/GPU/异构）};
-				\node[rbox] (R3) at (3.15,-3.65) {\textbf{主线三}~MMC/MMV 高精度数值离散（切割单元 · 高阶/混合元）};
-				\node[rbox] (R4) at (3.15,-4.65) {\textbf{主线四}~MMC/MMV 高效结构分析（多重网格 / 子结构复用）};
+				\node[rbox] (R1) at (3.15,-1.22) {\textbf{主线一}~PIML 预测多尺度形函数 / 等效刚度};
+				\node[rbox] (R2) at (3.15,-2.22) {\textbf{主线二}~Matrix-Free 高性能求解与并行实现};
+				\node[rbox] (R3) at (3.15,-3.65) {\textbf{主线三}~MMC/MMV 高精度数值离散};
+				\node[rbox] (R4) at (3.15,-4.65) {\textbf{主线四}~高效分析与快速算法接入};
 
-				% 承接实线
 				\draw[arrow] (L1) -- (R1);
 				\draw[arrow] (L2) -- (R2);
 				\draw[arrow] (L3) -- (R3);
 				\draw[arrow] (L4) -- (R4);
 
-				% 内部弧形虚线：主线二 → 主线四（Matrix-Free 迁移、两方面互通）
 				\draw[->, thick, dashed, structure.fg!70]
 					(R2.east) to[out=-15, in=15, looseness=1.0] (R4.east);
 				\node[rotate=-90, font=\fontsize{6}{7.5}\selectfont\sffamily\color{structure.fg!75}]
-					at (6.12,-3.43) {Matrix-Free 迁移};
+					at (6.12,-3.43) {求解框架复用};
 			\end{tikzpicture}\par}
 
 	\end{frame}
 
 	% ============================================================
-	%  帧 7 · 方向一 · PIML + Matrix-Free
+	%  帧 7 · PIML 增强多尺度前向分析原型
 	% ============================================================
 	\begin{frame}
-		\frametitle{方向一 · PIML 增强多尺度分析 + Matrix-Free 高性能求解}
+		\frametitle{方向一 · PIML 增强多尺度前向分析原型}
 
-		% ── 顶部引导（无框）──
-		\accentintro{面向大规模拓扑优化中反复细网格分析的高成本，用 PIML 在线预测多尺度形函数、构造粗尺度等效刚度，并进一步发展全局算子 Matrix-Free 高性能求解。}
+		\accentintro{PIML 学习“局部材料分布 $\to$ 多尺度形函数 / 等效刚度”的映射，并嵌入“宏观粗网格密度 $\to$ 子结构等效刚度 $\to$ 全局粗尺度求解”的前向流程。}
 
-		\vspace{0.6em}
+		\vspace{0.70em}
 
-		\begin{columns}[t, totalwidth=\linewidth]
-			
-			% 左栏：主线描述
-			\begin{column}{0.48\linewidth}
-				\blocktitle{主线 1：PIML 预测与粗尺度等效刚度}
-				{\fontsize{7.5}{11}\selectfont\sffamily
-					\circnum{1}~以粗网格单元已知细尺度材料密度为输入，离线训练 PIML 模型，在线预测多尺度形函数，减少重复局部求解；\\
-					\circnum{2}~重点研究等效刚度对称性、正定性与误差传播。}
-				
-				\vspace{1.0em}
-				\blocktitle{主线 2：全局算子 Matrix-Free 求解}
-				{\fontsize{7.5}{11}\selectfont\sffamily
-					\circnum{1}~复现并优化“按需预测—算后释放 + 全局缩聚刚度组装”基线流程；\\
-					\circnum{2}~进一步研究\textbf{不显式组装全局缩聚矩阵}的 Matrix-Free 算子作用，结合 Krylov 迭代与多层预条件，实现异构并行求解。}
-			\end{column}
+		\begin{columns}[T, totalwidth=\linewidth]
+			\begin{column}{0.50\linewidth}
+				\imglabel{原型管道}
+				\vspace{-0.75em}
+				{\color{structure.fg!35}\rule{\linewidth}{0.7pt}}\vspace{0.36em}
 
-			% 右栏：TikZ 绘制的初步结果
-			\begin{column}{0.48\linewidth}
-				{\fontsize{8.5}{10}\selectfont\sffamily\bfseries\color{structure.fg}【前期基础】PIML 架构与 Matrix-Free 求解原型\par\vspace{3pt}}
-				
-				% 图1：PIML 示意图
 				\begin{center}
-					\begin{tikzpicture}[scale=0.8, transform shape, every node/.style={font=\sffamily}]
-						% 宏观网格
-						\draw[step=0.5, gray!50, thin] (0,0) grid (3,1.5);
-						\fill[structure.fg!30] (1,0.5) rectangle (1.5,1.0);
-						\node[font=\fontsize{7}{9}\selectfont] at (1.5, -0.3) {宏观结构与设计域};
-						% 箭头
-						\draw[->, thick, structure.fg] (1.25, 1.0) -- (1.25, 2.0) node[midway, right, font=\fontsize{6}{8}\selectfont] {PIML 预测};
-						% 微观网格
-						\draw[step=0.2, structure.fg!40, thin] (0.5, 2.0) grid (2.0, 3.5);
-						\fill[structure.fg!80] (1.0, 2.4) rectangle (1.4, 3.1);
-						\fill[structure.fg!80] (0.7, 2.6) rectangle (1.8, 2.9);
-						\node[font=\fontsize{7}{9}\selectfont] at (1.25, 3.8) {微观结构与等效刚度};
+					\begin{tikzpicture}[x=1cm,y=1cm,>=stealth,
+						pbox/.style={draw=structure.fg, rounded corners=2pt, fill=white,
+							text width=1.65cm, minimum height=0.45cm, align=center,
+							inner sep=3pt, font=\fontsize{5.2}{6.5}\selectfont\sffamily},
+						pboxb/.style={draw=structure.fg, rounded corners=2pt, fill=structure.fg!6,
+							text width=1.65cm, minimum height=0.45cm, align=center,
+							inner sep=3pt, font=\fontsize{5.2}{6.5}\selectfont\sffamily},
+						arr/.style={->, thick, structure.fg}]
+						\node[pbox] (a) at (-2.1,0.1) {宏观粗网格\\密度 $\rho$};
+						\node[pbox] (b) at (0,0.1) {选中粗单元\\子结构 $j$};
+						\node[pbox] (c) at (2.1,0.1) {局部细尺度\\密度 $\rho_{\rm local}$};
+						\node[pboxb] (d) at (0.9,-0.95) {PIML 预测\\$\widehat N^j$ 或 $\widehat K_s^j$};
+						\node[pbox] (e) at (0.9,-1.82) {接口缩聚\\等效刚度};
+						\node[pboxb] (f) at (0.9,-2.69) {全局粗尺度求解\\状态方程入口};
+						\draw[arr] (a) -- (b);
+						\draw[arr] (b) -- (c);
+						\draw[arr] (c.south) |- (d.east);
+						\draw[arr] (d) -- (e);
+						\draw[arr] (e) -- (f);
 					\end{tikzpicture}
 				\end{center}
-				
-				\vspace{-0.5em}
-				
-				% 图2：Matrix-Free 性能对比 (简单曲线图)
-				\begin{center}
-					\begin{tikzpicture}[scale=0.75, transform shape, every node/.style={font=\sffamily}]
-						\draw[->, thick] (0,0) -- (4,0) node[right, font=\fontsize{8}{10}\selectfont] {自由度 (DOF)};
-						\draw[->, thick] (0,0) -- (0,2.5) node[above, font=\fontsize{8}{10}\selectfont] {时间 (s)};
-						
-						% Direct solver curve
-						\draw[thick, red!80!black, smooth] plot coordinates {(0, 0.1) (1, 0.3) (2, 0.9) (2.5, 1.8)} node[above, font=\fontsize{7}{9}\selectfont] {直接求解 ($O(N^2)$) - 易 OOM};
-						
-						% Matrix-Free curve
-						\draw[thick, blue!80!black, smooth] plot coordinates {(0, 0.1) (1, 0.4) (2, 0.7) (3.5, 1.15)} node[right, font=\fontsize{7}{9}\selectfont] {无矩阵 CG ($O(N)$)};
-					\end{tikzpicture}
-				\end{center}
-				
+
+				\vspace{0.15em}
+				{\fontsize{6.7}{8.8}\selectfont\sffamily
+					\textbf{\color{structure.fg}关键点：}输入局部密度 $\rho_{\rm local}$，输出 $\widehat N^j$ / 等效刚度 $\widehat K_s^j$。}
 			\end{column}
 
+			\begin{column}{0.50\linewidth}
+				\imglabel{数值验证结果}
+				\vspace{-0.75em}
+				{\color{structure.fg!35}\rule{\linewidth}{0.7pt}}\vspace{0.36em}
+
+				{\fontsize{6.75}{9.2}\selectfont\sffamily
+				\begin{tabular}{@{}p{0.08\linewidth}p{0.86\linewidth}@{}}
+					\circnum{1} & \textbf{求解降维}（粗网格 $8\times8$，64 子结构）\\
+					& 细 $5\times5$：DOF $3362 \to 1314$（$\mathbf{2.6\times}$）\\
+					& 细 $10\times10$：DOF $13122 \to 2754$（$\mathbf{4.8\times}$）\\[2pt]
+					\circnum{2} & \textbf{缩聚精确性}（vs 全尺度 Schur 补）\\
+					& 两档 $\mathbf{1.4}/\mathbf{2.6}{\times}\mathbf{10^{-15}}$（机器精度）\\[2pt]
+					\circnum{3} & \textbf{接口求解一致}（vs 全尺度直解）\\
+					& 残差 $\sim\!10^{-13}$；解误差 $9.4{\times}10^{-14}$ / $4.3{\times}10^{-12}$\\[2pt]
+					\circnum{4} & \textbf{PIML 预测误差}（极小网络 · 实测）\\
+					& $5{\times}5$：$\mathbf{1.6{\times}10^{-3}}$、$10{\times}10$：$\mathbf{8.2{\times}10^{-3}}$\\
+					& $\|\widehat K_s-K_s\|/\|K_s\|$ 均值（Mock 对照 $\sim3\times10^{-2}$）
+				\end{tabular}}
+			\end{column}
 		\end{columns}
+
+		\vspace{0.5em}
+		{\fontsize{5.2}{6.6}\selectfont\sffamily\color{structure.fg!60}
+			参考文献\quad[1] M. Huang, et al. Problem-independent machine learning (PIML)-based topology optimization---a universal approach. \textit{Extreme Mechanics Letters}, 56:101887, 2022.\quad[2] M. Huang, et al. A problem-independent machine learning (PIML) enhanced substructure-based approach for large-scale structural analysis and topology optimization of linear elastic structures. \textit{Extreme Mechanics Letters}, 63:102041, 2023.\par}
 
 	\end{frame}
 
 	% ============================================================
-	%  帧 8 · 方向二 · MMC/MMV 显式拓扑优化先进数值分析
+	%  帧 8 · Matrix-Free 无矩阵高性能求解原型
 	% ============================================================
 	\begin{frame}
-		\frametitle{方向二 · MMC 显式拓扑优化先进数值分析}
+		\frametitle{方向一 · Matrix-Free 无矩阵高性能求解原型}
 
-		% ── 顶部引导（无框）──
-		\accentintro{面向 MMC/MMV 显式几何描述，研究高精度数值离散与高效结构分析方法，结合高阶拉格朗日元或胡张混合元，提升复杂几何与应力约束问题的精度。}
+		\accentintro{Matrix-Free 不改变有限元离散模型，只将“组装并存储全局刚度矩阵”替换为“按需计算算子作用 $y=Kx$”，为大规模 Krylov 求解和 GPU/MPI 并行提供入口。}
 
-		\vspace{0.6em}
+		\vspace{0.70em}
 
-		\begin{columns}[t, totalwidth=\linewidth]
-			
-			% 左栏：主线描述
-			\begin{column}{0.48\linewidth}
-				\blocktitle{主线 3：MMC 高精度数值离散}
-				{\fontsize{7.5}{11}\selectfont\sffamily
-					\circnum{1}~研究显式几何边界切割背景网格、数值积分与灵敏度的一致性，精确评估几何近似的影响；\\
-					\circnum{2}~将\textbf{高阶拉格朗日有限元与胡张混合有限元}与 MMC 显式描述直接结合，有效处理边界切割单元，提升求解精度。}
-				
-				\vspace{1.0em}
-				\blocktitle{主线 4：MMC 高效结构分析}
-				{\fontsize{7.5}{11}\selectfont\sffamily
-					\circnum{1}~利用 MMC 边界清晰、设计变量维数低的特点，研究分析模型高效更新与求解；\\
-					\circnum{2}~集成自适应局部加密与信息复用，\textbf{并将方向一的 Matrix-Free 迁移应用}，实现两方面的求解技术闭环支撑。}
-			\end{column}
+		\begin{columns}[T, totalwidth=\linewidth]
+			\begin{column}{0.45\linewidth}
+				\imglabel{算子作用管道}
+				\vspace{-0.75em}
+				{\color{structure.fg!35}\rule{\linewidth}{0.7pt}}\vspace{0.36em}
 
-			% 右栏：TikZ 绘制的 MMC 边界切割与高阶积分示意图
-			\begin{column}{0.48\linewidth}
-				{\fontsize{8.5}{10}\selectfont\sffamily\bfseries\color{structure.fg}【前期基础】MMC 边界切割与高阶离散积分原型\par\vspace{3pt}}
-				
 				\begin{center}
-					\begin{tikzpicture}[scale=0.9, transform shape, every node/.style={font=\sffamily}]
-						% 背景网格 (4x3)
-						\draw[step=1.0, gray!50, dashed, thick] (0,0) grid (4,3);
-						
-						% MMC 组件 (倾斜的胶囊状)
-						\begin{scope}[rotate around={25:(2,1.5)}]
-							\fill[green!60!black, opacity=0.3] (0.5, 1.0) rectangle (3.5, 2.0);
-							\draw[green!60!black, thick] (0.5, 1.0) rectangle (3.5, 2.0);
-							\node[green!40!black, font=\fontsize{8}{10}\selectfont\bfseries] at (2, 2.3) {MMC 显式组件};
-						\end{scope}
-						
-						% 高亮一个被切割的单元 (2,1) 到 (3,2)
-						\fill[orange, opacity=0.2] (2,1) rectangle (3,2);
-						\draw[orange, thick] (2,1) rectangle (3,2);
-						\node[orange!80!black, font=\fontsize{7}{9}\selectfont, align=center] at (2.5, 0.7) {切割单元\\高阶积分};
-						
-						% 画高阶 Gauss 积分点 (3x3)
-						\foreach \x in {2.1127, 2.5, 2.8873} {
-							\foreach \y in {1.1127, 1.5, 1.8873} {
-								% 简单根据在不在中心带判断
-								\ifthenelse{\lengthtest{\x cm > 2.2cm} \AND \lengthtest{\y cm < 1.9cm}}{
-									\fill[black] (\x, \y) circle (1.5pt);
-								}{
-									\draw[black, fill=white] (\x, \y) circle (1.5pt);
-								}
-							}
-						}
-						
-						% 图例
-						\node[font=\fontsize{6}{8}\selectfont, right] at (0, -0.4) {\tikz{\fill[black] (0,0) circle (1.5pt);} : 材料内积分点};
-						\node[font=\fontsize{6}{8}\selectfont, right] at (2, -0.4) {\tikz{\draw[black, fill=white] (0,0) circle (1.5pt);} : 空隙内积分点};
+					\begin{tikzpicture}[x=1cm,y=1cm,>=stealth,
+						mbox/.style={draw=structure.fg, rounded corners=2pt, fill=white,
+							text width=2.55cm, minimum height=0.32cm, align=center,
+							inner sep=2.2pt, font=\fontsize{5.1}{6.2}\selectfont\sffamily},
+						mboxb/.style={draw=structure.fg, rounded corners=2pt, fill=structure.fg!6,
+							text width=2.55cm, minimum height=0.32cm, align=center,
+							inner sep=2.2pt, font=\fontsize{5.1}{6.2}\selectfont\sffamily},
+						arr/.style={->, thick, structure.fg}]
+						\node[mbox] (a) at (0,0) {全局向量 $\mathbf{x}$};
+						\node[mbox] (b) at (0,-0.88) {单元自由度提取\\$\mathbf{x}_e=A_e\mathbf{x}$};
+						\node[mboxb] (c) at (0,-1.76) {局部算子作用\\$\mathbf{y}_e=K_e\mathbf{x}_e$};
+						\node[mbox] (d) at (0,-2.64) {全局累加回填\\$\mathbf{y}=\sum_e A_e^T\mathbf{y}_e$};
+						\node[mboxb] (e) at (0,-3.52) {Krylov / CG\\状态方程 $KU=F$};
+						\draw[arr] (a) -- (b);
+						\draw[arr] (b) -- (c);
+						\draw[arr] (c) -- (d);
+						\draw[arr] (d) -- (e);
 					\end{tikzpicture}
 				\end{center}
-				
+
+				\vspace{-0.05em}
+				{\fontsize{6.2}{8}\selectfont\sffamily
+					\textbf{\color{structure.fg}关键点：}只反复计算 $y=Kx$，不形成/存储全局 $K$。}
 			\end{column}
 
+			\begin{column}{0.52\linewidth}
+				\imglabel{验证结果与并行/预条件基础}
+				\vspace{-0.75em}
+				{\color{structure.fg!35}\rule{\linewidth}{0.7pt}}\vspace{0.36em}
+
+				{\fontsize{6.45}{8.35}\selectfont\sffamily
+				\begin{tabular}{@{}p{0.08\linewidth}p{0.88\linewidth}@{}}
+					\circnum{1} & \textbf{MatVec 等价}（2D/3D，不形成 $K_e$）\\
+					& $\|{\rm MF}(x)-Kx\|/\|Kx\|:\;10^{-15}$--$10^{-13}$\\[2pt]
+					\circnum{2} & \textbf{状态方程一致}（NumPy / PyTorch / CUDA）\\
+					& 小规模 CG 解 $\equiv$ 组装直解，残差 $10^{-11}$--$10^{-10}$\\[2pt]
+					\circnum{3} & \textbf{GPU MatVec 加速}（单卡趋势）\\
+					& 13.2 万 DOF：\textbf{11.9$\times$}；内存估计 $42.1 \to 4.0$ MB\\[2pt]
+					\circnum{4} & \textbf{GPU/MPI + 预条件基础}（PA / Matrix-Free 算子）\\
+					& 650 万 DOF：1--32 进程，\textbf{3.72$\times$--12.74$\times$}\\
+					& P2 tet：Jacobi/Cheb., CPU 1.20$\times$--1.21$\times$；GPU 约 4$\times+$
+				\end{tabular}
+
+				\vspace{0.1em}
+				\textbf{\color{structure.fg}结果口径：}前期验证：无矩阵链路已打通，并具备 GPU/MPI/预条件算子基础。}
+			\end{column}
 		\end{columns}
 
+		\vspace{0.1em}
+		{\fontsize{5.2}{6.6}\selectfont\sffamily\color{structure.fg!60}
+			参考文献\quad[1] M. Kronbichler, et al. A generic interface for parallel and fast PDE solvers based on high-order tensor product elements. \textit{Comput. Math. Appl.}, 63(6):963-982, 2012.\quad[2] J. Brown. Efficient nonlinear solvers for nodal high-order finite elements in 3D. \textit{J. Sci. Comput.}, 45(1-3):48-63, 2010.\par}
 	\end{frame}
 
 	% ============================================================
-	%  帧 9 · 工作计划 · 预期目标 · 平台依托
+	%  帧 9 · PIML × Matrix-Free × GPU 融合路线
 	% ============================================================
 	\begin{frame}
-		\frametitle{工作计划、预期目标与平台依托}
+		\frametitle{方向一 · PIML $\times$ Matrix-Free $\times$ GPU 融合路线}
 
-		% ── 工作计划（三阶段）──
-		\blocktitle{三阶段工作计划}
-		{\fontsize{8}{12}\selectfont\sffamily
-			\circnum{1}~\textbf{近期}：完成 PIML 增强分析与 MMC 基准复现，建立统一的典型算例与性能评估体系。\\
-			\circnum{2}~\textbf{中期}：深入 PIML 多尺度架构与 Matrix-Free 算子机制，攻克 MMC 与高阶/混合元离散的技术难点。\\
-			\circnum{3}~\textbf{远期}：实现 CPU/GPU 异构并行与软件模块封装，完成大规模三维结构验证。}
-		
-		\vspace{1.0em}
+		\accentintro{PIML 负责按需生成局部等效算子，Matrix-Free 负责全局不组装求解，GPU 负责提升并行效率，三者共同形成面向大规模拓扑优化的软件分析后端。}
 
-		% ── 预期目标（三目标）──
-		\blocktitle{预期目标}
-		{\fontsize{8}{12}\selectfont\sffamily
-			\textbf{目标一}：建立 PIML 增强多尺度分析 + Matrix-Free 高性能求解方法体系（含并行原型）。\\
-			\textbf{目标二}：建立 MMC 显式几何高精度离散 + 高效结构分析方法（含一致灵敏度与高阶离散方案）。\\
-			\textbf{目标三}：形成可复用软件模块，衔接 FEALPy、SiPESC 与 DLUTopt，产出高水平学术成果。}
+		\vspace{0.70em}
+		\begin{columns}[T, totalwidth=\linewidth]
+			\begin{column}{0.52\linewidth}
+				\imglabel{融合路线}
+				\vspace{-0.75em}
+				{\color{structure.fg!35}\rule{\linewidth}{0.7pt}}\vspace{0.36em}
+				\begin{center}
+					\begin{tikzpicture}[x=1cm,y=1cm,>=stealth,
+						fbox/.style={draw=structure.fg, rounded corners=2pt, fill=white,
+							text width=2.6cm, minimum height=0.30cm, align=center,
+							inner sep=2.1pt, font=\fontsize{4.9}{5.9}\selectfont\sffamily},
+						arr/.style={->, thick, structure.fg}]
+						\node[fbox] (a) at (0,0.18) {宏观密度 $\rho$};
+						\node[fbox] (b) at (0,-0.55) {逐子结构 PIML 预测 $\widehat K_s^j$};
+						\node[fbox] (c) at (0,-1.28) {不组装全局 $K$};
+						\node[fbox] (d) at (0,-2.01) {$y=\sum_j A_j^T\widehat K_s^jA_jx$};
+						\node[fbox] (e) at (0,-2.74) {Krylov + 预条件};
+						\node[fbox] (f) at (0,-3.47) {GPU / 多后端并行};
+						\draw[arr] (a) -- (b);
+						\draw[arr] (b) -- (c);
+						\draw[arr] (c) -- (d);
+						\draw[arr] (d) -- (e);
+						\draw[arr] (e) -- (f);
+					\end{tikzpicture}
+				\end{center}
+			\end{column}
 
-		\vspace{1.5em}
+			\begin{column}{0.45\linewidth}
+				\imglabel{融合机制}
+				\vspace{-0.75em}
+				{\color{structure.fg!35}\rule{\linewidth}{0.7pt}}\vspace{0.36em}
 
-		% ── 结论条：平台依托 ──
-		\begin{center}
-			\accentintro{\textbf{平台依托}：郭旭院士团队（力学建模 / MMC / PIML / SiPESC 软件） $\times$ 算海团队（计算数学 / FEALPy 引擎），发挥力学方法与数值计算深度互补的优势，打造国产拓扑优化工业软件的核心竞争力。}
-		\end{center}
+				{\fontsize{6.85}{9.55}\selectfont\sffamily
+					\textbf{\color{structure.fg}局部层面：}PIML 预测逐子结构等效刚度，减少细尺度重复求解。\par\vspace{5pt}
+					\textbf{\color{structure.fg}全局层面：}Matrix-Free 在迭代中按需执行算子作用，不形成全局缩聚矩阵。\par\vspace{5pt}
+					\textbf{\color{structure.fg}并行层面：}Krylov + 预条件提供求解入口，后续对接 GPU / 多后端并行。\par\vspace{5pt}
+					\textbf{\color{structure.fg}软件层面：}沉淀可复用分析内核，服务长期工业软件架构。}
+			\end{column}
+		\end{columns}
 
+		\vspace{0.28em}
+		\takeaway{以“局部预测 + 全局无矩阵 + GPU 并行”倒推面向 $10^9$ 细网格的软件分析后端}
+
+		\vspace{0.15em}
+		{\fontsize{5.0}{6.2}\selectfont\sffamily\color{structure.fg!60}
+			参考文献\quad X. Ma, M. Huang, Z. Du, et al. A high-performance parallel algorithm based on PIML for large-scale topology optimization. \textit{Acta Mechanica Sinica}, 42, 2026.\par}
+	\end{frame}
+
+	% ============================================================
+	%  帧 10a · MMC/MMV 显式几何到数值分析接口
+	% ============================================================
+	\begin{frame}
+		\frametitle{方向二 · MMC/MMV 显式几何到数值分析接口}
+
+		\accentintro{当前重点展示 MMC/MMV 显式几何进入数值分析的前向验证路线：从组件 TDF 到网格切割、cut 单元识别与实体侧高阶积分点布设。}
+
+		\vspace{0.70em}
+		\noindent\begin{minipage}[t]{0.48\linewidth}
+			\imglabel{显式几何到分析接口}
+			\vspace{-0.75em}
+			{\color{structure.fg!35}\rule{\linewidth}{0.7pt}}
+		\end{minipage}\hfill
+		\begin{minipage}[t]{0.50\linewidth}
+			\imglabel{验证结果与局部图示}
+			\vspace{-0.75em}
+			{\color{structure.fg!35}\rule{\linewidth}{0.7pt}}
+		\end{minipage}
+
+		\vspace{0.50em}
+		\begin{columns}[T, totalwidth=\linewidth]
+			\begin{column}{0.48\linewidth}
+				\vspace{0pt}
+				\begin{center}
+					\begin{tikzpicture}[x=1cm,y=1cm,>=stealth,
+						gbox/.style={draw=structure.fg, rounded corners=2pt, fill=white,
+							text width=2.75cm, minimum height=0.32cm, align=center,
+							inner sep=2.2pt, font=\fontsize{5.05}{6.2}\selectfont\sffamily},
+						arr/.style={->, thick, structure.fg}]
+						\node[gbox] (a) at (0,0) {MMC/MMV 显式组件 TDF};
+						\node[gbox] (b) at (0,-0.80) {背景网格几何映射};
+						\node[gbox] (c) at (0,-1.60) {solid / void / cut 单元分类};
+						\node[gbox] (d) at (0,-2.40) {cut 单元边界重构};
+						\node[gbox] (e) at (0,-3.20) {实体侧高阶 Gauss 积分点};
+						\draw[arr] (a) -- (b);
+						\draw[arr] (b) -- (c);
+						\draw[arr] (c) -- (d);
+						\draw[arr] (d) -- (e);
+					\end{tikzpicture}
+				\end{center}
+			\end{column}
+
+			\begin{column}{0.50\linewidth}
+				\vspace{0pt}
+				{\fontsize{6.15}{8.05}\selectfont\sffamily
+					\textbf{\color{structure.fg}几何与网格：}超椭圆 MMC，中心 $(1.0,0.5)$，$L=1.2,W=0.4,\theta=30^\circ$；背景网格 $40\times20=800$ 单元。\par\vspace{2pt}
+					\textbf{\color{structure.fg}分类结果：}Solid 140 / Void 580 / Cut 80。\par\vspace{2pt}
+					\textbf{\color{structure.fg}积分入口：}全域 Ersatz $3200$ 点 $\rightarrow$ 实体侧 $1028$ 点（Solid 560 + Cut 468）。\par\vspace{2pt}
+					\textbf{\color{structure.fg}图示/输出：}蓝线=超椭圆 MMC 边界，绿点=实体侧积分点；输出 $(x,y,w)$。\par}
+
+				\vspace{0.16em}
+				\begin{center}
+					\includegraphics[width=0.94\linewidth, height=0.155\paperheight, keepaspectratio]{mmc_integration_result}
+				\end{center}
+			\end{column}
+		\end{columns}
+
+		\vspace{-0.08em}
+		\takeaway{显式几何到实体侧积分数据已跑通，为后续数值分析接入提供底层接口}
+		\vfill
+		\mmcrefs
+	\end{frame}
+
+	% ============================================================
+	%  帧 10b · 先进离散与快速算法接入路线
+	% ============================================================
+	\begin{frame}
+		\frametitle{方向二 · 先进离散与快速算法接入路线}
+
+		\accentintro{基于前页输出的实体侧积分点 $(x,y,w)$，后续可把胡张元、光滑元、虚单元、高阶元与快速算法接入 MMC/MMV 显式几何分析链路。}
+
+		\vspace{0.70em}
+		\begin{columns}[T, totalwidth=\linewidth]
+			\begin{column}{0.50\linewidth}
+				\vspace{0pt}
+				\imglabel{先进离散接入}
+				\vspace{-0.75em}
+				{\color{structure.fg!35}\rule{\linewidth}{0.7pt}}\vspace{0.36em}
+				{\fontsize{6.35}{8.25}\selectfont\sffamily
+				\begin{tabular}{@{}p{1.18cm}p{4.30cm}@{}}
+					\hline
+					\textcolor{structure.fg}{方法} & \textcolor{structure.fg}{接入价值}\\
+					\hline
+					胡张元 & 高精度应力 / 对称张量场，服务应力约束优化\\
+					光滑元 & 平滑应变 / 梯度，改善复杂边界附近稳定性\\
+					虚单元 & 适配 cut 单元产生的多边形区域与不规则单元\\
+					高阶元 & 结合实体侧 Gauss 积分点，提高边界积分精度\\
+					\hline
+				\end{tabular}}
+
+				\vspace{0.32em}
+				{\fontsize{6.35}{8.55}\selectfont\sffamily
+					\textbf{\color{structure.fg}接口含义：}MMC/MMV 给出清晰几何边界，先进离散方法在实体侧积分区域上构造高精度分析模型。}
+			\end{column}
+
+			\begin{column}{0.47\linewidth}
+				\vspace{0pt}
+				\imglabel{快速算法接入}
+				\vspace{-0.75em}
+				{\color{structure.fg!35}\rule{\linewidth}{0.7pt}}\vspace{0.36em}
+				\begin{center}
+					\begin{tikzpicture}[x=1cm,y=1cm,>=stealth,
+						rbox/.style={draw=structure.fg, rounded corners=2pt, fill=white,
+							text width=3.2cm, minimum height=0.34cm, align=center,
+							inner sep=2.2pt, font=\fontsize{5.4}{6.5}\selectfont\sffamily},
+						rboxb/.style={draw=structure.fg, rounded corners=2pt, fill=structure.fg!6,
+							text width=3.2cm, minimum height=0.34cm, align=center,
+							inner sep=2.2pt, font=\fontsize{5.4}{6.5}\selectfont\sffamily},
+						arr/.style={->, thick, structure.fg}]
+						\node[rboxb] (a) at (0,0) {实体侧积分点 $(x,y,w)$};
+						\node[rbox] (b) at (0,-0.76) {先进离散局部积分 / 局部算子};
+						\node[rbox] (c) at (0,-1.52) {算子接口：组装 / Matrix-Free};
+						\node[rbox] (d) at (0,-2.28) {Krylov 求解 + 预条件子};
+						\node[rboxb] (e) at (0,-3.04) {GPU / 多后端并行加速};
+						\draw[arr] (a) -- (b);
+						\draw[arr] (b) -- (c);
+						\draw[arr] (c) -- (d);
+						\draw[arr] (d) -- (e);
+					\end{tikzpicture}
+				\end{center}
+
+				\vspace{-0.25em}
+				{\fontsize{6.25}{8.25}\selectfont\sffamily
+					\textbf{\color{structure.fg}已有基础：}高阶/混合离散的快速求解与预条件子构造经验，可作为后续求解底座。}
+			\end{column}
+		\end{columns}
+
+		\vspace{0.20em}
+		{\centering\fontsize{7.25}{8.8}\selectfont\sffamily\bfseries\color{structure.fg}
+			先进离散与快速算法构成方向二长期分析内核；GPU/Matrix-Free 等可作为方向二后续求解底座\par}
+	\end{frame}
+
+	% ============================================================
+	%  帧 11 · 工作计划 · 预期目标 · 平台支撑
+	% ============================================================
+	\begin{frame}
+		\frametitle{工作计划、预期目标与平台支撑}
+
+		\accentintro{围绕两大方向，分阶段推进算法原型、规模验证与软件模块沉淀。}
+
+		\vspace{0.55em}
+		\begin{columns}[T, totalwidth=\linewidth]
+			\begin{column}{0.31\linewidth}
+				\imglabel{近期：原型与基准}
+				{\color{structure.fg!35}\rule{\linewidth}{0.7pt}}\vspace{0.36em}
+				{\fontsize{7}{10.2}\selectfont\sffamily
+					PIML 前向流程\par
+					Matrix-Free 基础算子\par
+					MMC/MMV 切割积分基础}
+			\end{column}
+			\begin{column}{0.31\linewidth}
+				\imglabel{中期：融合与突破}
+				{\color{structure.fg!35}\rule{\linewidth}{0.7pt}}\vspace{0.36em}
+				{\fontsize{7}{10.2}\selectfont\sffamily
+					PIML $\times$ Matrix-Free\par
+					非线性分析扩展\par
+					GPU / 多后端并行}
+			\end{column}
+			\begin{column}{0.31\linewidth}
+				\imglabel{远期：工业软件与应用}
+				{\color{structure.fg!35}\rule{\linewidth}{0.7pt}}\vspace{0.36em}
+				{\fontsize{7}{10.2}\selectfont\sffamily
+					可复用分析内核\par
+					工业软件能力沉淀\par
+					典型行业结构验证}
+			\end{column}
+		\end{columns}
+
+		\vspace{0.95em}
+		\imglabel{预期目标}
+		{\color{structure.fg!35}\rule{\linewidth}{0.7pt}}\vspace{0.36em}
+		{\fontsize{7.0}{10.2}\selectfont\sffamily
+			\textbf{\color{structure.fg}方法体系：}PIML + Matrix-Free + GPU 高性能分析；MMC/MMV 显式几何 + 先进离散 + 快速算法。\par\vspace{3pt}
+			\textbf{\color{structure.fg}软件沉淀：}形成可嵌入工业拓扑优化软件的可复用分析内核与高性能求解模块。\par\vspace{3pt}
+			\textbf{\color{structure.fg}长期牵引：}以桌面级 $10^9$ 细网格目标牵引 Matrix-Free、GPU 并行与软件架构设计。}
+
+		\vspace{0.65em}
+		\accentintro{\textbf{平台支撑：}郭旭院士团队（力学建模 / MMC/MMV / PIML / 工业软件） $\times$ 算海团队（计算数学 / 高性能数值实现），推动算法原型走向可服务行业需求的国产拓扑优化软件能力。}
 	\end{frame}
 
 

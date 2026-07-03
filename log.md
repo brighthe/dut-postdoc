@@ -85,3 +85,19 @@
 ## [2026-06-30] edit | 沉淀根门面文件同步规则
 - 更新 `ai/common/llm-wiki-workflow.md`：明确 `index.md`、`log.md`、`README.md` 分别是全库地图、时间线与人类入口，是 LLM Wiki 根门面文件；重要内容、目录、规则或状态变化后需收尾检查三者是否同步。
 - 同步更新 `ai/agents/AGENTS.md` 与 `ai/claude/CLAUDE.md`，让 Codex/Antigravity 与 Claude Code 都遵循根门面文件同步规则。
+
+## [2026-07-02] edit | 新增帧 7 PIML guide 并修正 MMC 单帧入口
+- 新增 [[research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame7_piml_pipeline_guide]]：统一帧 7 的子结构缩聚路线、实测结果、答辩口径、边界与后续补数方式。
+- 将 MMC 方向二短期入口从已删除的 `mmc_math_principles` / `soptx-mmc-integration-plan` 修正为 [[research/postdoc-plan/defense-sprint/direction-2-mmc-mmv/frame10_mmc_pipeline_guide]]。
+- 同步更新 [[ai/common/status]]、[[ai/common/progress-part2-piml]]、[[ai/common/progress-part2-mmc]] 与 [[research/_index]]。
+## [2026-07-02] edit | 删除被单帧 guide 接管的旧入口文档
+- 删除方向一 Matrix-Free 旧入口 `matrix_free_math_principles.md` 与 `soptx-matrix-free-integration-plan.md`，帧 8 后续统一接续 [[research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame8_matrix_free_pipeline_guide]]。
+- 确认方向二 MMC 旧入口 `mmc_math_principles.md` 与 `soptx-mmc-integration-plan.md` 已处于删除状态，后续统一接续 [[research/postdoc-plan/defense-sprint/direction-2-mmc-mmv/frame10_mmc_pipeline_guide]]。
+- 同步清理 [[research/_index]]、[[ai/common/status]]、[[ai/common/progress-part2-piml]]、[[ai/common/progress-part2-mmc]] 与帧 8 guide 中的旧入口引用。
+
+## [2026-07-02] edit | 新增 8 分钟汇报 Part 1 逐字讲稿
+- 在 `talks/2026-postdoc-entry-assessment/` 目录下新增 `script-8min.md` 作为 8 分钟汇报的逐字口语讲稿。
+- 扩写了帧 2 方法一的讲解细节（包括离散构造机制与单分辨率网格绑定的局限性），方便排练时按需裁剪。
+- 同步更新该目录的 `README.md` 文件树结构。
+- 扩写了帧 3 方法二的讲解细节（明确了三层网格解耦机制，并利用应力不连续的痛点设计了向方法三的天然过渡）。
+- 扩写了帧 4 方法三的讲解细节（详细解释了 $H(\mathrm{div})$ 空间与抗体积闭锁的原理，并增加了应力约束成果的口头引申表达）。
