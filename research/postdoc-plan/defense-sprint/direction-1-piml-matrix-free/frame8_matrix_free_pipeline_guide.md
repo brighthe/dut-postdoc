@@ -33,7 +33,7 @@ related:
 3. **已有正确性证据到什么程度？**  
    已有 MatVec 等价、状态方程一致和三后端一致性验证，说明无矩阵链路已打通。
 4. **高性能基础是否只停留在口号？**  
-   不是。已有 GPU MatVec 趋势、GPU/MPI 端到端求解和 Jacobi/Chebyshev 预条件算子基础，可作为入站前能力证明。
+   不是。已有 GPU MatVec 趋势、GPU/MPI 端到端求解和 Jacobi/Chebyshev 预条件子基础，可作为入站前能力证明。
 
 帧 8 的一句话口径：
 
@@ -42,7 +42,7 @@ related:
 帧 8 的定位：
 
 - **不是**完整博士后方向一系统已完成的结果页。
-- **是**入站前 Matrix-Free 能力证明页：正确性链路 + GPU 算子趋势 + GPU/MPI/预条件工程基础。
+- **是**入站前 Matrix-Free 能力证明页：正确性链路 + GPU 算子趋势 + GPU/MPI/预条件子工程基础。
 - **作用**是承接帧 7 的局部 PIML 算子，并为帧 9 的 PIML × Matrix-Free × GPU 融合路线提供全局求解基础；从长期软件架构看，它也是方向二 MMC/MMV 高效结构分析可复用的快速算法底座。
 
 ## 2. 帧面术语速查表（对照 PPT 逐词）
@@ -58,11 +58,11 @@ related:
 | MatVec | Matrix-Vector multiplication，矩阵向量乘 | “MatVec 等价是最基础的正确性验证。” | MatVec 快不必然等于整体 solve 快 |
 | Krylov | 一类迭代线性求解方法 | “CG/GMRES 都属于 Krylov 家族，它们只依赖 $Kx$。” | 收敛速度仍依赖条件数和预条件 |
 | CG | 共轭梯度法，适合对称正定系统 | “线弹性刚度矩阵通常适合用 CG。” | 若预测算子破坏对称正定，可能需 GMRES/MINRES |
-| 预条件 | 改善 Krylov 收敛的算子 | “Matrix-Free 解决存储和算子作用，预条件解决迭代次数。” | AMG/ILU 往往依赖显式矩阵，不一定适合当前口径 |
+| 预条件子 | 改善 Krylov 收敛的算子 | “Matrix-Free 解决存储和算子作用，预条件解决迭代次数。” | AMG/ILU 往往依赖显式矩阵，不一定适合当前口径 |
 | GPU | 用于批量局部算子作用和向量操作的异构硬件 | “Matrix-Free 把访存压力转为更多局部计算，适合 GPU。” | 当前 PPT 第 ③ 条是 MatVec 加速，不是端到端 solve 加速 |
 | MPI | Message Passing Interface，分布式并行通信接口 | “1-32 进程说明已有多进程并行工程经验。” | 第 ④ 条是 `mfleo` PA/Matrix-Free 工程基础，不是当前一体化系统 |
 | PA | Partial Assembly，局部组装/部分组装 | “不组装全局矩阵，但可缓存积分点或局部几何量以减少重复计算。” | PA 不是传统全矩阵组装 |
-| Jacobi / Chebyshev | Matrix-Free 兼容的基础预条件路线 | “它们不强依赖完整显式矩阵，适合作为入门预条件基础。” | 不是最终最强预条件器 |
+| Jacobi / Chebyshev | Matrix-Free 兼容的基础预条件路线 | “它们不强依赖完整显式矩阵，适合作为入门预条件子基础。” | 不是最终最强预条件子 |
 | P2 tet | 二阶四面体单元 | “典型三维高阶单元，积分点多，适合展示 Matrix-Free/PA 价值。” | 属于前期工程基础，不是当前 PPT 原型的唯一单元 |
 | DOF | Degrees of Freedom，自由度数量 | “自由度越大，显式矩阵存储越容易成为瓶颈。” | 不等同于设计变量数量 |
 
@@ -143,7 +143,7 @@ $$
 | T2：Matrix-Free CG 状态方程求解 | 验证 $KU=F$ 求解闭环是否跑通 | 对应 PPT ② |
 | T3：GPU MatVec benchmark 与内存估计 | 度量单卡 GPU 上单次算子作用的加速趋势和矩阵存储节省 | 对应 PPT ③ |
 | T4：NumPy / PyTorch CPU / CUDA 后端一致性 | 验证后端切换不破坏结果 | 支撑 PPT ①②③ 的可信度 |
-| T5：`mfleo` PA / Matrix-Free 并行算子结果核对 | 验证已有 GPU/MPI/预条件工程基础 | 对应 PPT ④，来源边界需说明 |
+| T5：`mfleo` PA / Matrix-Free 并行算子结果核对 | 验证已有 GPU/MPI/预条件子工程基础 | 对应 PPT ④，来源边界需说明 |
 
 ### 验证与产出 (V1-V4)
 
@@ -152,7 +152,7 @@ $$
 | V1：MatVec 相对误差 $10^{-15}$--$10^{-13}$ | ① MatVec 等价 | 单次算子作用与显式矩阵乘机器精度一致 |
 | V2：状态方程残差 $10^{-11}$--$10^{-10}$ | ② 状态方程一致 | Matrix-Free CG 可以进入完整状态方程求解闭环 |
 | V3：13.2 万 DOF GPU MatVec $11.9\times$，内存 $42.1\to4.0$ MB | ③ GPU MatVec 加速 | 算子级 GPU 趋势，不说成端到端 solve |
-| V4：650 万 DOF GPU/MPI solve $3.72\times$--$12.74\times$，P2 tet 预条件基础 | ④ 端到端 CG 加速 + 预条件 | 来自 `mfleo`，证明已有工程基础，不说成当前 soptx/PIML 一体化结果 |
+| V4：650 万 DOF GPU/MPI solve $3.72\times$--$12.74\times$，P2 tet 预条件子基础 | ④ 端到端 CG 加速 + 预条件子 | 来自 `mfleo`，证明已有工程基础，不说成当前 soptx/PIML 一体化结果 |
 
 ## 5. 当前实测结果
 
@@ -161,11 +161,11 @@ $$
 | ① MatVec 等价 | $10^{-15}$--$10^{-13}$ | 单次无矩阵算子作用与显式矩阵乘一致 | 只是单次算子正确性 |
 | ② 状态方程一致 | 残差 $10^{-11}$--$10^{-10}$ | 整个求解过程与组装式路径一致 | 小规模闭环，不是大规模完整系统 |
 | ③ GPU MatVec 加速 | 13.2 万 DOF，$11.9\times$；内存 $42.1\to4.0$ MB | 单卡 GPU 上算子级加速和省内存趋势 | 不是端到端 solve 加速 |
-| ④ 端到端 CG 加速 + 预条件 | 650 万 DOF，GPU/MPI solve，$3.72\times$--$12.74\times$；P2 tet CPU $1.20\times$--$1.21\times$，GPU 约 $4\times+$ | 已有端到端 CG solve 时间、GPU/MPI 加速和预条件算子工程基础 | 来自 `mfleo` 的 PA / Matrix-Free 工程结果，可迁移但不等同当前 soptx/PIML 一体化系统 |
+| ④ 端到端 CG 加速 + 预条件子 | 650 万 DOF，GPU/MPI solve，$3.72\times$--$12.74\times$；P2 tet CPU $1.20\times$--$1.21\times$，GPU 约 $4\times+$ | 已有端到端 CG solve 时间、GPU/MPI 加速和预条件子工程基础 | 来自 `mfleo` 的 PA / Matrix-Free 工程结果，可迁移但不等同当前 soptx/PIML 一体化系统 |
 
 ### 5.1 第 ④ 条 `mfleo` 结果的关键数据
 
-第 ④ 条采用的是本人写的 `mfleo` 包中的 PA / Matrix-Free 并行算子结果，不是当前 soptx/PIML 一体化原型结果。之所以可以放入 PPT，是因为它已经是我们已有的端到端 CG solve 时间与 GPU/MPI 加速证据；答辩时需要同时说明来源边界：它证明我已有 Matrix-Free / PA / Krylov / 预条件 / GPU-MPI 的工程基础，后续会整合进 soptx 的 PIML × Matrix-Free 全局原型。
+第 ④ 条采用的是本人写的 `mfleo` 包中的 PA / Matrix-Free 并行算子结果，不是当前 soptx/PIML 一体化原型结果。之所以可以放入 PPT，是因为它已经是我们已有的端到端 CG solve 时间与 GPU/MPI 加速证据；答辩时需要同时说明来源边界：它证明我已有 Matrix-Free / PA / Krylov / 预条件子 / GPU-MPI 的工程基础，后续会整合进 soptx 的 PIML × Matrix-Free 全局原型。
 
 这里所有“$\times$”倍数都按**基线耗时 / 当前方法耗时**来读。比如 $4\times$ 表示当前方法耗时约为基线的 $1/4$，不是误差放大 4 倍。对 GPU hex 结果，表中的 baseline 是同一算例下的 `MFEM PA` 结果；对 P2 tet 结果，baseline 是同一算例下的 `caststress` 结果。PPT 主帧不展开这些 baseline 名称，是为了避免页面过密；guide 中保留用于答辩追问。
 
@@ -190,10 +190,10 @@ $$
 |---|---|---|---|---|
 | GPU hex，650 万 DOF | `beam-hex`，六面体 | `order=2, refine=5, ndofs=6502275`；GPU；`mpirun=1/2/4/8/16/32`；CG 求解 | `MFEM PA` | `MFEM PA total_s / hex total_s = 3.72x--7.94x` |
 | GPU hex，650 万 DOF | `beam-hex`，六面体 | `order=4, refine=4, ndofs=6502275`；GPU；`mpirun=1/2/4/8/16/32`；CG 求解 | `MFEM PA` | `MFEM PA total_s / hex total_s = 4.63x--12.74x` |
-| P2 tet，CPU | `HT`，二阶四面体 | `P2/order=2, refine=0`；固定 `CG iters=300`；`mpi_tasks=64`；预条件 `jacobi/chebyshev/none` | `caststress` | `1.21x / 1.20x / 1.18x` |
-| P2 tet，GPU | `HT`，二阶四面体 | `P2/order=2`；CUDA；`mpi_tasks=1/2/4/8/16/32`；预条件 `jacobi/chebyshev/none` | `caststress` | 多数配置 `4x+`；边界点 `jacobi, mpi_tasks=32` 约 `3.89x` |
+| P2 tet，CPU | `HT`，二阶四面体 | `P2/order=2, refine=0`；固定 `CG iters=300`；`mpi_tasks=64`；预条件子 `jacobi/chebyshev/none` | `caststress` | `1.21x / 1.20x / 1.18x` |
+| P2 tet，GPU | `HT`，二阶四面体 | `P2/order=2`；CUDA；`mpi_tasks=1/2/4/8/16/32`；预条件子 `jacobi/chebyshev/none` | `caststress` | 多数配置 `4x+`；边界点 `jacobi, mpi_tasks=32` 约 `3.89x` |
 
-PPT 中只写 $3.72\times$--$12.74\times$ 和“GPU 约 $4\times+$”是合适的：主帧只需要表达“已有端到端 solve 加速和预条件/GPU-MPI 工程基础”。详细的 `order/refine/ndofs/mpirun/baseline/ratio` 放在 guide 中，作为 QA 备查，不压入 8 分钟主线。
+PPT 中只写 $3.72\times$--$12.74\times$ 和“GPU 约 $4\times+$”是合适的：主帧只需要表达“已有端到端 solve 加速和预条件子/GPU-MPI 工程基础”。详细的 `order/refine/ndofs/mpirun/baseline/ratio` 放在 guide 中，作为 QA 备查，不压入 8 分钟主线。
 
 ### 5.2 线弹性方程与材料参数备查
 
@@ -234,7 +234,7 @@ $$
 
 答辩时如果被问“具体求的方程和材料参数是什么”，可以这样补充：
 
-> 第 ④ 条 GPU/MPI 结果对应的是三维线弹性悬臂梁类算例，未知量是位移场。算子来自各向同性线弹性本构，$\sigma=2\mu\varepsilon+\lambda\mathrm{tr}(\varepsilon)I$，`mfleo` beam 示例默认 Lamé 参数为 `lambda=1.25, mu=1.0`。PPT 主帧没有展开这些参数，是因为这一页的重点不是做算例说明，而是证明 PA / Matrix-Free / Krylov / 预条件 / GPU-MPI 这条工程链路已经跑通。
+> 第 ④ 条 GPU/MPI 结果对应的是三维线弹性悬臂梁类算例，未知量是位移场。算子来自各向同性线弹性本构，$\sigma=2\mu\varepsilon+\lambda\mathrm{tr}(\varepsilon)I$，`mfleo` beam 示例默认 Lamé 参数为 `lambda=1.25, mu=1.0`。PPT 主帧没有展开这些参数，是因为这一页的重点不是做算例说明，而是证明 PA / Matrix-Free / Krylov / 预条件子 / GPU-MPI 这条工程链路已经跑通。
 
 ## 6. 答辩口径与边界
 
@@ -243,7 +243,7 @@ $$
 | 类型 | 作用 | 当前 PPT 口径 | 事实边界 |
 |---|---|---|---|
 | 当前无矩阵原型验证 | 证明入站前已经打通 Matrix-Free 状态方程链路 | MatVec 等价、状态方程一致、单卡 GPU MatVec 趋势 | 不等于完整 PIML × Matrix-Free 系统 |
-| `mfleo` PA / Matrix-Free 并行算子原型 | 证明已有端到端 CG solve 时间、GPU/MPI 加速和预条件工程经验 | 650 万 DOF GPU/MPI solve、1-32 进程、Jacobi/Chebyshev 预条件基础 | 是本人写的 `mfleo` 包实测结果；但不等同于当前 soptx/PIML × Matrix-Free 一体化系统 |
+| `mfleo` PA / Matrix-Free 并行算子原型 | 证明已有端到端 CG solve 时间、GPU/MPI 加速和预条件子工程经验 | 650 万 DOF GPU/MPI solve、1-32 进程、Jacobi/Chebyshev 预条件子基础 | 是本人写的 `mfleo` 包实测结果；但不等同于当前 soptx/PIML × Matrix-Free 一体化系统 |
 
 原则：
 
@@ -275,7 +275,7 @@ $$
 - `C:\workspace\dut-postdoc\ai\common\status.md`
 - `C:\workspace\dut-postdoc\talks\2026-postdoc-entry-assessment\template-8min.tex`
 - `C:\workspace\dut-postdoc\talks\2026-postdoc-entry-assessment\outline-8min.md`
-- `C:\workspace\mfleo\docs\delivery\finalterm\tet_hex_pa_performance_acceptance_report.md`（第 ④ 条“端到端 CG 加速 + 预条件”的来源；`mfleo` 是本人写的 PA / Matrix-Free 并行算子包）
+- `C:\workspace\mfleo\docs\delivery\finalterm\tet_hex_pa_performance_acceptance_report.md`（第 ④ 条“端到端 CG 加速 + 预条件子”的来源；`mfleo` 是本人写的 PA / Matrix-Free 并行算子包）
 - `C:\workspace\mfleo\docs\delivery\2026_01_27_biweekly\2026_01_27_biweekly.md`（线弹性悬臂梁物理模型、边界条件口径）
 - `C:\workspace\mfleo\examples\beam\beam_case_config.hpp` 与 `C:\workspace\mfleo\docs\test\runability_toolchain_user_manual.md`（beam 示例默认 `L/W/lambda/mu` 参数）
 
@@ -299,7 +299,7 @@ $$
 
 - **顶部引导句**：说明 Matrix-Free 的定义和用途。
 - **左侧「算子作用管道」**：展示 $x \to y=Kx$ 的无矩阵算子作用流程。
-- **右侧「验证结果与并行/预条件基础」**：用四条证据说明正确性、求解闭环、GPU 趋势和并行/预条件基础。
+- **右侧「验证结果与并行/预条件子基础」**：用四条证据说明正确性、求解闭环、GPU 趋势和并行/预条件子基础。
 - **底部关键点**：一句话强调“不形成/存储全局 $K$”。
 - **底部参考文献**：Kronbichler 2012 + Brown 2010，支撑 Matrix-Free / 高阶算子求值的方法学来源。
 
@@ -371,6 +371,22 @@ PPT 写法：
 
 > 小规模 CG 解 $\equiv$ 组装直解，残差 $10^{-11}$--$10^{-10}$
 
+**对应公式 / 指标**：状态方程（平衡方程）$\boldsymbol K\boldsymbol U=\boldsymbol F$；Matrix-Free 不组装 $\boldsymbol K$，只提供算子作用 $\mathrm{MF}(\boldsymbol x)=\boldsymbol K\boldsymbol x$，CG 解得 $\boldsymbol U_{\mathrm{MF}}$。两个度量：
+
+- **求解残差**（deck 标的就是这个）：
+$$
+r=\frac{\left\|\mathrm{MF}(\boldsymbol U_{\mathrm{MF}})-\boldsymbol F\right\|}{\|\boldsymbol F\|}\approx 10^{-11}\!\sim\!10^{-10}.
+$$
+- **与组装直解一致**：设 $\boldsymbol K\boldsymbol U_{\mathrm{dir}}=\boldsymbol F$ 由显式组装后直接求解，
+$$
+e=\frac{\left\|\boldsymbol U_{\mathrm{MF}}-\boldsymbol U_{\mathrm{dir}}\right\|}{\|\boldsymbol U_{\mathrm{dir}}\|}\ll 1
+$$
+（定性一致；事实源未单列该数值，答辩不要硬报 $e$ 的具体值）。
+- **三后端一致**：
+$$
+\max_{b\in\{\text{NumPy, PyTorch-CPU, CUDA}\}}\frac{\left\|\boldsymbol U_{\mathrm{MF}}^{(b)}-\boldsymbol U_{\mathrm{MF}}^{(\mathrm{ref})}\right\|}{\|\boldsymbol U_{\mathrm{MF}}^{(\mathrm{ref})}\|}\ll 1.
+$$
+
 解释：
 
 - MatVec 等价只验证单次 $Kx$。
@@ -397,9 +413,9 @@ PPT 写法：
 
 答辩口径：
 
-> 这里我只说 GPU MatVec 加速趋势，不把它夸大成端到端 solve 加速。端到端加速还需要预条件器和完整求解器进一步打磨。
+> 这里我只说 GPU MatVec 加速趋势，不把它夸大成端到端 solve 加速。端到端加速还需要预条件子和完整求解器进一步打磨。
 
-#### 8.4.4 ④ 端到端 CG 加速 + 预条件
+#### 8.4.4 ④ 端到端 CG 加速 + 预条件子
 
 PPT 写法：
 
@@ -420,24 +436,24 @@ PPT 写法：
 
 答辩口径：
 
-> 第 ④ 条不是说当前博士后方向一系统已经完成 PIML × Matrix-Free 一体化闭环，而是说明 `mfleo` 中已经有端到端 CG solve 时间、GPU/MPI 加速和预条件器方面的实际工程基础，后续可以迁移到 PIML × Matrix-Free 全局原型中。
+> 第 ④ 条不是说当前博士后方向一系统已经完成 PIML × Matrix-Free 一体化闭环，而是说明 `mfleo` 中已经有端到端 CG solve 时间、GPU/MPI 加速和预条件子方面的实际工程基础，后续可以迁移到 PIML × Matrix-Free 全局原型中。
 
 补充备注：
 
-- 第 ④ 条和帧 8 的 Matrix-Free 主线是**同一套底层逻辑**：不组装全局大矩阵，以 PA / Matrix-Free 算子作用进入 Krylov/CG 求解，并结合 GPU/MPI 与预条件器提高效率。
-- 当前 PPT 中第 ④ 条采用的是本人写的 `mfleo` 包的实测结果，用来证明这套工程能力已经真实跑通过；后续工作是把这套 PA / Matrix-Free / Krylov / 预条件工程能力整合到当前 soptx / PIML × Matrix-Free 全局原型中。
+- 第 ④ 条和帧 8 的 Matrix-Free 主线是**同一套底层逻辑**：不组装全局大矩阵，以 PA / Matrix-Free 算子作用进入 Krylov/CG 求解，并结合 GPU/MPI 与预条件子提高效率。
+- 当前 PPT 中第 ④ 条采用的是本人写的 `mfleo` 包的实测结果，用来证明这套工程能力已经真实跑通过；后续工作是把这套 PA / Matrix-Free / Krylov / 预条件子工程能力整合到当前 soptx / PIML × Matrix-Free 全局原型中。
 
-### 8.5 约 60 秒逐句讲稿
+### 8.5 约 80 秒逐句讲稿
 
 > “方向一的第二块是 Matrix-Free 高性能求解。这里我想先说明边界：Matrix-Free 不是换一个有限元模型，也不是引入新的近似方程，而是把传统的‘组装并存储全局刚度矩阵’改成‘在 Krylov 迭代中按需计算 $y=Kx$’。所以它改变的是求解实现方式，不改变弱形式、离散空间和力学本构。
 >
 > 左侧流程图就是一次无矩阵算子作用。Krylov 求解器先给出一个全局向量 $x$，我们把它按单元自由度提取成 $x_e$，在单元层面做局部刚度作用得到 $y_e$，再把所有单元贡献累加回全局向量 $y$。外层 CG 并不需要看到完整的全局矩阵，只需要反复调用这个 $x\mapsto Kx$ 的黑盒接口。
 >
-> 右侧是目前已有的验证。第一条是 MatVec 等价，Matrix-Free 算出的 $MF(x)$ 和显式矩阵乘 $Kx$ 的相对误差在 $10^{-15}$ 到 $10^{-13}$，说明单次算子作用达到机器精度一致。第二条进一步验证状态方程求解闭环，小规模 CG 解与组装直解一致，残差在 $10^{-11}$ 到 $10^{-10}$，说明它不只是单步算子正确，也能进入完整的 $KU=F$ 求解。
+> 右侧是目前已有的验证，用的是我在 soptx 里实现的多后端无矩阵原型。第一条是 MatVec 等价，在 2D 和 3D 算例上，Matrix-Free 算出的 $MF(x)$ 和显式矩阵乘 $Kx$ 的相对误差都在 $10^{-15}$ 到 $10^{-13}$，机器精度一致；这里连单元矩阵 $K_e$ 都不显式形成，而是在积分点上直接做 $B^\top DB$ 收缩，所以是真正的无矩阵，不是“先算好单元矩阵、只是不组装全局”。第二条进一步验证状态方程求解闭环，小规模 CG 解与组装直解一致，残差在 $10^{-11}$ 到 $10^{-10}$，说明它不只单步算子正确，也能跑完整个 $KU=F$ 求解；而且同一条无矩阵链路在 NumPy、PyTorch CPU 和 CUDA 三个后端上结果一致，说明它天生可移植、GPU-ready，也为下面的 GPU 结果打好了基础。
 >
 > 第三条展示 GPU 上的算子级趋势：13.2 万自由度下，单次 MatVec 有约 $11.9$ 倍加速，内存估计从 42.1 MB 降到 4.0 MB。但这里我不会把它说成端到端 solve 加速，因为完整求解还取决于 Krylov 收敛和预条件。
 >
-> 第四条补充的是已有工程基础：在我写的 `mfleo` PA / Matrix-Free 并行算子中，已有 650 万自由度 GPU/MPI 端到端 CG solve 加速，以及 Jacobi/Chebyshev 预条件基础。它不是当前 soptx/PIML 一体化系统已经完成，而是说明我已经具备 Matrix-Free、Krylov、预条件和 GPU/MPI 这条工程链路。下一步就是把帧 7 的 PIML 局部等效算子接入这条无矩阵全局求解管线，这也是帧 9 要讲的融合路线。”
+> 第四条补充的是已有工程基础：在我写的 `mfleo` PA（部分组装）/ Matrix-Free 并行算子中，已有 650 万自由度的 GPU/MPI 端到端 CG solve——相对同规模的高性能 PA 基线，随阶次和 1 到 32 个 MPI 进程配置，总求解时间加速约 3.72 到 12.74 倍；在二阶四面体（P2 tet）算例上也验证了 Jacobi、Chebyshev 预条件子，CPU 上约 1.20 到 1.21 倍、GPU 上约 4 倍以上。它不是当前 soptx/PIML 一体化系统已经完成，而是说明我已经具备 Matrix-Free、Krylov、预条件和 GPU/MPI 这条工程链路。页面底部两篇是经典的高阶有限元 Matrix-Free 文献——Kronbichler 2012 和 Brown 2010，它们说明“不组装矩阵、直接做算子求值”本身就是国际上成熟的高性能求解路线；我左边这套“提取–局部作用–回填”管道正是对标这个思路，而不是自创的非标准做法。下一步就是把帧 7 的 PIML 局部等效算子接入这条无矩阵全局求解管线，这也是帧 9 要讲的融合路线。”
 
 ### 8.6 常见追问 QA
 
@@ -445,16 +461,22 @@ PPT 写法：
   A：不是。Matrix-Free 改变的是实现方式，不改变有限元离散模型。MatVec 等价误差达到 $10^{-15}$--$10^{-13}$，说明单次算子作用和显式组装矩阵乘法在机器精度内一致；同时“状态方程一致”说明 Matrix-Free CG 已经跑完整个 $KU=F$ 求解闭环，小规模下与组装式路径/组装直解一致，残差约 $10^{-11}$--$10^{-10}$。
 
 - **Q：为什么只展示 MatVec GPU 加速，不展示完整 solve 加速？**  
-  A：当前 soptx 原型更适合诚实展示算子级加速趋势。完整 solve 加速还取决于 Krylov 收敛和预条件器效果，因此不能把 MatVec 加速直接等同于端到端求解加速。第 ④ 条已有端到端 solve 加速，但来源是 `mfleo` 的 PA / Matrix-Free 工程结果，需要单独说明边界。
+  A：当前 soptx 原型更适合诚实展示算子级加速趋势。完整 solve 加速还取决于 Krylov 收敛和预条件子效果，因此不能把 MatVec 加速直接等同于端到端求解加速。第 ④ 条已有端到端 solve 加速，但来源是 `mfleo` 的 PA / Matrix-Free 工程结果，需要单独说明边界。
 
-- **Q：预条件器为什么重要？**  
-  A：Matrix-Free 解决的是 $Kx$ 怎么算、矩阵怎么不存；预条件器解决的是 Krylov 要迭代多少步。没有合适预条件，大规模问题可能仍然收敛慢。
+- **Q：预条件子为什么重要？**
+  A：Matrix-Free 解决的是 $Kx$ 怎么算、矩阵怎么不存；预条件子解决的是 Krylov 要迭代多少步。没有合适预条件子，大规模问题可能仍然收敛慢。
 
 - **Q：AMG / ILU 能不能直接用？**  
-  A：AMG 和 ILU 往往依赖显式矩阵条目。在 Matrix-Free 框架下，更自然的路线是 Jacobi/Chebyshev、几何多重网格、p/h-multigrid 或结构保持预条件。
+  A：AMG 和 ILU 往往依赖显式矩阵条目。在 Matrix-Free 框架下，更自然的路线是 Jacobi/Chebyshev、几何多重网格、p/h-multigrid 或结构保持预条件子。
 
 - **Q：第 ④ 条 GPU/MPI 数据是不是当前 PPT 原型跑的？**  
-  A：可以强调它和帧 8 的 Matrix-Free 主线是**同一套底层逻辑**：PA / Matrix-Free 算子作用、Krylov/CG 求解、GPU/MPI 并行和预条件器。当前第 ④ 条采用的是我写的 `mfleo` 包的实测结果，用来证明这套工程能力已经跑通过；后续会把这套能力整合进 soptx 的 PIML × Matrix-Free 全局原型。需要区分的是，它和前面 ①-③ 的 soptx/Python 多后端无矩阵链路不是同一套代码路径，也不等同于 PIML × Matrix-Free 一体化系统已经完成。
+  A：可以强调它和帧 8 的 Matrix-Free 主线是**同一套底层逻辑**：PA / Matrix-Free 算子作用、Krylov/CG 求解、GPU/MPI 并行和预条件子。当前第 ④ 条采用的是我写的 `mfleo` 包的实测结果，用来证明这套工程能力已经跑通过；后续会把这套能力整合进 soptx 的 PIML × Matrix-Free 全局原型。需要区分的是，它和前面 ①-③ 的 soptx/Python 多后端无矩阵链路不是同一套代码路径，也不等同于 PIML × Matrix-Free 一体化系统已经完成。
+
+- **Q：左侧管道最底下写了状态方程 $KU=F$，这和“Matrix-Free 不组装全局矩阵”矛盾吗？**
+  A：不矛盾。$KU=F$ 是要**求解的方程**（平衡方程本身），不是“必须把 $K$ 存成矩阵”。Matrix-Free 避免的是**显式组装/存储** $K$，不是取消 $K$、也不是不解这个方程——$K$ 作为算子始终存在，只是按需以 $y=Kx$ 的形式作用。CG 恰好只需要 $Kx$、从不访问 $K$ 的单个元素；所以左栏上面 `x→x_e→y_e→y=ΣAᵀy_e` 四步就是在不组装的情况下算出 $Kx$，底框表示把这个算子作用喂给 CG 去解 $KU=F$。管道正下方的关键点“只反复计算 $y=Kx$，不形成/存储全局 $K$”就是这个意思。
+
+- **Q：④ 既说 PA（部分组装）又说 Matrix-Free，到底存不存矩阵？**
+  A：都不存刚度矩阵——全局 $K$、单元 $K_e$ 都不形成。“部分组装”的“部分”不是“部分矩阵”，而是只预先算好并缓存“积分点上的 pointwise 算子”（几何 Jacobian × 本构 × 权重），作用时取用。PA 和纯 Matrix-Free 的唯一区别是积分点几何量**缓存 vs 每次重算**：本页 ①②③（soptx）是纯无矩阵、现场做 $B^\top DB$；④（`mfleo`）是缓存版 PA。两者都无矩阵，PA 只是用积分点级缓存换速度。
 
 - **Q：这页和帧 9 的区别是什么？**  
   A：帧 8 证明 Matrix-Free 本身的能力：如何不组装矩阵地求解状态方程。帧 9 进一步说明如何把帧 7 的 PIML 局部等效刚度喂给帧 8 的 Matrix-Free 全局算子。
@@ -469,6 +491,6 @@ PPT 写法：
 | 已有 | `mfleo` GPU/MPI 端到端 solve 加速 | 已用于第 ④ 条，PPT 写作 $3.72\times$--$12.74\times$；不说成 soptx 一体化结果 |
 | 可选 | 当前 soptx 原型端到端 CG 求解时间 | 若未来补充，可强化第 ② 条“状态方程一致”，增加时间/迭代数 |
 | 可选 | 当前 soptx 原型 GPU 端到端 solve 加速 | 若未来补充，可把第 ③ 条从 MatVec 加速升级为 solve 加速 |
-| 中 | Jacobi 预条件在当前原型中的迭代下降 | 在第 ④ 条中补“迭代数下降/残差下降” |
+| 中 | Jacobi 预条件子在当前原型中的迭代下降 | 在第 ④ 条中补“迭代数下降/残差下降” |
 | 中 | 多规模曲线 | 帧 8 若空间不足，转入备份页或讲稿 |
 | 低 | 详细 MPI scaling 曲线 | 更适合放入后续工作或备份页，不必压入 8 分钟主线 |

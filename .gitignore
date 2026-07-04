@@ -47,3 +47,6 @@ tmp/
 talks/**/.miktex/
 talks/**/.miktex-userconfig/
 talks/**/.miktex-userdata/
+talks/**/.miktex-data/
+talks/**/.miktex-pkgs/
+talks/**/.fontconfig/

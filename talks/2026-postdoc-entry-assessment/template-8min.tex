@@ -269,7 +269,7 @@
 		\frametitle{方法三 · 任意次胡张混合有限元}
 
 		% ── 顶部引导（无框）──
-		\accentintro{以应力 $\boldsymbol{\sigma}$ 为独立未知量、构造 $H(\mathrm{div})$ 协调对称张量空间的\textbf{任意次胡张混合有限元}（北大胡俊教授方法），从底层变分免疫体积闭锁；下以二维轴承装置（近不可压）对比两类方法。}
+		\accentintro{以应力 $\boldsymbol{\sigma}$ 为独立未知量、构造 $H(\mathrm{div})$ 协调对称张量空间的\textbf{任意次胡张混合有限元}，从底层变分免疫体积闭锁；下以二维轴承装置（近不可压）对比两类方法。}
 
 		\vspace{1.0em}
 
@@ -333,7 +333,7 @@
 		% ── 结论（无框）──
 		\takeaway{抗闭锁 + $H(\mathrm{div})$ 协调对称应力离散，支撑应力约束拓扑优化}
 
-		\vspace{0.15em}
+		\vspace{-0.15em}
 		{\fontsize{5.0}{6.2}\selectfont\sffamily\color{structure.fg!60}
 			参考文献\quad J. Hu. Finite element approximations of symmetric tensors on simplicial grids in $\mathbb{R}^n$: the higher order case. \textit{Journal of Computational Mathematics}, 33(3):283--296, 2015.\par}
 
@@ -673,7 +673,7 @@
 			\end{column}
 
 			\begin{column}{0.52\linewidth}
-				\imglabel{验证结果与并行/预条件基础}
+				\imglabel{验证结果与并行/预条件子基础}
 				\vspace{-0.75em}
 				{\color{structure.fg!35}\rule{\linewidth}{0.7pt}}\vspace{0.36em}
 
@@ -685,13 +685,13 @@
 					& 小规模 CG 解 $\equiv$ 组装直解，残差 $10^{-11}$--$10^{-10}$\\[2pt]
 					\circnum{3} & \textbf{GPU MatVec 加速}（单卡趋势）\\
 					& 13.2 万 DOF：\textbf{11.9$\times$}；内存估计 $42.1 \to 4.0$ MB\\[2pt]
-					\circnum{4} & \textbf{端到端 CG 加速 + 预条件}（PA / Matrix-Free 算子）\\
+					\circnum{4} & \textbf{端到端 CG 加速 + 预条件子}（PA / Matrix-Free 算子）\\
 					& 650 万 DOF：GPU/MPI solve，\textbf{3.72$\times$--12.74$\times$}\\
 					& P2 tet：Jacobi/Cheb.；CPU 1.20$\times$--1.21$\times$，GPU 约 4$\times+$
 				\end{tabular}
 
 				\vspace{0.1em}
-				\textbf{\color{structure.fg}结果口径：}前期验证：无矩阵链路已打通，并具备 GPU/MPI/预条件算子基础。}
+				\textbf{\color{structure.fg}结果口径：}前期验证：无矩阵链路已打通，并具备 GPU/MPI/预条件子基础。}
 			\end{column}
 		\end{columns}
 
@@ -724,7 +724,7 @@
 						\node[fbox] (b) at (0,-0.55) {逐子结构 PIML 预测 $\widehat K_s^j$};
 						\node[fbox] (c) at (0,-1.28) {不组装全局 $K$};
 						\node[fbox] (d) at (0,-2.01) {$y=\sum_j A_j^T\widehat K_s^jA_jx$};
-						\node[fbox] (e) at (0,-2.74) {Krylov + 预条件};
+						\node[fbox] (e) at (0,-2.74) {Krylov + 预条件子};
 						\node[fbox] (f) at (0,-3.47) {GPU / 多后端并行};
 						\draw[arr] (a) -- (b);
 						\draw[arr] (b) -- (c);
@@ -743,7 +743,7 @@
 				{\fontsize{6.85}{9.55}\selectfont\sffamily
 					\textbf{\color{structure.fg}局部层面：}PIML 预测逐子结构等效刚度，减少细尺度重复求解。\par\vspace{5pt}
 					\textbf{\color{structure.fg}全局层面：}Matrix-Free 在迭代中按需执行算子作用，不形成全局缩聚矩阵。\par\vspace{5pt}
-					\textbf{\color{structure.fg}并行层面：}Krylov + 预条件提供求解入口，后续对接 GPU / 多后端并行。\par\vspace{5pt}
+					\textbf{\color{structure.fg}并行层面：}Krylov + 预条件子提供求解入口，后续对接 GPU / 多后端并行。\par\vspace{5pt}
 					\textbf{\color{structure.fg}软件层面：}沉淀可复用分析内核，服务长期工业软件架构。}
 			\end{column}
 		\end{columns}
