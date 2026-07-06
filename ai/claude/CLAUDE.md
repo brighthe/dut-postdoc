@@ -13,6 +13,7 @@ Claude Code 开始任务前，应先读取并遵守：
 
 ## Claude Code 专用补充
 
+- **交流语言**：在本仓库工作时，一律使用简体中文与用户交流（正文说明、解释、问答均用中文）；代码、命令、文件名、专有名词与原文引用可保留英文。
 - 本仓库是个人研究知识库，不是代码项目。核心工作是维护 Markdown/Obsidian wiki。
 - 不要把 `CLAUDE.md` 当成独立 schema；通用规则以 `ai/common/llm-wiki-workflow.md` 为准。
 - 访问任意内容目录（如 `literature/`、`research/`、`concepts/`、`entities/` 及其重要子目录）时，先阅读该目录下的 `_index.md`（若存在），用它掌握目录内容、分组与入口；再打开具体文件。

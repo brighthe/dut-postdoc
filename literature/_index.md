@@ -8,7 +8,8 @@
 |------|------|------|--------|------|
 | [[topology-opt/Lei2018-machinelearningdriven]] | Lei et al. | 2018 | MMC, topology-opt, SVR, KNN | done |
 | [[topology-opt/Huang2022-problemindependentmachine]] | Huang et al. | 2022 | PIML, EMsFEM, topology-opt | done |
-| [[topology-opt/Huang2023-PIML-substructure]] | Huang et al. | 2023 | PIML, substructure, topology-opt | draft |
+| [[topology-opt/Huang2023-PIML-substructure]] | Huang et al. | 2023 | PIML, substructure, topology-opt | done |
+| [[topology-opt/Huang2024-PIML-datafree]] | Huang et al. | 2024 | PIML, data-free, mechanics-based-loss | done |
 | [[topology-opt/Ma2026-highperformanceparallel]] | Ma et al. | 2026 | PIML, parallel-computing, large-scale | done |
 
 ## 有限元方法
