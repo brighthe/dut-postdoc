@@ -15,6 +15,8 @@
 |---|---|---|
 | [[funding/postdoc-funding-applications]] | draft | 博士后期间项目与基金申请计划：优先关注、候选项目池、材料清单与申请记录 |
 | [[funding/china-postdoctoral-science-foundation-2026-guide-notes]] | draft | 2026 年中国博士后科学基金官方指南解读：资助类型、时间线、硬条件与申请策略 |
+| [[funding/china-postdoc-foundation-general-grant/80th-2026]] | draft | 中国博士后科学基金第 80 批面上资助专项准备：官方依据、硬条件、选题压缩与倒排计划 |
+| [[funding/china-postdoc-innovation-talent-support-plan/2026]] | draft | 2026 年度博士后创新人才支持计划项目线：官方 PDF、待核验事项与后续解读入口 |
 
 ## 长期研究路线
 
