@@ -8,7 +8,7 @@
 
 **推荐做法：把本文件（git-workflow.md）发给新机器上的 agent，附这句话**（默认克隆本仓库，换别的仓库改路径即可）：
 
-> 照这份 git-workflow.md（重点 §1、§3）把这台 Windows 电脑的 git 环境配好，用 PowerShell 原生 git（别用 cygwin/MSYS）。配到需要加公钥那步，把 id_ed25519.pub 打印给我、停下等我加到 GitHub。加好后用 SSH 把 brighthe/dut-postdoc clone 到 C:\workspace，并 ls-remote 验证鉴权。
+> 照这份 git-workflow.md（重点 §1、§3）把这台 Windows 电脑的 git 环境配好，用 PowerShell 原生 git（别用 cygwin/MSYS）。配到需要加公钥那步，把 id_ed25519.pub 打印给我、停下等我加到 GitHub。加好后把 git@github.com:brighthe/dut-postdoc.git（SSH）clone 到 C:\workspace，并 ls-remote 验证鉴权。
 
 - 手上没有本文件、但有网时，可改让 agent 先读它的 raw 版：`https://raw.githubusercontent.com/brighthe/dut-postdoc/main/ai/common/git-workflow.md`。
 - §1/§3 是**账户级、每台机器配一次即终身通用**；之后在这台机上再拉你名下别的仓库，只需把上面命令里的仓库名一换。
