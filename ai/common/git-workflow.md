@@ -6,15 +6,13 @@
 
 ## §0 新机器启动语（复制即用）
 
-全新电脑首次配置 + 克隆时，把下面这段发给 agent（它在 GitHub 上，可从网页/raw URL 复制过去）：
+**推荐做法：把本文件（git-workflow.md）发给新机器上的 agent，附这句话**（默认克隆本仓库，换别的仓库改路径即可）：
 
-> 在这台新电脑上配好我的 git 提交环境并克隆仓库。用**系统原生 git**（Windows 用 PowerShell，别用 cygwin/MSYS/WSL 里的 git）。
-> 1. 先读 `https://raw.githubusercontent.com/brighthe/dut-postdoc/main/ai/common/git-workflow.md` 的 §1、§3。
-> 2. 若本机还没配 SSH-over-443：按 §3 生成无口令 ed25519 密钥、写 `~/.ssh/config` 的 443 段、`git config --global` 配 `brighthe` / `brighthe98@gmail.com`；然后把 `id_ed25519.pub` 内容打印给我，我去 GitHub 添加公钥（这步我手动）。
-> 3. 我加完公钥后 `ssh -T git@github.com` 验证，再用 SSH 把需要的仓库（`brighthe/dut-postdoc` 等）clone 到 `C:\workspace`。
-> 4. 每个仓库 `git ls-remote` 验证鉴权通过即完成。
+> 照这份 git-workflow.md（重点 §1、§3）把这台 Windows 电脑的 git 环境配好，用 PowerShell 原生 git（别用 cygwin/MSYS）。配到需要加公钥那步，把 id_ed25519.pub 打印给我、停下等我加到 GitHub。加好后用 SSH 把 brighthe/dut-postdoc clone 到 C:\workspace，并 ls-remote 验证鉴权。
 
-> 说明：本仓库为 public，**只拉取**可免鉴权直接 HTTPS clone；但**推送**必须完成上面的 SSH-over-443 配置。
+- 手上没有本文件、但有网时，可改让 agent 先读它的 raw 版：`https://raw.githubusercontent.com/brighthe/dut-postdoc/main/ai/common/git-workflow.md`。
+- §1/§3 是**账户级、每台机器配一次即终身通用**；之后在这台机上再拉你名下别的仓库，只需把上面命令里的仓库名一换。
+- 唯一必须你手动的一步是**把公钥加到 GitHub**（沙箱里 agent 代替不了）。
 
 ## §1 用操作系统原生 git（跨 Agent 通用原则）
 
