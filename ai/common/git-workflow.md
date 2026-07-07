@@ -4,6 +4,18 @@
 >
 > 本文件**工具无关**（各 AI 通用），且**尽量机器无关**：可移植的方法见 §1–§3，某台机器的具体值见 §4「本机现状」。
 
+## §0 新机器启动语（复制即用）
+
+全新电脑首次配置 + 克隆时，把下面这段发给 agent（它在 GitHub 上，可从网页/raw URL 复制过去）：
+
+> 在这台新电脑上配好我的 git 提交环境并克隆仓库。用**系统原生 git**（Windows 用 PowerShell，别用 cygwin/MSYS/WSL 里的 git）。
+> 1. 先读 `https://raw.githubusercontent.com/brighthe/dut-postdoc/main/ai/common/git-workflow.md` 的 §1、§3。
+> 2. 若本机还没配 SSH-over-443：按 §3 生成无口令 ed25519 密钥、写 `~/.ssh/config` 的 443 段、`git config --global` 配 `brighthe` / `brighthe98@gmail.com`；然后把 `id_ed25519.pub` 内容打印给我，我去 GitHub 添加公钥（这步我手动）。
+> 3. 我加完公钥后 `ssh -T git@github.com` 验证，再用 SSH 把需要的仓库（`brighthe/dut-postdoc` 等）clone 到 `C:\workspace`。
+> 4. 每个仓库 `git ls-remote` 验证鉴权通过即完成。
+
+> 说明：本仓库为 public，**只拉取**可免鉴权直接 HTTPS clone；但**推送**必须完成上面的 SSH-over-443 配置。
+
 ## §1 用操作系统原生 git（跨 Agent 通用原则）
 
 git/ssh 操作要用**操作系统原生 git**——它的 ssh 会去读 `~/.ssh`（Windows 上即 `C:\Users\<你>\.ssh`）。**不要用把 `HOME` 改写到别处的 POSIX 模拟环境**（cygwin / MSYS / WSL 里指向别处的 ssh），否则读不到密钥与 config，会误报 `no such identity` / `Host key verification failed`——其实配置是好的。
