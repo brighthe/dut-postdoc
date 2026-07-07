@@ -56,6 +56,6 @@ related:
 
 ## 关联文档
 
-- [[frame7_piml_pipeline_guide]] — 帧 7：PIML 增强多尺度前向分析原型指南
+- [[frame7_piml_pipeline_guide]] — 帧 7：PIML 增强的子结构多尺度前向分析原型指南
 - [[frame9_piml_matrix_free_pipeline_guide]] — 帧 9：PIML 与 Matrix-Free 融合路线与愿景
 - `ai/common/status.md` — 项目状态 hub（含 Part 2 共识与续接入口）

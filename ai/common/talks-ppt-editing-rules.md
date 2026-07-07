@@ -33,6 +33,7 @@ date: 2026-07-02
 - 每次修改 `talks/` 下的 `.tex` 后，必须重新 XeLaTeX 编译正式 PDF。
 - 编译后必须检查 Overfull 数量，明确说明“无新增 Overfull”或说明新增项来源。
 - 对用户关心的页面，优先渲染目标页截图进行视觉 QA。
+- 在本机 Codex 环境中，若 `pdftoppm.cmd` / `pdfinfo.cmd` 包装脚本报错 `The system cannot find the path specified.`，应绕过包装脚本，直接调用 `C:\Users\Lenovo\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\poppler\Library\bin\pdftoppm.exe` 渲染单页 PNG；输出路径应放在工作区内，如 `tmp/pdfs/` 或 `talks/2026-postdoc-entry-assessment/qa-render/`。
 - 若本轮只修改 guide / status / 规则文档，没有改 PPT 源文件，可不编译，但最终回复中必须说明“本轮未改 PPT，所以未重新编译”。
 - 不要把已有 Overfull 当成新问题；以修改前后数量是否增加作为当前任务的 QA 边界。
 

@@ -18,4 +18,5 @@
 - **Git 沙箱环境路径约束**：由于 PowerShell 沙箱环境 of 限制，直接运行常规 Git 命令会报错 `fatal: not a git repository`。在此环境下执行任何 Git 命令时，必须显式附加参数：`git --git-dir=c:\workspace\dut-postdoc\.git --work-tree=c:\workspace\dut-postdoc <command>` 以确保正常定位。
 - **多字节（中文）字符编辑防乱码**：避免使用内置 of `replace_file_content` 和 `multi_replace_file_content` 对包含中文 of Markdown 笔记进行局部替换，这在 Windows 环境下极易导致严重的编码匹配失败和 Mojibake（乱码）损坏。涉及中文的修改，优先使用 PowerShell 的 `Get-Content`/`Set-Content`（须指定 `-Encoding UTF8`）或 `[System.IO.File]::WriteAllText`（指定 UTF-8 无 BOM 编码）进行安全覆写，或直接使用 `write_to_file` 进行全文覆盖写入。
 - **命令行工具环境约束**：系统中的 `python` 与 `node` 命令行并未处于可用状态（如 python 仅为 Windows 应用商店的安装别名，运行会抛出退出码 1 ）。在需要进行文本处理或逻辑编写时，优先使用内置的 PowerShell 语言处理。
+- **PDF/截图 QA 渲染器路径约束**：在本机 Codex 环境中，`pdftoppm.cmd` / `pdfinfo.cmd` 包装脚本可能报错 `The system cannot find the path specified.`；遇到 PPT/PDF 单页渲染失败时，不要先判定 PDF 损坏，应直接调用真实 Poppler 程序：`C:\Users\Lenovo\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\poppler\Library\bin\pdftoppm.exe`。输出路径放在工作区内（如 `tmp/pdfs/` 或 `talks/2026-postdoc-entry-assessment/qa-render/`），可避免沙箱路径问题。
 - **Commit 与 Push 限制**：平时的任务执行中只需保持本地工作区更改，除非用户在请求中明确出现 `commit`、`push` 或 `提交/推送至远程仓库` 等指示，否则严禁自动执行提交与推送操作。

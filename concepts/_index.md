@@ -5,7 +5,14 @@
 | 概念 | 别名 | 一句话 | 状态 |
 |---|---|---|---|
 | [[llm-wiki]] | LLM Wiki / 个人 AI 知识库 | 把 LLM 放在原始资料与研究者之间，持续维护可追溯、互链的 Markdown wiki | done |
-| [[piml]] | PIML / 物理信息机器学习 | 把物理约束嵌入学习模型，用于拓扑优化与高效求解 | in-progress |
+| [[piml]] | PIML / Problem-Independent Machine Learning / 问题无关机器学习 | 学习可复用局部力学表示，用于拓扑优化与高效分析 | in-progress |
+
+## PIML 子知识库
+
+| 页面 | 一句话 | 状态 |
+|---|---|---|
+| [[piml/_index]] | PIML 稳定方法理解的子知识库入口 | draft |
+| [[piml/method-lineage]] | PIML 从 EMsFEM 到子结构、data-free 与并行大规模优化的方法谱系 | draft |
 
 ---
 

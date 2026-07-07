@@ -21,7 +21,8 @@
 |---|---|---|---|
 | [[literature/topology-opt/Lei2018-machinelearningdriven]] | 拓扑优化 | 2018 | done |
 | [[literature/topology-opt/Huang2022-problemindependentmachine]] | 拓扑优化 | 2022 | done |
-| [[literature/topology-opt/Huang2023-PIML-substructure]] | 拓扑优化 | 2023 | draft |
+| [[literature/topology-opt/Huang2023-PIML-substructure]] | 拓扑优化 | 2023 | done |
+| [[literature/topology-opt/Huang2024-PIML-datafree]] | 拓扑优化 | 2024 | draft |
 | [[literature/topology-opt/Ma2026-highperformanceparallel]] | 拓扑优化 | 2026 | done |
 
 ## 调研
@@ -40,7 +41,8 @@
 | 概念 | 一句话 |
 |---|---|
 | [[concepts/llm-wiki]] | 个人 AI 知识库模式：由 AI 工具维护原始资料与研究者之间的持久 Markdown 中间层 |
-| [[concepts/piml]] | 物理信息机器学习：把物理约束嵌入学习模型，用于拓扑优化与高效求解 |
+| [[concepts/piml]] | 问题无关机器学习：学习可复用局部力学表示，用于拓扑优化与高效分析 |
+| [[concepts/piml/method-lineage]] | PIML 方法谱系：EMsFEM 形函数、子结构缩聚、data-free 与并行大规模优化 |
 
 ## 实体页
 

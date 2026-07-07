@@ -1,6 +1,6 @@
 # 研究计划与调研总览
 
-> 本目录围绕博士后研究计划组织材料：`postdoc-research-plan` 是总领；`long-term` 服务长期科研路线；`defense-sprint` 服务入站考核答辩前的短期验证与出图；`teams` 保存合作团队与平台背景。
+> 本目录围绕博士后研究计划组织材料：`postdoc-research-plan` 是总领；`funding` 维护项目 / 基金申请台账；`long-term` 服务长期科研路线；`defense-sprint` 服务入站考核答辩前的短期验证与出图；`teams` 保存合作团队与平台背景。
 
 ## 总领与答辩执行
 
@@ -8,6 +8,13 @@
 |---|---|---|
 | [[postdoc-plan/postdoc-research-plan]] | in-progress | 博后研究计划总领：两大研究方面、四条主线、三阶段与预期目标 |
 | [[postdoc-plan/defense-sprint/one-week-defense-sprint-plan]] | in-progress | 入站考核答辩一周冲刺执行计划 |
+
+## 项目与基金申请
+
+| 文档 | 状态 | 说明 |
+|---|---|---|
+| [[funding/postdoc-funding-applications]] | draft | 博士后期间项目与基金申请计划：优先关注、候选项目池、材料清单与申请记录 |
+| [[funding/china-postdoctoral-science-foundation-2026-guide-notes]] | draft | 2026 年中国博士后科学基金官方指南解读：资助类型、时间线、硬条件与申请策略 |
 
 ## 长期研究路线
 

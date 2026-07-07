@@ -117,7 +117,7 @@
 
 				\vspace{6pt}
 				\begin{tabular}{@{}l@{\hspace{3pt}}p{3.0cm}@{\hspace{10pt}}l@{\hspace{3pt}}p{3.0cm}@{}}
-					\circnum{01} & {\fontsize{7.5}{9.5}\selectfont\sffamily 任意次高阶有限元方法} &
+					\circnum{01} & {\fontsize{7.5}{9.5}\selectfont\sffamily 任意次高阶有限元拓扑优化方法} &
 					\circnum{03} & {\fontsize{7.5}{9.5}\selectfont\sffamily 胡张混合有限元拓扑优化方法} \\[7pt]
 					\circnum{02} & {\fontsize{7.5}{9.5}\selectfont\sffamily 多分辨率拓扑优化框架} &
 					\circnum{04} & {\fontsize{7.5}{9.5}\selectfont\sffamily SOPTX 软件平台设计与实现} \\
@@ -560,12 +560,12 @@
 	\end{frame}
 
 	% ============================================================
-	%  帧 7 · PIML 增强多尺度前向分析原型
+	%  帧 7 · PIML 增强的子结构多尺度前向分析原型
 	% ============================================================
 	\begin{frame}
-		\frametitle{方向一 · PIML 增强多尺度前向分析原型}
+		\frametitle{方向一 · PIML 增强的子结构多尺度前向分析原型}
 
-		\accentintro{PIML 学习“局部材料分布 $\to$ 多尺度形函数 / 等效刚度”的映射，并嵌入“宏观粗网格密度 $\to$ 子结构等效刚度 $\to$ 全局粗尺度求解”的前向流程。}
+		\accentintro{PIML 学习“局部材料分布 $\to$ 子结构多尺度形函数 / 等效刚度”的映射，\\并嵌入“粗网格密度 $\to$ 子结构等效刚度 $\to$ 全局粗尺度求解”的前向流程。}
 
 		\vspace{0.70em}
 
@@ -617,7 +617,7 @@
 					& 两档 $\mathbf{1.4}/\mathbf{2.6}{\times}\mathbf{10^{-15}}$（机器精度）\\[2pt]
 					\circnum{3} & \textbf{接口求解一致}（vs 全尺度直解）\\
 					& 残差 $\sim\!10^{-13}$；解误差 $9.4{\times}10^{-14}$ / $4.3{\times}10^{-12}$\\[2pt]
-					\circnum{4} & \textbf{PIML 预测误差}（极小网络 · 实测）\\
+					\circnum{4} & \textbf{PIML $K_s$ 预测误差}（极小网络 · 实测）\\
 					& $5{\times}5$：$\mathbf{1.6{\times}10^{-3}}$、$10{\times}10$：$\mathbf{8.2{\times}10^{-3}}$\\
 					& $\|\widehat K_s-K_s\|/\|K_s\|$ 均值（Mock 对照 $\sim3\times10^{-2}$）
 				\end{tabular}}

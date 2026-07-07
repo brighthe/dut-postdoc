@@ -5,7 +5,7 @@ tags:
   - hub
   - ai-context
 status: "in-progress"
-date: 2026-07-04
+date: 2026-07-05
 ---
 
 # 项目状态 · AI 接续入口
@@ -18,7 +18,7 @@ date: 2026-07-04
 | 工作线 | 当前状态 | 下一步 | 主要入口 |
 |---|---|---|---|
 | 考核 deck · Part 1（博士工作，帧 1-5b） | 已可定稿；承担“计算数学基础、先进有限元、博士成果”铺垫 | 正式答辩前只按时间和口播习惯微调讲法，不再重构内容 | `talks/2026-postdoc-entry-assessment/template-8min.tex`；`talks/2026-postdoc-entry-assessment/script-8min.md` |
-| 考核 deck · Part 2（博后计划，帧 6-11；帧 10 拆为 10a/10b） | PPT 主体与逐帧 guide 均可定稿；Part 2 不再汇总进 `script-8min.md`，以各帧 guide 为准 | 后续只做错别字、事实源或版式级 QA，不再重构路线 | 本文件 §2-§6；逐帧 guide 见 §3 |
+| 考核 deck · Part 2（博后计划，帧 6-11；帧 10 拆为 10a/10b） | PPT 主体、逐帧 guide 与 `script-8min.md` 完整排练稿均可定稿；事实边界仍以各帧 guide 为准 | 后续只做错别字、事实源、口播时长或版式级 QA，不再重构路线 | 本文件 §2-§6；逐帧 guide 见 §3；完整排练稿见 `talks/2026-postdoc-entry-assessment/script-8min.md` |
 | Matrix-Free 原型 · 能力 A（入站前基础验证） | 真·无矩阵 contraction、MatVec/CG 一致、NumPy/PyTorch CPU/CUDA 三档跑通；另有 GPU/MPI/预条件子基础 | 后续迁移到 PIML × Matrix-Free 全局原型；帧 8 侧已作为入站前基础验证 | `research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame8_matrix_free_pipeline_guide.md` |
 | PIML 多尺度原型 · 能力 B（soptx） | 帧 7 PPT + guide 已定稿；真实 PIML 预测误差已回填：`L=5 1.6e-3` / `L=10 8.2e-3` | 非阻塞可选：补 `piml_baseline.pdf` 宏微映射图，或继续推进结构保持参数化/全局 Matrix-Free 咬合 | `research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame7_piml_pipeline_guide.md` |
 | MMC 方向二 · 能力 C（帧 10a/10b） | 范围收敛为前向切割 Demo + 后续接入路线；帧 10a/10b guide 已统一入口 | 非阻塞可选：输出更清晰/矢量局部图，或将 `mmc_cut_mesh_prototype.py` 整理进 soptx 包并加最小测试 | `research/postdoc-plan/defense-sprint/direction-2-mmc-mmv/frame10_mmc_pipeline_guide.md` |
@@ -26,17 +26,17 @@ date: 2026-07-04
 ## 入站考核答辩最终口径（2026-07-03）
 
 - **整体可定稿**：当前 16 页 PPT 的宏观叙事、Part 1/Part 2 承接关系、帧 6-11 的逐帧 guide 口径均已完成最终审查，可作为入站考核答辩定稿版本。
-- **Part 2 管理方式**：Part 2 不需要汇总进 `script-8min.md`；后续讲法以帧 6/7/8/9/10/11 的 guide 为权威入口。不要把 `script-8min.md` 中 Part 2 未闭环误判为答辩内容未完成。
+- **Part 2 管理方式**：Part 2 已汇总进 `script-8min.md` 作为完整排练稿；逐帧 guide 仍是事实边界、追问口径和后续细查的权威入口。后续若两者不一致，先以 guide 为准，再同步脚本。
 - **与郭旭老师期望的对应关系**：PPT 已体现拓扑优化、PIML、MMC/MMV、工业软件/工程场景，以及非线性分析扩展等方向；对应关系主要由帧 6 总览、帧 10/11 计划与平台支撑承接。
 - **数学方向特色**：PPT 结构中已有“计算数学 → 先进有限元/高精度离散 → 快速算法/预条件子/高性能实现 → 计算力学问题”的优势链条；正式讲述时可在帧 6 或帧 11 主动点明，不需要再在 PPT 主帧增加文字。
-- **最终检查顺序**：先做全局叙事审查，再逐帧检查 PPT 与对应 guide；Part 1 可参考 `script-8min.md`，Part 2 只看逐帧 guide。
+- **最终检查顺序**：先做全局叙事审查，再逐帧检查 PPT 与对应 guide；正式排练可读 `script-8min.md` 的完整稿，细节和追问仍回到逐帧 guide。
 
 ## Part 2 Deck 当前结构
 
 | PDF 页 | 帧 | 定位 | 主入口 |
 |---|---|---|---|
 | 9/16 | 帧 6 | 博士后科研计划总览与承接关系 | `research/postdoc-plan/defense-sprint/frame6_postdoc_plan_overview_guide.md` |
-| 10/16 | 帧 7 | PIML 增强多尺度前向分析原型 | `research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame7_piml_pipeline_guide.md` |
+| 10/16 | 帧 7 | PIML 增强的子结构多尺度前向分析原型 | `research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame7_piml_pipeline_guide.md` |
 | 11/16 | 帧 8 | Matrix-Free 无矩阵高性能求解原型 | `research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame8_matrix_free_pipeline_guide.md` |
 | 12/16 | 帧 9 | PIML × Matrix-Free × GPU 融合路线 | `research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame9_piml_matrix_free_pipeline_guide.md` |
 | 13/16 | 帧 10a | MMC/MMV 显式几何到数值分析接口 | `research/postdoc-plan/defense-sprint/direction-2-mmc-mmv/frame10_mmc_pipeline_guide.md` |
@@ -117,6 +117,20 @@ date: 2026-07-04
 - 2026-07-04 术语统一：把「预条件」统一为「预条件子」（preconditioner 算子义）。帧 8/9 的 PPT（栏标题、④ 标题、结果口径、帧 9 流程框「Krylov + 预条件子」、并行层面）与 `frame8`/`frame9` guide 已改为「预条件子」，仅技术义保留「预条件」（如“预条件路线”“收敛仍依赖预条件”）；帧 10b 本就是该标准。已重新 XeLaTeX ×2，PDF 仍 16 页、Overfull 保持 13 无新增，`template-8min.pdf` 已更新。
 - 2026-07-04 仅更新 `frame9_piml_matrix_free_pipeline_guide.md` 8.6 讲稿：把“全程都不显式组装全局矩阵”收紧为“目标链路的核心是尽量避免显式组装全局缩聚矩阵”，避免误听为 PIML × Matrix-Free × GPU 端到端系统已完成；PPT 未改，因此未重新编译。
 - 2026-07-04 仅更新 `frame10_mmc_pipeline_guide.md` 8.11 讲稿：补充实体侧 `1028` 个积分点由 Solid 单元 `560` 个与 Cut 单元实体侧重构 `468` 个构成；PPT 未改，因此未重新编译。
+- 2026-07-05 仅更新 `script-8min.md` 与 `frame7_piml_pipeline_guide.md`：补充博士第 4 章高阶多分辨率框架与 Huang 2023 / 帧 7 PIML 子结构缩聚路线的承接口径。结论为“思想层面相近，数学机制不同”：前者侧重设计分辨率、密度积分网格与分析自由度解耦；后者侧重子结构静力缩聚、局部等效算子学习与后续 Matrix-Free 全局求解入口。PPT 未改，因此未重新编译。
+- 2026-07-05 仅更新 `frame7_piml_pipeline_guide.md`：收紧 “Green 函数” 口径，仅保留为 Huang 2022 对 EMsFEM 多尺度形函数的解释性补充；主答辩口径改为“局部材料分布唯一决定多尺度形函数 / 子结构等效刚度，宏观边界、载荷和域形只进入全局方程”。PPT 未改，因此未重新编译。
+- 2026-07-05 仅更新 `frame7_piml_pipeline_guide.md`：补充“Schur 补”术语说明，明确 Huang 2023 原文的 condensed stiffness matrix / 缩聚刚度矩阵与数学中的 Schur 补在理论上是同一个内部自由度消元结果，只是有限元子结构法与数值线性代数的命名习惯不同。PPT 未改，因此未重新编译。
+- 2026-07-05 仅更新 `frame7_piml_pipeline_guide.md`：补充 T4b 原型训练设置与 Huang 2023 原文设置的边界（Adam/cosine/1500 epochs 属本原型，Huang 2023 原文未明示神经网络权重优化器，拓扑优化外循环用 OC），并在 8.5 讲稿中说明 $L=10$ 接口解误差高于 $L=5$ 的原因是更大系统下的条件数与浮点舍入累积。PPT 未改，因此未重新编译。
+- 2026-07-05 仅更新 `frame7_piml_pipeline_guide.md`：将 ④ 的 `1.6e-3 / 8.2e-3` 口径明确为逐子结构等效刚度 $K_s$ 的相对预测误差均值，不是位移误差、柔顺度误差或最终拓扑误差。PPT 未改，因此未重新编译。
+- 2026-07-05 仅更新 `frame7_piml_pipeline_guide.md`：收紧 8.5 讲稿中“接口方程残差”的口径，将其定位为数值求解自检；强调真正支撑前向链路的是 Schur 补一致、接口解与全尺度直解一致、以及回代恢复一致。PPT 未改，因此未重新编译。
+- 2026-07-05 仅更新 `frame7_piml_pipeline_guide.md`：按答辩口径收紧 8.5 第四条，先说明 `1.6e-3 / 8.2e-3` 不是最终结构误差，而是局部子结构刚度算子学习的可靠性验证；再给出 $K_s$ 预测误差和 Mock 对照。PPT 未改，因此未重新编译。
+- 2026-07-05 更新帧 7 PPT 可见文字：右侧第 4 条标题由“PIML 预测误差”改为“PIML $K_s$ 预测误差”，明确 `1.6e-3 / 8.2e-3` 是子结构等效刚度预测误差；同步 `outline-8min.md` 与 `frame7_piml_pipeline_guide.md`。已重新编译 PDF（16 页），并渲染第 10 页完成版面检查。
+- 2026-07-05 仅更新 `frame8_matrix_free_pipeline_guide.md`：在 8.5 逐句讲稿中补充 Matrix-Free 算子作用与状态方程 $KU=F$ 的关系，说明单次 $Kx$ 是 CG 的黑盒接口，CG 收敛后等价于显式组装 $K$ 后求得位移解 $U$。PPT 未改，因此未重新编译。
+- 2026-07-05 仅更新 `frame8_matrix_free_pipeline_guide.md`：补充帧 8 中 MatVec 误差 `10^-15--10^-13` 与 CG 残差 `10^-11--10^-10` 写成范围的原因，说明这些数值汇总了不同维度、网格、后端和测试配置；MatVec 误差是单次算子机器精度一致，CG 残差是迭代求解闭环精度。PPT 未改，因此未重新编译。
+- 2026-07-05 更新帧 7 PPT 可见文字：标题由“PIML 增强的多尺度结构前向分析原型”改为“PIML 增强的子结构多尺度前向分析原型”，顶部引导句由“多尺度形函数 / 等效刚度”改为“子结构多尺度形函数 / 等效刚度”，并将“宏观粗网格密度”压缩为“粗网格密度”且显式分两行，以避免换行割裂；同步 `outline-8min.md`、`frame7_piml_pipeline_guide.md`、帧 8/演化文档交叉引用。已重新 XeLaTeX 编译两遍，PDF 16 页，Overfull 保持 13，无新增；已渲染第 10 页完成版面检查。
+- 2026-07-05 仅更新 `frame10_mmc_pipeline_guide.md`：在 8.11 约 100 秒逐句讲稿中补充帧 10a 数值结果的 MMC/MMV 边界说明，明确实测数值来自超椭圆 MMC 单组件 TDF 原型，`Void 580` 是 TDF 分类得到的空洞侧背景单元，不等同于 MMV 孔洞演化结果；同时将 8.11 长段落拆分为更便于口播和审阅的多段。PPT 未改，因此未重新编译。
+- 2026-07-05 仅更新 `frame10_mmc_pipeline_guide.md`：在 8.11 约 100 秒逐句讲稿中补充帧 10a 左侧流程图口播，串联“显式组件/孔洞参数描述边界并构造 TDF 判别函数 → 背景网格上评价 TDF → solid/void/cut 分类 → cut 单元实体侧重构 → 实体侧积分点三元组 $(x_q,y_q,\omega_q)$”，明确 MMC/MMV 是显式几何，TDF 是由显式几何构造的几何判别函数，左图强调的是几何到积分数据入口，不是结构求解。PPT 未改，因此未重新编译。
+- 2026-07-05 更新 `script-8min.md`：将帧 6、7、8、9、10a、10b、11 的逐页讲稿从各 guide 汇总进完整排练稿，并将开头说明调整为“包含详细稿与追问备用口径，正式 8 分钟需取舍”；同步 `frame10_mmc_pipeline_guide.md` 中 TDF 口径为“由显式组件参数构造出的拓扑描述函数或几何判别函数”。PPT 未改，因此未重新编译。
 
 重要 QA 图：
 
@@ -143,8 +157,9 @@ date: 2026-07-04
 ## 全局约定（速查）
 
 - `talks/` 下 PPT 修改必须先方案后动手；确认后只改指定帧；详见 `ai/common/talks-ppt-editing-rules.md`。
+- PPT/PDF 单页 QA 渲染若在本机 Codex 环境中被 `pdftoppm.cmd` / `pdfinfo.cmd` 包装脚本卡住，直接用真实 Poppler 路径；详见 `ai/common/talks-ppt-editing-rules.md` 与 `ai/agents/AGENTS.md`。
 - 若继续讨论 Part 2，先读本文件对应段落，再读具体帧 guide。
-- `script-8min.md` 只作为 Part 1 连续讲稿入口；Part 2 不需要汇总到该文件，直接以逐帧 guide 为最终口径。
+- `script-8min.md` 现在作为 Part 1 + Part 2 完整排练稿入口；Part 2 的事实边界、追问 QA 和后续细查仍以逐帧 guide 为最终口径。
 - 帧 7/8/10 的数值事实仍以 `C:\workspace\soptx_heliang\docs\frame7*_pipeline_results.md`、`frame8*_pipeline_results.md`、`frame10*_pipeline_results.md` 为唯一事实源。
 
 ## 如何续接本项目
