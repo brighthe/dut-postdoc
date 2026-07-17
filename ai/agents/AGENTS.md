@@ -2,6 +2,8 @@
 
 本文件指导 Codex 及 Antigravity (Gemini Code Assistant) 在 `dut-postdoc` 工作区中进行工作。
 
+全局 Codex / AI 工具配置由个人工具仓库 `C:\workspace\workstation`（GitHub: `brighthe/workstation`）维护；本文件只记录 `dut-postdoc` 的项目级补充规则。不要把该工具仓库视为本知识库的内容来源或运行依赖。
+
 ## 必读规则
 
 在开始任务前，应先读取并遵守：
