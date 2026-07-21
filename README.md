@@ -9,7 +9,7 @@
 在「原始资料」与「我」之间维护一个持久、结构化、可被 LLM 读写的中间层，每次提问不必从零重读论文。三层架构：
 
 - **原始源层**：论文 PDF / 文章 / 图片，AI 只读不改，本地存放不入版本控制
-- **Wiki 层**：文献笔记、调研、概念页、实体页、论文草稿
+- **Wiki 层**：文献笔记、调研、工作汇报、概念页、实体页、论文草稿
 - **Schema 层**：`ai/` + 根目录工具入口 + `assets/templates/` 定义约定与工作流
 
 ## 目录结构
@@ -37,6 +37,9 @@ dut-postdoc/
 │   │   ├── long-term/       # 长期科研路线：两大方向调研与执行计划
 │   │   └── defense-sprint/  # 入站答辩短期数学原则、原型计划与出图
 │   └── teams/          # 合作团队与平台背景
+├── work-reports/       # 周期性工作汇报：技术底稿、会后研究结论与行动项
+│   ├── _index.md       # 工作汇报事实源分工、生命周期和新建流程
+│   └── guo-xu/         # 面向郭旭老师的历次工作汇报
 ├── concepts/           # 概念页（跨源提炼，如 PIML）
 ├── entities/           # 实体页（人/团队/方法/软件）
 ├── papers/             # 自己写的论文草稿
@@ -56,6 +59,7 @@ dut-postdoc/
 
 - 新建文献笔记：复制 `assets/templates/literature-note.md` 放入对应子目录
 - 新建调研 / 概念页 / 实体页：分别复制 `research-survey.md` / `concept-note.md` / `entity-note.md`
+- 新建工作汇报：复制 `assets/templates/advisor-work-report.md` 到 `work-reports/<对象>/`，并按 `preparing → reported → follow-up-done` 更新同一页面
 - 进入内容目录时先读该目录 `_index.md`；页面间一律用 Obsidian `[[wikilink]]` 互链
 - 新增、移动、删除或重组页面后，收尾检查对应目录 `_index.md`；影响全库导航时同步根 `index.md`
 - 专项工作流按任务加载：PPT/讲稿见 [talks-ppt-editing-rules.md](ai/talks-ppt-editing-rules.md)，论文翻译见 [paper-translation-workflow.md](ai/paper-translation-workflow.md)，提交/推送见 [git-workflow.md](ai/git-workflow.md)
@@ -68,6 +72,7 @@ dut-postdoc/
 - 方向一：PIML 增强多尺度分析 + Matrix-Free 高性能求解
 - 方向二：MMC/MMV 显式拓扑优化先进数值分析
 - 入站答辩短期冲刺：`research/postdoc-plan/defense-sprint/`
+- 郭旭老师工作汇报：`work-reports/guo-xu/`
 
 ---
 

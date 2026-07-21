@@ -137,3 +137,10 @@
 - `ai/git-workflow.md` 瘦身：新机启动语、原生 git 原则、SSH over 443、一次性配置、本机现状、排错等账户级/机器级内容统一由 `workstation` 仓库 `git/README.md` 承载（含匿名可读的 raw URL），本文件只保留 dut-postdoc 特有的操作要点（远程地址、Codex 沙箱 `--git-dir` 兜底）与提交纪律（根门面文件门禁等）。
 - `ai/llm-wiki-workflow.md` 提交前门禁一句的表述同步微调，说明机器级 Git/SSH 事实已外移。
 - `index.md` 与 `README.md` 已检查：内容地图与目录结构均未变化（`ai/git-workflow.md` 文件仍在原位），无需修改。
+
+## [2026-07-21] edit | 建立根级工作汇报归档并整理郭旭老师汇报材料
+- 新建 [[work-reports/_index]]、[[work-reports/guo-xu/_index]] 与 [[assets/templates/advisor-work-report]]，定义工作汇报事实源分工、`preparing → reported → follow-up-done` 生命周期和复用模板。
+- 将郭旭老师近期汇报正文迁移为 [[work-reports/guo-xu/2026-07-piml-matrix-free-gpu]]；原 [[research/postdoc-plan/guo-xu-meeting-briefing-2026-07]] 保留为唯一历史 redirect。
+- 更新 [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]]：统一“已经完成 / 正在准备 / 后续设想”状态口径，明确 PIML、Matrix-Free、GPU/HPC 与模型选型合作线索的事实边界。
+- 同步 [[index]]、`README.md` 与 `ai/llm-wiki-workflow.md`，把 `work-reports/` 定义为根级 Wiki 内容类型；[[research/_index]] 恢复为研究计划、调研与技术综合入口。
+- 跨仓库沟通记录与研究院任务文件仅作只读参考，未修改。

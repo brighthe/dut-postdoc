@@ -11,14 +11,14 @@ tags:
   - preconditioner
 status: "in-progress"
 date_start: 2026-07-20
-date_update: 2026-07-20
+date_update: 2026-07-21
 related:
   - frame7_piml_pipeline_guide
   - frame8_matrix_free_pipeline_guide
   - frame9_piml_matrix_free_pipeline_guide
   - piml-matrix-free-execution-plan
   - piml-matrix-free-high-performance-solver-survey
-  - guo-xu-meeting-briefing-2026-07
+  - 2026-07-piml-matrix-free-gpu
 ---
 
 # PIML、Matrix-Free、GPU 与科学计算约束下模型选型：当前事实、融合路线与近期任务
@@ -47,6 +47,16 @@ related:
 - **已经完成**：已有代码、数值结果或真实工程记录支撑，可以给出明确证据和边界。
 - **正在准备**：任务已经明确，但依赖代码权限、环境、接口确认或尚未完成验证，不能按成果汇报。
 - **后续设想**：研究路线、候选模型或潜在合作切入点，尚未形成完成结果或正式合作安排。
+
+### 0.3 当前状态总览
+
+| 状态 | 当前内容 | 汇报边界 |
+|---|---|---|
+| **已经完成** | PIML 子结构局部算子原型；Matrix-Free MatVec/CG 状态方程原型；独立 `mfleo` GPU/MPI、Krylov 与基础预条件子工程验证 | 三块能力分别有证据，但属于不同原型或代码路径 |
+| **正在准备** | 研究院 SGFEM 代码与环境对接；Hypre/PETSc KSP 收敛和性能基线；预条件子设计；PETSc Shell Matrix 算法层集成准备 | 尚未形成研究院侧完成结果，也未形成 PIML 融合结果 |
+| **后续设想** | 精确 $K_s$ 的子结构级 Matrix-Free、Krylov/预条件、PIML 替换与结构检查、GPU 批处理、优化闭环和多节点扩展 | 是分阶段研究路线，不是已经完成或已经启动的端到端系统 |
+
+桌面电脑做到十亿细网格是郭旭老师提出的长期目标和架构牵引，当前尚未完成相应端到端实现或规模验证。
 
 ## 1. 结论先行
 
@@ -207,11 +217,11 @@ $$
 | 步骤 | 状态 | 输入 | 核心动作 | 最小交付物 | 验收条件 |
 |---|---|---|---|---|---|
 | 1. 求解器与性能基线 | 正在准备 | 研究院代码权限、SGFEM 算例、Hypre/PETSc KSP 配置 | 跑通代表算例；记录不收敛配置、残差曲线、迭代数、时间、峰值内存；梳理 Shell Matrix 调用路径 | 基线配置与问题清单 | 同一算例可复现；所有参数和失败模式有记录 |
-| 2. 精确 $K_s$ 的全局 Matrix-Free | 后续近期任务 | `ExactPredictor` 给出的 $K_s^j$、接口映射 $A_j$ | 实现 $y=\sum_jA_j^TK_s^jA_jx$；与显式组装 $K^{\mathrm{cond}}x$ 对照 | CPU MatVec 内核与单元测试 | 固定算子下相对误差达到机器精度量级；不显式组装全局缩聚矩阵 |
-| 3. Krylov + 基础预条件子 | 后续近期任务 | 步骤 2 算子、接口载荷和边界条件 | 接入 CG；比较 none/Jacobi/block Jacobi，必要时准备 GMRES/MINRES | 收敛与性能表 | 解和残差与组装路径一致；迭代数、时间、内存可复现 |
-| 4. 替换为 PIML $\widehat K_s$ | 后续近期任务 | `TrainedPredictor`、精确基线 | 比较对称性、最小特征值/谱区间、能量误差、CG/GMRES 收敛；记录局部误差到全局位移的传播 | 结构性质与误差传播报告 | 明确哪些密度场可直接使用预测算子、哪些需要修正或回退 |
-| 5. GPU 批处理与策略对比 | 后续设想，接口稳定后启动 | 批量局部密度、$K_s$ 或局部 contraction、CUDA 后端 | 批量推理、局部 MatVec、scatter-add profiling；比较保存 $N$、保存 $K_s$、按需重算 | 吞吐/显存/墙钟时间 Pareto 表 | 同时报告准确性、总 solve 时间和峰值显存，不只报 kernel 加速 |
-| 6. 优化闭环和多节点 | 后续设想 | 稳定的预测算子、求解器和 GPU 内核 | 接入细尺度恢复、灵敏度、OC/MMA；开展 MPI/GPU 扩展 | 端到端拓扑优化原型 | 位移、柔顺度、灵敏度、最终拓扑和强弱扩展数据齐全 |
+| 2. 精确 $K_s$ 的全局 Matrix-Free | 后续设想（近期） | `ExactPredictor` 给出的 $K_s^j$、接口映射 $A_j$ | 实现 $y=\sum_jA_j^TK_s^jA_jx$；与显式组装 $K^{\mathrm{cond}}x$ 对照 | CPU MatVec 内核与单元测试 | 固定算子下相对误差达到机器精度量级；不显式组装全局缩聚矩阵 |
+| 3. Krylov + 基础预条件子 | 后续设想（近期） | 步骤 2 算子、接口载荷和边界条件 | 接入 CG；比较 none/Jacobi/block Jacobi，必要时准备 GMRES/MINRES | 收敛与性能表 | 解和残差与组装路径一致；迭代数、时间、内存可复现 |
+| 4. 替换为 PIML $\widehat K_s$ | 后续设想（近期） | `TrainedPredictor`、精确基线 | 比较对称性、最小特征值/谱区间、能量误差、CG/GMRES 收敛；记录局部误差到全局位移的传播 | 结构性质与误差传播报告 | 明确哪些密度场可直接使用预测算子、哪些需要修正或回退 |
+| 5. GPU 批处理与策略对比 | 后续设想（中期） | 批量局部密度、$K_s$ 或局部 contraction、CUDA 后端 | 在接口稳定后开展批量推理、局部 MatVec、scatter-add profiling；比较保存 $N$、保存 $K_s$、按需重算 | 吞吐/显存/墙钟时间 Pareto 表 | 同时报告准确性、总 solve 时间和峰值显存，不只报 kernel 加速 |
+| 6. 优化闭环和多节点 | 后续设想（中长期） | 稳定的预测算子、求解器和 GPU 内核 | 接入细尺度恢复、灵敏度、OC/MMA；开展 MPI/GPU 扩展 | 端到端拓扑优化原型 | 位移、柔顺度、灵敏度、最终拓扑和强弱扩展数据齐全 |
 
 ### 4.3 近期优先级
 
@@ -239,10 +249,10 @@ $$
 
 当前只能表述为：
 
-- 刘老师主动了解本人的研究背景，并提出了模型选型困难。
-- 本人已经发送简历、博士论文和博士后科研计划。
-- 正在为后续技术交流准备问题框架。
-- **尚未形成具体合作课题、任务分工、时间表或共同成果安排。**
+- **已经完成**：刘老师主动了解本人的研究背景并提出模型选型困难；本人已经发送简历、博士论文和博士后科研计划。
+- **正在准备**：已形成供下一次交流使用的初步问题框架，下一步需要向刘老师确认具体物理问题、数据条件、软件环境和评价目标。
+- **后续设想**：在问题边界明确后，再讨论是否开展统一模型选型 benchmark 或其他技术协作。
+- **合作边界**：尚未形成具体合作课题、任务分工、时间表或共同成果安排。
 
 ### 5.2 为什么科学计算中的模型选型不同于一般 ML
 
@@ -317,6 +327,8 @@ $$
 
 ### 5.6 与本人背景的具体结合点
 
+以下五点均为基于本人 PIML、数值算法和科学计算背景提出的**后续设想**，用于下一轮问题澄清和技术讨论，不代表刘老师已经认可某条路线或双方已经形成合作安排。
+
 #### 结合点 A：结构保持的输出参数化
 
 普通逐元素 MSE 不能保证 $\widehat K_s$ 对称正定。可比较：
@@ -390,7 +402,7 @@ $$
 - 不把 soptx 的 $11.9\times$ GPU MatVec 说成端到端 solve 加速。
 - 不把 `mfleo` 数据说成 soptx/PIML 融合结果。
 - 不说已经完成十亿细网格桌面端代码；这是长期目标和架构牵引。
-- 不说刘老师已经同意合作；只能说他提出技术痛点，本人正在准备可讨论的模型选型框架。
+- 不说刘老师已经同意合作；只能说他提出技术痛点，本人已形成初步问题框架，正在准备确认具体场景。
 
 ## 7. 建议的近期科研问题凝练
 
@@ -412,7 +424,7 @@ $$
 - [[piml-matrix-free-high-performance-solver-survey]] — 开放科学问题与长期技术路线。
 - [[piml-matrix-free-execution-plan]] — 24 个月执行计划。
 - [[../../postdoc-research-plan]] — 博士后科研计划总领。
-- [[../../guo-xu-meeting-briefing-2026-07]] — 面向郭旭老师的汇报要点与待请教问题。
+- [[../../../../work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] — 面向郭旭老师的汇报要点、待请教问题与后续行动项。
 - [[../../../../concepts/piml/method-lineage]] — PIML 方法谱系。
 - [[../../../../literature/topology-opt/Huang2023-PIML-substructure]] — 子结构 PIML。
 - [[../../../../literature/topology-opt/Huang2024-PIML-datafree]] — DeepONet 与 mechanics-based data-free PIML。

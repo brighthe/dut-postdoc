@@ -10,6 +10,7 @@
 |---|---|---|
 | 📄 文献笔记 | 单篇论文精读（summary） | [[literature/_index]] |
 | 🔬 调研 | 课题/方向综合（synthesis） | [[research/_index]] |
+| 📋 工作汇报 | 技术底稿、会后研究结论与行动项 | [[work-reports/_index]] |
 | 💡 概念页 | 跨源概念提炼 | [[concepts/_index]] |
 | 👥 实体页 | 人/团队/方法/软件档案 | [[entities/_index]] |
 | ✍️ 论文草稿 | 自己写的稿件 | `papers/` |
@@ -25,12 +26,19 @@
 | [[literature/topology-opt/Huang2024-PIML-datafree]] | 拓扑优化 | 2024 | draft |
 | [[literature/topology-opt/Ma2026-highperformanceparallel]] | 拓扑优化 | 2026 | done |
 
+## 工作汇报
+
+| 归档 / 汇报 | 状态 |
+|---|---|
+| [[work-reports/_index]] | in-progress |
+| [[work-reports/guo-xu/_index]] | in-progress |
+| [[work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] | preparing |
+
 ## 调研
 
 | 课题 | 状态 |
 |---|---|
 | [[research/postdoc-plan/postdoc-research-plan]] | in-progress |
-| [[research/postdoc-plan/guo-xu-meeting-briefing-2026-07]] | in-progress |
 | [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] | in-progress |
 | [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-execution-plan]] | in-progress |
 | [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] | in-progress |
