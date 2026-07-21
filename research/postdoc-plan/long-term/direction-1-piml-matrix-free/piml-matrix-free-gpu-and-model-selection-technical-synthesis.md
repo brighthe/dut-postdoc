@@ -13,6 +13,9 @@ status: "in-progress"
 date_start: 2026-07-20
 date_update: 2026-07-21
 related:
+  - piml-research-guide
+  - matrix-free-research-guide
+  - gpu-hpc-research-guide
   - frame7_piml_pipeline_guide
   - frame8_matrix_free_pipeline_guide
   - frame9_piml_matrix_free_pipeline_guide
@@ -418,6 +421,9 @@ $$
 
 ## 8. 关联文档
 
+- [[research/technical-lines/piml-research-guide]] — PIML 局部力学算子的长期研究与实施指南。
+- [[research/technical-lines/matrix-free-research-guide]] — Matrix-Free 全局算子与迭代求解的长期研究与实施指南。
+- [[research/technical-lines/gpu-hpc-research-guide]] — GPU/HPC 异构并行与端到端性能的长期研究与实施指南。
 - [[../../defense-sprint/direction-1-piml-matrix-free/frame7_piml_pipeline_guide]] — PIML 原型事实和数字。
 - [[../../defense-sprint/direction-1-piml-matrix-free/frame8_matrix_free_pipeline_guide]] — Matrix-Free、GPU/MPI 和预条件子事实。
 - [[../../defense-sprint/direction-1-piml-matrix-free/frame9_piml_matrix_free_pipeline_guide]] — PIML × Matrix-Free × GPU 融合口径。

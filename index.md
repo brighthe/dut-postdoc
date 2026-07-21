@@ -10,7 +10,7 @@
 |---|---|---|
 | 📄 文献笔记 | 单篇论文精读（summary） | [[literature/_index]] |
 | 🔬 调研 | 课题/方向综合（synthesis） | [[research/_index]] |
-| 📋 工作汇报 | 技术底稿、会后研究结论与行动项 | [[work-reports/_index]] |
+| 📋 工作汇报 | 自包含的会前完整底稿、会后结论与行动项 | [[work-reports/_index]] |
 | 💡 概念页 | 跨源概念提炼 | [[concepts/_index]] |
 | 👥 实体页 | 人/团队/方法/软件档案 | [[entities/_index]] |
 | ✍️ 论文草稿 | 自己写的稿件 | `papers/` |
@@ -38,6 +38,10 @@
 
 | 课题 | 状态 |
 |---|---|
+| [[research/technical-lines/_index]] | in-progress |
+| [[research/technical-lines/piml-research-guide]] | in-progress |
+| [[research/technical-lines/matrix-free-research-guide]] | in-progress |
+| [[research/technical-lines/gpu-hpc-research-guide]] | in-progress |
 | [[research/postdoc-plan/postdoc-research-plan]] | in-progress |
 | [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] | in-progress |
 | [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-execution-plan]] | in-progress |
@@ -53,6 +57,7 @@
 | [[concepts/llm-wiki]] | 个人 AI 知识库模式：由 AI 工具维护原始资料与研究者之间的持久 Markdown 中间层 |
 | [[concepts/piml]] | 问题无关机器学习：学习可复用局部力学表示，用于拓扑优化与高效分析 |
 | [[concepts/piml/method-lineage]] | PIML 方法谱系：EMsFEM 形函数、子结构缩聚、data-free 与并行大规模优化 |
+| [[concepts/matrix-free-assembly-levels]] | Matrix-Free 五级装配层次：FA/LA/EA/PA/UA 的存储边界、框架映射与项目定位 |
 
 ## 实体页
 

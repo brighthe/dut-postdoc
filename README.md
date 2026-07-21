@@ -32,12 +32,13 @@ dut-postdoc/
 │   └── others/
 ├── research/           # 博后研究计划、长期调研与入站答辩短期验证
 │   ├── _index.md       # research 目录入口：先读这里
+│   ├── technical-lines/     # 跨研究方向复用的 PIML、Matrix-Free、GPU/HPC 长期技术线
 │   ├── postdoc-plan/
 │   │   ├── postdoc-research-plan.md
 │   │   ├── long-term/       # 长期科研路线：两大方向调研与执行计划
 │   │   └── defense-sprint/  # 入站答辩短期数学原则、原型计划与出图
 │   └── teams/          # 合作团队与平台背景
-├── work-reports/       # 周期性工作汇报：技术底稿、会后研究结论与行动项
+├── work-reports/       # 周期性工作汇报：自包含的会前完整底稿、会后结论与行动项
 │   ├── _index.md       # 工作汇报事实源分工、生命周期和新建流程
 │   └── guo-xu/         # 面向郭旭老师的历次工作汇报
 ├── concepts/           # 概念页（跨源提炼，如 PIML）
@@ -68,6 +69,7 @@ dut-postdoc/
 
 ## 研究方向
 
+- 长期技术线：`research/technical-lines/`（PIML、Matrix-Free、GPU/HPC）
 - 博后研究计划总领：`research/postdoc-plan/postdoc-research-plan.md`
 - 方向一：PIML 增强多尺度分析 + Matrix-Free 高性能求解
 - 方向二：MMC/MMV 显式拓扑优化先进数值分析

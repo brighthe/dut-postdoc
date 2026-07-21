@@ -144,3 +144,33 @@
 - 更新 [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]]：统一“已经完成 / 正在准备 / 后续设想”状态口径，明确 PIML、Matrix-Free、GPU/HPC 与模型选型合作线索的事实边界。
 - 同步 [[index]]、`README.md` 与 `ai/llm-wiki-workflow.md`，把 `work-reports/` 定义为根级 Wiki 内容类型；[[research/_index]] 恢复为研究计划、调研与技术综合入口。
 - 跨仓库沟通记录与研究院任务文件仅作只读参考，未修改。
+
+## [2026-07-21] edit | 去重郭旭老师当面汇报的跨仓库提纲
+- 在 [[work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] 增加“入站流程 → 研究院任务 → 科研主线 → 模型选型线索”的当面汇报顺序，并保持原有技术章节编号不变。
+- 技术汇报页只保留刘畅老师所提模型选型问题的技术背景、评价框架和合作边界，不再复制发送材料等真实沟通过程。
+- `heliangos` 联系人档案同步压缩为约见、行政状态、事实源指针和会面礼节；研究院实时任务仍以 `dut-institute-work/hpc/plan.md` 为准。
+- 检查根 [[index]] 与工作汇报两级 `_index.md`：现有入口和事实源分工仍准确，无需修改。
+
+## [2026-07-21] edit | 将工作汇报重构为自包含的完整底稿
+- 将 [[work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] 从偏技术提纲重排为十三章完整工作汇报，补入可直接口述的入站进展、研究院任务及衔接关系，并恢复刘畅老师合作线索的必要沟通背景。
+- 明确“汇报页自包含、外部事实源持续维护”的边界：本页保留完成本次汇报所需的带日期事实快照，不复制具体财务账号、逐字微信、完整行政流水或研究院实时任务账。
+- `heliangos` 郭旭老师档案删除重复的四方面汇报提纲，只在约见待办中保留本汇报页路径和会面礼节；聊天记录与行政历史保持不变。
+- 同步 [[index]]、`README.md`、`ai/llm-wiki-workflow.md`、工作汇报两级索引和通用模板，将工作汇报统一定义为“自包含的会前完整底稿、会后结论与行动项”。
+
+## [2026-07-21] edit | 按三条技术线重构工作汇报的科研部分
+- 将 [[work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] 第四节改为 PIML、Matrix-Free、GPU/HPC 三条技术线，每条线统一呈现“已完成、汇报边界、后续工作”。
+- 将 `soptx` 单次 GPU MatVec 加速与内存数据归入 GPU/HPC，Matrix-Free 部分聚焦算子正确性、状态方程和求解器接口；原有数值不变。
+- 第五节收敛为局部—全局接口、结构保持、Krylov 收敛、端到端性能和优化闭环等跨线问题；第六节只维护整体融合顺序、理由和首批交付结果。
+- 关联页与索引已检查，没有页面依赖第四至第六节旧标题，无需同步修改。
+
+## [2026-07-21] edit | 建立跨方向复用的三条长期技术线
+- 新建 [[research/technical-lines/_index]]，明确长期技术线不从属于固定的研究方向编号，并区分技术线 guide、概念页、科研计划、综合页、答辩 guide 与工作汇报的职责。
+- 新建 [[research/technical-lines/piml-research-guide]]、[[research/technical-lines/matrix-free-research-guide]] 与 [[research/technical-lines/gpu-hpc-research-guide]]，分别沉淀数学/执行对象、当前证据、事实边界、工作包、Benchmark、里程碑、风险和跨线接口。
+- 同步 [[research/_index]]、根 [[index]] 与 `README.md`，登记 `research/technical-lines/`；在郭旭老师工作汇报第四节和当前融合 synthesis 中补充三份长期 guide 入口。
+- 原 `direction-1-piml-matrix-free/` 下综合调研和执行计划暂不移动，继续负责当前博士后计划中的跨线组合与阶段安排。
+
+## [2026-07-21] ingest | 统一 Matrix-Free 五级装配层次与项目定位
+- 新建 [[concepts/matrix-free-assembly-levels]]，采用兼容 libCEED 与 MFEM 的 `FA/TA → LA → EA/EbE → PA/QA → UA/NONE` 五级存储分类，并区分广义 Matrix-Free、严格 UA/NONE 与 Shell Matrix 接口。
+- 更新 [[research/technical-lines/matrix-free-research-guide]]：将当前基础区分为积分点 contraction 原型、`mfleo` PA 工程路径和 `xihe/matrix_free_3` EA/EbE 分布式 Maxwell 原型，明确各自证据边界。
+- 同步 [[concepts/_index]]、[[research/technical-lines/_index]]、根 [[index]]、长期综合调研与帧 8 答辩 guide；工作汇报现有 `mfleo PA / Matrix-Free` 表述准确，保持不改。
+- 两个公司仓库只按 `origin/develop` 做只读事实核对，未复制代码、内部数据或客户算例，也未修改公司仓库。

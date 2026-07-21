@@ -20,6 +20,16 @@
 
 ## 长期研究路线
 
+### 跨方向长期技术线
+
+| 技术线 | 状态 | 说明 |
+|---|---|---|
+| [[technical-lines/piml-research-guide]] | in-progress | PIML 局部力学算子：结构保持、误差传播、灵敏度、优化闭环与模型选型 |
+| [[technical-lines/matrix-free-research-guide]] | in-progress | Matrix-Free 全局算子：Krylov、预条件、Shell Matrix 与规模基线 |
+| [[technical-lines/gpu-hpc-research-guide]] | in-progress | GPU/HPC：批处理、端到端性能、显存、多后端、MPI 与多节点扩展 |
+
+目录入口：[[technical-lines/_index]]。三条技术线可被多个研究方向复用，不从属于固定的方向编号。
+
 ### 方向一：PIML 多尺度 + Matrix-Free 高性能求解
 
 | 文档 | 状态 | 说明 |
