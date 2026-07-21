@@ -128,3 +128,7 @@
 - 在 `ai/llm-wiki-workflow.md` 统一定义 PPT/讲稿、论文翻译和 Git 提交/推送三类按需路由；完整提交门禁仅由 `ai/git-workflow.md` 承载。
 - 将 Codex Git 沙箱兜底收敛到 Git 工作流“本机现状”，Poppler 路径继续由 PPT 专项工作流承载；`README.md` 已同步，`index.md` 已检查且无需修改。
 - 提交尾注改为按实际协作工具填写；本次由 Codex 执行，不再固定使用 Claude 署名。
+
+## [2026-07-21] edit | 为 Claude Code 启用共享工作流自动导入
+- 在根 `CLAUDE.md` 中使用 `@ai/llm-wiki-workflow.md`，由 Claude Code 在会话启动时自动加载共享工作流，不再依赖模型主动读取。
+- 保留 `index.md` 按任务读取及全部 Claude Code 专用补充；`index.md` 与 `README.md` 已检查，本次不改变内容地图、目录结构或人类入口说明，无需修改。
