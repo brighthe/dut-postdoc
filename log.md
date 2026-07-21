@@ -132,3 +132,8 @@
 ## [2026-07-21] edit | 为 Claude Code 启用共享工作流自动导入
 - 在根 `CLAUDE.md` 中使用 `@ai/llm-wiki-workflow.md`，由 Claude Code 在会话启动时自动加载共享工作流，不再依赖模型主动读取。
 - 保留 `index.md` 按任务读取及全部 Claude Code 专用补充；`index.md` 与 `README.md` 已检查，本次不改变内容地图、目录结构或人类入口说明，无需修改。
+
+## [2026-07-21] edit | 机器级 git/SSH 配置上移至 workstation 仓库
+- `ai/git-workflow.md` 瘦身：新机启动语、原生 git 原则、SSH over 443、一次性配置、本机现状、排错等账户级/机器级内容统一由 `workstation` 仓库 `git/README.md` 承载（含匿名可读的 raw URL），本文件只保留 dut-postdoc 特有的操作要点（远程地址、Codex 沙箱 `--git-dir` 兜底）与提交纪律（根门面文件门禁等）。
+- `ai/llm-wiki-workflow.md` 提交前门禁一句的表述同步微调，说明机器级 Git/SSH 事实已外移。
+- `index.md` 与 `README.md` 已检查：内容地图与目录结构均未变化（`ai/git-workflow.md` 文件仍在原位），无需修改。
