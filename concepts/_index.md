@@ -6,6 +6,7 @@
 |---|---|---|---|
 | [[llm-wiki]] | LLM Wiki / 个人 AI 知识库 | 把 LLM 放在原始资料与研究者之间，持续维护可追溯、互链的 Markdown wiki | done |
 | [[piml]] | PIML / Problem-Independent Machine Learning / 问题无关机器学习 | 学习可复用局部力学表示，用于拓扑优化与高效分析 | in-progress |
+| [[matrix-free-assembly-levels]] | Matrix-Free Assembly Levels / FA-LA-EA-PA-UA | 以算子数据保存层次统一全组装、单元组装、部分组装和完全无组装术语 | in-progress |
 
 ## PIML 子知识库
 
