@@ -30,8 +30,10 @@
 | 课题 | 状态 |
 |---|---|
 | [[research/postdoc-plan/postdoc-research-plan]] | in-progress |
+| [[research/postdoc-plan/guo-xu-meeting-briefing-2026-07]] | in-progress |
 | [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] | in-progress |
 | [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-execution-plan]] | in-progress |
+| [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] | in-progress |
 | [[research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey]] | draft |
 | [[research/postdoc-plan/defense-sprint/one-week-defense-sprint-plan]] | in-progress |
 | [[research/teams/guo-xu-team-overview]] | done |

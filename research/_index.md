@@ -7,6 +7,7 @@
 | 文档 | 状态 | 说明 |
 |---|---|---|
 | [[postdoc-plan/postdoc-research-plan]] | in-progress | 博后研究计划总领：两大研究方面、四条主线、三阶段与预期目标 |
+| [[postdoc-plan/guo-xu-meeting-briefing-2026-07]] | in-progress | 面向郭旭老师的近期技术汇报要点、事实边界与待请教问题 |
 | [[postdoc-plan/defense-sprint/one-week-defense-sprint-plan]] | in-progress | 入站考核答辩一周冲刺执行计划 |
 
 ## 项目与基金申请
@@ -26,6 +27,7 @@
 |---|---|---|
 | [[postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] | in-progress | 方向一调研报告：PIML、多尺度、Matrix-Free、高性能求解 |
 | [[postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-execution-plan]] | in-progress | 方向一长期执行计划 |
+| [[postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] | in-progress | 当前能力证据、融合路线、近期任务及科学计算约束下的模型选型框架 |
 
 ### 方向二：MMC/MMV 显式拓扑优化先进数值分析
 

@@ -10,7 +10,7 @@
 
 > 照这份 git-workflow.md（重点 §1、§3）把这台 Windows 电脑的 git 环境配好，用 PowerShell 原生 git（别用 cygwin/MSYS）。配到需要加公钥那步，把 id_ed25519.pub 打印给我、停下等我加到 GitHub。加好后把 git@github.com:brighthe/dut-postdoc.git（SSH）clone 到 C:\workspace，并 ls-remote 验证鉴权。
 
-- 手上没有本文件、但有网时，可改让 agent 先读它的 raw 版：`https://raw.githubusercontent.com/brighthe/dut-postdoc/main/ai/common/git-workflow.md`。
+- 手上没有本文件、但有网时，可改让 agent 先读它的 raw 版：`https://raw.githubusercontent.com/brighthe/dut-postdoc/main/ai/git-workflow.md`。
 - §1/§3 是**账户级、每台机器配一次即终身通用**；之后在这台机上再拉你名下别的仓库，只需把上面命令里的仓库名一换。
 - 唯一必须你手动的一步是**把公钥加到 GitHub**（沙箱里 agent 代替不了）。
 
@@ -52,14 +52,16 @@ git/ssh 操作要用**操作系统原生 git**——它的 ssh 会去读 `~/.ssh
 
 - 密钥 `C:\Users\Lenovo\.ssh\id_ed25519`（无口令）；config 已配 443；公钥标题 `heliang-windows-laptop`。
 - 各仓库 `.git/config` 另设了等价的 `core.sshCommand`（绝对路径）——历史遗留、**只对本机有效**；有 §3 的全局 config 就够，新机器**不必**再设。
+- 在本机 Codex PowerShell 沙箱中执行本仓库 Git 命令时，显式使用 `git --git-dir=C:\workspace\dut-postdoc\.git --work-tree=C:\workspace\dut-postdoc <command>`，避免沙箱无法正确定位仓库。
 - ⚠️ 以上绝对路径与 `core.sshCommand` **仅本机**有效；换机器一律照 §3 走。
 
 ## §5 提交纪律
 
 - **仅在用户明确要求时**提交/推送。
+- **根门面文件提交门禁**：每次有意义的提交都必须在 `log.md` 追加本次变更记录；提交前必须检查 `index.md` 与 `README.md`，分别在内容入口/导航/研究状态或目录结构/工具入口/协作流程/研究主线受影响时更新。无需修改时应在提交前汇报中明确“已检查，无需更新”，不得制造机械性 diff。用户明确要求 commit/push 即视为授权执行这三项检查和必要同步，无需再次询问；三项检查未完成不得提交或推送。
 - 本仓库长期有多处**在建的无关改动**（`talks/`、`research/`、`concepts/`、`index.md` 等）。提交前用 `git status` 甄别，**只 `git add` 本次任务相关文件**，不要 `git add -A` 把用户其它在建工作一起提交。
 - 对同时含“会话前改动 + 本次改动”的文件，先 `git diff` 确认内容再决定是否纳入。
-- 提交信息用**简体中文**，结尾附 `Co-Authored-By: Claude <...>` 尾注。
+- 提交信息用**简体中文**；如添加 AI 协作尾注，应按实际执行工具填写，不得固定或冒用其他工具身份（例如 Codex 使用 `Co-Authored-By: Codex <noreply@openai.com>`）。
 - 在 `main` 上**直接提交，不开分支、不走 PR**（个人知识库，历史即如此）。
 
 ## §6 排错速查
