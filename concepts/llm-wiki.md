@@ -11,7 +11,7 @@ tags:
   - methodology
 status: done
 date_added: 2026-06-24
-date_update: 2026-06-24
+date_update: 2026-07-26
 ---
 
 # LLM Wiki · 个人 AI 知识库模式
@@ -52,7 +52,7 @@ LLM Wiki 不是一次性聊天记录，也不是简单的向量检索库，而�
 
 ## 在我研究中的位置
 
-`dut-postdoc` 的目标不是收藏资料，而是支撑博士后阶段的研究判断与写作：围绕 [[piml]]、拓扑优化、有限元方法、矩阵无关求解、高性能计算等方向，把论文精读、技术路线、团队谱系、开放问题和论文草稿放进同一套可追溯结构里。具体工具可以是 Codex、Claude Code 或后续其他 AI 助手；共同遵守的知识库规则放在 `ai/llm-wiki-workflow.md`。
+`dut-postdoc` 的目标不是收藏资料，而是支撑博士后阶段的研究判断与写作：围绕 [[piml/_index|PIML]]、拓扑优化、有限元方法、矩阵无关求解、高性能计算等方向，把论文精读、技术路线、团队谱系、开放问题和论文草稿放进同一套可追溯结构里。具体工具可以是 Codex、Claude Code 或后续其他 AI 助手；共同遵守的知识库规则放在 `ai/llm-wiki-workflow.md`。
 
 ## 开放问题
 
@@ -66,5 +66,5 @@ LLM Wiki 不是一次性聊天记录，也不是简单的向量检索库，而�
 - [[../CLAUDE]]
 - [[../index]]
 - [[../log]]
-- [[piml]]
+- [[piml/_index|PIML]]
 - [[../research/postdoc-plan/postdoc-research-plan]]

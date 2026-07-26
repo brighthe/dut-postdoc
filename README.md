@@ -41,7 +41,17 @@ dut-postdoc/
 ├── work-reports/       # 周期性工作汇报：自包含的会前完整底稿、会后结论与行动项
 │   ├── _index.md       # 工作汇报事实源分工、生命周期和新建流程
 │   └── guo-xu/         # 面向郭旭老师的历次工作汇报
-├── concepts/           # 概念页（跨源提炼，如 PIML）
+├── concepts/           # 稳定概念：简单概念单页，复杂主题使用子目录
+│   ├── _index.md       # 概念域入口
+│   ├── llm-wiki.md     # 简单概念页
+│   ├── piml/
+│   │   ├── _index.md   # PIML 主题入口
+│   │   ├── mathematical-foundations.md
+│   │   └── method-lineage.md
+│   └── matrix-free/
+│       ├── _index.md   # Matrix-Free 主题入口
+│       ├── assembly-levels.md
+│       └── method-lineage.md
 ├── entities/           # 实体页（人/团队/方法/软件）
 ├── papers/             # 自己写的论文草稿
 ├── talks/              # 报告/讲稿（LaTeX）
@@ -49,6 +59,8 @@ dut-postdoc/
     ├── refs.bib        # 共用参考文献库
     └── templates/      # 各类页面模板
 ```
+
+`_index.md` 是语义入口，不与物理文件夹机械地一一对应。只有当一个目录形成明确主题、包含多个权威页面或需要跨目录连接稳定知识、研究路线与文献证据时，才建立 `_index.md`。
 
 ## 三个核心操作（详见 [ai/llm-wiki-workflow.md](ai/llm-wiki-workflow.md)）
 

@@ -1,6 +1,6 @@
 ---
 title: "Matrix-Free 全局算子与迭代求解技术线研究指南"
-topic: "全局无矩阵算子、Krylov、预条件和软件求解接口"
+topic: "Matrix-Free 技术线的已有能力、目标差距、实施路线与阶段完成边界"
 tags:
   - technical-line
   - research-guide
@@ -8,220 +8,157 @@ tags:
   - Krylov
   - preconditioning
   - finite-element
+  - mpi
+  - heterogeneous-computing
 status: "in-progress"
 date_start: 2026-07-21
-date_update: 2026-07-21
+date_update: 2026-07-26
 related:
-  - matrix-free-assembly-levels
-  - piml-matrix-free-high-performance-solver-survey
-  - piml-matrix-free-execution-plan
+  - matrix-free/assembly-levels
   - frame8_matrix_free_pipeline_guide
+  - piml-matrix-free-execution-plan
 ---
 
 # Matrix-Free 全局算子与迭代求解技术线研究指南
 
-> **定位**：本页是 Matrix-Free 技术线的长期第一入口，负责全局算子作用、Krylov 求解、预条件、算子更新和软件接口。它可服务 PIML、MMC/MMV、常规有限元及其他需要大规模状态方程求解的研究课题。
+> **定位**：本页是 Matrix-Free 技术线的长期第一入口，集中回答“目前已经具备什么能力、距离最终目标还有什么差距、下一步如何推进以及何时可以标记完成”。Matrix-Free 的数学定义、五级装配层次和第三方框架术语见 [[../../concepts/matrix-free/assembly-levels]]。
 >
-> **当前事实底线**：已经形成三类互补基础：积分点 contraction 的状态方程原型、`mfleo` 的 MFEM PA 工程路径、`xihe/matrix_free_3` 的 EA/EbE 分布式 Maxwell 原型；三者不是同一实现，尚未完成 PIML 子结构算子接入和一体化大规模求解。
+> **当前主要研究对象**：以三维线弹性方程作为首个统一参考问题，建立 FA/LA/EA/PA/UA、Krylov、预条件以及 CPU/GPU/MPI 的正确性与性能基线；Maxwell/PML 现阶段仅作为已有 EA/EbE 分布式实现的工程参考。
+>
+> **当前事实底线**：已经形成积分点 contraction 原型、`mfleo` 的 MFEM PA 工程路径和 `xihe/matrix_free_3` 的 EA/EbE 分布式原型；三者相互补充，但不是同一套一体化实现，也尚未在统一算例和 Benchmark 下完成横向验证。
 
 ## 一、技术线目标与边界
 
-Matrix-Free 的目标是以“给定 $\mathbf x$，计算 $\mathbf y=\mathbf K\mathbf x$”的算子接口替代全局矩阵显式组装和存储，并在可扩展预条件器支持下完成可靠的迭代求解。
+最终目标是形成统一的有限元算子与迭代求解框架：给定 $\mathbf x$，能够按选定装配层级可靠地计算 $\mathbf y=\mathbf K\mathbf x$，并在可扩展预条件器支持下完成 CPU、GPU 和 MPI 环境中的端到端求解。
 
-本技术线负责：
+当前阶段以三维线弹性方程求解为主线，首先统一线弹性 Matrix-Free 算子、Krylov 和预条件路径；在线弹性正确性、收敛性和性能验证闭环后，再用 Maxwell 等其他 PDE 检验框架的通用性。
 
-- 单元级、子结构级和混合层次的无矩阵算子作用；
-- Dirichlet 边界、自由度映射、局部提取与 scatter-add；
-- CG、MINRES、GMRES 等 Krylov 方法及停止准则；
-- Jacobi、块 Jacobi、Schwarz、几何多重网格和低阶代理预条件；
-- PETSc Shell Matrix 等软件接口、算子更新和跨优化步复用；
-- 正确性、收敛性、内存和求解时间的统一基线。
+| 维度 | 最终目标 |
+|---|---|
+| 装配与存储 | FA/TA、LA、EA/EbE、PA/QA、UA/NONE 可统一描述、切换和比较 |
+| 软件接口 | `setup/update/apply/diagonal`、边界处理、自由度映射和诊断语义统一 |
+| 实现路径 | Python 用于参考正确性和快速研究，C++ 用于高性能实现与软件集成 |
+| 并行执行 | CPU、GPU、CPU MPI、GPU-aware MPI 使用一致的算子和验证口径 |
+| 求解 | CG/MINRES/GMRES、真残差和可组合预条件器形成可靠闭环 |
+| 验证 | 正确性、收敛性、内存、通信和完整 solve 使用统一 Benchmark |
 
-本技术线不负责：
+“统一支持”不等于所有组合都从零实现，而是以统一契约连接已有框架、外部项目和共享测试。具体 PDE、材料模型、设计变量更新、单一硬件 kernel 优化及项目实时任务，由对应课题页或项目仓库维护。
 
-- PIML 模型的训练与结构保持，见 [[piml-research-guide]]；
-- GPU 内核优化、多节点通信和硬件性能工程，见 [[gpu-hpc-research-guide]]；
-- 某一应用方向的几何或设计变量更新方法。
+### Ma2026 接续目标
 
-## 二、数学对象与最小接口
+以 Ma2026 的 PIML 子结构框架作为算法起点，把“多尺度形函数按需预测和释放、粗网格全局缩聚矩阵仍显式组装”的实现逐步推进为子结构算子级 Matrix-Free 求解框架。FA/TA 和 LA 用作显式参考、MPI 调试及预条件基础；EA/EbE、PA-like 与 UA/NONE 构成后续算子级 Matrix-Free 主线。
 
-常规有限元 Matrix-Free 作用可写为：
-
-$$
-\mathbf y
-=
-\sum_e
-(\mathbf P_e)^T
-\mathbf B_e^T
-\mathbf D_e
-\mathbf B_e
-\mathbf P_e\mathbf x.
-$$
-
-子结构缩聚后的全局算子可写为：
-
-$$
-\mathbf y
-=
-\sum_j
-(\mathbf A^j)^T
-\mathbf K_s^j
-\mathbf A^j\mathbf x,
-$$
-
-其中 $\mathbf K_s^j$ 可以来自精确缩聚、缓存或 PIML 预测。实现时必须把“局部算子来源”和“全局 Matrix-Free 作用”解耦。
-
-### 2.1 五级装配层次
-
-本技术线统一采用 [[../../concepts/matrix-free-assembly-levels]] 定义的五级存储分类：
-
-| 层级 | 保存对象 | 本技术线口径 |
+| 层级 | 在接续路线中的实现对象 | 定位 |
 |---|---|---|
-| FA/TA | 全局或 true-DOF 稀疏矩阵 | 显式参考基线，不属于 Matrix-Free |
-| LA | MPI rank 局部稀疏矩阵 | 分布式矩阵路径，通常不属于 Matrix-Free |
-| EA/EbE | 完整单元矩阵 $\mathbf K_e$ | 广义全局 Matrix-Free，但不是 PA |
-| PA/QA | 积分点 $\mathbf D_e$ 或等价 PA 数据 | 现代高阶有限元的主流 Matrix-Free 路线 |
-| UA/NONE | $\mathbf D_e$ 也在 apply 时按需计算 | 严格意义的 fully Matrix-Free |
+| FA/TA | 显式形成并组装全局缩聚矩阵 $\mathbf K_s$ | Ma2026 算法参考与黄金对照 |
+| LA | 每个 MPI rank 保存进程局部稀疏矩阵，显式处理 owned/ghost DOF 与 halo exchange | 分布式显式基线和预条件基础，不作为核心 Matrix-Free 成果 |
+| EA/EbE | 保存各子结构 $\mathbf K_s^j$，MatVec 执行 gather、局部作用和 scatter-add，不组装全局 $\mathbf K_s$ | 第一条子结构算子级 Matrix-Free 路线 |
+| PA-like | 保存 $\mathbf N^j$、积分点数据或其他因子，通过 $(\mathbf N^j)^{\mathrm T}\mathbf K^j\mathbf N^j$ 的因子化过程完成作用，不形成完整 $\mathbf K_s^j$ | 只有核实实际保存对象后才能正式归类为 PA/QA |
+| UA/NONE | 在 MatVec 中按需生成局部表示，不缓存完整 $\mathbf K_s^j$ 或等价积分点算子数据 | 严格无组装候选路线，需核实重计算边界 |
 
-PETSc `MatShell`、MFEM `Operator` 或自定义 `operator.apply()` 只规定算子接口，不自动决定其装配层级；分类必须继续检查内部实际保存的数据。
+实施时先以精确 $\mathbf K_s^j$ 建立 FA/LA/EA 和 Krylov/预条件闭环，再研究 PA-like 与 UA/NONE；上述路径稳定后，才将局部算子来源替换为 PIML 预测的 $\widehat{\mathbf K}_s^j$。PIML 决定局部算子如何获得，装配层级决定全局 MatVec 如何保存和执行，两者必须分别判定。
 
-### 2.2 最小软件接口
+## 二、当前已有基础
 
-最小软件接口：
+| 基础 | 已经做到的内容 | 当前边界 |
+|---|---|---|
+| 当前积分点 contraction 原型 | 直接执行 $\mathbf B^T\mathbf D\mathbf B\mathbf x$，不形成全局 $\mathbf K$ 或完整单元 $\mathbf K_e$；MatVec 与显式矩阵乘相对误差达到 $10^{-15}$–$10^{-13}$；已跑通小规模 CG，最终残差约为 $10^{-11}$–$10^{-10}$；NumPy、PyTorch CPU、CUDA 结果一致 | 是否预存 $\mathbf D_e$ 尚未核实，因此只能确定不是 FA、LA 或 EA，不能在 PA 与 UA 之间强行归类 |
+| `mfleo` | 基于 MFEM Partial Assembly，以 C++ CPU/CUDA kernel 实现线弹性算子；已有 tet/hex、不同阶次、单 GPU + 单 CPU 核条件下的端到端 CG、对角线及 Jacobi/Chebyshev 等工程经验 | 属于 PA/QA 工程基础；尚未考虑多 GPU、多 CPU 核协同或 GPU-aware MPI，也不是当前科研原型和完整有限元平台 |
+| `xihe/matrix_free_3` | 已形成 Python、FEALPy backend、MPI CPU 的 Maxwell/PML 分布式原型；保存完整单元局部张量并执行 gather、局部作用、scatter-add 和共享自由度同步，因此属于 EA/EbE；已包含 GMRES/MINRES、真残差诊断及 block Jacobi/ILU 探索 | 人工真解、离散误差、多进程一致性、预条件收敛和规模验证尚未闭环，不能表述为“正确性与收敛已全面验证” |
+| 第三方能力 | MFEM 提供多级装配与 PA/UA 能力，PETSc 提供 Shell Matrix、Krylov 和预条件接口；其他框架映射见概念页 | 属于可复用基础，不等于本技术线已经完成对应实现 |
 
-- operator.apply(x, y)：执行局部提取、局部算子作用和全局回填；
-- operator.diagonal()：提供 Jacobi 或诊断所需对角近似；
-- operator.update(state)：密度、材料或状态变化后更新局部数据；
-- preconditioner.apply(r, z)：与精确算子解耦的预条件接口；
-- solver.solve(operator, rhs)：统一残差定义、停止准则和迭代记录；
-- diagnostics：记录对称性、能量、残差、迭代数、时间和内存。
+公司仓库只作为只读事实源。本知识库仅保留非敏感技术结论，不复制公司代码、运行日志、内部数据或客户算例，也不建立跨仓库运行依赖。
 
-## 三、当前已有基础
+### 郭旭老师团队公开成果与本技术线衔接
 
-### 3.1 当前科研原型
+截至 2026-07-26，当前公开且可核实的直接 Matrix-Free 相关节点只有 [[../../literature/topology-opt/Ma2026-highperformanceparallel]]。该工作通过 PIML 按需预测并释放多尺度形函数 $\mathbf N^j$ 降低内存，但仍形成子结构缩聚刚度并组装粗网格全局缩聚矩阵；按五级分类，其全局求解属于第 1 级 FA/TA，而不是算子级 EA、PA 或 UA。
 
-- 已在积分点直接执行 $\mathbf B^T\mathbf D\mathbf B\mathbf x$ contraction。
-- 不形成全局 $\mathbf K$，也不预先形成单元 $\mathbf K_e$。
-- Matrix-Free MatVec 与显式矩阵乘相对误差达到 $10^{-15}$–$10^{-13}$。
-- 已跑通小规模 Matrix-Free CG 求解闭环。
-- 最终残差约为 $10^{-11}$–$10^{-10}$。
-- NumPy、PyTorch CPU、CUDA 三后端结果一致。
+这项成果为“以重计算换存储”及 PIML 子结构接入提供了直接基础。本技术线的接续任务是进一步打通不组装全局缩聚矩阵的 $y=\mathbf K_s x$、Krylov、预条件和 GPU/MPI 闭环；这是当前拟推进的研究方向，不能写成团队已经完成的公开成果。团队成果的长期演进和新增证据统一维护在 [[../../concepts/matrix-free/method-lineage]]。
 
-当前代码是否预存 $\mathbf D_e$ 尚未核实，因此只能确定它不属于 FA、LA 或 EA，不能在 PA 与 UA 之间强行归类。
+## 三、当前成果边界
 
-### 3.2 `mfleo`：PA 工程基础
+### 已完成
 
-- `mfleo` 的 `develop` 分支基于 MFEM Partial Assembly 接口，以独立 C++ CPU/CUDA kernel 实现线弹性算子作用。
-- 已覆盖 tet/hex、不同阶次、CPU/GPU、MPI、对角线以及 Jacobi/Chebyshev 等求解和预条件场景。
-- 它是可接入 MFEM 求解流程的算子中间件，不是完整有限元平台，也不负责上层网格划分和全部预条件算法。
+- 已证明积分点算子作用可以在不形成全局矩阵和完整单元矩阵的前提下达到机器精度一致，并进入小规模 CG 求解。
+- 已具备 `mfleo` 的 PA、C++/CUDA、单 GPU + 单 CPU 核端到端 CG、Krylov 和基础预条件工程经验。
+- 已具备 `xihe/matrix_free_3` 的 EA/EbE、MPI 分布式算子、Krylov 和预条件探索基础。
 
-### 3.3 `xihe/matrix_free_3`：EA/EbE 应用基础
+### 部分完成或待核实
 
-- `xihe` 的 `develop` 分支在 `examples/matrix_free_3` 中形成了分布式 Maxwell/PML Matrix-Free 原型。
-- FEALPy integrator 的 `.const(pspace)` 形成并保留单元局部张量；MatVec 执行单元 gather、局部张量作用、scatter-add 和 MPI 共享自由度同步。
-- 因为不组装全局稀疏矩阵但保存完整单元张量，该路径应归为 EA/EbE，而不是 PA。
-- 已包含 MINRES/GMRES、真残差诊断和块 Jacobi/ILU 探索；人工真解、多进程一致性和预条件收敛仍有未闭合项，不能将“可运行”写成“全面验证完成”。
+- 当前 contraction 原型仍需核实 $\mathbf D_e$ 缓存策略，才能确定属于 PA 还是 UA。
+- `xihe/matrix_free_3` 已有分布式原型，但正确性、收敛性和可扩展性验证尚未闭环。
+- 预条件能力分散在不同实现中，尚未形成统一的 operator level 与 preconditioner level 组合规范。
+- 各实现的离散问题、自由度顺序、残差和计时边界尚未完全统一。
+- `mfleo` 尚未考虑多 GPU、多 CPU 核协同或 GPU-aware MPI，不能将单 GPU + 单 CPU 核结果表述为 GPU/MPI 并行已经完成。
 
-### 3.4 当前证据的准确读法
+### 尚未完成
 
-- 当前局部算子仍是常规有限元单元作用，不是 PIML 子结构 $\widehat K_s^j$。
-- 当前科研原型证明算子实现和小规模状态方程正确；`mfleo` 提供 PA 工程与性能经验；`xihe` 提供 EA/EbE 电磁应用和分布式 Krylov 经验。三类证据不能互相替代。
-- `xihe` 的大规模运行不等于人工真解、离散误差和 Krylov 收敛已经形成完整验证闭环。
-- GPU 加速与显存数字属于 GPU/HPC 技术线的性能证据，本页只引用其对接口设计的约束。
+- 尚未形成连接 Python/C++、CPU/GPU、single/MPI 的统一 Matrix-Free 框架。
+- 尚未完成 FA、LA、EA、PA、UA 在同一参考问题下的横向 Benchmark。
+- 尚未形成统一的 GPU-aware MPI、自动验收和唯一状态账。
+- 尚未把精确子结构 $K_s$ 和 PIML 预测的 $\widehat K_s$ 依次接入全局 Krylov 求解闭环。
 
-## 四、核心研究问题
+## 四、目标与当前差距
 
-1. 精确或预测的 $\mathbf K_s^j$ 如何以统一数据布局进入全局算子？
-2. 不显式组装矩阵时，怎样获得有效且可扩展的预条件器？
-3. PIML 误差破坏对称性或正定性后，应选择 CG、MINRES、GMRES 还是回退精确算子？
-4. 拓扑优化中算子每轮变化时，哪些局部数据和预条件层次可以增量更新或跨步复用？
-5. FA/LA/EA/PA/UA 五级路线在存储、MatVec、更新和预条件成本上的 Pareto 边界在哪里？
-6. 如何让 PETSc Shell Matrix、现有求解流程和后续软件模块共享同一算子协议？
+| 能力维度 | 当前状态 | 下一道关键门槛 |
+|---|---|---|
+| 参考问题 | 三类基础使用不同 PDE、离散和实现 | 冻结三维线弹性参考问题及 FA/TA 黄金基线 |
+| 装配层级 | EA 与 PA/UA 分别已有基础 | 在同一问题上统一 FA、LA、EA、PA、UA 的语义和结果 |
+| 算子协议 | 各项目接口独立 | 冻结 `setup/update/apply/diagonal`、边界和 owned/ghost DOF 语义 |
+| 双语言 | Python 与 C++ 各有局部基础 | 使用共享黄金数据验证两种语言表示同一离散算子 |
+| 并行与硬件 | `mfleo` 有单 GPU + 单 CPU 核经验，`xihe` 有 CPU MPI 原型，两条路径尚未融合 | 完成多 CPU 核、多 GPU及 GPU-aware MPI 的实现与一致性验证 |
+| Krylov 与预条件 | 已有 CG、GMRES/MINRES 和若干基础预条件 | 建立分层预条件、真残差门禁、重建与复用策略 |
+| Benchmark | 各项目独立记录 | 统一正确性、内存、通信、更新、MatVec 和完整 solve 报告 |
+| PIML 接口 | 尚未接入 | 先接入精确 $K_s$，验证后再替换为 $\widehat K_s$ 并分析误差传播 |
 
-## 五、后续工作包
+当前最优先的工作不是继续增加孤立 kernel，而是先恢复、跑通并验证 `xihe/matrix_free_3`，以现有 EA/EbE、CPU MPI 和 Krylov 路径建立可复现工程基线；随后再提取通用接口并迁移到三维线弹性。
 
-### WP-M1：精确子结构算子基线
+## 五、下一步实施路线
 
-- 先使用精确 $\mathbf K_s^j$ 实现子结构级 Matrix-Free MatVec。
-- 与显式缩聚全局矩阵乘逐项对照，固定算子时达到机器精度一致。
-- 冻结边界自由度顺序、局部批次布局、边界条件和 scatter-add 语义。
+### 阶段 1：恢复、跑通并验证 `xihe/matrix_free_3`
 
-### WP-M2：Krylov 与基础预条件
+- 当前起点是：`run.py` 的默认 VTU 网格不在仓库内，`pyproject.toml` 未显式声明 `fealpy`，README 未给出运行命令，已有 GMRES/MINRES 日志也未形成收敛闭环；这些均应视为待处理项，而不是已完成结果。
+- 恢复可合法使用的非敏感网格、匹配的 `fealpy` 环境和可重放命令，冻结网格、有限元次数、MPI ranks、求解器、预条件器、停止准则与输出位置。
+- 至少完成 1 rank 和 2 ranks 复现，记录真实残差、制造解误差和切向边界误差；仅进程运行到结束不等于算例跑通，现有 `converged: False` 日志不得作为完成证据。
+- 以当前 `rtol=1e-8`、`atol=1e-10` 为求解门禁，并保存环境、命令、输入与诊断摘要；若真实残差未满足门禁，则阶段保持未完成并进入问题诊断。
 
-- 建立 none、Jacobi、block Jacobi 的残差、迭代数、时间和内存基线。
-- 根据算子结构测试 CG、MINRES 与 GMRES，记录失效条件。
-- 将对称性、最小特征值和残差历史纳入自动诊断。
+### 阶段 2：提取 EA/EbE 分布式接口
 
-### WP-M3：可扩展预条件
+- 梳理 `xihe/matrix_free_3` 的 gather、单元张量作用、scatter-add、共享自由度同步和边界处理数据流，确认其保存完整单元张量的 EA/EbE 定位。
+- 提取 operator、GMRES/MINRES、preconditioner 和 diagnostics 的可复用接口语义，不复制 `xihe` 公司代码、内部数据或运行依赖。
+- 冻结 operator level、preconditioner level、owned/ghost DOF、真残差和计时字段，作为后续线弹性路径的接口契约。
 
-- 研究几何多重网格、块 Jacobi、加性 Schwarz 和低阶组装代理。
-- 采用“精确算子不组装、低阶代理可组装”的混合框架作为稳健兜底。
-- 研究预条件器跨优化步复用、低频重建和局部增量更新。
+### 阶段 3：迁移到三维线弹性
 
-### WP-M4：PIML 算子接入
+- 建立三维线弹性 FA/TA 显式黄金基线，冻结网格、自由度顺序、边界条件、载荷、停止准则和结果格式。
+- 在 FA/TA 基础上建立 LA 显式 MPI 基线，冻结 owned/ghost DOF、halo exchange、局部矩阵与 true-DOF 结果的对应关系，并评估其作为预条件矩阵的用途。
+- 将阶段 2 的分布式算子结构迁移到线弹性 EA/EbE，验证 MatVec、能量、真残差以及 1 rank/N rank 一致性。
+- 在同一参考问题上继续推进 PA/UA；每完成一个装配层级，同时接入 Krylov 和至少一种可用预条件器，MatVec 可运行不等于阶段完成。
 
-- 在精确基线稳定后，将局部 $\mathbf K_s^j$ 替换为 $\widehat{\mathbf K}_s^j$。
-- 比较局部误差、谱扰动、迭代数、全局响应和回退比例。
-- 将结构检查失败的子结构切换到精确消元，不让模型错误污染全局求解器。
+### 阶段 4：对齐 `mfleo` PA 与单 GPU 路径
 
-### WP-M5：软件集成与规模验证
+- 复用 MFEM/PETSc 和 `mfleo` 的工程路径，对齐 EA/PA、Python/C++、边界、残差、计时和输出语义。
+- 使用共享黄金算例完成跨语言和 CPU/单 GPU 验证；当前只承认 `mfleo` 单 GPU + 单 CPU 核结果，不写成多 GPU、多核或 GPU-aware MPI 已完成。
+- 建立 Jacobi、Chebyshev、Schwarz、多重网格和低阶组装代理等可组合预条件路径，并统一报告 setup、update、operator apply、preconditioner apply、通信、峰值内存和完整 solve。
 
-- 推进 PETSc Shell Matrix 算法层集成和求解器配置统一。
-- 在代表性二维、三维和逐级放大算例上建立正确性、收敛和内存基线。
-- 形成独立于具体应用方向的 operator/preconditioner/solver 模块。
+### 阶段 5：接入子结构与 PIML
 
-## 六、Benchmark 与验收指标
+- 先用精确 $K_s$ 打通子结构级 Matrix-Free、Krylov 和预条件闭环，再换入 PIML 预测的 $\widehat K_s$，检查结构性质、全局误差、求解收敛和更新成本。
+- 开展 GPU 批处理和端到端 profiling，不以单次 MatVec 加速替代完整 solve 结论。
+- 在线弹性与单 GPU 路径闭环后，再扩展多 CPU 核、多 GPU 和 GPU-aware MPI。跨技术线时间安排以 [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-execution-plan]] 为准。
 
-| 指标组 | 核心指标 |
-|---|---|
-| 装配层级 | operator level、preconditioner level、实际保存对象和接口包装方式 |
-| 算子正确性 | 与显式矩阵乘的相对误差、能量一致性、对称误差 |
-| 求解正确性 | 最终真残差、相对残差、与直接解的位移误差 |
-| 收敛性 | 迭代数、残差历史、停滞/发散、预条件后谱聚集 |
-| 内存 | bytes/DoF、全局矩阵、单元/积分点数据、预条件器、工作向量和峰值内存 |
-| 时间 | operator apply、preconditioner apply、向量运算、通信和完整 solve |
-| 更新成本 | 密度变化后的算子更新、预条件重建和跨步复用成本 |
-| 可扩展性 | 问题规模增长下的迭代退化、时间复杂度和内存复杂度 |
+若纯 Matrix-Free 预条件不足以稳定收敛，允许使用低阶或低精度组装代理；目标是可靠高效求解，而不是追求预条件器形式上的“完全无矩阵”。
 
-最低验收门槛：
+各阶段只有在具备可重放入口、明确事实来源并通过对应阶段门禁后，才能标记为“已完成”；缺少真残差、预条件、峰值内存或完整 solve 的结果只能作为局部证据。
 
-- 精确局部算子下，Matrix-Free MatVec 与显式路径达到机器精度一致。
-- 求解器报告真残差，不只使用递推残差。
-- 任一性能结论必须同时报告迭代数、预条件成本和峰值内存。
-- PIML 算子接入前后使用同一算例、停止准则和指标记录接口。
+## 六、事实来源与关联页面
 
-## 七、阶段性交付物
-
-| 阶段 | 交付物 |
-|---|---|
-| 近期 | 精确 $K_s$ 子结构 MatVec、显式对照、基础 Krylov/预条件表 |
-| 中期 | PETSc Shell Matrix 算法集成、多层或低阶代理预条件、复用策略 |
-| 后期 | PIML 算子接入、误差—收敛报告、大规模可复用求解器模块 |
-
-## 八、主要风险与回退
-
-| 风险 | 回退策略 |
-|---|---|
-| Matrix-Free 下缺乏有效预条件器 | 组装低阶/低精度代理，采用混合预条件框架 |
-| PIML 预测破坏 CG 条件 | 结构修正、精确回退或改用 MINRES/GMRES |
-| 迭代数随规模或拓扑变化失控 | 引入多层预条件、粗空间和重建触发准则 |
-| 每轮算子和预条件更新过贵 | 局部阈值更新、跨优化步复用和低频重建 |
-| Shell Matrix 与现有算法接口不一致 | 先冻结最小 operator 协议，再适配 PETSc 和应用软件 |
-
-## 九、跨技术线接口
-
-- 从 PIML 接收精确或预测局部算子、结构检查结果和回退标记。
-- 向 PIML 返回全局误差、残差、迭代数和谱信息。
-- 向 GPU/HPC 提供可批处理的局部提取、局部作用、scatter-add 和 Krylov 原语。
-- 从 GPU/HPC 接收端到端时间分解，判断保存、缓存或按需重算策略。
-- 可为 PIML、MMC/MMV、常规有限元和其他 PDE 方向提供统一求解底座。
-
-## 十、证据与关联文档
-
-- [[../../concepts/matrix-free-assembly-levels]] — 五级装配层次、框架术语和当前项目分类准则。
-- [[research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame8_matrix_free_pipeline_guide]] — 当前算子、CG 和多后端证据。
-- [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — Matrix-Free、预条件与开放问题调研。
-- [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-execution-plan]] — 当前博士后计划中的工作包与里程碑。
-- [[literature/topology-opt/Ma2026-highperformanceparallel]] — PIML、并行多重网格与存储策略参考。
-- [[piml-research-guide]]、[[gpu-hpc-research-guide]] — 另外两条长期技术线。
+- `C:\workspace\xihe`（`origin/develop`）— `xihe/matrix_free_3` 的本地只读事实源；不作为本仓库运行依赖。
+- `C:\workspace\mfleo` — `mfleo` 的本地只读事实源；不复制公司代码、数据或内部文档。
+- [[../../concepts/matrix-free/assembly-levels]] — Matrix-Free 数学对象、五级装配层次和第三方框架映射。
+- [[../../concepts/matrix-free/method-lineage]] — 郭旭老师团队公开 Matrix-Free 相关成果的长期演进和事实边界。
+- [[research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame8_matrix_free_pipeline_guide]] — 当前 contraction、CG 和多后端证据。
+- [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — Matrix-Free、预条件和开放问题的综合调研。
+- [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-execution-plan]] — PIML、Matrix-Free、GPU 三线融合的总体计划。
+- [[../../work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] — 第一次线下汇报中的 Matrix-Free 摘要。
 - [[_index]] — 长期技术线总入口。

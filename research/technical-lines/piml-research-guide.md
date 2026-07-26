@@ -10,9 +10,9 @@ tags:
   - topology-optimization
 status: "in-progress"
 date_start: 2026-07-21
-date_update: 2026-07-21
+date_update: 2026-07-26
 related:
-  - piml
+  - piml/mathematical-foundations
   - method-lineage
   - piml-matrix-free-gpu-and-model-selection-technical-synthesis
 ---
@@ -200,7 +200,7 @@ $$
 
 ## 十、证据与关联文档
 
-- [[concepts/piml]] — PIML 概念说明。
+- [[concepts/piml/mathematical-foundations]] — PIML 数学基础。
 - [[concepts/piml/method-lineage]] — 团队 PIML 方法谱系。
 - [[literature/topology-opt/Huang2022-problemindependentmachine]] — EMsFEM-PIML 奠基工作。
 - [[literature/topology-opt/Huang2023-PIML-substructure]] — 三维子结构 PIML。

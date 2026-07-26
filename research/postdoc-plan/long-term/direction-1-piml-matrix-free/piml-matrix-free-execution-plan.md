@@ -22,7 +22,7 @@ related:
 > 本文档对应 [[postdoc-research-plan]] 中**第一个研究计划题目**，是其三阶段工作计划在任务层面的细化。
 > 技术依据见 [[piml-matrix-free-high-performance-solver-survey]]（下称"调研"），其中第九节方向 A–F、第十节阶段路线与第十一节实验矩阵是本计划的直接来源。
 
-> **2026-07-20 状态补充**：入站前已分别完成 PIML 子结构局部算子原型、Matrix-Free MatVec/CG 原型，并已有独立 `mfleo` GPU/MPI/预条件子工程结果；这些是后续工作包的能力基线，**不等于 MS1–MS6 或 PIML × Matrix-Free × GPU 一体化系统已经完成**。当前事实与近期融合顺序见 [[piml-matrix-free-gpu-and-model-selection-technical-synthesis]]。
+> **2026-07-22 状态补充**：入站前已分别完成 PIML 子结构局部算子原型、Matrix-Free MatVec/CG 原型，并已有独立 `mfleo` 在单 GPU + 单 CPU 核条件下的端到端 CG 和预条件子工程结果；多 GPU、多 CPU 核协同及 GPU-aware MPI 尚未考虑。这些是后续工作包的能力基线，**不等于 MS1–MS6 或 PIML × Matrix-Free × GPU 一体化系统已经完成**。当前事实与近期融合顺序见 [[piml-matrix-free-gpu-and-model-selection-technical-synthesis]]。
 
 ## 0. 总体安排与时间假设
 

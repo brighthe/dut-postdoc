@@ -15,7 +15,7 @@ tags:
   - industrial-software
 status: in-progress
 date_added: 2026-06-18
-date_update: 2026-06-18
+date_update: 2026-07-26
 ---
 
 # 郭旭院士团队
@@ -34,7 +34,7 @@ date_update: 2026-06-18
 ## 五大方向（速览）
 
 1. **显式拓扑优化 MMC/MMV** — 用低维显式几何参数（组件/孔洞）描述拓扑，区别于体素密度法（SIMP）。
-2. **问题无关机器学习 PIML** — 学可嵌入 FEA 的局部力学算子，加速大规模优化。详见 [[../concepts/piml]]。
+2. **问题无关机器学习 PIML** — 学可嵌入 FEA 的局部力学算子，加速大规模优化。详见 [[../concepts/piml/mathematical-foundations]]。
 3. **复杂力学行为变分原理与多尺度计算** — 大变形、双模量等非光滑本构的泛函底座。
 4. **工业软件与高性能计算（SiPESC）** — 集成化 CAE 平台，承载上述方法工程化。
 5. **混合变分问题与极值型数值技术（PVP + 极值型杂交元）** — 绕开 LBB、构造全局 SPD 系统。
@@ -51,7 +51,8 @@ date_update: 2026-06-18
 ## 相关来源
 
 - [[../research/teams/guo-xu-team-overview]] — 团队研究体系详版（方法+文献谱系）。
-- [[../concepts/piml]] — 方向二核心概念页。
+- [[../concepts/piml/mathematical-foundations]] — 方向二数学基础页。
+- [[../concepts/matrix-free/method-lineage]] — 团队公开 Matrix-Free 相关成果的方法谱系与事实边界。
 - [[../literature/topology-opt/Huang2022-problemindependentmachine]]、[[../literature/topology-opt/Ma2026-highperformanceparallel]]。
 
 ## 相关页面

@@ -55,9 +55,8 @@
 | 概念 | 一句话 |
 |---|---|
 | [[concepts/llm-wiki]] | 个人 AI 知识库模式：由 AI 工具维护原始资料与研究者之间的持久 Markdown 中间层 |
-| [[concepts/piml]] | 问题无关机器学习：学习可复用局部力学表示，用于拓扑优化与高效分析 |
-| [[concepts/piml/method-lineage]] | PIML 方法谱系：EMsFEM 形函数、子结构缩聚、data-free 与并行大规模优化 |
-| [[concepts/matrix-free-assembly-levels]] | Matrix-Free 五级装配层次：FA/LA/EA/PA/UA 的存储边界、框架映射与项目定位 |
+| [[concepts/piml/_index\|PIML]] | 问题无关机器学习主题入口 |
+| [[concepts/matrix-free/_index\|Matrix-Free]] | Matrix-Free 稳定知识与当前研究主题入口 |
 
 ## 实体页
 

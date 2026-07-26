@@ -22,7 +22,7 @@ related:
 
 > **定位**：本页是 GPU/HPC 技术线的长期第一入口，负责批处理、数据布局、GPU 内核、显存、端到端 profiling、多后端、MPI 和多节点扩展。它服务多种数值方法，不从属于固定的 PIML × Matrix-Free 研究方向。
 >
-> **当前事实底线**：已经有 soptx 单次 GPU MatVec 证据和独立 mfleo GPU/MPI、端到端 CG、预条件子工程经验；尚未完成 PIML 批量推理与子结构 Matrix-Free 的一体化 GPU 管线，也没有实现桌面端十亿细网格。
+> **当前事实底线**：已经有 soptx 单次 GPU MatVec 证据，以及独立 `mfleo` 在单 GPU + 单 CPU 核条件下的端到端 CG 和预条件子工程经验；多 GPU、多 CPU 核协同及 GPU-aware MPI 尚未考虑，也尚未完成 PIML 批量推理与子结构 Matrix-Free 的一体化 GPU 管线和桌面端十亿细网格。
 
 ## 一、技术线目标与边界
 
@@ -79,16 +79,17 @@ GPU/HPC 的最小性能账至少记录：
 - 内存估计从 42.1 MB 降至 4.0 MB。
 - NumPy、PyTorch CPU、CUDA 三后端结果一致。
 
-### 3.2 mfleo GPU/MPI 工程经验
+### 3.2 mfleo 单 GPU 工程经验
 
-- 已完成 650 万 DOF 的 GPU/MPI 端到端 CG。
-- 1–32 个 MPI 进程配置下，相对同规模 MFEM PA 基线约 $3.72\times$–$12.74\times$。
-- P2 tet 的 Jacobi、Chebyshev 预条件子测试：CPU 约 $1.20\times$–$1.21\times$，GPU 多数配置约 $4\times+$。
+- 已完成 650 万 DOF、单 GPU + 单 CPU 核条件下的端到端 CG。
+- 相对同规模 MFEM PA 基线约 $3.72\times$–$12.74\times$；不再将该范围解释为 1–32 个 MPI 进程下的 GPU/MPI 结果。
+- P2 tet 的 Jacobi、Chebyshev 预条件子测试：单核 CPU 约 $1.20\times$–$1.21\times$，单 GPU 约 $4\times+$。
+- 多 GPU、多 CPU 核协同及 GPU-aware MPI 尚未考虑。
 
 ### 3.3 当前证据的准确读法
 
 - $11.9\times$ 是 soptx 单次 GPU MatVec 加速，不是完整 solve 加速。
-- mfleo 结果证明已有 GPU/MPI、Krylov 和预条件子工程基础，不是当前 soptx/PIML 融合系统的结果。
+- `mfleo` 结果证明已有单 GPU、Krylov 和预条件子工程基础，不代表 GPU/MPI 已完成，也不是当前 soptx/PIML 融合系统的结果。
 - 桌面端十亿细网格是长期架构牵引目标，当前尚未实现或验证。
 
 ## 四、核心研究问题

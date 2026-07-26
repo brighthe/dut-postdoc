@@ -28,7 +28,7 @@ related:
 
 > **用途**：为近期向郭旭老师当面汇报提供详细技术事实底稿，同时把刘畅老师提出的“神经网络模型很多、具体问题中不知道如何选型”转化为可讨论、可验证的科学计算问题。
 >
-> **最重要的事实边界**：当前已经分别完成 PIML 子结构局部算子原型、Matrix-Free 状态方程原型，并有独立的 GPU/MPI/预条件子工程经验；**尚未完成 PIML × Matrix-Free × GPU 端到端一体化系统**。
+> **最重要的事实边界**：当前已经分别完成 PIML 子结构局部算子原型、Matrix-Free 状态方程原型，并有独立 `mfleo` 在单 GPU + 单 CPU 核条件下的端到端 CG 和预条件子工程经验；多 GPU、多 CPU 核协同及 GPU-aware MPI 尚未考虑，且**尚未完成 PIML × Matrix-Free × GPU 端到端一体化系统**。
 
 ## 0. 来源、权威顺序与状态词
 
@@ -55,7 +55,7 @@ related:
 
 | 状态 | 当前内容 | 汇报边界 |
 |---|---|---|
-| **已经完成** | PIML 子结构局部算子原型；Matrix-Free MatVec/CG 状态方程原型；独立 `mfleo` GPU/MPI、Krylov 与基础预条件子工程验证 | 三块能力分别有证据，但属于不同原型或代码路径 |
+| **已经完成** | PIML 子结构局部算子原型；Matrix-Free MatVec/CG 状态方程原型；独立 `mfleo` 单 GPU + 单 CPU 核、Krylov 与基础预条件子工程验证 | 三块能力分别有证据，但属于不同原型或代码路径；不能写成 GPU/MPI 已完成 |
 | **正在准备** | 研究院 SGFEM 代码与环境对接；Hypre/PETSc KSP 收敛和性能基线；预条件子设计；PETSc Shell Matrix 算法层集成准备 | 尚未形成研究院侧完成结果，也未形成 PIML 融合结果 |
 | **后续设想** | 精确 $K_s$ 的子结构级 Matrix-Free、Krylov/预条件、PIML 替换与结构检查、GPU 批处理、优化闭环和多节点扩展 | 是分阶段研究路线，不是已经完成或已经启动的端到端系统 |
 
@@ -67,18 +67,23 @@ related:
 
 1. **PIML 局部层**：已经跑通“局部细尺度密度 → 子结构等效刚度 $K_s^j$ → 接口缩聚方程”的前向链路，并完成极小 MLP 的真实 $K_s$ 预测误差验证。
 2. **Matrix-Free 全局层**：已经跑通真无矩阵 contraction、MatVec 等价和 Matrix-Free CG 状态方程求解，并验证 NumPy、PyTorch CPU、CUDA 三后端一致性。
-3. **GPU/HPC 工程层**：soptx 原型已有单卡 GPU MatVec 趋势；独立的 `mfleo` 包已有 GPU/MPI、端到端 CG 和基础预条件子工程结果，但尚未与 PIML 原型集成。
+3. **GPU/HPC 工程层**：soptx 原型已有单卡 GPU MatVec 趋势；独立的 `mfleo` 包已有单 GPU + 单 CPU 核条件下的端到端 CG 和基础预条件子工程结果，但多 GPU、多 CPU 核协同及 GPU-aware MPI 尚未考虑，也尚未与 PIML 原型集成。
 
-最自然的下一步不是直接宣称“上 GPU”，而是依次冻结接口和正确性：
+最自然的下一步不是直接宣称“上 GPU”，而是先闭合现有 `xihe/matrix_free_3` 算例，再迁移到线弹性并接入子结构算子：
 
 ```text
-精确子结构 K_s
+恢复并验证 xihe/matrix_free_3
+  -> 提取 EA/EbE 分布式算子接口
+  -> 迁移到三维线弹性并建立 FA/EA 正确性基线
+  -> 接入精确子结构 K_s
   -> 子结构级全局 Matrix-Free MatVec
   -> Krylov + 可用预条件子
   -> 替换为 PIML 预测 K_s 并检查结构/误差传播
   -> 批量推理与局部算子 GPU 化
   -> 灵敏度、优化外循环与多节点扩展
 ```
+
+这里的 `xihe` 算例是 Maxwell/PML 的 EA/EbE 工程复现起点，不是最终的线弹性研究结果；只有真实残差、制造解误差和边界误差形成闭环后，才能将其标记为“跑通”。
 
 刘老师提出的“模型很多、不知道怎么选”不宜回答成网络名称清单。结合本人的 PIML、数值算法和科学计算背景，更有价值的切入方式是：**把模型选型改写为“学习对象—物理结构—全局求解—硬件部署”的联合设计与统一 benchmark 问题**。
 
@@ -168,17 +173,17 @@ $$
 - 预条件子、迭代次数控制和大规模端到端 solve 仍需继续完善。
 - 该原型的局部作用对象是常规有限元单元算子，尚未正式替换为 PIML 预测的子结构 $K_s^j$。
 
-### 2.3 GPU/MPI/预条件子工程经验
+### 2.3 单 GPU/预条件子工程经验
 
-`mfleo` 是本人独立编写的 PA / Matrix-Free 并行算子包。它与 soptx Matrix-Free 原型共享“无全局矩阵算子作用 → Krylov → GPU/MPI/预条件子”的底层逻辑，但不是同一套代码路径。
+`mfleo` 是本人独立编写的 PA / Matrix-Free 算子包。它与 soptx Matrix-Free 原型共享“无全局矩阵算子作用 → Krylov → GPU/预条件子”的底层逻辑，但不是同一套代码路径。当前 GPU 结果只覆盖单 GPU + 单 CPU 核，多 GPU、多 CPU 核协同及 GPU-aware MPI 尚未考虑。
 
 | 工程结果 | 已有数据 | 当前用途 | 边界 |
 |---|---:|---|---|
-| GPU hex 端到端 CG | 650 万 DOF，1–32 MPI 进程，相对 `MFEM PA` 约 $3.72\times$–$12.74\times$ | 证明 GPU/MPI 端到端求解工程能力 | 未接入 PIML |
-| P2 tet CPU | Jacobi/Chebyshev 约 $1.20\times$–$1.21\times$ | 证明基础预条件子和 PA 路线跑通过 | 不是当前最优预条件结果 |
-| P2 tet GPU + MPI | 多数配置约 $4\times+$ | 证明异构并行工程基础 | 不等于 soptx 端到端加速 |
+| GPU hex 端到端 CG | 650 万 DOF，单 GPU + 单 CPU 核，相对 `MFEM PA` 约 $3.72\times$–$12.74\times$ | 证明单 GPU 端到端求解工程能力 | 未接入 PIML；不代表 GPU/MPI 已完成 |
+| P2 tet CPU | 单核 CPU 下 Jacobi/Chebyshev 约 $1.20\times$–$1.21\times$ | 证明基础预条件子和 PA 路线跑通过 | 不是当前最优预条件结果 |
+| P2 tet GPU | 单 GPU + 单 CPU 核条件下约 $4\times+$ | 证明单 GPU 异构计算工程基础 | 未考虑多 GPU、多核协同和 GPU-aware MPI |
 
-因此汇报时可以说“已有 GPU/MPI、Krylov 和基础预条件子工程经验，可迁移到融合原型”，不能说“PIML × Matrix-Free × GPU 已经完成”。
+因此汇报时可以说“已有单 GPU、Krylov 和基础预条件子工程经验，可迁移到融合原型”，不能说“GPU/MPI 已经完成”或“PIML × Matrix-Free × GPU 已经完成”。
 
 ## 3. 正在准备：研究院现实任务与科研接口
 
@@ -393,7 +398,7 @@ $$
 
 ### 可以主动说
 
-- 已经分别具备 PIML 局部算子原型、Matrix-Free 状态方程原型和 GPU/MPI/预条件子工程经验。
+- 已经分别具备 PIML 局部算子原型、Matrix-Free 状态方程原型，以及单 GPU + 单 CPU 核/预条件子工程经验；多 GPU、多核协同和 GPU-aware MPI 尚未完成。
 - PIML 原型的 `1.6e-3 / 8.2e-3` 是局部 $K_s$ 预测误差均值，前三项机器精度结果属于精确缩聚基线。
 - Matrix-Free 原型实现了真正的积分点 contraction，MatVec 与组装路径机器精度一致，并能接入 CG。
 - 下一步计划先做精确 $K_s$ 的子结构级全局 Matrix-Free，再换入 PIML 预测算子，最后做 GPU 批处理和完整优化闭环。

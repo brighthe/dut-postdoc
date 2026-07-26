@@ -10,7 +10,7 @@ tags:
   - HPC
 status: "in-progress"
 date_start: 2026-07-21
-date_update: 2026-07-21
+date_update: 2026-07-26
 ---
 
 # 长期技术线索引
@@ -22,12 +22,13 @@ date_update: 2026-07-21
 | 技术线 | 指导文档 | 当前定位 |
 |---|---|---|
 | PIML | [[piml-research-guide]] | 局部力学算子学习、结构保持、误差传播、灵敏度与优化闭环 |
-| Matrix-Free | [[matrix-free-research-guide]] | 全局无矩阵算子、Krylov、预条件、Shell Matrix 与规模基线 |
+| Matrix-Free | [[matrix-free-research-guide]] | 已有能力、目标差距、推进路线与阶段门禁 |
 | GPU/HPC | [[gpu-hpc-research-guide]] | GPU 批处理、端到端性能、显存、多后端、MPI 与多节点扩展 |
 
 ## 基础概念
 
-- [[../../concepts/matrix-free-assembly-levels]] — Matrix-Free 五级装配层次、MFEM/libCEED 术语映射及项目分类准则。
+- [[../../concepts/matrix-free/assembly-levels]] — Matrix-Free 五级装配层次、MFEM/libCEED 术语映射及跨框架分类准则。
+- [[../../concepts/matrix-free/method-lineage]] — 郭旭老师团队公开 Matrix-Free 相关成果的演进、纳入标准和事实边界。
 
 ## 与其他页面的分工
 
