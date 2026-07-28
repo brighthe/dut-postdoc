@@ -14,13 +14,14 @@
 | 💡 概念页 | 跨源概念提炼 | [[concepts/_index]] |
 | 👥 实体页 | 人/团队/方法/软件档案 | [[entities/_index]] |
 | ✍️ 论文草稿 | 自己写的稿件 | `papers/` |
-| 🎤 报告讲稿 | LaTeX 幻灯片 | `talks/` |
+| 🎤 活跃报告 | 准备中或仍需维护的 LaTeX 幻灯片 | [[talks/README]] |
+| 🗄️ 历史档案 | 已完成事件的最终交付物与准备材料 | [[archive/_index]] |
 
 ## 文献笔记
 
 | 笔记 | 方向 | 年份 | 状态 |
 |---|---|---|---|
-| [[literature/topology-opt/Lei2018-machinelearningdriven]] | 拓扑优化 | 2018 | done |
+| [[literature/topology-opt/Lei2018-machinelearningdriven]] | 拓扑优化 | 2019 | done |
 | [[literature/topology-opt/Huang2022-problemindependentmachine]] | 拓扑优化 | 2022 | done |
 | [[literature/topology-opt/Huang2023-PIML-substructure]] | 拓扑优化 | 2023 | done |
 | [[literature/topology-opt/Huang2024-PIML-datafree]] | 拓扑优化 | 2024 | draft |
@@ -42,13 +43,18 @@
 | [[research/technical-lines/piml-research-guide]] | in-progress |
 | [[research/technical-lines/matrix-free-research-guide]] | in-progress |
 | [[research/technical-lines/gpu-hpc-research-guide]] | in-progress |
+| [[research/funding/postdoc-funding-applications]] | draft |
 | [[research/postdoc-plan/postdoc-research-plan]] | in-progress |
 | [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] | in-progress |
-| [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-execution-plan]] | in-progress |
 | [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] | in-progress |
 | [[research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey]] | draft |
-| [[research/postdoc-plan/defense-sprint/one-week-defense-sprint-plan]] | in-progress |
 | [[research/teams/guo-xu-team-overview]] | done |
+
+## 历史档案
+
+| 事件 | 日期 | 状态 |
+|---|---|---|
+| [[archive/2026-postdoc-entry-assessment/README\|2026 博士后入站考核答辩]] | 2026-07-05 | archived |
 
 ## 概念页
 
@@ -57,6 +63,7 @@
 | [[concepts/llm-wiki]] | 个人 AI 知识库模式：由 AI 工具维护原始资料与研究者之间的持久 Markdown 中间层 |
 | [[concepts/piml/_index\|PIML]] | 问题无关机器学习主题入口 |
 | [[concepts/matrix-free/_index\|Matrix-Free]] | Matrix-Free 稳定知识与当前研究主题入口 |
+| [[concepts/gpu-hpc/_index\|GPU/HPC]] | 端到端性能模型、公开 HPC 谱系与异构并行当前研究主题入口 |
 
 ## 实体页
 

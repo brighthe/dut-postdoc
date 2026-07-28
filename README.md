@@ -9,7 +9,7 @@
 在「原始资料」与「我」之间维护一个持久、结构化、可被 LLM 读写的中间层，每次提问不必从零重读论文。三层架构：
 
 - **原始源层**：论文 PDF / 文章 / 图片，AI 只读不改，本地存放不入版本控制
-- **Wiki 层**：文献笔记、调研、工作汇报、概念页、实体页、论文草稿
+- **Wiki 层**：文献笔记、调研、工作汇报、概念页、实体页、论文草稿与历史事件档案
 - **Schema 层**：`ai/` + 根目录工具入口 + `assets/templates/` 定义约定与工作流
 
 ## 目录结构
@@ -30,13 +30,12 @@ dut-postdoc/
 │   ├── topology-opt/   # 拓扑优化
 │   ├── fem/            # 有限元方法
 │   └── others/
-├── research/           # 博后研究计划、长期调研与入站答辩短期验证
+├── research/           # 博后研究计划与长期调研
 │   ├── _index.md       # research 目录入口：先读这里
 │   ├── technical-lines/     # 跨研究方向复用的 PIML、Matrix-Free、GPU/HPC 长期技术线
 │   ├── postdoc-plan/
 │   │   ├── postdoc-research-plan.md
-│   │   ├── long-term/       # 长期科研路线：两大方向调研与执行计划
-│   │   └── defense-sprint/  # 入站答辩短期数学原则、原型计划与出图
+│   │   └── long-term/       # 长期科研路线：两大方向调研与跨线综合
 │   └── teams/          # 合作团队与平台背景
 ├── work-reports/       # 周期性工作汇报：自包含的会前完整底稿、会后结论与行动项
 │   ├── _index.md       # 工作汇报事实源分工、生命周期和新建流程
@@ -48,13 +47,19 @@ dut-postdoc/
 │   │   ├── _index.md   # PIML 主题入口
 │   │   ├── mathematical-foundations.md
 │   │   └── method-lineage.md
-│   └── matrix-free/
-│       ├── _index.md   # Matrix-Free 主题入口
-│       ├── assembly-levels.md
+│   ├── matrix-free/
+│   │   ├── _index.md   # Matrix-Free 主题入口
+│   │   ├── assembly-levels.md
+│   │   └── method-lineage.md
+│   └── gpu-hpc/
+│       ├── _index.md   # GPU/HPC 主题入口
+│       ├── performance-model.md
 │       └── method-lineage.md
 ├── entities/           # 实体页（人/团队/方法/软件）
 ├── papers/             # 自己写的论文草稿
-├── talks/              # 报告/讲稿（LaTeX）
+├── talks/              # 准备中或仍需维护的报告/讲稿（LaTeX）
+├── archive/            # 已完成事件的最终交付物与准备材料
+│   └── 2026-postdoc-entry-assessment/
 └── assets/
     ├── refs.bib        # 共用参考文献库
     └── templates/      # 各类页面模板
@@ -75,8 +80,9 @@ dut-postdoc/
 - 新建工作汇报：复制 `assets/templates/advisor-work-report.md` 到 `work-reports/<对象>/`，并按 `preparing → reported → follow-up-done` 更新同一页面
 - 进入内容目录时先读该目录 `_index.md`；页面间一律用 Obsidian `[[wikilink]]` 互链
 - 新增、移动、删除或重组页面后，收尾检查对应目录 `_index.md`；影响全库导航时同步根 `index.md`
+- 报告完成后，先将长期事实抽取到概念页、技术线或调研页，再把最终交付物和准备材料整体移入 `archive/<event>/`
 - 专项工作流按任务加载：PPT/讲稿见 [talks-ppt-editing-rules.md](ai/talks-ppt-editing-rules.md)，论文翻译见 [paper-translation-workflow.md](ai/paper-translation-workflow.md)，提交/推送见 [git-workflow.md](ai/git-workflow.md)
-- 所有 PDF 原文本地存放，不纳入版本控制（见 `.gitignore`）
+- 论文等原始源 PDF 本地存放、不纳入版本控制；最终演示交付物等派生 PDF 可按档案需要显式纳入 Git
 - 参考文献统一维护在 `assets/refs.bib`
 
 ## 研究方向
@@ -85,8 +91,8 @@ dut-postdoc/
 - 博后研究计划总领：`research/postdoc-plan/postdoc-research-plan.md`
 - 方向一：PIML 增强多尺度分析 + Matrix-Free 高性能求解
 - 方向二：MMC/MMV 显式拓扑优化先进数值分析
-- 入站答辩短期冲刺：`research/postdoc-plan/defense-sprint/`
 - 郭旭老师工作汇报：`work-reports/guo-xu/`
+- 已完成的 2026 入站考核答辩：`archive/2026-postdoc-entry-assessment/`
 
 ---
 
