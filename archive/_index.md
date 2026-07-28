@@ -14,4 +14,3 @@ date_update: 2026-07-26
 | 档案 | 事件日期 | 状态 | 内容 |
 |---|---|---|---|
 | [[2026-postdoc-entry-assessment/README\|2026 博士后入站考核答辩]] | 2026-07-05 | archived | 最终 Beamer/PDF、讲稿、图件及答辩准备材料 |
-

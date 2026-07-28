@@ -20,4 +20,3 @@ date_update: 2026-07-26
 4. 不把归档材料继续当作活跃研究事实源。
 
 PPT/讲稿修改、编译和版式 QA 规则见 [[ai/talks-ppt-editing-rules]]。
-

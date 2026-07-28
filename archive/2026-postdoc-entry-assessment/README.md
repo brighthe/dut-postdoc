@@ -41,4 +41,3 @@ source_paths:
 - `presentation/template-8min.pdf` 是答辩定稿交付物，继续纳入 Git。
 - `presentation/template-8min.tex` 与其相对图件完整保留，但本次归档未修改 `.tex`，也未重新编译。
 - 两个 Python 脚本是答辩准备期间的历史出图工具，不作为当前 Benchmark 或科研实现入口；旧 Matrix-Free 合成曲线尤其不能替代真实性能数据。
-
