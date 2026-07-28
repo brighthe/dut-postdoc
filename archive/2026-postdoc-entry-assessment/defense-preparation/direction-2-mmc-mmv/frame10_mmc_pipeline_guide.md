@@ -6,7 +6,8 @@ tags:
   - topology-optimization
   - Frame-10
   - implementation-guide
-status: "in-progress"
+status: "archived"
+date_archived: 2026-07-26
 date: 2026-07-03
 ---
 
@@ -354,8 +355,8 @@ PPT 右栏四条数值的读法：
 deck 与 guide：
 
 - `C:\workspace\dut-postdoc\ai\common\status.md`
-- `C:\workspace\dut-postdoc\talks\2026-postdoc-entry-assessment\template-8min.tex`
-- `C:\workspace\dut-postdoc\talks\2026-postdoc-entry-assessment\figures\mmc_integration_result.png`
+- `../../presentation/template-8min.tex`
+- `../../presentation/figures/mmc_integration_result.png`
 - `C:\workspace\dut-postdoc\research\postdoc-plan\long-term\direction-2-mmc-mmv\mmc-mmv-numerical-discretization-survey.md`
 
 参考文献口径：

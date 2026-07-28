@@ -8,7 +8,8 @@ tags:
   - MPI
   - preconditioner
   - implementation-guide
-status: "in-progress"
+status: "archived"
+date_archived: 2026-07-26
 date: 2026-07-03
 related:
   - frame7_piml_pipeline_guide
@@ -273,8 +274,8 @@ $$
 备查来源：
 
 - `C:\workspace\dut-postdoc\ai\common\status.md`
-- `C:\workspace\dut-postdoc\talks\2026-postdoc-entry-assessment\template-8min.tex`
-- `C:\workspace\dut-postdoc\talks\2026-postdoc-entry-assessment\outline-8min.md`
+- `../../presentation/template-8min.tex`
+- `../../presentation/outline-8min.md`
 - `C:\workspace\mfleo\docs\delivery\finalterm\tet_hex_pa_performance_acceptance_report.md`（第 ④ 条“端到端 CG 加速 + 预条件子”的来源；`mfleo` 是本人写的 PA / Matrix-Free 并行算子包）
 - `C:\workspace\mfleo\docs\delivery\2026_01_27_biweekly\2026_01_27_biweekly.md`（线弹性悬臂梁物理模型、边界条件口径）
 - `C:\workspace\mfleo\examples\beam\beam_case_config.hpp` 与 `C:\workspace\mfleo\docs\test\runability_toolchain_user_manual.md`（beam 示例默认 `L/W/lambda/mu` 参数）

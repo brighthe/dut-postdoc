@@ -5,10 +5,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-ROOT = Path("C:/workspace/dut-postdoc")
+ARCHIVE_ROOT = Path(__file__).resolve().parents[2]
 OUT_DIRS = [
-    ROOT / "research" / "figures",
-    ROOT / "talks" / "2026-postdoc-entry-assessment" / "figures",
+    ARCHIVE_ROOT / "presentation" / "figures",
 ]
 
 
@@ -184,5 +183,5 @@ def main():
 
 if __name__ == "__main__":
     # Keep the script independent of the caller's working directory.
-    os.chdir(ROOT)
+    os.chdir(ARCHIVE_ROOT)
     main()

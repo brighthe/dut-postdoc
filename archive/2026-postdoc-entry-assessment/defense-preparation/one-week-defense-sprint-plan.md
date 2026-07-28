@@ -4,7 +4,8 @@ tags:
   - execution-plan
   - defense
   - sprint
-status: "in-progress"
+status: "archived"
+date_archived: 2026-07-26
 date: 2026-06-25
 related:
   - postdoc-research-plan

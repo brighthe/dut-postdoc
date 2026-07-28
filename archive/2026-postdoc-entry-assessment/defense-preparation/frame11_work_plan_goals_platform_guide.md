@@ -5,7 +5,8 @@ tags:
   - postdoc-plan
   - Frame-11
   - guide
-status: "in-progress"
+status: "archived"
+date_archived: 2026-07-26
 date: 2026-07-03
 related:
   - frame6_postdoc_plan_overview_guide

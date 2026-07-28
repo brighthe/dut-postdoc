@@ -6,12 +6,12 @@ tags:
   - defense
   - matrix-free
   - topology-optimization
-status: "done"
+status: "archived"
+date_archived: 2026-07-26
 date: 2026-07-02
 related:
   - frame7_piml_pipeline_guide
   - frame9_piml_matrix_free_pipeline_guide
-  - status
 ---
 
 # PIML 演化线对照 · Huang 2022 → Huang 2023 → Ma 2026

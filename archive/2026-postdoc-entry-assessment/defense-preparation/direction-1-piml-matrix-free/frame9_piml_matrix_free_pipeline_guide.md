@@ -6,7 +6,8 @@ tags:
   - topology-optimization
   - Frame-9
   - implementation-guide
-status: "in-progress"
+status: "archived"
+date_archived: 2026-07-26
 date: 2026-07-03
 related:
   - frame7_piml_pipeline_guide
@@ -174,7 +175,7 @@ PPT 页脚为节省空间，将完整题名里的 “problem independent machine
 - [[frame7_piml_pipeline_guide]] — 负责局部等效刚度预测的 PIML 原型。
 - [[frame8_matrix_free_pipeline_guide]] — 负责全局无矩阵算子的 Matrix-Free 原型。
 - [[piml-matrix-free-execution-plan]] — 本方向 24 个月的长期执行计划。
-- `C:\workspace\dut-postdoc\talks\2026-postdoc-entry-assessment\template-8min.tex` — PPT 帧 9 主帧。
+- `../../presentation/template-8min.tex` — PPT 帧 9 主帧。
 - `C:\workspace\dut-postdoc\ai\common\status.md` — 当前项目状态与帧 9 口径。
 
 ## 8. 帧面逐块讲解（对照 PPT 使用）

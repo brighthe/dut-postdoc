@@ -6,7 +6,8 @@ tags:
   - topology-optimization
   - Frame-7
   - implementation-guide
-status: "in-progress"
+status: "archived"
+date_archived: 2026-07-26
 date: 2026-07-02
 related:
   - frame8_matrix_free_pipeline_guide
@@ -275,7 +276,7 @@ deck ④ 主口径取 **mean**（$L=5$ 1.6e-3、$L=10$ 8.2e-3），达团队目�
 
 ## 8. 帧面逐块讲解（对照 PPT 使用）
 
-> 本节把 PPT 帧 7 的画面拆开逐块讲：对着这一帧就能知道每个框、每条数字是什么、怎么念、边界在哪。数值口径以 §5 实测为准，诚实边界以 §6 为准。对应 `talks/2026-postdoc-entry-assessment/template-8min.tex` 帧 7。
+> 本节把 PPT 帧 7 的画面拆开逐块讲：对着这一帧就能知道每个框、每条数字是什么、怎么念、边界在哪。数值口径以 §5 实测为准，诚实边界以 §6 为准。对应 `../../presentation/template-8min.tex` 帧 7。
 
 ### 8.1 版面结构（三区）
 

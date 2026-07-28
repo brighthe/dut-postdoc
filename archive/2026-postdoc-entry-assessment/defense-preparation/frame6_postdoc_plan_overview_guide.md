@@ -5,7 +5,8 @@ tags:
   - postdoc-plan
   - Frame-6
   - guide
-status: "in-progress"
+status: "archived"
+date_archived: 2026-07-26
 date: 2026-07-03
 related:
   - frame7_piml_pipeline_guide
