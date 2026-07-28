@@ -11,15 +11,11 @@ tags:
   - preconditioner
 status: "in-progress"
 date_start: 2026-07-20
-date_update: 2026-07-21
+date_update: 2026-07-26
 related:
   - piml-research-guide
   - matrix-free-research-guide
   - gpu-hpc-research-guide
-  - frame7_piml_pipeline_guide
-  - frame8_matrix_free_pipeline_guide
-  - frame9_piml_matrix_free_pipeline_guide
-  - piml-matrix-free-execution-plan
   - piml-matrix-free-high-performance-solver-survey
   - 2026-07-piml-matrix-free-gpu
 ---
@@ -39,8 +35,8 @@ related:
 | 来源 | 负责的事实 | 不负责的事实 |
 |---|---|---|
 | `dut-postdoc` 的帧 7/8/9 guide、长期调研和文献笔记 | 科研技术事实、原型数字、方法边界和研究路线 | 研究院任务的实时分工与状态 |
-| `C:\workspace\heliangos\wechat\dalian-university-of-technology-postdoc\teachers\郭旭.md` | 与郭老师已经发生的沟通、老师明确提出的目标和要求 | 科研数值结果的权威记录 |
-| `C:\workspace\heliangos\wechat\dalian-university-of-technology-postdoc\teachers\刘畅.md` | 与刘老师已经发生的沟通及其提出的技术痛点 | 尚未发生的合作安排 |
+| `heliangos:wechat/contacts/郭旭.md` | 与郭老师已经发生的沟通、老师明确提出的目标和要求 | 科研数值结果的权威记录 |
+| `heliangos:wechat/contacts/刘畅.md` | 与刘老师已经发生的沟通及其提出的技术痛点 | 尚未发生的合作安排 |
 | `C:\workspace\dut-institute-work\hpc\plan.md` | 研究院实际任务、分工和截至 2026-07-20 的状态 | 博士后科研原型是否完成 |
 
 跨仓库材料只读，本页不反向修改 `heliangos` 或 `dut-institute-work`。
@@ -91,12 +87,12 @@ related:
 
 ### 2.1 PIML 子结构多尺度前向原型
 
-权威入口：[[../../defense-sprint/direction-1-piml-matrix-free/frame7_piml_pipeline_guide]]。
+本节是该原型在本仓库中的活跃事实入口；长期研究边界与后续验收见 [[research/technical-lines/piml-research-guide]]。
 
 #### 已完成内容
 
 - 构建粗网格与细网格的两级映射；粗网格为 $8\times8$，共 64 个子结构，细分采用 $L=5$ 和 $L=10$ 两档。
-- 用子结构静力缩聚精确计算多尺度形函数与等效刚度：
+- 用子结构静力缩聚精确计算多尺度形函数与等效刚度（记法定义见 [[../../../../concepts/piml/mathematical-foundations]] §5，此处只记录原型实际计算的对象）：
 
 $$
 K_s^j=K_{bb}^j-(K_{ib}^j)^T(K_{ii}^j)^{-1}K_{ib}^j.
@@ -142,7 +138,7 @@ $$
 
 ### 2.2 Matrix-Free 状态方程原型
 
-权威入口：[[../../defense-sprint/direction-1-piml-matrix-free/frame8_matrix_free_pipeline_guide]]。
+本节是该原型在本仓库中的活跃事实入口；装配层次、后续求解路线与验收见 [[research/technical-lines/matrix-free-research-guide]]。
 
 #### 已完成内容
 
@@ -429,14 +425,11 @@ $$
 - [[research/technical-lines/piml-research-guide]] — PIML 局部力学算子的长期研究与实施指南。
 - [[research/technical-lines/matrix-free-research-guide]] — Matrix-Free 全局算子与迭代求解的长期研究与实施指南。
 - [[research/technical-lines/gpu-hpc-research-guide]] — GPU/HPC 异构并行与端到端性能的长期研究与实施指南。
-- [[../../defense-sprint/direction-1-piml-matrix-free/frame7_piml_pipeline_guide]] — PIML 原型事实和数字。
-- [[../../defense-sprint/direction-1-piml-matrix-free/frame8_matrix_free_pipeline_guide]] — Matrix-Free、GPU/MPI 和预条件子事实。
-- [[../../defense-sprint/direction-1-piml-matrix-free/frame9_piml_matrix_free_pipeline_guide]] — PIML × Matrix-Free × GPU 融合口径。
 - [[piml-matrix-free-high-performance-solver-survey]] — 开放科学问题与长期技术路线。
-- [[piml-matrix-free-execution-plan]] — 24 个月执行计划。
 - [[../../postdoc-research-plan]] — 博士后科研计划总领。
 - [[../../../../work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] — 面向郭旭老师的汇报要点、待请教问题与后续行动项。
 - [[../../../../concepts/piml/method-lineage]] — PIML 方法谱系。
 - [[../../../../literature/topology-opt/Huang2023-PIML-substructure]] — 子结构 PIML。
 - [[../../../../literature/topology-opt/Huang2024-PIML-datafree]] — DeepONet 与 mechanics-based data-free PIML。
 - [[../../../../literature/topology-opt/Ma2026-highperformanceparallel]] — 并行 PIML 与按需预测/释放。
+- [[../../../../archive/2026-postdoc-entry-assessment/README]] — 2026 年入站答辩材料档案，仅保留历史表达与证据快照。

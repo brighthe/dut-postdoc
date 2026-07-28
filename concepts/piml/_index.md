@@ -17,7 +17,7 @@ date_update: 2026-07-26
 
 | 页面 | 一句话 | 状态 |
 |---|---|---|
-| [[mathematical-foundations]] | PIML 问题无关性、局部映射与 EMsFEM 基础路线的数学说明 | in-progress |
+| [[mathematical-foundations]] | PIML 问题无关性、局部映射、EMsFEM 基础路线与子结构缩聚学习映射的数学说明 | in-progress |
 | [[method-lineage]] | PIML 从 EMsFEM 形函数学习到子结构、data-free 与并行大规模优化的演化主线 | draft |
 
 ## 当前研究
@@ -33,6 +33,11 @@ date_update: 2026-07-26
 - [[../../literature/topology-opt/Huang2023-PIML-substructure]] — Huang 2023，PIML + 子结构形函数 / 缩聚刚度矩阵。
 - [[../../literature/topology-opt/Huang2024-PIML-datafree]] — Huang 2024，mechanics-based data-free PIML。
 - [[../../literature/topology-opt/Ma2026-highperformanceparallel]] — Ma 2026，并行 PIML 与按需预测 / 释放。
+
+## 关联主题
+
+- [[../matrix-free/_index]] — 全局算子、装配层次、Krylov 与预条件。
+- [[../gpu-hpc/_index]] — PIML 批量推理、端到端性能与异构并行。
 
 ## 边界
 

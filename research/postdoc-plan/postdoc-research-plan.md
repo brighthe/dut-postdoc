@@ -112,6 +112,6 @@ date_update: 2026-06-11
 
 - [[research/teams/guo-xu-team-overview]] — 郭旭院士团队研究体系（MMC/MMV、PIML、工业软件）
 - [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — 第一个研究计划题目：PIML 增强多尺度结构分析、Matrix-Free、并行多重网格与 GPU 高性能求解调研
-- [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-execution-plan]] — 第一个研究计划题目的任务执行计划（子任务、时间点、里程碑）
+- [[research/technical-lines/_index]] — 任务推进与阶段门禁由三条技术线 guide 维护；跨线推进顺序见 [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]]。原任务执行计划已于 2026-07-26 删除，不再保留时间表
 - [[research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey]] — 第二个研究计划题目：MMC/MMV 高效数值离散与快速分析调研
 - [[literature/topology-opt/Huang2022-problemindependentmachine]] — PIML 奠基论文精读笔记

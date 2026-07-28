@@ -31,9 +31,7 @@
 
 对于在 $\mathbb{R}^N (N = 1, 2, \text{或 } 3)$ 空间中占据且具有适当几何正则性的开有界域 $\Omega$ 的线弹性固体，其平衡状态可通过弱形式描述为：
 
-寻找 $\boldsymbol{u} \in \boldsymbol{H}^1(\Omega)$，
-
-使得
+寻找 $\boldsymbol{u} \in \boldsymbol{H}^1(\Omega)$，使得
 
 <a id="eq-1"></a>
 $$

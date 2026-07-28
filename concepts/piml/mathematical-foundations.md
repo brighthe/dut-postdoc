@@ -17,7 +17,7 @@ date_update: 2026-07-26
 
 # PIML 数学基础
 
-> **一句话**：Problem-Independent Machine Learning（PIML）学习由局部材料分布决定、可嵌入有限元分析的局部力学表示；Huang 2022 的基础实现以 EMsFEM 多尺度形函数为学习对象。
+> **一句话**：Problem-Independent Machine Learning（PIML）学习由局部材料分布决定、可嵌入有限元分析的局部力学表示；Huang 2022 的基础实现以 EMsFEM 多尺度形函数为学习对象，其后的子结构路线改以静力缩聚刚度和子结构形函数为载体。
 
 ## 1. 问题无关性的数学含义
 
@@ -123,20 +123,70 @@ Huang 2022 同时包含两个不同机制：
 
 因此，降维是 Huang 2022 采用的数值载体，不是 PIML 定义本身的必要条件。只要学习对象是可由局部信息决定、能够嵌入后续力学求解并在不同宏观问题中复用的局部表示，就可以讨论 Problem-Independent 的学习方式。
 
-## 5. 数学边界
+## 5. 子结构缩聚与 PIML 学习映射
+
+Huang 2022 以粗单元多尺度形函数为局部载体；Huang 2023 之后的子结构路线把同一「局部密度 → 局部力学表示」映射改写到经典子结构静力缩聚框架中。方法演化脉络见 [[method-lineage]]，本节给出统一记法。
+
+对子结构 $\Omega^j$，按边界自由度与内部自由度分块：
+
+$$
+\mathbf K^j =
+\begin{bmatrix}
+\mathbf K_{\mathrm{bb}}^j & (\mathbf K_{\mathrm{ib}}^j)^T\\
+\mathbf K_{\mathrm{ib}}^j & \mathbf K_{\mathrm{ii}}^j
+\end{bmatrix}.
+$$
+
+消去内部自由度，得到精确缩聚刚度与内部位移恢复关系：
+
+$$
+\mathbf K_s^j =
+\mathbf K_{\mathrm{bb}}^j
+-
+(\mathbf K_{\mathrm{ib}}^j)^T
+(\mathbf K_{\mathrm{ii}}^j)^{-1}
+\mathbf K_{\mathrm{ib}}^j,
+$$
+
+$$
+\mathbf u_{\mathrm i}^j =
+-
+(\mathbf K_{\mathrm{ii}}^j)^{-1}
+\mathbf K_{\mathrm{ib}}^j
+\mathbf u_{\mathrm b}^j.
+$$
+
+$\mathbf K_s^j$ 只作用在边界/接口自由度上，$\mathbf u_{\mathrm i}^j$ 给出由边界自由度延拓回内部的细尺度响应。子结构形函数 $\mathbf N^j$ 即由该延拓关系与边界基构成。
+
+在这一框架下，PIML 学习的基本映射是
+
+$$
+\mathcal F_\theta:\boldsymbol\rho^j
+\longmapsto
+\widehat{\mathbf N}^j
+\quad\text{或}\quad
+\widehat{\mathbf K}_s^j,
+$$
+
+即用参数化模型替代「对子结构内部自由度做消元求逆」这一在优化迭代中反复出现的局部计算。它与 §1 的 $\mathcal G_\theta$ 是同一问题无关性定义在子结构载体上的具体化：学习对象仍由局部密度决定，不依赖宏观设计域、整体边界条件和外载荷；宏观问题只出现在全局接口方程中。
+
+直接预测 $\widehat{\mathbf K}_s^j$ 与先预测 $\widehat{\mathbf N}^j$ 再构造刚度并不等价：后者天然继承形函数与刚度之间的能量一致关系，前者则可能破坏该关系，需要额外的结构保持手段（见 §6）。
+
+## 6. 数学边界
 
 - 问题无关性只在固定控制方程、离散、单元和材料模型的范围内成立。
 - EMsFEM 形函数的边界构造和粗细尺度选择会引入离散误差；PIML 不能自动消除该基线误差。
+- §5 的静力缩聚在数学上等价于 Schur 补，本身是精确的；其残差只反映浮点舍入，必须与 PIML 预测误差分开报告，不能相互替代。
 - 形函数误差较小不自动保证刚度、全局位移、柔顺度、灵敏度或最终拓扑误差较小，必须逐层验证。
 - 预测刚度应进一步检查对称性、半正定性、刚体模态和能量一致性，不能只报告回归损失。
 
-## 6. 后续数学扩展
+## 7. 后续数学扩展
 
-- **子结构 PIML**：将局部表示改为子结构形函数和静力缩聚刚度；完整方法关系见 [[method-lineage]]。
+- **子结构 PIML**：将局部表示改为子结构形函数和静力缩聚刚度，统一记法见 §5，完整方法关系见 [[method-lineage]]。
 - **Mechanics-based data-free PIML**：以最小势能等力学目标替代局部真值标签；本页不展开完整变分推导。
 - **并行与 Matrix-Free**：改变局部表示的生成、存储和应用方式，但不改变问题无关性的基本定义。
 
-## 7. 来源与相关页面
+## 8. 来源与相关页面
 
 - [[../../literature/topology-opt/Huang2022-problemindependentmachine]] — EMsFEM 形函数学习与问题无关性起点。
 - [[../../literature/topology-opt/Huang2023-PIML-substructure]] — 子结构形函数与缩聚刚度扩展。

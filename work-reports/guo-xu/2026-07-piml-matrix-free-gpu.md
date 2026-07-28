@@ -88,7 +88,7 @@ PIML 这条线，我已经跑通了“局部密度 → 子结构静力缩聚 →
 
 关联内容：内部文档 [[../../research/technical-lines/matrix-free-research-guide]]；外部仓库 `xihe`、`mfleo`。
 
-Matrix-Free 这条线，我已经实现了积分点上的 $B^TDBx$ 算子作用，不形成全局刚度矩阵，也不预先形成单元刚度矩阵。MatVec 与显式矩阵乘保持机器精度一致，Matrix-Free CG 也已经跑通。下一步先恢复、跑通并验证 `xihe/matrix_free_3`，闭合现有 EA/EbE、CPU MPI 和 Krylov 算例的真实残差与收敛证据；再提取可复用接口、迁移到三维线弹性，并接入精确子结构 $K_s$、Krylov 和预条件子。
+Matrix-Free 这条线，我已经实现了积分点上的 $B^TDBx$ 算子作用，不形成全局刚度矩阵，也不预先形成单元刚度矩阵。MatVec 与显式矩阵乘保持机器精度一致，Matrix-Free CG 也已经跑通。另有一套 EA/EbE 的分布式 Maxwell/UPML 原型（`xihe/matrix_free_3`），目前正在恢复运行环境与算例，正确性、收敛性和多进程一致性验证**尚未闭环**，还不能作为已完成结果汇报。下一步是先闭合这个算例，再提取可复用接口、迁移到三维线弹性，并接入精确子结构 $K_s$、Krylov 和预条件子。
 
 ### 3.3 GPU/HPC
 
@@ -98,7 +98,7 @@ GPU/HPC 这条线，当前 soptx 原型在 13.2 万自由度下，单次 GPU Mat
 
 三条线的结合点是：PIML 提供局部子结构算子，Matrix-Free 负责在全局 Krylov 求解中按需计算算子作用，GPU 负责批量推理和局部作用加速。目前三方面分别已有基础，但还没有形成一体化系统。
 
-建议先跑通并验证 `xihe/matrix_free_3`，提取 EA/EbE 分布式算子接口并迁移到三维线弹性；随后用精确 $K_s$ 打通子结构级 Matrix-Free，与显式缩聚矩阵做正确性对照，再建立 Krylov 和预条件基线；之后换入 PIML 预测的 $\widehat K_s$，检查结构性质、全局误差和求解收敛；最后做 GPU 批处理和端到端 profiling。“桌面电脑做到十亿细网格”作为长期目标，用来倒推近期的接口、算法和性能基线。
+近期第一步是先把 `xihe/matrix_free_3` 恢复、跑通并通过真残差门禁；随后提取 EA/EbE 分布式算子接口并迁移到三维线弹性；随后用精确 $K_s$ 打通子结构级 Matrix-Free，与显式缩聚矩阵做正确性对照，再建立 Krylov 和预条件基线；之后换入 PIML 预测的 $\widehat K_s$，检查结构性质、全局误差和求解收敛；最后做 GPU 批处理和端到端 profiling。“桌面电脑做到十亿细网格”作为长期目标，用来倒推近期的接口、算法和性能基线。
 
 ### 3.5 需要向郭老师确认
 
@@ -154,7 +154,7 @@ GPU/HPC 这条线，当前 soptx 原型在 13.2 万自由度下，单次 GPU Mat
 
 ## 事实来源与关联文档
 
-- 行政和真实沟通以 `heliangos/wechat/dalian-university-of-technology-postdoc/teachers/` 下对应教师档案为准。
+- 行政和真实沟通以 `heliangos:wechat/indexes/by-repository.md#dut-postdoc` 中对应联系人档案为准。
 - 研究院任务实时状态以 `dut-institute-work/hpc/plan.md` 为准。
 - [[../../research/technical-lines/piml-research-guide]] — PIML 技术线。
 - [[../../research/technical-lines/matrix-free-research-guide]] — Matrix-Free 技术线。

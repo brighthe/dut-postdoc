@@ -13,7 +13,7 @@ tags:
   - operator
 status: in-progress
 date_added: 2026-07-21
-date_update: 2026-07-26
+date_update: 2026-07-27
 ---
 
 # Matrix-Free 装配层次
@@ -43,6 +43,8 @@ $$
 
 一次典型算子作用可读作 `true DOF → local/element DOF → quadrature data → element/local DOF → true DOF`。“装配层次”描述上述因子中哪些乘积被提前计算并保存；不同软件的原生命名并不完全相同。
 
+其中 $\mathbf P$ 不只是一个抽象乘号：在 MPI 环境中，它具体涉及单元分区、owned/ghost 或重叠自由度、halo exchange、共享输入一致化、输出归约和全局内积。其数学定义与正确性不变量见 [[distributed-operator-and-shared-dofs]]。
+
 ## 五级分类
 
 | 层级 | 本页规范名称 | 主要保存对象 | MatVec 的主要形式 | Matrix-Free 口径 |
@@ -68,6 +70,13 @@ $$
 | [NGSolve](https://docu.ngsolve.org/latest/i-tutorials/unit-3.5.1-dgapply/dgapply-scalar.html) | `nonassemble=True` | 支持不组装稀疏矩阵的算子作用；仍需根据实际保存对象分类 |
 
 “五级分类”只作为跨框架比较坐标，具体实现仍应注明框架、原生入口和实际保存对象。`MATSHELL`、`ImplicitMatrix`、`nonassemble=True` 或自定义 `operator.apply()` 只能证明采用了隐式算子接口，不能单独决定其属于 EA、PA 还是 UA。
+
+这里还必须把两个正交维度分开：
+
+- **MPI 分布方式**回答网格如何分区、谁拥有 true DOF、ghost 如何更新以及局部贡献如何归约；
+- **装配层级**回答每个 rank 为一次算子作用预先保存了全局矩阵、局部矩阵、单元矩阵、积分点数据还是更少的数据。
+
+因此，MPI 可以分别与 FA、LA、EA、PA 或 UA 组合。PETSc `MATSHELL`、Firedrake `mat_type="matfree"` 和 NGSolve `nonassemble=True` 都不能单独说明采用哪种 MPI 分区与共享 DOF 协议。各框架的 owner/ghost 数据流及其与重叠副本 `sync_add/refs` 的关系见 [[distributed-operator-and-shared-dofs#13. 与主流有限元框架的对应|分布式框架对应表]]。
 
 ## 快速识别流程
 
@@ -99,6 +108,7 @@ Matrix-Free 通常只描述主算子路径，预条件器可以使用另一装�
 ## 相关页面
 
 - [[_index]] — Matrix-Free 稳定方法理解的子知识库入口。
+- [[distributed-operator-and-shared-dofs]] — MPI 网格分区、共享自由度同步、加权内积与全局解收集。
 - [[method-lineage]] — 郭旭老师团队公开 Matrix-Free 相关成果的方法谱系。
 - [[../../research/technical-lines/matrix-free-research-guide]] — 当前基础、目标差距、推进路线与阶段门禁。
 - [[../../research/technical-lines/gpu-hpc-research-guide]]

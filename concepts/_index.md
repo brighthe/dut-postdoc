@@ -7,6 +7,7 @@
 | [[llm-wiki]] | LLM Wiki / 个人 AI 知识库 | 把 LLM 放在原始资料与研究者之间，持续维护可追溯、互链的 Markdown wiki | done |
 | [[piml/_index\|PIML]] | Problem-Independent Machine Learning / 问题无关机器学习 | 学习可复用局部力学表示，用于拓扑优化与高效分析 | in-progress |
 | [[matrix-free/_index\|Matrix-Free]] | Matrix-Free Assembly Levels / 矩阵无关有限元 | 统一装配层次、方法谱系与当前技术路线 | draft |
+| [[gpu-hpc/_index\|GPU/HPC]] | GPU / High-Performance Computing / 异构高性能计算 | 统一端到端性能模型、公开成果谱系与当前异构并行技术路线 | in-progress |
 
 ---
 

@@ -6,7 +6,7 @@ tags:
   - finite-element
 status: draft
 date_added: 2026-07-26
-date_update: 2026-07-26
+date_update: 2026-07-27
 ---
 
 # Matrix-Free 主题入口
@@ -18,6 +18,7 @@ date_update: 2026-07-26
 | 页面 | 一句话 | 状态 |
 |---|---|---|
 | [[assembly-levels]] | Matrix-Free 五级装配层次、跨框架术语和判定边界 | in-progress |
+| [[distributed-operator-and-shared-dofs]] | MPI 单元分区、共享自由度、同步归约与分布式 MatVec 的统一数学描述 | in-progress |
 | [[method-lineage]] | 郭旭老师团队公开 Matrix-Free 相关成果的方法谱系；当前直接节点为 Ma2026 | draft |
 
 ## 当前研究
@@ -33,6 +34,7 @@ date_update: 2026-07-26
 ## 关联主题
 
 - [[../piml/_index]] — PIML 稳定知识、方法谱系与当前研究入口。
+- [[../gpu-hpc/_index]] — GPU/HPC 端到端性能模型、公开成果谱系与当前研究入口。
 
 ## 边界
 

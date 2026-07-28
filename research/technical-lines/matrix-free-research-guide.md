@@ -12,20 +12,20 @@ tags:
   - heterogeneous-computing
 status: "in-progress"
 date_start: 2026-07-21
-date_update: 2026-07-26
+date_update: 2026-07-27
 related:
   - matrix-free/assembly-levels
-  - frame8_matrix_free_pipeline_guide
-  - piml-matrix-free-execution-plan
+  - matrix-free/distributed-operator-and-shared-dofs
+  - piml-matrix-free-gpu-and-model-selection-technical-synthesis
 ---
 
 # Matrix-Free 全局算子与迭代求解技术线研究指南
 
-> **定位**：本页是 Matrix-Free 技术线的长期第一入口，集中回答“目前已经具备什么能力、距离最终目标还有什么差距、下一步如何推进以及何时可以标记完成”。Matrix-Free 的数学定义、五级装配层次和第三方框架术语见 [[../../concepts/matrix-free/assembly-levels]]。
+> **定位**：本页是 Matrix-Free 技术线的长期第一入口，集中回答“目前已经具备什么能力、距离最终目标还有什么差距、下一步如何推进以及何时可以标记完成”。Matrix-Free 的数学定义、五级装配层次和第三方框架术语见 [[../../concepts/matrix-free/assembly-levels]]；MPI 单元分区、共享自由度、同步归约和加权内积见 [[../../concepts/matrix-free/distributed-operator-and-shared-dofs]]。
 >
 > **当前主要研究对象**：以三维线弹性方程作为首个统一参考问题，建立 FA/LA/EA/PA/UA、Krylov、预条件以及 CPU/GPU/MPI 的正确性与性能基线；Maxwell/PML 现阶段仅作为已有 EA/EbE 分布式实现的工程参考。
 >
-> **当前事实底线**：已经形成积分点 contraction 原型、`mfleo` 的 MFEM PA 工程路径和 `xihe/matrix_free_3` 的 EA/EbE 分布式原型；三者相互补充，但不是同一套一体化实现，也尚未在统一算例和 Benchmark 下完成横向验证。
+> **当前事实底线**：已经形成积分点 contraction 原型、`mfleo` 的 MFEM PA 工程路径和 `xihe/matrix_free_3` 的 Maxwell EA/EbE 分布式原型；`xihe/matrix_free_elasticity_3d` 已准备三维线弹性 EA/FA、重叠副本 MPI 与无预条件 CG 的阶段 1 本地验证入口，但尚未由用户运行验收。
 
 ## 一、技术线目标与边界
 
@@ -60,14 +60,15 @@ related:
 
 ## 二、当前已有基础
 
-| 基础 | 已经做到的内容 | 当前边界 |
-|---|---|---|
-| 当前积分点 contraction 原型 | 直接执行 $\mathbf B^T\mathbf D\mathbf B\mathbf x$，不形成全局 $\mathbf K$ 或完整单元 $\mathbf K_e$；MatVec 与显式矩阵乘相对误差达到 $10^{-15}$–$10^{-13}$；已跑通小规模 CG，最终残差约为 $10^{-11}$–$10^{-10}$；NumPy、PyTorch CPU、CUDA 结果一致 | 是否预存 $\mathbf D_e$ 尚未核实，因此只能确定不是 FA、LA 或 EA，不能在 PA 与 UA 之间强行归类 |
-| `mfleo` | 基于 MFEM Partial Assembly，以 C++ CPU/CUDA kernel 实现线弹性算子；已有 tet/hex、不同阶次、单 GPU + 单 CPU 核条件下的端到端 CG、对角线及 Jacobi/Chebyshev 等工程经验 | 属于 PA/QA 工程基础；尚未考虑多 GPU、多 CPU 核协同或 GPU-aware MPI，也不是当前科研原型和完整有限元平台 |
-| `xihe/matrix_free_3` | 已形成 Python、FEALPy backend、MPI CPU 的 Maxwell/PML 分布式原型；保存完整单元局部张量并执行 gather、局部作用、scatter-add 和共享自由度同步，因此属于 EA/EbE；已包含 GMRES/MINRES、真残差诊断及 block Jacobi/ILU 探索 | 人工真解、离散误差、多进程一致性、预条件收敛和规模验证尚未闭环，不能表述为“正确性与收敛已全面验证” |
-| 第三方能力 | MFEM 提供多级装配与 PA/UA 能力，PETSc 提供 Shell Matrix、Krylov 和预条件接口；其他框架映射见概念页 | 属于可复用基础，不等于本技术线已经完成对应实现 |
+| 基础                   | 已经做到的内容                                                                                                                                                                                          | 当前边界                                                               |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| 当前积分点 contraction 原型 | 直接执行 $\mathbf B^T\mathbf D\mathbf B\mathbf x$，不形成全局 $\mathbf K$ 或完整单元 $\mathbf K_e$；MatVec 与显式矩阵乘相对误差达到 $10^{-15}$–$10^{-13}$；已跑通小规模 CG，最终残差约为 $10^{-11}$–$10^{-10}$；NumPy、PyTorch CPU、CUDA 结果一致 | 是否预存 $\mathbf D_e$ 尚未核实，因此只能确定不是 FA、LA 或 EA，不能在 PA 与 UA 之间强行归类     |
+| `mfleo`              | 基于 MFEM Partial Assembly，以 C++ CPU/CUDA kernel 实现线弹性算子；已有 tet/hex、不同阶次、单 GPU + 单 CPU 核条件下的端到端 CG、对角线及 Jacobi/Chebyshev 等工程经验                                                                     | 属于 PA/QA 工程基础；尚未考虑多 GPU、多 CPU 核协同或 GPU-aware MPI，也不是当前科研原型和完整有限元平台 |
+| `xihe/matrix_free_3` | 已形成 Python、FEALPy backend、MPI CPU 的 Maxwell/PML EA/EbE 原型；当前本地证据支持 FA/EA MatVec、边界与细网格 1/2-rank 结果一致 | 细网格无预条件 GMRES 未达到真残差门禁，仅作为分布式数据流辅助参考，不再承担阶段 1 完成判定 |
+| `xihe/matrix_free_elasticity_3d` | 已准备单位立方体三维线弹性制造解、FA 黄金对照、缓存单元刚度的 EA/EbE、对等重叠副本 MPI、加权 CG 与四组本地验证驱动 | 尚未由用户运行；MatVec、显式解、真残差、收敛阶与 1/2-rank 门禁均不得提前写成通过 |
+| 第三方能力                | MFEM 提供多级装配与 PA/UA 能力，PETSc 提供 Shell Matrix、Krylov 和预条件接口；其他框架映射见概念页                                                                                                                             | 属于可复用基础，不等于本技术线已经完成对应实现                                            |
 
-公司仓库只作为只读事实源。本知识库仅保留非敏感技术结论，不复制公司代码、运行日志、内部数据或客户算例，也不建立跨仓库运行依赖。
+公司仓库作为独立工程仓库和权威事实源维护。本知识库仅保留非敏感技术结论，不复制公司代码、运行日志、内部数据或客户算例，也不建立跨仓库运行依赖。
 
 ### 郭旭老师团队公开成果与本技术线衔接
 
@@ -86,7 +87,8 @@ related:
 ### 部分完成或待核实
 
 - 当前 contraction 原型仍需核实 $\mathbf D_e$ 缓存策略，才能确定属于 PA 还是 UA。
-- `xihe/matrix_free_3` 已有分布式原型，但正确性、收敛性和可扩展性验证尚未闭环。
+- `xihe/matrix_free_3` 已有 Maxwell 分布式 MatVec 与 1/2-rank 一致性证据，但细网格 GMRES 未收敛；它不再阻塞线弹性主基线。
+- `xihe/matrix_free_elasticity_3d` 的实现和验证命令已经准备，所有数值门禁仍待用户本地运行确认。
 - 预条件能力分散在不同实现中，尚未形成统一的 operator level 与 preconditioner level 组合规范。
 - 各实现的离散问题、自由度顺序、残差和计时边界尚未完全统一。
 - `mfleo` 尚未考虑多 GPU、多 CPU 核协同或 GPU-aware MPI，不能将单 GPU + 单 CPU 核结果表述为 GPU/MPI 并行已经完成。
@@ -102,7 +104,7 @@ related:
 
 | 能力维度 | 当前状态 | 下一道关键门槛 |
 |---|---|---|
-| 参考问题 | 三类基础使用不同 PDE、离散和实现 | 冻结三维线弹性参考问题及 FA/TA 黄金基线 |
+| 参考问题 | 三维线弹性制造解及 FA/EA 实现已准备，尚无本地验收结果 | 运行并冻结三维线弹性 FA/TA 黄金基线、EA/CG 结果与收敛阶 |
 | 装配层级 | EA 与 PA/UA 分别已有基础 | 在同一问题上统一 FA、LA、EA、PA、UA 的语义和结果 |
 | 算子协议 | 各项目接口独立 | 冻结 `setup/update/apply/diagonal`、边界和 owned/ghost DOF 语义 |
 | 双语言 | Python 与 C++ 各有局部基础 | 使用共享黄金数据验证两种语言表示同一离散算子 |
@@ -111,29 +113,31 @@ related:
 | Benchmark | 各项目独立记录 | 统一正确性、内存、通信、更新、MatVec 和完整 solve 报告 |
 | PIML 接口 | 尚未接入 | 先接入精确 $K_s$，验证后再替换为 $\widehat K_s$ 并分析误差传播 |
 
-当前最优先的工作不是继续增加孤立 kernel，而是先恢复、跑通并验证 `xihe/matrix_free_3`，以现有 EA/EbE、CPU MPI 和 Krylov 路径建立可复现工程基线；随后再提取通用接口并迁移到三维线弹性。
+当前最优先的工作是由用户本地运行 `xihe/examples/matrix_free_elasticity_3d/validate_stage1.py`，完成三维线弹性 FA/EA、无预条件 CG、网格收敛和 1/2-rank 重叠副本一致性门禁；Maxwell `matrix_free_3` 只保留为跨 PDE 辅助参考。
 
 ## 五、下一步实施路线
 
-### 阶段 1：恢复、跑通并验证 `xihe/matrix_free_3`
+### 阶段 1：验证三维线弹性 EA/EbE + 重叠副本 MPI 主基线
 
-- 当前起点是：`run.py` 的默认 VTU 网格不在仓库内，`pyproject.toml` 未显式声明 `fealpy`，README 未给出运行命令，已有 GMRES/MINRES 日志也未形成收敛闭环；这些均应视为待处理项，而不是已完成结果。
-- 恢复可合法使用的非敏感网格、匹配的 `fealpy` 环境和可重放命令，冻结网格、有限元次数、MPI ranks、求解器、预条件器、停止准则与输出位置。
-- 至少完成 1 rank 和 2 ranks 复现，记录真实残差、制造解误差和切向边界误差；仅进程运行到结束不等于算例跑通，现有 `converged: False` 日志不得作为完成证据。
-- 以当前 `rtol=1e-8`、`atol=1e-10` 为求解门禁，并保存环境、命令、输入与诊断摘要；若真实残差未满足门禁，则阶段保持未完成并进入问题诊断。
+**状态：实现和命令已准备，待用户本地运行；未完成。**
 
-### 阶段 2：提取 EA/EbE 分布式接口
+- 参考问题采用单位立方体、$\lambda=\mu=1$、一阶连续 Lagrange 向量元和全边界制造解 Dirichlet 条件；方程、解析位移与体力来自 SOPTX 标准三维线弹性算例，Xihe 运行时只依赖 FEALPy 原生线弹性接口。
+- EA 路径缓存完整单元刚度矩阵但不组装全局 CSR；独立 FA 路径负责 MatVec 和显式解黄金对照。MPI 单元按 $x=0.5$ 非重叠划分，共享位移 DOF 使用输入 `sync_add/refs`、输出 `sync_add` 的对等重叠副本表示。
+- 用户本地依次运行 $2^3$、$4^3$、$8^3$ 的 1-rank 基线和 $8^3$ 的 2-rank 对照；无预条件 CG 固定 `maxit=1000`、`rtol=1e-10`、`atol=1e-12`。
+- 完成门禁同时包括：CG 真残差、Dirichlet DOF、FA/EA 原始及边界 MatVec、CG/显式 FA 解、1/2-rank 全局解与 L2 误差一致性，以及网格加密 L2 误差下降和最低观测阶不低于 1.5。
+- 验证驱动返回非零、缺少 JSON 证据或任一门禁失败时，阶段保持未完成；Codex 不代替用户执行数值与 MPI 验证。
 
-- 梳理 `xihe/matrix_free_3` 的 gather、单元张量作用、scatter-add、共享自由度同步和边界处理数据流，确认其保存完整单元张量的 EA/EbE 定位。
-- 提取 operator、GMRES/MINRES、preconditioner 和 diagnostics 的可复用接口语义，不复制 `xihe` 公司代码、内部数据或运行依赖。
-- 冻结 operator level、preconditioner level、owned/ghost DOF、真残差和计时字段，作为后续线弹性路径的接口契约。
+### 阶段 2：提取 EA/EbE 分布式接口并建立 LA/预条件基线
 
-### 阶段 3：迁移到三维线弹性
+- 以阶段 1 线弹性实现为主、Maxwell 原型为跨 PDE 对照，提取 gather、单元张量作用、scatter-add、共享自由度同步、边界处理、Krylov 和 diagnostics 的可复用接口语义。
+- 在同一线弹性问题上建立 LA 显式 MPI 基线，明确对等重叠副本与后续 owned/ghost 表示的边界，并评估局部显式矩阵作为预条件器的用途。
+- 冻结 operator level、preconditioner level、真残差、计时、内存和通信字段；不复制 `xihe` 公司代码、内部数据或运行依赖到本知识库。
 
-- 建立三维线弹性 FA/TA 显式黄金基线，冻结网格、自由度顺序、边界条件、载荷、停止准则和结果格式。
-- 在 FA/TA 基础上建立 LA 显式 MPI 基线，冻结 owned/ghost DOF、halo exchange、局部矩阵与 true-DOF 结果的对应关系，并评估其作为预条件矩阵的用途。
-- 将阶段 2 的分布式算子结构迁移到线弹性 EA/EbE，验证 MatVec、能量、真残差以及 1 rank/N rank 一致性。
-- 在同一参考问题上继续推进 PA/UA；每完成一个装配层级，同时接入 Krylov 和至少一种可用预条件器，MatVec 可运行不等于阶段完成。
+### 阶段 3：在线弹性基线上推进 PA/UA
+
+- 在阶段 1 已冻结的离散问题、自由度顺序、边界、载荷和结果格式上实现 PA/QA，再研究 UA/NONE，避免更换 PDE 导致对照失效。
+- 每完成一个装配层级，同时接入 Krylov 和至少一种可用预条件器，并与 FA、LA、EA 的 MatVec、能量、真残差、内存和完整 solve 对照。
+- 对等重叠副本用于当前参考实现；面向更大 rank 数和外部框架对接时，再建立 owned/ghost 正式路径及双实现黄金对照。
 
 ### 阶段 4：对齐 `mfleo` PA 与单 GPU 路径
 
@@ -145,7 +149,7 @@ related:
 
 - 先用精确 $K_s$ 打通子结构级 Matrix-Free、Krylov 和预条件闭环，再换入 PIML 预测的 $\widehat K_s$，检查结构性质、全局误差、求解收敛和更新成本。
 - 开展 GPU 批处理和端到端 profiling，不以单次 MatVec 加速替代完整 solve 结论。
-- 在线弹性与单 GPU 路径闭环后，再扩展多 CPU 核、多 GPU 和 GPU-aware MPI。跨技术线时间安排以 [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-execution-plan]] 为准。
+- 在线弹性与单 GPU 路径闭环后，再扩展多 CPU 核、多 GPU 和 GPU-aware MPI。跨技术线推进顺序以 [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] 为准。
 
 若纯 Matrix-Free 预条件不足以稳定收敛，允许使用低阶或低精度组装代理；目标是可靠高效求解，而不是追求预条件器形式上的“完全无矩阵”。
 
@@ -153,12 +157,14 @@ related:
 
 ## 六、事实来源与关联页面
 
-- `C:\workspace\xihe`（`origin/develop`）— `xihe/matrix_free_3` 的本地只读事实源；不作为本仓库运行依赖。
+- `C:\workspace\xihe`（`origin/develop`）— `matrix_free_elasticity_3d` 线弹性阶段 1 主基线与 `matrix_free_3` Maxwell 辅助原型的独立工程仓库；不作为本仓库运行依赖。
+- `C:\workspace\soptx\soptx\demo\linear_elastic_exp2d_fealpy.py` — 阶段 1 三维线弹性制造解的本地数学基准；文件名虽含 `2d`，实现实际为三维四面体问题，Xihe 不建立对该路径的运行依赖。
 - `C:\workspace\mfleo` — `mfleo` 的本地只读事实源；不复制公司代码、数据或内部文档。
 - [[../../concepts/matrix-free/assembly-levels]] — Matrix-Free 数学对象、五级装配层次和第三方框架映射。
+- [[../../concepts/matrix-free/distributed-operator-and-shared-dofs]] — MPI 单元分区、共享自由度、输入同步、输出归约、加权内积与跨 rank 正确性不变量。
 - [[../../concepts/matrix-free/method-lineage]] — 郭旭老师团队公开 Matrix-Free 相关成果的长期演进和事实边界。
-- [[research/postdoc-plan/defense-sprint/direction-1-piml-matrix-free/frame8_matrix_free_pipeline_guide]] — 当前 contraction、CG 和多后端证据。
+- [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] — 当前 contraction、CG、多后端证据与跨线融合边界。
 - [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — Matrix-Free、预条件和开放问题的综合调研。
-- [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-execution-plan]] — PIML、Matrix-Free、GPU 三线融合的总体计划。
 - [[../../work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] — 第一次线下汇报中的 Matrix-Free 摘要。
+- [[archive/2026-postdoc-entry-assessment/README]] — 2026 年入站答辩时的历史表达与材料快照，不作为当前事实源。
 - [[_index]] — 长期技术线总入口。
