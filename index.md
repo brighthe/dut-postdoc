@@ -48,7 +48,6 @@
 | [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] | in-progress |
 | [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] | in-progress |
 | [[research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey]] | draft |
-| [[research/teams/guo-xu-team-overview]] | done |
 
 ## 历史档案
 
@@ -61,6 +60,7 @@
 | 概念 | 一句话 |
 |---|---|
 | [[concepts/llm-wiki]] | 个人 AI 知识库模式：由 AI 工具维护原始资料与研究者之间的持久 Markdown 中间层 |
+| [[concepts/linear-elasticity\|线弹性]] | 小变形静力各向同性线弹性的连续模型、变分形式与 Lagrange 有限元离散 |
 | [[concepts/piml/_index\|PIML]] | 问题无关机器学习主题入口 |
 | [[concepts/matrix-free/_index\|Matrix-Free]] | Matrix-Free 稳定知识与当前研究主题入口 |
 | [[concepts/gpu-hpc/_index\|GPU/HPC]] | 端到端性能模型、公开 HPC 谱系与异构并行当前研究主题入口 |

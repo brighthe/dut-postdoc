@@ -10,10 +10,11 @@ tags:
   - topology-optimization
 status: "in-progress"
 date_start: 2026-07-21
-date_update: 2026-07-26
+date_update: 2026-07-29
 related:
   - piml/mathematical-foundations
   - method-lineage
+  - ../workflows/pinn-machine-learning-workflow
   - piml-matrix-free-gpu-and-model-selection-technical-synthesis
 ---
 
@@ -23,7 +24,7 @@ related:
 >
 > **当前主要研究对象**：以二维 Q4、平面应力子结构作为首个统一参考问题，粗网格 $8\times8$、子结构内细分 $L=5$ 与 $L=10$ 两档；三维、非结构网格与非线性状态变量仅作为后续扩展方向。
 >
-> **当前事实底线**：已跑通子结构缩聚与极小 MLP 预测局部 $K_s$ 的前向原型；尚未完成结构保持参数化、全局误差传播、多尺度灵敏度和拓扑优化闭环，原型代码的可重放入口也尚未核实。
+> **当前事实底线**：已跑通子结构缩聚与极小 MLP 预测局部 $K_s$ 的前向原型，但原型代码和结果记录位置尚未恢复，当前仍缺少可重放的线弹性 PIML 训练入口。结构保持参数化、全局误差传播、多尺度灵敏度和拓扑优化闭环尚未完成。
 
 ## 一、技术线目标与边界
 
@@ -88,10 +89,10 @@ related:
 
 | 能力维度 | 当前状态 | 下一道关键门槛 |
 |---|---|---|
-| 训练工具链 | 无可重放的公开训练入口，环境未冻结 | 跑通 `fealpy/ml` 最简算例并冻结版本、种子与运行命令 |
+| 训练工具链 | 默认一维 Poisson PINN 已实测运行，并已形成 [[../workflows/pinn-machine-learning-workflow\|PINN 机器学习全过程]]；当前软件源码映射见其附录，seed、精确 history、checkpoint、干净 revision 与重复运行仍未冻结 | 先完成 Poisson PINN 可重放门禁，再把同一训练骨架切换到线弹性问题；该工具链证据不计作 PIML 方法进展 |
 | 参考基准 | 单一二维悬臂算例，两档粗细比 | 冻结二维/三维子结构、粗细网格比、材料参数与密度分布集合 |
 | 学习对象 | 只直接预测 $K_s$ | 建立预测 $\mathbf N^j$、预测 $\mathbf K_s^j$、因子化参数三条路线的同口径比较 |
-| 结构保持 | 未纳入训练或后处理 | 明确硬保证与软约束划分，报告 SPD 通过率与最小特征值 |
+| 结构保持 | 未纳入训练或后处理 | 明确硬保证与软约束划分，报告刚体模态残差与去刚体子空间最小特征值 |
 | predictor 接口 | 三实现共用调用接口 | 补齐并冻结结构检查、回退与评价字段，成为跨模型正式契约 |
 | 误差传播 | 只有局部 $K_s$ 误差 | 先打通到位移与柔顺度，再到灵敏度 |
 | 可信回退 | 无 | 建立局部误差指示器与精确消元回退路径 |
@@ -103,24 +104,24 @@ related:
 
 ## 五、下一步实施路线
 
-### 阶段 1：跑通 `fealpy/ml` 最简机器学习算例
+### 阶段 1：理解并冻结一维 Poisson PINN 训练工具链
 
-- 起点选择理由：原型仓库路径待确认，短期无法提供可重放入口；而 `fealpy` 已是 `xihe/matrix_free_3` 路线使用的公开环境，`fealpy/ml` 可直接获取与复现，适合先把训练工具链落地。
-- 跑通至少一个最简算例（当前判断为 Poisson PINN，具体脚本以仓库实际内容为准），冻结 Python、`fealpy`、PyTorch 版本、设备、随机种子、超参与运行命令，记录损失曲线与参考误差。
-- **定位边界**：本阶段验证训练工具链、自动微分、采样与后端可用性，**不是 PIML 方法本身**。该目录属用神经网络求解给定 PDE 的 PINN 范式，与本技术线的问题无关性定义不同（见 [[../../concepts/piml/_index]] 边界），结果不得表述为 PIML 能力进展。
-- **门禁**：给出可重放命令与环境记录；最简算例训练收敛且误差与参考一致；环境可被后续阶段直接复用。
+- 以 `fealpy:example/ml/poisson_pinn_example.py` 和 `fealpy:fealpy/ml/poisson_pinn_model.py` 为入口，按 [[../workflows/pinn-machine-learning-workflow]] 说明默认一维 Poisson 问题、MLP、配点、自动微分、PDE/边界 residual、加权 loss、反向传播、误差估计和绘图。
+- 2026-07-29 的当前单次运行观察为：loss `49.431482 → 5.62×10^-4`，21 个日志点中的最低值为 `2.25×10^-4`，程序训练计时 `7.580 s`；图中最低 $L^2$ error 约 $8\times10^{-5}$，只作为估读值。
+- **定位边界**：该算例学习特定 Poisson 边值问题的解场，只用于理解和验证 PINN 训练工具链，不是 Problem-Independent PIML；运行结果不得表述为 PIML 方法能力进展。
+- **门禁**：冻结 Python、PyTorch、FEALPy revision、device、dtype、完整配置、全部 seed 与唯一运行命令；精确 history/metrics 落盘，保存 best/last checkpoint；在干净 revision 上重复运行并满足预先定义的一致性容差。当前尚未满足这些条件，阶段 1 保持未完成。
 
 ### 阶段 2：恢复原型并冻结基准与精确真值
 
-- 起点是：算例设置与数值结论已由综合页记录，但原型仓库路径待确认，`frame7_piml_pipeline_results.md` 与 `train_piml_predictor.py` 位置未核实，历史记录指向分支 `codex/piml-multiscale-prototype`；这些是待处理项，不是已完成结果。
+- 起点是：算例设置与数值结论已有活跃事实入口，但原型仓库路径待确认，`frame7_piml_pipeline_results.md` 与 `train_piml_predictor.py` 位置未核实，历史记录指向分支 `codex/piml-multiscale-prototype`；这些是待处理项，不是已完成结果。
 - 定位并恢复原型代码与结果记录，固化子结构、粗细网格比、材料参数和密度分布集合；统一精确缩聚、形函数、位移恢复与局部谱指标接口，保留极小 MLP 作为最小可复现基线。
 - **门禁**：精确缩聚与全尺度 Schur 补误差复现到 $10^{-15}$ 量级；MLP 基线复现到 $1.6\times10^{-3}$（$5\times5$）与 $8.2\times10^{-3}$（$10\times10$）。任一项未复现则阶段保持未完成并进入诊断。
 
 ### 阶段 3：结构保持表示与接口冻结
 
-- 比较直接预测 $K_s$、预测形函数后构造 $K_s$、因子化参数与谱修正四条路线，将对称性、正定性、刚体模态、分区单位和能量一致性纳入训练或后处理，明确哪些硬保证、哪些为软约束。
+- 比较直接预测 $K_s$、预测形函数后构造 $K_s$、因子化参数与谱修正四条路线，将对称性、刚体零空间、变形子空间正定性、分区单位和能量一致性纳入训练或后处理，明确哪些硬保证、哪些为软约束。
 - 冻结 predictor 的输入、输出、结构检查、回退与评价字段，形成后续所有模型共用的接口契约。
-- **门禁**：SPD 通过率、最小特征值、刚体模态误差和能量一致性达到约定阈值，局部精度不劣于阶段 2 基线；接口字段冻结并可被至少两种 predictor 实现。
+- **门禁**：对称性、刚体模态残差、投影子空间最小特征值和能量一致性达到约定阈值，局部精度不劣于阶段 2 基线；接口字段冻结并可被至少两种 predictor 实现。
 
 ### 阶段 4：误差传播与可信回退
 
@@ -147,8 +148,8 @@ related:
 
 ## 六、事实来源与关联页面
 
+- [[../workflows/pinn-machine-learning-workflow]] — 一维 Poisson PINN 机器学习全过程；当前软件源码映射见附录，只承担训练工具链学习，不是 PIML 方法来源。
 - [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] §2.1 — PIML 子结构前向原型在本仓库中的**活跃事实入口**，本页数值以其为准；该页也维护模型选型与跨线综合。
-- <https://github.com/weihuayi/fealpy/tree/develop/fealpy/ml> — 阶段 1 的公开训练工具链事实源（`sampler`/`modules`/`methods`/`generator` 与 Poisson、Helmholtz、diffusion-reaction 的 PINN/PENN/RFM 模型）；属 PINN 范式，不是 PIML 方法来源。
 - PIML 原型代码、`frame7_piml_pipeline_results.md`、`train_piml_predictor.py` — **本地路径待确认**；历史准备材料见 [[archive/2026-postdoc-entry-assessment/README]] 的 frame7（2026-07-03 实测），归档内容不作为当前事实源。
 - 本技术线不以 `C:\workspace\mfleo` 或 `C:\workspace\xihe` 为事实源，两者见 [[matrix-free-research-guide]]。
 - [[../../concepts/piml/mathematical-foundations]]、[[../../concepts/piml/method-lineage]] — 数学定义与方法谱系。

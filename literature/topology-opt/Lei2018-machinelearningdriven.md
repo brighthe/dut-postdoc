@@ -26,7 +26,7 @@ status: done
 rating: 4
 date_added: 2026-06-24
 date_read: 2026-06-24
-date_update: 2026-07-27
+date_update: 2026-07-28
 ---
 
 # Machine Learning-Driven Real-Time Topology Optimization Under Moving Morphable Component-Based Framework
@@ -141,6 +141,7 @@ $$
 - [[translations/Lei2018-machinelearningdriven-zh]] — 经逐节确认的完整中文译文、公式、图表和译者脚注。
 - [[Zhang2016-MMC-topology]] — MMC 显式拓扑描述的基础工作。
 - [[../../concepts/piml/_index]] — PIML 主题入口及问题无关性的适用边界。
+- [[../../concepts/piml/ml-roles-and-boundaries]] — 将本文定位为问题相关的最终设计代理，并与 PINN、Problem-Independent PIML 比较。
 - [[../../concepts/piml/method-lineage]] — Lei 2018/2019 在“直接预测最终设计—学习可复用局部算子”谱系中的位置。
 - [[Huang2022-problemindependentmachine]] — 从问题相关最终设计预测转向 EMsFEM 局部形函数预测。
 - [[Ma2026-highperformanceparallel]] — PIML 子结构路线的并行大规模实现。

@@ -14,7 +14,7 @@ tags:
   - data-free
 status: draft
 date_added: 2026-07-05
-date_update: 2026-07-26
+date_update: 2026-07-28
 ---
 
 # PIML 方法谱系：从 EMsFEM 到子结构、data-free 与并行大规模优化
@@ -28,6 +28,8 @@ PIML（Problem-Independent Machine Learning，问题无关机器学习）中的�
 > 在同类 PDE、相同有限元离散与材料/本构设置下，局部材料分布唯一决定某种局部力学表示；该局部表示与宏观结构几何、边界条件和外载荷无关，因此可通过离线训练复用于不同宏观问题。
 
 这一路线的关键转变是：机器学习不直接替代拓扑优化流程，也不直接学习最终结构，而是被放进有限元分析中的局部构造环节。
+
+Problem-Independent PIML 与问题相关的最终设计代理、PINN 解场学习的比较见 [[ml-roles-and-boundaries]]；本页只讨论 PIML 自身的历史演化。
 
 ```text
 局部材料分布
@@ -229,6 +231,7 @@ PIML 子结构路线与多分辨率拓扑优化（MTOP）有相似动机：二�
 
 ## 12. 相关页面
 
+- [[ml-roles-and-boundaries]] — 按学习对象、训练信号和计算角色比较相关机器学习路线。
 - [[mathematical-foundations]] — PIML 问题无关性、EMsFEM 基础路线与子结构缩聚学习映射的数学说明。
 - [[../matrix-free/method-lineage]] — Ma2026 与后续团队 Matrix-Free 相关成果的方法谱系及装配层级边界。
 - [[../../literature/_index]] — 文献阅读笔记总索引。

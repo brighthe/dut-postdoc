@@ -6,7 +6,7 @@ tags:
   - topology-opt
 status: in-progress
 date_added: 2026-07-21
-date_update: 2026-07-26
+date_update: 2026-07-28
 ---
 
 # PIML 主题入口
@@ -17,6 +17,7 @@ date_update: 2026-07-26
 
 | 页面 | 一句话 | 状态 |
 |---|---|---|
+| [[ml-roles-and-boundaries]] | 按学习对象、训练信号、物理融合方式和计算角色比较计算力学中的机器学习路线 | draft |
 | [[mathematical-foundations]] | PIML 问题无关性、局部映射、EMsFEM 基础路线与子结构缩聚学习映射的数学说明 | in-progress |
 | [[method-lineage]] | PIML 从 EMsFEM 形函数学习到子结构、data-free 与并行大规模优化的演化主线 | draft |
 
@@ -36,6 +37,7 @@ date_update: 2026-07-26
 
 ## 关联主题
 
+- [[../machine-learning]] — 网络架构、函数／算子学习和 PINN 等训练范式的通用分类框架。
 - [[../matrix-free/_index]] — 全局算子、装配层次、Krylov 与预条件。
 - [[../gpu-hpc/_index]] — PIML 批量推理、端到端性能与异构并行。
 

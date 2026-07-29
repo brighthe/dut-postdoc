@@ -12,7 +12,7 @@ tags:
   - machine-learning
 status: in-progress
 date_added: 2026-06-18
-date_update: 2026-07-26
+date_update: 2026-07-29
 ---
 
 # PIML 数学基础
@@ -41,6 +41,10 @@ $$
 $$
 
 “问题无关”是指该局部映射不直接依赖宏观设计域、整体边界条件和外载荷，因此训练后的模型可在相同 $\mathcal{L}$、$\mathcal{D}$ 和 $\mathcal{M}$ 设置下复用。它不表示模型能够无条件跨 PDE、跨离散、跨单元或跨本构泛化。
+
+当 $\boldsymbol\rho^E$ 表示拓扑优化设计相对密度时，它通过材料插值进入局部本构和有限元刚度；这一密度相关线弹性算子见 [[../linear-elasticity]]。PIML 学习的是由该算子生成的局部力学表示，不负责替代或隐式定义材料插值规律。
+
+Problem-Independent PIML 与问题相关的最终设计代理、PINN 解场学习之间的多维比较见 [[ml-roles-and-boundaries]]。
 
 ## 2. Huang 2022 的基础路线：PIML + EMsFEM
 
@@ -188,8 +192,10 @@ $$
 
 ## 8. 来源与相关页面
 
+- [[../linear-elasticity]] — 设计相对密度参数化本构、单元刚度与全局平衡方程。
 - [[../../literature/topology-opt/Huang2022-problemindependentmachine]] — EMsFEM 形函数学习与问题无关性起点。
 - [[../../literature/topology-opt/Huang2023-PIML-substructure]] — 子结构形函数与缩聚刚度扩展。
 - [[../../literature/topology-opt/Huang2024-PIML-datafree]] — mechanics-based data-free 扩展。
+- [[ml-roles-and-boundaries]] — 计算力学中相关机器学习路线的作用位置与方法边界。
 - [[method-lineage]] — 从 Lei 前史到并行 PIML 的方法谱系。
 - [[../../research/technical-lines/piml-research-guide]] — 当前能力、目标差距、实施路线与验收标准。

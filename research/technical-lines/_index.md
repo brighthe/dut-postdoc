@@ -10,7 +10,7 @@ tags:
   - HPC
 status: "in-progress"
 date_start: 2026-07-21
-date_update: 2026-07-26
+date_update: 2026-07-29
 ---
 
 # 长期技术线索引
@@ -24,6 +24,8 @@ date_update: 2026-07-26
 | PIML | [[piml-research-guide]] | 局部力学算子学习、结构保持、误差传播与优化闭环；已有能力、目标差距与阶段门禁 |
 | Matrix-Free | [[matrix-free-research-guide]] | 全局算子、Krylov 与预条件；已有能力、目标差距与阶段门禁 |
 | GPU/HPC | [[gpu-hpc-research-guide]] | 异构执行与端到端性能；已有能力、目标差距与阶段门禁 |
+
+研究执行、训练、记录与验收流程统一见 [[../workflows/_index]]，不在本目录维护具体 workflow 正文。
 
 ## 基础概念
 
@@ -48,7 +50,7 @@ date_update: 2026-07-26
 ## 维护规则
 
 - 三份 guide 是各技术线的长期第一入口，不从属于固定的“方向一/方向二”编号。
-- 每份 guide 同时维护已有基础、事实边界、后续工作、Benchmark、里程碑和风险。
+- 每份 guide 维护已有基础、事实边界、后续工作、Benchmark 状态、里程碑和风险，不建立独立的第二套阶段状态账。
 - 项目任务和分工的实时状态仍由对应项目仓库维护；guide 只吸收可复用的方法、指标和结论。
 - 跨技术线接口与整体推进顺序由综合页维护，单线 guide 不建立第二套总体进度账。
 - 更新 guide 后检查对应概念页、综合页、工作汇报和本索引是否需要同步。

@@ -6,6 +6,7 @@ aliases:
   - 郭旭团队
   - Guo Xu group
   - Guo-Xu team
+  - research/teams/guo-xu-team-overview
 tags:
   - topology-opt
   - MMC
@@ -15,12 +16,12 @@ tags:
   - industrial-software
 status: in-progress
 date_added: 2026-06-18
-date_update: 2026-07-26
+date_update: 2026-07-29
 ---
 
 # 郭旭院士团队
 
-> **一句话**：大连理工大学、工业装备结构分析国家重点实验室；以**显式拓扑优化（MMC/MMV）**、**PIML 赋能超大规模优化**、**变分原理与多尺度计算**、**SiPESC 工业软件**、**混合变分极值型数值方法**五大方向著称。我的博士后课题所依托的团队。
+> **一句话**：依托大连理工大学工业装备结构分析国家重点实验室，围绕显式拓扑优化（MMC/MMV）、Problem-Independent PIML、复杂力学与多尺度计算、SiPESC 工业软件以及混合变分数值方法开展研究；本页是该团队在知识库中的唯一稳定档案。
 
 ## 基本信息
 
@@ -31,31 +32,43 @@ date_update: 2026-07-26
 | 负责人 | 郭旭院士（[个人主页](https://faculty.dlut.edu.cn/2000011087/)） |
 | 关键词 | MMC/MMV、PIML、EMsFEM、PVP、SiPESC、双模量 |
 
-## 五大方向（速览）
+## 研究体系
 
-1. **显式拓扑优化 MMC/MMV** — 用低维显式几何参数（组件/孔洞）描述拓扑，区别于体素密度法（SIMP）。
-2. **问题无关机器学习 PIML** — 学可嵌入 FEA 的局部力学算子，加速大规模优化。详见 [[../concepts/piml/mathematical-foundations]]。
-3. **复杂力学行为变分原理与多尺度计算** — 大变形、双模量等非光滑本构的泛函底座。
-4. **工业软件与高性能计算（SiPESC）** — 集成化 CAE 平台，承载上述方法工程化。
-5. **混合变分问题与极值型数值技术（PVP + 极值型杂交元）** — 绕开 LBB、构造全局 SPD 系统。
+### 1. 显式拓扑优化（MMC/MMV）
 
-> 各方向的方法细节、核心文献谱系与公式推导见详版综合页 [[../research/teams/guo-xu-team-overview]]（本实体页是档案卡，不重复其内容）。
+Moving Morphable Components（MMC）和 Moving Morphable Voids（MMV）以组件或孔洞的低维连续几何参数描述结构拓扑，使几何边界、优化变量和最终构型保持显式关联。其典型计算链包括拓扑描述函数、固定背景网格上的物理分析、伴随灵敏度和几何参数更新。离散方法与工程取舍见 [[../research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey]]。
 
-## 与我的关联
+### 2. 问题无关机器学习（PIML）
 
-博士后课题围绕方向二（PIML）+ 方向五（PVP/双模量）+ 方向一（MMC/MMV）的交叉展开，切入点见 [[../research/postdoc-plan/postdoc-research-plan]]：
-- A：双模量问题的极值型杂交元离散；
-- B：PIML 局部算子的物理约束增强（PVP 极小值作损失）；
-- C：MMC/MMV 与 PIML 协同加速。
+Problem-Independent PIML 不直接学习某个整体边界条件、外载荷或优化目标下的端到端答案，而是学习可复用于有限元分析的局部力学表示，再嵌入全局组装、求解和优化流程。数学对象、方法边界和演化关系分别见 [[../concepts/piml/mathematical-foundations]]、[[../concepts/piml/method-lineage]] 与 [[../research/technical-lines/piml-research-guide]]。
 
-## 相关来源
+### 3. 复杂力学行为变分原理与多尺度计算
 
-- [[../research/teams/guo-xu-team-overview]] — 团队研究体系详版（方法+文献谱系）。
-- [[../concepts/piml/mathematical-foundations]] — 方向二数学基础页。
-- [[../concepts/matrix-free/method-lineage]] — 团队公开 Matrix-Free 相关成果的方法谱系与事实边界。
-- [[../literature/topology-opt/Huang2022-problemindependentmachine]]、[[../literature/topology-opt/Ma2026-highperformanceparallel]]。
+该方向从变分原理和多尺度表征出发，处理大变形、双模量、非光滑本构以及微结构设计等复杂问题，为数值离散和学习型局部表示提供力学基础。通用线弹性基础单独维护在 [[../concepts/linear-elasticity]]。
 
-## 相关页面
+### 4. 工业软件与高性能计算（SiPESC）
 
-- [[../research/postdoc-plan/postdoc-research-plan]]
-- [[../research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey]]
+SiPESC（Software Integration Platform for Engineering and Scientific Computation）以插件式、组件化和开放接口组织有限元分析、结构优化、多学科优化、可视化与工程数据等能力，为显式拓扑优化、子结构方法和并行求解的工程化提供平台载体。团队公开 Matrix-Free 与并行成果的事实边界见 [[../concepts/matrix-free/method-lineage]]。
+
+### 5. 混合变分问题与极值型数值方法
+
+该方向关注混合变分问题、参数变分原理（PVP）、杂交元和极值型计算，目标包括处理非光滑本构、降低局部变量以及获得适合全局求解的代数系统。本页只记录研究方向，不替代具体概念页和论文笔记中的条件、推导与结论。
+
+## 代表成果与权威入口
+
+| 方向 | 代表成果或知识入口 |
+|---|---|
+| MMC/MMV | [[../literature/topology-opt/Zhang2016-MMC-topology]]；[[../literature/topology-opt/Zhang2017-MMV-3D]]；[[../research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey]] |
+| PIML | [[../literature/topology-opt/Huang2022-problemindependentmachine]]；[[../literature/topology-opt/Huang2023-PIML-substructure]]；[[../literature/topology-opt/Huang2024-PIML-datafree]]；[[../concepts/piml/mathematical-foundations]] |
+| 高性能结构分析 | [[../literature/topology-opt/Ma2026-highperformanceparallel]]；[[../concepts/matrix-free/method-lineage]] |
+| 个人研究路线 | [[../research/postdoc-plan/postdoc-research-plan]]；[[../research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] |
+
+## 与博士后研究的关联
+
+团队是博士后课题的学术背景，但个人研究问题、阶段安排和技术切入点不在实体页重复维护，统一以 [[../research/postdoc-plan/postdoc-research-plan]] 为准。当前交叉关注包括 PIML 与高性能结构分析、MMC/MMV 数值离散，以及复杂材料模型下的变分与离散方法。
+
+## 来源与维护边界
+
+- 团队负责人及单位信息以[郭旭院士个人主页](https://faculty.dlut.edu.cn/2000011087/)等官方来源为准。
+- `entities/` 维护团队身份、稳定研究方向和权威入口；`concepts/` 维护方法定义与推导；`literature/` 维护论文事实；`research/` 维护个人计划、技术线和执行工作流。
+- 旧团队总览已合并到本页，并由 frontmatter alias 保持历史链接可解析。

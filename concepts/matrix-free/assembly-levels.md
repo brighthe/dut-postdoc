@@ -13,12 +13,17 @@ tags:
   - operator
 status: in-progress
 date_added: 2026-07-21
-date_update: 2026-07-27
+date_update: 2026-07-29
 ---
 
 # Matrix-Free 装配层次
 
 > **一句话**：Matrix-Free 不是单一实现，而是由“算子数据保存到哪一层”区分的实现谱系；本库统一采用兼容 libCEED 与 MFEM 的 `FA/TA → LA → EA/EbE → PA/QA → UA/NONE` 五级分类。
+
+本页从已经离散的有限元算子出发，回答“程序预先形成和保存什么”。三维线弹性的
+平衡方程、弱形式、向量 Lagrange 离散以及
+$\mathbf K_e=\int_{\Omega_e}\mathbf B_e^{\mathsf T}\mathbf D\mathbf B_e\,\mathrm dx$
+如何产生，见 [[../linear-elasticity]]。
 
 ## 统一算子表示
 
@@ -57,6 +62,68 @@ $$
 
 三个容易混淆的边界是：EA 保存完整单元矩阵；PA 只保存积分点或等价 PA 数据；UA 在每次 apply 时从几何、系数或状态即时计算这些数据。没有全局稀疏矩阵并不自动等于 PA 或 UA。
 
+### 以主算子路径判定
+
+若主算子路径缓存每个单元的完整稠密矩阵 $\mathbf A_e$，但不形成全局稀疏矩阵，则该路径属于 EA/EbE；若主路径只保存积分点数据或等价因子，则应判为 PA/QA；若这些数据在每次 MatVec 中即时生成，则应判为 UA/NONE。为调试或黄金对照另行构造的 FA/TA 算子不改变主路径的分类。分类依据是实际保存对象和 MatVec 数据流，而不是某种语言接口是否只暴露隐式算子调用。
+
+## 装配层次的算子形式
+
+暂不展开 MPI true/local 映射时，令 $\mathbf G_e$ 表示从全局自由度到单元 $e$ 自由度的布尔限制矩阵，$\mathbf A_e$ 表示该单元的局部算子。这里的单元限制矩阵 $\mathbf G_e$ 与 MPI 层从 true DOF 到 rank-local DOF 的限制矩阵 $\mathbf R_r$ 不同；后者见 [[distributed-operator-and-shared-dofs]]。
+
+### FA/TA：全局矩阵作用
+
+FA/TA 在 setup 阶段完成单元贡献的 scatter-add，形成并保存全局稀疏矩阵：
+
+$$
+\begin{aligned}
+\mathbf A_{\mathrm{FA}}
+&=
+\sum_e
+\mathbf G_e^{\mathsf T}
+\mathbf A_e
+\mathbf G_e,
+\\
+\mathbf y_{\mathrm{FA}}
+&=
+\mathbf A_{\mathrm{FA}}\mathbf x.
+\end{aligned}
+$$
+
+### EA/EbE：单元矩阵作用
+
+EA/EbE 不形成全局稀疏矩阵，而是保存单元矩阵集合 $\{\mathbf A_e\}$，在每次 MatVec 中直接计算
+
+$$
+\mathbf y_{\mathrm{EA}}
+=
+\sum_e
+\mathbf G_e^{\mathsf T}
+\left[
+\mathbf A_e
+\left(\mathbf G_e\mathbf x\right)
+\right].
+$$
+
+EA 的算子作用可以进一步分解为
+
+$$
+\mathbf x_e=\mathbf G_e\mathbf x,
+\qquad
+\mathbf y_e=\mathbf A_e\mathbf x_e,
+\qquad
+\mathbf y_{\mathrm{EA}}=\sum_e\mathbf G_e^{\mathsf T}\mathbf y_e.
+$$
+
+其中三步依次为 gather、单元矩阵作用和 scatter-add。在精确算术下，EA 与 FA 表示同一个离散算子，即
+
+$$
+\mathbf y_{\mathrm{EA}}
+=
+\mathbf y_{\mathrm{FA}}.
+$$
+
+浮点计算中，两条路径可能因组装和求和顺序不同而产生舍入误差量级的数值差异，但这不改变二者的代数等价性。在线弹性问题中，$\mathbf A_e$ 对应单元刚度矩阵 $\mathbf K_e$，$\mathbf A_{\mathrm{FA}}$ 对应全局刚度矩阵 $\mathbf K$。
+
 ## 框架术语映射
 
 | 框架 | Matrix-Free 入口 | 在五级分类中的理解 |
@@ -76,7 +143,7 @@ $$
 - **MPI 分布方式**回答网格如何分区、谁拥有 true DOF、ghost 如何更新以及局部贡献如何归约；
 - **装配层级**回答每个 rank 为一次算子作用预先保存了全局矩阵、局部矩阵、单元矩阵、积分点数据还是更少的数据。
 
-因此，MPI 可以分别与 FA、LA、EA、PA 或 UA 组合。PETSc `MATSHELL`、Firedrake `mat_type="matfree"` 和 NGSolve `nonassemble=True` 都不能单独说明采用哪种 MPI 分区与共享 DOF 协议。各框架的 owner/ghost 数据流及其与重叠副本 `sync_add/refs` 的关系见 [[distributed-operator-and-shared-dofs#13. 与主流有限元框架的对应|分布式框架对应表]]。
+因此，MPI 可以分别与 FA、LA、EA、PA 或 UA 组合。PETSc `MATSHELL`、Firedrake `mat_type="matfree"` 和 NGSolve `nonassemble=True` 都不能单独说明采用哪种 MPI 分区与共享 DOF 协议。各框架的 owner/ghost 数据流及其与对等重叠副本代数的关系见 [[distributed-operator-and-shared-dofs#13. 与主流有限元框架的对应|分布式框架对应表]]。
 
 ## 快速识别流程
 
@@ -108,6 +175,7 @@ Matrix-Free 通常只描述主算子路径，预条件器可以使用另一装�
 ## 相关页面
 
 - [[_index]] — Matrix-Free 稳定方法理解的子知识库入口。
+- [[../linear-elasticity]] — 线弹性连续模型、变分形式、有限元离散与单元刚度算子。
 - [[distributed-operator-and-shared-dofs]] — MPI 网格分区、共享自由度同步、加权内积与全局解收集。
 - [[method-lineage]] — 郭旭老师团队公开 Matrix-Free 相关成果的方法谱系。
 - [[../../research/technical-lines/matrix-free-research-guide]] — 当前基础、目标差距、推进路线与阶段门禁。

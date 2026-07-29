@@ -39,7 +39,7 @@ date_read:
 
 - [[Huang2022-problemindependentmachine]] 的子结构扩展（本文）
 - [[../../concepts/piml/mathematical-foundations]]
-- [[../../research/teams/guo-xu-team-overview]]
+- [[../../entities/guo-xu-team]]
 
 ## 附注：引用键待统一（lint）
 

@@ -14,12 +14,17 @@ tags:
   - krylov
 status: in-progress
 date_added: 2026-07-27
-date_update: 2026-07-27
+date_update: 2026-07-29
 ---
 
 # 分布式 Matrix-Free 算子：网格分区、共享自由度与 MPI 同步
 
 > **一句话**：MPI 有限元通常对单元做非重叠分区、对界面自由度保存共享或 ghost 副本；分布式 Matrix-Free 算子必须用严格一致的输入同步、局部作用、输出归约和加权内积，才能表示与串行全局算子相同的固定线性映射。
+
+本页从已经离散的全局算子 $\mathbf K$ 出发，研究它在 MPI ranks 间的等价表示；
+线弹性连续模型、弱形式以及 $\mathbf K$ 的有限元来源见
+[[../linear-elasticity]]。分布式表示不会改变原 PDE、本构、边界条件或
+单元算子。
 
 ## 1. 单元非重叠不等于自由度不重叠
 
@@ -200,8 +205,6 @@ x_i^{(r)}.
 $$
 
 因此，共享输入上的“同步求和再除以引用次数”不是经验修补，而是把重叠副本投影回唯一 true-DOF 向量。
-
-**当前实例**是 `xihe/matrix_free_3` 的分布式算子：输入使用 `sync_add(x) / refs` 恢复一致共享值，局部作用后再以 `sync_add(y)` 累加各 rank 的单元贡献。这里描述的是该算例当前实现，不表示 FEALPy 的全部分布式接口都采用对等重叠副本。
 
 libCEED 未固定归入上述任一类：它把 MPI 的 `P` 层及跨设备通信交给宿主程序管理，最终采用 owned/ghost 还是其他重叠表示取决于调用它的应用。
 
@@ -449,35 +452,32 @@ MPI 是进程间通信标准，规范 communicator、rank、点对点通信、�
 | [libCEED](https://libceed.org/en/latest/libCEEDapi/) | 用 `P` 表示 MPI 分解；全局 T-vector 和跨设备通信由宿主程序管理，libCEED 主要从 L-vector 层开始工作 | 算子因子分解一致，但不能把 libCEED 本身理解为 MPI 网格与 halo 管理器 |
 | [MFEM](https://docs.mfem.org/4.8/classmfem_1_1ParFiniteElementSpace.html) | `ParFiniteElementSpace` 区分 local DOF 与 true DOF，并提供 prolongation/restriction 及共享边、面自由度信息 | 与 $\mathbf R_r$、$\mathbf R_r^{\mathrm T}$ 的限制/延拓描述直接对应 |
 | [deal.II](https://dealii.org/developer/doxygen/deal.II/classLinearAlgebra_1_1distributed_1_1Vector.html) | 分布式向量区分 locally owned 和 ghost entries；输入用 `update_ghost_values()`，输出贡献用 `compress(add)` | 等价于 owner→ghost 输入同步和 ghost→owner 输出累加；全局内积只计 owned entries，避免重复计数 |
-| [PETSc](https://petsc.org/release/manual/vec/) | DM global vector 不保存 ghost，local vector 保存 ghost；典型流程为 forward `INSERT_VALUES` 和 reverse `ADD_VALUES` | 与式 (15)-(17) 等价，但 owner 值是权威输入，不需要再除以 `refs` |
+| [PETSc](https://petsc.org/release/manual/vec/) | DM global vector 不保存 ghost，local vector 保存 ghost；典型流程为 forward `INSERT_VALUES` 和 reverse `ADD_VALUES` | 与式 (15)-(17) 等价，但 owner 值是权威输入，不需要进行重叠副本平均 |
 | [Firedrake](https://www.firedrakeproject.org/firedrake/parallelism.html) | 对用户提供较透明的 MPI 分布式执行，底层通过 PETSc 等组件管理分布式网格和 halo | 上层 `mat_type="matfree"` 选择隐式算子，MPI 分布仍由独立的数据结构负责 |
 | [DOLFINx](https://docs.fenicsproject.org/dolfinx/main/cpp/doxygen/d2/d30/classdolfinx_1_1common_1_1IndexMap.html) | `IndexMap` 明确区分 owned 与 ghost indices，并记录共享关系；scatter 支持正向和反向通信 | 是 owner/ghost 语义与当前实现最直接的接口类比之一 |
 | [NGSolve](https://docu.ngsolve.org/latest/how_to/howto_parallel.html) | MPI 网格分发和 parallel DOF 负责跨 rank 的共享数据表示 | `nonassemble=True` 决定算子是否显式组装，不单独决定 MPI 分区与同步方式 |
 
-对当前对等重叠副本实现，可作如下概念映射：
+对等重叠副本与 owner/ghost 表示可作如下概念映射：
 
-| 当前数据流 | 主流 owned/ghost 数据流 |
+| 对等重叠副本代数 | 主流 owned/ghost 数据流 |
 |---|---|
-| 输入 `sync_add(x) / refs` | owner→ghost 的 forward scatter / halo update |
-| rank-local $\mathbf A_r\mathbf x_r$ | 同样的局部算子作用 |
-| 输出 `sync_add(y)` | ghost→owner 的 reverse scatter-add / `compress(add)` |
-| 内积按 `refs` 加权 | 只在 owned DOF 上参加全局归约 |
-| 解收集后按 `refs` 平均 | 直接收集唯一 owned true DOF |
+| 输入一致化 $\widetilde{\mathbf x}_{\mathrm{loc}}=\mathbf R\mathbf Q^{-1}\mathbf R^{\mathrm T}\mathbf x_{\mathrm{loc}}$ | owner→ghost 的 forward scatter / halo update |
+| rank-local $\mathbf A_r\widetilde{\mathbf x}_r$ | 同样的局部算子作用 |
+| 输出归约 $\mathbf y=\sum_r\mathbf R_r^{\mathrm T}\mathbf z_r$ | ghost→owner 的 reverse scatter-add / `compress(add)` |
+| 内积按 $\mathbf Q^{-1}$ 去重 | 只在 owned DOF 上参加全局归约 |
+| 解收集 $\mathbf Q^{-1}\sum_r\mathbf R_r^{\mathrm T}\mathbf u_r$ | 直接收集唯一 owned true DOF |
 
-这张表表示的是代数角色对应，不表示 API 或内存布局相同。只要限制映射和通信正确，两类实现都可以满足式 (20)；不能机械地把 `sync_add/refs` 搬到 owner/ghost 框架中，因为后者已经通过唯一 owner 消除了输入歧义。
+这张表表示的是代数角色对应，不表示 API 或内存布局相同。只要限制映射和通信正确，两类表示都可以满足式 (20)；不能把重叠副本平均直接套用到 owner/ghost 框架中，因为后者已经通过唯一 owner 消除了输入歧义。
 
-## 14. 阶段验证结果应如何解释
+## 14. 如何解释分布式验证
 
-2026-07-27 的 `matrix_free_3` 阶段 1 本地输出中，细网格 1 rank 与 2 ranks 的全局解相对差约为 $7\times10^{-15}$。这一结果支持以下有限结论：
+分布式实现至少应分别报告 MatVec 与显式全局算子的代数一致性、真实残差、物理边界条件、跨 rank 解一致性，以及在适用时的网格加密误差趋势。这些门禁对应式 (20)、(24)、(25) 和 (26)，彼此不能互相替代：一致 MatVec 不证明迭代已经收敛，两个 rank 数得到相同的未收敛解也不证明线性系统已求解到目标精度。
 
-- 当前分区、共享 DOF 同步和全局解收集在该算例上保持了串并行代数一致性；
-- 该结果不证明 GMRES 已收敛，也不证明预条件器、扩展性或更高 rank 数正确；
-- 同次运行中 GMRES 达到 `maxit=1000` 后真实相对残差仍约为 $7.7\times10^{-4}$，所以阶段 1 仍未通过线性求解门禁。
-
-因此，**并行算子一致性**和**线性求解收敛性**必须分别验收。前者主要检查式 (20)、跨 rank 解差和 FA/EA MatVec 对照；后者必须检查式 (25) 的 true residual。两个 rank 数得到同一个未收敛向量，只能说明并行路径一致，不能把阶段标记为完成。
+通过上述门禁只证明在给定 PDE、离散、分区和 rank 范围内的数值正确性；不自动推出计时、加速比、并行效率、强/弱扩展性、更多 ranks、预条件器、其他装配层级或异构硬件能力。具体项目的运行范围、数值结果和实现证据由 [[../../research/technical-lines/matrix-free-research-guide]] 及对应工程仓库维护。
 
 ## 来源与证据
 
+- [[../linear-elasticity]] — 当前三维线弹性离散算子的连续模型、弱形式和单元来源。
 - [[assembly-levels]] — 有限元算子的 $\mathbf P^T\mathbf G^T\mathbf B^T\mathbf D\mathbf B\mathbf G\mathbf P$ 分解、五级装配层次和跨框架术语。
 - [[../../research/technical-lines/matrix-free-research-guide]] — 当前 Matrix-Free 技术线的 MPI 接口、正确性门禁和实施边界。
 - [MPI Forum: MPI Documents](https://www.mpi-forum.org/docs/) — MPI 标准的规范性入口。
@@ -506,6 +506,7 @@ MPI 是进程间通信标准，规范 communicator、rank、点对点通信、�
 ## 相关页面
 
 - [[_index]] — Matrix-Free 稳定知识与当前研究的主题入口。
+- [[../linear-elasticity]] — 线弹性方程、变分形式与有限元离散。
 - [[assembly-levels]] — FA/LA/EA/PA/UA 装配层次。
 - [[method-lineage]] — Matrix-Free 相关公开成果的方法谱系。
 - [[../../research/technical-lines/matrix-free-research-guide]] — 当前能力、阶段路线与验证门禁。

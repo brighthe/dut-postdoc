@@ -515,5 +515,244 @@
 - 将 [[research/funding/liaoning-natural-science-fund/2026]]、[[research/funding/liaoning-natural-science-fund/2027]] 和 [[research/funding/postdoc-funding-applications]] 统一标记为“按现有政策当前不符合、不作为在站期主线”。
 - 后续只监测新年度政策是否调整年度范围、学校排名、合同期限或设站类型，不提前准备完整材料，不将奖励计入预期支持。
 
+## [2026-07-28] edit | 汇总更新博士后项目与基金申请总台账
+- 在 [[research/funding/postdoc-funding-applications]] 增加结论摘要，统一国家—辽宁省—大连市三级项目状态：当前唯一有效主线为中国博士后科学基金第 80 批面上资助。
+- 将国家资助博士后研究人员计划 A/B/C 档作为同一项目体系纳入 2027 年准备；修正博新计划 PDF 已归档的旧状态，并补充 B/C 档官方指南入口。
+- 将国家自然科学基金青年科学基金项目（C 类）由“待核验”调整为 2027 国家级主线；按 2026 年规则，在站博士后可申请，何亮年龄和博士学位条件匹配，聘期与执行期衔接待确认。
+- 将中国博士后科学基金特别资助列为 2027 年进阶目标；补充国家自然科学基金面上项目主持后备、国资计划推荐材料和非在职博士后身份确认。
+- 新增国家级暂不准备清单：地区专项、地区 / 单位限定联合资助、李政道研究所特别资助、专著出版和条件性国际交流项目。
+- 同步 [[research/_index]]；根 [[index]] 已通过总台账链入，不增加项目明细。
+
 ## [2026-07-28] correction | 记录入站考核联系人档案的现行路径
 - 2026-06-24 条目记录的是当时使用的路径 `C:\workspace\heliangos\wechat\大连理工大学博士后\teachers\石圣哲.md`；该档案现已随 `heliangos` 重组迁移到 `heliangos:wechat/contacts/石圣哲.md`。为遵守 `log.md` append-only 规则，历史条目保持原文，当前路径以本条为准。
+
+## [2026-07-28] edit | 精简博士后项目与基金申请总台账
+- 将 [[research/funding/postdoc-funding-applications]] 的“结论先行”收缩为当前唯一需要立即申报的中国博士后科学基金第 80 批面上资助，并明确申报时间、当前动作和资格确认项。
+- 合并原“当前优先级排序”“近期优先关注”和“候选项目池”为一张后续申报路线表；省市项目的详细资格过程继续保留在各专项页面。
+- 压缩官方资料、材料清单、申请记录、排除项和选题候选，减少同一结论在总台账中的重复维护。
+- 同步 [[research/_index]] 的页面说明；根 [[index]] 的现有总台账入口无需调整。
+
+## [2026-07-28] edit | 将第 80 批面上资助专项页改为申请执行页
+- 重构 [[research/funding/china-postdoc-foundation-general-grant/80th-2026]]，把当前结论、资格待办和大连理工大学 2026-08-29 校内截止置于开头，将官方资料移至末尾。
+- 删除候选选题、研究基础展开、申请书写作建议和风险分析等现阶段不需要的内容，仅保留资格确认、申报流程、准备资料、当前倒排计划和提交检查。
+- 根据大连理工大学科研院通知补充院系审核流程、系统入口及“不得选择地区专项支持计划”的学校要求。
+- 同步 [[research/_index]] 的页面说明。
+
+## [2026-07-28] update | 确认第 80 批申请人的非在职博士后身份
+- 何亮已确认属于非在职博士后，满足第 80 批面上资助关于在职身份的限制条件。
+- 将 [[research/funding/china-postdoc-foundation-general-grant/80th-2026]] 中该项由 P0 待确认改为已确认符合，并勾选提交检查项。
+- 同步 [[research/funding/postdoc-funding-applications]]；当前资格待办只剩系统申报身份是否生效和二级学科确认。
+
+## [2026-07-28] update | 核验第 80 批申报系统账号与当前入口
+- 通过已登录的中国博士后科学基金管理信息系统确认用户为“何亮”，可以正常访问“基金申报”和“我的申报”，系统账号及基金业务入口已经生效。
+- 截至 2026-07-28，“基金申报”页面尚未出现第 80 批面上资助，符合该批次 2026-08-01 开放的时间安排；“我的申报”显示“查无数据”。
+- 将 [[research/funding/china-postdoc-foundation-general-grant/80th-2026]] 和 [[research/funding/postdoc-funding-applications]] 更新为“账号权限已确认，8 月 1 日核验第 80 批专属入口”，不再笼统标记为系统身份待确认。
+
+## [2026-07-28] update | 确认第 80 批申请学科并简化院系流程待办
+- 根据进站系统信息，何亮登记的一级学科为“力学”、二级学科为“计算力学”，流动站设站单位为大连理工大学力学与航空航天学院；第 80 批申报时默认沿用并核对系统回显。
+- 将 [[research/funding/china-postdoc-foundation-general-grant/80th-2026]] 中学科确认标记为已完成，资格确认只剩 2026-08-01 核验第 80 批入口。
+- 将院系联系由常规前置任务改为异常处理：正常情况下直接通过系统提交至院系，只有出现额外通知、系统异常、长期未审核或退回原因不明时再联系管理人员。
+- 同步 [[research/funding/postdoc-funding-applications]] 的当前结论。
+
+## [2026-07-28] edit | 精简中国博士后科学基金 2026 年指南解读
+- 保留 [[research/funding/postdoc-funding-applications]] 作为国家—辽宁省—大连市个人申请总台账，不将 2026 年基金指南全文合入总台账。
+- 将 [[research/funding/china-postdoctoral-science-foundation-2026-guide-notes]] 从个人行动与写作建议混合文档改为政策速查，只保留资助类型、时间线、硬条件、面上与特别资助规则、兼容排除关系及经费管理。
+- 删除候选题目、个人研究方向、材料行动清单、当前建议顺序和已过时的待确认问题；第 80 批个人执行信息继续由 [[research/funding/china-postdoc-foundation-general-grant/80th-2026]] 维护。
+- 同步 [[research/_index]] 和第 80 批专项页中的引用说明。
+
+## [2026-07-28] edit | 将基金官方原始 PDF 迁移到 iCloud
+- 将两份 2026 年基金官方指南归档到 `iCloudDrive/博士后-大连理工大学/官方原始材料/基金申报/2026/`，核验文件与 Git 历史版本完全一致，并从仓库移除原始 PDF。
+- 新建 [[research/funding/sources]]，集中登记官方 URL、iCloud 相对归档路径和 SHA-256；修复 funding 页面中的本地 PDF 引用。
+- 在 [[ai/llm-wiki-workflow]] 确立 iCloud、Zotero 与 Git 的原始资料职责边界，并在 `README.md` 和 `.gitignore` 增加对应入口与防误提交规则。
+
+## [2026-07-28] edit | 建立 2027 年国资计划 A/B/C 档申请准备线
+- 将 [[research/funding/china-postdoc-innovation-talent-support-plan/2026]] 改为已结束年度结论：A 档于 2026-03-24 截止、B/C 档于 2026-04-30 截止；两类项目均接受符合条件的拟进站人员，但何亮未在拟进站阶段提交申请，现已无法补报2026年度。
+- 新建 [[research/funding/china-postdoc-innovation-talent-support-plan/2027]]，按 2026 年规则将 A 档博新计划列为主申、B/C 档列为备选；个人年龄、学位、进站、非在职身份、国内博士经历、研究领域及合作导师平台具有较强匹配性。
+- 将现有两年合同与国资计划两年资助期、获资助后科研业绩评估时间的衔接列为申报前关键风险，同时保留人事档案、工资关系和社会保险转入情况的核验项。
+- 设置自 2026-11-01 起的校内培育与年度通知监测节点，并整理导师推荐、双证、5 项以内代表性成果、匿名研究计划和平台材料清单。
+- 同步 [[research/funding/postdoc-funding-applications]] 和 [[research/_index]]；2027 正式条件与日期统一标记为待当年通知。
+
+## [2026-07-28] edit | 建立 2027 年青基与特别资助准备页
+- 新建 [[research/funding/nsfc-youth-fund/2027]]：明确 2026 年青基窗口已经结束，何亮的年龄、博士学位和在站博士后身份按上一年度规则高匹配；把三年项目执行期与两年合同、出站后依托单位衔接列为申报前关键问题。
+- 新建 [[research/funding/china-postdoc-foundation-special-grant/2027]]：按上一年度规则判断 2027 年基础资格预计符合，将进站后新增成果、5 项以内证明材料和大工限额遴选作为准备重点。
+- 两页均不沿用 2026 年日期作为 2027 年正式窗口；正式资格、兼容关系、模板和校内截止统一待当年通知核验。
+- 同步 [[research/funding/postdoc-funding-applications]] 和 [[research/_index]]；根 [[index]] 已通过总台账链入，无需增加专项页明细。
+
+## [2026-07-28] edit | 按行动状态重组 funding 项目目录
+- 将当前唯一紧迫项目第 80 批面上资助移入 `research/funding/active/`。
+- 将 2027 年国资计划、青基、特别资助和辽宁省自然科学基金及其 2026 年历史依据移入 `research/funding/next-cycle/`。
+- 将当前无可申报项目的大连市人才与科技支持页面移入 `research/funding/watchlist/`，更名为“资格结论及监测”并将状态改为 `monitoring`。
+- 总台账、2026 年基金政策速查和官方来源索引继续保留在 `research/funding/` 根目录；同步修正相关页面、[[research/_index]] 和总台账中的链接。
+- 为移动页面补充旧路径 aliases，使本日志中的历史 wikilink 保持可追溯；根 [[index]] 仍通过总台账进入 funding，无需修改。
+
+## [2026-07-28] edit | 精简 research 总览中的长期方向与团队导航
+- 从 [[research/_index]] 暂时移除方向一、方向二及团队与平台背景三个索引区块，使总览聚焦当前研究总领、项目申请和跨方向技术线。
+- 本次只调整导航，不删除对应的长期研究调研页或团队页面；这些内容仍可从根 [[index]] 及原路径访问。
+
+## [2026-07-28] edit | 第二轮精简 funding 申请文档
+- 将 [[research/funding/postdoc-funding-applications]] 收缩为当前唯一申报项、2027 年路线、观察 / 排除结论和共用材料；删除与专项页、[[log]] 重复的官方资料表、申请记录和候选选题。
+- 将 [[research/funding/watchlist/dalian-talent-support/2026]] 从逐项资格推演压缩为当前结论、保留依据、重评触发点和来源；不改变“大连市当前无可申报项目”的结论。
+- 将国资计划和辽宁省自然科学基金的 2026 年页面压缩为窗口、历史结论和官方依据，不再维护下一年度材料与行动。
+- 将 [[research/funding/next-cycle/liaoning-natural-science-fund/2027]] 聚焦博士科研启动与面上两个可申请项目，合并排除项目，保留时间、共用材料和申报前确认项，删除候选选题及重复清单。
+- 2027 年国资计划、青基、特别资助和当前第 80 批执行页结构保持不变。
+
+## [2026-07-28] edit | 补齐下一年度项目的申报系统入口
+- 在 2027 年国资计划 A/B/C 档、博士后科学基金特别资助、国家自然科学基金青年 C 类和辽宁省自然科学基金页面的“结论先行”后增加“申报入口”。
+- 国资计划和特别资助统一链接中国博士后科学基金管理信息系统，并记录同一账号已确认可登录；2027 年专属入口待开放。
+- 青年 C 类链接科学基金网络信息系统，辽宁省项目链接辽宁省科技创新综合信息平台；两者的个人账号、依托 / 单位关系和申请权限均标记为待核验。
+- 在 [[research/funding/postdoc-funding-applications]] 增加三个系统的速查表；历史关闭页和大连观察页不增加无效入口。
+
+## [2026-07-28] ingest | 增加国资计划 A/B/C 档系统操作截图
+- 将不含姓名、证件号或联系方式的 2026 年申报方式选择截图保存为 `research/funding/next-cycle/china-postdoc-innovation-talent-support-plan/assets/2026-a-bc-application-options.png`。
+- 在 [[research/funding/next-cycle/china-postdoc-innovation-talent-support-plan/2027]] 的申报入口后增加图示，解释“仅申报 A 档”和“同时申报 A 档与 B/C 档”两个选项。
+- 明确截图只说明 2026 年系统逻辑；2027 年按钮、入口和流程仍以当年系统为准。
+
+## [2026-07-28] ingest | 增加第 80 批面上资助系统操作参考截图
+- 将不含姓名、证件号或联系方式的第 79 批面上资助确认窗口截图保存为 `research/funding/active/china-postdoc-foundation-general-grant/assets/2026-general-grant-application-confirmation.png`。
+- 在 [[research/funding/active/china-postdoc-foundation-general-grant/80th-2026]] 的系统入口后增加图示，说明第 80 批开放后应选择普通面上资助，不选择工作站单独评审或地区专项。
+- 明确截图只说明第 79 批界面的选择逻辑；第 80 批名称、按钮和页面布局以 2026-08-01 实际系统为准。
+
+## [2026-07-28] concept | 建立计算力学机器学习作用位置与方法边界页
+- 新建 [[concepts/piml/ml-roles-and-boundaries]]，从学习对象、训练信号、物理融合方式和计算角色等维度比较问题相关的最终设计代理、PINN 解场学习与 Problem-Independent PIML。
+- 明确 Lei2018 是第一条路线的代表工作而非独立机器学习范式，并区分 PINN 方法族与 Huang 等人提出的 Problem-Independent PIML 框架。
+- 在 [[concepts/piml/_index]]、[[concepts/piml/mathematical-foundations]]、[[concepts/piml/method-lineage]] 和 [[literature/topology-opt/Lei2018-machinelearningdriven]] 增加唯一比较页入口，不复制完整表格。
+
+## [2026-07-28] correction | 统一机器学习路线比较层级
+- 修正 [[concepts/piml/ml-roles-and-boundaries]] 中将具体论文 Lei2018 与 PINN、Problem-Independent PIML 直接并列的提问，统一改为比较“问题相关的最终设计代理、物理信息解场学习、问题无关的局部力学表示学习”三条路线。
+- Lei2018 只作为第一条路线的代表工作出现，不作为独立范式或同级分类。
+
+## [2026-07-28] refactor | 扩展计算力学机器学习方法图谱
+- 重构 [[concepts/piml/ml-roles-and-boundaries]]：以学习对象和计算角色为主轴，将当前方法图谱扩展为最终设计代理、设计表示与分辨率映射、物理信息解场、局部力学表示、本构与多尺度行为、生成式与逆向设计等路线。
+- 将原单一大表拆为“当前方法图谱”和“方法路线与适用边界”两层；后者保留当前需要辨析的路线，但标题和说明不再固定路线数量。
+- 补充 FE-CNN、郭旭团队材料与本构学习、生成式设计的定位，并明确截至本页更新日未检索到团队直接使用 PINN 做拓扑优化的论文。
+
+## [2026-07-28] edit | 区分博士后基金与国家自然科学基金申报系统
+- 更新 [[research/funding/postdoc-funding-applications]] 的申报系统速查，补充主管用途、对应项目、校内审核链路和个人账号状态。
+- 明确国家资助博士后研究人员计划“C 档”与国家自然科学基金青年科学基金项目“C 类”是两个独立项目，账号权限、申请书和审核流程不互通。
+
+## [2026-07-28] ingest | 补充青基申报与 NSFC 申请人账号开通流程
+- 在 [[research/funding/next-cycle/nsfc-youth-fund/2027]] 增加 NSFC 登录页截图、2027 年申报流程、首次申请人开户步骤、办理联系人和开通检查清单。
+- 记录何亮已确认没有科学基金网络信息系统账号，下一步由力航学院或学校管理员创建“项目申请人”账号；参与人账号不能代替申请人账号。
+- 链接 NSFC 账号添加官方流程图和常见问答，并同步 [[research/funding/postdoc-funding-applications]] 的账号状态；官方原始 PDF 不写入 Git。
+
+## [2026-07-28] ingest | 增加特别资助系统操作参考截图
+- 将不含姓名、账号或联系方式的第 19 批特别资助申报确认截图保存为 `research/funding/next-cycle/china-postdoc-foundation-special-grant/assets/2026-special-grant-application-confirmation.png`。
+- 在 [[research/funding/next-cycle/china-postdoc-foundation-special-grant/2027]] 的申报入口后增加图示，说明普通特别资助入口和申报确认逻辑。
+- 明确截图仅为 2026 年第 19 批界面参考；2027 年批次名称、日期、按钮和其他专项适用性均以当年通知及系统为准。
+
+## [2026-07-29] edit | 建立 Poisson PINN 训练流程与 PIML 迁移专页
+- 新建 [[research/technical-lines/poisson-pinn-to-piml-workflow]]，从一维 Poisson 方程、配点、MLP、自动微分、residual、loss、反向传播与评价完整说明 `fealpy/ml` 默认 PINN 训练过程，并建立向 Problem-Independent PIML 的逐项迁移接口。
+- 更新 [[research/technical-lines/piml-research-guide]] 与 [[research/technical-lines/_index]]：记录 2026-07-29 单次实测的 loss $49.431482\to5.62\times10^{-4}$、日志最低值 $2.25\times10^{-4}$ 和 CPU 训练时间 $7.580\,\mathrm{s}$；图中最优 $L^2$ error 约 $8\times10^{-5}$ 仅作为估读值。
+- 明确当前只完成原始算例冒烟验证：随机种子、精确误差落盘、best/last checkpoint、干净 revision 与重复运行一致性尚未冻结，阶段 1 仍保持未完成；PINN 结果不得表述为 PIML 能力进展。
+- FEALPy 源码、原始日志和截图不进入个人知识库；文档只保留非敏感派生结论及 `fealpy:repo-relative-path` 事实源指针。后续 runner、配置、测试与 checkpoint 由 `soptx` 承担。
+
+## [2026-07-29] edit | 打通 Matrix-Free 理论与 SOPTX 线弹性基线
+- 在 [[concepts/matrix-free/assembly-levels]] 和 [[concepts/matrix-free/distributed-operator-and-shared-dofs]] 建立 EA/EbE、重叠副本算子、加权内积、CG、真残差与全局解收集到 SOPTX 实现符号的双向映射。
+- 将三维线弹性阶段 1 的权威实现入口迁移为 `soptx:examples/matrix_free_elasticity_3d/README.md`，并固化 2026-07-28 四组算例全部门禁通过的精简验证证据。
+- 更新 [[research/technical-lines/matrix-free-research-guide]]：阶段 1 标记为 SOPTX 数值门禁已通过，当前优先工作推进到分布式 EA/EbE 接口提取、LA 与预条件基线。
+- 明确当前结果只证明 `p=1`、`float64`、1/2-rank CPU MPI 正确性，不包含计时、加速比、并行效率、更多 ranks、PA/UA、GPU 或 GPU-aware MPI 结论。
+
+## [2026-07-29] correction | 将 PIML 训练主线改为二维线弹性局部算子学习
+- 根据研究对象复核，Poisson PINN 只学习特定边值问题的解场，不能承载 Problem-Independent PIML 的局部力学表示、结构门禁和全局评价；此前单次运行仅保留为历史工具链冒烟证据，不再进入活跃技术路线。
+- 新建 [[research/technical-lines/piml-machine-learning-workflow]]，先抽象任务、数据、模型、loss、训练、checkpoint、test、推理与下游评价的完整生命周期，再以二维 Q4 平面应力子结构的 $\boldsymbol\rho^j\mapsto\mathbf K_s^j$ 监督学习实例化，并扩展到 $\mathbf N^j$ 与 mechanics-based data-free 路线。
+- 重构 [[research/technical-lines/piml-research-guide]] 阶段 1–2：先恢复或重建精确静力缩聚与数据生成，再建立 direct-$K_s$ 监督式最小闭环；活跃索引只指向新的线弹性 PIML 工作流。
+- [[research/technical-lines/poisson-pinn-to-piml-workflow]] 降级为 `superseded` 迁移说明，仅用于保持 append-only 历史链接可追溯；未修改 `soptx` 代码，也未运行新的训练或验证程序。
+
+## [2026-07-29] correction | 恢复 Poisson PINN 机器学习工作流的当前任务定位
+- 用户进一步明确：当前任务不是建立线弹性 PIML 工作流，而是严格基于 FEALPy `poisson_pinn_model.py` 写清 PINN 从数学问题、配点、自动微分、residual、loss、反向传播到评价和绘图的完整过程；线弹性问题留待下一阶段单独讨论。
+- 新建 [[research/technical-lines/pinn-machine-learning-workflow]] 作为唯一活跃工作流，区分源码实际行为、2026-07-29 单次运行观察和 seed/checkpoint/test 等工程缺口；解析解只参与误差评价，不作为训练标签。
+- [[research/technical-lines/piml-machine-learning-workflow]] 与 [[research/technical-lines/poisson-pinn-to-piml-workflow]] 均改为 `superseded` 纠错跳转页，以保持前述 append-only 历史链接可追溯。
+- 恢复 [[research/technical-lines/piml-research-guide]] 阶段 1 的 Poisson PINN 工具链定位，并明确该阶段仍因复现门禁未闭环而未完成；本次未修改 FEALPy 或 `soptx` 代码，也未运行训练。
+
+## [2026-07-29] correction | 澄清解析解在默认 Poisson PINN 中的作用
+- 上一条“解析解只参与误差评价”的表述不完整：`Exp0001.dirichlet()` 会调用 `solution()` 提供两个端点的已知 Dirichlet 数据，`solution()` 还用于误差评价与绘图。
+- 解析解没有作为内部配点上的监督标签；内部训练信号仍来自 PDE residual。
+
+## [2026-07-29] concept | 补齐 Matrix-Free 三维线弹性理论基础
+- 新建 [[concepts/matrix-free/linear-elasticity-foundation]]，依据博士论文第三章重新组织小变形静力各向同性线弹性的强形式、弱形式、最小势能、向量 Lagrange 有限元离散和 $\mathbf B^{\mathsf T}\mathbf D\mathbf B$ 单元算子。
+- 建立连续方程、有限元系统、FA/EA/PA/UA 装配层次与 SOPTX 三维线弹性实现之间的双向映射；论文源码、程序实现和知识库分别保持原始源、实现事实与可复用理论职责。
+- 同步 Matrix-Free 主题索引、装配层次、分布式算子、技术线研究指南和 SOPTX README；阶段 1 验证状态、数值结论和阶段 2 优先事项保持不变。
+
+## [2026-07-29] workflow | 建立通用机器学习全过程
+- 新建 [[research/technical-lines/machine-learning-workflow]]，定义从任务、样本与训练信号、划分、输入输出、预处理、模型、objective、训练、validation、checkpoint、test、推理到下游评价和产物归档的通用生命周期。
+- 通用页不限定监督标签，显式容纳 PINN residual、能量目标和 PIML 局部表示学习；区分 training loss、validation/test metric 与 downstream metric。
+- 将 [[research/technical-lines/pinn-machine-learning-workflow]] 定位为该父流程的 FEALPy Poisson PINN 实例化，并在技术线索引中建立两级入口；未修改程序或运行训练。
+
+## [2026-07-29] refactor | 将研究执行工作流迁出 technical-lines
+- 新建 [[research/workflows/_index]]，将通用 [[research/workflows/machine-learning-workflow]] 和 FEALPy Poisson [[research/workflows/pinn-machine-learning-workflow]] 迁入独立工作流目录；`technical-lines/` 恢复为长期技术能力 Guide 与索引。
+- 在迁移后的页面加入旧 `research/technical-lines/...` 路径 aliases，保持本日志中的历史 wikilink 可解析；此前两个误建纠错 stub 已由 aliases 取代并移除。
+- 同步 [[research/_index]]、[[research/technical-lines/_index]] 和 [[research/technical-lines/piml-research-guide]]；未修改程序或运行训练。
+
+## [2026-07-29] refactor | 分离线弹性基础与 Matrix-Free 专题
+- 将线弹性基础从 `concepts/matrix-free/` 移为根级 [[concepts/linear-elasticity]]，使其只维护连续模型、弱形式、最小势能、Lagrange 有限元和 $\mathbf K\mathbf U=\mathbf F$。
+- Matrix-Free 专题继续维护装配层次、算子作用、MPI 共享自由度与方法谱系；SOPTX README 继续维护具体代码映射、运行入口和验证证据。
+- 同步概念索引、根索引、Matrix-Free 关联页、研究指南和 SOPTX 跨仓库指针；上一条日志保留创建时旧路径，不回写 append-only 历史。
+
+## [2026-07-29] refactor | 将团队稳定档案统一到 entities
+- 按“一实体一页”原则，将 `research/teams/guo-xu-team-overview` 中仍有独立价值的团队研究体系、代表成果和权威入口归并到 [[entities/guo-xu-team]]；旧路径由实体页 alias 保持历史链接可解析。
+- 实体页只维护团队基本信息、五大稳定研究方向与导航；MMC/PIML 等方法细节继续由 `concepts/`、`literature/` 和技术调研页维护，个人研究切入点继续由博士后研究计划维护。
+- 删除合并后的 `research/teams/`，同步根索引、README、研究入口、博士后计划、长期调研和文献笔记中的活跃引用；未修改程序或运行训练。
+
+## [2026-07-29] concept | 补充拓扑优化设计密度下的线弹性算子
+- 在 [[concepts/linear-elasticity]] 区分质量密度与拓扑优化设计相对密度，补充 modified SIMP 本构、单元常密度和积分点密度下的刚度表达，以及 $\boldsymbol K(\rho)\boldsymbol U=\boldsymbol F$。
+- 明确固定密度后平衡方程仍关于位移线性，优化迭代的耦合来自算子随密度改变；自重等情形可进一步得到设计相关载荷 $\boldsymbol F(\rho)$。
+- 在 [[concepts/piml/mathematical-foundations]] 建立局部密度—密度相关线弹性算子—局部力学表示的回链；未扩展柔顺度、约束、灵敏度、滤波、投影或优化算法。
+
+## [2026-07-29] correction | 移除线弹性概念页中的程序实现描述
+- 从 [[concepts/linear-elasticity]] 删除 SOPTX 材料参数输入方式、可执行实例和代码验证指针，使该页只维护线弹性本构、变分形式、有限元离散及后续理论链接。
+- 将“当前三维算例”改为数学范围描述“三维本构”，不改变公式、密度参数化内容或 Matrix-Free 理论链接。
+
+## [2026-07-29] edit | 统一线弹性概念页的数学符号与排版
+- 将连续向量和张量统一为 `\boldsymbol`，将离散矩阵与代数向量统一为 `\mathbf`，并把模型公式连续编号为 (1)–(30)。
+- 将普通正文、引用块和列表项整理为一个语义段落一行，改用正式公式链替代纯文本流程块，避免 Markdown 渲染器保留手工折行。
+- 严格化边界分解和密度相关本构的适用条件，修正 Matrix-Free 分布式理论页链接，并将 MPI 映射说明移到后续算子表示部分。
+
+## [2026-07-29] refactor | 分离 Matrix-Free 概念理论与工程实现事实
+- 从 [[concepts/matrix-free/assembly-levels]] 删除 SOPTX 专节、函数名和验证用途，改以主算子路径中保存的对象和 MatVec 数据流给出 EA/EbE、PA/QA 与 UA/NONE 的通用判据。
+- 从 [[concepts/matrix-free/distributed-operator-and-shared-dofs]] 删除 SOPTX 代码符号表、具体运行快照和 API 名称；保留对等重叠副本、owner/ghost 的代数映射及通用分布式验证解释。
+- 将 [[concepts/matrix-free/_index]] 的“可执行基线”降为仅作导航的“关联实现”指针；阶段能力、数值证据和实施路线继续由 [[research/technical-lines/matrix-free-research-guide]] 维护。
+
+## [2026-07-29] refactor | 将 Poisson PINN 工作流改为方法优先
+- 将 [[research/workflows/pinn-machine-learning-workflow]] 重构为一维 Poisson PINN 方法页：标题、定位、训练图和活跃导航不再以 FEALPy 算例为主语，训练逻辑保持软件包无关。
+- 将当前 FEALPy 的运行入口、源码文件指针与 API 名称集中到文末“附录 A：当前实现映射与运行证据”；默认配置、单次运行观察和工程缺口仍保留为经核实的实现事实。
+- 同步通用机器学习工作流、工作流索引与 PIML guide；既有历史日志保持原文，未修改程序或重新运行训练。
+
+## [2026-07-29] workflow | 建立小变形静力线弹性 PINN 方法契约
+- 新建 [[research/workflows/linear-elasticity-pinn-machine-learning-workflow]]，以 $d\in\{2,3\}$ 统一小变形静力线弹性 PINN 的任务定义、配点、自动微分、平衡/位移/牵引 residual、loss、评价和完整工程门禁。
+- 二维平面应力、二维平面应变与三维被明确为同一工作流中的配置；每个具体 run 必须冻结其中一种本构和维数，不在训练中混用。
+- 该页当前仅是方法与实施契约草案，不记录已运行的线弹性 PINN 代码或数值结论；同步工作流索引和通用机器学习流程，未修改程序或运行训练。
+
+## [2026-07-29] concept | 建立机器学习分类与建模范式框架
+- 新建 [[concepts/machine-learning]]，以网络架构、学习对象、训练信号／物理融合和任务目标四个正交维度组织机器学习术语；避免把 MLP、PINN、Neural Operator 与生成模型混为同一层级。
+- 明确当前线弹性 PINN 是“MLP × 函数学习 × PINN 训练 × 给定边值问题解场”的组合；局部 $\rho^j\to\mathbf{K}_s^j$ 定位为场到矩阵代理，不因输入来自密度场而自动称为标准 Neural Operator。
+- 在概念索引、PIML 主题入口、计算力学方法边界页和通用机器学习工作流补充导航；未改动研究流程、程序或历史结论。
+
+## [2026-07-29] benchmark | 冻结 Matrix-Free 三维线弹性参考问题
+- 新建 [[research/technical-lines/matrix-free-linear-elasticity-benchmark]]，统一记录连续模型、制造解、有限元离散、FA/EA 算子、无预条件 CG 参数、正确性门禁和后续性能协议。
+- 固化阶段 1 的 EA 多网格主求解、单 rank FA 黄金参考、独立 $4^3/1$-rank FA 完整求解及 $16^3$ 的 1/2-rank 一致性结果，明确正确性已通过而性能、内存和扩展性尚未验证。
+- 同步 Matrix-Free guide、技术线索引和 SOPTX 实现入口；未修改程序、CLI、JSON schema 或运行产物，未重新运行 MPI、测试或 Benchmark。
+
+## [2026-07-29] correction | 将 Matrix-Free Benchmark 合并回技术线 guide
+- 参照 PIML 文档结构，撤销独立的 `matrix-free-linear-elasticity-benchmark.md`，由 [[research/technical-lines/matrix-free-research-guide]] 统一维护参考问题、阶段门禁和研究状态。
+- SOPTX 示例 README 继续作为 FA/EA 实现、运行命令和精简数值证据的权威来源；通用线弹性与 Matrix-Free 理论仍由 `concepts/` 页面维护。
+- 保留阶段 1 已通过的事实边界：EA 主求解覆盖 $4^3/1$、$8^3/1$、$16^3/1$ 和 $16^3/2$，各单 rank 验证构造 FA CSR 黄金参考，独立 FA 完整 CG 当前只明确验证 $4^3/1$；未修改程序或重新运行数值验证。
+
+## [2026-07-29] refactor | 将二维线弹性 PINN 重构为顶层自包含示例
+- 将 SOPTX 示例从 `examples/pinn/linear_elasticity_2d/` 移至 `examples/pinn_linear_elasticity_2d/`，与 `matrix_free_elasticity_3d` 采用相同的“一个具体算例对应一个顶层目录”组织方式。
+- 保留原有模型、问题、运行和验证接口，不拆分模块或新增证据目录；同步 README、输出忽略规则、SOPTX 文档入口和本工作流中的实现指针。
+- 本次只完成目录与引用重构并执行静态检查，未运行正确性验证或训练；数值状态保持不变。
+
+## [2026-07-29] validation | 二维平面应变线弹性 PINN 通过既定门禁
+- 修正 PINN 应力散度的自动微分组装后，制造解平衡 residual 最大绝对值降至 $1.7764\times10^{-15}$，应变对称性与齐次 Dirichlet residual 均为零。
+- 默认 2000 次参数更新的 best validation loss 为 $3.5441\times10^{-2}$，best checkpoint 相对位移 $L^2$ error 为 $3.4686\times10^{-2}$，程序契约、制造解一致性和训练精度门禁全部通过。
+- 本次运行使用 Python 3.12.13、PyTorch 2.13.0+cu130、CPU、`float64`，耗时 `26.68 s`；SOPT-X 工作树为 `dirty=True`，因此仍需在干净 revision 上复跑后才能形成正式可重放证据。
+
+## [2026-07-29] validation | 在线弹性 PINN 提交上完成干净复跑
+- 将二维平面应变线弹性 PINN 基线提交为 SOPT-X revision `40a2f83e8358b5b24c8be7d0bee2e1d3a5bab84e`，未夹带 Matrix-Free、根 README 或 dut-postdoc 的其他工作树修改。
+- 从该 revision 创建临时 detached worktree，确认 Python 从干净工作树导入 SOPTX 后执行完整验证；输出为 `dirty=False`、`validation status: passed`，随后移除临时 worktree。
+- 干净复跑的 best validation loss 为 $3.5441\times10^{-2}$、相对位移 $L^2$ error 为 $3.4686\times10^{-2}$，与首次运行一致；耗时 `30.06 s`，最大边界位移误差的正确数量级为 $9.8866\times10^{-2}$。
+
+## [2026-07-29] concept | 补齐 EA 单元算子的数学表示
+- 在 [[concepts/matrix-free/assembly-levels]] 中补充 $\mathbf A=\sum_e\mathbf G_e^{\mathsf T}\mathbf A_e\mathbf G_e$ 及 gather、单元作用、scatter-add 三步 MatVec 公式。
+- 明确 FA 与 EA 表示同一个离散算子，差别在于是否预先形成全局稀疏矩阵，以及单元求和发生在 setup 还是每次 MatVec。
+- 沿用线弹性基础页的单元限制矩阵 $\mathbf G_e$，并与 MPI true DOF 到 rank-local DOF 的限制矩阵 $\mathbf R_r$ 区分；未修改程序或数值结果。

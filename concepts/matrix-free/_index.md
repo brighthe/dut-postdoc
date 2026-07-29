@@ -6,7 +6,7 @@ tags:
   - finite-element
 status: draft
 date_added: 2026-07-26
-date_update: 2026-07-27
+date_update: 2026-07-29
 ---
 
 # Matrix-Free 主题入口
@@ -27,12 +27,17 @@ date_update: 2026-07-27
 |---|---|---|
 | [[../../research/technical-lines/matrix-free-research-guide]] | 当前已有能力、目标差距、实施路线与阶段门禁 | in-progress |
 
+## 关联实现
+
+- `soptx:examples/matrix_free_elasticity_3d/README.md#理论代码对应` — 当前个人研究的可执行线弹性基线；源码、运行方式和验证事实由 SOPTX 维护。
+
 ## 核心文献
 
 - [[../../literature/topology-opt/Ma2026-highperformanceparallel]] — 当前唯一经证实、明确使用 `matrix-free` 表述的团队论文。
 
 ## 关联主题
 
+- [[../linear-elasticity]] — 当前三维参考问题的连续模型、变分形式和有限元离散基础。
 - [[../piml/_index]] — PIML 稳定知识、方法谱系与当前研究入口。
 - [[../gpu-hpc/_index]] — GPU/HPC 端到端性能模型、公开成果谱系与当前研究入口。
 
