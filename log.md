@@ -859,3 +859,10 @@
 - 反重复：确立判据「一个事实变了要同时改两页，所有权就是错的」。[[research/technical-lines/piml-research-guide]] 的「已有基础」表删除 $K_s$ 预测误差数值改为指针；「目标与当前差距」表的模型选型行改指综合页 §5；阶段 2 门禁与 [[research/piml-matrix-free/liu-chang-model-selection-task-line]] T2 门禁均改为引用综合页 §2.1 记录值，不再各存一份数字。综合页、guide、任务线与 [[entities/liu-chang]] 四页新增「事实所有权」声明（正文 blockquote，不入 frontmatter）。
 - 顺带修正三处过期陈述：guide 原记「原型代码路径待确认」，实为位于 `soptx` 远端分支 `origin/codex/piml-multiscale-prototype`（未合入 main、工作树未检出，故仍不具备可重放入口）；并补记 `InterfaceCondensedSystem.solve_interface` 为 `spsolve` 直解、原型不含迭代路径。术语同步：technical-lines 分工表与两个 work-reports 索引的 `postdoc-plan` 改为课题主题页 / `research-plan`。
 - 同步 [[research/_index]]（新增「当前研究课题」小节登记四页）、根 [[index]] 与 `README.md` 目录树。验证：残留路径仅剩 alias 与历史条目；全库活跃页面相对 wikilink 死链检查为 0；原型数值仅存于综合页 §2.1、工作汇报的带日期口述快照与历史条目。本次未运行任何代码。
+
+## [2026-07-30] refactor | 补齐 research/ 重组遗漏并解散 postdoc-plan 目录
+- 上一次重组遗漏 `research/postdoc-plan/postdoc-research-plan.tex`（博后科研计划的 LaTeX 排版源，git 跟踪，全库无 wikilink 指向）。漏因：移动清单按 `*.md` 搜索生成，非 Markdown 文件未进视野，链接检查也照不到。
+- 将该文件 `git mv` 到 `research/postdoc-research-plan.tex`，与同名 `.md` 同级并列；随后删除 `research/postdoc-plan/` 及其下 `long-term/`、两个 `direction-*/` 空目录，该路径至此完全解散。
+- 在 [[research/_index]] 总领表下增说明：`.tex` 是同一份计划的排版源，非 wiki 页面、不参与双链，正文事实以 `.md` 为准；`README.md` 目录树同步标注。
+- 规则补强：在 [[ai/git-workflow]] 提交纪律中新增两条——目录移动重组的文件清单必须用 `git ls-files <路径>` 生成而非按扩展名搜索；混合改动文件不得整文件暂存，须走备份—临时移除—暂存—还原流程。
+- 本次未运行代码，未改动任何 `.tex` 内容。
