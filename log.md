@@ -866,3 +866,10 @@
 - 在 [[research/_index]] 总领表下增说明：`.tex` 是同一份计划的排版源，非 wiki 页面、不参与双链，正文事实以 `.md` 为准；`README.md` 目录树同步标注。
 - 规则补强：在 [[ai/git-workflow]] 提交纪律中新增两条——目录移动重组的文件清单必须用 `git ls-files <路径>` 生成而非按扩展名搜索；混合改动文件不得整文件暂存，须走备份—临时移除—暂存—还原流程。
 - 本次未运行代码，未改动任何 `.tex` 内容。
+
+## [2026-07-30] edit | 将博后计划排版源移出版本控制
+- 核查确认 `postdoc-research-plan.tex` 由用户于 2026-07-17（`bb1d3b0`）加入，非本次重组引入；其提交信息自述「由 postdoc-research-plan.md 正文抽离排版，编译产出对外发送用的 PDF」，即明确的一次性派生件。
+- 经用户确认该 PDF 属一次性交付，执行 `git rm --cached research/postdoc-research-plan.tex` 移出版本控制（本地文件保留待转 iCloud），并在 `.gitignore` 按 funding PDF 的既有先例新增排除项，防止再次纳入。
+- 依据：两份文件章节逐条对应，属同一事实两处存，违反本轮确立的「一个事实变了要同时改两页，所有权就是错的」判据；且已开始漂移（`.md` 119 行 / `.tex` 96 行）。对外发送的申报类材料按 [[ai/llm-wiki-workflow]] 应只存 iCloud。
+- 在 [[research/_index]] 声明 `postdoc-research-plan.md` 为计划正文唯一事实源，排版源与产出 PDF 归 iCloud 的 `博士后-大连理工大学/`，今后再次出稿一律先改 `.md` 再抽离；`README.md` 目录树同步改注。
+- 历史中该文件内容仍保留在 `bb1d3b0`，未改写已推送的 main 历史；内容非机密，不做 filter-repo 清除。

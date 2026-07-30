@@ -45,6 +45,10 @@ tmp/
 # Funding source documents are archived in iCloud, not Git
 research/funding/**/*.pdf
 
+# Research plan typesetting source and its outgoing PDF are archived in iCloud, not Git.
+# postdoc-research-plan.md is the single source of truth for the plan text.
+research/postdoc-research-plan.tex
+
 # Local MiKTeX cache created when compiling under sandboxed user dirs
 .miktex/
 talks/**/.miktex/

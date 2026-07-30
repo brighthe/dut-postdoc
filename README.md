@@ -32,7 +32,7 @@ dut-postdoc/
 │   └── others/
 ├── research/           # 研究计划、课题、技术线、执行工作流与项目申请
 │   ├── _index.md       # research 目录入口：先读这里
-│   ├── postdoc-research-plan.md  # 博后研究计划总领（.tex 为同名排版源）
+│   ├── postdoc-research-plan.md  # 博后研究计划总领：计划正文的唯一事实源
 │   ├── piml-matrix-free/    # 课题：PIML × Matrix-Free × GPU 调研、综合与任务线
 │   ├── mmc-mmv/             # 课题：MMC/MMV 数值离散与高效分析调研
 │   ├── technical-lines/     # 跨课题复用的 PIML、Matrix-Free、GPU/HPC 长期技术线

@@ -8,7 +8,7 @@
 |---|---|---|
 | [[postdoc-research-plan]] | in-progress | 博后研究计划总领：两大研究方面、四条主线、三阶段与预期目标 |
 
-同目录另有 `postdoc-research-plan.tex`，是同一份计划用于正式排版的 LaTeX 源，非 wiki 页面、不参与双链；正文事实以上表的 `.md` 为准，`.tex` 仅在需要产出申报稿时更新。
+`postdoc-research-plan.md` 是计划正文的**唯一事实源**。2026-07-17 曾由其抽离出 `postdoc-research-plan.tex` 用于编译对外发送的 PDF，属一次性派生件，已于 2026-07-30 移出版本控制并由 `.gitignore` 排除；该排版源与产出 PDF 归 iCloud 的 `博士后-大连理工大学/` 保存。今后如需再次出稿，一律先改 `.md` 再重新抽离，不在 Git 内维护第二份全文。
 
 ## 项目与基金申请
 
