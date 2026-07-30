@@ -67,4 +67,4 @@ LLM Wiki 不是一次性聊天记录，也不是简单的向量检索库，而�
 - [[../index]]
 - [[../log]]
 - [[piml/_index|PIML]]
-- [[../research/postdoc-plan/postdoc-research-plan]]
+- [[../research/postdoc-research-plan]]

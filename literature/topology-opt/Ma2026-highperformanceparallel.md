@@ -168,4 +168,4 @@ date_update: 2026-07-26
 
 - [[Huang2022-problemindependentmachine]] — PIML 奠基论文，建立问题无关的局部形函数学习框架
 - [[../../concepts/matrix-free/method-lineage]] — 郭旭老师团队 Matrix-Free 相关成果谱系及本文的五级分类边界
-- [[../../research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — PIML、matrix-free、高性能求解与后续研究路线综述
+- [[../../research/piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — PIML、matrix-free、高性能求解与后续研究路线综述

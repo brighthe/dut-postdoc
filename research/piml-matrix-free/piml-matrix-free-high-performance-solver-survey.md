@@ -1,5 +1,7 @@
 ---
 title: "面向大规模结构拓扑优化的 PIML 与 Matrix-Free 高性能求解方法——技术调研"
+aliases:
+  - research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey
 tags:
   - PIML
   - matrix-free
@@ -502,7 +504,7 @@ MMC/MMV 的设计变量维度较低，可缓解密度法中设计更新和过滤
 
 - 实现子结构级 Matrix-Free MatVec；
 - 接入 CG/GMRES 与几何多重网格；
-- 按 [[../../../../concepts/matrix-free/assembly-levels]] 统一比较 FA/TA、LA、EA/EbE、PA/QA 与 UA/NONE 的存储、计算和更新成本；
+- 按 [[../../concepts/matrix-free/assembly-levels]] 统一比较 FA/TA、LA、EA/EbE、PA/QA 与 UA/NONE 的存储、计算和更新成本；
 - 研究低阶代理预条件与跨优化步复用。
 
 ### 阶段 3：GPU 与多节点扩展

@@ -1,12 +1,12 @@
 # 研究计划与调研总览
 
-> 本目录围绕博士后研究计划组织材料：`postdoc-research-plan` 是总领；`funding` 维护项目 / 基金申请台账；`technical-lines` 沉淀长期技术能力；`workflows` 维护可复用的研究执行流程；`long-term` 服务长期科研路线。团队等稳定档案统一归入 `entities/`。已经完成的入站考核答辩材料见 [[archive/2026-postdoc-entry-assessment/README]]。
+> 本目录内每个下级目录只承担一条轴：`postdoc-research-plan` 是总领；课题主题目录（`piml-matrix-free`、`mmc-mmv`）维护具体研究课题如何组合技术线；`technical-lines` 沉淀跨课题复用的长期技术能力；`workflows` 维护可复用的研究执行流程；`funding` 维护项目 / 基金申请台账。人与团队等稳定档案统一归入 `entities/`。已经完成的入站考核答辩材料见 [[archive/2026-postdoc-entry-assessment/README]]。
 
 ## 总领
 
 | 文档 | 状态 | 说明 |
 |---|---|---|
-| [[postdoc-plan/postdoc-research-plan]] | in-progress | 博后研究计划总领：两大研究方面、四条主线、三阶段与预期目标 |
+| [[postdoc-research-plan]] | in-progress | 博后研究计划总领：两大研究方面、四条主线、三阶段与预期目标 |
 
 ## 项目与基金申请
 
@@ -42,6 +42,17 @@
 | [[funding/watchlist/dalian-talent-support/2026]] | monitoring | 大连市人才与科技支持资格结论：当前无可申报项目，仅在合同、户籍或政策变化时复核 |
 
 ## 长期研究路线
+
+### 当前研究课题
+
+课题目录按主题命名，与 `concepts/` 的主题子库对齐；原 `postdoc-plan/long-term/direction-1|2-*` 编号层级已于 2026-07-30 撤除，旧路径由各页 frontmatter `aliases` 兜底。
+
+| 课题 | 文档 | 状态 | 说明 |
+|---|---|---|---|
+| PIML × Matrix-Free | [[piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] | in-progress | 第一个研究计划题目的技术调研：PIML 增强多尺度分析、Matrix-Free、并行多重网格与 GPU 高性能求解 |
+| PIML × Matrix-Free | [[piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] | in-progress | 三线融合的当前能力证据、事实边界与模型选型议题的权威技术底稿；原型数值的活跃事实入口 |
+| PIML × Matrix-Free | [[piml-matrix-free/liu-chang-model-selection-task-line]] | in-progress | 刘畅老师模型选型线的任务序列、交付等级 D0–D3 与授权边界 |
+| MMC / MMV | [[mmc-mmv/mmc-mmv-numerical-discretization-survey]] | draft | 第二个研究计划题目的技术调研：MMC/MMV 高精度数值离散与高效结构分析 |
 
 ### 跨方向长期技术线
 

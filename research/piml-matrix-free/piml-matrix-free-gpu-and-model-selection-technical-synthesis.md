@@ -1,6 +1,8 @@
 ---
 title: "PIML、Matrix-Free、GPU 与科学计算约束下模型选型：当前事实、融合路线与近期任务"
 topic: "PIML × Matrix-Free × GPU 融合路线及面向力学问题的神经网络模型选型"
+aliases:
+  - research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis
 tags:
   - PIML
   - matrix-free
@@ -23,6 +25,8 @@ related:
 # PIML、Matrix-Free、GPU 与科学计算约束下模型选型：当前事实、融合路线与近期任务
 
 > **用途**：为近期向郭旭老师当面汇报提供详细技术事实底稿，同时把刘畅老师提出的“神经网络模型很多、具体问题中不知道如何选型”转化为可讨论、可验证的科学计算问题。
+>
+> **事实所有权**：本页拥有三线融合的原型数值证据（§2）与模型选型框架（§5），是两者在本库的唯一活跃事实入口；技术线阶段门禁只引用 [[../technical-lines/piml-research-guide]] 等三份 guide，任务排序只引用 [[liu-chang-model-selection-task-line]]，刘畅老师书目只引用 [[../../entities/liu-chang]]，本页不复制上述内容。
 >
 > **最重要的事实边界**：当前已经分别完成 PIML 子结构局部算子原型、Matrix-Free 状态方程原型，并有独立 `mfleo` 在单 GPU + 单 CPU 核条件下的端到端 CG 和预条件子工程经验；多 GPU、多 CPU 核协同及 GPU-aware MPI 尚未考虑，且**尚未完成 PIML × Matrix-Free × GPU 端到端一体化系统**。
 
@@ -92,7 +96,7 @@ related:
 #### 已完成内容
 
 - 构建粗网格与细网格的两级映射；粗网格为 $8\times8$，共 64 个子结构，细分采用 $L=5$ 和 $L=10$ 两档。
-- 用子结构静力缩聚精确计算多尺度形函数与等效刚度（记法定义见 [[../../../../concepts/piml/mathematical-foundations]] §5，此处只记录原型实际计算的对象）：
+- 用子结构静力缩聚精确计算多尺度形函数与等效刚度（记法定义见 [[../../concepts/piml/mathematical-foundations]] §5，此处只记录原型实际计算的对象）：
 
 $$
 K_s^j=K_{bb}^j-(K_{ib}^j)^T(K_{ii}^j)^{-1}K_{ib}^j.
@@ -262,7 +266,7 @@ $$
 
 #### 公开工作检索对痛点性质的修正（2026-07-30）
 
-据 2026-07-30 的公开检索（个人主页、Google Scholar、出版商页面），刘老师主页自列的研究方向之一即“人工智能赋能的结构高效分析与优化新范式”，且其 2026 年两篇署名工作直接针对本节议题。完整书目、作者位置与待核验状态统一由 [[../../../../entities/liu-chang]] 维护，本节只记录对选型判据的影响：
+据 2026-07-30 的公开检索（个人主页、Google Scholar、出版商页面），刘老师主页自列的研究方向之一即“人工智能赋能的结构高效分析与优化新范式”，且其 2026 年两篇署名工作直接针对本节议题。完整书目、作者位置与待核验状态统一由 [[../../entities/liu-chang]] 维护，本节只记录对选型判据的影响：
 
 | 工作 | 与本节议题的关系 |
 |---|---|
@@ -325,7 +329,7 @@ $$
 
 该判据的性质与其余各项不同：其余各项（误差传播关系、迭代数—精度权衡、吞吐—显存权衡）都必须由实验产生，而这一条来自数值线性代数的既有结论。
 
-[[../../../../literature/topology-opt/Huang2024-PIML-datafree]] 以式 (11) 的刚体运动物理约束复现完整多尺度形函数，而非交由损失函数学习，说明团队已在实践中处理该问题；但据目前公开材料，未见其被上升为跨模型族的选型准则。此处的判断仅基于已入库论文与公开摘要，DFENN 与 CMAME 2026 精读后需复核。
+[[../../literature/topology-opt/Huang2024-PIML-datafree]] 以式 (11) 的刚体运动物理约束复现完整多尺度形函数，而非交由损失函数学习，说明团队已在实践中处理该问题；但据目前公开材料，未见其被上升为跨模型族的选型准则。此处的判断仅基于已入库论文与公开摘要，DFENN 与 CMAME 2026 精读后需复核。
 
 ### 5.5 建议的统一模型选型 benchmark
 
@@ -451,15 +455,15 @@ $$
 
 ## 8. 关联文档
 
-- [[../../../../entities/liu-chang]] — 刘畅老师实体页：公开学术身份、署名工作书目、模型选型史与待 ingest 清单。
+- [[../../entities/liu-chang]] — 刘畅老师实体页：公开学术身份、署名工作书目、模型选型史与待 ingest 清单。
 - [[research/technical-lines/piml-research-guide]] — PIML 局部力学算子的长期研究与实施指南。
 - [[research/technical-lines/matrix-free-research-guide]] — Matrix-Free 全局算子与迭代求解的长期研究与实施指南。
 - [[research/technical-lines/gpu-hpc-research-guide]] — GPU/HPC 异构并行与端到端性能的长期研究与实施指南。
 - [[piml-matrix-free-high-performance-solver-survey]] — 开放科学问题与长期技术路线。
-- [[../../postdoc-research-plan]] — 博士后科研计划总领。
-- [[../../../../work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] — 面向郭旭老师的汇报要点、待请教问题与后续行动项。
-- [[../../../../concepts/piml/method-lineage]] — PIML 方法谱系。
-- [[../../../../literature/topology-opt/Huang2023-PIML-substructure]] — 子结构 PIML。
-- [[../../../../literature/topology-opt/Huang2024-PIML-datafree]] — DeepONet 与 mechanics-based data-free PIML。
-- [[../../../../literature/topology-opt/Ma2026-highperformanceparallel]] — 并行 PIML 与按需预测/释放。
-- [[../../../../archive/2026-postdoc-entry-assessment/README]] — 2026 年入站答辩材料档案，仅保留历史表达与证据快照。
+- [[../postdoc-research-plan]] — 博士后科研计划总领。
+- [[../../work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] — 面向郭旭老师的汇报要点、待请教问题与后续行动项。
+- [[../../concepts/piml/method-lineage]] — PIML 方法谱系。
+- [[../../literature/topology-opt/Huang2023-PIML-substructure]] — 子结构 PIML。
+- [[../../literature/topology-opt/Huang2024-PIML-datafree]] — DeepONet 与 mechanics-based data-free PIML。
+- [[../../literature/topology-opt/Ma2026-highperformanceparallel]] — 并行 PIML 与按需预测/释放。
+- [[../../archive/2026-postdoc-entry-assessment/README]] — 2026 年入站答辩材料档案，仅保留历史表达与证据快照。

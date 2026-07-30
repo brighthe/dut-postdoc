@@ -149,7 +149,7 @@ PIML 推理、局部 contraction、scatter-add、稀疏/无矩阵算子、点积
 - [NVIDIA Nsight Systems User Guide](https://docs.nvidia.com/nsight-systems/UserGuide/) — 聚焦关键区间、时间线与 CPU/GPU/MPI profiling。
 - [MPI Forum: MPI Documents](https://www.mpi-forum.org/docs/) — MPI 标准入口；具体设备缓冲区支持仍需以所用 MPI 实现为准。
 - [[../../literature/topology-opt/Ma2026-highperformanceparallel]] — CPU/MPI 强弱扩展和完整优化流程并行的本研究语境。
-- [[../../research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — 端到端时间分解、GPU/异构并行和性能瓶颈调研。
+- [[../../research/piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — 端到端时间分解、GPU/异构并行和性能瓶颈调研。
 
 ## 8. 相关页面
 

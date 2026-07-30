@@ -47,7 +47,7 @@ date_update: 2026-07-30
 
 ### 1. 显式拓扑优化（MMC/MMV）
 
-Moving Morphable Components（MMC）和 Moving Morphable Voids（MMV）以组件或孔洞的低维连续几何参数描述结构拓扑，使几何边界、优化变量和最终构型保持显式关联。其典型计算链包括拓扑描述函数、固定背景网格上的物理分析、伴随灵敏度和几何参数更新。离散方法与工程取舍见 [[../research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey]]。
+Moving Morphable Components（MMC）和 Moving Morphable Voids（MMV）以组件或孔洞的低维连续几何参数描述结构拓扑，使几何边界、优化变量和最终构型保持显式关联。其典型计算链包括拓扑描述函数、固定背景网格上的物理分析、伴随灵敏度和几何参数更新。离散方法与工程取舍见 [[../research/mmc-mmv/mmc-mmv-numerical-discretization-survey]]。
 
 ### 2. 问题无关机器学习（PIML）
 
@@ -84,14 +84,14 @@ SiPESC（Software Integration Platform for Engineering and Scientific Computatio
 
 | 方向 | 权威页面 |
 |---|---|
-| MMC/MMV 数值离散 | [[../research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey]] |
+| MMC/MMV 数值离散 | [[../research/mmc-mmv/mmc-mmv-numerical-discretization-survey]] |
 | PIML 方法基础与谱系 | [[../concepts/piml/mathematical-foundations]]；[[../concepts/piml/method-lineage]]；[[../concepts/piml/ml-roles-and-boundaries]] |
-| Matrix-Free 与高性能求解 | [[../concepts/matrix-free/method-lineage]]；[[../research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] |
-| 个人研究路线 | [[../research/postdoc-plan/postdoc-research-plan]] |
+| Matrix-Free 与高性能求解 | [[../concepts/matrix-free/method-lineage]]；[[../research/piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] |
+| 个人研究路线 | [[../research/postdoc-research-plan]] |
 
 ## 与我的关联
 
-- 是本人博士后工作的合作导师，其研究体系构成课题的学术背景；个人研究问题、阶段安排和技术切入点不在本页重复维护，统一以 [[../research/postdoc-plan/postdoc-research-plan]] 为准。
+- 是本人博士后工作的合作导师，其研究体系构成课题的学术背景；个人研究问题、阶段安排和技术切入点不在本页重复维护，统一以 [[../research/postdoc-research-plan]] 为准。
 - 当前交叉关注包括 PIML 与高性能结构分析、MMC/MMV 数值离散，以及复杂材料模型下的变分与离散方法。
 - 面向其的周期性工作汇报单独维护在 `work-reports/guo-xu/`，本页不记录汇报内容、行政流程与沟通过程。
 

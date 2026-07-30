@@ -3,7 +3,7 @@ title: "博士后工作汇报归档"
 topic: "面向导师与合作团队的周期性工作汇报"
 tags:
   - work-report
-  - postdoc-plan
+  - research-plan
 status: "in-progress"
 date_start: 2026-07-21
 date_update: 2026-07-21

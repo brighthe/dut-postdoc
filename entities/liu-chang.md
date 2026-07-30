@@ -35,10 +35,12 @@ date_update: 2026-07-30
 | Google Scholar | <https://scholar.google.com/citations?user=B-uZM4EAAAAJ> |
 
 > 职称以官方主页为准；部分第三方学者聚合页仍标注「副教授」，属过期信息。
+>
+> **事实所有权**：本页拥有其公开学术身份、署名工作书目与跨源提炼的模型选型史；技术论证与判据只引用 [[../research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]]，任务排序只引用 [[../research/piml-matrix-free/liu-chang-model-selection-task-line]]，真实沟通过程由沟通仓库维护，本页不复制上述内容。
 
 ## 可考虑的结合点（概览）
 
-论证、公式、评价指标与 benchmark 设计以 [[../research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] §5.6 为准，本表只做会前速查，不复制其内容。「强弱」一列是基于其公开工作覆盖面所作的判断，非其本人表态。
+论证、公式、评价指标与 benchmark 设计以 [[../research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] §5.6 为准，本表只做会前速查，不复制其内容。「强弱」一列是基于其公开工作覆盖面所作的判断，非其本人表态。
 
 | 结合点 | 为什么与他相关 | 强弱 |
 |---|---|---|
@@ -110,7 +112,7 @@ date_update: 2026-07-30
 
 ## 与我的关联
 
-- 其 AI 方向与本人博士后方向一直接重叠；结合点速查见本页「可考虑的结合点」，完整技术分析、评价指标与 benchmark 设计统一维护在 [[../research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]]，本页不复制其内容。
+- 其 AI 方向与本人博士后方向一直接重叠；结合点速查见本页「可考虑的结合点」，完整技术分析、评价指标与 benchmark 设计统一维护在 [[../research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]]，本页不复制其内容。
 - 该页第 5.1 节已于 2026-07-30 补入本次公开检索对痛点性质的修正；第 5.4 节候选模型族表已同步 CMAME 2026 的 Bézier 参数化、NSR 2025 的 GCNN 证据，并新增「FEM ⊕ NN 域分解耦合」一族（DFENN）。上述条目均标注待 ingest 核验，精读后需复核。
 - 真实沟通过程、约见安排与关系状态由沟通仓库维护，本页只保留公开学术身份与技术事实。
 
@@ -132,4 +134,4 @@ date_update: 2026-07-30
 - [[../concepts/piml/method-lineage]] — 「直接预测最终设计 → 学习可复用局部算子」的方法谱系。
 - [[../concepts/piml/ml-roles-and-boundaries]] — 各类 ML 角色与问题无关性的适用边界。
 - [[../research/technical-lines/piml-research-guide]] — PIML 技术线总入口。
-- [[../research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] — 模型选型议题的权威技术底稿。
+- [[../research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] — 模型选型议题的权威技术底稿。

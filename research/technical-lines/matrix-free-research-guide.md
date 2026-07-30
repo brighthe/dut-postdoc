@@ -152,7 +152,7 @@ related:
 
 - 先用精确 $K_s$ 打通子结构级 Matrix-Free、Krylov 和预条件闭环，再换入 PIML 预测的 $\widehat K_s$，检查结构性质、全局误差、求解收敛和更新成本。
 - 开展 GPU 批处理和端到端 profiling，不以单次 MatVec 加速替代完整 solve 结论。
-- 在线弹性与单 GPU 路径闭环后，再扩展多 CPU 核、多 GPU 和 GPU-aware MPI。跨技术线推进顺序以 [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] 为准。
+- 在线弹性与单 GPU 路径闭环后，再扩展多 CPU 核、多 GPU 和 GPU-aware MPI。跨技术线推进顺序以 [[research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] 为准。
 
 若纯 Matrix-Free 预条件不足以稳定收敛，允许使用低阶或低精度组装代理；目标是可靠高效求解，而不是追求预条件器形式上的“完全无矩阵”。
 
@@ -169,8 +169,8 @@ related:
 - [[../../concepts/matrix-free/assembly-levels]] — Matrix-Free 数学对象、五级装配层次和第三方框架映射。
 - [[../../concepts/matrix-free/distributed-operator-and-shared-dofs]] — MPI 单元分区、共享自由度、输入同步、输出归约、加权内积与跨 rank 正确性不变量。
 - [[../../concepts/matrix-free/method-lineage]] — 郭旭老师团队公开 Matrix-Free 相关成果的长期演进和事实边界。
-- [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] — 当前 contraction、CG、多后端证据与跨线融合边界。
-- [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — Matrix-Free、预条件和开放问题的综合调研。
+- [[research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] — 当前 contraction、CG、多后端证据与跨线融合边界。
+- [[research/piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — Matrix-Free、预条件和开放问题的综合调研。
 - [[../../work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] — 第一次线下汇报中的 Matrix-Free 摘要。
 - [[archive/2026-postdoc-entry-assessment/README]] — 2026 年入站答辩时的历史表达与材料快照，不作为当前事实源。
 - [[_index]] — 长期技术线总入口。

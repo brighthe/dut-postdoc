@@ -851,3 +851,11 @@
 - 在 `papers/arbitrary-order-huzhang-topopt-outline.md` 的陈春雨师兄讨论待办中，明确以投稿框架为主要材料，中文版初稿仅作为公式、写法和数值章节骨架的辅助材料。
 - 明确本次讨论聚焦投稿可行性、内容取舍和最小证据范围，不以审查最终数值结果或逐字修改初稿为目标。
 - 将讨论产出拆为“保留内容”“删除、弱化或移入补充材料的内容”“必须补充的理论与数值证据”三张独立清单，并要求据此更新后续写作范围和最小实验矩阵。
+
+## [2026-07-30] refactor | research/ 目录按主题对齐并撤除方向编号层级
+- 解散 `postdoc-plan/` 与 `long-term/` 两层：`postdoc-research-plan.md` 上提到 `research/` 根；`direction-1-piml-matrix-free/` 三页移入 [[research/piml-matrix-free]]，`direction-2-mmc-mmv/` 一页移入 [[research/mmc-mmv]]。课题目录改为主题命名，与 `concepts/` 的主题子库对齐；`research/` 内部恢复为每层一条轴（总领、课题、能力线、流程、行政）。文件名一律未改。
+- 病灶依据：`direction-N` 编号早已被 [[research/technical-lines/_index]] 明文废弃（「不从属于固定的方向编号」），但内容仍压在该层级下；且 [[research/_index]] 的「长期研究路线」从未登记四个课题页，导航实际断裂。
+- 链接迁移：四个移动页自身 21 处相对链接由四层降为两层；外部 18 个文件约 35 处路径尾部同步（含 `research/funding/next-cycle/liaoning-natural-science-fund/2027` frontmatter 的文件相对路径）。四个移动页 frontmatter 新增 `aliases` 写入旧全路径，保住 `log.md` 历史条目与 `archive/` 链接的可解析性；按 append-only 与归档不维护原则，未改 `log.md` 历史条目与 `archive/`。
+- 反重复：确立判据「一个事实变了要同时改两页，所有权就是错的」。[[research/technical-lines/piml-research-guide]] 的「已有基础」表删除 $K_s$ 预测误差数值改为指针；「目标与当前差距」表的模型选型行改指综合页 §5；阶段 2 门禁与 [[research/piml-matrix-free/liu-chang-model-selection-task-line]] T2 门禁均改为引用综合页 §2.1 记录值，不再各存一份数字。综合页、guide、任务线与 [[entities/liu-chang]] 四页新增「事实所有权」声明（正文 blockquote，不入 frontmatter）。
+- 顺带修正三处过期陈述：guide 原记「原型代码路径待确认」，实为位于 `soptx` 远端分支 `origin/codex/piml-multiscale-prototype`（未合入 main、工作树未检出，故仍不具备可重放入口）；并补记 `InterfaceCondensedSystem.solve_interface` 为 `spsolve` 直解、原型不含迭代路径。术语同步：technical-lines 分工表与两个 work-reports 索引的 `postdoc-plan` 改为课题主题页 / `research-plan`。
+- 同步 [[research/_index]]（新增「当前研究课题」小节登记四页）、根 [[index]] 与 `README.md` 目录树。验证：残留路径仅剩 alias 与历史条目；全库活跃页面相对 wikilink 死链检查为 0；原型数值仅存于综合页 §2.1、工作汇报的带日期口述快照与历史条目。本次未运行任何代码。

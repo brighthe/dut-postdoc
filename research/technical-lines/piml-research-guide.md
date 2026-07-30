@@ -24,7 +24,9 @@ related:
 >
 > **当前主要研究对象**：以二维 Q4、平面应力子结构作为首个统一参考问题，粗网格 $8\times8$、子结构内细分 $L=5$ 与 $L=10$ 两档；三维、非结构网格与非线性状态变量仅作为后续扩展方向。
 >
-> **当前事实底线**：已跑通子结构缩聚与极小 MLP 预测局部 $K_s$ 的前向原型，但原型代码和结果记录位置尚未恢复，当前仍缺少可重放的线弹性 PIML 训练入口。结构保持参数化、全局误差传播、多尺度灵敏度和拓扑优化闭环尚未完成。
+> **当前事实底线**：已跑通子结构缩聚与极小 MLP 预测局部 $K_s$ 的前向原型。原型代码已于 2026-07-30 定位在 `soptx` 远端分支 `origin/codex/piml-multiscale-prototype`（含 `soptx/analysis/multiscale/`、三个 benchmark 与 `docs/frame7_piml_pipeline_results.md`），但该分支未合入 `main`、工作树内无检出，因此**仍不具备可重放入口**。结构保持参数化、全局误差传播、多尺度灵敏度和拓扑优化闭环尚未完成。
+>
+> **事实所有权**：本页拥有本技术线的阶段划分与门禁；原型数值（$K_s$ 预测误差等）只引用 [[research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] §2.1，模型选型框架只引用其 §5，本页不复制两者内容。
 
 ## 一、技术线目标与边界
 
@@ -58,7 +60,7 @@ related:
 | 基础 | 已经做到的内容 | 当前边界 |
 |---|---|---|
 | 精确子结构前向链路 | 已跑通“局部细尺度密度 → 静力缩聚 → $K_s^j$ → 全局接口缩聚方程 → 接口求解/细尺度恢复”；与全尺度 Schur 补误差达 $10^{-15}$ 量级，接口解与全尺度直解一致到 $10^{-14}$–$10^{-12}$ | 属精确基线，反映实现正确与浮点舍入，**不是 PIML 预测误差**；仅覆盖二维 Q4、平面应力、单一悬臂算例 |
-| PIML 预测原型 | 极小 MLP 直接预测局部 $K_s$，逐子结构相对误差均值 $5\times5$ 为 $1.6\times10^{-3}$、$10\times10$ 为 $8.2\times10^{-3}$，两档均优于局部平均密度 Mock 对照；已有 `ExactPredictor`/`MockPredictor`/`TrainedPredictor` 共用调用接口 | 2026-07-03 实测，事实入口见 §六；原型代码路径待确认；只学 $K_s$、无结构保持参数化；**只是局部误差**，未传播到位移、柔顺度或灵敏度 |
+| PIML 预测原型 | 极小 MLP 直接预测局部 $K_s$，两档粗细比均优于局部平均密度 Mock 对照；已有 `ExactPredictor`/`MockPredictor`/`TrainedPredictor` 共用调用接口。**具体误差数值不在本页维护**，以 [[research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] §2.1 为准 | 2026-07-03 实测；代码在 `origin/codex/piml-multiscale-prototype`，未检出；只学 $K_s$、无结构保持参数化；**只是局部误差**，未传播到位移、柔顺度或灵敏度 |
 | 团队公开方法基础 | Huang 2022/2023/2024 与 Ma 2026 已形成可核实的方法谱系与数学基础页 | 属可复用基础，不等于本技术线已完成对应实现 |
 
 团队 PIML 主线是“EMsFEM 形函数学习 → 子结构形函数/缩聚刚度学习 → mechanics-based data-free 训练 → 并行与按需预测的大规模实现”，长期演进统一维护在 [[../../concepts/piml/method-lineage]]，本页不建第二份谱系。本技术线的接续任务是补齐该谱系尚未闭合的环节：结构保持的硬性参数化、误差到全局响应与灵敏度的量化传播、可信回退，以及多 predictor 的同口径选型；这是拟推进方向，不能写成团队已完成的公开成果。
@@ -72,7 +74,7 @@ related:
 
 ### 部分完成或待核实
 
-- 数值有活跃事实入口，但原型代码与结果记录文件的本地位置未核实，当前不具备可重放入口。
+- 数值有活跃事实入口，原型代码与结果记录已定位于 `origin/codex/piml-multiscale-prototype`；因该分支未合入 `main`、工作树内未检出，当前仍不具备可重放入口。
 - 预测误差随粗细比、密度分布和子结构类型的稳定性未系统验证；两档结果来自同一受控网络容量与训练量。
 - 预测算子的对称性、SPD、刚体模态和能量一致性未测量，只有回归意义上的相对误差。
 
@@ -97,8 +99,8 @@ related:
 | 误差传播 | 只有局部 $K_s$ 误差 | 先打通到位移与柔顺度，再到灵敏度 |
 | 可信回退 | 无 | 建立局部误差指示器与精确消元回退路径 |
 | 优化闭环 | 未接入 | 接入 OC/MMA 与过滤，验证目标收敛与拓扑稳定性 |
-| 模型选型 | 仅极小 MLP | 在同一接口下比较 DeepONet 与 operator learning |
-| 事实源 | 原型仓库路径待确认 | 定位并恢复原型代码与 `frame7_piml_pipeline_results.md` |
+| 模型选型 | 仅极小 MLP | 候选模型族、判据与 benchmark 设计以 [[research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] §5 为准，本页不复述 |
+| 事实源 | 代码已定位于 `origin/codex/piml-multiscale-prototype`，未检出 | 检出该分支并复现门禁，形成可重放入口 |
 
 当前最优先的工作不是增加模型复杂度，而是先把可重放的训练环境和精确真值基线立起来；在基线可复现之前，任何新模型的比较结果都缺乏可核对的参照。
 
@@ -113,9 +115,10 @@ related:
 
 ### 阶段 2：恢复原型并冻结基准与精确真值
 
-- 起点是：算例设置与数值结论已有活跃事实入口，但原型仓库路径待确认，`frame7_piml_pipeline_results.md` 与 `train_piml_predictor.py` 位置未核实，历史记录指向分支 `codex/piml-multiscale-prototype`；这些是待处理项，不是已完成结果。
+- 起点是：算例设置与数值结论已有活跃事实入口，原型已定位于 `soptx` 分支 `origin/codex/piml-multiscale-prototype`，含 `soptx/analysis/multiscale/`（`coarse_fine_mesh`、`equivalent_stiffness`、`multiscale_shape`、`piml_predictor`、`trained_predictor`）、`soptx/benchmarks/`（`benchmark_piml_forward`、`benchmark_piml_trained`、`train_piml_predictor`）、`soptx/tests/test_trained_predictor.py` 与 `docs/frame7_piml_pipeline_results.md`；检出、环境确认与门禁复现仍是待处理项，不是已完成结果。
+- 已知实现事实：`InterfaceCondensedSystem.solve_interface` 使用 `scipy.sparse.linalg.spsolve` 直解，原型**不含迭代求解路径**，因此 Krylov 迭代数类指标需先新增 CG 路径才能测量。
 - 定位并恢复原型代码与结果记录，固化子结构、粗细网格比、材料参数和密度分布集合；统一精确缩聚、形函数、位移恢复与局部谱指标接口，保留极小 MLP 作为最小可复现基线。
-- **门禁**：精确缩聚与全尺度 Schur 补误差复现到 $10^{-15}$ 量级；MLP 基线复现到 $1.6\times10^{-3}$（$5\times5$）与 $8.2\times10^{-3}$（$10\times10$）。任一项未复现则阶段保持未完成并进入诊断。
+- **门禁**：精确缩聚与全尺度 Schur 补误差复现到 $10^{-15}$ 量级；MLP 基线复现到 [[research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] §2.1 记录的两档误差均值（$5\times5$ 与 $10\times10$）。**门禁只引用该页数值，不在本页复述**，避免数值修订时两页失同步。任一项未复现则阶段保持未完成并进入诊断。
 
 ### 阶段 3：结构保持表示与接口冻结
 
@@ -149,8 +152,9 @@ related:
 ## 六、事实来源与关联页面
 
 - [[../workflows/pinn-machine-learning-workflow]] — 一维 Poisson PINN 机器学习全过程；当前软件源码映射见附录，只承担训练工具链学习，不是 PIML 方法来源。
-- [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] §2.1 — PIML 子结构前向原型在本仓库中的**活跃事实入口**，本页数值以其为准；该页也维护模型选型与跨线综合。
-- PIML 原型代码、`frame7_piml_pipeline_results.md`、`train_piml_predictor.py` — **本地路径待确认**；历史准备材料见 [[archive/2026-postdoc-entry-assessment/README]] 的 frame7（2026-07-03 实测），归档内容不作为当前事实源。
+- [[research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] §2.1 — PIML 子结构前向原型在本仓库中的**活跃事实入口**，本页数值以其为准；该页也维护模型选型与跨线综合。
+- PIML 原型代码、`frame7_piml_pipeline_results.md`、`train_piml_predictor.py` — 位于 `soptx` 远端分支 `origin/codex/piml-multiscale-prototype`（2026-07-30 只读核实），未合入 `main`；历史准备材料见 [[archive/2026-postdoc-entry-assessment/README]] 的 frame7（2026-07-03 实测），归档内容不作为当前事实源。
+- [[research/piml-matrix-free/liu-chang-model-selection-task-line]] — 模型选型线的任务序列与交付等级；其 T2 直接复用本页阶段 2 门禁。
 - 本技术线不以 `C:\workspace\mfleo` 或 `C:\workspace\xihe` 为事实源，两者见 [[matrix-free-research-guide]]。
 - [[../../concepts/piml/mathematical-foundations]]、[[../../concepts/piml/method-lineage]] — 数学定义与方法谱系。
 - [[../../literature/topology-opt/Huang2022-problemindependentmachine]]、[[../../literature/topology-opt/Huang2023-PIML-substructure]]、[[../../literature/topology-opt/Huang2024-PIML-datafree]] — EMsFEM-PIML、三维子结构与 data-free 三篇奠基文献。

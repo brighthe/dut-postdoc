@@ -227,7 +227,7 @@ PIML 子结构路线与多分辨率拓扑优化（MTOP）有相似动机：二�
 - [[../../literature/topology-opt/Huang2023-PIML-substructure]] — PIML + 子结构形函数 / 缩聚刚度矩阵。
 - [[../../literature/topology-opt/Huang2024-PIML-datafree]] — mechanics-based data-free PIML，降低监督标签依赖。
 - [[../../literature/topology-opt/Ma2026-highperformanceparallel]] — 并行 PIML、大规模拓扑优化和按需预测/释放。
-- [[../../research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — 方向一调研报告，提供更面向博后计划的扩展讨论。
+- [[../../research/piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — 方向一调研报告，提供更面向博后计划的扩展讨论。
 
 ## 12. 相关页面
 
@@ -235,4 +235,4 @@ PIML 子结构路线与多分辨率拓扑优化（MTOP）有相似动机：二�
 - [[mathematical-foundations]] — PIML 问题无关性、EMsFEM 基础路线与子结构缩聚学习映射的数学说明。
 - [[../matrix-free/method-lineage]] — Ma2026 与后续团队 Matrix-Free 相关成果的方法谱系及装配层级边界。
 - [[../../literature/_index]] — 文献阅读笔记总索引。
-- [[../../research/postdoc-plan/postdoc-research-plan]] — 博后研究计划总领。
+- [[../../research/postdoc-research-plan]] — 博后研究计划总领。

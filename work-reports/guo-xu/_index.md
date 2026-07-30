@@ -4,7 +4,7 @@ topic: "何亮向郭旭老师进行的博士后工作汇报"
 tags:
   - work-report
   - Guo-Xu
-  - postdoc-plan
+  - research-plan
 status: "in-progress"
 date_start: 2026-07-21
 date_update: 2026-07-22
@@ -37,5 +37,5 @@ date_update: 2026-07-22
 ## 相关入口
 
 - [[../_index]] — 全部工作汇报的事实源分工与生命周期。
-- [[../../research/postdoc-plan/postdoc-research-plan]] — 博士后科研计划总领。
-- [[../../research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] — 当前方向一详细技术事实。
+- [[../../research/postdoc-research-plan]] — 博士后科研计划总领。
+- [[../../research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] — 当前方向一详细技术事实。

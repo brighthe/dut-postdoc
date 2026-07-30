@@ -1,6 +1,8 @@
 ---
 title: "刘畅老师模型选型线：任务安排与判据交付路线"
 topic: "围绕模型选型痛点的任务序列、交付定义与授权边界"
+aliases:
+  - research/postdoc-plan/long-term/direction-1-piml-matrix-free/liu-chang-model-selection-task-line
 tags:
   - model-selection
   - PIML
@@ -17,15 +19,17 @@ related:
 
 # 刘畅老师模型选型线：任务安排与判据交付路线
 
-> **用途**：回答「在刘畅老师这条线上，接下来按什么顺序做什么、每一步交付什么、做到什么程度才算真正回应了他的选型问题」。本页只维护任务序列与交付定义。
+> **用途**：回答「在刘畅老师这条线上，接下来按什么顺序做什么、每一步交付什么、做到什么程度才算真正回应了他的选型问题」。
+>
+> **事实所有权**：本页拥有交付等级 D0–D3 的定义与任务序列 T1–T7；技术论证与原型数值只引用 [[piml-matrix-free-gpu-and-model-selection-technical-synthesis]]，PIML 门禁只引用 [[../technical-lines/piml-research-guide]]，书目只引用 [[../../entities/liu-chang]]，本页不复制上述内容。
 
 ## 0. 本页边界
 
 | 内容 | 权威页面 | 本页角色 |
 |---|---|---|
 | 选型框架、结合点 A–E、benchmark 设计 | [[piml-matrix-free-gpu-and-model-selection-technical-synthesis]] §5 | 只引用，不复制 |
-| 刘老师公开书目、模型选型史、结合点强弱速查 | [[../../../../entities/liu-chang]] | 只引用，不复制 |
-| PIML 技术线阶段门禁（原型恢复、结构保持、误差传播） | [[../../../technical-lines/piml-research-guide]] | 复用其门禁，不另立第二套 |
+| 刘老师公开书目、模型选型史、结合点强弱速查 | [[../../entities/liu-chang]] | 只引用，不复制 |
+| PIML 技术线阶段门禁（原型恢复、结构保持、误差传播） | [[../technical-lines/piml-research-guide]] | 复用其门禁，不另立第二套 |
 | 与刘老师的真实沟通过程 | 沟通仓库（`heliangos`） | 本页不记录 |
 
 ## 1. 目标：什么才算「交付一条判据」
@@ -44,7 +48,7 @@ related:
 
 ## 2. 当前事实快照（2026-07-30）
 
-- 五篇合著已入库精读，六篇公开工作待 ingest（书目与优先级见 [[../../../../entities/liu-chang]]）。
+- 五篇合著已入库精读，六篇公开工作待 ingest（书目与优先级见 [[../../entities/liu-chang]]）。
 - PIML 原型代码已定位：`soptx` 远端分支 `origin/codex/piml-multiscale-prototype`，未合入 main，工作树内无可重放入口；接口求解为 `spsolve` 直解，**无迭代求解路径**，CG 迭代数指标当前测不出来。
 - 本地已有二维平面应变线弹性 PINN 门禁通过经验（2026-07-29，`log.md`），可作 DFENN 对照基线。
 - 与刘老师的沟通事实与合作边界以 synthesis §5.1 为准：只有痛点表述，无合作安排。
@@ -62,14 +66,14 @@ related:
 
 - **前置**：用户授权执行（创建 worktree、运行测试与 benchmark 属于改机器状态的操作）；确认 conda 环境（候选 `soptx-gpu`，fealpy/torch 依赖未验证；训练权重 `outputs/*.pt` 可能需重训）。
 - **交付**：独立 worktree 中测试与 `benchmark_piml_forward`/`benchmark_piml_trained` 复跑记录。
-- **门禁**：直接复用 [[../../../technical-lines/piml-research-guide]] 阶段 2——精确缩聚 vs Schur 补 $10^{-15}$ 量级；MLP 基线 $1.6\times10^{-3}$（$5\times5$）/ $8.2\times10^{-3}$（$10\times10$）。任一不复现即停，转入诊断，不进 T3。
+- **门禁**：直接复用 [[../technical-lines/piml-research-guide]] 阶段 2，判定值以 [[piml-matrix-free-gpu-and-model-selection-technical-synthesis]] §2.1 为准，本页不复述具体数值。任一不复现即停，转入诊断，不进 T3。
 - **执行**：AI 提命令，用户授权后执行。
 
 ### T3 — CG 路径与扰动扫描（产出 D1 实证 + D2 曲线）
 
 - **前置**：T2 门禁通过。
 - **内容**：在 `InterfaceCondensedSystem` 增加 CG 求解分支（保留 `spsolve` 对照）；对同一悬臂算例做两组扫描——对称相对扰动 $10^{-4}\sim10^{-1}$（测 CG 迭代数、接口位移误差、柔顺度误差）与同量级非对称扰动（预期 CG 失效）。
-- **交付**：误差—迭代数—响应误差曲线（D2）；非对称组失效记录（D1 本地实证）。结果回填 synthesis §2.1/§5.4 与 [[../../../technical-lines/piml-research-guide]]。
+- **交付**：误差—迭代数—响应误差曲线（D2）；非对称组失效记录（D1 本地实证）。结果回填 synthesis §2.1/§5.4 与 [[../technical-lines/piml-research-guide]]。
 - **执行**：AI 提改动与命令，用户授权后执行。
 
 ### T4 — ingest P1/P2 四篇
@@ -124,8 +128,8 @@ T7 贯穿收尾
 ## 7. 关联文档
 
 - [[piml-matrix-free-gpu-and-model-selection-technical-synthesis]] — 技术论证、结合点与事实边界的权威底稿。
-- [[../../../../entities/liu-chang]] — 书目、选型史与结合点速查。
-- [[../../../technical-lines/piml-research-guide]] — PIML 阶段门禁的唯一来源。
-- [[../../../technical-lines/matrix-free-research-guide]] — CG/预条件路线（T3 的求解器侧背景）。
+- [[../../entities/liu-chang]] — 书目、选型史与结合点速查。
+- [[../technical-lines/piml-research-guide]] — PIML 阶段门禁的唯一来源。
+- [[../technical-lines/matrix-free-research-guide]] — CG/预条件路线（T3 的求解器侧背景）。
 - [[piml-matrix-free-high-performance-solver-survey]] — 长期开放问题。
-- [[../../postdoc-research-plan]] — 博士后科研计划总领。
+- [[../postdoc-research-plan]] — 博士后科研计划总领。

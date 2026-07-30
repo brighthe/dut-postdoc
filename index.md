@@ -44,11 +44,11 @@
 | [[research/technical-lines/matrix-free-research-guide]] | in-progress |
 | [[research/technical-lines/gpu-hpc-research-guide]] | in-progress |
 | [[research/funding/postdoc-funding-applications]] | draft |
-| [[research/postdoc-plan/postdoc-research-plan]] | in-progress |
-| [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] | in-progress |
-| [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] | in-progress |
-| [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/liu-chang-model-selection-task-line]] | in-progress |
-| [[research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey]] | draft |
+| [[research/postdoc-research-plan]] | in-progress |
+| [[research/piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] | in-progress |
+| [[research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] | in-progress |
+| [[research/piml-matrix-free/liu-chang-model-selection-task-line]] | in-progress |
+| [[research/mmc-mmv/mmc-mmv-numerical-discretization-survey]] | draft |
 
 ## 历史档案
 

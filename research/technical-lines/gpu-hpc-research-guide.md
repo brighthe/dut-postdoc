@@ -156,8 +156,8 @@ related:
 
 - [[../../concepts/gpu-hpc/performance-model]] — 五级计时边界、Roofline、强弱扩展和可复现性能记录协议。
 - [[../../concepts/gpu-hpc/method-lineage]] — 团队公开 HPC 成果的纳入标准、Ma2026 CPU/MPI 节点与公开空白。
-- [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] — soptx GPU、`mfleo` 单 GPU 工程结果和三线融合事实边界。
-- [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — GPU/异构并行、端到端瓶颈和实验矩阵调研。
+- [[research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] — soptx GPU、`mfleo` 单 GPU 工程结果和三线融合事实边界。
+- [[research/piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — GPU/异构并行、端到端瓶颈和实验矩阵调研。
 - [[../../literature/topology-opt/Ma2026-highperformanceparallel]] — 团队 CPU/MPI 并行 PIML、PETSc 多重网格和强弱扩展的论文事实。
 - `C:\workspace\soptx`（个人公开仓库 `brighthe/soptx`，`main`）— 阶段 1 的当前实现来源；已静态定位 `soptx/tests/test_cantilever_3d_wsl.py` 与 `soptx/model/cantilever_3d_lfem.py`，但尚未运行，不作为本知识库运行依赖。
 - `C:\workspace\fealpy\app\soptx` — FEALPy 内置的旧版 SOPTX，只作为历史代码参考，不再作为阶段 1 实现基线。

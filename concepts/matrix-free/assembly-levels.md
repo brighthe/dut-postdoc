@@ -180,5 +180,5 @@ Matrix-Free 通常只描述主算子路径，预条件器可以使用另一装�
 - [[method-lineage]] — 郭旭老师团队公开 Matrix-Free 相关成果的方法谱系。
 - [[../../research/technical-lines/matrix-free-research-guide]] — 当前基础、目标差距、推进路线与阶段门禁。
 - [[../../research/technical-lines/gpu-hpc-research-guide]]
-- [[../../research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]]
+- [[../../research/piml-matrix-free/piml-matrix-free-high-performance-solver-survey]]
 - [[../../work-reports/guo-xu/2026-07-piml-matrix-free-gpu]]

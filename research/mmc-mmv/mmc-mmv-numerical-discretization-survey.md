@@ -1,5 +1,7 @@
 ---
 title: "面向 MMC/MMV 显式拓扑优化的高精度数值离散与高效结构分析方法研究——技术调研"
+aliases:
+  - research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey
 tags:
   - MMC
   - MMV

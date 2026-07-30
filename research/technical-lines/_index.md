@@ -42,7 +42,7 @@ date_update: 2026-07-29
 |---|---|
 | concepts 概念页 | 技术概念是什么、方法谱系如何演化 |
 | 本目录 technical-line guide | 我的长期技术能力如何研究、实施和验收 |
-| postdoc-plan 与其他课题页 | 当前科研课题如何组合和使用这些技术线 |
+| 课题主题页（`research/piml-matrix-free/`、`research/mmc-mmv/`） | 当前科研课题如何组合和使用这些技术线 |
 | 综合调研与技术 synthesis | 三条线为什么结合、当前总体判断是什么 |
 | archive 事件档案 | 已完成报告当时如何解释、使用哪些证据和答辩口径；不再维护当前研究事实 |
 | work-reports | 某次面向导师或合作团队实际汇报什么 |
@@ -57,6 +57,6 @@ date_update: 2026-07-29
 
 ## 跨线综合入口
 
-- [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — PIML、Matrix-Free 与高性能求解的综合调研。
-- [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] — 当前能力证据、融合路线与模型选型综合。
+- [[research/piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — PIML、Matrix-Free 与高性能求解的综合调研。
+- [[research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] — 当前能力证据、融合路线与模型选型综合。
 - [[work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] — 2026-07 面向郭旭老师的完整工作汇报。

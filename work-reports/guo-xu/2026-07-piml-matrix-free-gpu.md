@@ -159,8 +159,8 @@ GPU/HPC 这条线，当前 soptx 原型在 13.2 万自由度下，单次 GPU Mat
 - [[../../research/technical-lines/piml-research-guide]] — PIML 技术线。
 - [[../../research/technical-lines/matrix-free-research-guide]] — Matrix-Free 技术线。
 - [[../../research/technical-lines/gpu-hpc-research-guide]] — GPU/HPC 技术线。
-- [[../../research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] — 详细技术事实。
-- [[../../research/postdoc-plan/postdoc-research-plan]] — 博士后科研计划。
+- [[../../research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] — 详细技术事实。
+- [[../../research/postdoc-research-plan]] — 博士后科研计划。
 - [[_index]] — 郭旭老师工作汇报归档。
 
 > 本页行政、沟通和研究院状态为截至 2026-07-22 准备汇报时的必要快照；不保存敏感账号、微信原文、完整行政流水或项目实时任务账。
