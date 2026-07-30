@@ -756,3 +756,98 @@
 - 在 [[concepts/matrix-free/assembly-levels]] 中补充 $\mathbf A=\sum_e\mathbf G_e^{\mathsf T}\mathbf A_e\mathbf G_e$ 及 gather、单元作用、scatter-add 三步 MatVec 公式。
 - 明确 FA 与 EA 表示同一个离散算子，差别在于是否预先形成全局稀疏矩阵，以及单元求和发生在 setup 还是每次 MatVec。
 - 沿用线弹性基础页的单元限制矩阵 $\mathbf G_e$，并与 MPI true DOF 到 rank-local DOF 的限制矩阵 $\mathbf R_r$ 区分；未修改程序或数值结果。
+
+## [2026-07-30] paper | 建立任意次胡张混合元拓扑优化英文投稿工程
+- 新建 [[papers/arbitrary-order-huzhang-topopt/README]]，以 SMO 为默认目标建立 Springer Nature `sn-jnl` 英文稿件、补充材料、复现协议和投稿本地参考文献。
+- 从博士论文第五章重构 Hellinger–Reissner、任意次 Hu–Zhang、低阶稳定化、角点松弛、近不可压缩插值与表观应力约束内容；非齐次 traction 采用显式 stress lifting，状态方程和伴随灵敏度均保留非零 lifting 项。
+- 旧论文数值图未作为新稿证据，尤其禁止复用 `nu05` 混标结果；待 SOPT-X 独立实验入口通过灵敏度、收敛、约束和冻结设计复核门禁后再生成正文图表。本次未运行数值实验或 LaTeX 编译。
+
+## [2026-07-30] correction | 将胡张混合元投稿工作退回框架确认阶段
+- 撤销过早创建的 LaTeX 投稿工程、Springer Nature 模板资产、集中参考文献增量和 SOPT-X 实验骨架；未保留程序实现，也未运行数值实验。
+- 新建 [[papers/arbitrary-order-huzhang-topopt-outline]]，只确认第五章到投稿论文的中心主线、贡献边界、章节映射、证据需求和阶段门禁；目标期刊仅保留 SMO 候选，不固定模板。
+- 将任意次 Hu–Zhang 混合离散设为唯一中心贡献，近不可压缩和局部应力约束设为应用验证；下一阶段须先完成框架决策与理论核查。
+
+## [2026-07-30] query | 新建刘畅实体页并梳理其 AI 方向工作
+- 新建 [[entities/liu-chang]]，登记 [[entities/_index]] 与根 [[index]]；内容限定为公开学术身份、库内合著事实、跨源提炼的模型选型史与指针，不复制技术底稿内容，不记录沟通过程与关系状态。
+- 经 2026-07-30 公开检索（个人主页、Google Scholar、出版商页面）确认其为大连理工大学工程力学系教授，自列研究方向含「人工智能赋能的结构高效分析与优化新范式」；据此修正此前「ML 仅为团队合作附带线」的推测。
+- 记录六篇尚未入库的公开工作（DFENN JMPS 2026、CMAME 456 2026 Bézier-DeepONet、NSR 2025 GCNN、EML 2024 等参元、Composite Structures 2025、Computational Mechanics 2025），标为待 ingest；作者顺序、卷期与 DOI 未经 Zotero 核对，暂不得作为引用事实。
+- 本次未修改任何文献笔记、概念页或技术底稿，未执行关联页面反向链接的同步更新。
+
+## [2026-07-30] refactor | 将郭旭院士团队页重构为人物实体页
+- 按「一实体一页」原则，把 `entities/guo-xu-team.md` 重构为 [[entities/guo-xu]]，`entity_kind` 由 `team` 改为 `person`，并按 [[entities/liu-chang]] 的页面结构补齐基本信息、概况、已入库署名工作、知识入口、待确认与维护边界各节。
+- 保留原有五个研究方向正文与全部权威入口链接；新增库内八篇署名论文一览（其均为末位作者），并与 [[entities/liu-chang]] 建立双向指导关系链接。
+- 旧页名 `guo-xu-team`、旧路径 `research/teams/guo-xu-team-overview` 及中英文别名均写入 frontmatter alias，历史链接保持可解析；`log.md` 既有历史条目按 append-only 规则不作改写。
+- 同步 [[entities/_index]] 与根 [[index]] 登记行。记录一条待确认项：本页与 [[entities/liu-chang]] 对同一实验室的名称口径不一致，需以官方来源核定后统一。
+- 本次未修改 `research/`、`concepts/`、`literature/` 中指向旧页名的五处反向链接，待用户确认后再同步。
+
+## [2026-07-30] edit | 同步指向郭旭实体页旧页名的反向链接
+- 将 `research/postdoc-plan/postdoc-research-plan`、`research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey`、`research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey`、`concepts/matrix-free/method-lineage` 与 `literature/others/Guo2023-PIML-substructure` 五处链接由 `entities/guo-xu-team` 改为 [[entities/guo-xu]]，并把「团队稳定档案」类说明文字改为与人物页一致的表述。
+- 复查确认全库除 `log.md` 历史条目和 [[entities/guo-xu]] 的 frontmatter alias 外，已无指向旧页名的链接。
+- 本次仅改链接目标与说明文字，未改动各页技术内容与结论。
+
+## [2026-07-30] paper | 形成任意次 Hu–Zhang 拓扑优化中文版初稿
+- 基于 `papers/arbitrary-order-huzhang-topopt-outline.md` 和博士论文第五章，新增 `papers/arbitrary-order-huzhang-topopt-draft-zh.md`。
+- 初稿完成从连续混合变分、牵引提升、任意次 Hu–Zhang 空间、低阶稳定化与角点松弛，到互补能、近不可压缩插值、表观应力约束和 ALM 伴随灵敏度的中文论证主线。
+- 数值章节仅保留统一实验方案、结果表骨架和验收门禁；所有尚未重算的数据均标记为“待计算”，未沿用博士论文旧图表形成投稿结论。
+- 更新根索引中的 Papers 条目；本次未创建 LaTeX 投稿工程、未编写实验程序、未执行数值计算。
+
+## [2026-07-30] plan | 增加胡张混合元投稿工作的专家评审待办
+- 在 `papers/arbitrary-order-huzhang-topopt-outline.md` 新增全局 TODOLIST，将与陈春雨讨论投稿可行性、内容删除和证据补充列为 Gate A 前置事项。
+- 将讨论目标拆分为创新性判断、正文与补充材料取舍、理论和实验缺口、两类应用定位及方法组成层级，并要求最终形成可执行的“保留—删除—补充”清单。
+
+## [2026-07-30] wording | 明确胡张混合元投稿咨询对象为陈春雨师兄
+- 将框架文档中的相关表述统一为“向陈春雨师兄请教”，强调其对该部分工作的熟悉程度以及咨询投稿可行性、内容取舍和证据缺口的目的；该关系称谓仅用于内部计划，不进入正式论文正文。
+
+## [2026-07-30] theory | 澄清非零 traction 状态方程及灵敏度验证要求
+- 重写 `papers/arbitrary-order-huzhang-topopt-outline.md` 的 C3，区分保留已知牵引自由度时的零右端简写与消元后的完整约化方程，并明确柔顺度和应力约束使用总应力。
+- 将中心有限差分定位为解析灵敏度与离散实现的一致性验证；该证据原则上保留，但可放入 Supplementary Material，不占正文主要篇幅。
+
+## [2026-07-30] fix | 修正胡张混合元投稿框架的公式显示
+- 将 C3 中不兼容当前 Wiki 渲染的 `\(...\)` 数学定界符改为 `$...$`/`$$...$$`，并把总应力分解独立显示；复查框架文档已无同类定界符。
+
+## [2026-07-30] edit | 将胡张混合元论文拟定结构改为中文
+- 将 `papers/arbitrary-order-huzhang-topopt-outline.md` 第三部分的正文标题、子标题和说明文字统一改为中文；Hu–Zhang、Hellinger–Reissner、\(H(\mathrm{div})\)、ALM/MMA 等专名和通用缩写保留。
+- 同步把该部分的数学量改为 Wiki 兼容的 `$...$` 定界符，未改变章节顺序、实验范围或贡献定位。
+
+## [2026-07-30] edit | 将刘畅老师 2026 年两篇工作的判据影响沉淀到模型选型底稿
+- 在 [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] §5.1 新增「公开工作检索对痛点性质的修正（2026-07-30）」：据公开检索修正为「缺少可复用选型判据、调参过程本身不可靠」，并据此把「减少可调超参数」列为一项选型指标；书目细节不在本页复制，统一指向 [[entities/liu-chang]]。
+- §5.4 候选模型族表：DeepONet 行补入 CMAME 456（2026）的边界位移三次 Bézier 参数化；GNN 行由「当前无本地实证」改为「已有团队文献证据（NSR 2025 GCNN）」并注明其面向单胞筛选而非子结构算子；新增「FEM ⊕ NN 域分解耦合」一族，记录 DFENN 及本地二维线弹性 PINN 门禁经验可作对照基线。
+- §5.6 结合点 A 补充与 CMAME 2026 的关系：二者同属「改参数化而非改网络容量」，差别在输入侧边界场表示与输出侧算子表示及其对称正定/刚体模态/能量一致性保证；据此把「输入侧与输出侧参数化能否协同、误差如何传播」作为下一轮具体技术问题。
+- 同步 §8 关联文档、frontmatter `date_update`，并回填 [[entities/liu-chang]] 中原「待 ingest 后同步」一句为已同步状态。
+- 本次新增内容全部标注待 ingest 核验；未修改任何原型数值、事实边界或汇报口径章节。
+
+## [2026-07-30] edit | 在刘畅实体页前置结合点速查表
+- 改写 [[entities/liu-chang]] 的「一句话」，直接点明交集：其线已横跨多个模型族但缺可复用选型判据，本人背景落在「模型误差如何传播进求解器」一侧。
+- 在「基本信息」之后新增「可考虑的结合点（概览）」表，按结合点 B/D/E/C/A 排序并标注强弱：B 最强建议主谈，D、E 为本人独有角度，C 中性，A 因与 CMAME 2026 的 Bézier 参数化同属「改参数化而非改网络容量」而降为「需差异化」。表内只保留标题、相关性与指针，论证与公式仍以技术底稿 §5.6 为准。
+- 记录一条尚未立项的潜在接口：DFENN 与本人二维平面应变线弹性 PINN 门禁经验的对照，是否正式立为结合点 F 待定。
+- 精简原「与我的关联」中与新表重复的两条，避免并行事实账；强弱判断已注明为基于公开工作覆盖面的推断，非其本人表态。
+
+## [2026-07-30] edit | 明确模型选型底稿的交付状态并析出唯一可先验使用的判据
+- 在 [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] 第 5 节开头加入交付状态声明：本节提供问题分解与获取判据的路径，尚不构成可交付的选型判据；5.4 多数条目证据等级仍为「后续候选设想」，5.5 的 benchmark 尚未执行。
+- 在 5.4 之后新增「当前唯一可先验使用的判据：结构保持硬门槛」：$\widehat K_s$ 的对称性、正定性与刚体模态是进入 CG/GMRES 的必要条件，与逐元素 MSE 无关，可在训练与 benchmark 之前排除「逐元素回归 + 纯 MSE」一类做法；并说明该判据来自数值线性代数既有结论，性质区别于须由实验产生的其余各项。
+- 在第 6 节「不能过度声称」新增一条：不把第 5 节框架说成已解决模型选型问题；除结构保持硬门槛外无任何经本地实验验证的定量判据，结合点 B、D 仅有分散片段。
+- 在 [[entities/liu-chang]] 结合点表后补「交付状态提醒」，明确「强弱」指话题相关性而非已有结论，面谈时只能表述为研究切入点。
+- 本次未运行任何数值实验，未修改原型数字。误差传播最小实验仅作为提案，待授权后执行。
+
+## [2026-07-30] query | 定位 PIML 原型代码所在分支
+- 只读核查确认 [[research/technical-lines/piml-research-guide]] §27 与阶段 2 记录的「原型代码位置待确认」可以关闭：原型完整存在于 `soptx` 远端分支 `origin/codex/piml-multiscale-prototype`，含 `soptx/analysis/multiscale/`（`coarse_fine_mesh`、`equivalent_stiffness`、`multiscale_shape`、`piml_predictor`、`trained_predictor`）、`soptx/benchmarks/`（`benchmark_piml_forward`、`benchmark_piml_trained`、`train_piml_predictor`）、`soptx/tests/test_trained_predictor.py` 及 `docs/frame7_piml_pipeline_results.md`。
+- 该分支未合入 `main`，当前 `soptx` 工作树为 main 且带未提交修改；原型不在工作树内，因此现阶段确实不具备可重放入口，与 guide 记述一致。
+- 关键实现事实：`InterfaceCondensedSystem.solve_interface` 使用 `scipy.sparse.linalg.spsolve` 直解，**原型不含迭代求解路径**，故「Krylov 迭代数」类指标目前无法直接测量，需新增 CG 路径。
+- 本次仅执行 git 只读查询，未取出分支、未创建 worktree、未运行任何脚本。原型恢复与误差传播实验待授权。
+
+## [2026-07-30] refactor | 精简任意次 Hu–Zhang 拓扑优化投稿框架
+- 将预期贡献由四项整合为三项：任意次单纯形真正混合框架、一致离散与灵敏度处理、代表性应用验证；明确非齐次牵引处理首先属于数学与实现一致性要求。
+- 将数值证据分为正文必需、补充材料和候选三级，正文默认只保留一类主要应用，并将第二类应用和完整参数扫描降为候选或补充证据。
+- 合并第五章迁移映射与材料迁移判定，删除重复的当前待确认问题；将其并入向陈春雨师兄请教的 TODOLIST，并新增核心新颖性文献核查清单。
+- 修正拟定正文结构的 Markdown 标题层级，统一中文术语；框架由 309 行压缩为 278 行。本次未修改中文版初稿、LaTeX 工程或程序。
+
+## [2026-07-30] edit | 新建刘畅模型选型线任务安排页
+- 新建 [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/liu-chang-model-selection-task-line]]，以交付等级 D0（框架，已完成）/ D1（结构保持先验判据，缺本地实证）/ D2（误差—迭代数实测曲线，未开始）/ D3（统一 benchmark，须待问题边界确认）定义这条线的进度，明确「只有 D1 及以上才算实质回应选型问题」。
+- 任务序列 T1–T7：ingest 两篇 P0（含三项精读复核判据）→ 原型恢复（复用 piml-research-guide 阶段 2 门禁）→ CG 路径与对称/非对称扰动扫描（产出 D1 实证与 D2 曲线）→ P1/P2 ingest → 二次交流准备（前置 T1+T3）→ benchmark（前置问题边界确认）→ 回填。关键路径 T2→T3。
+- 本页只维护任务序列与交付定义：技术论证指向 synthesis §5，书目指向实体页，门禁复用 piml-research-guide，不建并行账；授权边界表明确 Zotero、执行授权与实际交流均由用户决定。
+- 已登记根 [[index]]；本次未运行任何代码。
+
+## [2026-07-30] plan | 明确胡张混合元投稿讨论材料与产出
+- 在 `papers/arbitrary-order-huzhang-topopt-outline.md` 的陈春雨师兄讨论待办中，明确以投稿框架为主要材料，中文版初稿仅作为公式、写法和数值章节骨架的辅助材料。
+- 明确本次讨论聚焦投稿可行性、内容取舍和最小证据范围，不以审查最终数值结果或逐字修改初稿为目标。
+- 将讨论产出拆为“保留内容”“删除、弱化或移入补充材料的内容”“必须补充的理论与数值证据”三张独立清单，并要求据此更新后续写作范围和最小实验矩阵。

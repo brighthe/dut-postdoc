@@ -47,6 +47,7 @@
 | [[research/postdoc-plan/postdoc-research-plan]] | in-progress |
 | [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] | in-progress |
 | [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] | in-progress |
+| [[research/postdoc-plan/long-term/direction-1-piml-matrix-free/liu-chang-model-selection-task-line]] | in-progress |
 | [[research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey]] | draft |
 
 ## 历史档案
@@ -69,7 +70,8 @@
 
 | 实体 | 类型 | 一句话 |
 |---|---|---|
-| [[entities/guo-xu-team]] | 团队 | 郭旭院士团队：MMC/MMV 显式拓扑优化、PIML、多尺度、SiPESC、混合变分数值方法 |
+| [[entities/guo-xu]] | 人 | 郭旭：中国科学院院士，MMC/MMV 显式拓扑优化与 PIML 主导者，本人合作导师 |
+| [[entities/liu-chang]] | 人 | 刘畅：大连理工大学工程力学系教授，MMC 显式拓扑优化与 AI 赋能结构分析优化，PIML 主线全部论文共同作者 |
 
 ---
 

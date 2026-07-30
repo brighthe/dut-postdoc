@@ -563,7 +563,7 @@ MMC/MMV 的设计变量维度较低，可缓解密度法中设计更新和过滤
 ## 关联文档
 
 - [[postdoc-research-plan]] — 博士后科研计划
-- [[entities/guo-xu-team]] — 郭旭院士团队稳定档案与研究方向入口
+- [[entities/guo-xu]] — 合作导师郭旭院士的稳定档案与研究方向入口
 - [[mmc-mmv-numerical-discretization-survey]] — 第二个研究计划题目的技术调研
 - [[literature/topology-opt/Huang2022-problemindependentmachine]] — 2022 PIML 奠基论文笔记
 - [[literature/topology-opt/Ma2026-highperformanceparallel]] — 2026 并行 PIML 论文笔记

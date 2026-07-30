@@ -4,7 +4,8 @@
 
 | 实体 | 类型 | 一句话 | 状态 |
 |---|---|---|---|
-| [[guo-xu-team]] | team | 郭旭院士团队：MMC/MMV、PIML、多尺度、SiPESC、混合变分数值方法 | in-progress |
+| [[guo-xu]] | person | 郭旭：中国科学院院士，MMC/MMV 显式拓扑优化与 PIML 主导者，本人合作导师 | in-progress |
+| [[liu-chang]] | person | 大连理工大学工程力学系教授：MMC 显式拓扑优化与 AI 赋能结构分析优化，PIML 主线全部论文共同作者 | in-progress |
 
 ---
 

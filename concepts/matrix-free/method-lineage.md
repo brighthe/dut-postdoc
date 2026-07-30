@@ -141,4 +141,4 @@ Ma2026 的粗网格线性求解属于第 1 级 FA/TA，而不是 EA、PA 或 UA�
 
 - [[_index]] — Matrix-Free 子知识库入口。
 - [[../../research/technical-lines/matrix-free-research-guide]] — 当前能力、目标差距、实施路线与阶段门禁。
-- [[../../entities/guo-xu-team]] — 郭旭老师团队实体页。
+- [[../../entities/guo-xu]] — 郭旭院士实体页。
