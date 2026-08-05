@@ -20,11 +20,12 @@ status: "redirect"
 rating:
 date_added: 2026-06-18
 date_read:
+date_update: 2026-08-01
 ---
 
 # PIML enhanced substructure-based approach for large-scale structural analysis
 
-> **重定向页**：这篇论文已确认真实条目为 Huang et al. 2023，正式精读页见 [[../topology-opt/Huang2023-PIML-substructure]]。
+> **重定向页**：这篇论文已确认真实条目为 Huang et al. 2023，正式精读页见 [[../topology-opt/notes/Huang2023-PIML-substructure]]。
 
 ## 一句话概括
 
@@ -32,7 +33,7 @@ date_read:
 
 ## 已归并
 
-- 正式文献页：[[../topology-opt/Huang2023-PIML-substructure]]
+- 正式文献页：[[../topology-opt/notes/Huang2023-PIML-substructure]]
 - 中文译注：[[../topology-opt/translations/Huang2023-PIML-substructure-zh]]
 
 ## 相关页面
@@ -51,4 +52,4 @@ date_read:
 | data-free | `Guo2023-PIML-data-free` | `Zheng2023-PIML-data-free` |
 | 并行 | `Guo2025-PIML-parallel` | `Zheng2025-PIML-parallel` |
 
-子结构论文统一使用 [[../topology-opt/Huang2023-PIML-substructure]]；其他同系列条目待后续精读时再统一。
+子结构论文统一使用 [[../topology-opt/notes/Huang2023-PIML-substructure]]；其他同系列条目待后续精读时再统一。

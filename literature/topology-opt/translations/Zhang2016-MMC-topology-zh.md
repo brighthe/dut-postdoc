@@ -1,20 +1,34 @@
+---
+title: "翻译：A new topology optimization approach based on moving morphable components (MMC) and the ersatz material model"
+status: "read"
+date_created: 2026-07-03
+date_updated: 2026-08-01
+source: "[[../notes/Zhang2016-MMC-topology]]"
+citekey: "zhangNewTopologyOptimization2016"
+language: "zh-CN"
+---
+
 # A new topology optimization approach based on moving morphable components (MMC) and the ersatz material model
 
-## 完整中文译文
+## 中文译文（待逐页核验）
 
-> 原笔记：[[../Zhang2016-MMC-topology]]
-> Zotero 条目： zotero://select/library/items/QLN8ZLGS
-> PDF 附件： zotero://open-pdf/library/items/QLN8ZLGS
-> 说明： 本页用于放置 Zhang et al. 2016 论文的完整中文译稿。
+> 原笔记：[[../notes/Zhang2016-MMC-topology]]
+> Zotero 条目：`zotero://select/library/items/QLN8ZLGS`
+> PDF 附件：`zotero://open-pdf/library/items/2VBFE9XZ`
+> 说明：本页译文已整理入库，但尚未完成逐页 PDF 核验。
 
 ---
 
 # 0 元数据
 
-* 论文：Zhang, Weisheng, et al. 2016, *Structural and Multidisciplinary Optimization*
-* DOI： 10.1007/s00158-015-1372-3
-* Better BibTeX key: `zhangNewTopologyOptimization2016`
-* Zotero item key: `QLN8ZLGS`
+- **题名**：A new topology optimization approach based on moving morphable components (MMC) and the ersatz material model
+- **Better BibTeX key**：`zhangNewTopologyOptimization2016`
+- **Zotero item key**：`QLN8ZLGS`
+- **PDF attachment key**：`2VBFE9XZ`
+- **译文状态**：译文已整理入库，尚待逐页对照 PDF 核验
+
+- 论文：Zhang, Weisheng, et al. 2016, *Structural and Multidisciplinary Optimization*
+- DOI： 10.1007/s00158-015-1372-3
 
 # 摘要
 
@@ -28,8 +42,13 @@
 
 为了以一种更加**显式 (explicit) 和几何化**的方式进行拓扑优化，Guo 等 (2014a) 建立了一种所谓基于移动可变形组件 (MMC) 的拓扑优化框架，该框架与现有框架截然不同。该方法的显著特点是，将一组可变形组件用作拓扑优化的构建块，通过优化这些组件的形状、长度、厚度、方向和布局（连通性）来寻找最优的结构拓扑。图 1 示意性地说明了该方法的基本思想。
 
-![图 1：基于 MMC 拓扑优化方法的基本思想](../assets/zhangNewTopologyOptimization2016_Fig1.png)
-<center>图 1：基于 MMC 拓扑优化方法的基本思想</center>
+![[zhangNewTopologyOptimization2016_Fig1.png]]
+
+<div align="center">
+
+图 1：基于 MMC 拓扑优化方法的基本思想
+
+</div>
 
 最近，Norato 等 (2015) 也在 SIMP 框架中采用了相同的思想，用于由离散单元构成的连续体结构的拓扑优化，且引入了一种新型结构组件。在早期的 MMC 框架中 (Guo 等 2014a)，有限元分析采用了扩展有限元方法 (XFEM)。为此，必须根据与每个组件相关联的 TDF 节点值，对靠近结构边界的单元进行子网格剖分。尽管这种方法可以获得更准确的分析结果，但与基于替代材料 (ersatz material) 模型的处理方式相比，不可避免地会引入额外的计算开销。此外，早期的 MMC 框架仅使用了具有均匀厚度的组件作为优化的构建块，这从几何建模的角度来看并不令人满意。
 
@@ -57,8 +76,13 @@ $$
 $$
 显然，$\Omega_s = \cup_{i=1}^n \Omega_i$。有关上述几何表示的示意图，请读者参阅图 2。
 
-![图 2：通过各个组件的水平集函数表示结构拓扑](../assets/zhangNewTopologyOptimization2016_Fig2.png)
-<center>图 2：通过各个组件的水平集函数表示结构拓扑</center>
+![[zhangNewTopologyOptimization2016_Fig2.png]]
+
+<div align="center">
+
+图 2：通过各个组件的水平集函数表示结构拓扑
+
+</div>
 
 在 Guo 等 (2014a) 的工作中，仅使用具有均匀厚度的组件作为优化的构建块。为了允许组件具有可变厚度的更一般情况，本文提出使用以下 TDF 来显式表示第 $i$ 个组件的几何形状：
 $$
@@ -70,8 +94,13 @@ $$
 $$
 并且 $p$ 是一个相对较大的偶数（在本研究中我们取 $p=6$）。在式 (3) 和式 (4) 中，$(x_{0i}, y_{0i})$ 表示组件中心的坐标，$L_i$ 表示组件的半长，$\theta_i$（从水平轴逆时针测量）表示组件的倾斜角。这些参数显式地描述了组件的形状。与 Guo 等 (2014a) 采用的 TDF 相比，当前的 TDF 能够表示具有可变厚度的组件形状，其轮廓由 $f(x')$ 控制。这种处理方式将大幅增强 MMC 方法的几何建模能力。图 3 描绘了当 $f(x')$ 采用不同形式时相应组件的形状。
 
-![图 3：结构组件的几何描述](../assets/zhangNewTopologyOptimization2016_Fig3.png)
-<center>图 3：结构组件的几何描述：(a) 均匀厚度；(b) 线性变化厚度；(c) 二次变化厚度。</center>
+![[zhangNewTopologyOptimization2016_Fig3.png]]
+
+<div align="center">
+
+图 3：结构组件的几何描述：(a) 均匀厚度；(b) 线性变化厚度；(c) 二次变化厚度。
+
+</div>
 
 值得注意的是，尽管在基于 MMC 的方法中使用了 TDF 来表示组件的几何形状，但该方法与传统的水平集方法截然不同。区别在于，在所提出的 MMC 方法中，可以对组件的边界和几何特征（例如长度和厚度）进行**显式描述**。然而，这在传统的水平集方法中是无法实现的。这里的所谓显式边界描述，是指可以在 $x_b$ 和 $y_b$ 之间局部地建立一种唯一的显式关系，即 $y_b = y_b(x_b; \boldsymbol{D}_i)$，其中 $\boldsymbol{D}_i$ 表示与边界上点 $(x_b, y_b)$ 所在的第 $i$ 个组件相关联的设计变量向量。还需要指出的是，对于具有更复杂形状的组件，同样可以系统地构造包含显式几何信息的相应 TDF (Guo 等 2015)。
 
@@ -177,14 +206,29 @@ Matlab 代码通过以下命令行调用：
 `MMC188 (DW, DH, nelx, nely, x_int, y_int, ini_val, volfrac)`。
 命令行中每个参数符号的含义可见表 1。值得注意的是，在当前代码中，对于所有测试算例，组件的初始构型都采用与图 4 相同的形式。符号 `x_int` 和 `y_int` 的含义也在同一张图中进行了示意说明。向量 `ini_val` 存储了描述组件初始构型的 $L, t_1, t_2, t_3$ 和 $\sin\theta$ 的值。读者也可以通过在代码中进行相应的修改，轻松尝试其他形式的初始设计。
 
-![表 1：代码中参数的含义](../assets/zhangNewTopologyOptimization2016_Table1.png)
-<center>表 1：代码中参数的含义</center>
+![[zhangNewTopologyOptimization2016_Table1.png]]
 
-![图 4：组件的初始构型](../assets/zhangNewTopologyOptimization2016_Fig4.png)
-<center>图 4：组件的初始构型</center>
+<div align="center">
 
-![图 5：短梁算例的初始设计](../assets/zhangNewTopologyOptimization2016_Fig5.png)
-<center>图 5：短梁算例的初始设计（对应初始 TDF 场与材料分布）</center>
+表 1：代码中参数的含义
+
+</div>
+
+![[zhangNewTopologyOptimization2016_Fig4.png]]
+
+<div align="center">
+
+图 4：组件的初始构型
+
+</div>
+
+![[zhangNewTopologyOptimization2016_Fig5.png]]
+
+<div align="center">
+
+图 5：短梁算例的初始设计（对应初始 TDF 场与材料分布）
+
+</div>
 
 ## 4.2 有限元分析 (FEA) 的数据初始化：第 3–12 行
 这部分初始化了有限元分析所需的数据。
@@ -229,8 +273,13 @@ Matlab 代码通过以下命令行调用：
 `MMC188 (2, 1, 80, 40, 0.5, 0.5, ini_val, 0.4)`
 表 2 给出了在不同网格下获得的目标函数的最佳值，以及优化后结构的轮廓图和组件图。可以观察到，如果初始设计中组件的数量固定，尽管在当前的基于 MMC 的方法中没有使用任何过滤 (filtering)，优化后结构的拓扑仍然与所采用的有限元网格无关（即无网格依赖性）。这在本质上是因为：当组件数量固定时，式 (7) 和 (8) 中的问题本质上是一个有限维空间中的优化问题。在这种情况下，由于有限维空间中的每一个有界闭集（例如式 (7) 和 (8) 中的 $U_D$）都是紧致的 (compact)，所考虑的问题必然是适定的 (well-posed)。同样值得注意的是，轮廓图中某些看起来不够光滑的边界仅仅是由于图形显示的缘故。实际上，组件的边界是非常光滑的，这在组件图中可以非常清晰地看到。此外，针对该问题，设计变量的数量仅为 16×7=112。这个值远小于传统方法中的设计变量数量，并且与有限元网格的分辨率无关。
 
-![表 2：短梁算例的最佳拓扑](../assets/zhangNewTopologyOptimization2016_Table2.png)
-<center>表 2：短梁算例的最佳拓扑（包含轮廓图与组件图）</center>
+![[zhangNewTopologyOptimization2016_Table2.png]]
+
+<div align="center">
+
+表 2：短梁算例的最佳拓扑（包含轮廓图与组件图）
+
+</div>
 
 ## 5.2 MBB 梁问题
 该问题的描述同样可在 Guo 等 (2014a) 中找到，并且由于该问题的对称性，仅考虑一半的设计域。初始设计如图 6 所示。针对此问题，我们设置 `ini_val=[0.38 0.04 0.06 0.04 0.7]`，并且边界和载荷条件（代码的第 47 和 50 行）应改为：
@@ -240,23 +289,48 @@ Matlab 代码通过以下调用来执行：
 `MMC188 (3, 1, 120, 40, 0.5, 0.5, ini_val, 0.4)`
 图 7 分别描绘了优化后结构的轮廓图（图 7a）和组件图（图 7b）。值得注意的是，通过所提方法获得的优化结构是纯黑白的，结构中完全没有灰色的过渡区域。
 
-![图 6：MBB 算例的初始设计](../assets/zhangNewTopologyOptimization2016_Fig6.png)
-<center>图 6：MBB 算例的初始设计</center>
+![[zhangNewTopologyOptimization2016_Fig6.png]]
 
-![图 7：MBB 算例的优化拓扑](../assets/zhangNewTopologyOptimization2016_Fig7.png)
-<center>图 7：MBB 算例的优化拓扑：(a) 轮廓图和 (b) 组件图</center>
+<div align="center">
+
+图 6：MBB 算例的初始设计
+
+</div>
+
+![[zhangNewTopologyOptimization2016_Fig7.png]]
+
+<div align="center">
+
+图 7：MBB 算例的优化拓扑：(a) 轮廓图和 (b) 组件图
+
+</div>
 
 ## 5.3 桥梁算例
 考虑的第三个算例是桥梁设计问题。载荷和边界条件如图 8 所示。在本例中，设计域采用 80×40 的有限元网格进行离散，并在域的顶部设置了一个宽为 0.1、长为 2 的矩形区域作为固定的固体区域。作为初始设计，4 个相交的组件分布在设计域中（如图 9 所示）。设计目标同样是最小化结构的平均柔度，体积约束为 $V \le \bar{V} = 0.3$。值得注意的是，对于本问题及下一个柔性机构问题，相应的代码均可从网站下载。优化后结构的轮廓图和组件图分别描绘在图 10 中。该问题的 Matlab 代码可以通过直接联系作者获得。
 
-![图 8：桥梁算例模型](../assets/zhangNewTopologyOptimization2016_Fig8.png)
-<center>图 8：桥梁算例模型</center>
+![[zhangNewTopologyOptimization2016_Fig8.png]]
 
-![图 9：桥梁算例的初始设计](../assets/zhangNewTopologyOptimization2016_Fig9.png)
-<center>图 9：桥梁算例的初始设计</center>
+<div align="center">
 
-![图 10：桥梁算例的优化拓扑](../assets/zhangNewTopologyOptimization2016_Fig10.png)
-<center>图 10：桥梁算例的优化拓扑：(a) 轮廓图和 (b) 组件图</center>
+图 8：桥梁算例模型
+
+</div>
+
+![[zhangNewTopologyOptimization2016_Fig9.png]]
+
+<div align="center">
+
+图 9：桥梁算例的初始设计
+
+</div>
+
+![[zhangNewTopologyOptimization2016_Fig10.png]]
+
+<div align="center">
+
+图 10：桥梁算例的优化拓扑：(a) 轮廓图和 (b) 组件图
+
+</div>
 
 ## 5.4 柔性机构问题
 考虑的最后一个例子是经典的柔性机构设计问题 (Sigmund 2001)，它显然是一个非自伴随 (non-self adjoint) 问题。相应的数据（如设计域、边界条件和几何数据）描绘在图 11 中。驱动力为 $F_{in}=1$，输入/输出点处弹簧的弹性常数分别为 $k_{in}= k_{out}=0.1$。由于所考虑的问题在本质上是对称的，因此仅对结构的一半进行优化，并用 80×40 的有限元网格进行离散。初始设计如图 12 所示。
@@ -298,33 +372,58 @@ energy=-sum((U1(edofMat)*KE).*U2(edofMat),2);
 
 该问题的优化结构如图 13 所示，分别给出了轮廓图和组件图。可以观察到，一些不必要的组件已被其他组件覆盖重叠。这实际上是 MMC 方法中实现拓扑变化的有效机制。同样值得注意的是，在最终的优化结构中**不存在类似单点铰链 (hinge-like) 的连接**，尽管在问题公式中并未采用任何特殊处理。这可以归功于本研究中使用的替代材料模型和刚度插值方案（即式 (9)）。
 
-![图 11：柔性机构算例模型](../assets/zhangNewTopologyOptimization2016_Fig11.png)
-<center>图 11：柔性机构算例模型</center>
+![[zhangNewTopologyOptimization2016_Fig11.png]]
 
-![图 12：柔性机构的初始设计](../assets/zhangNewTopologyOptimization2016_Fig12.png)
-<center>图 12：柔性机构的初始设计</center>
+<div align="center">
 
-![图 13：柔性机构的优化拓扑](../assets/zhangNewTopologyOptimization2016_Fig13.png)
-<center>图 13：柔性机构的优化拓扑：(a) 轮廓图和 (b) 组件图</center>
+图 11：柔性机构算例模型
+
+</div>
+
+![[zhangNewTopologyOptimization2016_Fig12.png]]
+
+<div align="center">
+
+图 12：柔性机构的初始设计
+
+</div>
+
+![[zhangNewTopologyOptimization2016_Fig13.png]]
+
+<div align="center">
+
+图 13：柔性机构的优化拓扑：(a) 轮廓图和 (b) 组件图
+
+</div>
 
 ## 5.5 扩展至三维 (3D) 问题
 所提供的代码也可以扩展用于求解 3D 拓扑优化问题。让我们考虑在 5.1 节中考察的短梁算例的三维版本。对于该算例，设计域的长度、宽度和高度分别为 10、5 和 1。对于 3D 问题，共有 9 个几何参数（即 $\boldsymbol{D}_i=(x_{0i},y_{0i},z_{0i},l_i,w_i,t_i,\sin\alpha_i,\sin\beta_i, \sin\gamma_i)^\top$）来描述具有恒定横截面积的组件几何形状。包含 18 个组件的初始设计如图 14 所示。从 40×20×4 的有限元网格中获得的最佳拓扑如图 15 所示。在 MMC 框架下，设计变量的数量为 9×18=162，而在传统框架中为 40×20×4=3200。此外，如果需要两倍的分辨率，传统框架中的设计变量数量将增加到 25,600，而在 MMC 框架下则依然保持 162 不变。读者可以直接联系作者以获取相应的 3D 代码。关于 3D 问题的理论层面的更多细节将在另一份独立的工作中报告。
 
-![图 14：3D 短梁算例的初始设计](../assets/zhangNewTopologyOptimization2016_Fig14.png)
-<center>图 14：3D 短梁算例的初始设计</center>
+![[zhangNewTopologyOptimization2016_Fig14.png]]
 
-![图 15：3D 短梁算例的优化拓扑](../assets/zhangNewTopologyOptimization2016_Fig15.png)
-<center>图 15：3D 短梁算例的优化拓扑</center>
+<div align="center">
+
+图 14：3D 短梁算例的初始设计
+
+</div>
+
+![[zhangNewTopologyOptimization2016_Fig15.png]]
+
+<div align="center">
+
+图 15：3D 短梁算例的优化拓扑
+
+</div>
 
 # 6 总结 (Concluding remarks)
 在本文中，提出了一种基于所谓的移动可变形组件 (Moving Morphable Components, MMC) 求解框架 (Guo 等 2014a) 和替代材料模型 (ersatz material model) 的新拓扑优化方法。与现有的基于 MMC 的求解方法相比，所提方法不仅允许具有可变厚度的组件，而且显著提高了数值求解效率。
 
 数值算例表明了所提方法的有效性和鲁棒性。所提方法可以在一个 188 行的 Matlab 代码中实现，并用于以少得多的设计变量来寻找优化的结构拓扑。为了帮助读者理解所提方法的基本特征，本文还提供并详细解析了该 Matlab 代码。我们也希望这段代码的发布能鼓励读者深入了解这种基于 MMC 的方法，并可能启发他们对该方法进行一些改进、扩展或修改。当然，该代码远未成熟，许多 MMC 方法在分析和优化方面的精细处理 (Zhang 等 2015a) 并没有反映在其中。那些实现了 MMC 方法多个新颖特征（例如，基于精确边界几何描述的 X-FEM 分析，基于精确边界/体积积分的灵敏度分析，以及多相材料和三维问题的处理）的代码将在我们未来的工作中发布。
 
-## 致谢 (Acknowledgments)
+# 致谢 (Acknowledgments)
 非常感谢国家自然科学基金 (10925209, 91216201, 11402048)、中央高校基本科研业务费专项资金、长江学者奖励计划、教育部创新团队发展计划 (PCSIRT) 以及 111 计划 (B14013) 的资金资助。
 
-## 附录：Matlab 代码（对应于短梁问题）
+# 附录：Matlab 代码（对应于短梁问题）
 ```matlab
 function MMC188(DW,DH,nelx,nely,x_int, y_int,ini_val,volfrac)
 % FEM data initialization
@@ -519,3 +618,9 @@ end
 %~~~~ for Industrial Equipment, Dalian University of Technology
 %~~~~ Please send your suggestions and comments to guoxu@dlut.edu.cn
 ```
+
+# 译后检查清单
+
+- [x] 本轮已完成 Markdown 格式与排版静态检查。
+- [x] 图片引用与本地资产已检查。
+- [ ] 尚未逐页对照 PDF 核验全部译文、公式、图表和引用。

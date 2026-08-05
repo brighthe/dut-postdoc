@@ -11,7 +11,7 @@ tags:
   - variational-form
 status: in-progress
 date_added: 2026-07-29
-date_update: 2026-07-29
+date_update: 2026-08-01
 ---
 
 # 线弹性方程、变分形式与有限元离散
@@ -532,7 +532,7 @@ $$
 - `xtu-phd-thesis:thesis/brightPhD.pdf#第三章`
 - `xtu-phd-thesis:thesis/body/chapter03/chapter03.tex#线弹性问题的连续模型与变分形式`
 - `xtu-phd-thesis:thesis/body/chapter03/chapter03.tex#线弹性问题的任意次多单元族拉格朗日有限元方法`
-- [[../literature/topology-opt/Huang2022-problemindependentmachine]] — modified SIMP 材料插值及局部材料分布进入有限元分析的文献依据。
+- [[../literature/topology-opt/notes/Huang2022-problemindependentmachine]] — modified SIMP 材料插值及局部材料分布进入有限元分析的文献依据。
 
 论文源码与定稿 PDF 由 `xtu-phd-thesis` 维护；本知识库只维护从中提炼的可复用理论。本页不替代连续介质力学或有限元专著，也不把当前位移型模型推广为混合元、非线性弹性或动力学。
 
@@ -543,4 +543,5 @@ $$
 - [[matrix-free/assembly-levels]] — FA/LA/EA/PA/UA 的存储和作用层次。
 - [[matrix-free/distributed-operator-and-shared-dofs]] — MPI 分区、共享自由度、归约和 Krylov 内积。
 - [[piml/mathematical-foundations]] — 从局部材料密度到多尺度形函数或缩聚刚度的 Problem-Independent PIML 映射。
-- [[../research/technical-lines/matrix-free-research-guide]] — 当前能力、阶段路线与验证门禁。
+- [[../research/technical-lines/matrix-free-research-guide]] — Matrix-Free 长期目标、阶段模型与统一验收原则。
+- [[../research/technical-lines/matrix-free-research-guide#五、阶段门禁与当前执行状态]] — 当前线弹性 Matrix-Free 任务状态与推进顺序。

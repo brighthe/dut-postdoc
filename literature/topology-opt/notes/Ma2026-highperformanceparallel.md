@@ -1,5 +1,7 @@
 ---
 title: A high-performance parallel algorithm based on problem independent machine learning (PIML) for large-scale topology optimization
+aliases:
+  - literature/topology-opt/Ma2026-highperformanceparallel
 authors:
   - Ma, Xinyu
   - Huang, Mengcheng
@@ -9,10 +11,15 @@ authors:
   - Mei, Yue
   - Guo, Xu
 year: 2026
+date_online: null
 journal: Acta Mechanica Sinica
 volume: 42
+issue: null
+pages: null
 article: 425942
 doi: 10.1007/s10409-025-25942-x
+zotero_key: E9WMDNJC
+zotero_citation_key: Ma2026-highperformanceparallel
 tags:
   - PIML
   - topology-opt
@@ -25,13 +32,13 @@ status: done
 rating: 5
 date_added: 2026-06-05
 date_read: 2026-06-09
-date_update: 2026-07-26
+date_update: 2026-08-02
 ---
 
 # A high-performance parallel algorithm based on problem independent machine learning (PIML) for large-scale topology optimization
 
-> **引用**：Ma, Xinyu; Huang, Mengcheng; Du, Zongliang; Guo, Yilin; Liu, Chang; Mei, Yue; Guo, Xu. *Acta Mechanica Sinica*, 2026. [DOI](https://doi.org/10.1007/s10409-025-25942-x) | [Zotero Link](zotero://select/library/items/KKMYSDLT)
-> **完整中文译文**：[[translations/Ma2026-highperformanceparallel-zh]]
+> **引用**：Ma, Xinyu; Huang, Mengcheng; Du, Zongliang; Guo, Yilin; Liu, Chang; Mei, Yue; Guo, Xu. *Acta Mechanica Sinica*, 2026. [DOI](https://doi.org/10.1007/s10409-025-25942-x) | [Zotero Link](zotero://select/library/items/E9WMDNJC)
+> **完整中文译文**：[[../translations/Ma2026-highperformanceparallel-zh]]
 
 ## 一句话概括
 
@@ -128,6 +135,29 @@ date_update: 2026-07-26
 | 百亿自由度悬臂梁 | 34.56 亿单元，6750 核 | 42.0 s | 200 步总计 2 h 20.1 min |
 | 类桥梁 | 约 33.2 亿单元，3240 核 | 38.1 s | 200 步总计 2 h 7 min |
 
+## 证据边界与可复现性
+
+### 模型选型证据卡
+
+| 字段 | 论文事实 | 原文位置 | 证据边界 |
+|---|---|---|---|
+| 研究问题 | 将 Problem-Independent 局部降维、CPU/MPI 并行和多重网格求解组合为大规模三维拓扑优化完整流程。 | 摘要；§1；§3 | 研究对象是线弹性、SIMP、规则子结构和 CPU 集群，不覆盖 GPU、非线性或多物理。 |
+| 问题相关／问题无关边界 | 既有模型学习局部材料分布到缩减多尺度形函数，可跨设计域、载荷和整体边界复用。 | §2–§3 | 复用依赖相同 PDE、子结构尺度／类型、单元和材料模型；不是无条件跨问题泛化。 |
+| 学习对象 | 输入局部密度分布，输出缩减多尺度形函数；完整 $N$ 恢复后由 $K_s=N^{\mathsf T}KN$ 构造缩聚刚度。 | §2.1–§2.2 | 本文不直接学习全局算子或最终拓扑，也不以直接预测 $K_s$ 为主线。 |
+| 输入表示 | $m=10$ 规则三维子结构内 $10^3$ 个细单元的材料分布。 | §4 数值设置 | 模型与固定子结构尺度及规则离散绑定；未验证非结构网格或变化分辨率输入。 |
+| 输出表示与维度 | 线性边界变形假设把边界位移缩减到 8 个顶点、24 个自由度；网络预测扣除六种刚体运动后的形函数分量。 | §2.1–§2.2 | 边界降维会引入系统性刚度偏差；输出规模固定不代表任意局部几何通用。 |
+| 数据来源与监督真值 | 使用既有离线训练的 PIML 模型；本文重点是并行部署和完整优化流程。 | §2；§3 | 本文未重新系统报告训练数据生成、标签划分或模型训练流程，相关事实不能从并行结果反推。 |
+| 标签规模与成本 | 未报告本文独立生成的新训练标签规模、划分、存储或训练时间。 | §2–§4 | 无法用本文判断数据效率或训练成本；应回溯前序 PIML 论文。 |
+| 模型与网络架构 | 使用与缩减多尺度形函数相匹配的既有 PIML 模型，并设置均匀子结构快速路径。 | §2.2；§3 | 本文不是网络架构比较论文，不能证明所用模型在精度或吞吐上最优。 |
+| 训练信号与优化 | 本文未报告新的训练 objective、optimizer、epoch、batch 或随机性设置。 | §2–§3 | 在线并行拓扑优化中的 MMA 不等于神经网络训练 optimizer。 |
+| 物理约束方式 | 六种刚体运动由构造精确恢复；缩聚刚度由预测 $N$ 与局部精确 $K$ 构造。 | §2.1–§2.2 | 论文未统一报告对称性、半正定／正定、谱误差、刚体模态残差或结构检查失败率。 |
+| 下游求解接口 | 各进程预测／恢复 $N$、构造 $K_s$ 并进行局部恢复与灵敏度；全局粗矩阵组装后由 PETSc MG-preconditioned GMRES 求解。 | §2–§3 | 全局粗矩阵仍形成和组装，不是全局算子级 Matrix-Free；没有学习算子—Krylov 误差传播实验。 |
+| 局部评价指标 | 未系统报告独立测试集上的 $N/K_s$ 局部范数、谱、最坏样本或分布外指标。 | §4–§5 | 不能用全局规模和扩展效率替代局部预测质量证据。 |
+| 全局评价指标 | 报告柔顺度误差、拓扑结果、平均单步时间、强／弱扩展和完整 200 步优化时间。 | §4–§5，Table 2–4 | 未报告真残差、学习误差对 GMRES 迭代／预条件的独立影响或多随机模型统计。 |
+| 部署与规模 | PETSc 3.19、CPU/MPI；工作站及北京超级云计算中心，最大 34.56 亿单元、6750 核、200 步约 2 h 20.1 min。 | §4–§5 | 支持 CPU/MPI 完整流程；不支持 GPU、异构或跨硬件统一性能结论。 |
+| 作者给出的模型选择依据 | PIML 先降维，MPI 分摊局部工作，MG 加速剩余粗网格求解；多尺度形函数按需预测／释放以计算换内存。 | §2–§3 | 这是算法组合和存储策略依据，不是与缓存 $N$、缓存 $K_s$、GPU 推理等方案的统一 Pareto 比较。 |
+| 论文不能支持的结论 | 不能证明 GPU 加速、全局算子级 Matrix-Free、预测算子不影响 Krylov 收敛、任意子结构复用或全部结构性质硬保持。 | 综合 §2–§6 | 应继续作为 WP2/WP3 的结构、求解和端到端性能问题。 |
+
 ## 主要结论
 
 - PIML 与并行计算不是简单叠加：PIML 先把全尺度问题压缩为粗网格问题，并行计算再分摊子结构局部工作，MG 则加速剩余的全局平衡方程。
@@ -167,5 +197,8 @@ date_update: 2026-07-26
 ## 相关文献
 
 - [[Huang2022-problemindependentmachine]] — PIML 奠基论文，建立问题无关的局部形函数学习框架
-- [[../../concepts/matrix-free/method-lineage]] — 郭旭老师团队 Matrix-Free 相关成果谱系及本文的五级分类边界
-- [[../../research/piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — PIML、matrix-free、高性能求解与后续研究路线综述
+- [[../../../concepts/piml/_index]] — PIML 稳定知识、当前研究与文献证据的统一语义入口
+- [[../../../concepts/matrix-free/_index]] — Matrix-Free 稳定知识、当前研究与文献证据的统一语义入口
+- [[../../../concepts/gpu-hpc/_index]] — GPU/HPC 稳定知识、当前研究与文献证据的统一语义入口
+- [[../../../concepts/matrix-free/method-lineage]] — 郭旭老师团队 Matrix-Free 相关成果谱系及本文的五级分类边界
+- [[../../../research/piml-matrix-free-gpu/high-performance-solver-survey]] — PIML、matrix-free、高性能求解与后续研究路线综述

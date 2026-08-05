@@ -15,7 +15,7 @@ tags:
   - GNN
 status: in-progress
 date_added: 2026-07-30
-date_update: 2026-07-30
+date_update: 2026-08-04
 ---
 
 # 刘畅
@@ -36,11 +36,11 @@ date_update: 2026-07-30
 
 > 职称以官方主页为准；部分第三方学者聚合页仍标注「副教授」，属过期信息。
 >
-> **事实所有权**：本页拥有其公开学术身份、署名工作书目与跨源提炼的模型选型史；技术论证与判据只引用 [[../research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]]，任务排序只引用 [[../research/piml-matrix-free/liu-chang-model-selection-task-line]]，真实沟通过程由沟通仓库维护，本页不复制上述内容。
+> **事实所有权**：本页拥有其公开学术身份、署名工作书目与跨源提炼的模型选型史；通用选型判据和任务排序引用 [[../research/technical-lines/piml-research-guide#2.3 模型选型与统一比较契约|PIML 研究指南]]，Lei 2018/2019 的论文证据引用 [[../literature/topology-opt/notes/Lei2018-machinelearningdriven#模型选型证据卡]]，具体汇报引用 [[../work-reports/liu-chang/_index]]。PIML × Matrix-Free × GPU 的跨线研究假设由 [[../research/piml-matrix-free-gpu/high-performance-solver-survey]] 维护；真实沟通过程由沟通仓库维护，本页不复制上述内容。
 
 ## 可考虑的结合点（概览）
 
-论证、公式、评价指标与 benchmark 设计以 [[../research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] §5.6 为准，本表只做会前速查，不复制其内容。「强弱」一列是基于其公开工作覆盖面所作的判断，非其本人表态。
+通用选型论证、评价门槛与比较契约以 [[../research/technical-lines/piml-research-guide#2.3 模型选型与统一比较契约]] 为准；只有学习对象进入迭代求解器时，才进一步参考 [[../research/piml-matrix-free-gpu/high-performance-solver-survey]] 的跨线科学问题。本表只做会前速查，不复制其内容。「强弱」一列是基于其公开工作覆盖面所作的判断，非其本人表态。
 
 | 结合点 | 为什么与他相关 | 强弱 |
 |---|---|---|
@@ -50,9 +50,9 @@ date_update: 2026-07-30
 | **C：学习算子与精确算子的混合回退** | 工程软件（SiPESC/DLUTopt）落地关心的可靠性问题，与其增材制造/工程应用背景相容 | 中性 |
 | **A：结构保持的输出参数化** | 与 CMAME 2026 的 Bézier 参数化同属「改参数化而非改网络容量」，**已不是空白切入点**；须按输入侧/输出侧区分后再提 | **需差异化**，勿重复其结论 |
 
-**交付状态提醒**：上表「强弱」指的是**话题相关性**，不代表已有可交付结论。除「结构保持硬门槛」（见技术底稿 §5.4 之后的说明）外，B 与 D 目前都只有分散片段，尚未串成定量关系曲线；面谈时应表述为研究切入点，不可表述为已解决其选型问题。
+**交付状态提醒**：上表「强弱」指的是**话题相关性**，不代表已有可交付结论。结构保持硬门槛和统一比较契约见 [[../research/technical-lines/piml-research-guide#2.3 模型选型与统一比较契约]]；B 与 D 目前都只有分散片段，尚未串成定量关系曲线，面谈时应表述为研究切入点，不可表述为已解决其选型问题。
 
-另有一条尚未写入 §5.6 的潜在接口：**DFENN 与本人二维平面应变线弹性 PINN 门禁经验的对照**。DFENN 的卖点是取消 CPINN/CENN 的罚参数，而本人有该类问题的一手实操与门禁数据（见 [[../research/technical-lines/piml-research-guide]] 及 `log.md` 2026-07-29 条目），可作为有实操依据的对话入口。是否正式立为结合点 F 待定。
+另有一条待评估的潜在接口：**DFENN 与本人二维平面应变线弹性 PINN 门禁经验的对照**。DFENN 的卖点是取消 CPINN/CENN 的罚参数，而本人有该类问题的一手实操与门禁数据（见 [[../research/technical-lines/piml-research-guide]] 及 `log.md` 2026-07-29 条目），可作为有实操依据的对话入口。是否纳入模型选型专题，须在论文正式 ingest 后再判断。
 
 ## 概况
 
@@ -63,22 +63,26 @@ date_update: 2026-07-30
 ## 关注的方向 / 方法
 
 - **显式拓扑优化**：MMC/MMV 几何参数化及其在薄壁、曲面、点阵结构中的推广。
-- **PIML 局部力学表示**：学习「局部材料分布 → 形函数 / 缩聚刚度」的问题无关映射。
+- **PIML 局部力学表示与响应映射**：学习可跨宏观几何、整体边界条件和载荷复用的局部表示或响应关系，具体对象不预设为形函数或缩聚刚度。
 - **算子学习与输入输出参数化**：以 DeepONet 等把离散矩阵输出改写为坐标连续函数，并通过边界场参数化提升泛化性。
 - **FEM 与神经网络的一致耦合**：以变分一致的界面缩聚替代罚参数型 PINN 域分解。
 - **力学超材料的数据库化设计**：以图网络建立几何参数与等效弹性张量之间的双向映射。
 
-## 已入库的合著工作
+## 已建立文献入口的合著工作
 
-以下条目在本库已有精读页，作者顺序以各页 frontmatter 为准。
+以下条目在本库已有单篇文献入口，作者顺序以各页 frontmatter 为准。新增四篇仍为 `draft`，仅使用元数据／摘要级证据。
 
-| 论文 | 其作者位置 | ML 方法 | 学习对象 |
-|---|---|---|---|
-| [[../literature/topology-opt/Lei2018-machinelearningdriven]] | 第 2 作者 | PCA + SVR / KNN（未用神经网络） | 载荷位置 → MMC 组件参数（112 维定长向量） |
-| [[../literature/topology-opt/Huang2022-problemindependentmachine]] | 第 3 作者 | 监督式神经网络 | 局部密度 → EMsFEM 粗单元形函数 |
-| [[../literature/topology-opt/Huang2023-PIML-substructure]] | 第 3 作者 | 监督式神经网络 | 子结构密度 → 多尺度形函数 / 缩聚刚度 |
-| [[../literature/topology-opt/Huang2024-PIML-datafree]] | 第 2 作者 | DeepONet + data-free 力学损失 | 密度分支 + 坐标主干 → 坐标连续形函数 |
-| [[../literature/topology-opt/Ma2026-highperformanceparallel]] | 第 5 作者 | 不更换网络，转向并行与按需预测 | 同上，工程化与规模化 |
+| 论文 | 其作者位置 | ML 方法 | 学习对象／作用 | 证据状态 |
+|---|---|---|---|---|
+| [[../literature/topology-opt/notes/Lei2018-machinelearningdriven]] | 第 2 作者 | PCA + SVR / KNN（未用神经网络） | 载荷位置 → MMC 组件参数（112 维定长向量） | 全文笔记 |
+| [[../literature/topology-opt/notes/Huang2022-problemindependentmachine]] | 第 3 作者 | 监督式神经网络 | 局部密度 → EMsFEM 粗单元形函数 | 全文笔记 |
+| [[../literature/topology-opt/notes/Huang2023-PIML-substructure]] | 第 3 作者 | 监督式神经网络 | 子结构密度 → 多尺度形函数 / 缩聚刚度 | 全文笔记 |
+| [[../literature/topology-opt/notes/Huang2024-PIML-datafree]] | 第 2 作者 | DeepONet + data-free 力学损失 | 密度分支 + 坐标主干 → 坐标连续形函数 | 全文笔记 |
+| [[../literature/topology-opt/notes/Zhang2024-isoparametric-PIML]] | 第 3 作者 | 机器学习 + 等参单元 | 单元几何形状与材料分布 → 数值形函数 | `draft`，摘要级 |
+| [[../literature/topology-opt/notes/Xu2025-PIML-lattice-MMC]] | 第 2 作者 | PIML + MMC | 三维梯度点阵复合结构的高效分析与优化 | `draft`，摘要级 |
+| [[../literature/topology-opt/notes/Ma2026-highperformanceparallel]] | 第 5 作者 | 不更换网络，转向并行与按需预测 | 多尺度形函数路线的工程化与规模化 | 全文笔记 |
+| [[../literature/topology-opt/notes/Guo2026-highgeneralization-bezier]] | 第 2 作者 | DeepONet + Bézier 参数化 | 参数化边界位移场 → 子结构内部位移场 | `draft`，摘要级 |
+| [[../literature/topology-opt/notes/Guo2026-PIML-OFEM]] | 第 2 作者 | U-Net + overlapping FEM | 杨氏模量分布 → 超采样数值基函数 | `draft`，arXiv v1 摘要级 |
 
 ## 尚未入库的公开工作（待 ingest 核验）
 
@@ -87,16 +91,12 @@ date_update: 2026-07-30
 | 年份 | 论文 | 期刊 | 模型族 | 优先级 |
 |---|---|---|---|---|
 | 2026 | DFENN: A penalty-free variational framework coupling finite elements and neural networks via interface condensation | JMPS 215 | FEM ⊕ NN 域分解，界面静力缩聚 | P0 |
-| 2026 | High-Generalization AI-Enhanced mechanical analysis and topology optimization via cubic Bézier interpolation of substructure boundary displacements | CMAME 456 | DeepONet + 边界位移 Bézier 参数化 | P0 |
 | 2025 | Intelligent design of mechanical metamaterials: a GCNN-based structural genome database approach | National Science Review 12: nwaf053 | 图卷积网络（GCNN） | P1 |
-| 2024 | Problem-independent machine learning-enhanced structural topology optimization of complex design domains based on isoparametric elements | Extreme Mechanics Letters | PIML + 等参元 | P2 |
-| 2025 | PIML enhanced 3D lattice composite structures optimization via moving morphable components approach | Composite Structures | PIML + MMC | P2 |
 | 2025 | Data-driven based stable analysis algorithm for nonlinear truss structures with geometric instabilities | Computational Mechanics | data-driven | P2 |
 
-其中两篇 P0 的技术要点（据公开摘要，待精读确认）：
+其中尚未入库的 P0 工作技术要点（据公开摘要，待精读确认）：
 
 - **DFENN**：将计算域划分为非重叠子域，分别由有限元离散和神经网络逼近；通过静力缩聚把有限元子域的刚度贡献显式映射到界面，实现变分一致耦合，从而**避免 CPINN / CENN 所需的人为罚参数**。SSRN 预印本标题直接使用 "Hyperparameter-Free"。
-- **CMAME 2026**：训练 DeepONet 学习「三次 Bézier 插值的子结构边界位移场 → 子结构内部位移场」的映射。为获得泛化性而改动的是**输入参数化**，而非网络容量。
 
 ## 跨源提炼：这条线本身是一部模型选型史
 
@@ -104,21 +104,23 @@ date_update: 2026-07-30
 
 1. **2018 不用神经网络**：MMC 已把设计压缩为 112 维定长向量，独立直接优化标签仅 50/62 个，样本规模决定了 PCA + 浅层回归比神经网络更合理。
 2. **2022 采用 MLP**：学习对象由「最终设计」换为「局部形函数」后，输入输出定长且标签可离线批量生成，MLP 作为最省事的基线。
-3. **2024 换为 DeepONet**：离散形函数矩阵的输出维度锁死了子结构尺寸；改为坐标连续函数后同一网络可用于任意尺寸子结构。刚体模态由硬约束复现，而非交给损失函数学习。
-4. **2025 引入 GCNN**：对象换成图邻接天然的超材料单胞几何—性能双向映射。
-5. **2026 两条并行推进**：一条继续改**输入参数化**（Bézier）换泛化性，一条转向**消除超参数与罚参数**（DFENN）。
+3. **2024 表示与输入同时扩展**：Huang 2024 用 DeepONet 将离散形函数改为坐标连续表示；Zhang 2024 把单元几何形状与材料分布共同作为输入，扩展到复杂设计域。
+4. **2025 应用对象分化**：GCNN 工作面向图邻接的超材料单胞几何—性能映射；Xu 2025 则把 PIML 与 MMC、分区坐标映射和三维梯度点阵优化结合。
+5. **2026 多条路线并行**：Bézier 工作改变边界位移输入参数化，PIML-OFEM 转向超采样重叠数值基函数，DFENN 则研究消除 FEM–NN 界面耦合中的人为罚参数。
+
+其中 Zhang 2024、Xu 2025、Guo 2026 Bézier 和 PIML-OFEM 当前只完成元数据／摘要级入库；上述定位不等同于全文证据卡或本人复现结论。
 
 由此可以推断（**待与本人确认**）：其技术痛点并非「不了解有哪些网络」，而是「每换一个问题就要重新试一轮、重新调一轮，缺少可复用的选型判据，且调参过程本身不可靠」。DFENN 以「无罚参数」为核心卖点，是这一推断的间接佐证。
 
 ## 与我的关联
 
-- 其 AI 方向与本人博士后方向一直接重叠；结合点速查见本页「可考虑的结合点」，完整技术分析、评价指标与 benchmark 设计统一维护在 [[../research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]]，本页不复制其内容。
-- 该页第 5.1 节已于 2026-07-30 补入本次公开检索对痛点性质的修正；第 5.4 节候选模型族表已同步 CMAME 2026 的 Bézier 参数化、NSR 2025 的 GCNN 证据，并新增「FEM ⊕ NN 域分解耦合」一族（DFENN）。上述条目均标注待 ingest 核验，精读后需复核。
+- 其 AI 方向与本人博士后方向一直接重叠；结合点速查见本页「可考虑的结合点」，通用模型选型原则、阶段门禁和当前动作由 [[../research/technical-lines/piml-research-guide]] 维护，具体交流材料由 [[../work-reports/liu-chang/_index]] 维护，本页不复制其内容。
+- PIML 历史证据由 [[../research/technical-lines/piml-research-guide]] 维护，条件化融合假设由 [[../research/piml-matrix-free-gpu/high-performance-solver-survey]] 维护；只有所选学习对象确实进入求解器或批量部署时，才把 Krylov 行为和 GPU 成本纳入下游评价。
 - 真实沟通过程、约见安排与关系状态由沟通仓库维护，本页只保留公开学术身份与技术事实。
 
 ## 待确认
 
-- 上表六篇的作者顺序、卷期、页码、DOI 及 Citation Key，须以 Zotero 条目为准后再引用。
+- 尚未入库表中三篇工作的作者顺序、卷期、页码、DOI 及 Citation Key，须以 Zotero 条目为准后再引用。
 - 各篇中其是否为通讯作者，公开检索未能确认。
 - 其在 PIML 系列中的具体分工（方法设计、学生指导或算例组织）无公开证据，不作推断。
 
@@ -126,7 +128,7 @@ date_update: 2026-07-30
 
 - 个人主页：<https://faculty.dlut.edu.cn/liuchang/zh_CN/>（职称、研究方向、在研项目）
 - Google Scholar：<https://scholar.google.com/citations?user=B-uZM4EAAAAJ>（论文列表与年份）
-- `refs.bib` cite key：`Lei2018-machinelearningdriven`、`huangProblemindependentMachineLearning2022`、`huangProblemindependentMachineLearning2023`、`Huang2024-mechanicsbaseddatafree`、`Ma2026-highperformanceparallel`
+- `refs.bib` cite key：`Lei2018-machinelearningdriven`、`huangProblemindependentMachineLearning2022`、`huangProblemindependentMachineLearning2023`、`Huang2024-mechanicsbaseddatafree`、`zhangProblemindependentMachineLearningenhanced2024a`、`xuProblemindependentMachineLearning2025`、`Ma2026-highperformanceparallel`、`guoHighGeneralizationAIEnhancedMechanical2026`、`guoPIMLOFEMNewLargeScale2026`
 
 ## 相关页面
 
@@ -134,4 +136,6 @@ date_update: 2026-07-30
 - [[../concepts/piml/method-lineage]] — 「直接预测最终设计 → 学习可复用局部算子」的方法谱系。
 - [[../concepts/piml/ml-roles-and-boundaries]] — 各类 ML 角色与问题无关性的适用边界。
 - [[../research/technical-lines/piml-research-guide]] — PIML 技术线总入口。
-- [[../research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] — 模型选型议题的权威技术底稿。
+- [[../research/technical-lines/piml-research-guide#2.3 模型选型与统一比较契约]] — 通用六维选型框架。
+- [[../research/technical-lines/piml-research-guide#五、阶段门禁与当前执行状态]] — WP2 的阶段门禁、当前动作和条件性实验。
+- [[../research/piml-matrix-free-gpu/high-performance-solver-survey]] — 条件性三线融合研究问题。

@@ -11,7 +11,7 @@ tags:
   - methodology
 status: done
 date_added: 2026-06-24
-date_update: 2026-07-26
+date_update: 2026-07-31
 ---
 
 # LLM Wiki · 个人 AI 知识库模式
@@ -67,4 +67,4 @@ LLM Wiki 不是一次性聊天记录，也不是简单的向量检索库，而�
 - [[../index]]
 - [[../log]]
 - [[piml/_index|PIML]]
-- [[../research/postdoc-research-plan]]
+- [[../research/long-term-research-lines]]

@@ -12,14 +12,14 @@ tags:
   - PIML
 status: draft
 date_added: 2026-07-28
-date_update: 2026-07-28
+date_update: 2026-08-03
 ---
 
 # 计算力学中的机器学习：作用位置与方法边界
 
 > **一句话**：本文按机器学习在计算链中替代或预测的对象建立可扩展的方法图谱，并从学习对象、训练信号、物理融合方式和复用边界等维度辨析相关路线；这不是对机器学习类型的穷尽分类。
 
-网络架构、函数／算子学习、PINN 与生成模型等通用分类框架见 [[../machine-learning]]；本文只讨论它们在计算力学计算链中的作用位置与方法边界。
+经典监督模型、神经网络架构、函数／算子学习、PINN 与生成模型等通用分类框架见 [[../machine-learning]]；本文只讨论它们在计算力学计算链中的作用位置与方法边界。
 
 ## 1. 分类目的与适用范围
 
@@ -27,7 +27,7 @@ date_update: 2026-07-28
 
 > 一个机器学习模型学习什么对象、替代哪一段计算、依赖哪些物理设置，又能在什么范围内复用？
 
-具体论文、方法族和研究框架也不是同一层级。本文将 Lei2018 作为“问题相关的最终设计代理”的代表工作，将 PINN 作为“物理信息解场学习”的代表方法族，将 Problem-Independent PIML 作为“问题无关的局部力学表示学习”的代表框架。
+具体论文、方法族和研究框架也不是同一层级。Physics-Informed Machine Learning 是物理知识进入数据、loss、模型结构或校正过程的总框架；PINN 是其中以网络参数化 PDE 解或待识别参数的一类方法。本文将 Lei2018 作为“问题相关的最终设计代理”的代表工作，将 PINN 作为“物理信息解场学习”的代表方法族，将 Problem-Independent Machine Learning 作为“问题无关的局部力学表示学习”的代表框架。
 
 ## 2. 机器学习在计算链中的作用位置
 
@@ -35,10 +35,10 @@ date_update: 2026-07-28
 
 | 方法路线 | 学习对象 | 典型映射 | 在计算链中的作用 | 郭旭团队代表工作或外部对照 |
 |---|---|---|---|---|
-| 问题相关的最终设计代理 | 最终优化设计 | 问题参数 → 设计变量／拓扑 | 直接生成候选设计，或为完整优化提供热启动 | [[../../literature/topology-opt/Lei2018-machinelearningdriven\|Lei2018]]；机器学习加速的系列声学结构 MMC 优化 |
+| 问题相关的最终设计代理 | 最终优化设计 | 问题参数 → 设计变量／拓扑 | 直接生成候选设计，或为完整优化提供热启动 | [[../../literature/topology-opt/notes/Lei2018-machinelearningdriven\|Lei2018]]；机器学习加速的系列声学结构 MMC 优化 |
 | 设计表示与分辨率映射 | 不同尺度或分辨率下的设计表示 | 高分辨率设计 ↔ 低分辨率设计 | 将高分辨率问题映射到较低分辨率上优化，再恢复设计 | [FE-CNN](https://doi.org/10.48550/arXiv.2106.13652)（2021 预印本） |
 | 物理信息解场学习 | 特定 PDE 的解场或待识别参数 | 坐标／时间／问题参数 → PDE 解 | 以网络近似解函数，替代传统 PDE 求解或服务反问题 | 外部对照：[Raissi et al. (2019)](https://doi.org/10.1016/j.jcp.2018.10.045)；截至本页更新日未检索到郭旭团队直接采用 PINN 做拓扑优化的论文 |
-| 问题无关的局部力学表示学习 | 形函数、缩聚刚度或其他局部力学表示 | 局部材料分布 → 局部力学表示 | 替代反复出现的局部构造，保留全局平衡求解 | [[../../literature/topology-opt/Huang2022-problemindependentmachine\|Problem-Independent PIML]] 及其子结构、data-free 和并行扩展 |
+| 问题无关的局部力学表示学习 | 形函数、缩聚刚度或其他局部力学表示 | 局部材料分布 → 局部力学表示 | 替代反复出现的局部构造，保留全局平衡求解 | [[../../literature/topology-opt/notes/Huang2022-problemindependentmachine\|Problem-Independent PIML]] 及其子结构、data-free 和并行扩展 |
 | 本构与多尺度行为学习 | 本构关系、局部响应、均匀化与局部化关系 | 实验／微结构信息 → 材料或多尺度响应 | 替代或增强材料模型及跨尺度关系构造 | MAP123、循环塑性人工神经网络、机器学习均匀化与局部化 |
 | 生成式与逆向设计 | 满足给定条件或性能的候选材料／结构 | 性能、草图或设计条件 → 候选设计 | 生成候选结构、探索非唯一逆解并辅助后续优化 | DiffMat、machine learning powered sketch-aided design、neural style transfer 辅助拓扑优化 |
 
@@ -61,7 +61,7 @@ date_update: 2026-07-28
 
 | 比较维度 | 问题相关的最终设计代理 | 物理信息解场学习 | 问题无关的局部力学表示学习 |
 |---|---|---|---|
-| 代表实例 | [[../../literature/topology-opt/Lei2018-machinelearningdriven\|Lei2018]] | PINN | Problem-Independent PIML |
+| 代表实例 | [[../../literature/topology-opt/notes/Lei2018-machinelearningdriven\|Lei2018]] | PINN | Problem-Independent PIML |
 | 学习对象 | 最终优化设计 | 特定 PDE 的解场或待识别参数 | 可复用的局部力学表示 |
 | 训练信号 | 直接优化产生的设计标签 | PDE、初始条件、边界条件残差及可选观测数据 | 局部真值标签，或 mechanics-based data-free 力学目标 |
 | 主要替代环节 | 完整优化的结果生成，或初始设计生成 | 传统 PDE 求解 | 局部形函数、内部自由度消元或缩聚构造 |
@@ -107,19 +107,20 @@ date_update: 2026-07-28
 
 - **“问题相关的最终设计代理”**是本知识库为描述 Lei2018 一类方法采用的分析术语，不是 Lei et al. 在原文中提出的正式方法类别。
 - **PINN**是广泛使用的方法族名称，其定义来源于 physics-informed neural networks 文献；它不等于所有 Physics-Informed Machine Learning。
-- **Problem-Independent PIML**是 Huang 等人用于拓扑优化与结构分析的方法名称。本目录中的 `PIML` 专指 Problem-Independent Machine Learning，不采用 Physics-Informed Machine Learning 的同名缩写含义。
+- **Physics-Informed Machine Learning**是物理信息机器学习总框架，不能缩减为 PINN；它是本项目的外部方法背景，不是项目题目中 PIML 的展开。
+- **Problem-Independent Machine Learning**是 Huang 等人用于拓扑优化与结构分析的方法名称，也是核心项目 PIML 的正式含义。
 - **FE-CNN**通过有限元与优化数据学习高、低分辨率设计表示之间的映射；名称中的 `Finite Element` 不表示它是 PINN。
 - **“局部力学表示”**是对 EMsFEM 形函数、子结构数值形函数和缩聚刚度等学习对象的统一概括；不同论文的直接输出并不完全相同。
 - **“问题无关”**不表示无条件跨物理、跨离散或跨本构泛化，只表示局部模型在固定 PDE、离散和材料设置下不直接依赖宏观结构几何、整体边界条件和外载荷。
 
 ## 6. 来源与相关页面
 
-- [[../../literature/topology-opt/Lei2018-machinelearningdriven]] — 问题相关的 MMC 最终设计代理代表工作。
+- [[../../literature/topology-opt/notes/Lei2018-machinelearningdriven]] — 问题相关的 MMC 最终设计代理代表工作。
 - [Yue et al. (2021)](https://doi.org/10.48550/arXiv.2106.13652) — FE-CNN 高低分辨率设计映射预印本。
 - [Raissi et al. (2019)](https://doi.org/10.1016/j.jcp.2018.10.045) — PINN 求解 PDE 正问题与反问题的基础论文。
-- [[../../literature/topology-opt/Huang2022-problemindependentmachine]] — EMsFEM 局部形函数学习与 Problem-Independent PIML 起点。
-- [[../../literature/topology-opt/Huang2023-PIML-substructure]] — 子结构数值形函数与缩聚刚度扩展。
-- [[../../literature/topology-opt/Huang2024-PIML-datafree]] — mechanics-based data-free 训练扩展。
+- [[../../literature/topology-opt/notes/Huang2022-problemindependentmachine]] — EMsFEM 局部形函数学习与 Problem-Independent PIML 起点。
+- [[../../literature/topology-opt/notes/Huang2023-PIML-substructure]] — 子结构数值形函数与缩聚刚度扩展。
+- [[../../literature/topology-opt/notes/Huang2024-PIML-datafree]] — mechanics-based data-free 训练扩展。
 - [郭旭老师官方成果列表](https://faculty.dlut.edu.cn/2000011087/en/index.htm) — 团队机器学习、数据驱动计算力学和拓扑优化相关代表论文线索。
 - [[mathematical-foundations]] — 问题无关性的数学定义与局部学习映射。
 - [[method-lineage]] — 从 Lei 前史到子结构、data-free 和并行 PIML 的方法演化。

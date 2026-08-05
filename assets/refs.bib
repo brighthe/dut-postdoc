@@ -1,4 +1,4 @@
-@article{Huang2022-problemindependentmachine,
+@article{huangProblemindependentMachineLearning2022,
   title = {Problem-Independent Machine Learning ({{PIML}})-Based Topology Optimization---a Universal Approach},
   author = {Huang, Mengcheng and Du, Zongliang and Liu, Chang and Zheng, Yonggang and Cui, Tianchen and Mei, Yue and Li, Xiao and Zhang, Xiaoyu and Guo, Xu},
   year = 2022,
@@ -18,6 +18,17 @@
 EI: 是\\
 南农高质量: A},
   file = {C:\Users\brigh\Zotero\storage\TSLB5VAR\Huang 等 - 2022 - Problem-independent machine learning (PIML)-based topology optimization—A universal approach.pdf}
+}
+
+@article{huangProblemindependentMachineLearning2023,
+  title = {A Problem-Independent Machine Learning ({{PIML}}) Enhanced Substructure-Based Approach for Large-Scale Structural Analysis and Topology Optimization of Linear Elastic Structures},
+  author = {Huang, Mengcheng and Cui, Tianchen and Liu, Chang and Du, Zongliang and Zhang, Jiameng and He, Chuhui and Guo, Xu},
+  year = 2023,
+  journal = {Extreme Mechanics Letters},
+  volume = {63},
+  pages = {102041},
+  doi = {10.1016/j.eml.2023.102041},
+  langid = {english}
 }
 
 @article{Huang2024-mechanicsbaseddatafree,
@@ -84,4 +95,124 @@ EI: 是\\
   doi = {10.1145/1498765.1498785},
   urldate = {2026-07-26},
   langid = {english}
+}
+
+@article{zhouEfficientAccelerationStrategies2025,
+  title = {Efficient {{Acceleration Strategies}} for {{Multigrid Preconditioned Conjugate Gradients}} in {{Fast 3D Topology Optimization}}},
+  author = {Zhou, Bingzhen and Zhu, Zixian and Wang, Xiaoping},
+  year = 2025,
+  month = sep,
+  journal = {Journal of Computational Mathematics},
+  volume = {43},
+  number = {5},
+  pages = {1063--1091},
+  issn = {0254-9409, 1991-7139},
+  doi = {10.4208/jcm.2508-m2025-0035},
+  urldate = {2026-08-03},
+  abstract = {This paper presents various acceleration techniques tailored for the traditional 3D topology optimization problem. Firstly, the adoption of the finite difference method leads to a sparser stiffness matrix, resulting in more efficient matrix-vector multiplication. Additionally, a fully matrix-free technique is proposed, which only assembles stiffness matrices at the coarsest grid level and does not require complex node numbering. Moreover, an innovative N-cycle multigrid (MG) algorithm is proposed to act as a preconditioner within conjugate gradient (CG) iterations. Finally, to further enhance the optimization process on high-resolution grids, a progressive strategy is implemented. The numerical results confirm that these acceleration techniques are not only efficient, but also capable of achieving lower compliance and reducing memory consumption. MATLAB codes complementing the article can be downloaded from Github.},
+  langid = {english},
+  file = {C:\Users\Administrator\Zotero\storage\XCIG6D24\Zhou 等 - 2025 - Efficient Acceleration Strategies for Multigrid Preconditioned Conjugate Gradients in Fast 3D Topolo.pdf}
+}
+
+@article{traffSimpleEfficientGPU2023b,
+  title = {Simple and Efficient {{GPU}} Accelerated Topology Optimisation: {{Codes}} and Applications},
+  shorttitle = {Simple and Efficient {{GPU}} Accelerated Topology Optimisation},
+  author = {Tr{\"a}ff, Erik A. and Rydahl, Anton and Karlsson, Sven and Sigmund, Ole and Aage, Niels},
+  year = 2023,
+  month = may,
+  journal = {Computer Methods in Applied Mechanics and Engineering},
+  volume = {410},
+  pages = {116043},
+  issn = {0045-7825},
+  doi = {10.1016/j.cma.2023.116043},
+  urldate = {2026-08-03},
+  abstract = {This work presents topology optimisation implementations for linear elastic compliance minimisation in three dimensions, accelerated using Graphics Processing Units (GPUs). Three different open-source implementations are presented for linear problems. Two implementations use GPU acceleration, based on either OpenMP 4.5 or the Futhark language to implement the hardware acceleration. Both GPU implementations are based on high level GPU frameworks, and hence, avoid the need for expertise knowledge of e.g. CUDA or OpenCL. The third implementation is a vectorised and multi-threaded CPU code, which is included for reference purposes. It is shown that both GPU accelerated codes are able to solve large-scale topology optimisation problems with 65.5 million elements in approximately 2~h using a single GPU, while the reference implementation takes approximately 3 h and 10 min using 48 CPU cores. Furthermore, it is shown that it is possible to solve nonlinear topology optimisation problems using GPU acceleration, demonstrated by a nonlinear end-compliance optimisation with finite strains and a Neo-Hookean material model discretised by 1 million elements.},
+  langid = {english},
+  keywords = {GPU acceleration,Structural optimisation,Topology optimisation},
+  file = {C\:\\Users\\Administrator\\Zotero\\storage\\8KNFKTRL\\2023 - Simple and efficient GPU accelerated topology optimisation Codes and applications.pdf}
+}
+
+@article{kronbichlerGenericInterfaceParallel2012,
+  title = {A Generic Interface for Parallel Cell-Based Finite Element Operator Application},
+  author = {Kronbichler, Martin and Kormann, Katharina},
+  year = 2012,
+  month = jun,
+  journal = {Computers \& Fluids},
+  volume = {63},
+  pages = {135--147},
+  issn = {0045-7930},
+  doi = {10.1016/j.compfluid.2012.04.012},
+  urldate = {2026-08-04},
+  abstract = {We present a memory-efficient and parallel framework for finite element operator application implemented in the generic open-source library deal.II. Instead of assembling a sparse matrix and using it for matrix--vector products, the operation is applied by cell-wise quadrature. The evaluation of shape functions is implemented with a sum-factorization approach. Our implementation is parallelized on three levels to exploit modern supercomputer architecture in an optimal way: MPI over remote nodes, thread parallelization with dynamic task scheduling within the nodes, and explicit vectorization for utilizing processors' vector units. Special data structures are designed for high performance and to keep the memory requirements to a minimum. The framework handles adaptively refined meshes and systems of partial differential equations. We provide performance tests for both linear and nonlinear PDEs which show that our cell-based implementation is faster than sparse matrix--vector products for polynomial order two and higher on hexahedral elements and yields ten times higher Gflops rates.},
+  keywords = {Finite/spectral element method,Hybrid parallelization,Matrix-free method,Sum-factorization},
+  langid = {english},
+  file = {C\:\\Users\\Administrator\\Zotero\\storage\\BZZFU2DI\\Kronbichler和Kormann - 2012 - A generic interface for parallel cell-based finite element operator application.pdf}
+}
+
+@article{guoHighGeneralizationAIEnhancedMechanical2026,
+  title = {High-{{Generalization AI-Enhanced}} Mechanical Analysis and Topology Optimization via Cubic B\'ezier Interpolation of Substructure Boundary Displacements},
+  author = {Guo, Yilin and Liu, Chang and Du, Zongliang and Jia, Yibo and Jiang, Chao and Guo, Xu and Shen, Changyu},
+  year = 2026,
+  month = jul,
+  journal = {Computer Methods in Applied Mechanics and Engineering},
+  volume = {456},
+  pages = {118955},
+  issn = {0045-7825},
+  doi = {10.1016/j.cma.2026.118955},
+  urldate = {2026-08-04},
+  abstract = {In recent years, many studies have aimed to use machine learning (ML) to improve the efficiency of large-scale structural analysis and topology optimization; nevertheless, robust generalization and high training and predictive accuracy remain difficult to achieve. This paper combines the generality of the substructure method with the high-accuracy advantages of operator-learning frameworks. Within a substructure-analysis setting, a Deep Operator Network (DeepONet) is trained to learn a high-fidelity mapping from a cubic B\'ezier interpolated boundary displacement field to the corresponding substructure's interior displacement field. This mapping depends solely on the material distribution within the substructure and admits a unique correspondence in theory. Numerical examples corroborate the effectiveness and stability of the proposed framework. Relative to the exact substructure method and to ML-enhanced variants that assume linear boundary displacements, the proposed approach strikes a favorable balance between efficiency and accuracy.},
+  keywords = {Deep operation networks,Higher order finite element,Large scale analysis,Substructure method,Topology optimization},
+  file = {C\:\\Users\\Administrator\\Zotero\\storage\\LPZYK4P5\\Guo 等 - 2026 - High-Generalization AI-Enhanced mechanical analysis and topology optimization via cubic bézier inter.pdf;C\:\\Users\\Administrator\\Zotero\\storage\\598PF5U6\\S0045782526002288.html}
+}
+
+@misc{guoPIMLOFEMNewLargeScale2026,
+  title = {{{PIML-OFEM}}: {{A New Large-Scale Structural Analysis Method Based}} on {{Problem-Independent Machine Learning}} and {{Overlapping Finite Element Technique}}},
+  shorttitle = {{{PIML-OFEM}}},
+  author = {Guo, Yilin and Liu, Chang and Du, Zongliang and Liu, Jin and Feng, Jingyu and Zhang, Xinyang and Li, Yang and Yang, Tianxing and Shen, Changyu and Guo, Xu},
+  year = 2026,
+  month = jul,
+  journal = {arXiv.org},
+  urldate = {2026-08-04},
+  abstract = {High-resolution analysis and design of large-scale heterogeneous structures require accurate reduced-order models and efficient online computation. Existing multiscale methods must repeatedly construct local basis functions for different material distributions, whereas substructure-based problem-independent machine learning (PIML) methods can be limited by prescribed boundary displacement interpolation. We propose PIML-OFEM, an overlapping finite element method accelerated by problem-independent machine learning. Each substructure retains only its corner-node degrees of freedom. Oversampled numerical basis functions are constructed by solving local elasticity problems on extended domains and restricting the solutions to the target substructure, eliminating prescribed displacement interpolation on its boundary. Independently constructed local bases are blended through a partition-of-unity overlapping formulation to obtain a globally continuous displacement field. A U-Net learns the mapping from local Young's modulus distributions to numerical basis functions, replacing repeated online local solves and allowing the model to be reused across load cases and global boundary conditions. Numerical examples show close agreement with fine-scale finite element results in displacement and elemental strain energy. PIML-OFEM reduces online computational cost relative to direct finite element analysis and improves accuracy over PIML substructure models based on linear boundary interpolation. In topology optimization, the method supports stable high-resolution iterations with small filter radii and preserves fine-scale features, including local patterns resembling rank-2 microstructures. The framework provides an efficient physics-data approach for large-scale heterogeneous structural analysis and high-resolution topology optimization.},
+  howpublished = {https://arxiv.org/abs/2607.22019v1},
+  langid = {english},
+  file = {C:\Users\Administrator\Zotero\storage\JVG2F9WE\Guo 等 - 2026 - PIML-OFEM A New Large-Scale Structural Analysis Method Based on Problem-Independent Machine Learnin.pdf}
+}
+
+@article{zhangProblemindependentMachineLearningenhanced2024a,
+  title = {Problem-Independent Machine Learning-Enhanced Structural Topology Optimization of Complex Design Domains Based on Isoparametric Elements},
+  author = {Zhang, Linfeng and Huang, Mengcheng and Liu, Chang and Du, Zongliang and Cui, Tianchen and Guo, Xu},
+  year = 2024,
+  month = nov,
+  journal = {Extreme Mechanics Letters},
+  volume = {72},
+  pages = {102237},
+  issn = {23524316},
+  doi = {10.1016/j.eml.2024.102237},
+  urldate = {2026-08-04},
+  abstract = {Topology optimization requires dozens or even hundreds of iterations, each requiring a complete finite element analysis (FEA). Significant computation cost limits the application of topology optimization in engineering, especially for high-resolution problems containing complex design domains. To address the issue, a ProblemIndependent Machine Learning (PIML) model based on isoparametric elements is proposed. Effectively reducing the computational time of FEA, the proposed model enables efficient topology optimization and extends the solvable problem range to complex design domains. The essential idea is leveraging the substructure method and establishing a mapping from element shapes and material distribution within the substructure to its numerical shape functions through machine learning models. Both sample generation and model training are conducted offline, allowing the trained machine learning model to be directly employed during the topology optimization process. Since the shape function of the substructure is problem-independent, it requires no sample regeneration or modification of the proposed machine learning model when changing the geometry or boundary conditions of the optimization problem. Numerical examples demonstrate that the proposed machine learning model boosts the efficiency of topology optimization by one order of magnitude without parallel techniques.},
+  langid = {english},
+  file = {C:\Users\Administrator\Zotero\storage\3I2PUCC2\Zhang 等 - 2024 - Problem-independent machine learning-enhanced structural topology optimization of complex design dom.pdf}
+}
+
+@article{xuProblemindependentMachineLearning2025,
+  title = {Problem-Independent Machine Learning ({{PIML}}) Enhanced {{3D}} Lattice Composite Structures Optimization via Moving Morphable Components Approach},
+  author = {Xu, Wu and Liu, Chang and Guo, Yilin and Huang, Mengcheng and Guo, Xu},
+  year = 2025,
+  month = oct,
+  journal = {Composite Structures},
+  volume = {369},
+  pages = {119330},
+  issn = {02638223},
+  doi = {10.1016/j.compstruct.2025.119330},
+  urldate = {2026-05-04},
+  abstract = {Lattice structures are increasingly adopted in various engineering fields due to their superior mechanical properties. This paper presents a novel methodology for designing and optimizing three-dimensional lattice structures based on the moving morphable components approach, integrating machine learning techniques to improve computational efficiency. The method models lattice structures with spatially varying material distributions, leveraging components with explicit geometric parameters. A gradient effect is achieved through partitioned coordinate mapping based on B-Spline basis function, enabling the adjustment of strut thickness, cellular shape, and local orientation while maintaining perfect connectivity. To address the computational challenges associated with large-scale finite element analysis, a problem-independent machine learning model is employed to capture the mechanical responses of complex structures. Numerical results validate that the proposed method can produce graded lattice structures with smooth topological transitions across adjacent microstructures under various boundary conditions, notably improving the load-bearing capacity compared to periodic lattices. Moreover, the problem-independent machine learning method significantly enhances computational efficiency in complex lattice composite structure design and provides promising insights for the future application of machine learning in large-scale structural optimization.},
+  langid = {english},
+  annotation = {JCR分区: Q1\\
+中科院分区升级版: 材料科学2区\\
+影响因子: 7.1\\
+5年影响因子: 6.8\\
+EI: 是\\
+南农高质量: A},
+  file = {C:\Users\Administrator\Zotero\storage\IDYTHK96\Xu 等 - 2025 - Problem-Independent Machine Learning (PIML) enhanced 3D lattice composite structures optimization vi.pdf}
 }

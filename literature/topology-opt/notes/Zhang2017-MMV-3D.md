@@ -1,5 +1,7 @@
 ---
 title: "Explicit three dimensional topology optimization via Moving Morphable Void (MMV) approach"
+aliases:
+  - literature/topology-opt/Zhang2017-MMV-3D
 authors:
   - Zhang, Weisheng
   - Chen, Jishun
@@ -21,12 +23,13 @@ status: "done"
 rating: 4
 date_added: "2026-07-03"
 date_read: "2026-07-03"
+date_update: "2026-08-01"
 ---
 
 # Explicit three dimensional topology optimization via Moving Morphable Void (MMV) approach
 
 > **引用**：Zhang, Weisheng, et al. *Computer Methods in Applied Mechanics and Engineering*, 2017. 
-> **完整中文译文**：[[translations/Zhang2017-MMV-3D-zh]]
+> **完整中文译文**：[[../translations/Zhang2017-MMV-3D-zh]]
 > **Zotero/Better BibTeX key**：`zhangExplicitThreeDimensional2017`
 > **阅读状态**：精读已完成。
 
@@ -94,4 +97,4 @@ date_read: "2026-07-03"
 
 ## 附注
 
-- **公式附录**：详细记录了 Hermite 和 NURBS 方案下目标函数对几何控制变量的具体求导公式，由于公式复杂且较多，已全文收录至 [[translations/Zhang2017-MMV-3D-zh]] 中的附录部分。
+- **公式附录**：详细记录了 Hermite 和 NURBS 方案下目标函数对几何控制变量的具体求导公式，由于公式复杂且较多，已全文收录至 [[../translations/Zhang2017-MMV-3D-zh]] 中的附录部分。

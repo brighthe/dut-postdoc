@@ -14,7 +14,7 @@ tags:
   - krylov
 status: in-progress
 date_added: 2026-07-27
-date_update: 2026-07-29
+date_update: 2026-08-01
 ---
 
 # 分布式 Matrix-Free 算子：网格分区、共享自由度与 MPI 同步
@@ -473,13 +473,14 @@ MPI 是进程间通信标准，规范 communicator、rank、点对点通信、�
 
 分布式实现至少应分别报告 MatVec 与显式全局算子的代数一致性、真实残差、物理边界条件、跨 rank 解一致性，以及在适用时的网格加密误差趋势。这些门禁对应式 (20)、(24)、(25) 和 (26)，彼此不能互相替代：一致 MatVec 不证明迭代已经收敛，两个 rank 数得到相同的未收敛解也不证明线性系统已求解到目标精度。
 
-通过上述门禁只证明在给定 PDE、离散、分区和 rank 范围内的数值正确性；不自动推出计时、加速比、并行效率、强/弱扩展性、更多 ranks、预条件器、其他装配层级或异构硬件能力。具体项目的运行范围、数值结果和实现证据由 [[../../research/technical-lines/matrix-free-research-guide]] 及对应工程仓库维护。
+通过上述门禁只证明在给定 PDE、离散、分区和 rank 范围内的数值正确性；不自动推出计时、加速比、并行效率、强/弱扩展性、更多 ranks、预条件器、其他装配层级或异构硬件能力。长期验收原则和具体任务状态见 [[../../research/technical-lines/matrix-free-research-guide]]，运行范围、数值结果和实现证据由对应工程仓库维护。
 
 ## 来源与证据
 
 - [[../linear-elasticity]] — 当前三维线弹性离散算子的连续模型、弱形式和单元来源。
 - [[assembly-levels]] — 有限元算子的 $\mathbf P^T\mathbf G^T\mathbf B^T\mathbf D\mathbf B\mathbf G\mathbf P$ 分解、五级装配层次和跨框架术语。
-- [[../../research/technical-lines/matrix-free-research-guide]] — 当前 Matrix-Free 技术线的 MPI 接口、正确性门禁和实施边界。
+- [[../../research/technical-lines/matrix-free-research-guide]] — Matrix-Free 技术线的长期 MPI 能力边界与正确性验收原则。
+- [[../../research/technical-lines/matrix-free-research-guide#五、阶段门禁与当前执行状态]] — 当前 MPI 相关任务状态与完成记录。
 - [MPI Forum: MPI Documents](https://www.mpi-forum.org/docs/) — MPI 标准的规范性入口。
 - [mpi4py: Tutorial](https://mpi4py.readthedocs.io/en/stable/tutorial.html) — Python 对 MPI 通信语义的官方使用说明。
 - [PETSc: Vectors and Parallel Data](https://petsc.org/release/manual/vec/) — global/local ghost vector、forward insert 和 reverse add。
@@ -489,7 +490,7 @@ MPI 是进程间通信标准，规范 communicator、rank、点对点通信、�
 - [libCEED: Interface Concepts](https://libceed.org/en/latest/libCEEDapi/) — 并行 `P` 层与宿主程序通信责任。
 - 本页是对有限元限制/延拓、重叠自由度表示和分布式归约关系的数学整理；具体项目代码、私有数据与阶段运行日志仍由各自工程仓库维护。
 
-## 在我研究中的位置
+## 在本主题体系中的位置
 
 本页为后续三维线弹性 EA/EbE、PA/QA 与 UA/NONE 路线提供统一的 MPI 数学语义。迁移不同 PDE 或不同装配层级时，应保持式 (5)、式 (20)、式 (24) 和式 (26) 不变，再分别替换局部算子 $\mathbf A_r$ 的形成与作用方式。
 
@@ -509,5 +510,6 @@ MPI 是进程间通信标准，规范 communicator、rank、点对点通信、�
 - [[../linear-elasticity]] — 线弹性方程、变分形式与有限元离散。
 - [[assembly-levels]] — FA/LA/EA/PA/UA 装配层次。
 - [[method-lineage]] — Matrix-Free 相关公开成果的方法谱系。
-- [[../../research/technical-lines/matrix-free-research-guide]] — 当前能力、阶段路线与验证门禁。
+- [[../../research/technical-lines/matrix-free-research-guide]] — 长期能力边界、阶段模型与统一验收原则。
+- [[../../research/technical-lines/matrix-free-research-guide#五、阶段门禁与当前执行状态]] — 当前任务状态、推进顺序与完成记录。
 - [[../gpu-hpc/_index]] — MPI、GPU-aware MPI、通信和扩展性研究。

@@ -7,9 +7,11 @@ tags:
 status: "archived"
 event_date: 2026-07-05
 date_archived: 2026-07-26
+date_update: 2026-07-31
 source_paths:
   - talks/2026-postdoc-entry-assessment
   - research/postdoc-plan/defense-sprint
+  - research/postdoc-research-plan
 ---
 
 # 2026 博士后入站考核答辩档案
@@ -20,6 +22,7 @@ source_paths:
 
 | 目录 | 内容 | 维护状态 |
 |---|---|---|
+| `postdoc-research-plan.md` | 入站阶段提交的科研计划 Markdown 历史正文 | 历史定稿，不再根据后续科研变化改写 |
 | `presentation/` | 最终 Beamer 源文件、受 Git 跟踪的定稿 PDF、8 分钟讲稿、结构提纲、图件与历史出图脚本 | 历史定稿，不再主动维护 |
 | `defense-preparation/` | 一周冲刺计划、帧 6–11 逐帧指南、答辩 QA 与旧合成出图脚本 | 历史准备材料，统一标记为 `archived` |
 
@@ -27,14 +30,15 @@ source_paths:
 
 ## 长期知识去向
 
-- PIML 数学基础与方法演化：[[concepts/piml/mathematical-foundations]]、[[concepts/piml/method-lineage]]。
-- PIML 当前能力、原型证据与后续任务：[[research/technical-lines/piml-research-guide]]。
-- Matrix-Free 与 GPU/HPC：[[research/technical-lines/matrix-free-research-guide]]、[[research/technical-lines/gpu-hpc-research-guide]]。
-- PIML × Matrix-Free × GPU 融合路线：[[research/postdoc-plan/long-term/direction-1-piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]]。
-- MMC/MMV 显式几何与数值离散：[[research/postdoc-plan/long-term/direction-2-mmc-mmv/mmc-mmv-numerical-discretization-survey]]。
-- 博士后阶段总体研究计划：[[research/postdoc-plan/postdoc-research-plan]]。
+- 个人长期科研方向总领：[[research/long-term-research-lines]]。
+- PIML 稳定知识与当前研究：[[concepts/piml/_index]]、[[research/technical-lines/piml-research-guide]]。
+- Matrix-Free 稳定知识与当前研究：[[concepts/matrix-free/_index]]、[[research/technical-lines/matrix-free-research-guide]]。
+- GPU/HPC 稳定知识与当前研究：[[concepts/gpu-hpc/_index]]、[[research/technical-lines/gpu-hpc-research-guide]]。
+- PIML × Matrix-Free × GPU 融合课题：[[research/piml-matrix-free-gpu/_index]]。
+- MMC/MMV 稳定知识与当前研究：[[concepts/mmc/_index]]、[[research/mmc-mmv/mmc-mmv-numerical-discretization-survey]]。
+- 博士后入站阶段科研计划历史正文：[[postdoc-research-plan]]。
 
-上述活跃页面是当前研究事实和后续任务的维护入口；本档案只保留答辩发生时的历史快照与表达语境。
+上述研究页面是当前研究事实和后续任务的维护入口；[[postdoc-research-plan]] 与本档案其他内容只保留入站考核发生时的历史计划、材料快照与表达语境。
 
 ## 可复现性边界
 

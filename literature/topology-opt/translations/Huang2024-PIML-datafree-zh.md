@@ -1,17 +1,32 @@
+---
+title: "翻译：A mechanics-based data-free problem independent machine learning (PIML) model for large-scale structural analysis and design optimization"
+status: "done"
+date_created: 2026-07-06
+date_updated: 2026-08-01
+source: "[[../notes/Huang2024-PIML-datafree]]"
+citekey: "Huang2024-mechanicsbaseddatafree"
+language: "zh-CN"
+---
+
 # A mechanics-based data-free problem independent machine learning (PIML) model for large-scale structural analysis and design optimization
 
 ## 完整中文译文
 
-> 原笔记：[[../Huang2024-PIML-datafree]]
+> 原笔记：[[../notes/Huang2024-PIML-datafree]]
 > Zotero 条目：`zotero://select/library/items/CGQZ2HXL`
-> PDF 附件：`C:\Users\Lenovo\Zotero\storage\R85965MZ\Huang 等 - 2024 - A mechanics-based data-free ...pdf`
-> 说明：正文（摘要—结论）、附录 A/B 与图 1–14 均已补齐；图片存于 `topology-opt/assets/Huang2024_FigX.png`。
+> PDF 附件：`zotero://open-pdf/library/items/R85965MZ`
+> 说明：本页收录完整中文译文；已核验范围见文末检查清单。
 
 ---
 
 # 0 元数据
 
-- **题名**：A mechanics-based data-free Problem Independent Machine Learning (PIML) model for large-scale structural analysis and design optimization
+- **题名**：A mechanics-based data-free problem independent machine learning (PIML) model for large-scale structural analysis and design optimization
+- **Better BibTeX key**：`Huang2024-mechanicsbaseddatafree`
+- **Zotero item key**：`CGQZ2HXL`
+- **PDF attachment key**：`R85965MZ`
+- **译文状态**：已完成并核验，具体范围见文末检查清单
+
 - **中文暂译**：一种基于力学机制的无数据问题无关机器学习（PIML）模型：用于大规模结构分析与设计优化
 - **作者**：Mengcheng Huang; Chang Liu; Yilin Guo; Linfeng Zhang; Zongliang Du; Xu Guo
 - **单位**：大连理工大学 工程力学系 工业装备结构分析优化与 CAE 软件国家重点实验室；大连理工大学宁波研究院
@@ -19,9 +34,6 @@
 - **年份**：2024
 - **卷/文章号**：193:105893
 - **DOI**：10.1016/j.jmps.2024.105893
-- **Zotero key**：CGQZ2HXL
-- **Better BibTeX key**：Huang2024-mechanicsbaseddatafree
-- **译文状态**：全文译毕并配图（正文＋附录 A/B、式 1–25、表 1–3、图 1–14）
 
 # 摘要
 
@@ -49,23 +61,33 @@
 
 子结构方法最初是作为一种静力缩聚（static condensation）方法而发展起来的，用以缩减刚度矩阵和质量矩阵的自由度（Guyan, 1965；Wilson, 1974）。如图 1(a) 所示，结合区域分解与有限元方法，每个子结构 $\Omega_j$（$j=1,\dots,N$，注意 $\Omega_j$ 包含多个细尺度单元）内的平衡可独立地表示为：
 
-$$\boldsymbol{K}^j \boldsymbol{u}^j = \boldsymbol{f}^j \tag{1}$$
+$$
+\boldsymbol{K}^j \boldsymbol{u}^j = \boldsymbol{f}^j \tag{1}
+$$
 
 其中 $\boldsymbol{K}^j$ 是子结构 $\Omega_j$ 的刚度矩阵，$\boldsymbol{u}^j$ 与 $\boldsymbol{f}^j$ 分别是该子结构的位移向量与力向量。接着，如图 1(b)，将每个子结构的节点分为内部节点与边界节点，分别用下标 i 与 b 表示。于是式 (1) 可分解为如下形式：
 
-$$\begin{pmatrix} \boldsymbol{K}^j_{bb} & \left(\boldsymbol{K}^j_{ib}\right)^{\mathsf{T}} \\ \boldsymbol{K}^j_{ib} & \boldsymbol{K}^j_{ii} \end{pmatrix} \begin{pmatrix} \boldsymbol{u}^j_b \\ \boldsymbol{u}^j_i \end{pmatrix} = \begin{pmatrix} \boldsymbol{f}^j_b \\ \boldsymbol{f}^j_i \end{pmatrix} \tag{2}$$
+$$
+\begin{pmatrix} \boldsymbol{K}^j_{bb} & \left(\boldsymbol{K}^j_{ib}\right)^{\mathsf{T}} \\ \boldsymbol{K}^j_{ib} & \boldsymbol{K}^j_{ii} \end{pmatrix} \begin{pmatrix} \boldsymbol{u}^j_b \\ \boldsymbol{u}^j_i \end{pmatrix} = \begin{pmatrix} \boldsymbol{f}^j_b \\ \boldsymbol{f}^j_i \end{pmatrix} \tag{2}
+$$
 
 不失一般性，假设外载荷不作用于内部节点，即 $\boldsymbol{f}^j_i = \boldsymbol{0}$。将其代入上式，可得 $\boldsymbol{u}^j_b$ 与 $\boldsymbol{u}^j_i$ 之间的关系式 (3)。实际上，当 $\boldsymbol{f}^j_i \neq \boldsymbol{0}$ 时子结构方法同样适用，详细推导见附录 A。
 
-$$\boldsymbol{u}^j_i = -\left(\boldsymbol{K}^j_{ii}\right)^{-1}\boldsymbol{K}^j_{ib}\,\boldsymbol{u}^j_b \tag{3}$$
+$$
+\boldsymbol{u}^j_i = -\left(\boldsymbol{K}^j_{ii}\right)^{-1}\boldsymbol{K}^j_{ib}\,\boldsymbol{u}^j_b \tag{3}
+$$
 
 进一步将式 (3) 代入式 (2)，可得到仅包含边界节点自由度的缩聚刚度矩阵 $\boldsymbol{K}^j_s$：
 
-$$\boldsymbol{K}^j_s = \boldsymbol{K}^j_{bb} - \left(\boldsymbol{K}^j_{ib}\right)^{\top}\left(\boldsymbol{K}^j_{ii}\right)^{-1}\boldsymbol{K}^j_{ib} \tag{4}$$
+$$
+\boldsymbol{K}^j_s = \boldsymbol{K}^j_{bb} - \left(\boldsymbol{K}^j_{ib}\right)^{\top}\left(\boldsymbol{K}^j_{ii}\right)^{-1}\boldsymbol{K}^j_{ib} \tag{4}
+$$
 
 然后，通过组装各子结构的缩聚刚度矩阵，可得到全局缩聚刚度矩阵 $\boldsymbol{K}_s = \sum_j \boldsymbol{G}^j \boldsymbol{K}^j_s$，其中 $\boldsymbol{G}^j$ 表示第 $j$ 个子结构用于组装的定位矩阵。如此，无需求解原始的全尺度平衡方程，只需求解如下缩聚平衡方程即可获得各子结构边界节点的位移向量：
 
-$$\boldsymbol{K}_s \boldsymbol{u}_b = \boldsymbol{f}_b \tag{5}$$
+$$
+\boldsymbol{K}_s \boldsymbol{u}_b = \boldsymbol{f}_b \tag{5}
+$$
 
 随后，各子结构内部节点的位移可分别由式 (3) 得到。值得注意的是，上述推导是从矩阵运算的角度进行的，掩盖了缩聚刚度矩阵背后的物理内涵。此外，研究发现，直接用机器学习从子结构内的材料分布预测缩聚刚度矩阵并不能得到令人满意的结果。因此，为进一步挖掘其物理意义，本文从多尺度形函数的角度重新推导缩聚刚度矩阵。
 
@@ -81,19 +103,27 @@ $$\boldsymbol{K}_s \boldsymbol{u}_b = \boldsymbol{f}_b \tag{5}$$
 
 借助位移插值的思想，式 (3) 可重写为如下线性变换关系：
 
-$$\boldsymbol{u}^j_i = \boldsymbol{N}^j_s \boldsymbol{u}^j_b \tag{6}$$
+$$
+\boldsymbol{u}^j_i = \boldsymbol{N}^j_s \boldsymbol{u}^j_b \tag{6}
+$$
 
 其中 $\boldsymbol{N}^j_s \in \mathbb{R}^{n_i \times n_b}$ 是由边界节点位移计算内部节点位移的多尺度形函数，$n_i$ 与 $n_b$ 分别表示子结构内部节点与边界节点的总自由度数。于是，整个子结构的节点位移可表示为：
 
-$$\boldsymbol{u}^j = \begin{bmatrix} \boldsymbol{u}^j_i \\ \boldsymbol{u}^j_b \end{bmatrix} = \begin{bmatrix} \boldsymbol{N}^j_s \\ \boldsymbol{I} \end{bmatrix} \boldsymbol{u}^j_b = \boldsymbol{N}^j \boldsymbol{u}^j_b$$
+$$
+\boldsymbol{u}^j = \begin{bmatrix} \boldsymbol{u}^j_i \\ \boldsymbol{u}^j_b \end{bmatrix} = \begin{bmatrix} \boldsymbol{N}^j_s \\ \boldsymbol{I} \end{bmatrix} \boldsymbol{u}^j_b = \boldsymbol{N}^j \boldsymbol{u}^j_b
+$$
 
 其中 $\boldsymbol{N}^j$ 表示由边界节点位移计算第 $j$ 个子结构节点位移的（离散）多尺度形函数矩阵。第 $j$ 个子结构的总应变能可换一种方式计算为：
 
-$$W^j = \frac{1}{2}\left(\boldsymbol{u}^j\right)^{\top}\boldsymbol{K}^j\boldsymbol{u}^j = \frac{1}{2}\left(\boldsymbol{u}^j_b\right)^{\top}\left(\boldsymbol{N}^j\right)^{\top}\boldsymbol{K}^j\boldsymbol{N}^j\boldsymbol{u}^j_b = \frac{1}{2}\left(\boldsymbol{u}^j_b\right)^{\top}\boldsymbol{K}^j_s\boldsymbol{u}^j_b \tag{7}$$
+$$
+W^j = \frac{1}{2}\left(\boldsymbol{u}^j\right)^{\top}\boldsymbol{K}^j\boldsymbol{u}^j = \frac{1}{2}\left(\boldsymbol{u}^j_b\right)^{\top}\left(\boldsymbol{N}^j\right)^{\top}\boldsymbol{K}^j\boldsymbol{N}^j\boldsymbol{u}^j_b = \frac{1}{2}\left(\boldsymbol{u}^j_b\right)^{\top}\boldsymbol{K}^j_s\boldsymbol{u}^j_b \tag{7}
+$$
 
 因此，缩聚刚度矩阵可由多尺度形函数计算为：
 
-$$\boldsymbol{K}^j_s = \left(\boldsymbol{N}^j\right)^{\top}\boldsymbol{K}^j\boldsymbol{N}^j \tag{8}$$
+$$
+\boldsymbol{K}^j_s = \left(\boldsymbol{N}^j\right)^{\top}\boldsymbol{K}^j\boldsymbol{N}^j \tag{8}
+$$
 
 值得注意的是，将 $\boldsymbol{N}^j_s = -\left(\boldsymbol{K}^j_{ii}\right)^{-1}\boldsymbol{K}^j_{ib}$ 代入式 (8)，并利用式 (2)，即可复现式 (4) 中缩聚刚度矩阵的精确表达式。与式 (4) 由矩阵运算得到的缩聚刚度矩阵相比，上式清楚地表明：子结构的缩聚刚度矩阵可通过多尺度形函数矩阵对全局刚度矩阵作对称变换而得到。
 
@@ -128,7 +158,9 @@ $$\boldsymbol{K}^j_s = \left(\boldsymbol{N}^j\right)^{\top}\boldsymbol{K}^j\bold
 
 为进一步提高分析效率，一个自然的想法是进一步缩减子结构的独立边界节点，例如假设子结构边界上的位移可由顶点节点的位移线性插值得到（$\boldsymbol{u}^j_b = \boldsymbol{L}\boldsymbol{u}^j_v$，其中 $\boldsymbol{L} \in \mathbb{R}^{n_b \times n_v}$ 为线性插值矩阵，$n_v$ 为每个子结构顶点节点的自由度数），如图 1(c) 所示。与式 (7)、(8) 类似，边界节点线性假设下的缩聚刚度矩阵可表示为：
 
-$$\tilde{\boldsymbol{K}}^j_s = \left(\boldsymbol{N}^j\boldsymbol{L}\right)^{\top}\boldsymbol{K}^j\left(\boldsymbol{N}^j\boldsymbol{L}\right) \triangleq \left(\tilde{\boldsymbol{N}}^j\right)^{\top}\boldsymbol{K}^j\tilde{\boldsymbol{N}}^j \tag{9}$$
+$$
+\tilde{\boldsymbol{K}}^j_s = \left(\boldsymbol{N}^j\boldsymbol{L}\right)^{\top}\boldsymbol{K}^j\left(\boldsymbol{N}^j\boldsymbol{L}\right) \triangleq \left(\tilde{\boldsymbol{N}}^j\right)^{\top}\boldsymbol{K}^j\tilde{\boldsymbol{N}}^j \tag{9}
+$$
 
 其中 $\tilde{\boldsymbol{N}}^j = \boldsymbol{N}^j\boldsymbol{L}$ 是由顶点节点位移插值出子结构节点位移向量的多尺度形函数。如此，缩聚刚度矩阵的维数被进一步降低。
 
@@ -163,7 +195,9 @@ $$\tilde{\boldsymbol{K}}^j_s = \left(\boldsymbol{N}^j\boldsymbol{L}\right)^{\top
 
 子结构方法可普遍地用于分析非均质结构（例如结构拓扑优化问题中的中间设计），且独立于边界约束与载荷条件。对于如图 1(a) 由均匀子结构离散的结构，多尺度形函数（或缩聚刚度矩阵）由子结构内的材料分布决定，即
 
-$$\tilde{\boldsymbol{N}}^j = \mathcal{F}\left(E_1, \dots, E_{m^2}\right) \tag{10}$$
+$$
+\tilde{\boldsymbol{N}}^j = \mathcal{F}\left(E_1, \dots, E_{m^2}\right) \tag{10}
+$$
 
 作为示例，每个细网格中的杨氏模量一般代表子结构内材料属性的分布。一旦该映射 $\mathcal{F}$ 被机器学习模型捕获，它便可用于所有具有相同尺寸与细网格离散的子结构（$\Omega_i, i=1,\dots,N$），而与非均质结构的边界约束和载荷条件无关。在获得每个子结构的多尺度形函数（最耗时的部分）之后，如后文数值所示，计算式 (9) 中的缩聚刚度矩阵、在保留自由度上求解平衡方程、以及在内部节点自由度上插值位移，都将非常高效。因此，该模型被命名为 PIML 模型（Huang 等, 2022, 2023），它可应用于具有相同控制方程的有限元分析（例如线弹性问题），并不同于现有的端到端型机器学习模型。
 
@@ -181,11 +215,15 @@ $$\tilde{\boldsymbol{N}}^j = \mathcal{F}\left(E_1, \dots, E_{m^2}\right) \tag{10
 
 特别地，
 
-$$\tilde{\boldsymbol{N}}^j = \begin{bmatrix} \boldsymbol{N}^j_s\boldsymbol{L} \\ \boldsymbol{L} \end{bmatrix} \triangleq \begin{bmatrix} \tilde{\boldsymbol{N}}^j_s \\ \boldsymbol{L} \end{bmatrix}$$
+$$
+\tilde{\boldsymbol{N}}^j = \begin{bmatrix} \boldsymbol{N}^j_s\boldsymbol{L} \\ \boldsymbol{L} \end{bmatrix} \triangleq \begin{bmatrix} \tilde{\boldsymbol{N}}^j_s \\ \boldsymbol{L} \end{bmatrix}
+$$
 
 由于 $\boldsymbol{L}$ 是常数矩阵，只需预测 $\tilde{\boldsymbol{N}}^j_s$。排除 $\boldsymbol{L}$ 减少了预测任务，更重要的是，确保了子结构之间位移的连续性。由于在刚体运动下子结构的所有节点位移都可仅由顶点节点的位移唯一确定，因此存在如图 2 所示的三个物理约束。这些物理约束可统一写为
 
-$$\tilde{\boldsymbol{N}}^j_s \boldsymbol{\phi}_i = \boldsymbol{b}_i, \quad i = 1, \dots, M \tag{11}$$
+$$
+\tilde{\boldsymbol{N}}^j_s \boldsymbol{\phi}_i = \boldsymbol{b}_i, \quad i = 1, \dots, M \tag{11}
+$$
 
 其中 $M$ 表示刚体运动的数目。如此，多尺度形函数矩阵中独立列的数目为 $(n_i - M)$，$\tilde{\boldsymbol{N}}^j_s$ 的前 $(n_i - M)$ 列构成一个缩减多尺度形函数 $\tilde{\boldsymbol{N}}^j_{sR}$。为使正文简洁，三维子结构物理约束的精确表达式见附录 B。
 
@@ -225,25 +263,33 @@ $$\tilde{\boldsymbol{N}}^j_s \boldsymbol{\phi}_i = \boldsymbol{b}_i, \quad i = 1
 
 对于只有位移边界条件的子结构，第 $j$ 个子结构的最小势能原理可表述如下：
 
-$$\begin{aligned} \text{find} \quad & \boldsymbol{u}^j \\ \min \quad & \left(\boldsymbol{u}^j\right)^{\top}\boldsymbol{K}^j\boldsymbol{u}^j/2 \\ \text{s.t.} \quad & \boldsymbol{u}^j = \bar{\boldsymbol{u}}^j, \quad \text{on } S_u^j \end{aligned} \tag{12}$$
+$$
+\begin{aligned} \text{find} \quad & \boldsymbol{u}^j \\ \min \quad & \left(\boldsymbol{u}^j\right)^{\top}\boldsymbol{K}^j\boldsymbol{u}^j/2 \\ \text{s.t.} \quad & \boldsymbol{u}^j = \bar{\boldsymbol{u}}^j, \quad \text{on } S_u^j \end{aligned} \tag{12}
+$$
 
 其中 $S_u^j$ 指第 $j$ 个子结构的位移边界。鉴于子结构的内部节点不受外力、边界节点受给定位移边界条件的假设，势能中的外力功部分消失，只剩下应变能。此外，利用本文引入的多尺度形函数，当边界位移固定时，子结构内的位移场可用这些多尺度形函数插值，即 $\boldsymbol{u}^j = \tilde{\boldsymbol{N}}^j \boldsymbol{u}^j_v$。
 
 因此，式 (12) 可改写为以多尺度形函数为设计变量的数学优化表述：
 
-$$\begin{aligned} \text{find} \quad & \tilde{\boldsymbol{N}}^j_s(\boldsymbol{d}) \\ \min \quad & J^j = \frac{1}{2}\left(\tilde{\boldsymbol{N}}^j\boldsymbol{u}^j_v\right)^{\mathsf{T}}\boldsymbol{K}^j\left(\tilde{\boldsymbol{N}}^j\boldsymbol{u}^j_v\right) \\ \text{s.t.} \quad & \tilde{\boldsymbol{N}}^j_s(\boldsymbol{d})\boldsymbol{\phi}_i = \boldsymbol{b}_i, \quad i=1,\dots,M \\ & \tilde{\boldsymbol{N}}^j = \begin{bmatrix} \tilde{\boldsymbol{N}}^j_s(\boldsymbol{d}) \\ \boldsymbol{L} \end{bmatrix} \end{aligned} \tag{13}$$
+$$
+\begin{aligned} \text{find} \quad & \tilde{\boldsymbol{N}}^j_s(\boldsymbol{d}) \\ \min \quad & J^j = \frac{1}{2}\left(\tilde{\boldsymbol{N}}^j\boldsymbol{u}^j_v\right)^{\mathsf{T}}\boldsymbol{K}^j\left(\tilde{\boldsymbol{N}}^j\boldsymbol{u}^j_v\right) \\ \text{s.t.} \quad & \tilde{\boldsymbol{N}}^j_s(\boldsymbol{d})\boldsymbol{\phi}_i = \boldsymbol{b}_i, \quad i=1,\dots,M \\ & \tilde{\boldsymbol{N}}^j = \begin{bmatrix} \tilde{\boldsymbol{N}}^j_s(\boldsymbol{d}) \\ \boldsymbol{L} \end{bmatrix} \end{aligned} \tag{13}
+$$
 
 由于神经算子表示多尺度形函数，上述表述本质上是在优化这些神经算子的参数 $\boldsymbol{d}$（例如图 4 中的 $\boldsymbol{\xi}, \boldsymbol{\omega}, \boldsymbol{\varphi}, \boldsymbol{\theta}, \boldsymbol{\zeta}, \boldsymbol{\phi}$ 等）。如第 3 节所述，式 (13) 中的约束编码了多尺度形函数的内在物理性质，确保 $\tilde{\boldsymbol{N}}^j_s$ 能够表示子结构的刚体运动。
 
 至关重要的是，对于任意给定的边界位移 $\boldsymbol{u}^j_v$，使式 (13) 中应变能最小的多尺度形函数恰好对应于精确的多尺度形函数。这一性质使得式 (13) 中适用于单个子结构的目标函数可推广到多个子结构的应变能。具体而言，
 
-$$\tilde{\boldsymbol{N}}^{j*}_s = \arg\min J^j\left(\tilde{\boldsymbol{N}}^j_s\right),\ j=1,\dots,N \quad\Rightarrow\quad \tilde{\boldsymbol{N}}^{1*}_s,\dots,\tilde{\boldsymbol{N}}^{N*}_s = \arg\min \sum_{j=1}^N J^j\left(\tilde{\boldsymbol{N}}^j_s\right) \tag{14}$$
+$$
+\tilde{\boldsymbol{N}}^{j*}_s = \arg\min J^j\left(\tilde{\boldsymbol{N}}^j_s\right),\ j=1,\dots,N \quad\Rightarrow\quad \tilde{\boldsymbol{N}}^{1*}_s,\dots,\tilde{\boldsymbol{N}}^{N*}_s = \arg\min \sum_{j=1}^N J^j\left(\tilde{\boldsymbol{N}}^j_s\right) \tag{14}
+$$
 
 其中 arg min 表示取最小值的自变量，$\tilde{\boldsymbol{N}}^{j*}_s$ 是第 $j$ 个子结构的精确多尺度形函数。
 
 式 (14) 促使我们引入一个由 $N$ 个子结构组成的伪结构（pseudo structure）。将式 (13) 中的目标函数设为整个伪结构的应变能，就可以在每次迭代中用这些子结构的多种密度分布来训练 DeepONet 模型。实际上，由于细尺度单元的刚度矩阵是已知的，计算整个伪结构的应变能无需组装全局刚度矩阵。DeepONet 的损失函数计算为：
 
-$$J = \sum_{j=1}^N \left(\tilde{\boldsymbol{N}}^j\boldsymbol{u}^j_v\right)^{\top}\boldsymbol{K}^j\left(\tilde{\boldsymbol{N}}^j\boldsymbol{u}^j_v\right)/2 = \sum_{j=1}^N\sum_{e=1}^{m^3}\left(\boldsymbol{u}^j_e\right)^{\top}\boldsymbol{k}^j_e\boldsymbol{u}^j_e/2 \tag{15}$$
+$$
+J = \sum_{j=1}^N \left(\tilde{\boldsymbol{N}}^j\boldsymbol{u}^j_v\right)^{\top}\boldsymbol{K}^j\left(\tilde{\boldsymbol{N}}^j\boldsymbol{u}^j_v\right)/2 = \sum_{j=1}^N\sum_{e=1}^{m^3}\left(\boldsymbol{u}^j_e\right)^{\top}\boldsymbol{k}^j_e\boldsymbol{u}^j_e/2 \tag{15}
+$$
 
 其中 $\boldsymbol{u}^j_e$ 与 $\boldsymbol{k}^j_e$ 分别是第 $j$ 个子结构中第 $e$ 个细尺度单元的单元位移向量与单元刚度矩阵。
 
@@ -273,25 +319,33 @@ $$J = \sum_{j=1}^N \left(\tilde{\boldsymbol{N}}^j\boldsymbol{u}^j_v\right)^{\top
 
 一旦 DeepONet 训练完成，就可用于对由相同子结构离散、具有任意位移边界与载荷条件的大规模结构进行高效线弹性分析。PIML 模型的优势使其尤其适用于大规模结构拓扑优化问题（Huang 等, 2022, 2023）。以体积约束下的最小柔顺性设计问题为例，SIMP 方法中的数学表述如下：
 
-$$\begin{aligned} \text{find} \quad & \boldsymbol{\rho} = \left(\rho_1, \dots, \rho_{Nm^3}\right)^{\top} \\ \min \quad & f = \boldsymbol{F}^{\top}\boldsymbol{U} \\ \text{s.t.} \quad & \boldsymbol{K}_{\mathrm{ML}}(\boldsymbol{\rho})\,\boldsymbol{U} = \boldsymbol{F} \\ & g = V(\boldsymbol{\rho}) - \bar{V} \leq 0 \\ & 0 \leq \rho_i \leq 1, \quad i=1,\dots,Nm^3 \end{aligned} \tag{16}$$
+$$
+\begin{aligned} \text{find} \quad & \boldsymbol{\rho} = \left(\rho_1, \dots, \rho_{Nm^3}\right)^{\top} \\ \min \quad & f = \boldsymbol{F}^{\top}\boldsymbol{U} \\ \text{s.t.} \quad & \boldsymbol{K}_{\mathrm{ML}}(\boldsymbol{\rho})\,\boldsymbol{U} = \boldsymbol{F} \\ & g = V(\boldsymbol{\rho}) - \bar{V} \leq 0 \\ & 0 \leq \rho_i \leq 1, \quad i=1,\dots,Nm^3 \end{aligned} \tag{16}
+$$
 
 其中 $N$ 与 $m^3$ 分别为整个结构中子结构的数目与每个子结构内细网格的数目，$\boldsymbol{K}_{\mathrm{ML}}(\boldsymbol{\rho})$ 是利用式 (9) 与 DeepONet 预测的多尺度形函数、组装各子结构缩聚刚度矩阵而得到的全局刚度矩阵。符号 $V$ 是实体材料的体积，其上界为 $\bar{V}$。
 
 为消除数值不稳定性（例如棋盘格现象与网格依赖性），此处采用密度过滤（Sigmund 和 Maute, 2013）。每次迭代中，通过对设计变量过滤得到物理密度场：
 
-$$\tilde{\rho}_e = \frac{\sum_{i\in N_e} H_{ei}\rho_i}{\sum_{i\in N_e} H_{ei}}, \quad H_{ei} = \max\left(0,\ r_{\min} - d(i,e)\right) \tag{17}$$
+$$
+\tilde{\rho}_e = \frac{\sum_{i\in N_e} H_{ei}\rho_i}{\sum_{i\in N_e} H_{ei}}, \quad H_{ei} = \max\left(0,\ r_{\min} - d(i,e)\right) \tag{17}
+$$
 
 其中 $d(i,e)$ 表示第 $i$ 与第 $e$ 个细尺度单元中心之间的距离，$N_e$ 是满足 $d(i,e) \leq r_{\min}$、位于第 $e$ 个单元影响域内的单元索引集，$H_{ei}$ 是过滤操作中的权重因子，$r_{\min}$ 表示过滤半径。
 
 为便于实现，灵敏度结果按全尺度分析的拓扑优化方式计算：
 
-$$\begin{cases} \dfrac{\partial f}{\partial \rho_j} = -\sum_{e\in N_j} \dfrac{3H_{je}\tilde{\rho}_e^2}{\sum_{i\in N_e} H_{ei}}\left(E_0 - E_{\min}\right)\boldsymbol{u}_e^{\top}\boldsymbol{k}_e\boldsymbol{u}_e \\[3mm] \dfrac{\partial g}{\partial \rho_j} = \sum_{e\in N_j} \dfrac{H_{je}}{\sum_{i\in N_e} H_{ei}} \end{cases} \tag{18}$$
+$$
+\begin{cases} \dfrac{\partial f}{\partial \rho_j} = -\sum_{e\in N_j} \dfrac{3H_{je}\tilde{\rho}_e^2}{\sum_{i\in N_e} H_{ei}}\left(E_0 - E_{\min}\right)\boldsymbol{u}_e^{\top}\boldsymbol{k}_e\boldsymbol{u}_e \\[3mm] \dfrac{\partial g}{\partial \rho_j} = \sum_{e\in N_j} \dfrac{H_{je}}{\sum_{i\in N_e} H_{ei}} \end{cases} \tag{18}
+$$
 
 其中 $\boldsymbol{k}_e$ 与 $\boldsymbol{u}_e$ 是第 $e$ 个细尺度单元的单元刚度矩阵与节点位移向量。
 
 对于第 5.3 节的柔顺机构设计算例，目标函数与相应的灵敏度结果为：
 
-$$\begin{cases} f = \boldsymbol{l}^{\top}\boldsymbol{U} \\[3mm] \dfrac{\partial f}{\partial \rho_j} = -\sum_{e\in N_j}\dfrac{3H_{je}\tilde{\rho}_e^2}{\sum_{i\in N_e}H_{ei}}\left(E_0 - E_{\min}\right)\boldsymbol{u}_e^{\top}\boldsymbol{k}_e\boldsymbol{u}_e^{\mathrm{ad}} \end{cases} \tag{19}$$
+$$
+\begin{cases} f = \boldsymbol{l}^{\top}\boldsymbol{U} \\[3mm] \dfrac{\partial f}{\partial \rho_j} = -\sum_{e\in N_j}\dfrac{3H_{je}\tilde{\rho}_e^2}{\sum_{i\in N_e}H_{ei}}\left(E_0 - E_{\min}\right)\boldsymbol{u}_e^{\top}\boldsymbol{k}_e\boldsymbol{u}_e^{\mathrm{ad}} \end{cases} \tag{19}
+$$
 
 其中 $\boldsymbol{l}$ 是标识输出位移的指示向量，节点伴随位移向量 $\boldsymbol{u}_e^{\mathrm{ad}}$ 通过求解伴随方程 $\boldsymbol{K}_{\mathrm{ML}}\boldsymbol{U}^{\mathrm{ad}} = \boldsymbol{l}$ 得到。PIML 增强拓扑优化求解过程的更多细节见 Huang 等（2022, 2023）的相关工作。
 
@@ -430,11 +484,15 @@ $$\begin{cases} f = \boldsymbol{l}^{\top}\boldsymbol{U} \\[3mm] \dfrac{\partial 
 
 在有限元方法中，体力可以转化为结构域中分布的节点外力。不失一般性，同时受面力与体力作用的子结构平衡方程可表述为：
 
-$$\boldsymbol{K}^j\boldsymbol{u}^j = \begin{pmatrix} \boldsymbol{K}^j_{bb} & \left(\boldsymbol{K}^j_{ib}\right)^{\top} \\ \boldsymbol{K}^j_{ib} & \boldsymbol{K}^j_{ii} \end{pmatrix}\begin{pmatrix} \boldsymbol{u}^j_b \\ \boldsymbol{u}^j_i \end{pmatrix} = \begin{pmatrix} \tilde{\boldsymbol{f}}^j_b \\ \tilde{\boldsymbol{f}}^j_i \end{pmatrix} \tag{20}$$
+$$
+\boldsymbol{K}^j\boldsymbol{u}^j = \begin{pmatrix} \boldsymbol{K}^j_{bb} & \left(\boldsymbol{K}^j_{ib}\right)^{\top} \\ \boldsymbol{K}^j_{ib} & \boldsymbol{K}^j_{ii} \end{pmatrix}\begin{pmatrix} \boldsymbol{u}^j_b \\ \boldsymbol{u}^j_i \end{pmatrix} = \begin{pmatrix} \tilde{\boldsymbol{f}}^j_b \\ \tilde{\boldsymbol{f}}^j_i \end{pmatrix} \tag{20}
+$$
 
 上式可等价变换为：
 
-$$\left(\boldsymbol{K}^j_{bb} - \left(\boldsymbol{K}^j_{ib}\right)^{\top}\left(\boldsymbol{K}^j_{ii}\right)^{-1}\boldsymbol{K}^j_{ib}\right)\boldsymbol{u}^j_b = \tilde{\boldsymbol{f}}^j_b - \left(\boldsymbol{K}^j_{ib}\right)^{\top}\left(\boldsymbol{K}^j_{ii}\right)^{-1}\tilde{\boldsymbol{f}}^j_i \tag{21}$$
+$$
+\left(\boldsymbol{K}^j_{bb} - \left(\boldsymbol{K}^j_{ib}\right)^{\top}\left(\boldsymbol{K}^j_{ii}\right)^{-1}\boldsymbol{K}^j_{ib}\right)\boldsymbol{u}^j_b = \tilde{\boldsymbol{f}}^j_b - \left(\boldsymbol{K}^j_{ib}\right)^{\top}\left(\boldsymbol{K}^j_{ii}\right)^{-1}\tilde{\boldsymbol{f}}^j_i \tag{21}
+$$
 
 显然，体力不影响子结构方法中的缩聚刚度矩阵。注意到 $\left(\boldsymbol{N}^j_s\right)^{\top} = -\left(\boldsymbol{K}^j_{ib}\right)^{\top}\left(\boldsymbol{K}^j_{ii}\right)^{-1}$ 这一事实，式 (21) 的右端可重写为 $\tilde{\boldsymbol{f}}^j_b + \left(\boldsymbol{N}^j_s\right)^{\top}\tilde{\boldsymbol{f}}^j_i$。类似地，对于受体力作用且边界采用线性变形假设的子结构，本 PIML 模型同样适用，唯一的区别在于缩聚外载荷向量应修改为 $\boldsymbol{L}^{\top}\tilde{\boldsymbol{f}}^j_b + \left(\tilde{\boldsymbol{N}}^j_s\right)^{\top}\tilde{\boldsymbol{f}}^j_i$。
 
@@ -442,21 +500,29 @@ $$\left(\boldsymbol{K}^j_{bb} - \left(\boldsymbol{K}^j_{ib}\right)^{\top}\left(\
 
 在由 $m^3$ 个均匀细尺度单元构成的三维子结构中，$\tilde{\boldsymbol{N}}^j_s$ 可表示为
 
-$$\tilde{\boldsymbol{N}}^j_s = \begin{bmatrix} \left(N^j_s\right)^{11}_{xx} & \left(N^j_s\right)^{11}_{xy} & \left(N^j_s\right)^{11}_{xz} & \cdots & \left(N^j_s\right)^{18}_{xx} & \left(N^j_s\right)^{18}_{xy} & \left(N^j_s\right)^{18}_{xz} \\ \left(N^j_s\right)^{11}_{yx} & \left(N^j_s\right)^{11}_{yy} & \left(N^j_s\right)^{11}_{yz} & \cdots & \left(N^j_s\right)^{18}_{yx} & \left(N^j_s\right)^{18}_{yy} & \left(N^j_s\right)^{18}_{yz} \\ \left(N^j_s\right)^{11}_{zx} & \left(N^j_s\right)^{11}_{zy} & \left(N^j_s\right)^{11}_{zz} & \cdots & \left(N^j_s\right)^{18}_{zx} & \left(N^j_s\right)^{18}_{zy} & \left(N^j_s\right)^{18}_{zz} \\ \vdots & \vdots & \vdots & \ddots & \vdots & \vdots & \vdots \\ \left(N^j_s\right)^{(m-1)^3\,1}_{xx} & \left(N^j_s\right)^{(m-1)^3\,1}_{xy} & \left(N^j_s\right)^{(m-1)^3\,1}_{xz} & \cdots & \left(N^j_s\right)^{(m-1)^3\,8}_{xx} & \left(N^j_s\right)^{(m-1)^3\,8}_{xy} & \left(N^j_s\right)^{(m-1)^3\,8}_{xz} \\ \left(N^j_s\right)^{(m-1)^3\,1}_{yx} & \left(N^j_s\right)^{(m-1)^3\,1}_{yy} & \left(N^j_s\right)^{(m-1)^3\,1}_{yz} & \cdots & \left(N^j_s\right)^{(m-1)^3\,8}_{yx} & \left(N^j_s\right)^{(m-1)^3\,8}_{yy} & \left(N^j_s\right)^{(m-1)^3\,8}_{yz} \\ \left(N^j_s\right)^{(m-1)^3\,1}_{zx} & \left(N^j_s\right)^{(m-1)^3\,1}_{zy} & \left(N^j_s\right)^{(m-1)^3\,1}_{zz} & \cdots & \left(N^j_s\right)^{(m-1)^3\,8}_{zx} & \left(N^j_s\right)^{(m-1)^3\,8}_{zy} & \left(N^j_s\right)^{(m-1)^3\,8}_{zz} \end{bmatrix} \tag{22}$$
+$$
+\tilde{\boldsymbol{N}}^j_s = \begin{bmatrix} \left(N^j_s\right)^{11}_{xx} & \left(N^j_s\right)^{11}_{xy} & \left(N^j_s\right)^{11}_{xz} & \cdots & \left(N^j_s\right)^{18}_{xx} & \left(N^j_s\right)^{18}_{xy} & \left(N^j_s\right)^{18}_{xz} \\ \left(N^j_s\right)^{11}_{yx} & \left(N^j_s\right)^{11}_{yy} & \left(N^j_s\right)^{11}_{yz} & \cdots & \left(N^j_s\right)^{18}_{yx} & \left(N^j_s\right)^{18}_{yy} & \left(N^j_s\right)^{18}_{yz} \\ \left(N^j_s\right)^{11}_{zx} & \left(N^j_s\right)^{11}_{zy} & \left(N^j_s\right)^{11}_{zz} & \cdots & \left(N^j_s\right)^{18}_{zx} & \left(N^j_s\right)^{18}_{zy} & \left(N^j_s\right)^{18}_{zz} \\ \vdots & \vdots & \vdots & \ddots & \vdots & \vdots & \vdots \\ \left(N^j_s\right)^{(m-1)^3\,1}_{xx} & \left(N^j_s\right)^{(m-1)^3\,1}_{xy} & \left(N^j_s\right)^{(m-1)^3\,1}_{xz} & \cdots & \left(N^j_s\right)^{(m-1)^3\,8}_{xx} & \left(N^j_s\right)^{(m-1)^3\,8}_{xy} & \left(N^j_s\right)^{(m-1)^3\,8}_{xz} \\ \left(N^j_s\right)^{(m-1)^3\,1}_{yx} & \left(N^j_s\right)^{(m-1)^3\,1}_{yy} & \left(N^j_s\right)^{(m-1)^3\,1}_{yz} & \cdots & \left(N^j_s\right)^{(m-1)^3\,8}_{yx} & \left(N^j_s\right)^{(m-1)^3\,8}_{yy} & \left(N^j_s\right)^{(m-1)^3\,8}_{yz} \\ \left(N^j_s\right)^{(m-1)^3\,1}_{zx} & \left(N^j_s\right)^{(m-1)^3\,1}_{zy} & \left(N^j_s\right)^{(m-1)^3\,1}_{zz} & \cdots & \left(N^j_s\right)^{(m-1)^3\,8}_{zx} & \left(N^j_s\right)^{(m-1)^3\,8}_{zy} & \left(N^j_s\right)^{(m-1)^3\,8}_{zz} \end{bmatrix} \tag{22}
+$$
 
 其中 $\left(N^j_s\right)^{kl}_{pq}$ 表示第 $j$ 个子结构中，由第 $l$ 个顶点节点沿 $q$ 方向的单位位移所引起的第 $k$ 个内部节点沿 $p$ 方向的位移。
 
 对应于六个刚体运动，六组方程（即 $\tilde{\boldsymbol{N}}^j_s\boldsymbol{\phi}_i = \boldsymbol{b}_i,\ i=1,\dots,6$）意味着：对 PIML 模型而言，$\tilde{\boldsymbol{N}}^j_s$ 的前 18 列可归拢为 $\tilde{\boldsymbol{N}}^j_{sR}$。在预测出 $\tilde{\boldsymbol{N}}^j_{sR}$ 之后，完整的 $\tilde{\boldsymbol{N}}^j_s$ 可根据六个物理要求（式 11）、利用以下表达式复现：
 
-$$\begin{cases} \boldsymbol{\phi}_1 = \boldsymbol{b}_1 = (1,0,0,\dots,1,0,0)^{\top} \\ \boldsymbol{\phi}_2 = \boldsymbol{b}_2 = (0,1,0,\dots,0,1,0)^{\top} \\ \boldsymbol{\phi}_3 = \boldsymbol{b}_3 = (0,0,1,\dots,0,0,1)^{\top} \\ \boldsymbol{\phi}_k = \boldsymbol{R}^k_v\boldsymbol{x}_v,\quad \boldsymbol{b}_k = \boldsymbol{R}^k_i\boldsymbol{x}_i,\quad k=4,5,6 \end{cases} \tag{23}$$
+$$
+\begin{cases} \boldsymbol{\phi}_1 = \boldsymbol{b}_1 = (1,0,0,\dots,1,0,0)^{\top} \\ \boldsymbol{\phi}_2 = \boldsymbol{b}_2 = (0,1,0,\dots,0,1,0)^{\top} \\ \boldsymbol{\phi}_3 = \boldsymbol{b}_3 = (0,0,1,\dots,0,0,1)^{\top} \\ \boldsymbol{\phi}_k = \boldsymbol{R}^k_v\boldsymbol{x}_v,\quad \boldsymbol{b}_k = \boldsymbol{R}^k_i\boldsymbol{x}_i,\quad k=4,5,6 \end{cases} \tag{23}
+$$
 
 其中 $\boldsymbol{x}_v$ 与 $\boldsymbol{x}_i$ 是顶点节点与内部节点的坐标向量。转动矩阵为对角块矩阵，可表示为
 
-$$\boldsymbol{R}^k_v = \begin{bmatrix} \boldsymbol{R}^k_1 & \cdots & \boldsymbol{0} \\ \vdots & \ddots & \vdots \\ \boldsymbol{0} & \cdots & \boldsymbol{R}^k_8 \end{bmatrix}, \qquad \boldsymbol{R}^k_i = \begin{bmatrix} \boldsymbol{R}^k_1 & \cdots & \boldsymbol{0} \\ \vdots & \ddots & \vdots \\ \boldsymbol{0} & \cdots & \boldsymbol{R}^k_{(m-1)^3} \end{bmatrix} \tag{24}$$
+$$
+\boldsymbol{R}^k_v = \begin{bmatrix} \boldsymbol{R}^k_1 & \cdots & \boldsymbol{0} \\ \vdots & \ddots & \vdots \\ \boldsymbol{0} & \cdots & \boldsymbol{R}^k_8 \end{bmatrix}, \qquad \boldsymbol{R}^k_i = \begin{bmatrix} \boldsymbol{R}^k_1 & \cdots & \boldsymbol{0} \\ \vdots & \ddots & \vdots \\ \boldsymbol{0} & \cdots & \boldsymbol{R}^k_{(m-1)^3} \end{bmatrix} \tag{24}
+$$
 
 其中
 
-$$\boldsymbol{R}^4_1 = \cdots = \boldsymbol{R}^4_{(m-1)^3} = \begin{bmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix},\quad \boldsymbol{R}^5_1 = \cdots = \boldsymbol{R}^5_{(m-1)^3} = \begin{bmatrix} 0 & 0 & -1 \\ 0 & 0 & 0 \\ 1 & 0 & 0 \end{bmatrix},\quad \boldsymbol{R}^6_1 = \cdots = \boldsymbol{R}^6_{(m-1)^3} = \begin{bmatrix} 0 & 0 & 0 \\ 0 & 0 & -1 \\ 0 & 1 & 0 \end{bmatrix} \tag{25}$$
+$$
+\boldsymbol{R}^4_1 = \cdots = \boldsymbol{R}^4_{(m-1)^3} = \begin{bmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix},\quad \boldsymbol{R}^5_1 = \cdots = \boldsymbol{R}^5_{(m-1)^3} = \begin{bmatrix} 0 & 0 & -1 \\ 0 & 0 & 0 \\ 1 & 0 & 0 \end{bmatrix},\quad \boldsymbol{R}^6_1 = \cdots = \boldsymbol{R}^6_{(m-1)^3} = \begin{bmatrix} 0 & 0 & 0 \\ 0 & 0 & -1 \\ 0 & 1 & 0 \end{bmatrix} \tag{25}
+$$
 
 # 译后检查清单
 
@@ -467,4 +533,4 @@ $$\boldsymbol{R}^4_1 = \cdots = \boldsymbol{R}^4_{(m-1)^3} = \begin{bmatrix} 0 &
 - [x] 表 1–3 已排为 Markdown 表格。
 - [x] 图 1–14 已从 PDF 无损抽取并放入 `topology-opt/assets/Huang2024_FigX.png`，正文用 `![[Huang2024_FigX.png]]` 嵌入，图注紧随其下。
 - [x] 已对照 PDF 原页复核重构公式：式 (10) 映射记号更正为 $\mathcal{F}$、式 (13) 目标函数更正为 $J^j$；式 (22) 大矩阵、式 (23)–(25) 转动矩阵、附录 A 式 (20)/(21) 均确认无误。
-- [x] 与 [[../Huang2022-problemindependentmachine]]、[[../Huang2023-PIML-substructure]]、[[../Ma2026-highperformanceparallel]] 的关系已在笔记 [[../Huang2024-PIML-datafree]] 中同步（关系表「本文」行、核心思路、学习对象、损失、实验、结论均已按全文精读补全）。
+- [x] 与 [[../notes/Huang2022-problemindependentmachine]]、[[../notes/Huang2023-PIML-substructure]]、[[../notes/Ma2026-highperformanceparallel]] 的关系已在笔记 [[../notes/Huang2024-PIML-datafree]] 中同步（关系表「本文」行、核心思路、学习对象、损失、实验、结论均已按全文精读补全）。

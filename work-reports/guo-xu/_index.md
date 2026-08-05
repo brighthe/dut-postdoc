@@ -1,5 +1,5 @@
 ---
-title: "郭旭老师工作汇报归档"
+title: "郭旭老师工作汇报入口"
 topic: "何亮向郭旭老师进行的博士后工作汇报"
 tags:
   - work-report
@@ -7,35 +7,34 @@ tags:
   - research-plan
 status: "in-progress"
 date_start: 2026-07-21
-date_update: 2026-07-22
+date_update: 2026-08-02
 ---
 
-# 郭旭老师工作汇报归档
+# 郭旭老师工作汇报入口
 
-> 本目录保存面向郭旭老师的完整工作汇报材料，包括本次实际要汇报的行政/工作状态摘要、科研与项目进展、合作线索、待请教问题，以及实际汇报后的结论和行动项。真实聊天、约见、原话、完整行政流水和关系信息以 `heliangos:wechat/contacts/郭旭.md` 为准，不在这里重复维护。
+> 本目录只保存可直接面向郭旭老师使用的单次汇报材料及会后结论。当前汇报围绕 [[../../research/piml-matrix-free-gpu/project-plan|博士后核心研究项目]]的 WP1 进展、WP2 准备与 WP3 衔接展开；项目总体计划由核心项目计划维护，Matrix-Free 详细任务和单线技术边界统一由 [[../../research/technical-lines/matrix-free-research-guide]] 维护。
 
 ## 汇报时间线
 
 | 汇报 | 状态 | 实际日期 | 核心内容 |
 |---|---|---|---|
-| [[2026-07-piml-matrix-free-gpu]] | preparing | 待确定 | 入站进展、研究院任务衔接、PIML × Matrix-Free × GPU 科研主线及模型选型线索 |
+| [[first-formal-work-report]] | preparing | 待确定 | 汇报核心项目 WP1 的 Matrix-Free 当前正式结果、WP2–WP3 研究衔接及下一步设想，请郭老师指导优先科学问题和成果出口 |
 
-## 当前待办
+## 页面入口
 
-- [ ] 与郭老师约定本次当面汇报时间。
-- [x] 按优先级准备可直接口述的完整工作汇报、技术备查和待请教问题。
-- [ ] 汇报后补充研究结论、老师的技术指导和行动项，并将状态更新为 `reported`。
+- [[first-formal-work-report]] — 可直接给郭旭老师阅读的第一次正式工作汇报。
+- [[../../concepts/piml/_index|PIML 主题入口]] — PIML 稳定知识、当前研究、工作汇报、文献证据与历史档案的统一语义入口。
+- [[../../concepts/matrix-free/_index|Matrix-Free 主题入口]] — 稳定知识、当前研究、文献证据、工作汇报与历史档案的统一语义入口。
+- [[../../concepts/gpu-hpc/_index|GPU/HPC 主题入口]] — GPU/HPC 稳定知识、当前研究、工作汇报、文献证据与历史档案的统一语义入口。
+- [[../../research/technical-lines/matrix-free-research-guide#五、阶段门禁与当前执行状态]] — 本人维护的 Matrix-Free 当前任务状态与推进顺序。
+- [[../../research/piml-matrix-free-gpu/_index|博士后核心研究项目入口]] — 项目导航、事实所有权和最低融合边界。
+- [[../../research/piml-matrix-free-gpu/project-plan]] — 项目目标、WP1–WP3、两年阶段和资助映射。
+- [[../../entities/guo-xu]] — 郭旭老师的公开学术身份与相关工作。
 
 ## 维护规则
 
-- 一次汇报只维护一个页面，不另建会前稿和会后纪要。
-- 会后记录只保留影响科研路线、软件方案、优先级和协作接口的内容。
-- 不复制微信原文、见面过程、完整行政流水、敏感标识或礼节性内容；本次实际汇报需要的行政状态应以简洁、可口述的快照写入汇报页。
-- 技术数字必须链接回 `dut-postdoc` 中的原型 guide、调研或文献笔记。
-- 研究院任务状态只读引用 `dut-institute-work/hpc/plan.md`。
-
-## 相关入口
-
-- [[../_index]] — 全部工作汇报的事实源分工与生命周期。
-- [[../../research/postdoc-research-plan]] — 博士后科研计划总领。
-- [[../../research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] — 当前方向一详细技术事实。
+- 一次汇报只维护一个页面，未实际发生时保持 `preparing`。
+- 汇报页只保留当次要讲的工作、结果、事实边界、请教事项、实际结论和行动项。
+- 内部任务编号、完整 Todo、程序计划和验收条件统一回到 [[../../research/technical-lines/matrix-free-research-guide#五、阶段门禁与当前执行状态|Matrix-Free guide 的当前执行状态]]。
+- 代码、运行命令、原始结果和正式 evidence 由 SOPTX 维护，本目录只保留必要结论和事实源指针。
+- 真实聊天、约见和关系信息由沟通仓库维护，本目录不复制。

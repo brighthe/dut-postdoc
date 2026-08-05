@@ -36,11 +36,16 @@ dut-postdoc/
 │   ├── git-workflow.md
 │   ├── paper-translation-workflow.md
 │   └── talks-ppt-editing-rules.md
-├── index.md           # 根总目录：全库内容地图（每次 ingest 后更新）
+├── index.md           # 根总目录：稳定入口与高层导航地图
 ├── log.md             # 时间线：append-only，记录每次 ingest/query/lint
 ├── README.md          # 给人看的仓库说明
 │
-├── literature/        # 文献笔记（单篇论文级 ≈ summary 页）
+├── literature/        # 文献主题与单篇论文 summary 页
+│   └── <主题>/
+│       ├── _index.md  # 文献主题入口与最近一级状态导航
+│       ├── notes/     # AuthorYear-short-topic 单篇笔记；纯文件容器
+│       ├── translations/ # 中文译文
+│       └── assets/    # 图片等派生资源
 ├── research/          # 调研/综合（课题/方向级 ≈ synthesis 页）
 ├── work-reports/      # 周期性工作汇报（自包含的会前完整底稿、会后结论与行动项）
 ├── concepts/          # 稳定概念：简单概念单页，复杂主题使用子目录
@@ -58,27 +63,31 @@ dut-postdoc/
 
 页面类型速记：
 
-- **summary（文献笔记）**：一篇论文一页，落在 `literature/<方向>/`。
+- **summary（文献笔记）**：一篇论文一页，落在 `literature/<主题>/notes/`；`notes/` 只是文件容器，不建立 `_index.md` 或第二套状态账。
 - **synthesis（调研）**：一个课题跨多篇论文，落在 `research/`。
 - **work report（工作汇报）**：一次面向导师或合作团队的周期性汇报，落在 `work-reports/<对象>/`；同一页面持续维护本次实际要汇报的全部会前内容、必要事实快照、会后结论和行动项，做到汇报时无需跳转其他仓库补充正文。
-- **concept（概念页）**：反复出现的概念经跨源提炼后落在 `concepts/`；简单概念使用单页，具有多个稳定子页面的复杂主题使用 `concepts/<主题>/`。
+- **concept（概念页）**：反复出现的概念经跨源提炼后落在 `concepts/`；简单概念使用 `assets/templates/concept-note.md` 建立单页，具有多个稳定子页面的复杂主题使用 `concepts/<主题>/`，并以 `assets/templates/topic-index.md` 建立统一语义入口。
 - **entity（实体页）**：一个人/团队/机构/方法/软件的档案卡，落在 `entities/`。
 - **archive（事件档案）**：已经完成、不再主动维护的答辩、报告或阶段事件材料，落在 `archive/<event>/`；归档前先把长期有效事实抽取到概念页、技术线或调研页，档案只保存最终交付物、准备过程与历史语境。
 
 ## 写作约定
 
 - **语言**：全中文（专有名词、方法名、变量保留英文）。
-- **文件名**：英文 kebab-case；文献笔记一律采用 Zotero 自动生成的 Citation Key 命名，如 `Huang2022-problemindependentmachine.md`。
+- **文件名与 Citation Key**：文献页面使用稳定、可读的 `AuthorYear-short-topic` basename，如 `Huang2022-problemindependentmachine.md`；作者姓首字母大写，四位年份紧随其后，短主题用连字符分段，既有标准缩写可保留大写。中文译文在同一 basename 后追加 `-zh`。页面文件名与 Zotero Citation Key 分离，Citation Key 只在 `zotero_citation_key`／`citekey` 和 `assets/refs.bib` 中保存。
 - **强制 Frontmatter (笔记属性)**：**任何时候新建或撰写/更新文档，必须严格按照对应模板将顶部的 YAML 属性信息（如 `status`、`tags`、`date_read/update`、作者/年份等）全部真实、完整地填写好，绝不可遗漏或留白**。
-- **文献笔记模板与状态**：`assets/templates/literature-note.md` 是文献笔记 frontmatter schema 与正文骨架的唯一规范来源；新建或迁移文献笔记时按该模板填写，不维护并行的 Zotero/ZotLit 生成模板。文献状态依次为：`draft`（仅有元数据或框架，正文技术结论尚未完成精读）、`read`（已精读并形成摘要，但公式、图表、证据边界或关联同步尚未全部终审）、`done`（全文证据核验、frontmatter、链接和关联同步均完成，不强制必须存在完整译文）。日期统一使用 `date_added`、`date_read`、`date_update`；未知或尚不适用的可选字段写 YAML `null`。`year` 记录正式卷期年份，online-first 日期另记为 `date_online`；页码与文章号分别使用 `pages`、`article`。Citation Key 统一存入 `zotero_citation_key`，不得另建 `citekey`。
+- **文献笔记模板与状态**：`assets/templates/literature-note.md` 是 `literature/<主题>/notes/` 中单篇笔记 frontmatter schema 与正文骨架的唯一规范来源；新建或迁移文献笔记时按该模板填写，不维护并行的 Zotero/ZotLit 生成模板。文献状态依次为：`draft`（只保存已核验元数据、页面框架和译文入口，不形成正文技术结论）、`read`（对应中文译文已经 `done`，笔记已精读回填，但公式、图表、证据边界或关联同步尚未全部终审）、`done`（译文与全文证据核验、frontmatter、链接和关联同步均完成）。中文译文达到 `done` 前，文献笔记不得升级为 `read`／`done`，不得作为全文级证据使用。日期统一使用 `date_added`、`date_read`、`date_update`；未知或尚不适用的可选字段写 YAML `null`。`year` 记录正式卷期年份，online-first 日期另记为 `date_online`；页码与文章号分别使用 `pages`、`article`。Citation Key 统一存入 `zotero_citation_key`，不得另建 `citekey`。
+- **模型选型证据卡**：`assets/templates/model-selection-evidence-card.md` 是按需插入单篇笔记的模板片段，不是独立 Wiki 页面。仅在专题任务需要统一比较时放入“证据边界与可复现性”；填好的卡片继续由该单篇笔记唯一维护，每格必须填写论文事实或“未报告”，并区分作者主张与证据边界。
+- **文献主题索引**：`assets/templates/literature-topic-index.md` 是 `literature/<主题>/_index.md` 的规范骨架，维护主题范围、按子主题组织的论文入口、最近一级状态、交叉主题和归类规则；不复制单篇正文。单篇状态以页面 frontmatter 为权威来源，主题索引只做最近一级同步。
+- **中文译文模板与状态**：`assets/templates/translation-note.md` 是译文 frontmatter 与正文骨架的唯一模板，具体翻译和核验过程遵循 `ai/paper-translation-workflow.md`。先建立元数据文献笔记骨架和对应译文骨架，再逐节翻译；译文状态使用 `draft`（未完成）、`read`（内容已整理但尚待逐页核验）和 `done`（清单声明的内容已经核验）。只有译文 `done` 后才回填正式文献笔记。
+- **复杂主题入口模板与职责**：`assets/templates/topic-index.md` 是复杂主题 `_index.md` 的规范骨架。主题入口按“稳定知识—当前研究—工作汇报（可选）—文献证据—关联实现（可选）—历史档案（可选）—关联主题—管理边界”组织；没有实际内容的可选章节必须删除。入口页只维护导航、页面职责和事实所有权，不复制其他页面正文，不建立第二套任务状态账，不维护固定文件数或全部关键词命中清单。
 - **双链**：页面间一律用 Obsidian `[[wikilink]]`，**链接要给足**。链一个尚不存在的页面也可以，它标记「将来要补的页」。
 - **引用要可溯源**：综合性结论尽量标注来源页（`[[...]]`）或 `refs.bib` 的 cite key，不凭空断言。
 - **不编造**：拿不准的事实标注「待确认」，绝不虚构数据、结论或文献。
 - **工作汇报生命周期与边界**：工作汇报页使用 `preparing → reported → follow-up-done`；未实际汇报不得标为 `reported`。页面应自包含本次实际要汇报的全部内容，包括必要的行政/工作状态摘要、技术事实、研究路线、合作线索和待请教问题；外部事实源仍各自维护完整原始记录与实时状态。真实消息、逐字交流、约见过程、关系状态、完整行政流水和敏感标识由对应沟通仓库维护，项目任务实时状态以项目仓库为准；汇报页只保留有日期和来源说明的必要快照，不建立并行事实账。
 - **报告与事件归档生命周期**：`talks/` 只保存准备中或仍需维护的演示文稿。事件完成后，先抽取长期知识，再把最终交付物和准备材料整体移入 `archive/<event>/`，状态统一为 `archived` 并记录事件日期和归档日期。活跃页面不得继续把归档 guide 当作当前事实源；归档内的历史脚本、话术和阶段状态不再持续更新。
-- **语义 `_index.md` 是主题入口**：不按物理文件夹机械创建 `_index.md`。只有当目录代表明确知识主题或工作流、包含多个需要说明关系与边界的权威页面，或需要跨目录连接概念、研究路线和文献证据时，才建立 `_index.md`；附件、临时分组和单一明确页面通常不建立。
-- **从主题入口续接上下文**：主题 `_index.md` 可以链接目录外的 `research/`、`literature/` 或 `work-reports/` 页面，不要求只列本目录文件。进入已有主题入口时，先阅读 `_index.md`，再按“稳定知识—当前研究—证据”打开权威页面。
-- **内容变更后同步语义索引**：每次新增、移动、删除或重组主题页面后，检查其语义 `_index.md`；若影响概念域或全库导航，再同步 `concepts/_index.md` 或根 `index.md`。没有语义入口的普通目录不为满足形式要求而新建 `_index.md`。
+- **语义 `_index.md` 是主题入口**：不按物理文件夹机械创建 `_index.md`。只有当目录代表明确知识主题或工作流、包含多个需要说明关系与边界的权威页面，或需要跨目录连接稳定知识、当前研究、文献证据、工作汇报和历史档案时，才建立 `_index.md`；附件、临时分组和单一明确页面通常不建立。
+- **从主题入口续接上下文**：主题 `_index.md` 可以链接目录外的 `research/`、`literature/`、`work-reports/` 或 `archive/` 页面，不要求只列本目录文件。进入已有主题入口时，先阅读 `_index.md`，再按页面角色打开权威事实源；跨目录链接不改变原页面的事实所有权。
+- **内容变更后同步语义索引**：每次新增、移动、删除或重组主题页面后，检查其最近的语义 `_index.md`；单页 frontmatter 是该页状态的权威来源，状态只同步到最近的主题索引，不向父级和根索引逐层复制。只有稳定入口、概念域或全库高层导航发生变化时，才同步 `concepts/_index.md` 或根 `index.md`。没有语义入口的普通目录不为满足形式要求而新建 `_index.md`。
 - **关联更新与同步校验**：每次新建或修改任何 wiki 页面（如文献笔记、调研页、概念页、实体页等）后，**必须主动检索并检查所有与其关联的其他页面**（如反向双链引用、同类概念交叉引用、团队/机构实体信息等）。**在执行此项检索与检查前，AI 必须提前询问并告知用户（例如：「我将开始检索并检查与本次修改/新增相关联的文件以确认是否需要同步更新，是否继续？」），在得到用户确认后方可进行校验与同步更新**。严禁默默修改单页或未经询问就执行后台关联文件检查。提交前门面检查的授权与具体门禁以 [git-workflow.md](git-workflow.md) 为准；其他关联 Wiki 页面的扩展检查仍适用本规则。
 
 ## 三个核心操作
@@ -87,13 +96,14 @@ dut-postdoc/
 
 当用户给一篇新论文/文章/图片时：
 
-1. **读** 原始资料（PDF/图片/链接）。
-2. **讨论** 和用户过一遍核心要点（一句话概括 + 它解决什么 + 对用户有什么用）。
-3. **写 summary**：用 `assets/templates/literature-note.md` 在对应 `literature/<方向>/` 建文献笔记；图片存同级 `assets/`。
-4. **更新 `refs.bib`**：补上该文献条目。
-5. **横向刷新**：更新受影响的 **概念页**（`concepts/`）、**实体页**（`entities/`）、相关 **调研**（`research/`）。一次 ingest 可能要动 5-15 个文件。
-6. **更新索引**：对应目录 `_index.md`（例如 `literature/_index.md`）、必要的父目录 `_index.md`、根 `index.md`。
-7. **记一笔 log**。
+1. **核验原始资料**：读取 PDF/图片/链接，确认 Zotero item、附件和 Better BibTeX Citation Key。
+2. **建立双骨架**：用 `assets/templates/literature-note.md` 建只含元数据和占位栏目的 `draft` 文献笔记；用 `assets/templates/translation-note.md` 按原文章节建立 `draft` 中文译文。
+3. **逐节翻译与核验**：遵循 `ai/paper-translation-workflow.md` 与用户逐节确认；译文完成全局终审后标记为 `done`。
+4. **回填 summary**：基于已核验译文撰写文献笔记，和用户讨论一句话概括、研究问题、方法、证据边界及研究价值；按终审程度升级为 `read` 或 `done`。
+5. **更新 `refs.bib`**：补上并核验该文献条目。
+6. **横向刷新**：更新受影响的 **概念页**（`concepts/`）、**实体页**（`entities/`）、相关 **调研**（`research/`）。一次 ingest 可能要动 5-15 个文件。
+7. **更新索引**：更新最近的主题 `_index.md`；只有新增、移动或删除稳定入口并影响高层导航时，才同步必要的父级 `_index.md` 和根 `index.md`。
+8. **记一笔 log**。
 
 ### 2. Query（查询）
 
@@ -116,7 +126,7 @@ dut-postdoc/
 
 ## index.md、log.md 与 README.md
 
-- **`index.md`（根总目录）**：面向内容的全库地图，按类别列出各页 + 一句话摘要 + 关键元数据。每次 ingest 后更新。分区细目仍由各 `_index.md` 维护，根 `index.md` 汇总并指向它们。
+- **`index.md`（根总目录）**：面向内容的全库稳定入口与高层导航地图。优先列主题入口以及没有专属子索引的关键独立页面，不平铺已经由下级 `_index.md` 管理的叶子页面和单篇状态；只有稳定入口或高层导航变化时更新。
 - **`log.md`（时间线）**：append-only，每次操作追加一条可解析记录：
 
 ```markdown

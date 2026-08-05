@@ -1,14 +1,33 @@
-# 研究计划与调研总览
+# 研究路线与调研总览
 
-> 本目录内每个下级目录只承担一条轴：`postdoc-research-plan` 是总领；课题主题目录（`piml-matrix-free`、`mmc-mmv`）维护具体研究课题如何组合技术线；`technical-lines` 沉淀跨课题复用的长期技术能力；`workflows` 维护可复用的研究执行流程；`funding` 维护项目 / 基金申请台账。人与团队等稳定档案统一归入 `entities/`。已经完成的入站考核答辩材料见 [[archive/2026-postdoc-entry-assessment/README]]。
+> 本目录内每个下级目录只承担一条轴：[[long-term-research-lines]] 是个人科研方向总领；`piml-matrix-free-gpu` 维护主线二在博士后阶段的核心研究项目；[[postdoc-research-output-roadmap]] 维护博士延续成果、核心项目论文和风险组合；其他课题目录维护专题或合作问题；`technical-lines` 沉淀跨项目复用的长期技术能力；`workflows` 维护研究执行流程；`funding` 只维护资助机会和批次申请。人与团队等稳定档案统一归入 `entities/`，已完成的入站考核材料见 [[archive/2026-postdoc-entry-assessment/README]]。
 
 ## 总领
 
 | 文档 | 状态 | 说明 |
 |---|---|---|
-| [[postdoc-research-plan]] | in-progress | 博后研究计划总领：两大研究方面、四条主线、三阶段与预期目标 |
+| [[long-term-research-lines]] | in-progress | 个人长期科研方向的最高层事实源：高精度数值离散与拓扑优化、智能高性能计算力学 |
 
-`postdoc-research-plan.md` 是计划正文的**唯一事实源**。2026-07-17 曾由其抽离出 `postdoc-research-plan.tex` 用于编译对外发送的 PDF，属一次性派生件，已于 2026-07-30 移出版本控制并由 `.gitignore` 排除；该排版源与产出 PDF 归 iCloud 的 `博士后-大连理工大学/` 保存。今后如需再次出稿，一律先改 `.md` 再重新抽离，不在 Git 内维护第二份全文。
+## 博士后阶段成果路线
+
+| 文档 | 状态 | 说明 |
+|---|---|---|
+| [[postdoc-research-output-roadmap]] | in-progress | 博士阶段延续成果、核心项目 WP1–WP3 论文组合与条件性资助渠道的成果映射 |
+
+## 博士后核心研究项目
+
+| 文档 | 状态 | 说明 |
+|---|---|---|
+| [[piml-matrix-free-gpu/_index]] | in-progress | “面向大规模拓扑优化的 PIML Matrix-Free 求解与 GPU 协同加速方法研究”的统一导航入口 |
+| [[piml-matrix-free-gpu/project-plan]] | in-progress | 项目名称、总体目标、WP1–WP3、两年阶段、项目级状态和资助映射的唯一事实源 |
+
+## 阶段性计划与历史材料
+
+| 文档 | 状态 | 说明 |
+|---|---|---|
+| [[../archive/2026-postdoc-entry-assessment/postdoc-research-plan]] | archived | 博士后入站阶段科研计划：保留提交时的两大研究方面、四条主线、三阶段与预期目标 |
+
+`archive/2026-postdoc-entry-assessment/postdoc-research-plan.md` 是入站阶段计划正文的**唯一 Markdown 事实源**，但不是当前个人长期科研方向的总领。2026-07-17 曾由其抽离出 `postdoc-research-plan.tex` 用于编译对外发送的 PDF，属一次性派生件，已于 2026-07-30 移出版本控制并由 `.gitignore` 排除；该排版源与产出 PDF 归 iCloud 的 `博士后-大连理工大学/` 保存。若需复现当时交付稿，一律从该历史正文重新抽离，不根据后续研究变化改写原有计划口径。
 
 ## 项目与基金申请
 
@@ -45,26 +64,21 @@
 
 ## 长期研究路线
 
-### 当前研究课题
+### 其他当前研究课题
 
 课题目录按主题命名，与 `concepts/` 的主题子库对齐；原 `postdoc-plan/long-term/direction-1|2-*` 编号层级已于 2026-07-30 撤除，旧路径由各页 frontmatter `aliases` 兜底。
 
 | 课题 | 文档 | 状态 | 说明 |
 |---|---|---|---|
-| PIML × Matrix-Free | [[piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] | in-progress | 第一个研究计划题目的技术调研：PIML 增强多尺度分析、Matrix-Free、并行多重网格与 GPU 高性能求解 |
-| PIML × Matrix-Free | [[piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] | in-progress | 三线融合的当前能力证据、事实边界与模型选型议题的权威技术底稿；原型数值的活跃事实入口 |
-| PIML × Matrix-Free | [[piml-matrix-free/liu-chang-model-selection-task-line]] | in-progress | 刘畅老师模型选型线的任务序列、交付等级 D0–D3 与授权边界 |
-| MMC / MMV | [[mmc-mmv/mmc-mmv-numerical-discretization-survey]] | draft | 第二个研究计划题目的技术调研：MMC/MMV 高精度数值离散与高效结构分析 |
+| MMC / MMV | [[mmc-mmv/mmc-mmv-numerical-discretization-survey]] | draft | 具体合作与应用课题：MMC/MMV 高精度数值离散与高效结构分析，不单列为第三条个人长期主线 |
 
-### 跨方向长期技术线
+### 跨课题长期技术线
 
-| 技术线 | 状态 | 说明 |
+| 入口 | 状态 | 说明 |
 |---|---|---|
-| [[technical-lines/piml-research-guide]] | in-progress | PIML 局部力学算子：结构保持、误差传播、灵敏度、优化闭环与模型选型 |
-| [[technical-lines/matrix-free-research-guide]] | in-progress | Matrix-Free 技术线：已有能力、目标差距、推进路线与阶段门禁 |
-| [[technical-lines/gpu-hpc-research-guide]] | in-progress | GPU/HPC：异构执行、端到端性能、当前能力、目标差距与阶段门禁 |
+| [[technical-lines/_index\|长期技术线索引]] | in-progress | PIML、Matrix-Free、GPU/HPC 三条可跨课题复用的长期技术能力，以及各自 guide、必要的 task line 和事实所有权 |
 
-目录入口：[[technical-lines/_index]]。三条技术线可被多个研究方向复用，不从属于固定的方向编号。
+三条技术线可被多个研究方向复用，不从属于固定的方向编号；具体 guide 与当前任务从该入口继续导航。
 
 ### 研究执行工作流
 
@@ -72,6 +86,5 @@
 
 ## 共享资源
 
-- [[figures]] — research 相关图件输出目录
-- [[assets]] — research 相关附件与占位资源
+- `research/assets/` — research 相关附件目录，当前以 `.gitkeep` 保留
 - 模板：[[assets/templates/research-survey]]

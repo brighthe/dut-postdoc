@@ -14,7 +14,7 @@ tags:
   - profiling
 status: in-progress
 date_added: 2026-07-26
-date_update: 2026-07-26
+date_update: 2026-08-03
 ---
 
 # GPU/HPC 端到端性能模型与测量口径
@@ -148,13 +148,13 @@ PIML 推理、局部 contraction、scatter-add、稀疏/无矩阵算子、点积
 - [NVIDIA CUDA C++ Best Practices Guide](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/) — profiling、正确性、精度、内存和扩展实践。
 - [NVIDIA Nsight Systems User Guide](https://docs.nvidia.com/nsight-systems/UserGuide/) — 聚焦关键区间、时间线与 CPU/GPU/MPI profiling。
 - [MPI Forum: MPI Documents](https://www.mpi-forum.org/docs/) — MPI 标准入口；具体设备缓冲区支持仍需以所用 MPI 实现为准。
-- [[../../literature/topology-opt/Ma2026-highperformanceparallel]] — CPU/MPI 强弱扩展和完整优化流程并行的本研究语境。
-- [[../../research/piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — 端到端时间分解、GPU/异构并行和性能瓶颈调研。
+- [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel]] — CPU/MPI 强弱扩展和完整优化流程并行的本研究语境。
+- [[../../research/piml-matrix-free-gpu/high-performance-solver-survey]] — 端到端时间分解、GPU/异构并行和性能瓶颈调研。
 
 ## 8. 相关页面
 
 - [[_index]] — GPU/HPC 主题入口。
 - [[method-lineage]] — 郭旭老师团队公开 HPC 方法谱系。
-- [[../../research/technical-lines/gpu-hpc-research-guide]] — 当前能力、目标差距、实施路线与阶段门禁。
+- [[../../research/technical-lines/gpu-hpc-research-guide]] — 当前研究目标、性能边界、证据锚点与阶段门禁。
 - [[../matrix-free/assembly-levels]] — 算子装配层次与数据保存边界。
 - [[../piml/mathematical-foundations]] — PIML 局部学习对象和结构性质。

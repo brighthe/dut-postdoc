@@ -1,5 +1,7 @@
 ---
 title: A mechanics-based data-free problem independent machine learning (PIML) model for large-scale structural analysis and design optimization
+aliases:
+  - literature/topology-opt/Huang2024-PIML-datafree
 authors:
   - Huang, Mengcheng
   - Liu, Chang
@@ -8,8 +10,11 @@ authors:
   - Du, Zongliang
   - Guo, Xu
 year: 2024
+date_online: null
 journal: Journal of the Mechanics and Physics of Solids
 volume: 193
+issue: null
+pages: null
 article: 105893
 doi: 10.1016/j.jmps.2024.105893
 zotero_key: CGQZ2HXL
@@ -22,15 +27,16 @@ tags:
   - operator-learning
   - large-scale
 status: done
-rating:
+rating: null
 date_added: 2026-07-05
 date_read: 2026-07-06
+date_update: 2026-08-02
 ---
 
 # A mechanics-based data-free problem independent machine learning (PIML) model for large-scale structural analysis and design optimization
 
 > **引用**：Huang, Mengcheng; Liu, Chang; Guo, Yilin; Zhang, Linfeng; Du, Zongliang; Guo, Xu. *Journal of the Mechanics and Physics of Solids*, 2024, 193:105893. [DOI](https://doi.org/10.1016/j.jmps.2024.105893) | [Zotero Link](zotero://select/library/items/CGQZ2HXL)
-> **中文译文框架**：[[translations/Huang2024-PIML-datafree-zh]]
+> **中文译文框架**：[[../translations/Huang2024-PIML-datafree-zh]]
 > **Zotero/Better BibTeX key**：`Huang2024-mechanicsbaseddatafree`
 
 ## 一句话概括
@@ -51,7 +57,7 @@ PIML 的基本思想是学习局部材料分布到局部力学表示之间的问
 
 ### 核心思路
 
-本文把子结构的多尺度形函数（描述粗网格自由度 → 全部自由度的映射）从离散矩阵升级为**坐标的连续函数**，用**深度算子网络 DeepONet**（分支网络编码材料密度分布、主干网络编码坐标，两者逐元素相乘）来预测。训练不再依赖监督标签，而是把若干子结构拼成一个"**伪结构（pseudo structure）**"，以其**总应变能（最小势能原理）**作为 data-free 损失函数（式 15），用自动微分 + Adam 做无监督训练。详细中文译文见 [[translations/Huang2024-PIML-datafree-zh]]。
+本文把子结构的多尺度形函数（描述粗网格自由度 → 全部自由度的映射）从离散矩阵升级为**坐标的连续函数**，用**深度算子网络 DeepONet**（分支网络编码材料密度分布、主干网络编码坐标，两者逐元素相乘）来预测。训练不再依赖监督标签，而是把若干子结构拼成一个"**伪结构（pseudo structure）**"，以其**总应变能（最小势能原理）**作为 data-free 损失函数（式 15），用自动微分 + Adam 做无监督训练。详细中文译文见 [[../translations/Huang2024-PIML-datafree-zh]]。
 
 ### 学习对象
 
@@ -84,6 +90,29 @@ PIML 的基本思想是学习局部材料分布到局部力学表示之间的问
 
 训练成本：$10\times10\times10$ 子结构的无监督模型约 **2–3 天**（与监督式接近，但省去生成数据集的大量时间）。
 
+## 证据边界与可复现性
+
+### 模型选型证据卡
+
+| 字段 | 论文事实 | 原文位置 | 证据边界 |
+|---|---|---|---|
+| 研究问题 | 在大规模线弹性结构分析与设计优化中，用 mechanics-based data-free 训练消除多尺度形函数监督标签成本。 | 摘要；§1；§3 | 论文验证对象为三维线弹性、规则子结构和给定优化问题，不覆盖一般非线性或多物理。 |
+| 问题相关／问题无关边界 | 学习局部材料分布到连续多尺度形函数的映射，可跨整体尺寸、边界和载荷复用。 | 摘要；§2–§3 | “任意尺寸”建立在相同 PDE、离散、本构、规则子结构和训练表示边界内，不等于任意几何／网格通用。 |
+| 学习对象 | DeepONet 学习密度函数与坐标到缩减连续多尺度形函数 $\tilde N_{sR}$ 的算子，再恢复完整 $N$ 并构造 $K_s$。 | §3.1，Eq. (9)–(11) | 不直接预测最终拓扑、全局位移或 $K_s$；后者是由预测形函数构造的下游量。 |
+| 输入表示 | branch net 输入子结构细单元密度／杨氏模量分布，trunk net 输入内部节点坐标 $(x,y,z)$。 | §3.1 | 论文主要验证规则立方体子结构；复杂几何和非结构网格输入未覆盖。 |
+| 输出表示与维度 | 输出查询坐标处的缩减连续多尺度形函数，完整形函数借助刚体运动关系恢复。 | §3.1，Eq. (11) | 连续查询降低固定矩阵输出负担，但不自动带来跨 PDE、跨材料或结构硬保证。 |
+| 数据来源与监督真值 | 不使用精确多尺度形函数或刚度监督标签；训练使用随机密度场、坐标查询和预存正交位移基。 | §3.2–§3.3，Eq. (12)–(15) | data-free 指无局部真值标签，不表示没有采样、力学计算或训练成本。 |
+| 标签规模与成本 | 标签数为零；训练所用正交位移基记录为 $11\times11\times6\times3=2178$ 个归一化向量。 | §3.2–§3.3 | 论文报告 $10^3$ 细单元子结构训练约 2–3 天；不能只凭“无标签”宣称训练廉价。 |
+| 模型与网络架构 | DeepONet 由编码材料分布的 branch net 与编码坐标的 trunk net 组成，并通过输出组合表示连续形函数。 | §3.1 | 当前证据卡未摘录全部层宽、激活和参数量；论文未做覆盖多模型族的统一 benchmark。 |
+| 训练信号与优化 | 以伪结构全部细单元总应变能作为 loss，通过最小势能原理训练，使用自动微分与 Adam。 | §3.2–§3.3，Eq. (12)–(15) | 能量目标是 mechanics-based 训练信号；不能据此声称对称性、谱性质和所有刚体／能量条件均得到硬证明。 |
+| 物理约束方式 | 六类刚体运动通过 Eq. (11) 的构造复现；最小势能通过 loss 进入训练。 | §3.1–§3.3 | 刚体运动构造与能量软目标应区分；论文未提供统一的对称、半正定、零空间和结构失败率报告。 |
+| 下游求解接口 | 预测 $N$ 后构造缩聚刚度，进行粗尺度结构分析、细尺度恢复、灵敏度和拓扑优化。 | §2；§4–§5 | 训练 loss 无需组装全局矩阵，不代表在线全局求解是 Matrix-Free；仍需粗尺度全局平衡。 |
+| 局部评价指标 | 比较无监督与监督形函数模型，并以进入结构分析后的误差和泛化表现评价。 | §4 | 当前笔记未形成统一的局部谱误差、最坏样本或分布外检查表。 |
+| 全局评价指标 | 报告位移、柔顺度／输出位移、优化拓扑和时间；代表算例包括约 4.7%–6% 响应误差、87× 与大于 230× 流程加速。 | §5.1–§5.3，相关 Fig./Table | 这些数字绑定 CPU、规则网格、$m=10$ 和论文计时边界，不能外推到 GPU 或所有迭代／问题。 |
+| 部署与规模 | Intel Xeon Gold 6256 CPU、512 GB RAM；最大展示至 1.8 亿单元，未报告 GPU 或 MPI。 | §5 数值设置与算例 | 支持 CPU 大规模验证，不支持异构并行或分布式扩展结论。 |
+| 作者给出的模型选择依据 | DeepONet 用连续坐标查询降低离散形函数输出维度；力学能量 loss 用于消除监督标签并改善泛化。 | §3；§5 | 是表示与训练范式选择，不是对全部 neural operator／PINN／DNN 的统一模型选型。 |
+| 论文不能支持的结论 | 不能证明 data-free 等于零训练成本、所有结构性质均被硬保持、复杂几何通用、GPU/MPI 已实现或全局算子级 Matrix-Free 已完成。 | 综合 §3–§6 | 这些均应保持为 WP2/WP3 待验证问题。 |
+
 ## 主要结论
 
 - 用**坐标连续化 + DeepONet 算子学习 + 基于最小势能的 data-free 损失**，实现无监督、无标签的 PIML；
@@ -115,13 +144,14 @@ PIML 的基本思想是学习局部材料分布到局部力学表示之间的问
 
 ## 待读问题（已随全文精读与翻译解决）
 
-1. ~~原文目录与正式章节标题~~ → 已核定并译出（见 [[translations/Huang2024-PIML-datafree-zh]]）。
+1. ~~原文目录与正式章节标题~~ → 已核定并译出（见 [[../translations/Huang2024-PIML-datafree-zh]]）。
 2. ~~data-free 损失的精确数学表达~~ → 最小势能 → 伪结构总应变能（式 12–15）。
 3. ~~网络输入/输出与 Huang 2023 的差异~~ → 离散形函数矩阵 → 坐标连续函数 + DeepONet 算子，输出降维、任意尺寸。
 4. ~~数值算例的规模、误差、效率数据~~ → 见上"实验/数值验证"（87× / >230× / 1.8 亿单元 / 误差约 4.7–6%）。
 
 ## 相关文献
 
+- [[../../../concepts/piml/_index]] — PIML 稳定知识、当前研究与文献证据的统一语义入口。
 - [[Huang2022-problemindependentmachine]] — PIML 奠基论文，EMsFEM 形函数监督学习。
 - [[Huang2023-PIML-substructure]] — PIML 增强子结构形函数与缩聚刚度矩阵。
 - [[Ma2026-highperformanceparallel]] — PIML 与并行计算、按需预测/释放结合。

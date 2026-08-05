@@ -1,5 +1,7 @@
 ---
 title: "A new topology optimization approach based on moving morphable components (MMC) and the ersatz material model"
+aliases:
+  - literature/topology-opt/Zhang2016-MMC-topology
 authors:
   - Zhang, Weisheng
   - Yuan, Jie
@@ -20,12 +22,13 @@ status: "draft"
 rating: 0
 date_added: "2026-04-24"
 date_read: "2026-07-03"
+date_update: "2026-08-01"
 ---
 
 # A new topology optimization approach based on moving morphable components (MMC) and the ersatz material model
 
-> **引用**：Zhang, Weisheng, et al. *Structural and Multidisciplinary Optimization*, 2016. [DOI](https://doi.org/10.1007/s00158-015-1372-3) 
-> **完整中文译文**：[[translations/Zhang2016-MMC-topology-zh]]
+> **引用**：Zhang, Weisheng, et al. *Structural and Multidisciplinary Optimization*, 2016. [DOI](https://doi.org/10.1007/s00158-015-1372-3)
+> **完整中文译文**：[[../translations/Zhang2016-MMC-topology-zh]]
 > **Zotero/Better BibTeX key**：`zhangNewTopologyOptimization2016`
 > **阅读状态**：已完成精读与全文翻译，附 188 行核心 Matlab 代码解析。
 
@@ -81,6 +84,10 @@ date_read: "2026-07-03"
 
 - Ersatz 材料模型和 MMC 的结合非常优雅，它在保留了显式几何描述优势的同时，享受了基于网格进行刚度装配的极速效率。
 - 可变厚度的 TDF 定义 (利用二次函数描述横截面变化) 提供了一种高自由度的特征描述方式，在后续研究（如多尺度结构、物理驱动机器学习）的参数化降维中，具有极高的参考价值。
+
+## 相关文献与页面
+
+- [[../../concepts/mmc/_index]] — MMC 稳定知识、当前研究与文献证据的统一语义入口。
 
 ## 附注
 

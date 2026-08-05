@@ -1,5 +1,7 @@
 ---
 title: A problem-independent machine learning (PIML) enhanced substructure-based approach for large-scale structural analysis and topology optimization of linear elastic structures
+aliases:
+  - literature/topology-opt/Huang2023-PIML-substructure
 authors:
   - Huang, Mengcheng
   - Cui, Tianchen
@@ -9,9 +11,12 @@ authors:
   - He, Chuhui
   - Guo, Xu
 year: 2023
+date_online: null
 journal: "Extreme Mechanics Letters"
 volume: 63
-pages: 102041
+issue: null
+pages: null
+article: 102041
 doi: "10.1016/j.eml.2023.102041"
 zotero_key: 5XMDKI6A
 zotero_citation_key: huangProblemindependentMachineLearning2023
@@ -25,12 +30,13 @@ status: read
 rating: 5
 date_added: 2026-05-04
 date_read: 2026-07-02
+date_update: 2026-08-02
 ---
 
 # A problem-independent machine learning (PIML) enhanced substructure-based approach for large-scale structural analysis and topology optimization of linear elastic structures
 
 > **引用**：Huang, Mengcheng; Cui, Tianchen; Liu, Chang; Du, Zongliang; Zhang, Jiameng; He, Chuhui; Guo, Xu. *Extreme Mechanics Letters*, 2023, 63:102041. [DOI](https://doi.org/10.1016/j.eml.2023.102041) | [Zotero Link](zotero://select/library/items/5XMDKI6A)
-> **完整中文译文**：[[translations/Huang2023-PIML-substructure-zh]]
+> **完整中文译文**：[[../translations/Huang2023-PIML-substructure-zh]]
 > **Zotero/Better BibTeX key**：`huangProblemindependentMachineLearning2023`
 ## 一句话概括
 
@@ -148,6 +154,29 @@ $$
 
 阅读时要特别注意：不宜把 Huang 2023 直接概括为“局部算子预测误差达到 $10^{-3}$”的证据；本文更直接支撑的是**子结构框架、问题无关性、降维效率和十亿级规模**。
 
+## 证据边界与可复现性
+
+### 模型选型证据卡
+
+| 字段 | 论文事实 | 原文位置 | 证据边界 |
+|---|---|---|---|
+| 研究问题 | 用 PIML 替代三维线弹性子结构中反复出现的局部静力缩聚，在大规模结构分析和拓扑优化中降低时间与内存成本。 | 摘要；§2–§4 | 只验证线弹性、规则六面体细网格及论文给定的子结构设置；不覆盖非线性或多物理。 |
+| 问题相关／问题无关边界 | 局部材料分布到子结构形函数／缩聚刚度的映射不依赖整体几何、边界和外载荷，可在同类 PDE 问题间复用。 | 摘要；§3 | 不等于跨 PDE、离散、单元、本构或子结构尺度通用。 |
+| 学习对象 | 两条路径：预测子结构形函数 $N$ 后由 $K_s=N^{\mathsf T}KN$ 构造缩聚刚度；或直接预测 $K_s$。 | §3，尤其 Eq. (17) 及相关算法 | 不直接预测最终拓扑或全局位移；两条路径的结构与恢复能力不同。 |
+| 输入表示 | 固定子结构内的三维材料／密度分布，以规则细网格定长表示。 | §3 神经网络模型 | 分辨率、子结构类型或材料模型改变通常需要重新训练；未验证非结构网格表示。 |
+| 输出表示与维度 | 约束后的多尺度形函数分量，或缩聚刚度的独立分量；$m=5$ 算例采用分块网络降低输出负担。 | §3.2–§3.3 | 直接 $K_s$ 输出与形函数输出不是同一表示，不能用一个局部误差概括。 |
+| 数据来源与监督真值 | 随机生成局部材料分布，并由精确子结构／多尺度计算生成 $N$ 或 $K_s$ 监督标签。 | §3.3 | 输入不依赖完整优化轨迹，但仍依赖局部精确标签，不是 data-free。 |
+| 标签规模与成本 | $m=5$ 三维模型使用 400,000 个随机材料分布样本。 | §3.3 | 当前笔记未核定不同模型的独立标签数、生成时间、存储和划分细节，不据此判断数据效率。 |
+| 模型与网络架构 | 多组 feedforward DNN 分块预测；每个网络 15 个隐层，`tanh` 与 `elu` 交替激活。 | §3.3 | 没有与 CNN、DeepONet、经典回归或结构化网络进行统一同题 benchmark，不能证明网络最优。 |
+| 训练信号与优化 | 采用精确局部输出监督训练；具体 loss 随形函数／刚度预测对象设置。 | §3.3 | 当前终审记录未完整核定 optimizer、batch、随机种子、重复训练和总训练成本，相关字段不得补猜。 |
+| 物理约束方式 | 平移和转动等刚体运动通过输出表达精确复现；形函数路径通过 $N^{\mathsf T}KN$ 构造 $K_s$。 | §3.2–§3.3；Eq. (17) | 论文未建立同时覆盖对称性、半正定／正定、刚体模态、完备性和能量一致性的统一验证表。 |
+| 下游求解接口 | 子结构 $K_s$ 进入全局缩聚系统，求解边界／粗尺度自由度并恢复细尺度位移，再服务灵敏度与优化。 | §2；§4 | 仍形成并求解全局缩聚系统，不是全局算子级 Matrix-Free；未报告 Krylov／预条件行为。 |
+| 局部评价指标 | 论文通过网络预测与精确局部输出的比较评价模型，并讨论 $N$ 与直接 $K_s$ 路径。 | §3–§4 | 当前公开笔记不能支持统一的“局部算子误差达到 $10^{-3}$”表述；缺少统一谱、最坏样本和分布外统计。 |
+| 全局评价指标 | 报告结构响应、柔顺机构输出位移、拓扑结果、求解时间和可解规模；柔顺机构两组输出位移相对误差约 7.56% 和 7.65%。 | §4.1–§4.3，Fig./Table 对应算例 | 未系统报告真残差、灵敏度误差、Krylov 迭代或多次随机训练统计。 |
+| 部署与规模 | CPU 工作站运行；短悬臂梁约 (1.024\times10^9) 个细单元、约 (3\times10^9) DOF，未使用并行计算。 | 摘要；§4.3 | 十亿级结果主要支持可解性与流程效率，不代表 GPU/MPI 扩展性。 |
+| 作者给出的模型选择依据 | 预测 $N$ 可保持位移恢复与刚度构造联系；柔顺机构中直接预测 $K_s$ 用于进一步提高在线效率。 | §3；§4.2 | 是论文内两种实现的取舍，不是结构、精度和部署指标完全统一的模型选型实验。 |
+| 论文不能支持的结论 | 不能证明直接预测 $K_s$ 严格保持与 $N$ 的能量关系，也不能证明跨离散通用、GPU 加速、全局 Matrix-Free 或端到端 Krylov 稳定性。 | 综合 §2–§4 | 这些应转化为 WP2/WP3 的验证问题，不能由规模或加速数字外推。 |
+
 ## 主要结论
 
 1. 子结构法提供了天然的局部问题无关学习对象：材料分布决定局部缩聚算子，整体几何、载荷和边界条件只在全局粗尺度方程中出现。
@@ -180,5 +209,6 @@ $$
 
 ## 相关文献
 
+- [[../../../concepts/piml/_index]] — PIML 稳定知识、当前研究与文献证据的统一语义入口。
 - [[Huang2022-problemindependentmachine]] — PIML 奠基论文，EMsFEM 角节点形函数预测。
 - [[Ma2026-highperformanceparallel]] — 进一步把子结构 PIML、并行计算和按需预测/释放结合起来。

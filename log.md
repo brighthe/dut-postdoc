@@ -873,3 +873,612 @@
 - 依据：两份文件章节逐条对应，属同一事实两处存，违反本轮确立的「一个事实变了要同时改两页，所有权就是错的」判据；且已开始漂移（`.md` 119 行 / `.tex` 96 行）。对外发送的申报类材料按 [[ai/llm-wiki-workflow]] 应只存 iCloud。
 - 在 [[research/_index]] 声明 `postdoc-research-plan.md` 为计划正文唯一事实源，排版源与产出 PDF 归 iCloud 的 `博士后-大连理工大学/`，今后再次出稿一律先改 `.md` 再抽离；`README.md` 目录树同步改注。
 - 历史中该文件内容仍保留在 `bb1d3b0`，未改写已推送的 main 历史；内容非机密，不做 filter-repo 清除。
+
+## [2026-07-30] edit | 初始化刘畅老师工作汇报目录
+- 新建 [[work-reports/liu-chang/_index]]，建立面向刘畅老师的工作汇报归档入口；当前不创建具体汇报页，不虚构尚未发生的会议、结论或行动项。
+- 同步 [[work-reports/_index]] 与根 [[index]]；关联检查确认 [[entities/liu-chang]] 和 [[research/piml-matrix-free/liu-chang-model-selection-task-line]] 已提供所需事实与任务入口，无需修改。
+
+## [2026-07-30] edit | 沉淀刘畅老师首次 PIML 模型选型技术讨论范围
+- 新建 [[work-reports/liu-chang/2026-07-piml-model-selection]]，将首次专门技术交流限定在 PIML 增强结构分析，同时明确这是一项主动选择的讨论载体，不代表刘老师此前提出的选型困难必然专指 PIML。
+- 当前只沉淀讨论定位、建议开场、候选学习对象、待请教问题、预期交流结果和事实边界；不提前写入尚未定稿的技术数值、实验方案或合作结论。
+- 同步 [[work-reports/liu-chang/_index]] 与根 [[index]]；关联核对确认 [[entities/liu-chang]]、[[research/piml-matrix-free/liu-chang-model-selection-task-line]] 和技术底稿无需修改。
+
+## [2026-07-30] refactor | 将刘畅 PIML 汇报重构为目标驱动的任务计划
+- 重写 [[work-reports/liu-chang/2026-07-piml-model-selection]]：删除重复的限定理由、候选对象说明、事实边界和泛化问题清单，改为唯一目标、五项完成标准，以及会前 A1–A4、当面 M0、会后 B1–B4 的方法—输入—交付物—验收—依赖结构。
+- 同步重构 [[research/piml-matrix-free/liu-chang-model-selection-task-line]]：增加 T0 问题契约，关键路径改为 `T0 → T2 → T3 → T5`；只有确认对象为 $K_s$ 时才执行现有 CG 扰动扫描，避免在学习对象尚未确认时提前锁死实验。
+- 更新 [[work-reports/liu-chang/_index]] 的核心内容与待办；关联核对确认技术底稿、PIML guide 和 [[entities/liu-chang]] 无需同步修改，根 [[index]]、`README.md` 与父级 [[work-reports/_index]] 的路径、状态和结构未变。
+
+## [2026-07-30] edit | 完成刘畅 PIML 会前研究 A1–A4
+- 在 [[work-reports/liu-chang/2026-07-piml-model-selection]] 完成四项实质分析：A1 将团队方法演进解释为学习对象、表示、标签、约束和部署瓶颈驱动；A2 形成六维选型框架；A3 将框架应用到历史 $K_s$ 原型；A4 给出结构检查与误差传播的最小实验。
+- 明确历史分支中的精确缩聚和 MLP 数值尚未经本人复现，只能作为可追溯基线记录；当前完成的是会前分析与实验设计，不是实验结果或模型选型结论。
+- 同步 [[research/piml-matrix-free/liu-chang-model-selection-task-line]] 的当前事实与 T0 输入，以及 [[work-reports/liu-chang/_index]] 的待办状态；方法谱系、技术底稿、PIML guide 和 [[entities/liu-chang]] 经检查无需修改。
+
+## [2026-07-30] edit | 重写郭旭老师第一次正式技术工作汇报
+- 将 [[work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] 重写为第一次正式书面工作汇报，正文聚焦 PIML 多尺度前向分析原型、三维线弹性 FA/EA/MPI 正确性基线和 GPU 统一验证路线。
+- 明确区分已完成结果、汇报前待补证据和后续研究：1/2-rank 数值一致性不作为并行扩展结果，PIML predictor 的 CUDA 能力与 Matrix-Free 历史单次 MatVec 证据不表述为端到端 GPU 融合。
+- 删除研究院任务、PINN 和模型选型讨论的展开内容；同步 [[work-reports/guo-xu/_index]] 的时间线、待办与更新日期。未运行训练、MPI、测试或 benchmark。
+
+## [2026-07-30] correction | 精简并纠正郭旭老师第一次正式工作汇报
+- 纠正上一条记录中的事实判断：本人目前尚未运行 PIML 程序；`pinn_elasticity` 只用于理解机器学习过程，不属于 PIML 成果。远端 `origin/codex/piml-multiscale-prototype` 中的代码和数字保留为历史分支记录，不再列入当前完成结果。
+- 将 [[work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] 重构为“一个总体目标、一项当前结果、三项研究任务”：当前唯一技术结果是三维线弹性 Matrix-Free CPU/MPI 正确性基线；二维与三维 PIML、GPU 执行及三线融合均为后续任务。
+- PIML 路线明确要求二维、三维同时交付，以预测多尺度形函数 \(N\) 并由 \(K_s=N^{\mathsf T}KN\) 构造等效刚度为主路径，以直接预测 \(K_s\) 为对照。
+- 同步 [[work-reports/guo-xu/_index]]、[[research/technical-lines/piml-research-guide]]、[[research/piml-matrix-free/piml-matrix-free-gpu-and-model-selection-technical-synthesis]] 及其 `research/` 语义索引；Matrix-Free guide 和 GPU guide 核对后无冲突，未修改。未运行 PINN、PIML、MPI、GPU、测试或 benchmark。
+
+## [2026-07-30] edit | 增加刘畅 PIML 汇报论文确认矩阵
+- 在 [[work-reports/liu-chang/2026-07-piml-model-selection]] 的 A1 后增加精简论文确认矩阵，明确 Huang 2023、Huang 2024、DFENN 和 CMAME 456 各自需要确认的问题及其对 M0、A2 和 A4 的影响。
+- 将“局部 $K_s$ 结构扰动—Krylov 收敛—位移与柔顺度误差传播”的理论文献列为待补缺口；完整书目和低优先级论文仍由 [[entities/liu-chang]] 与模型选型任务线维护，避免汇报页重复膨胀。
+
+## [2026-07-30] edit | 补充郭旭老师首次汇报的研究依据与工作增量
+- 在 [[work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] 的总体目标之后增加“已有研究基础与本工作的增量”表，只保留 Huang 2022/2023、Huang 2024、Ma 2026 与外部 Matrix-Free/GPU 工作对三项任务的直接支撑。
+- 明确本工作的增量是连接二维、三维 PIML 局部表示、算子级 Matrix-Free 全局求解与 GPU 执行，而不是重复已有 PIML 算例或只优化单次 MatVec。
+- 新增待郭老师确认的问题：现有成果边界与接续增量的理解是否准确，特别是 Ma 2026 与算子级 Matrix-Free、GPU 端到端求解的区别。完整论文清单仍由技术 guide 和调研页维护。
+
+## [2026-07-30] edit | 显式增加郭旭老师首次汇报的后续 TODOLIST
+- 在 [[work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] 中新增独立勾选式 `TODOLIST`，按 Matrix-Free、PIML、GPU 与融合三条线列出下一步可交付事项。
+- Matrix-Free 清单覆盖 PA/QA、UA/NONE、1/2/4/8 ranks、Strong/Weak scaling、预条件与计时分解；PIML 清单明确二维、三维精确基线和两条学习路径；GPU 清单覆盖统一三维算例、批量推理与端到端融合。
+- 明确只有形成可重放入口并通过完成标准后才能勾选，避免把已经讨论或已经开始误记为已经完成。
+
+## [2026-07-30] refactor | 统一郭旭与刘畅第一次正式工作汇报框架
+- 将 [[work-reports/guo-xu/2026-07-piml-matrix-free-gpu]] 与 [[work-reports/liu-chang/2026-07-piml-model-selection]] 统一为十段式生命周期：汇报定位、本次目标与完成标准、当前状态与事实边界、已有研究基础与增量、TODOLIST、技术分析与任务分解、当面决策、会后任务、会后结论与行动项、关联文档。
+- 郭旭版保留三维 Matrix-Free 当前结果和 Matrix-Free、二维/三维 PIML、GPU 融合三项研究任务，并增加本次汇报完成标准、五项决策表和 G1–G4 会后任务。
+- 刘畅版保留 A1–A4、M0 和 B1–B4 的问题确认机制，补充当前事实边界与研究基础—讨论增量表；两份汇报共享工作流外壳，但不混写两位老师的决策范围。
+
+## [2026-07-30] refactor | 重命名郭旭首次汇报并修正数学公式渲染
+- 将郭旭老师首次汇报重命名为 [[work-reports/guo-xu/2026-07-matrix-free-progress-piml-gpu-tasks]]，使文件名与“Matrix-Free 阶段结果及 PIML–GPU 研究任务”的当前定位一致。
+- 在新文件 frontmatter 中保留旧路径 `work-reports/guo-xu/2026-07-piml-matrix-free-gpu` 与旧 basename 作为 `aliases`，不回写 append-only 历史记录；全库活跃索引、技术线、综合页和概念页链接已切换到新名称。
+- 将该汇报中不被当前渲染器识别的 `\(...\)`、`\[...\]` 全部改为 `$...$`、`$$...$$`，覆盖结果表、正文变量、TODOLIST、完成标准和显示公式。
+
+## [2026-07-30] edit | 显式列出刘畅 PIML 汇报下一步 Todo
+- 在 [[work-reports/liu-chang/2026-07-piml-model-selection]] 增加按执行顺序排列的复选清单，区分 M0 前的论文证据补强、M0 当面五项决策，以及 M0 后条件化启动的问题契约与基线恢复。
+- 每项 Todo 均写明完成标志或启动门槛；不因列入清单而将 DFENN、CMAME 456、误差传播文献、实际交流或基线运行标记为已完成。
+
+## [2026-07-30] refactor | 前置刘畅第一次正式工作汇报的状态与 TODOLIST
+- 将 [[work-reports/liu-chang/2026-07-piml-model-selection]] 的标题统一为“第一次正式工作汇报：PIML 模型选型目标与任务分解”，与郭旭老师第一次正式工作汇报采用同一命名口径。
+- 章节顺序调整为“目标 → 当前状态 → 接下来 TODOLIST → 阶段与分析依据 → 当面及会后任务”，不改变任何任务的完成状态或启动门槛。
+
+## [2026-07-30] refactor | 郭旭第一次正式工作汇报采用稳定文件名
+- 将郭旭老师汇报由带月份和技术主题的文件名改为 [[work-reports/guo-xu/first-formal-work-report]]，突出“第一次正式工作汇报”的文档性质。
+- 在 frontmatter 中保留此前两个文件名及完整路径作为 `aliases`，并同步更新全库活跃索引和关联文档；append-only 历史记录不回写。
+
+## [2026-07-30] add | 试行首次汇报 Matrix-Free 基线执行附件
+- 新增 [[work-reports/guo-xu/first-formal-matrix-free-baseline-task]]，将线弹性 FA/EA CPU/MPI 基线拆分为验证契约、二维/三维单 rank、1/2-rank 一致性、provenance、证据入口和汇报回写六类任务。
+- 主汇报只保留带链接的 Todo；执行附件不复制 `soptx` 命令和结果正文，工程事实仍指向 `soptx:examples/matrix_free_elasticity/`。
+
+## [2026-07-30] correct | 明确 PIML–Matrix-Free–GPU 已是第一阶段主线
+- 根据用户确认，将 [[work-reports/guo-xu/first-formal-work-report]] 中“是否采用该主线”的待确认问题改为既定前提。
+- 汇报改为请郭旭老师指导主线内优先科学问题、技术切入点、推进顺序和成果出口；同时取消 Matrix-Free 任务的三维限定，保留当前三维数值证据的事实边界。
+
+## [2026-07-30] refactor | 前置首次汇报目标与内容
+- 重写 [[work-reports/guo-xu/first-formal-work-report]] 开头，先明确“说明实际工作、展示显式结果、请教下一步如何做”三个汇报目标。
+- 新增汇报内容总表，分别列明总体技术关系、PIML、Matrix-Free、GPU、三线连接和待指导问题，并显式区分当前已有、汇报前待补和后续研究。
+
+## [2026-07-30] simplify | 精简 Matrix-Free 执行附件门禁
+- 删除 [[work-reports/guo-xu/first-formal-matrix-free-baseline-task]] 中重复维护的数值阈值表，只保留验证类别、完成条件及 `soptx` 工程事实源指针。
+
+## [2026-07-30] refactor | Matrix-Free 执行附件改用单一待办状态
+- 将 [[work-reports/guo-xu/first-formal-matrix-free-baseline-task]] 的“执行顺序”改为复选式“待办任务”，并删除子任务表中的重复状态列。
+
+## [2026-07-30] simplify | 合并 Matrix-Free 执行顺序与子任务表
+- 根据用户进一步确认，删除执行附件中重复的“待办任务”章节，恢复“子任务与验收”表的状态列，由该表统一承担顺序、验收和状态记录。
+
+## [2026-07-30] add | 拆分 PA/QA Matrix-Free 基线任务
+- 新增 [[work-reports/guo-xu/first-formal-matrix-free-pa-qa-baseline-task]]，将二维、三维 PA/QA 的保存对象判定、统一接口、MatVec 对照、CG 求解、结果边界和 evidence 回写拆为 MF-P0～MF-P7。
+- 主汇报第二项 Matrix-Free Todo 和首项 FA/EA 基线附件均链接到该任务；当前全部状态为“未开始”，不预写性能或内存优势。
+
+## [2026-07-30] refactor | 重命名刘畅首次汇报并修正数学公式渲染
+- 将刘畅老师首次汇报重命名为 [[work-reports/liu-chang/2026-07-first-formal-work-report]]，使文件名与“第一次正式工作汇报”的当前定位一致。
+- 在新文件 frontmatter 中保留旧路径 `work-reports/liu-chang/2026-07-piml-model-selection` 与旧 basename 作为 `aliases`；全库活跃索引和任务线链接已切换到新名称，`log.md` 既有条目保持追加式历史记录。
+- 将该汇报中不被当前渲染器识别的 `\(...\)` 全部改为 `$...$`，覆盖“已有研究基础与本工作的增量”表中的 $N$ 与 $K_s$ 表达。
+
+## [2026-07-30] refactor | 刘畅首次汇报文件名改为稳定序号语义
+- 将刘畅老师汇报从带年月的文件名改为 [[work-reports/liu-chang/first-formal-work-report]]，用“第一次正式工作汇报”表达稳定顺序，不再把文件路径绑定到准备月份。
+- 新文件继续保留 `2026-07-piml-model-selection` 和 `2026-07-first-formal-work-report` 两组旧路径 aliases；全库活跃索引和任务线链接已同步，历史日志不回写。
+
+## [2026-07-30] refactor | 将五篇主线论文证据表设为刘畅汇报首项工作
+- 修正 [[work-reports/liu-chang/first-formal-work-report]] 的状态口径：A1 方法演进和 A2 六维框架为初版，A3 为尚未复现的历史案例分析，A4 仅完成实验设计。
+- 将首项 TODOLIST 改为 R1 五篇方法演进论文证据表，覆盖 Lei 2018/2019、Huang 2022、Huang 2023、Huang 2024 和 Ma 2026，并按对照前史、PIML 起点、子结构推进、表示与训练变化、部署阶段区分复核重点。
+- 同步 [[work-reports/liu-chang/_index]] 与 [[research/piml-matrix-free/liu-chang-model-selection-task-line]]：T0 改为依赖 R1 证据表，不再把 A1 写成已经完成逐篇原文核验。
+
+## [2026-07-30] refactor | 刘畅首次汇报改为阶段性进展与下一步请教
+- 将 [[work-reports/liu-chang/first-formal-work-report]] 的主线改为“回应上次问题 → 汇报已做工作与阶段性进展 → 提出候选研究 → 请刘老师判断研究价值和实际起点”，详细技术分析与 TODOLIST 下沉为支撑内容。
+- 明确“最小实验是否有研究价值”用于决定做不做，“基线、数据、代码和对接人”用于决定方向获得认可后从哪里开始；候选研究可被继续、修改或停止，不预设已经形成合作任务。
+- 同步 [[work-reports/liu-chang/_index]] 与 [[research/piml-matrix-free/liu-chang-model-selection-task-line]]：T0 先产出价值判断，只有值得继续时才冻结问题契约并启动基线恢复。
+
+## [2026-07-30] refactor | 刘畅首次汇报按郭旭汇报模板重构
+- 参照 [[work-reports/guo-xu/first-formal-work-report]]，将 [[work-reports/liu-chang/first-formal-work-report]] 统一为“汇报目标—汇报内容—事实边界—已有研究与增量—分组 TODOLIST—目标/实施内容/完成标准—当面决策—会后任务—行动项—关联文档”的十段式结构。
+- 将第一项汇报内容拆为方法演进、六维选型框架、$K_s$ 候选案例、程序与数值验证四部分，并把程序任务明确到代码审计、基线恢复、结构检查、受控扰动、Krylov 和响应误差。
+- 保留刘畅版本与郭旭版本的关键差异：首次交流必须先判断候选研究是否值得做；只有得到继续结论并获得运行授权后，才恢复程序和开展数值实验。
+
+## [2026-07-30] refactor | 刘畅首次汇报改为直接回答 PIML 模型选型疑问
+- 重写 [[work-reports/liu-chang/first-formal-work-report]] 的开场和汇报内容，形成“学习对象—数据与训练信号—物理硬约束—下游误差—实现与部署代价”的五步阶段性回答，并把“回答是否准确、还缺少什么”前置为首次交流的首要问题。
+- 显式区分两条汇报主线：郭旭老师侧重 PIML 与 Matrix-Free、GPU 及整体求解流程的结合；刘畅老师侧重修正模型选型认识并判断候选验证的研究价值。
+- 将代码审计、基线恢复和数值实验统一移到刘老师认可研究切口之后；同步对象索引与模型选型任务线，未运行训练、测试或 benchmark。
+
+## [2026-07-30] refactor | 规范刘畅首次汇报 TODOLIST 分类
+- 参照 [[work-reports/guo-xu/first-formal-work-report]] 按工作线组织 TODOLIST，将分类统一为“论文与方法演进、模型选型、程序与数值验证、汇报准备”。
+- 将“刘老师确认研究切口后启动”从分类标题下沉为程序与数值验证工作线的门禁说明，避免混用内容类型、执行阶段与状态口径。
+
+## [2026-07-30] correction | 刘畅首次汇报 TODOLIST 改按技术主线分类
+- 纠正上一条记录中的分类理解：郭旭老师汇报按 Matrix-Free、PIML、GPU 与融合等技术主线分类，而不是按论文、框架、程序和汇报等工作类型分类。
+- 刘畅老师本次汇报只有 PIML 模型选型一条技术主线，因此 [[work-reports/liu-chang/first-formal-work-report]] 的 TODOLIST 统一归入 `PIML`；会前分析与确认后验证仍由门禁说明区分。
+
+## [2026-07-30] add | 增加刘畅首次汇报 PIML 统一证据基线任务
+- 新增 [[work-reports/liu-chang/first-formal-piml-evidence-baseline-task]]，将 Lei 2018/2019、Huang 2022、Huang 2023、Huang 2024 和 Ma 2026 的统一证据表拆分为证据契约、五篇逐篇核对、横向比较和汇报回写八项任务。
+- 证据契约统一学习对象、输入输出、数据与标签、模型与训练、物理约束、下游接口、评价指标、部署条件、来源位置和证明边界等字段；当前只将任务定义 PIML-E0 标为完成，未把逐篇核对写成已完成。
+- 主汇报、刘畅对象索引和模型选型任务线已链接到执行附件；未运行程序、训练、测试或 benchmark。
+
+## [2026-07-30] edit | 补充 Lei 2018/2019 的机器学习与 PIML 概念定位
+- 在 [[literature/topology-opt/Lei2018-machinelearningdriven]] 增加“模型与表示、学习对象、训练信号、物理融合、任务角色、复用边界”六维概念定位，明确 PCA 是降维表示，SVR/KNN 是回归模型，本文没有使用神经网络。
+- 明确该工作属于问题相关的最终设计代理和 PIML 对照前史，不属于 Problem-Independent PIML；其核心选型启示是低维 MMC 表示与小规模独立标签使浅层回归成为合理选择。
+- `concepts/machine-learning.md` 与 `concepts/piml/` 已提供稳定分类和 Lei 前史定位，无事实或状态冲突，本次仅补充精读页链接，不重复修改概念页。
+
+## [2026-07-30] edit | 增加 SVR 与 KNN 经典监督回归概念
+- 扩展 [[concepts/machine-learning]] 的第一分类维度为“模型族与架构”，明确 SVR/KNN 是经典监督回归模型，不属于神经网络架构；同步概念索引与 PIML 入口的分类说明。
+- 新增 SVR 的 $\varepsilon$-不敏感回归、KNN 邻域加权回归、关键超参数、特征缩放、样本维度、训练推理和物理保证边界，并给出两者的选型对比。
+- 用 [[literature/topology-opt/Lei2018-machinelearningdriven]] 说明 PCA 负责输出表示与降维、SVR/KNN 负责监督回归；低维输入、小规模独立标签和固定维输出使经典回归成为合理基线，但现有证据不足以判断普遍优劣。
+
+## [2026-07-30] correction | 从机器学习概念页移除 Lei 单篇论文事实
+- 纠正上一条记录的内容分层：从 [[concepts/machine-learning]] 删除 Lei 2018/2019 的 112 维输出、50/62 个标签、PCA 分工和论文缺失项等单篇事实及其直接入口。
+- `concepts/machine-learning.md` 只保留可跨论文复用的 SVR/KNN 定义、选型对比和一般边界；Lei 的具体流程、数据与证据边界继续由 [[literature/topology-opt/Lei2018-machinelearningdriven]] 维护。
+
+## [2026-07-30] simplify | 精简 Lei 2018/2019 精读页
+- 精简 [[literature/topology-opt/Lei2018-machinelearningdriven]] 的主要结论与概念定位，删除重复的输出维度、标签规模和证据边界，只保留 PCA、SVR/KNN、任务级学习对象及问题相关代理定位。
+- “证据边界与可复现性”继续承担详细缺口；“批判性评价”只保留组件表示限制和证据等级综合判断，不再重复训练、计时和泛化事实。
+- 删除超出 Lei 单篇论文范围的 PIML 局部算子假设及冗余关联入口；方法、实验表和关键证据均保留，`PIML-E1` 状态未改变。
+
+## [2026-07-30] edit | 增加 Lei 2018/2019 全论文工作流图
+- 将 [[literature/topology-opt/Lei2018-machinelearningdriven]] 中原有的文本箭头替换为 Mermaid 流程图，串联 MMC 直接优化标签、允许重复的重采样、PCA 特征提取、SVR/KNN 训练与在线设计重构。
+- 图中明确区分直接生成候选构型和 MMC 热启动两条在线用途，并分别连接到表 1–3 的构型/目标函数评价和图 4 的单例热启动评价。
+
+## [2026-07-30] edit | 补全 Lei 2018/2019 问题参数定义与原文出处
+- 在 [[literature/topology-opt/Lei2018-machinelearningdriven]] 中补充问题参数 $\boldsymbol p$ 的一般定义，以及一维 $\boldsymbol p=y_f$、二维 $\boldsymbol p=(x_f,y_f)^{\mathrm T}$ 两个实际算例。
+- 明确区分载荷位置参数 $\boldsymbol p$、载荷向量 $\boldsymbol f$ 和 MMC 最终设计变量 $\boldsymbol D^{\mathrm{opt}}$，并链接原文第 3、4 节对应译文及式 (3.1)–(3.4)。
+
+## [2026-07-30] verify | 完成 Matrix-Free 基线 MF-B0 静态核对
+- 核对 `soptx:examples/matrix_free_elasticity/` 的 `cases.py`、`contract.py`、`run.py`、`validate.py` 和求解实现，确认其为一套按维数参数化、当前明确支持 2D/3D 的通用流程，不表述为支持任意空间维数。
+- 在 [[work-reports/guo-xu/first-formal-matrix-free-baseline-task]] 中固化两个制造解 case、材料与网格、统一离散空间、CG 停止准则、验证组合和通过标准，并将 MF-B0 标记为“已完成（静态核对）”。
+- 本次未运行测试、MPI 或验证驱动，也未核验 clean-revision provenance；MF-B1～MF-B6 保持未开始。
+
+## [2026-07-30] simplify | 精简 Matrix-Free 基线 MF-B0 记录
+- 删除 [[work-reports/guo-xu/first-formal-matrix-free-baseline-task]] 中与 `soptx:examples/matrix_free_elasticity/README.md` 重复的 case、离散参数、CG 配置和验证门禁正文。
+- 执行附件只保留 MF-B0 完成状态、静态核对结论和工程事实源指针；具体配置继续由 `soptx` README、`cases.py`、`contract.py` 与 `validate.py` 唯一维护。
+
+## [2026-07-30] verify | 完成 Matrix-Free 基线 MF-B1
+- 在 `soptx` clean revision `2522661` 上完成二维单 rank FA/EA 正式验证，全部数值门禁通过。
+- 正式 evidence 已提交至 `soptx:examples/matrix_free_elasticity/evidence/cpu-single-rank-fa-ea-2d.json`；MF-B2～MF-B6 状态不变。
+
+## [2026-07-31] edit | 建立个人长期科研主线总领
+- 新增 [[research/long-term-research-lines]]，将“高精度数值离散与拓扑优化”和“智能高性能计算力学”确立为两条个人长期科研主线，并明确 MMC/MMV 是具体合作与应用课题。
+- 将 [[research/postdoc-research-plan]] 调整为已完成的博士后入站阶段科研计划，保留历史交付正文，不再作为当前个人科研方向总领。
+- 同步 README、根索引、研究索引、活跃关联页和入站答辩档案入口；修复档案 README 的旧路径，未修改归档内部历史讲稿与答辩口径。
+
+## [2026-07-31] edit | 建立 Matrix-Free 文献主题入口
+- 新增 [[literature/matrix-free/_index]] 与 [[literature/topology-opt/_index]]，确立“单篇笔记只保存一份、按主要贡献归入物理目录、交叉属性由 tags 和主题索引表达”的归类规则。
+- [[literature/topology-opt/Ma2026-highperformanceparallel]] 继续保存在拓扑优化目录，同时由 Matrix-Free 文献入口交叉引用；明确其按需预测和释放多尺度形函数的贡献及仍组装全局粗网格矩阵的边界。
+- 同步文献总索引、Matrix-Free 概念入口、根索引和 README；未移动或复制既有文献笔记。
+
+## [2026-07-31] edit | 登记 Matrix-Free 核心论文入库清单
+- 在 [[literature/matrix-free/_index]] 显式登记 9 篇第一批核心论文和 8 篇随 PA、GPU、MPI 任务补充的论文，记录研究问题、当前作用、建议主目录和 `to-ingest` 状态。
+- 在 [[literature/topology-opt/_index]] 交叉登记 Schmidt 2011、Martínez-Frutos 2017、Wu 2016 和 Zhou 2025；这些论文完成 ingest 后按主要研究问题归入拓扑优化目录。
+- 本次只建立可追溯入库队列，未虚构 Zotero Citation Key、未创建空文献笔记，也未将候选论文写入 `assets/refs.bib`。
+
+## [2026-07-31] add | 建立博士后科研成果路线
+- 新增 [[research/postdoc-research-output-roadmap]]，将两条长期科研主线映射为三篇保障论文、两篇扩展论文和中国博士后科学基金面上资助目标；行政积分与考核状态继续由 `heliangos:career/dlut-postdoc/` 维护。
+- 将智能高性能计算力学的论文层次明确为 A：Matrix-Free/GPU 保障论文、B：PIML/GPU 目标论文、C：PIML/Matrix-Free/GPU 条件性冲刺论文，并限定各自科学问题、排除项与启动条件。
+- 同步长期主线、研究索引、根索引、README 和三线技术综合入口；未修改 `heliangos`，未运行测试或 Benchmark。
+
+## [2026-07-31] edit | 补全 Matrix-Free × 拓扑优化交叉论文谱系
+- 在 [[literature/matrix-free/_index]] 集中列出截至本日已检索确认的 10 篇交叉论文，覆盖优化问题、Matrix-Free 对象与层级、平台、求解器、完整流程和入库状态。
+- 区分全局算子级 Matrix-Free、部分层级 Matrix-Free、历史前驱和 Ma2026 的多尺度形函数存储优化，避免把“当前仅 Ma2026 已完成笔记”误解为公开研究中只有一篇交叉论文。
+- [[literature/topology-opt/_index]] 改为链接该权威交叉表，不再重复维护候选清单；候选论文仍为 `to-ingest`，未创建空笔记或写入 `assets/refs.bib`。
+
+## [2026-07-31] edit | 按个人研究主线组织文献导航
+- 在 [[literature/_index]] 前置两条个人长期科研主线的文献入口：主线一连接拓扑优化文献，主线二连接 Matrix-Free 主题及现有 PIML 论文。
+- 保留“论文主要贡献决定物理目录”的规则；Ma2026 同时进入两条主线导航但仍只保存一份，Hu–Zhang 与虚单元外部文献尚未形成稳定主题时不预建空目录。
+- README 同步增加文献组织说明；未移动、复制或重命名任何论文笔记，根 [[index]] 的文献总入口仍准确，无需修改。
+
+## [2026-07-31] edit | 建立 PIML 模型选型专题并重整 Lei 2018/2019 事实源
+- 新增 [[concepts/pca-pod]]、[[concepts/mmc/_index]] 与 [[concepts/mmc/mathematical-foundations]]，将 PCA/POD 和 MMC 的通用数学基础从单篇论文事实中分离。
+- 新增 [[research/piml-model-selection/_index]]、[[research/piml-model-selection/selection-framework]] 与 [[research/piml-model-selection/lei2018-problem-specific-baseline]]，分别维护专题分工、六维选型框架和 Lei 2018/2019 的问题相关对照基线。
+- 将刘畅模型选型任务线迁移至 [[research/piml-model-selection/liu-chang-model-selection-task-line]]，旧路径仅保留为 alias 和历史日志；组合技术底稿只保留 PIML × Matrix-Free × GPU 的特有融合假设。
+- PIML-E1 已达到论文证据核对门槛，但方法流程复现、程序实现和数值结果仍未开始；五篇统一证据表总任务保持未完成。本次未修改 `soptx`，未运行训练、数值算例或 benchmark。
+
+## [2026-07-31] refactor | 重构 PIML × Matrix-Free × GPU 融合课题目录
+- 将课题目录调整为 [[research/piml-matrix-free-gpu/_index]]，以 `_index.md` 维护课题定位和事实所有权，以 [[research/piml-matrix-free-gpu/integration-guide]] 维护三线接口、启动门禁、统一 Benchmark、缓存—重算和精确回退。
+- 将原技术调研迁移为 [[research/piml-matrix-free-gpu/high-performance-solver-survey]]，明确其只维护技术背景、开放问题和研究切入点；旧目录和早期 `postdoc-plan` 路径由 frontmatter `aliases` 兼容，不保留重复占位页。
+- 将远端 PIML 原型的详细历史表迁入 [[research/technical-lines/piml-research-guide]]；Matrix-Free 与 GPU 当前状态继续由各自 guide 维护，模型选型、论文组合和工作汇报分别回到现有权威页面。
+- 同步 README、根索引、研究索引、长期主线、成果路线、技术线、模型选型、人物页、工作汇报和档案 README 的活跃链接；历史日志与归档正文保持原样。未运行测试、训练、数值算例或 benchmark。
+
+## [2026-07-31] simplify | 清理三线课题重构后的冗余内容
+- 删除 [[research/piml-matrix-free-gpu/high-performance-solver-survey]] 中与融合规范和三份 technical-line guide 重复的阶段路线与实验矩阵，只保留研究切入点、结论和调研独有内容，并增加权威入口指针。
+- 删除 [[entities/liu-chang]] 相关页面列表中的重复 PIML guide 条目；[[research/_index]] 删除不存在的 `figures` 页面入口，并将 research 附件目录改为普通路径说明。
+- 保留 `research/assets/.gitkeep`、历史档案、兼容 aliases 和既有旧文件删除状态；同时移除未跟踪的空 `.tmp/`。未运行测试、训练、数值算例或 benchmark。
+
+## [2026-07-31] edit | 统一拓扑优化论文译文格式
+- 以 [[literature/topology-opt/translations/Lei2018-machinelearningdriven-zh]] 为结构基准，统一 8 份译文的 frontmatter、来源区、元数据、标题层级、公式分隔符、图片、块级图注和文末检查清单。
+- 按实际完成度区分 `done`、`read` 与 `draft`；Huang 2023 和最小尺度论文继续保留待补标记，本次未补译或重新核验论文内容。
+- 修正 Huang 2022 与 Ma 2026 原始笔记的 Zotero 父条目 key，并在 [[ai/paper-translation-workflow]] 固化拓扑优化译文骨架及 `<div align="center">` 图注规则。
+
+## [2026-07-31] simplify | 清理并统一知识库页面模板
+- 删除未被引用且与当前论文“研究框架 + 投稿初稿”两层结构不一致的 `assets/templates/paper-draft.md`。
+- 重写 [[assets/templates/translation-note]]，使译文状态、frontmatter、来源区、元数据、图注和检查清单与现行译文规范一致；该模板成为译文结构的唯一规范，Lei 2018 仅保留为完整实例。
+- 将 [[assets/templates/advisor-work-report]] 精简为当前正式汇报采用的十节框架；[[assets/templates/literature-note]] 删除正文中重复的 Better BibTeX key，并把完整译文链接改为按需启用。
+- 同步 README、[[ai/llm-wiki-workflow]] 与 [[ai/paper-translation-workflow]]；概念、实体和调研模板继续保留。
+
+## [2026-07-31] archive | 将博士后入站科研计划迁入事件档案
+- 将已完成的入站计划迁为 [[archive/2026-postdoc-entry-assessment/postdoc-research-plan]]，状态改为 `archived`，并以 aliases 兼容 `research/postdoc-research-plan` 和更早的 `research/postdoc-plan/postdoc-research-plan`。
+- 计划正文继续作为入站阶段唯一 Markdown 历史事实源，不随当前科研路线变化改写；当前方向与成果安排分别由 [[research/long-term-research-lines]] 和 [[research/postdoc-research-output-roadmap]] 维护。
+- 同步 README、研究索引、长期主线、活跃调研、方法谱系、郭旭人物页与工作汇报、辽宁省基金准备页和档案 README；归档内部讲稿、答辩指南与既有历史日志保持原样。未运行测试或 Benchmark。
+
+## [2026-07-31] simplify | 分离刘畅模型选型内部任务线与对外汇报
+- 将 [[research/piml-model-selection/liu-chang-model-selection-task-line]] 重构为本人使用的内部研究控制页，合并五篇论文核对状态、研究阶段、条件化程序实验、验收、授权与停止条件，并取消 T0–T7、D0–D3 和 PIML-E0–E7 多套编号。
+- 将 [[work-reports/liu-chang/first-formal-work-report]] 精简为可直接给刘畅老师阅读的七部分汇报，只保留问题、已完成工作、阶段性回答、论文依据、历史 $K_s$ 案例、候选验证、请教事项和会后行动项。
+- 删除原独立执行附件 `work-reports/liu-chang/first-formal-piml-evidence-baseline-task.md`，旧路径由内部任务线 alias 兼容；对象索引只保留汇报时间线和页面入口。
+- 同步选型框架、Lei 对照基线、专题索引、研究索引和刘畅实体页。未运行训练、数值算例或 benchmark，未修改 `soptx`。
+
+## [2026-07-31] edit | 将刘畅第一次汇报改为会前阅读稿
+- 将 [[work-reports/liu-chang/first-formal-work-report]] 改为直接称呼刘畅老师、可独立阅读的六部分短报告，删除内部任务线入口、空白结论与行动项表以及任务管理语言。
+- 保留论文依据、历史 $K_s$ 原型的结果归属和拟验证方法；Lei 2018/2019 明确为已完成原文核对，其余四篇主线论文明确为继续核对中。未运行程序或数值实验。
+
+## [2026-07-31] simplify | 分离郭旭 Matrix-Free 内部任务线与对外汇报
+- 将两份 Matrix-Free 执行附件合并迁移为 [[research/technical-lines/matrix-free-task-line]]，保留 MF-B、MF-P 任务编号、MF-B0/MF-B1 完成状态和旧路径 aliases；`work-reports/guo-xu/` 只保留对象索引与第一次正式汇报。
+- 将 [[work-reports/guo-xu/first-formal-work-report]] 精简为六部分会前阅读稿，以二维 clean-revision FA/EA evidence 作为当前正式结果，三维结果明确为迁移前历史基线，PIML、GPU、PA/QA 和 MPI 扩展性不写成已完成成果。
+- 同步 Matrix-Free 技术线索引、研究 guide 和概念入口，统一指向 `soptx:examples/matrix_free_elasticity`；根索引、README 和工作汇报总索引现有导航仍有效，未修改。未运行数值算例、MPI、GPU、测试或 benchmark。
+
+## [2026-07-31] edit | 固定郭旭 Matrix-Free 汇报的结果口径
+- 将 [[work-reports/guo-xu/first-formal-work-report]] 第二节由五项过程性工作压缩为一项已有正式 evidence 支持的二维 FA/EA 结果，并直接给出 MatVec、真残差、解误差和收敛阶摘要。
+- 在 [[research/technical-lines/matrix-free-task-line]] 内部固定实现覆盖、数值正确性、CPU、GPU、MPI 和综合结论六类最终证据；未完成结果不进入可直接发送给郭旭老师的主汇报。
+
+## [2026-07-31] simplify | 压缩 PIML × Matrix-Free × GPU 融合技术调研
+- 保留 [[research/piml-matrix-free-gpu/_index]] 的课题入口职责和 [[research/piml-matrix-free-gpu/integration-guide]] 的跨线融合规范，不将融合课题并入任何单一 technical-line。
+- 将 [[research/piml-matrix-free-gpu/high-performance-solver-survey]] 从单线知识、当前状态与阶段路线混合的十章长文压缩为研究范围、跨线边界、开放科学问题、博士后切入点及结论来源五部分。
+- 单线数学基础、装配层级、性能模型、论文数字和任务状态改为权威页面指针；MMC/MMV 只保留独立课题链接。未运行程序、训练、MPI、GPU、测试或 benchmark。
+
+## [2026-07-31] simplify | 移除抽象的三线融合规范
+- 删除 `research/piml-matrix-free-gpu/integration-guide.md`，将其旧路径和早期综合页 aliases 迁入 [[research/piml-matrix-free-gpu/_index]]；融合课题目录只保留入口和技术调研。
+- 在课题入口固定“单线 evidence 闭环后启动、必须回答新的耦合问题、程序拼接不单独构成论文”三条最低边界；真正启动实验时再由内部任务线和软件仓库冻结具体契约。
+- 将全部活跃引用按职责迁移到课题入口、[[research/piml-matrix-free-gpu/high-performance-solver-survey]]、对应 technical-line guide 或 [[research/postdoc-research-output-roadmap]]；历史日志保持原文。未运行程序或测试。
+
+## [2026-07-31] edit | 完善 Matrix-Free 统一语义入口
+- 将 [[concepts/matrix-free/_index]] 按稳定知识、当前研究、工作汇报、文献证据、关联实现和历史档案重组，纳入 [[work-reports/guo-xu/first-formal-work-report]]、融合课题与入站答辩档案总览，并明确各层事实所有权和按角色收录原则。
+- 为工作汇报、研究 guide、内部任务线、融合课题、Ma2026 文献笔记和档案总览补充主题回链；修复 README 漏列的分布式算子概念页并清理长期技术线索引中的重复入口。
+- 保留现有物理目录和历史正文，不维护全文命中文件数；未运行数值算例、MPI、GPU、测试或 benchmark，未 commit 或 push。
+
+## [2026-07-31] refactor | 统一复杂主题入口与工作汇报命名
+- 新增 `assets/templates/topic-index.md`，并在 [[ai/llm-wiki-workflow]] 中固定复杂主题入口的角色顺序、可选章节、事实所有权和非状态账边界；README 与 [[concepts/_index]] 同步说明简单概念和复杂主题分别使用的模板。
+- 按 Matrix-Free 参考结构统一 [[concepts/piml/_index]]、[[concepts/gpu-hpc/_index]] 与 [[concepts/mmc/_index]]，只纳入实际存在的当前研究、工作汇报、文献证据和历史档案；补齐郭旭、刘畅汇报及 Ma、Lei、Huang、Zhang 核心文献的主题回链。
+- 将活跃页面中的“工作汇报归档”改为“工作汇报索引/入口”，以 `archive/` 独占历史档案语义；技术线正文不再使用 `integration guide`，但融合课题旧 aliases 保留兼容。未移动文件，未运行数值算例、MPI、GPU、测试或 benchmark，未 commit 或 push。
+
+## [2026-08-01] edit | 精简 Hu–Zhang 拓扑优化论文框架并明确 CICP 目标
+- 将 [[papers/arbitrary-order-huzhang-topopt-outline]] 精简为 CICP-first、证据驱动的决策页，合并贡献、主张和新颖性表，压缩正文结构、实验矩阵、博士论文复用边界与投稿门禁。
+- 将 CICP 设为首选目标而非不可撤销的最终投稿决定；数学与计算力学路线只决定稿件内部的贡献排序，正式证据不足时重新评估选刊。
+- 同步 [[papers/arbitrary-order-huzhang-topopt-draft-zh]] 与根 [[index]] 的目标期刊元数据，并修复中文版工作稿指向旧 Claim ledger 锚点的回链；未改变理论公式、实验配置或数值结论，未运行数值实验、测试或 LaTeX 编译。
+
+## [2026-08-01] edit | 收紧 Matrix-Free 文档事实所有权
+- 将 [[research/technical-lines/matrix-free-research-guide]] 收敛为长期目标、能力来源、成果解释边界、统一验收框架和五阶段模型；将 [[research/technical-lines/matrix-free-task-line]] 固定为当前状态、MF-B/MF-P 推进顺序和完成记录的唯一来源。
+- 重组 [[literature/matrix-free/_index]] 的入库状态账：Ma2026 作为已入库文献，现有分析表去重后保留 22 篇待入库文献；交叉谱系和阅读批次不再重复维护 `status`。
+- 同步 Matrix-Free 主题入口、技术线索引、成果路线、融合课题和相关概念页的职责描述；未新增、拆分或移动页面，根 `index.md` 与 `README.md` 无需更新。未运行数值算例、MPI、GPU、测试或 benchmark，未 commit 或 push。
+
+## [2026-08-01] edit | 修正郭旭工作汇报中的 Matrix-Free evidence 边界
+- 在 [[work-reports/guo-xu/first-formal-work-report]] 中补充二维、三维单 rank FA/EA 的 `608cedf` revision-scoped evidence 和三维精简数值表，明确这些结果不自动代表后续接口调整后的当前 HEAD。
+- 同步 [[research/technical-lines/matrix-free-task-line]]：MF-B1、MF-B2 均记录为已有 clean revision evidence、待当前目标 revision 统一重放；1/2-rank 一致性仍未进入正式 evidence，不作为并行扩展性结论。
+- 当前优先顺序调整为 clean target revision 重放、MPI rank-invariance evidence 与 provenance 固化、汇报回填，再进入 PA/QA。未修改 SOPTX 代码，未运行数值算例、MPI、GPU、测试或 benchmark，未 commit 或 push。
+
+## [2026-08-01] edit | 精简 PIML 知识框架与索引状态传播
+- 将根 [[index]]、[[literature/_index]] 与 [[research/_index]] 收敛为稳定入口和高层导航，不再逐层平铺 PIML 文献、研究子页、单次工作汇报及档案内部页面；单篇文献状态统一由页面 frontmatter 和最近的 [[literature/topology-opt/_index]] 维护。
+- 精简 [[concepts/piml/_index]] 的当前研究与工作汇报入口，保留三篇稳定知识页和五篇核心文献直达链接；旧 `literature/others/Guo2023-PIML-substructure.md` redirect 继续保留。
+- 在 [[research/technical-lines/_index]] 与 [[research/technical-lines/piml-research-guide]] 中明确 guide 维护能力基线、阶段模型和验收原则，逐项任务状态由 task line 或项目事实源维护；工作汇报只作为阶段表达入口。同步 [[ai/llm-wiki-workflow]] 与 [[work-reports/_index]] 的维护规则；未移动或删除正文页面，未运行数值算例、测试或 benchmark，未 commit 或 push。
+
+## [2026-08-01] ingest | Huang 2022 模型选型证据卡原始 PDF 终审
+- 依据 Zotero 原始 PDF 完成 [[literature/topology-opt/Huang2022-problemindependentmachine#模型选型证据卡]]，统一核对学习对象、输入输出、监督真值、网络与训练、软／硬物理约束、下游求解接口、局部／全局指标和部署边界，并逐项标注 PDF 页码、公式、图表及未报告内容。
+- 修正原笔记中的证据强度：刚度矩阵 MSE 是软约束而非结构硬保证；论文组装全局粗网格矩阵，不属于全局 Matrix-Free；区分摘要的 2 亿 design variables 与正文半设计域 2 亿 fine-resolution elements，并把“约 2 分钟 FEA”限定为 Table 4 后期代表迭代。
+- 同步 [[research/piml-model-selection/liu-chang-model-selection-task-line]]：Lei 2018/2019 与 Huang 2022 已完成统一证据核对，其余三篇和五篇横向比较仍未完成。本次不修改两份工作汇报、选型框架或中文译文，未运行程序、训练、测试或 benchmark，未 commit 或 push。
+
+## [2026-08-01] refactor | 统一 Lei 2018/2019 与 Huang 2022 文献笔记架构
+- 以 `assets/templates/literature-note.md` 为顶层骨架统一 [[literature/topology-opt/Lei2018-machinelearningdriven]] 与 [[literature/topology-opt/Huang2022-problemindependentmachine]]，两篇均在“证据边界与可复现性”下使用同字段的四列模型选型证据卡；方法内部小节继续按论文内容组织。
+- 将 Lei 2018/2019 的单篇证据卡迁回文献笔记，统一记录问题边界、学习对象、表示、标签、模型、物理进入方式、下游接口、评价、部署缺口和不能支持的结论；Huang 2022 只调整既有终审证据卡的章节层级和位置，不改变论文事实。
+- 收敛 [[research/piml-model-selection/lei2018-problem-specific-baseline]] 为对照定位、复现决策、流程目标和验收条件，并同步专题索引、内部任务线与 PIML 方法谱系的事实源指针。其余三篇 PIML 文献、两份工作汇报正文和通用文献模板未修改；未运行科研程序、训练、测试或 benchmark，未 commit 或 push。
+
+## [2026-08-01] edit | 补充 Huang 2022 离线—在线方法流程图
+- 在 [[literature/topology-opt/Huang2022-problemindependentmachine#方法流程与关键对象]] 增加 Mermaid 图，区分随机局部密度与 EMsFEM 监督真值生成的离线训练，以及阈值查表／ANN 预测、形函数恢复、粗单元刚度构造、全局粗网格装配、位移恢复、灵敏度和 OC 更新的在线闭环。
+- 图中显式保留全局粗网格刚度矩阵装配与求解，避免把 EMsFEM 降阶误写为全局 Matrix-Free；未改变证据卡、论文结论、其他 PIML 笔记或工作汇报，未运行科研程序、训练、测试或 benchmark，未 commit 或 push。
+
+## [2026-08-01] edit | 修复 Hu–Zhang 中文稿的 Markdown 公式显示
+- 将 [[papers/arbitrary-order-huzhang-topopt-draft-zh]] 中 169 组行内公式定界符由 `\(...\)` 统一改为 `$...$`，并将 3 处跨行的行内公式合并为单行；保留全部 48 组 `$$...$$` 块级公式。
+- 本次只修复 Markdown 渲染语法，未改变公式符号、数学推导、论文结构或实验结论，未运行数值实验或 LaTeX 编译，未 commit 或 push。
+
+## [2026-08-01] edit | 将 Hu–Zhang 中文稿清理为纯论文正文
+- 清理 [[papers/arbitrary-order-huzhang-topopt-draft-zh]] 中的写作状态、证据门禁、内部运行说明、结果占位表、投稿声明占位和编辑任务清单；保留论文模型、公式、算例定义、评价方法、结论边界与参考文献，不生成或预设数值结果。
+- 将平面应力/平面应变一致性、低阶稳定化尺度、统一复核设置及投稿元数据核查压缩迁入 [[papers/arbitrary-order-huzhang-topopt-outline]]；未改变 CICP-first 定位、CL-01–CL-09、实验矩阵或 acceptance 数值，未运行数值实验或 LaTeX 编译，未 commit 或 push。
+
+## [2026-08-01] edit | 修复 Hu–Zhang 中文稿的段落排版
+- 合并 [[papers/arbitrary-order-huzhang-topopt-draft-zh]] 中 31 组被源换行拆开的连续正文段落，使行内公式及其前后文字在 Markdown 预览中按完整段落排版；未改变文字、公式、标题、列表、参考文献或章节结构。
+- 保留全部 48 组块级公式及其内部换行；未修改论文框架或根索引，未运行数值实验或 LaTeX 编译，未 commit 或 push。
+
+## [2026-08-01] refactor | 建立 topology-opt notes 目录与文献模板体系
+- 将 `literature/topology-opt/` 收敛为主题入口、`notes/`、`translations/` 与 `assets/` 四类角色；8 篇 Citation Key 单篇笔记迁入 `notes/`，并以 aliases 保留旧路径兼容，译文与资产维持同级目录。
+- 新增文献主题索引模板和模型选型证据卡模板片段，更新单篇笔记、译文模板及 [[ai/llm-wiki-workflow]]；填好的证据卡仍由各单篇笔记唯一维护，`notes/` 不建立语义索引或第二套状态账。
+- 同步主题索引、README 及 concepts、entities、literature、research、work-reports 等活跃页面的显式链接；既有历史日志与 `archive/` 正文不改写。未运行科研程序、训练、测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-02] edit | 拆分第 80 批面上资助填报底稿与申请书正文
+- 新增 [[research/funding/active/china-postdoc-foundation-general-grant/80th-2026-application-draft]]，按 2026 年官方模板建立选题依据、研究内容、研究方案、特色与创新、研究计划及预期成果、研究基础六部分骨架，并将项目题目统一为“面向大规模拓扑优化的结构保持 PIML 局部算子与 GPU 加速 Matrix-Free 求解方法研究”。
+- 将 [[research/funding/active/china-postdoc-foundation-general-grant/80th-2026-application-workbook]] 收敛为网站字段、个人信息状态、代表性成果、两个 DOCX 的上传状态和提交检查；修正 2026-08-02 实时页面中基金字段均为空、尚未保存的状态。
+- 同步 [[research/funding/active/china-postdoc-foundation-general-grant/80th-2026]] 与 [[research/postdoc-research-output-roadmap]]，把 Matrix-Free 从后续扩展调整为面上项目的核心融合内容；[[research/_index]] 继续只保留执行页入口，根 `index.md` 与 `README.md` 无需更新。未填写或保存网站，未运行科研程序、测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-02] edit | 在第 80 批填报底稿中展开项目基本科研字段
+- 在 [[research/funding/active/china-postdoc-foundation-general-grant/80th-2026-application-workbook]] 中直接列出项目中文名称、英文名称和 5 个关键词，便于逐项对照基金网站填写；[[research/funding/active/china-postdoc-foundation-general-grant/80th-2026-application-draft]] 仍为科研正文权威来源，底稿只维护同步镜像和系统状态。未填写或保存网站，未 stage、commit 或 push。
+
+## [2026-08-02] archive | 归档两篇合作论文并准备面上资助论文字段
+- 在 `C:\workspace\paper-submissions` 为相场断裂 AFEM 和 FEALPy 两篇合作论文建立轻量出版归档，保存出版元数据、规范引文、公开作者版本和来源边界；不创建缺失的投稿、同行评审或通信材料。
+- 更新 [[research/funding/active/china-postdoc-foundation-general-grant/80th-2026-application-workbook]]，将 SOPTX、相场断裂 AFEM 和 FEALPy 列为三篇候选代表作，并为后两篇整理网站待填字段；合作论文只记录真实作者位次，不推断个人贡献。
+- 当前基金系统已有 1 篇 SOPTX，另 2 篇仅准备字段、未填写或保存网站；文章级 Web of Science 入藏状态与期刊 SCIE 收录状态分开记录。未 stage、commit 或 push。
+
+## [2026-08-02] edit | 沉淀第 80 批项目信息匿名评审规则
+- 在 [[research/funding/active/china-postdoc-foundation-general-grant/80th-2026-application-workbook]] 中保存系统“二、项目信息”页面的匿名评审原文和核验日期，不记录申请专属 URL 或申请 ID；同步强化第 1–5 部分的身份信息检查及计 0 分风险提示。
+- 在 [[research/funding/active/china-postdoc-foundation-general-grant/80th-2026-application-draft]] 的科研正文入口增加匿名写作警示，并明确第 6 部分“研究基础”虽为例外栏目，仍只披露必要且可核验的信息；[[research/funding/active/china-postdoc-foundation-general-grant/80th-2026]] 保留流程级摘要。未修改 DOCX 或基金网站，未 stage、commit 或 push。
+
+## [2026-08-02] refactor | 建立博士后核心研究项目驱动架构
+- 新增 [[research/piml-matrix-free-gpu/project-plan]]，将“面向大规模拓扑优化的结构保持 PIML 局部算子与 GPU 加速 Matrix-Free 求解方法研究”确立为主线二在博士后阶段的核心研究项目，并统一维护 WP1–WP3、两年里程碑、项目级状态、阶段门禁和资助映射；项目推进不以基金获批为前提，基金获批也不等同于项目完成。
+- 重构 [[research/piml-matrix-free-gpu/_index]]，同步 [[research/long-term-research-lines]]、[[research/postdoc-research-output-roadmap]]、三条长期技术线、PIML 模型选型专题和 PIML／Matrix-Free／GPU-HPC 概念入口：WP1 对应 Matrix-Free/GPU 精确求解基线，WP2 对应结构保持 PIML/GPU 局部算子，WP3 在前两者门禁通过后开展融合；Hu–Zhang、VEM 与 MMC/MMV 不并入核心项目工作包。
+- 将第 80 批面上资助定位为核心项目第一次条件性资助申请，并在 [[research/funding/postdoc-funding-applications]] 建立两个不写死批次和日期的后续条件槽位：仅当前次未获批、个人仍符合资格且官方新批次开放时启用，一旦任一次面上资助获批即停止后续槽位；特别资助、国资计划、国自然青年基金和辽宁省基金继续作为独立渠道。
+- 依据 2026 年官方指南区分“核心项目两年周期”与“面上资助使用窗口”：面上资助不按获批后固定两年执行，而用于获资助人员在站期间科研工作；按当前合同，第 80 批如获批，使用窗口上限预计至 2028-07-21，实际起点取决于结果公布和拨款时间。
+- 同步根导航、research 导航及郭旭／刘畅工作汇报入口与当前汇报定位；现有代码仓库、实验、iCloud DOCX、基金网站和历史档案均未修改，未运行科研程序、训练、MPI/GPU 测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-02] refactor | 扁平化 PIML 模型选型架构
+- 删除 `research/piml-model-selection/` 独立专题层级，将六维问题契约、物理硬门槛、统一比较原则和证据边界并入 [[research/technical-lines/piml-research-guide]]，使模型选型成为核心项目 WP2 的可复用技术方法，而不再作为并列研究课题。
+- 新增 [[research/technical-lines/piml-task-line]]，统一维护 WP2 的五篇论文证据、刘畅老师交流依赖、基线恢复、最小实证、条件化 benchmark 和停止条件；Lei 2018/2019 的论文事实继续由单篇文献笔记维护，条件性复现决策与验收并入任务线。
+- 同步核心项目、technical-lines、根与 research 导航、PIML／PCA／MMC 概念页、刘畅实体与工作汇报及 Lei 文献笔记；新 guide 与 task line 通过 aliases 兼容旧专题路径。未运行科研程序、训练、MPI/GPU 测试或 benchmark，未修改软件仓库、基金网站或 DOCX，未 stage、commit 或 push。
+
+## [2026-08-02] refactor | 明确根导航中的博士后科研架构
+- 在根 [[index]] 增加“当前科研架构”，集中表达主线一的 Hu–Zhang／VEM 博士延续成果、主线二核心项目 WP1–WP3，以及基金申请、工作汇报、technical-lines、concepts、literature 和 workflows 的执行支撑关系；明确核心项目独立于基金结果，第 80 批只是第一次条件性资助申请。
+- 将根 `README.md` 的动态“研究方向”长列表收敛为仓库定位和 [[index]]、[[research/long-term-research-lines]]、[[research/piml-matrix-free-gpu/project-plan]] 三个稳定入口；未修改 research 子级事实源、基金申请、工作汇报正文、软件代码或 DOCX，未 stage、commit 或 push。
+
+## [2026-08-02] write | 形成第 80 批面上资助选题依据第一稿
+- 在 [[research/piml-matrix-free-gpu/high-performance-solver-survey]] 中新增面上资助选题依据的扩展证据综合，按问题需求、国际 Matrix-Free／GPU 与物理信息学习、国内问题无关局部力学学习、交叉研究缺口和选题价值建立完整论证，并为关键主张标明可支持与不可外推边界。
+- 将扩展论证压缩写入 [[research/funding/active/china-postdoc-foundation-general-grant/80th-2026-application-draft]]，形成不超过 1000 字口径、含 6 条极简参考文献的匿名第一稿；本项目 PIML 明确为 Physics-Informed Machine Learning，既有相关路线在正文中称为“问题无关的局部力学学习方法”以避免缩写混淆。未修改 DOCX 或基金网站，未运行科研程序、测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-02] edit | 将 Hu–Zhang 投稿制造解固定为博士论文 5.4.3 算例
+- 将 [[papers/arbitrary-order-huzhang-topopt-draft-zh]] 第 4.2 节的制造解改为博士论文第 5.4.3 节问题：单位正方形平面应变、$\lambda=1$、$\mu=0.5$、双分量正弦精确位移，以及左/下 Dirichlet 与右/上非齐次 Neumann 边界。
+- 同步 [[papers/arbitrary-order-huzhang-topopt-outline]] 的 CL-01–CL-05 与最小证据矩阵，固定五档规则三角网格和五档递归加密的非结构三角网格；低阶启用跳量稳定化，混合边界角点默认启用部分顶点松弛。
+- 博士论文旧表只作为 regression 对照，投稿数值必须重新生成；当前 `soptx` 的 `forward-manufactured` 尚未与该定义对齐。本次未修改或运行 `soptx`，未运行数值测试，未 stage、commit 或 push。
+
+## [2026-08-02] correction | 清除 Hu–Zhang 中文稿中的内部证据管理措辞
+- 将 [[papers/arbitrary-order-huzhang-topopt-draft-zh]] 第 4.2 节改为自包含的投稿论文表述，删除“沿用博士论文”、`regression` 和 `provenance` 等内部来源与流程说明；制造解、边界条件、单纯形网格和验证指标保持不变。
+- 博士论文复用边界与 `soptx` 实现对齐状态继续由 [[papers/arbitrary-order-huzhang-topopt-outline]] 维护，不进入投稿正文。未运行数值程序，未修改 `soptx`，未 stage、commit 或 push。
+
+## [2026-08-02] ingest | 建立 Matrix-Free 国内外研究现状与选题价值证据链
+- 在 [[research/technical-lines/matrix-free-research-guide]] 增加 Matrix-Free 单线研究现状，按装配层级统一梳理 EBE、逐单元积分、组装代理预条件、GPU 拓扑优化和国内分布式／assembly-free／MGPCG 路线，并明确动态拓扑、低阶复杂结构、端到端性能、GPU/MPI 和学习算子耦合五类缺口及其对 WP1、WP3 的价值。
+- 将 [[literature/matrix-free/_index]] 的首批阅读范围收敛为 Hughes 1983、Liu 2007、Kronbichler 2012、Bian 2017、Pazner 2020、Träff 2023、Zhou 2025 和已入库 Ma 2026 八个证据锚点；同步 [[research/piml-matrix-free-gpu/high-performance-solver-survey]] 的 Matrix-Free 证据映射和参考文献。
+- 已视觉核验 Zotero 中 Kronbichler 2012 与 Träff 2023 的正式 PDF 首页并定向核对全文；其他论文仅采用出版社页面可以直接支持的事实。除 Ma 2026 外，首批论文尚未同时满足全文、Zotero 条目和 Citation Key 门禁，因此继续保留为 `to-ingest`，未创建单篇笔记，`assets/refs.bib` 和拓扑优化主题索引无需修改。未修改基金申请书压缩稿、软件仓库、DOCX 或网站，未运行科研程序、测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-02] refactor | 收敛 Matrix-Free 技术线并中文化国内作者姓名
+- 将 [[research/technical-lines/matrix-free-task-line]] 的当前状态、MF-B／MF-P 推进账和执行门禁完整并入 [[research/technical-lines/matrix-free-research-guide#七、当前执行状态]]，删除独立 task line，并由 guide 的 aliases 兼容旧路径；项目计划仍只维护 WP1 项目级状态，代码、命令、原始结果和正式 evidence 继续由 SOPTX 维护。
+- 将国内研究进展中的已核实作者改为中文姓名并保留英文文献标识：刘耀儒、周维垣、杨强，卞翔、方宗德，周丙臻、王晓平等；未核实的 Zixian Zhu 不按拼音猜测汉字。同步技术线、核心项目、概念页、文献索引和工作汇报中的活跃引用；未修改历史日志记录、软件仓库、实验结果、基金网站或 DOCX，未 stage、commit 或 push。
+
+## [2026-08-02] refactor | 精简 Matrix-Free 研究指南
+- 将 [[research/technical-lines/matrix-free-research-guide]] 收敛为六章：定位与目标、技术路线与装配边界、国内外现状与选题价值、证据锚点、阶段门禁与当前状态、权威事实来源；删除与概念页、SOPTX 和关联导航重复的解释。
+- 将原 MF-B／MF-P 十五条微任务压缩为五个阶段门禁，保留 clean revision、二维／三维 FA/EA、MPI、PA/QA、GPU 和 PIML 接入的真实状态与推进顺序；同步所有活跃章节锚点。未修改项目级状态、软件仓库、实验结果、基金网站或 DOCX，未 stage、commit 或 push。
+
+## [2026-08-02] ingest | 建立 PIML 国内外研究现状与选题价值证据链
+- 在 [[research/technical-lines/piml-research-guide#三、国内外研究现状及选题价值]] 中采用双层术语口径：核心项目 PIML 指 Physics-Informed Machine Learning，Huang–Ma 路线 PIML 指 Problem-Independent Machine Learning；围绕 PINN、Physics-Informed ML、DeepONet、PINNTO、SPD-NN 与国内问题无关局部算子谱系形成“国际基础—国内进展—结构保持缺口—WP2/WP3 价值”论证和九篇证据矩阵。
+- 新建 [[literature/piml/_index]]，将五篇国际方法锚点保持为 `to-ingest`；它们尚未同时满足全文、Zotero item 与 Citation Key 门禁，因此未创建单篇笔记或加入 `assets/refs.bib`。Huang 2023 已有 Zotero item、Citation Key 和全文笔记，补入缺失 BibTeX；同时将 Huang 2022 既有 BibTeX key 与已核验 Better BibTeX Citation Key 对齐。
+- 为 [[literature/topology-opt/notes/Huang2023-PIML-substructure#模型选型证据卡]]、[[literature/topology-opt/notes/Huang2024-PIML-datafree#模型选型证据卡]] 和 [[literature/topology-opt/notes/Ma2026-highperformanceparallel#模型选型证据卡]] 补齐统一证据卡，同步 PIML 术语入口、任务线、文献索引、跨线综合和 README；WP2 仍为 `preparing`，未修改基金申请书、项目计划、工作汇报、软件仓库、DOCX 或网站，未运行训练、数值计算、MPI/GPU 测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-03] ingest | 建立 GPU/HPC 国内外研究现状与选题价值证据链
+- 在 [[research/technical-lines/gpu-hpc-research-guide#三、国内外研究现状、研究缺口与选题价值]] 中补充 GPU/HPC 的判定口径、国际 GPU 拓扑优化与高阶 Matrix-Free 路线、国内 CuPy／CPU–GPU 异构进展、六类研究缺口、WP1–WP3 价值和十一项证据矩阵；严格区分硬件、算法、装配层级与精度变化，以及 kernel、MatVec、solve、优化迭代和完整任务五级结论。
+- 在 [[literature/matrix-free/_index#GPU/HPC 单线：第三阶段核心证据批次]] 中登记 Roofline、单 GPU、多 GPU、高阶性能可移植、国内近期异构路线和 Ma 2026 团队接续点，并同步 [[literature/topology-opt/_index]]、[[concepts/gpu-hpc/_index]] 与 [[research/piml-matrix-free-gpu/high-performance-solver-survey]] 的活跃引用和证据映射；未新建 `literature/gpu-hpc/` 层级。
+- 除 `refs.bib` 已登记的 Williams 2009 和已入库的 Ma 2026 外，其余论文目前只采用出版社页面可支持的事实并保持 `to-ingest`；未满足全文、Zotero item 与 Citation Key 三项门禁，因而未创建单篇笔记或新增 BibTeX。未修改基金申请书、项目计划、软件仓库、DOCX 或网站，未运行数值计算、GPU/MPI 测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-03] refactor | 对齐 PIML 与 Matrix-Free 研究指南并修复公式渲染
+- 将 [[research/technical-lines/piml-research-guide]] 收敛为与 Matrix-Free guide 一致的六类职责：定位与目标、技术路线与学习对象边界、国内外现状与选题价值、证据锚点、阶段门禁与当前状态、权威事实来源；PIML 特有的双层术语、两条学习路径和六维模型选型契约继续保留。
+- 将九篇核心文献比较移入证据章节，把远端 PIML 原型的重复数值表压缩为证据边界并链接入站答辩历史档案；详细 Todo 继续由 [[research/technical-lines/piml-task-line]] 维护，WP2 项目状态仍由核心项目计划维护。
+- 将 guide 内联公式统一为 `$...$`、块公式统一为 `$$...$$`，同步实体页、概念页、文献索引、跨线综合、任务线和工作汇报中的活跃章节锚点。未修改 Matrix-Free guide、项目计划、基金申请、软件仓库、DOCX 或网站，未运行训练、数值计算、测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-03] refactor | 删除 Matrix-Free 与 PIML 主题文献页面
+- 删除只含 `_index.md` 的 `literature/matrix-free/` 与 `literature/piml/`，由 [[literature/_index]] 统一维护 Matrix-Free、PIML 与 GPU/HPC 当前 `to-ingest` 队列和储备候选池；旧路径通过总索引 aliases 兼容，历史日志不改写。
+- Matrix-Free、PIML 与 GPU/HPC 的跨文献技术结论继续由三份 technical-line guide 维护，[[literature/topology-opt/_index]] 只管理实际存在的单篇笔记、译文和派生资源；同步根导航、概念入口、跨线综述、任务线和所有活跃引用。未修改基金申请、项目计划、软件仓库、DOCX 或网站，未运行训练、数值计算、测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-03] refactor | 删除 PIML 独立任务线并收敛执行状态
+- 删除 `research/technical-lines/piml-task-line.md`，将当前证据状态、推进顺序、条件性最小实验、停止规则和 Lei 2018/2019 条件性复现收敛到 [[research/technical-lines/piml-research-guide#五、阶段门禁与当前执行状态]]；旧任务线及历次迁移路径由 guide aliases 兼容。
+- [[work-reports/liu-chang/first-formal-work-report]] 同步五篇已入库论文证据卡和五篇国际方法锚点的当前状态；具体汇报、导师反馈与会后行动继续由刘畅工作汇报维护，WP2 项目状态仍为 `preparing`。
+- 同步核心项目、technical-lines、PIML 概念入口、方法谱系、刘畅实体页和 Lei 文献笔记中的活跃引用。未修改 Matrix-Free guide、基金申请、软件仓库、DOCX 或网站，未运行训练、数值计算、测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-03] refactor | 对齐 GPU/HPC 与 Matrix-Free 研究指南框架
+- 将 [[research/technical-lines/gpu-hpc-research-guide]] 收敛为与 Matrix-Free guide 一致的六章职责：定位与目标、技术路线与性能边界、国内外现状与选题价值、证据锚点、阶段门禁与当前状态、权威事实来源；GPU/HPC 特有的五级计时、异构执行、混合精度和五阶段门禁继续保留。
+- 将十一项核心证据矩阵独立为第四章，将当前成果边界、目标差距和实施路线统一纳入第五章的执行状态语境，并补充从组装式 CPU/GPU 参考到多 GPU/GPU-aware MPI 的逐级评价边界。
+- 同步 GPU/HPC 概念入口、方法谱系、性能模型、拓扑优化文献索引和跨线综述中的活跃章节锚点。未修改项目级状态、基金申请、软件仓库、DOCX 或网站，未运行数值计算、GPU/MPI 测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-03] research | 建立 PIML、Matrix-Free 与 GPU 三线交叉支撑
+- 将 [[research/piml-matrix-free-gpu/high-performance-solver-survey]] 明确为“面向大规模拓扑优化的结构保持 PIML、Matrix-Free 与 GPU 融合研究综述”，在不新增页面的前提下补齐三线交叉证据成熟度矩阵、四类耦合缺口和四项待验证研究假设；当前核心证据只支持分线或两线组合，不据此主张全球范围内不存在直接三线闭环。
+- 冻结未来 WP3 的 R0–R4 方法对照和统一评价契约，覆盖局部结构、全局真残差与迭代、拓扑优化结果、完整 solve／优化成本、峰值显存／内存、预条件更新和回退比例；相同离散、真值、停止准则、硬件和计时边界仍是比较前提，WP3 保持 `gated`。
+- 同步核心项目计划、核心项目入口、成果路线、长期主线和 technical-lines 入口，清除活跃页面中已失效的独立 `task-line` 口径。未改写基金申请书、三份单线 guide、软件仓库、DOCX 或网站，未运行训练、数值计算、GPU/MPI 测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-03] refactor | 精简三线融合研究综述
+- 将 [[research/piml-matrix-free-gpu/high-performance-solver-survey]] 从约 292 行压缩至约 190 行，保留六章结构、第五章基金引用锚点、证据成熟度矩阵、四项研究假设、R0–R4 和 WP3 统一评价契约；单线发展史改由三份 technical-line guide 承担。
+- 将开放问题与交叉缺口收敛为学习对象与谱性质、局部—全局误差传播、预条件更新与回退、GPU 端到端数据流四类关系；Ma 2026 继续限定为按需预测／释放多尺度形函数并组装全局粗矩阵，WP3 仍为 `gated`。
+- 将 26 条完整书目改为分组精简证据清单，保留全部作者—年份锚点、DOI 和已有仓库入口。未修改项目计划、三份单线 guide、基金申请书、文献笔记、软件仓库、DOCX 或网站，未运行科研实验，未 stage、commit 或 push。
+
+## [2026-08-03] write | 重写第 80 批面上资助选题依据第二稿
+- 基于三份 technical-line guide 和 [[research/piml-matrix-free-gpu/high-performance-solver-survey#五、面上资助选题依据的证据综合]]，将 [[research/funding/active/china-postdoc-foundation-general-grant/80th-2026-application-draft#1. 选题依据（国内外研究现状及选题价值，限 1000 字）]] 重写为“研究需求—Matrix-Free/GPU 国内外进展—PIML 国内外进展—交叉缺口与选题价值”四段式第二稿。
+- 新增 Zhou 2025 国内 fully Matrix-Free MGPCG 证据，保留七条代表文献；明确 Ma 2026 仍组装全局粗尺度矩阵，当前核心证据尚未形成结构保持 PIML、全局 Matrix-Free 与 GPU 闭环，GPU kernel 或局部预测精度不能替代端到端评价。
+- 正文与参考文献按去除全部空白字符口径控制在约 948 个字符，第一至第五部分继续遵守匿名评审要求。未修改 DOCX、基金网站、工作底稿、项目计划、综合综述、单线 guide、文献笔记或软件代码，未 stage、commit 或 push。
+
+## [2026-08-03] write | 规范化第 80 批面上资助选题依据第三稿
+- 将 [[research/funding/active/china-postdoc-foundation-general-grant/80th-2026-application-draft#1. 选题依据（国内外研究现状及选题价值，限 1000 字）]] 从技术摘要式表达重写为基金论证：补足结构拓扑优化的选题背景，按国际 Matrix-Free/GPU、国内全矩阵无关 MGPCG 和问题无关局部力学学习的进展与边界组织研究现状。
+- 删除“GPU 路径”“fully Matrix-Free MGPCG”“Ma 2026”“GPU kernel”等内部化表述，改用正式中文学术表达；最新并行 PIML 研究继续限定为显式组装全局粗尺度矩阵，三线融合仍作为待研究问题。
+- 保留七条参考文献及顺序，正文与参考文献按去除全部空白字符口径控制在 970 个字符。未修改综合综述、三份单线 guide、项目计划、DOCX、基金网站或软件代码，未 stage、commit 或 push。
+
+## [2026-08-03] correction | 将核心项目 PIML 统一为问题无关机器学习
+- 核心项目 PIML 正式统一为 Problem-Independent Machine Learning（问题无关机器学习），直接承接 Huang–Ma 局部力学表示学习谱系；问题无关仅针对宏观几何、整体边界条件和载荷，PDE、离散、材料或局部表示改变时不能默认复用。
+- 同步项目计划、PIML guide、概念入口、三线融合综述及 technical-lines 索引；Physics-Informed Machine Learning、PINN、neural operator 和结构化学习继续保留为外部背景、表示工具或结构保持类比证据，不再作为项目 PIML 的展开。
+- 第 80 批申请书与工作底稿关键词改为“问题无关机器学习”；选题依据形成第四稿，以 Huang 2023 替换 Karniadakis 2021，保留七条代表文献并按去除空白口径控制在约 966 个字符。未修改历史日志、论文译文、DOCX、基金网站或软件代码，未 stage、commit 或 push。
+
+## [2026-08-03] refine | 规范化选题依据中的国内研究表述
+- 将 [[research/funding/active/china-postdoc-foundation-general-grant/80th-2026-application-draft#1. 选题依据（国内外研究现状及选题价值，限 1000 字）]] 中“国内学者提出”调整为“国内相关研究提出”，以客观表述国内技术谱系并降低匿名评审中的身份关联风险；第四稿状态及七条参考文献保持不变，正文与参考文献按去除空白口径调整为约 970 个字符。未修改其他申请书栏目、工作底稿、DOCX 或基金网站，未 stage、commit 或 push。
+
+## [2026-08-03] ingest | 入库 Zhou 2025 fully Matrix-Free MGCG 论文
+- 新建 [[literature/topology-opt/notes/zhouEfficientAccelerationStrategies2025]]，基于 Zotero 正式 PDF 全文核验结构化网格有限差分 stencil、最粗层组装、N-cycle MGCG、SDC 预条件和渐进三维拓扑优化；记录串行 CPU、16 GB、固定 MatVec 次数、粗到细优化及 N-cycle 非对称性的证据边界，状态标记为 `done`。
+- 将 Better BibTeX 条目加入 `assets/refs.bib`，Citation Key 为 `zhouEfficientAccelerationStrategies2025`，正式在线日期按 PDF 首页统一为 2025-09-09；同步文献总索引、拓扑优化主题索引、Matrix-Free guide 和三线融合综述，将旧摘要级锚点升级为全文笔记链接。
+
+## [2026-08-03] edit | 将 Zhou 2025 回退为译文先行骨架
+- 根据“先完成并核验中文译文，再撰写正式文献笔记”的全库门禁，将 [[literature/topology-opt/notes/zhouEfficientAccelerationStrategies2025]] 回退为 `draft` 元数据与模板骨架，新建 [[literature/topology-opt/translations/zhouEfficientAccelerationStrategies2025-zh]] 并按原文章节建立待翻译框架；此前日志作为历史记录保留，本条记录当前纠偏结果。
+- 拓扑优化索引、Matrix-Free guide 和三线融合综述将 Zhou 2025 降为正式摘要／元数据级证据；`assets/refs.bib` 保留已核验书目信息。同步 `ai/llm-wiki-workflow.md`、`ai/paper-translation-workflow.md`、两份文献模板和 README，固定“笔记骨架 → 译文 → 正式笔记 → 关联同步”的 ingest 顺序。
+
+## [2026-08-03] edit | 统一 Zhou 2025 文献文件命名
+- 将 Zhou 2025 的文献笔记与译文骨架重命名为 [[literature/topology-opt/notes/Zhou2025-efficientaccelerationstrategies]] 和 [[literature/topology-opt/translations/Zhou2025-efficientaccelerationstrategies-zh]]，同步活跃索引、Matrix-Free guide 与三线融合综述；旧 basename 通过 aliases 兼容，历史日志不改写。
+- 明确文献页面采用可读的 `AuthorYear-short-topic` basename，Zotero Citation Key 独立保存在 frontmatter 与 `assets/refs.bib`；两份 Zhou 页面仍为 `draft` 骨架，未修改书目信息或正文状态。
+- 未修改基金申请书、根导航、README、Zotero 数据库、PDF、DOCX、基金网站或软件代码，未运行科研程序，未 stage、commit 或 push。
+
+## [2026-08-04] ingest | 建立 Träff 2023 GPU 拓扑优化译文先行骨架
+- 新建 [[literature/topology-opt/notes/Traff2023-GPU-topology-optimisation]] 与 [[literature/topology-opt/translations/Traff2023-GPU-topology-optimisation-zh]]，记录 Zotero 父条目 `6GUB2XV8`、PDF 附件 `8KNFKTRL` 和 Citation Key `traffSimpleEfficientGPU2023b`；两页均保持 `draft`，文献笔记不含技术结论，译文按原文建立 23 个待翻译占位。
+- 将完整 Better BibTeX 条目加入 `assets/refs.bib`，同步文献总索引与拓扑优化主题索引；Matrix-Free guide、GPU/HPC guide 和三线融合综述仅保留正式摘要可支持的 OpenMP/Futhark、单 GPU 6550 万单元约 2 小时及百万单元非线性算例，将具体硬件、Matrix-Free 装配层级和求解器细节标为待译文精读。
+- 未修改基金申请书、项目计划、根导航、README、Zotero 数据库、PDF、DOCX、基金网站或软件代码，未运行科研程序，未 stage、commit 或 push。
+
+## [2026-08-04] edit | 重构第 80 批申请书与核心项目创新主线
+- 核心项目更名为“面向大规模拓扑优化的 PIML Matrix-Free 求解与 GPU 协同加速方法研究”，将创新主线统一为 PIML 全局求解的 Matrix-Free 重构、预测—局部作用—预条件 Krylov 的 GPU 协同执行，以及面向拓扑演化的可靠性与可扩展性机制；旧项目全称仅作为兼容 alias 和历史日志保留。
+- 重写 [[research/funding/active/china-postdoc-foundation-general-grant/80th-2026-application-draft#2. 研究内容（研究对象，拟解决的关键科学问题，研究目标，限 2000 字）]] 第一稿，形成两个关键科学问题、三项研究内容和三个研究目标；同步校准选题依据结尾及研究方案、创新点、计划骨架。按去除空白字符口径，第 1 节约 974 字，第 2 节约 1632 字。
+- 同步核心项目计划、交叉综述、项目入口、长期研究主线、研究索引、基金台账、填报底稿、根索引及仍在准备中的首次工作汇报；未修改 README、历史日志、归档材料、DOCX、基金网站或软件代码，未运行科研程序，未 stage、commit 或 push。
+
+## [2026-08-04] refine | 删除研究内容中的 PIML 重复释义
+- 第 1 节已首次给出“问题无关机器学习（Problem-Independent Machine Learning，PIML）”全称，因此将第 2 节研究对象中的重复释义简化为 `PIML`；其余研究对象、科学问题、研究内容和目标不变。第 2 节按去除空白字符口径约 1622 字，未修改其他申请栏目、DOCX 或基金系统。
+
+## [2026-08-04] refine | 精简研究对象的防御性范围说明
+- 删除第 2 节研究对象中“不直接外推至非线性、接触或多物理场问题”的防御性说明；前文“二维、三维线弹性拓扑优化”已充分限定研究范围。第 2 节按去除空白字符口径约 1569 字，其余科学问题、研究内容和目标不变。
+
+## [2026-08-04] refine | 严谨化申请书研究对象表述
+- 将第 2 节研究对象由泛化的“多尺度计算链”调整为 PIML 局部预测、Matrix-Free 全局作用、GPU 加速 Krylov 求解和设计更新组成的“局部—全局计算链”；明确局部层面的 PIML 映射与误差、局部作用到全局累加的 Matrix-Free 机制，以及与之耦合的 Krylov 迭代和预条件机制。第 2 节按去除空白字符口径约 1644 字。
+
+## [2026-08-04] ingest | 建立 Kronbichler 2012 Matrix-Free 译文先行骨架
+- 恢复 `assets/templates/literature-topic-index.md`，新建 [[literature/matrix-free/_index]] 作为以 Matrix-Free 方法为主要贡献的真实文献主题入口；拓扑优化交叉论文继续保存在原主题，本入口只建立链接，不复制笔记或 ingest 队列。
+- 新建 [[literature/matrix-free/notes/Kronbichler2012-parallel-cell-operator]] 与 [[literature/matrix-free/translations/Kronbichler2012-parallel-cell-operator-zh]]，记录 Zotero 父条目 `PZ4SDEMI`、PDF 附件 `BZZFU2DI` 和 Citation Key `kronbichlerGenericInterfaceParallel2012`；两页均保持 `draft`，笔记不含技术结论，译文按原文建立 30 个待翻译占位。
+- 将 Better BibTeX 条目加入 `assets/refs.bib`，同步文献总索引、根导航、Matrix-Free 概念入口、研究 guide 与三线融合综述；研究页仅保留正式摘要可支持的 cell-wise quadrature、sum factorization、MPI、节点内线程、显式向量化、自适应网格和线性／非线性 PDE，并明确全文细节及 GPU、拓扑优化、PIML 等外推边界待译文精读。
+- 未修改基金申请书、项目计划、README、Zotero 数据库、PDF、DOCX、基金网站或软件代码，未运行科研程序，未 stage、commit 或 push。
+
+## [2026-08-04] refine | 上位化申请书中的 PIML 局部表示
+- 将第 2 节研究对象、关键科学问题和主要研究内容中的具体学习输出统一上位为“可复用局部力学表示”，避免把 PIML 路线预先限定为多尺度形函数或缩聚刚度；第 2 节去除空白后约 1638 个字符。
+- 同步第 3 节方案骨架和第 6 节研究基础：多尺度形函数、缩聚刚度仅作为候选实现，具体局部表示根据文献证据和 Matrix-Free 接口要求选择；未修改第 1 节对既有文献路线的事实性概述。
+- 未建立新文献笔记或译文，未修改 Zotero、PDF、DOCX、基金网站或软件代码，未运行科研程序，未 stage、commit 或 push。
+
+## [2026-08-04] refine | 凝练申请书关键科学问题
+- 将第 2 节第一项科学问题凝练为 PIML 局部近似向全局 Matrix-Free 算子性质、预条件 Krylov 收敛和结构响应误差的传播机理，不再把技术接口本身作为科学问题。
+- 将第二项科学问题凝练为 PIML–Matrix-Free–Krylov 异构计算链的性能耦合与端到端收益形成机理，突出问题规模、数据移动与同步、表示复用、预测误差、回退比例和迭代收敛之间的关系；具体 GPU kernel 与调度仍由研究内容承载。
+- 第 2 节去除空白后约 1681 个字符，未修改研究对象、主要研究内容和研究目标，未修改 DOCX 或基金系统，未 stage、commit 或 push。
+
+## [2026-08-04] refine | 明确第一项科学问题的误差传播对象
+- 将第一项科学问题改为“PIML 局部近似误差在 Matrix-Free 全局作用中的传播与预条件 Krylov 收敛机理”，突出局部误差经自由度映射、局部作用和全局累加向算子性质及迭代收敛的传播。
+- 将“整体 Matrix-Free 算子”修正为“以 Matrix-Free 方式作用的整体算子”，避免把算子的数学性质与不显式形成矩阵的实现方式混为一谈；第 2 节去除空白后约 1694 个字符。
+- 未修改第二项科学问题、研究内容和研究目标，未修改 DOCX 或基金系统，未 stage、commit 或 push。
+
+## [2026-08-04] refine | 重构申请书三项主要研究内容
+- 第一项聚焦 PIML 局部表示驱动的 Matrix-Free 全局作用、结构保持、预条件 Krylov 收敛及复杂度条件，并将项目自身方法中的“全局粗尺度矩阵”上位为“全局系统矩阵”。
+- 第二项由 GPU 技术清单调整为计算量、显存访问、数据搬运、同步归约、表示复用和迭代次数的性能耦合研究，明确离线训练与在线预测、单次求解、完整优化分别计时。
+- 第三项改为拓扑演化下的可靠性机制与规模扩展验证，以逐层消融方式比较精确组装、精确 Matrix-Free、PIML 组装式、PIML Matrix-Free 及 GPU 协同实现；第 2 节去除空白后约 1766 个字符，未修改 DOCX 或基金系统，未 stage、commit 或 push。
+
+## [2026-08-04] refine | 统一申请书自身方法的全局矩阵口径
+- 将研究对象、目标 1、研究方案骨架和创新点中的“全局粗尺度矩阵”统一为“全局系统矩阵”，与不预设具体局部表示的上位口径保持一致；第 1 节描述 Ma 2026 既有实现时仍保留事实性的“全局粗尺度矩阵”。
+- 术语统一后第 2 节去除空白约 1762 个字符，未修改 DOCX 或基金系统，未 stage、commit 或 push。
+
+## [2026-08-04] refine | 重构申请书三项研究目标
+- 将目标 1 由“降低开销且精度与稳定性可评价”改为建立 PIML 局部表示驱动的 Matrix-Free 可靠求解方法，并揭示局部误差、全局算子性质、预条件器质量与 Krylov 收敛之间的关系。
+- 将目标 2 明确为 GPU 协同执行方法与性能模型，阐明计算、访存、同步、表示复用和迭代收敛共同决定端到端收益的规律与条件；目标 3 聚焦拓扑演化下的可靠性机制、二维／三维验证及适用范围界定。
+- 第 2 节去除空白后约 1818 个字符，仍满足 2000 字限制；未修改 DOCX 或基金系统，未 stage、commit 或 push。
+
+## [2026-08-04] ingest | 建立 Guo 2026 高泛化 PIML 译文先行骨架
+- 新建 [[literature/topology-opt/notes/Guo2026-highgeneralization-bezier]] 与 [[literature/topology-opt/translations/Guo2026-highgeneralization-bezier-zh]]，记录 Better BibTeX Citation Key `guoHighGeneralizationAIEnhancedMechanical2026` 和 PDF attachment key `LPZYK4P5`；Zotero 父条目 key 暂记为 `null`／待补。
+- 文献笔记和译文均保持 `draft`，笔记不写技术结论；译文按原文建立第 1–5 节、文末声明、附录 A/B 和参考文献占位，摘要等待用户确认后再写入。
+- 将用户提供的 Better BibTeX 条目加入 `assets/refs.bib`，同步文献总索引与拓扑优化主题索引；未修改 PIML guide、方法谱系、实体页、项目计划、申请书或工作汇报，未修改 Zotero、PDF、DOCX，未 stage、commit 或 push。
+
+## [2026-08-04] ingest | 建立 Guo 2026 PIML-OFEM 译文先行骨架
+- 新建 [[literature/topology-opt/notes/Guo2026-PIML-OFEM]] 与 [[literature/topology-opt/translations/Guo2026-PIML-OFEM-zh]]，记录 Better BibTeX Citation Key `guoPIMLOFEMNewLargeScale2026` 和 PDF attachment key `JVG2F9WE`；Zotero 父条目 key 暂记为 `null`／待补。
+- 文献笔记和译文均保持 `draft`，并显式标记为 arXiv v1 预印本；笔记不写技术结论，译文按原文建立第 1–6 节、致谢和参考文献占位，摘要等待用户确认后再写入。
+- 将用户提供的 Better BibTeX 条目加入 `assets/refs.bib`，同步文献总索引与拓扑优化主题索引；未修改 PIML guide、方法谱系、实体页、项目计划、申请书或工作汇报，未修改 Zotero、PDF、DOCX，未 stage、commit 或 push。
+
+## [2026-08-04] translate | 完成 Guo 2026 PIML-OFEM 摘要初译
+- 根据已核验的 arXiv v1 PDF 和用户逐节确认，将 PIML-OFEM 摘要中文译文写入 [[literature/topology-opt/translations/Guo2026-PIML-OFEM-zh]]；统一采用“超采样数值基函数”“分片统一”“重叠有限元”和“局部独立降阶”等术语。
+- 译文与文献笔记继续保持 `draft`，第 1–6 节、图表、公式和参考文献仍待逐节翻译与核验；未回填正式文献笔记或同步研究、概念、实体、项目和申请书页面，未 stage、commit 或 push。
+
+## [2026-08-04] ingest | 建立 Zhang 2024 等参 PIML 译文先行骨架
+- 新建 [[literature/topology-opt/notes/Zhang2024-isoparametric-PIML]] 与 [[literature/topology-opt/translations/Zhang2024-isoparametric-PIML-zh]]，记录 Better BibTeX Citation Key `zhangProblemindependentMachineLearningenhanced2024a` 和 PDF attachment key `3I2PUCC2`；Zotero 父条目 key 暂记为 `null`／待补。
+- 文献笔记和译文均保持 `draft`，笔记不写技术结论；译文按原文建立第 1–6 节、2.3.1／2.3.2 不变性小节、文末声明和参考文献占位，摘要等待用户确认后再写入。
+- 将用户提供的 Better BibTeX 条目加入 `assets/refs.bib`，同步文献总索引与拓扑优化主题索引；未修改 PIML guide、方法谱系、实体页、项目计划、申请书或工作汇报，未修改 Zotero、PDF、DOCX，未 stage、commit 或 push。
+
+## [2026-08-04] translate | 完成 Zhang 2024 等参 PIML 摘要初译
+- 根据已核验的 Extreme Mechanics Letters 正式 PDF 和用户逐节确认，将摘要中文译文写入 [[literature/topology-opt/translations/Zhang2024-isoparametric-PIML-zh]]；统一采用“等参单元”“单元几何形状”“数值形函数”和“一个数量级”等术语。
+- 译文与文献笔记继续保持 `draft`，第 1–6 节、图表、公式和参考文献仍待逐节翻译与核验；未回填正式文献笔记或同步研究、概念、实体、项目和申请书页面，未 stage、commit 或 push。
+
+## [2026-08-04] ingest | 建立 Xu 2025 PIML–MMC 点阵优化译文先行骨架
+- 新建 [[literature/topology-opt/notes/Xu2025-PIML-lattice-MMC]] 与 [[literature/topology-opt/translations/Xu2025-PIML-lattice-MMC-zh]]，记录 Better BibTeX Citation Key `xuProblemindependentMachineLearning2025` 和 PDF attachment key `IDYTHK96`；Zotero 父条目 key 暂记为 `null`／待补。
+- 文献笔记和译文均保持 `draft`，笔记不写技术结论；译文按原文建立第 1–7 节、MMC／PCM、PIML 高效分析、数值实现、三个算例及文末声明占位，摘要等待用户确认后再写入。
+- 将用户提供的 Better BibTeX 条目加入 `assets/refs.bib`，同步文献总索引与拓扑优化主题索引；未修改 PIML guide、MMC 概念页、研究综述、实体页、项目计划、申请书或工作汇报，未修改 Zotero、PDF、DOCX，未 stage、commit 或 push。
+
+## [2026-08-04] edit | 基于仓库完整证据重写申请书第 2 节
+- 基于已入库 PIML 文献、Matrix-Free 装配层次、三条技术线和 GPU/HPC 性能模型，重写第 80 批申请书的研究对象、两个关键科学问题、三项研究内容和三项目标；正文去除空白后约 1749 个字符，不在第 2 节重复参考文献。
+- 在核心项目计划、交叉综述和 PIML 技术线中统一“可复用局部力学表示”上位口径，将多尺度形函数、缩聚刚度及其他满足接口要求的表示作为并列候选，并统一项目拟建方法的“全局系统矩阵”口径；描述 Ma 2026 时保留“全局粗尺度矩阵”的文献事实。
+- 在交叉综述新增第 2 节的“证据—科学问题—研究内容—研究目标”映射，同步科研成果路线和 `preparing` 工作汇报中的旧主次预设；未改变文献状态和证据等级，未修改 DOCX 或基金系统，未运行数值测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-04] edit | 基于仓库完整证据撰写申请书第 3 节
+- 将第 80 批申请书“研究方案”由提示骨架重写为完整第一稿，按“统一基线与局部表示接口—Matrix-Free/预条件 Krylov—GPU 协同执行—拓扑演化可靠性与验证”组织；正文去除空白后约 1769 个字符。
+- 以一条通用局部—全局算子公式说明 PIML 局部表示进入 Matrix-Free 作用的方式，明确精确组装、精确 Matrix-Free、PIML 组装式、PIML Matrix-Free、GPU 协同和局部精确回退的逐层对照，以及递推残差与精确平衡残差的区分。
+- 在交叉综述新增“第 3 节证据—技术步骤—验证指标”映射；关联核查未发现第 2、4、5 节及核心项目事实源存在直接冲突，未改变文献状态和证据等级，未修改 DOCX 或基金系统，未运行数值测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-04] translate | 完成 Xu 2025 PIML–MMC 点阵优化摘要初译
+- 根据已核验的 Composite Structures 正式 PDF 和用户逐节确认，将摘要中文译文写入 [[literature/topology-opt/translations/Xu2025-PIML-lattice-MMC-zh]]；统一采用“移动可变形构件”“分区坐标映射”“梯度点阵结构”和“完全连通”等术语。
+- 译文与文献笔记继续保持 `draft`，第 1–7 节、图表、公式和参考文献仍待逐节翻译与核验；未回填正式文献笔记或同步研究、概念、实体、项目和申请书页面，未 stage、commit 或 push。
+
+## [2026-08-04] edit | 扩充交叉综述为项目级统一研究方案与验证协议
+- 将 [[research/piml-matrix-free-gpu/high-performance-solver-survey]] 第 4 章扩充为“研究假设、统一研究方案与验证协议”，统一二维／三维线弹性拓扑优化的数学记号、跨技术线概念接口、`WP1 ∥ WP2 → WP3` 阶段门禁、停止条件和 evidence 完成判定；未新建第二份项目方案文档，也未修改任何软件公共 API。
+- 以“局部算子来源 × 全局执行路径”二维矩阵取代原线性方法编号，将候选局部表示、预条件器、GPU 数据策略、数值精度和可靠性机制保留为独立控制轴；补充局部表示误差、算子作用误差、递推残差、精确平衡残差、响应／优化误差及检测—处置—复核协议。
+- 同步核心项目计划、项目索引、技术线索引和长期研究主线中的事实所有权说明；申请书第 3 节保持现有 1769 字与四模块口径，未修改 DOCX 或基金系统，未运行数值测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-04] edit | 同步四篇 PIML draft 文献的关联知识页面
+- 将 Zhang 2024 等参 PIML、Xu 2025 PIML–MMC 点阵、Guo 2026 Bézier 和 Guo 2026 PIML-OFEM 接入 PIML 方法谱系、研究指南、三线融合综述、郭旭／刘畅实体页及两份 `preparing` 工作汇报；四篇均保持元数据／摘要级 `draft`，PIML-OFEM 明确为 arXiv v1，不写入全文级公式、实验或性能结论。
+- 在 MMC 主题入口与数值离散综述中登记 Xu 2025 的应用支线，并纠正 Ma 2026 被旧综述误写为 GPU 并行的问题；核心项目继续采用“可复用局部力学表示”开放接口，历史 $K_s$ 原型只保留为最小验证案例。
+- 将 Wei、Liu 与 Guo 的 WCCM–ECCOMAS 2026 大规模传热拓扑优化工作加入文献储备候选池，限定为官方会议 contribution／摘要级线索，不建立单篇笔记或 BibTeX；未升级文献或译文状态，未修改申请书、基金底稿、核心项目计划、README 或根索引，未运行科研程序、测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-04] edit | 重写申请书第 4 节特色与创新之处
+- 将第 80 批申请书第 4 节由提示性提纲重写为完整第一稿，按“PIML 全局分析的 Matrix-Free 重构—PIML 局部预测的 GPU 批量执行与全链协同加速—拓扑演化下的自适应可靠性与可扩展机制”组织，明确 PIML–GPU 为独立创新点。
+- 创新表述不预设多尺度形函数与缩聚刚度的主次，不把普通 GPU 推理迁移、单个 kernel 加速或尚未完成的三线融合写成项目成果，不使用“首次”“国际空白”或未经验证的性能数字。
+- 在交叉综述新增第 4 节“证据—创新增量—表述边界”映射；第 2、3 节及项目 WP1–WP3 状态保持不变，未修改 DOCX 或基金系统，未运行数值测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-04] refine | 将申请书创新点改为两项基础创新与一项三线融合创新
+- 将第 4 节三项创新重构为“PIML–Matrix-Free 全局求解重构—PIML–GPU 批量预测与局部执行—PIML–Matrix-Free–GPU 全链融合与可靠扩展”的递进关系，明确第三项承担三线融合创新。
+- 收窄第二项至 PIML 局部表示的 GPU 生成、更新和局部执行，将 gather/scatter、Krylov 向量运算、归约、预条件、设计更新及拓扑演化可靠闭环统一归入第三项，避免两项重复。
+- 同步交叉综述第 5.9 节的创新增量与表述边界；第 2、3 节、项目计划和 WP1–WP3 状态保持不变，未修改 DOCX 或基金系统，未运行数值测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-04] refine | 强化申请书第 4 节的效率、内存与规模目标
+- 在第 4 节开头明确三项创新旨在降低全局矩阵形成与存储开销、减少完整求解时间和峰值内存，并扩大可靠求解的适用规模；保持“旨在”和后续评价、界定口径，不将效率或规模收益写成既有成果。
+- 将内部状态行补充为正文去除空白后约 888 个字符，满足 1000 字限制；第 2、3 节、三项创新结构、交叉综述证据映射和项目 WP1–WP3 状态保持不变。
+- 未修改 DOCX 或基金系统，未运行数值测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-04] edit | 写入申请书第 5 节研究计划及预期成果
+- 将第 5 节旧提纲重写为完整第一稿，按 0—6、6—12、12—18、18—24 个月组织基线与评价体系、PIML–GPU 局部执行、PIML–Matrix-Free 与三线融合、二维／三维端到端验证；正文去除空白后约 392 个字符。
+- 预期成果明确为三类算法原型、可复用软件模块、二维／三维典型算例与性能评估体系、误差与性能 evidence、适用条件和论文成果，不承诺篇数、录用、授权或性能数字。
+- 在交叉综述新增第 5 节“依据—阶段—成果边界”映射；归档入站计划只作为历史组织依据，未修改其正文，也未引入 MMC/MMV、非线性、具体软件平台或固定局部表示主次；项目计划与 WP1–WP3 状态保持不变，未修改 DOCX 或基金系统，未运行数值测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-04] refine | 显式增加申请书第 5 节论文投稿成果
+- 将预期成果由笼统的“相关论文成果”改为“围绕经验证的科学问题形成并投稿相关学术论文”，同时保留三类算法原型、可复用软件模块、二维／三维典型算例与性能评估体系、误差／性能 evidence 和适用条件。
+- 同步交叉综述第 5.10 节，明确论文稿件与投稿是可控制交付，不承诺论文篇数、录用／发表、授权或性能数字；第 5 节正文去除空白后约 409 个字符。
+- 四阶段计划、第 2–4 节、项目计划、归档研究计划和 WP1–WP3 状态保持不变；未修改 DOCX 或基金系统，未运行数值测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-04] edit | 补充申请书第 1 节 PIML 正式期刊证据
+- 在第 80 批申请书第 1 节研究现状中补入 Zhang 2024 复杂设计域等参 PIML 和 Guo 2026 Bézier 边界位移参数化两项正式期刊证据，说明问题无关局部建模对象与适用范围的扩展；PIML-OFEM 预印本和 Xu 2025 应用扩展不列入限字参考文献。
+- 为满足 1000 字限制，参考文献保留三篇 Matrix-Free／GPU 锚点及 Huang 2022、Zhang 2024、Guo 2026、Ma 2026 四篇直接相关 PIML 证据，不再单列与本项目主线关联较弱的无标签训练文献；正文与参考文献去除空白后约 971 个字符。
+- 第 2 节继续保持“可复用局部力学表示”的上位口径；未修改核心项目计划、填报工作底稿、根索引、README、归档材料、DOCX 或基金系统，未 stage、commit 或 push。
+
+## [2026-08-04] edit | 完成申请书第 6 节研究基础第一稿
+- 将第 80 批申请书第 6 节由取证提纲重写为完整第一稿，以申请人已有研究与成果为主体，补充博士阶段湘潭大学数学与计算科学学院、算海团队的计算数学与科学计算软件基础，以及博士后阶段郭旭院士团队、大连工业软件创新研究院的计算力学、PIML、拓扑优化与工业软件条件。
+- 明确二维／三维 Matrix-Free、GPU 算子、Krylov 与预条件工作属于相互独立的前期基础，未将其写成已经完成的 PIML–Matrix-Free–GPU 融合成果；正文去除空白后约 946 个字符，满足 1000 字限制。
+- 本次仅更新申请书正文与时间线，未开展关联 Wiki 页面的扩展同步检查；未修改 DOCX 或基金系统，未运行数值测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-04] refine | 以 Matrix-Free/GPU 直接经历重构申请书第 6 节
+- 根据申请人补充的企业工程计算软件项目及 FEALPy 工作基础，将第 6 节重构为“企业项目 Matrix-Free/GPU 直接基础—FEALPy/SOPTX 软件基础—PIML 与博士后平台基础—融合增量边界”，删除相场断裂、建筑结构计算内核和博士阶段一般性方法罗列。
+- 企业项目仅采用非敏感高层口径，说明三维线弹性 Matrix-Free 算子、既有求解框架接口、CPU/GPU 异构执行、Krylov 集成及一致性／性能评价，不记录企业名称、内部项目名、仓库路径、客户信息、代码细节或未公开性能数据。
+- 第 6 节正文去除空白后约 820 个字符，满足 1000 字限制；明确分项基础尚未形成 PIML–Matrix-Free–GPU 统一融合系统。未修改 DOCX 或基金系统，未运行测试或 benchmark，未 stage、commit 或 push。
+
+## [2026-08-05] edit | 修复 Hu–Zhang 混合有限元求解链并沉淀 FEALPy 4.0 迁移笔记
+- 在 soptx（WSL compute tier）修复 Hu–Zhang 混合有限元不收敛问题，提交 `fa73d4d`（主修复）与 `c4a2d37`（div_basis 简化）：
+  - 根因：fealpy_stable 的 `grad_shape_function` 默认返回参考坐标导数（非物理梯度），2D `div_basis` 散度错 2 倍 → σ/位移不收敛；修复为 `variables='x'`（与 3D 一致，FD 验证 1e-10）。
+  - 迁移适配：`cell_to_edge_sign` 分派、jump-penalty 缩放改 `0.01·模量/hF`、`assemble_displacement_bc_vector` 补 u_D≠0 自然边界项、spsolve 原地修改矩阵（缓存 `K.copy()`）、degree≤2 的 fealpy bmat 丢 `-J` 块（改 scipy bmat）。
+  - 验证：demo degree 2/3/4 收敛（σ 4–5 阶）、from_box 无松弛对照、pytest 81 通过；3D `div_basis` 无同类问题（`variables='x'` 已正确）。
+- 新建 [[concepts/fealpy4-api-notes]]：沉淀 7 条 FEALPy 4.0 API 行为差异（grad_shape_function 参考导数、spsolve 原地修改、bc_to_point 单元维、bmat 丢块、edgedata 移除、cell_to_edge_sign、角点松弛仅 2D），并在 [[concepts/_index]] 登记。
+- 本次新建/修改：概念页、concepts/_index、log.md；尚未做关联页面扩展检查。

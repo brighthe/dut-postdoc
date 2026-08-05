@@ -2,8 +2,8 @@
 title: "翻译：Machine Learning-Driven Real-Time Topology Optimization Under Moving Morphable Component-Based Framework"
 status: "done"
 date_created: 2026-07-27
-date_updated: 2026-07-27
-source: "[[../Lei2018-machinelearningdriven]]"
+date_updated: 2026-08-01
+source: "[[../notes/Lei2018-machinelearningdriven]]"
 citekey: "Lei2018-machinelearningdriven"
 language: "zh-CN"
 ---
@@ -12,16 +12,21 @@ language: "zh-CN"
 
 ## 完整中文译文
 
-> 原笔记：[[../Lei2018-machinelearningdriven]]
+> 原笔记：[[../notes/Lei2018-machinelearningdriven]]
 > Zotero 条目：`zotero://select/library/items/FFDWEI2C`
 > PDF 附件：`zotero://open-pdf/library/items/4287MX5D`
-> 说明：本页用于放置 Lei et al. 的完整中文译稿。按原文章节逐批审阅确认；参考文献保留正文编号，不重复录入英文文献表。
+> 说明：本页收录完整中文译文；已核验范围见文末检查清单。
 
 ---
 
 # 0 元数据
 
 - **题名**：Machine Learning-Driven Real-Time Topology Optimization Under Moving Morphable Component-Based Framework
+- **Better BibTeX key**：`Lei2018-machinelearningdriven`
+- **Zotero item key**：`FFDWEI2C`
+- **PDF attachment key**：`4287MX5D`
+- **译文状态**：已完成并核验，具体范围见文末检查清单
+
 - **中文暂译**：基于移动可变形组件（MMC）框架的机器学习驱动实时拓扑优化
 - **作者**：Xin Lei; Chang Liu; Zongliang Du; Weisheng Zhang; Xu Guo
 - **单位**：大连理工大学工业装备结构分析国家重点实验室、工程力学系、国际计算力学中心
@@ -31,8 +36,6 @@ language: "zh-CN"
 - **在线发表 / 正式卷期**：2018-10-05 / 2019-01-01
 - **Zotero 条目 key**：`FFDWEI2C`
 - **Zotero 附件 key**：`4287MX5D`
-- **Better BibTeX key**：`Lei2018-machinelearningdriven`
-- **译文状态**：全文译毕并完成公式、图表与关联页面核验
 
 # 摘要
 
@@ -100,7 +103,11 @@ $$
 
 ![[Lei2018_Fig1.png]]
 
-<p align="center">图 1：基于 MMC 的拓扑优化方法示意图：（a）组件的初始布局；（b）优化过程；（c）组件的优化布局。</p>
+<div align="center">
+
+图 1：基于 MMC 的拓扑优化方法示意图：（a）组件的初始布局；（b）优化过程；（c）组件的优化布局。
+
+</div>
 
 本文仅考虑二维情形，并采用如下 TDF 描述第 $i$ 个组件的几何形状：
 
@@ -146,7 +153,11 @@ $(x_{0i},y_{0i})^{\mathrm T}$ 和 $\theta_i$ 分别表示第 $i$ 个组件的半
 
 ![[Lei2018_Fig2.png]]
 
-<p align="center">图 2：二维结构组件的几何描述。</p>
+<div align="center">
+
+图 2：二维结构组件的几何描述。
+
+</div>
 
 这里需要指出，TDF 实际上并不是 MMC 方法不可或缺的组成部分。引入 TDF 只是为了便于在固定网格上实施有限元分析（finite element analysis, FEA）。关于不使用 TDF 实现基于 MMC 的拓扑优化方法，更多讨论请参阅文献 [21,23]。
 
@@ -391,7 +402,11 @@ $$
 
 ![[Lei2018_Fig3a.png]]
 
-<p align="center">图 3a：短梁算例的设计域、边界条件与载荷位置范围。</p>
+<div align="center">
+
+图 3a：短梁算例的设计域、边界条件与载荷位置范围。
+
+</div>
 
 采用 16 个组件作为 MMC 拓扑优化的基本构件，训练过程中使用的组件初始分布如图 3b 所示。由于每个组件包含 7 个设计变量，设计变量总数为
 
@@ -403,7 +418,11 @@ MMC 拓扑优化采用移动渐近线法（method of moving asymptotes, MMA）[2
 
 ![[Lei2018_Fig3b.png]]
 
-<p align="center">图 3b：16 个组件的初始分布。</p>
+<div align="center">
+
+图 3b：16 个组件的初始分布。
+
+</div>
 
 首先，将外载荷的竖向位置取为输入参数：
 
@@ -465,7 +484,11 @@ $$
 
 </div>
 
-<p align="center">表 1：直接优化与机器学习所得结果的比较（<b><i>f</i></b> = <b><i>f</i></b><sub>1</sub>）。</p>
+<div align="center">
+
+表 1：直接优化与机器学习所得结果的比较（<b><i>f</i></b> = <b><i>f</i></b><sub>1</sub>）。
+
+</div>
 
 表 1 各组结果依次为：外载荷的竖向坐标；直接优化所得结构及其目标函数值 $c_{\mathrm{obj}}$；采用 $M=20$ 的 SVR 预测结构及其 $c_{\mathrm{obj}}$；采用 $M=20$ 的 KNN 预测结构及其 $c_{\mathrm{obj}}$。
 
@@ -475,7 +498,11 @@ $$
 
 </div>
 
-<p align="center">表 2：采用不同特征向量数量得到的结果（<b><i>f</i></b> = <b><i>f</i></b><sub>1</sub>）。</p>
+<div align="center">
+
+表 2：采用不同特征向量数量得到的结果（<b><i>f</i></b> = <b><i>f</i></b><sub>1</sub>）。
+
+</div>
 
 表 2 在相同载荷位置下比较直接优化结果，以及分别采用 $M=10$、$M=20$ 和 $M=30$ 的 SVR 预测结果；每组均给出优化构型及目标函数值 $c_{\mathrm{obj}}$。
 
@@ -485,7 +512,11 @@ $$
 
 ![[Lei2018_Fig4.png]]
 
-<p align="center">图 4：将机器学习预测结果作为直接优化的初始设计：（a）问题设置；（b）直接优化所得结构，<i>c</i><sub>obj</sub> = 74.61、<i>n</i><sub>iter</sub> = 298；（c）SVR 预测的“优化”结构；（d）以 SVR 预测结果为初始设计进行直接优化所得结构，<i>c</i><sub>obj</sub> = 75.29、<i>n</i><sub>iter</sub> = 23。</p>
+<div align="center">
+
+图 4：将机器学习预测结果作为直接优化的初始设计：（a）问题设置；（b）直接优化所得结构，<i>c</i><sub>obj</sub> = 74.61、<i>n</i><sub>iter</sub> = 298；（c）SVR 预测的“优化”结构；（d）以 SVR 预测结果为初始设计进行直接优化所得结构，<i>c</i><sub>obj</sub> = 75.29、<i>n</i><sub>iter</sub> = 23。
+
+</div>
 
 表 3 给出了采用 SVR 方法、单位竖向外载荷作用位置在如下二维区域内变化时的结果：
 
@@ -565,7 +596,11 @@ $$
 
 </div>
 
-<p align="center">表 3：直接优化与机器学习所得结果的比较（<b><i>f</i></b> = <b><i>f</i></b><sub>2</sub>）。</p>
+<div align="center">
+
+表 3：直接优化与机器学习所得结果的比较（<b><i>f</i></b> = <b><i>f</i></b><sub>2</sub>）。
+
+</div>
 
 表 3 针对 4 个测试载荷坐标，分别给出直接优化构型及其目标函数值 $c_{\mathrm{obj}}$，以及采用 $M=20$ 的 SVR 预测构型及其 $c_{\mathrm{obj}}$。
 

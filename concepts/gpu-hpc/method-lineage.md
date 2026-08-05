@@ -13,7 +13,7 @@ tags:
   - topology-opt
 status: draft
 date_added: 2026-07-26
-date_update: 2026-07-26
+date_update: 2026-08-03
 ---
 
 # 郭旭老师团队 GPU/HPC 方法谱系
@@ -54,7 +54,7 @@ Ma2026 同时属于三种语境：
 
 | 时间 | 代表成果 | 并行与硬件 | HPC 贡献 | 证据状态 |
 |---|---|---|---|---|
-| 2026 | [[../../literature/topology-opt/Ma2026-highperformanceparallel]] | CPU 集群、MPI、PETSc 多重网格 | PIML 子结构降维、分布式划分、粗网格求解、位移恢复、灵敏度、PDE 滤波和 MMA 的完整流程并行；报告强弱扩展 | 已核实 |
+| 2026 | [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel]] | CPU 集群、MPI、PETSc 多重网格 | PIML 子结构降维、分布式划分、粗网格求解、位移恢复、灵敏度、PDE 滤波和 MMA 的完整流程并行；报告强弱扩展 | 已核实 |
 
 当前只有一个正式节点，不能据此表述为团队已经形成公开的 GPU 或异构并行连续路线。
 
@@ -125,9 +125,9 @@ soptx 的单次 GPU MatVec 与 `mfleo` 的单 GPU + 单 CPU 核端到端 CG 是�
 
 ## 9. 来源与相关页面
 
-- [[../../literature/topology-opt/Ma2026-highperformanceparallel]] — 论文方法、CPU/MPI 强弱扩展、完整优化流程和边界。
+- [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel]] — 论文方法、CPU/MPI 强弱扩展、完整优化流程和边界。
 - [Ma et al., 2026, Acta Mechanica Sinica](https://doi.org/10.1007/s10409-025-25942-x) — 出版社 DOI 入口。
 - [[../piml/method-lineage]] — PIML 前序方法谱系。
 - [[../matrix-free/method-lineage]] — Matrix-Free 存储策略与全局装配边界。
 - [[performance-model]] — 计时层级、性能模型和可复现记录口径。
-- [[../../research/technical-lines/gpu-hpc-research-guide]] — 当前已有能力、目标差距与实施路线。
+- [[../../research/technical-lines/gpu-hpc-research-guide]] — 当前研究目标、证据边界与阶段门禁。

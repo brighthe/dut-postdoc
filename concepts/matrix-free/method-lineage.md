@@ -12,7 +12,7 @@ tags:
   - topology-opt
 status: draft
 date_added: 2026-07-26
-date_update: 2026-07-26
+date_update: 2026-08-01
 ---
 
 # 郭旭老师团队 Matrix-Free 方法谱系
@@ -53,7 +53,7 @@ EMsFEM 形函数学习
 
 | 时间 | 代表成果 | Matrix-Free 对象 | 全局算子定位 | 证据状态 |
 |---|---|---|---|---|
-| 2026 | [[../../literature/topology-opt/Ma2026-highperformanceparallel]] | 多尺度形函数 $\mathbf N^j$ 按需预测、使用后释放 | 粗网格全局缩聚矩阵仍形成和组装，属于第 1 级 FA/TA | 已核实 |
+| 2026 | [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel]] | 多尺度形函数 $\mathbf N^j$ 按需预测、使用后释放 | 粗网格全局缩聚矩阵仍形成和组装，属于第 1 级 FA/TA | 已核实 |
 
 当前只有一个正式节点，不能据此表述为团队已经形成了完整、连续的算子级 Matrix-Free 路线。
 
@@ -128,11 +128,11 @@ Ma2026 的粗网格线性求解属于第 1 级 FA/TA，而不是 EA、PA 或 UA�
 - 新成果先建立或更新对应 `literature/` 笔记，再从本页引用，不在谱系页复制完整论文内容。
 - 每个节点必须同时记录“贡献”和“仍然形成的矩阵”，避免仅凭作者术语判断装配层级。
 - 预印本、专利或软件成果必须标明证据类型；未经公开来源核实的内容不得标为完成。
-- 本人的研究任务、实施顺序和验收门禁只更新 [[../../research/technical-lines/matrix-free-research-guide]]。
+- 本人的长期阶段、验收原则、当前任务状态、推进顺序和完成记录统一更新 [[../../research/technical-lines/matrix-free-research-guide]]。
 
 ## 8. 来源与证据
 
-- [[../../literature/topology-opt/Ma2026-highperformanceparallel]] — 论文事实、算法流程、实验结果与边界。
+- [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel]] — 论文事实、算法流程、实验结果与边界。
 - [Ma et al., 2026, Acta Mechanica Sinica](https://doi.org/10.1007/s10409-025-25942-x) — 出版社 DOI 入口。
 - [[../piml/method-lineage]] — PIML 的前序方法谱系。
 - [[assembly-levels]] — 五级装配层次及跨框架判定口径。
@@ -140,5 +140,6 @@ Ma2026 的粗网格线性求解属于第 1 级 FA/TA，而不是 EA、PA 或 UA�
 ## 9. 相关页面
 
 - [[_index]] — Matrix-Free 子知识库入口。
-- [[../../research/technical-lines/matrix-free-research-guide]] — 当前能力、目标差距、实施路线与阶段门禁。
+- [[../../research/technical-lines/matrix-free-research-guide]] — 长期目标、能力边界、阶段模型与统一验收原则。
+- [[../../research/technical-lines/matrix-free-research-guide#五、阶段门禁与当前执行状态]] — 当前任务状态、推进顺序与完成记录。
 - [[../../entities/guo-xu]] — 郭旭院士实体页。

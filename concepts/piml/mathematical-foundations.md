@@ -12,12 +12,14 @@ tags:
   - machine-learning
 status: in-progress
 date_added: 2026-06-18
-date_update: 2026-07-29
+date_update: 2026-08-03
 ---
 
 # PIML 数学基础
 
-> **一句话**：Problem-Independent Machine Learning（PIML）学习由局部材料分布决定、可嵌入有限元分析的局部力学表示；Huang 2022 的基础实现以 EMsFEM 多尺度形函数为学习对象，其后的子结构路线改以静力缩聚刚度和子结构形函数为载体。
+> **术语边界**：本页讨论核心项目采用的 **Problem-Independent Machine Learning（问题无关机器学习）** 数学基础；Physics-Informed Machine Learning 仅作为外部方法背景，二者关系见 [[_index]]。
+>
+> **一句话**：Problem-Independent Machine Learning 学习由局部材料分布决定、可嵌入有限元分析的局部力学表示；Huang 2022 的基础实现以 EMsFEM 多尺度形函数为学习对象，其后的子结构路线改以静力缩聚刚度和子结构形函数为载体。
 
 ## 1. 问题无关性的数学含义
 
@@ -193,9 +195,9 @@ $$
 ## 8. 来源与相关页面
 
 - [[../linear-elasticity]] — 设计相对密度参数化本构、单元刚度与全局平衡方程。
-- [[../../literature/topology-opt/Huang2022-problemindependentmachine]] — EMsFEM 形函数学习与问题无关性起点。
-- [[../../literature/topology-opt/Huang2023-PIML-substructure]] — 子结构形函数与缩聚刚度扩展。
-- [[../../literature/topology-opt/Huang2024-PIML-datafree]] — mechanics-based data-free 扩展。
+- [[../../literature/topology-opt/notes/Huang2022-problemindependentmachine]] — EMsFEM 形函数学习与问题无关性起点。
+- [[../../literature/topology-opt/notes/Huang2023-PIML-substructure]] — 子结构形函数与缩聚刚度扩展。
+- [[../../literature/topology-opt/notes/Huang2024-PIML-datafree]] — mechanics-based data-free 扩展。
 - [[ml-roles-and-boundaries]] — 计算力学中相关机器学习路线的作用位置与方法边界。
 - [[method-lineage]] — 从 Lei 前史到并行 PIML 的方法谱系。
 - [[../../research/technical-lines/piml-research-guide]] — 当前能力、目标差距、实施路线与验收标准。

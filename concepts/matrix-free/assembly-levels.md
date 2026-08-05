@@ -13,7 +13,7 @@ tags:
   - operator
 status: in-progress
 date_added: 2026-07-21
-date_update: 2026-07-29
+date_update: 2026-08-01
 ---
 
 # Matrix-Free 装配层次
@@ -161,7 +161,7 @@ Matrix-Free 通常只描述主算子路径，预条件器可以使用另一装�
 
 ## 易混淆案例：Ma2026
 
-[[../../literature/topology-opt/Ma2026-highperformanceparallel]] 将多尺度形函数 $\mathbf N^j$ 按需预测、用于形成子结构缩聚刚度后释放，并在粗网格求解后再次预测。这减少了辅助数据的持久存储，但子结构缩聚刚度仍显式形成，粗网格全局缩聚矩阵仍然组装。
+[[../../literature/topology-opt/notes/Ma2026-highperformanceparallel]] 将多尺度形函数 $\mathbf N^j$ 按需预测、用于形成子结构缩聚刚度后释放，并在粗网格求解后再次预测。这减少了辅助数据的持久存储，但子结构缩聚刚度仍显式形成，粗网格全局缩聚矩阵仍然组装。
 
 因此，Ma2026 的全局缩聚求解按本页五级分类属于第 1 级 FA/TA；论文中的 `matrix-free` 是对辅助数据采用按需重计算的存储优化，不属于第 3—5 级的算子级 Matrix-Free。完整方法边界和后续团队成果更新见 [[method-lineage]]。
 
@@ -178,7 +178,8 @@ Matrix-Free 通常只描述主算子路径，预条件器可以使用另一装�
 - [[../linear-elasticity]] — 线弹性连续模型、变分形式、有限元离散与单元刚度算子。
 - [[distributed-operator-and-shared-dofs]] — MPI 网格分区、共享自由度同步、加权内积与全局解收集。
 - [[method-lineage]] — 郭旭老师团队公开 Matrix-Free 相关成果的方法谱系。
-- [[../../research/technical-lines/matrix-free-research-guide]] — 当前基础、目标差距、推进路线与阶段门禁。
+- [[../../research/technical-lines/matrix-free-research-guide]] — 长期能力边界、阶段模型与统一验收原则。
+- [[../../research/technical-lines/matrix-free-research-guide#五、阶段门禁与当前执行状态]] — 当前任务状态、推进顺序与完成记录。
 - [[../../research/technical-lines/gpu-hpc-research-guide]]
-- [[../../research/piml-matrix-free/piml-matrix-free-high-performance-solver-survey]]
-- [[../../work-reports/guo-xu/2026-07-piml-matrix-free-gpu]]
+- [[../../research/piml-matrix-free-gpu/high-performance-solver-survey]]
+- [[../../work-reports/guo-xu/first-formal-work-report]]

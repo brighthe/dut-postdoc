@@ -1,44 +1,77 @@
 ---
 title: "翻译：{{title}}"
-status: "in-progress" # in-progress | done
-date_created: 
+aliases: []
+status: "draft" # draft | read | done
+date_created: YYYY-MM-DD
+date_updated: YYYY-MM-DD
+source: "[[../notes/{{source_note}}]]"
+citekey: "{{zotero_citation_key}}"
+language: "zh-CN"
 ---
 
-# 翻译：{{title}}
+<!-- 文件名使用对应文献笔记的 {{source_note}} basename + -zh，与 Zotero Citation Key 分离。建立本页前先建立对应的 draft 文献笔记骨架；本页 status: done 后，才回填并升级正式文献笔记。 -->
 
-> **原文引用**：[[../{{zotero_citation_key}}]]
-> **排版约定**：本翻译采用分节双语对照结构。所有公式遵循原生 Markdown LaTeX 格式；原图统一存放在同级或公共 `assets/` 目录下，并使用双链格式 `![[{{zotero_citation_key}}_FigX.png]]` 配合 `<center>` 标签撰写中文图注。
+# {{title}}
 
-## 1 引言 (Introduction)
+## 中文译文（未完成）
 
-**原文：**
-<!-- 待插入原文段落 -->
+> 原笔记：[[../notes/{{source_note}}]]
+> Zotero 条目：`zotero://select/library/items/{{zotero_item_key}}`
+> PDF 附件：`zotero://open-pdf/library/items/{{zotero_attachment_key}}`
+> 说明：本页译文尚未完成；缺失部分保留待补标记。
 
-**译文：**
-<!-- 待补完整中文译文 -->
+---
 
-<!-- 待插入图 1，图注格式：<center>图 1：xxx</center> -->
+# 0 元数据
 
-## 2 方法 (Method)
+- **题名**：{{title}}
+- **中文暂译**：{{title_zh}}
+- **作者**：{{authors}}
+- **期刊**：{{journal}}
+- **年份**：{{year}}
+- **DOI**：{{doi}}
+- **Better BibTeX key**：`{{zotero_citation_key}}`
+- **Zotero item key**：`{{zotero_item_key}}`
+- **PDF attachment key**：`{{zotero_attachment_key}}`
+- **译文状态**：译文尚未完成，缺失部分保留待补标记
 
-**原文：**
-<!-- 待插入原文段落 -->
+# 摘要
 
-**译文：**
-<!-- 待补完整中文译文 -->
+<!-- 待补完整中文译文。 -->
 
-## 3 实验 (Experiments)
+# 1 {{按原文章节填写}}
 
-**原文：**
-<!-- 待插入原文段落 -->
+<!-- 按原文目录继续建立 H1/H2/H3 层级，不使用固定的通用章节代替原文章节。 -->
 
-**译文：**
-<!-- 待补完整中文译文 -->
+<!-- 图片与图注示例：
 
-## 4 结论 (Conclusion)
+![[{{zotero_citation_key}}_Fig1.png]]
 
-**原文：**
-<!-- 待插入原文段落 -->
+<div align="center">
 
-**译文：**
-<!-- 待补完整中文译文 -->
+图 1：中文图注，可包含行内公式 $...$。
+
+</div>
+-->
+
+<!-- 行间公式示例：
+
+$$
+{{latex}}
+\tag{1}
+$$
+-->
+
+# 译后检查清单
+
+- [ ] 摘要、正文、附录及必要的致谢均已处理。
+- [ ] 公式内容、编号与 LaTeX 环境已对照 PDF 核验。
+- [ ] 图片、表格、图注及本地资产均已检查。
+- [ ] 脚注、引用、链接和 Markdown 结构静态检查通过。
+- [ ] 原笔记及必要关联页面已同步。
+
+<!-- 状态与标题同步：
+draft：## 中文译文（未完成）
+read：## 中文译文（待逐页核验）
+done：## 完整中文译文
+-->

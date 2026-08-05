@@ -15,7 +15,7 @@ tags:
   - fast-analysis
 status: "draft"
 date: 2026-06-07
-date_update: 2026-07-26
+date_update: 2026-08-04
 source: "Research Report.pdf（郭旭团队技术综述，大连理工大学）"
 ---
 
@@ -210,14 +210,18 @@ VEM 目前主要由外部团队推动（Antonietti、Bruggi、Paulino 的 PolyTo
 
 **系列论文**：
 
-| 版本 | 文献 | 核心效果 |
-|---|---|---|
-| 基础版 | Huang M, Du Z, Liu C, et al., Extreme Mech Lett, 2022, 56:101887 | 问题无关，EMsFEM 框架 |
-| 子结构增强版 | Huang, Cui, Liu, Du, Zhang, He, Guo, EML, 2023, 63:102041 | 10⁴–10⁵× 求解效率提升 |
-| 无数据力学驱动版 | Huang, Liu, Guo, Zhang, Du, Guo, JMPS, 2024, 193:105893 | >2 orders 效率改善 |
-| 高性能并行版 | Acta Mech Sinica, 2025 | GPU 并行加速 |
+| 路线 | 文献 | 与本综述的关系 | 证据状态 |
+|---|---|---|---|
+| EMsFEM 基础版 | [[literature/topology-opt/notes/Huang2022-problemindependentmachine\|Huang et al. 2022]] | 学习细尺度材料分布到粗尺度多尺度形函数的映射 | 全文笔记 |
+| 子结构增强版 | [[literature/topology-opt/notes/Huang2023-PIML-substructure\|Huang et al. 2023]] | 子结构形函数、缩聚刚度和细尺度恢复 | 全文笔记 |
+| 无数据力学驱动版 | [[literature/topology-opt/notes/Huang2024-PIML-datafree\|Huang et al. 2024]] | DeepONet 连续形函数与 mechanics-based data-free 训练 | 全文笔记 |
+| 等参复杂设计域 | [[literature/topology-opt/notes/Zhang2024-isoparametric-PIML\|Zhang et al. 2024]] | 将单元几何形状与材料分布共同作为输入 | `draft`，摘要级 |
+| PIML–MMC 三维点阵 | [[literature/topology-opt/notes/Xu2025-PIML-lattice-MMC\|Xu et al. 2025]] | 以 MMC 显式构件和分区坐标映射描述三维梯度点阵，并用 PIML 提高分析效率 | `draft`，摘要级 |
+| 高性能并行版 | [[literature/topology-opt/notes/Ma2026-highperformanceparallel\|Ma et al. 2026]] | CPU/MPI、按需预测／释放和组装粗矩阵；不是 GPU 实现 | 全文笔记 |
+| Bézier 边界参数化 | [[literature/topology-opt/notes/Guo2026-highgeneralization-bezier\|Guo et al. 2026]] | 参数化边界位移场到子结构内部位移场 | `draft`，摘要级 |
+| PIML-OFEM | [[literature/topology-opt/notes/Guo2026-PIML-OFEM\|Guo et al. 2026]] | 超采样数值基函数与重叠有限元 | `draft`，arXiv v1 摘要级 |
 
-**核心**：在扩展多尺度有限元（EMsFEM）框架下，用轻量神经网络建立粗尺度多尺度形函数与细尺度材料分布的映射，加速大规模 FEA。
+**核心**：PIML 通过学习可复用局部力学表示或响应映射降低反复局部构造成本；具体对象已超出单一 EMsFEM 形函数。对 MMC/MMV 方向，Xu 2025 提供了 PIML 与显式构件、分区坐标映射及三维梯度点阵结合的应用证据，但其全文尚未精读，当前不据摘要写入加速比、规模或局部算子细节。
 
 ### 7.3 代理模型/实时优化
 
@@ -318,11 +322,15 @@ MMC 组件边界切割固定网格产生的正是多边形/带悬挂节点单元
 | 12 | Huang et al., EML 2023 | PIML 子结构增强（10⁴–10⁵×）|
 | 13 | Huang et al., JMPS 2024 | PIML 无数据力学驱动版 |
 | 14 | Lei et al., JAM 2019 | SVR/KNN 实时优化 |
+| 15 | [[literature/topology-opt/notes/Xu2025-PIML-lattice-MMC\|Xu et al., Composite Structures 2025]] | PIML、MMC 与三维梯度点阵应用；摘要级 `draft` |
 
 ---
 
 ## 关联文档
 
-- [[postdoc-research-plan]] — 博士后科研计划（本调研对应第二个研究题目）
+- [[concepts/mmc/_index]] — MMC 稳定概念、数学基础和跨目录主题入口
+- [[concepts/mmc/mathematical-foundations]] — 组件参数、TDF、Ersatz、灵敏度和优化闭环
+- [[research/long-term-research-lines]] — 个人长期科研主线总领；本课题是具体合作与应用课题，不单列为第三条长期主线
+- [[archive/2026-postdoc-entry-assessment/postdoc-research-plan]] — 博士后入站阶段科研计划历史正文（本调研对应当时的第二个研究题目）
 - [[entities/guo-xu]] — 合作导师郭旭院士的稳定档案与研究方向入口
-- [[literature/topology-opt/Huang2022-problemindependentmachine]] — PIML 奠基论文精读笔记
+- [[literature/topology-opt/notes/Huang2022-problemindependentmachine]] — PIML 奠基论文精读笔记

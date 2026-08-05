@@ -9,10 +9,10 @@
 以后新开会话要翻译某篇论文时，只需说这一句，AI 即会读取本流程、定位 PDF、提取底稿并与你确认任务：
 
 ```
-基于 paper-translation-workflow，和我一起翻译/完善 <CitationKey>-zh，是否了解任务？
+基于 paper-translation-workflow，和我一起翻译/完善 <文献笔记 basename>-zh，是否了解任务？
 ```
 
-- **`<CitationKey>`**：填 Zotero Citation Key 或对应阅读笔记名，如 `Huang2024-PIML-datafree`。
+- **`<文献笔记 basename>`**：填写对应阅读笔记的 `AuthorYear-short-topic` 文件名（不含 `.md`），如 `Huang2024-PIML-datafree`；Zotero Citation Key 仍记录在 frontmatter 中，不要求与文件名相同。
 - **示例**：`基于 paper-translation-workflow，和我一起完善 Huang2024-PIML-datafree-zh，是否了解任务？`
 - **两种场景通用**：
   - *从零翻译*：仓库尚无译文文件 → AI 会按 §1 建骨架后逐节推进。
@@ -27,9 +27,11 @@
 - **获取源文件**：优先从 Zotero 本地库取原文 PDF，再用 `pdftotext -layout` 提取纯文本到 scratchpad 临时目录供翻译参考。
   - Zotero 附件按**附件 key**（非条目 key）存于 `…/Zotero/storage/<附件key>/`；笔记里记的常是条目 key，可用文件名在 `storage/` 下检索定位真正的 PDF。
   - 提取的纯文本仅作**参考底稿**，不入库；矩阵/多行公式在纯文本里通常会错行，需后续重构（见 §3）。
-- **建立目标文档**：在对应知识库目录（如 `literature/topology-opt/translations/`）创建目标 Markdown，命名用 Zotero Citation Key + `-zh` 后缀，如 `Huang2024-PIML-datafree-zh.md`。
+- **建立文献笔记骨架**：若对应 Citation Key 文献笔记尚不存在，先复制 `assets/templates/literature-note.md` 到 `literature/<主题>/notes/`，只填写已核验元数据、译文入口和模板占位，保持 `status: draft`；译文完成前不得回填技术结论。
+- **建立目标译文**：复制 `assets/templates/translation-note.md` 到对应知识库目录（如 `literature/topology-opt/translations/`），并用文献笔记 basename + `-zh` 后缀命名，如 `Huang2024-PIML-datafree-zh.md`。
 - **确立大纲**：先从原文（或提取文本）扫描各级标题，在目标文档中**按原文目录**预写好各级标题（`# 1`、`## 1.1`…）作为翻译框架与导航图。骨架里每节先放 `> 待翻译。` 占位。
 - **对齐姊妹篇**：若同一系列已有译文（如 Huang2023-zh），先看其排版、术语、图注、引用体例，保持全系列一致。
+- **译文模板与实例**：`assets/templates/translation-note.md` 是 frontmatter、来源区、元数据、正文层级和文末检查清单的唯一模板；`literature/topology-opt/translations/Lei2018-machinelearningdriven-zh.md` 只作为填写完整的实例。图注以 §3.2 的块级 `<div align="center">` 为准。
 
 ## 2. 逐节推进与双语对照（核心循环）
 
@@ -84,7 +86,7 @@
 - **公式格式**：`$$` 成对（含 `$$` 的行逐行计数；注意反引号内的字面 `` `$$` `` 会造成计数为奇数，属误报）；`\begin{…}`/`\end{…}` 各环境数目相等；每行 `$` 个数为偶数；`\tag{N}` 编号连续无缺、无重复。
 - **图表**：`![[…FigX.png]]` 数目 = 图注数；逐一确认引用的资产文件存在且非空；表标题、图号连续。
 - **脚注**：每个 `[^name]` 均有定义且被引用。
-- **收尾同步**：更新目标文档的元数据/状态与「译后检查清单」；**回填对应阅读笔记**（核心思路、学习对象、损失、实验、结论、与姊妹篇的关系表），并据实更新 `literature/_index.md` 的状态（`draft → done`）。
+- **收尾同步**：更新目标文档的元数据/状态与「译后检查清单」；译文达到 `done` 后，才**回填对应阅读笔记**（核心思路、学习对象、损失、实验、结论、与姊妹篇的关系表），并按终审程度将笔记由 `draft` 升级为 `read` 或 `done`，同步最近的主题索引与必要关联页面。
 - **最终汇报**：向用户汇报审查结果并交付。
 
 ## 5. 本机工具链速查（Windows + MiKTeX + Zotero + Obsidian）

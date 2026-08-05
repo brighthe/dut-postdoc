@@ -21,7 +21,7 @@ tags:
   - industrial-software
 status: in-progress
 date_added: 2026-06-18
-date_update: 2026-07-30
+date_update: 2026-08-04
 ---
 
 # 郭旭
@@ -65,20 +65,24 @@ SiPESC（Software Integration Platform for Engineering and Scientific Computatio
 
 该方向关注混合变分问题、参数变分原理（PVP）、杂交元和极值型计算，目标包括处理非光滑本构、降低局部变量以及获得适合全局求解的代数系统。本页只记录研究方向，不替代具体概念页和论文笔记中的条件、推导与结论。
 
-## 已入库的署名工作
+## 已建立文献入口的署名工作
 
-以下条目在本库已有精读页，其在全部八篇中均为末位作者；作者顺序以各页 frontmatter 为准。
+以下条目在本库已有单篇文献入口；作者顺序和页面状态以各页 frontmatter 为准。`draft` 条目当前只使用已核验元数据／摘要，不等同于全文精读。
 
-| 论文 | 年份 | 方向 |
-|---|---|---|
-| [[../literature/topology-opt/Zhang2016-MMC-topology]] | 2016 | MMC 显式拓扑描述的基础工作 |
-| [[../literature/topology-opt/Zhang2016-minimum-length-scale]] | 2016 | MMC 框架下的最小长度尺度控制 |
-| [[../literature/topology-opt/Zhang2017-MMV-3D]] | 2017 | MMV 三维显式拓扑优化 |
-| [[../literature/topology-opt/Lei2018-machinelearningdriven]] | 2019 | MMC + PCA/SVR/KNN，问题相关的最终设计代理 |
-| [[../literature/topology-opt/Huang2022-problemindependentmachine]] | 2022 | PIML 起点：EMsFEM 粗单元形函数学习 |
-| [[../literature/topology-opt/Huang2023-PIML-substructure]] | 2023 | PIML 推进到子结构静力缩聚 |
-| [[../literature/topology-opt/Huang2024-PIML-datafree]] | 2024 | DeepONet + data-free 力学损失 |
-| [[../literature/topology-opt/Ma2026-highperformanceparallel]] | 2026 | PIML 子结构路线的并行大规模实现 |
+| 论文 | 年份 | 方向 | 证据状态 |
+|---|---|---|---|
+| [[../literature/topology-opt/notes/Zhang2016-MMC-topology]] | 2016 | MMC 显式拓扑描述的基础工作 | 全文笔记 |
+| [[../literature/topology-opt/notes/Zhang2016-minimum-length-scale]] | 2016 | MMC 框架下的最小长度尺度控制 | 全文笔记 |
+| [[../literature/topology-opt/notes/Zhang2017-MMV-3D]] | 2017 | MMV 三维显式拓扑优化 | 全文笔记 |
+| [[../literature/topology-opt/notes/Lei2018-machinelearningdriven]] | 2019 | MMC + PCA/SVR/KNN，问题相关的最终设计代理 | 全文笔记 |
+| [[../literature/topology-opt/notes/Huang2022-problemindependentmachine]] | 2022 | PIML 起点：EMsFEM 粗单元形函数学习 | 全文笔记 |
+| [[../literature/topology-opt/notes/Huang2023-PIML-substructure]] | 2023 | PIML 推进到子结构静力缩聚 | 全文笔记 |
+| [[../literature/topology-opt/notes/Huang2024-PIML-datafree]] | 2024 | DeepONet + data-free 力学损失 | 全文笔记 |
+| [[../literature/topology-opt/notes/Zhang2024-isoparametric-PIML]] | 2024 | 等参单元与复杂设计域 PIML | `draft`，摘要级 |
+| [[../literature/topology-opt/notes/Xu2025-PIML-lattice-MMC]] | 2025 | PIML、MMC 与三维梯度点阵应用 | `draft`，摘要级 |
+| [[../literature/topology-opt/notes/Ma2026-highperformanceparallel]] | 2026 | PIML 子结构路线的并行大规模实现 | 全文笔记 |
+| [[../literature/topology-opt/notes/Guo2026-highgeneralization-bezier]] | 2026 | Bézier 边界位移参数化与子结构内部响应 | `draft`，摘要级 |
+| [[../literature/topology-opt/notes/Guo2026-PIML-OFEM]] | 2026 | 超采样数值基函数与重叠有限元 | `draft`，arXiv v1 摘要级 |
 
 ## 知识入口
 
@@ -86,12 +90,14 @@ SiPESC（Software Integration Platform for Engineering and Scientific Computatio
 |---|---|
 | MMC/MMV 数值离散 | [[../research/mmc-mmv/mmc-mmv-numerical-discretization-survey]] |
 | PIML 方法基础与谱系 | [[../concepts/piml/mathematical-foundations]]；[[../concepts/piml/method-lineage]]；[[../concepts/piml/ml-roles-and-boundaries]] |
-| Matrix-Free 与高性能求解 | [[../concepts/matrix-free/method-lineage]]；[[../research/piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] |
-| 个人研究路线 | [[../research/postdoc-research-plan]] |
+| Matrix-Free 与高性能求解 | [[../concepts/matrix-free/method-lineage]]；[[../research/piml-matrix-free-gpu/high-performance-solver-survey]] |
+| 个人长期科研主线 | [[../research/long-term-research-lines]] |
+| 博士后阶段成果路线 | [[../research/postdoc-research-output-roadmap]] |
+| 入站阶段科研计划 | [[../archive/2026-postdoc-entry-assessment/postdoc-research-plan]] |
 
 ## 与我的关联
 
-- 是本人博士后工作的合作导师，其研究体系构成课题的学术背景；个人研究问题、阶段安排和技术切入点不在本页重复维护，统一以 [[../research/postdoc-research-plan]] 为准。
+- 是本人博士后工作的合作导师，其研究体系构成课题的学术背景；个人长期研究问题以 [[../research/long-term-research-lines]] 为准，博士后阶段成果安排以 [[../research/postdoc-research-output-roadmap]] 为准，[[../archive/2026-postdoc-entry-assessment/postdoc-research-plan]] 只保留入站时的历史交付口径。
 - 当前交叉关注包括 PIML 与高性能结构分析、MMC/MMV 数值离散，以及复杂材料模型下的变分与离散方法。
 - 面向其的周期性工作汇报单独维护在 `work-reports/guo-xu/`，本页不记录汇报内容、行政流程与沟通过程。
 

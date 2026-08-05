@@ -14,12 +14,14 @@ tags:
   - data-free
 status: draft
 date_added: 2026-07-05
-date_update: 2026-07-28
+date_update: 2026-08-04
 ---
 
-# PIML 方法谱系：从 EMsFEM 到子结构、data-free 与并行大规模优化
+# PIML 方法谱系：局部表示、参数化扩展与规模化应用
 
-> **一句话**：郭旭团队的 PIML 路线核心不是用机器学习直接预测最终拓扑，而是学习可复用的局部力学表示；其方法演化可概括为 **EMsFEM 形函数学习 → 子结构形函数/缩聚刚度矩阵学习 → mechanics-based data-free 训练 → 并行与按需预测的大规模实现**。
+> **术语边界**：本页及核心项目中的 PIML 均指 **Problem-Independent Machine Learning（问题无关机器学习）**；Physics-Informed Machine Learning 等外部方法背景的区别见 [[_index]]。
+>
+> **一句话**：郭旭团队的 Problem-Independent 路线核心不是用机器学习直接预测最终拓扑，而是学习可复用的局部力学表示或局部响应映射；现有工作已经从 EMsFEM／子结构形函数与缩聚刚度，扩展到连续表示、几何感知输入、参数化边界位移、超采样重叠基函数，以及并行和三维点阵应用。
 
 ## 1. 主线
 
@@ -29,11 +31,11 @@ PIML（Problem-Independent Machine Learning，问题无关机器学习）中的�
 
 这一路线的关键转变是：机器学习不直接替代拓扑优化流程，也不直接学习最终结构，而是被放进有限元分析中的局部构造环节。
 
-Problem-Independent PIML 与问题相关的最终设计代理、PINN 解场学习的比较见 [[ml-roles-and-boundaries]]；本页只讨论 PIML 自身的历史演化。
+Problem-Independent Machine Learning 与问题相关的最终设计代理、PINN 解场学习的比较见 [[ml-roles-and-boundaries]]；本页只讨论该问题无关路线自身的历史演化。
 
 ```text
-局部材料分布
-  -> 局部力学表示（形函数 / 缩聚刚度 / 等效算子）
+局部材料分布及表示所需的局部几何／边界参数
+  -> 可复用局部力学表示或响应映射
   -> 全局有限元或缩聚系统
   -> 结构响应与优化更新
 ```
@@ -49,23 +51,32 @@ flowchart LR
     C["Huang 2023<br/>子结构形函数与静力缩聚"]
     D["Zhang 2024<br/>等参单元与复杂设计域"]
     E["Huang 2024<br/>Mechanics-based Data-Free"]
-    F["Ma 2026<br/>并行、按需预测与大规模实现"]
+    F["Xu 2025<br/>MMC 与三维梯度点阵应用"]
+    G["Ma 2026<br/>并行、按需预测与大规模实现"]
+    H["Guo 2026<br/>Bézier 边界位移参数化"]
+    I["Guo 2026 PIML-OFEM<br/>超采样重叠数值基函数<br/>arXiv v1"]
 
     A -. 前史与范式对照 .-> B
     B --> C
     C --> D
     C --> E
     C --> F
+    C --> G
+    C --> H
+    C --> I
 ```
 
 | 时间 | 代表工作 | 谱系定位 |
 |---|---|---|
-| 2018/2019 | [[../../literature/topology-opt/Lei2018-machinelearningdriven]] | 前史：问题相关的最终设计预测 |
-| 2022 | [[../../literature/topology-opt/Huang2022-problemindependentmachine]] | PIML 起点：EMsFEM 局部形函数 |
-| 2023 | [[../../literature/topology-opt/Huang2023-PIML-substructure]] | 子结构形函数与静力缩聚 |
-| 2024 | Zhang et al.，复杂设计域 PIML | 几何适用范围扩展 |
-| 2024 | [[../../literature/topology-opt/Huang2024-PIML-datafree]] | mechanics-based data-free 扩展 |
-| 2026 | [[../../literature/topology-opt/Ma2026-highperformanceparallel]] | 并行与大规模实现 |
+| 2018/2019 | [[../../literature/topology-opt/notes/Lei2018-machinelearningdriven]] | 前史：问题相关的最终设计预测 |
+| 2022 | [[../../literature/topology-opt/notes/Huang2022-problemindependentmachine]] | PIML 起点：EMsFEM 局部形函数 |
+| 2023 | [[../../literature/topology-opt/notes/Huang2023-PIML-substructure]] | 子结构形函数与静力缩聚 |
+| 2024 | [[../../literature/topology-opt/notes/Zhang2024-isoparametric-PIML|Zhang 2024（draft）]] | 等参单元、几何与材料共同输入；复杂设计域扩展 |
+| 2024 | [[../../literature/topology-opt/notes/Huang2024-PIML-datafree]] | mechanics-based data-free 扩展 |
+| 2025 | [[../../literature/topology-opt/notes/Xu2025-PIML-lattice-MMC|Xu 2025（draft）]] | PIML、MMC 与三维梯度点阵应用扩展 |
+| 2026 | [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel]] | 并行与大规模实现 |
+| 2026 | [[../../literature/topology-opt/notes/Guo2026-highgeneralization-bezier|Guo 2026 Bézier（draft）]] | 参数化边界位移到内部位移的高泛化子结构响应映射 |
+| 2026 | [[../../literature/topology-opt/notes/Guo2026-PIML-OFEM|Guo 2026 PIML-OFEM（draft；arXiv v1）]] | 超采样数值基函数与重叠有限元支线 |
 
 ## 3. Lei 2018/2019：机器学习 + MMC 实时拓扑优化（前史）
 
@@ -82,7 +93,7 @@ MMC 用少量具有明确几何意义的组件参数代替大量单元密度变�
 
 这篇论文还不是严格意义上的 Problem-Independent Machine Learning。它在方法谱系中的作用是提供前史与对照：说明“直接预测最终设计”虽然能够借助显式几何参数实现降维和实时性，但问题相关性仍然明显；Huang 2022 随后把学习对象转向可在不同宏观问题中复用的局部力学表示。
 
-详见 [[../../literature/topology-opt/Lei2018-machinelearningdriven]]。
+论文自身的事实、公式、算例和模型选型证据卡详见 [[../../literature/topology-opt/notes/Lei2018-machinelearningdriven#模型选型证据卡]]；它与后续 Problem-Independent PIML 的范式关系由本页维护，条件性复现目标与验收见 [[../../research/technical-lines/piml-research-guide#5.3 Lei 2018/2019 条件性复现]]。
 
 ## 4. Huang 2022：PIML + EMsFEM 形函数
 
@@ -188,7 +199,18 @@ PIML 子结构降维
 - 文中所谓 matrix-free 主要指多尺度形函数不长期存储，并不等于全局缩聚矩阵完全不组装；
 - 粗网格缩聚系统仍然需要形成、组装和求解。
 
-## 8. 概念演化表
+## 8. 摘要级表示与应用扩展（待精读）
+
+以下四篇已经建立 `draft` 文献入口，但译文和正式精读尚未完成。本节只记录元数据与摘要可支持的谱系位置，不据此写入公式、实验数据或全文级结构性质结论。
+
+- [[../../literature/topology-opt/notes/Zhang2024-isoparametric-PIML|Zhang 2024]] 将子结构内单元几何形状与材料分布共同作为输入，学习数值形函数，用于复杂设计域；它属于几何感知输入扩展。
+- [[../../literature/topology-opt/notes/Guo2026-highgeneralization-bezier|Guo 2026 Bézier]] 以三次 Bézier 参数化子结构边界位移，并学习边界位移场到内部位移场的映射；它表明候选对象不能预先收窄为 $\mathbf N$ 或 $\mathbf K_s$。
+- [[../../literature/topology-opt/notes/Guo2026-PIML-OFEM|Guo 2026 PIML-OFEM]] 使用超采样数值基函数、重叠有限元和 U-Net，保留角节点自由度并通过分片统一获得全局连续场；当前证据等级为 arXiv v1 预印本。
+- [[../../literature/topology-opt/notes/Xu2025-PIML-lattice-MMC|Xu 2025]] 将 PIML 与 MMC、分区坐标映射和三维梯度点阵结构优化结合，属于应用范围扩展，不单独证明一种新的通用局部表示。
+
+这些摘要级工作均未直接提供 PIML 局部表示进入全局 Matrix-Free/Krylov 主算子并在 GPU 上端到端执行的闭环证据。
+
+## 9. 概念演化表
 
 | 维度 | Huang 2022 | Huang 2023 | Huang 2024 | Ma 2026 |
 |---|---|---|---|---|
@@ -200,7 +222,7 @@ PIML 子结构降维
 
 不同工作的精度指标不能直接横向比较：Huang 2022 主要报告局部形函数或局部算子误差，Huang 2023 进一步关注子结构输出响应，Ma 2026 面向并行大规模优化时还涉及位移、柔顺度与整体计算效率。比较方法演化时应先对齐预测对象、参考解和误差定义，不能把数值量级直接排成“后一代更准”或“更差”。
 
-## 9. 与 MTOP 的关系
+## 10. 与 MTOP 的关系
 
 PIML 子结构路线与多分辨率拓扑优化（MTOP）有相似动机：二者都试图解除“高分辨率材料/设计描述”和“全局位移自由度”之间的一一绑定。
 
@@ -211,7 +233,7 @@ PIML 子结构路线与多分辨率拓扑优化（MTOP）有相似动机：二�
 
 因此二者可以在概念上互相解释，但不能简单等同。
 
-## 10. 仍未解决的问题
+## 11. 仍未解决的问题
 
 1. **物理一致性**：如何保证预测形函数、缩聚刚度和能量关系同时一致？
 2. **结构保持参数化**：如何让网络输出天然满足对称性、半正定性、秩保持和刚体模态约束？
@@ -220,19 +242,26 @@ PIML 子结构路线与多分辨率拓扑优化（MTOP）有相似动机：二�
 5. **非线性与多物理**：问题无关性在非线性、本构非光滑、多物理耦合中如何重新定义？
 6. **全局求解成本**：局部预测加速后，全局缩聚系统的组装、存储和迭代求解如何继续优化？
 
-## 11. 来源与证据
+## 12. 来源与证据
 
-- [[../../literature/topology-opt/Lei2018-machinelearningdriven]] — MMC + SVR/KNN 实时拓扑优化，作为问题相关直接预测范式的前史与对照。
-- [[../../literature/topology-opt/Huang2022-problemindependentmachine]] — PIML + EMsFEM 形函数，提出问题无关机器学习基本范式。
-- [[../../literature/topology-opt/Huang2023-PIML-substructure]] — PIML + 子结构形函数 / 缩聚刚度矩阵。
-- [[../../literature/topology-opt/Huang2024-PIML-datafree]] — mechanics-based data-free PIML，降低监督标签依赖。
-- [[../../literature/topology-opt/Ma2026-highperformanceparallel]] — 并行 PIML、大规模拓扑优化和按需预测/释放。
-- [[../../research/piml-matrix-free/piml-matrix-free-high-performance-solver-survey]] — 方向一调研报告，提供更面向博后计划的扩展讨论。
+- [[../../literature/topology-opt/notes/Lei2018-machinelearningdriven]] — MMC + SVR/KNN 实时拓扑优化，作为问题相关直接预测范式的前史与对照。
+- [[../../literature/topology-opt/notes/Huang2022-problemindependentmachine]] — PIML + EMsFEM 形函数，提出问题无关机器学习基本范式。
+- [[../../literature/topology-opt/notes/Huang2023-PIML-substructure]] — PIML + 子结构形函数 / 缩聚刚度矩阵。
+- [[../../literature/topology-opt/notes/Huang2024-PIML-datafree]] — mechanics-based data-free PIML，降低监督标签依赖。
+- [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel]] — 并行 PIML、大规模拓扑优化和按需预测/释放。
+- [[../../literature/topology-opt/notes/Zhang2024-isoparametric-PIML]] — 等参单元、复杂设计域与几何感知输入；当前为摘要级 `draft` 证据。
+- [[../../literature/topology-opt/notes/Xu2025-PIML-lattice-MMC]] — PIML、MMC 与三维梯度点阵应用；当前为摘要级 `draft` 证据。
+- [[../../literature/topology-opt/notes/Guo2026-highgeneralization-bezier]] — Bézier 边界位移参数化与内部位移响应映射；当前为摘要级 `draft` 证据。
+- [[../../literature/topology-opt/notes/Guo2026-PIML-OFEM]] — 超采样数值基函数与重叠有限元；当前为 arXiv v1 摘要级 `draft` 证据。
+- [[../../research/piml-matrix-free-gpu/high-performance-solver-survey]] — 智能高性能计算力学主线下的综合调研，提供更面向当前课题的扩展讨论。
+- [[../../research/technical-lines/piml-research-guide#五、阶段门禁与当前执行状态]] — 从前史对照、跨论文证据到可验证模型选型任务的执行状态。
 
-## 12. 相关页面
+## 13. 相关页面
 
 - [[ml-roles-and-boundaries]] — 按学习对象、训练信号和计算角色比较相关机器学习路线。
+- [[../../research/technical-lines/piml-research-guide#2.3 模型选型与统一比较契约]] — 六维问题契约、硬门槛和统一比较原则。
 - [[mathematical-foundations]] — PIML 问题无关性、EMsFEM 基础路线与子结构缩聚学习映射的数学说明。
 - [[../matrix-free/method-lineage]] — Ma2026 与后续团队 Matrix-Free 相关成果的方法谱系及装配层级边界。
 - [[../../literature/_index]] — 文献阅读笔记总索引。
-- [[../../research/postdoc-research-plan]] — 博后研究计划总领。
+- [[../../research/long-term-research-lines]] — 个人长期科研主线总领。
+- [[../../archive/2026-postdoc-entry-assessment/postdoc-research-plan]] — 博士后入站阶段科研计划历史正文。

@@ -1,5 +1,6 @@
 ---
 title: null
+aliases: []
 authors: []
 year: null
 date_online: null
@@ -19,11 +20,18 @@ date_read: null
 date_update: null
 ---
 
+<!-- 将本模板复制到 literature/<主题>/notes/{{note_name}}.md；note_name 使用 AuthorYear-short-topic，与 Zotero Citation Key 分离。 -->
+<!-- 新论文先建立本 draft 骨架与对应译文骨架；译文 status: done 前只填写已核验元数据、链接和占位，不回填正文技术结论。 -->
+
 # {{title}}
 
 > **引用**：{{authors}}. *{{journal}}*, {{year}}. [DOI](https://doi.org/{{doi}}) | [Zotero Link](zotero://select/library/items/{{zotero_key}})
-> **完整中文译文**：[[translations/{{zotero_citation_key}}-zh]]
-> **Zotero/Better BibTeX key**：`{{zotero_citation_key}}`
+
+<!-- 建立译文骨架后，在引用块中补充；按状态使用准确标签：
+> **中文译文框架（待翻译）**：[[../translations/{{note_name}}-zh]]
+译文完成并核验后改为：
+> **完整中文译文**：[[../translations/{{note_name}}-zh]]
+-->
 
 ## 一句话概括
 
@@ -59,6 +67,9 @@ date_update: null
 
 <!-- 记录未验证的推广、未报告的超参数/硬件/时间，以及结论依赖的表示或评价假设。 -->
 
+<!-- 若专题任务要求统一模型选型证据，在本节插入 assets/templates/model-selection-evidence-card.md。
+填好的证据卡保留在本单篇笔记中，不建立独立事实文件；不适用时不要保留空表。 -->
+
 ## 主要结论
 
 <!-- 只写论文证据直接支持的结论。 -->
@@ -67,11 +78,11 @@ date_update: null
 
 ### 优点
 
-- 
+- {{优点}}
 
 ### 局限
 
-- 
+- {{局限}}
 
 ## 对我研究的启发
 

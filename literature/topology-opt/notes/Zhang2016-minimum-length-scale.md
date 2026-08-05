@@ -1,5 +1,7 @@
 ---
 title: "Minimum length scale control in structural topology optimization based on the moving morphable components (MMC) approach"
+aliases:
+  - literature/topology-opt/Zhang2016-minimum-length-scale
 authors:
   - Zhang, Weisheng
   - Li, D.
@@ -20,12 +22,13 @@ status: "draft"
 rating: 0
 date_added: "2026-07-03"
 date_read: "2026-07-03"
+date_update: "2026-08-01"
 ---
 
 # Minimum length scale control in structural topology optimization based on the moving morphable components (MMC) approach
 
-> **引用**：Zhang, Weisheng, et al. *Computer Methods in Applied Mechanics and Engineering*, 2016. 
-> **完整中文译文**：[[translations/Zhang2016-minimum-length-scale-zh]]
+> **引用**：Zhang, Weisheng, et al. *Computer Methods in Applied Mechanics and Engineering*, 2016.
+> **完整中文译文**：[[../translations/Zhang2016-minimum-length-scale-zh]]
 > **Zotero/Better BibTeX key**：`zhangMinimumLengthScale2016`
 > **阅读状态**：当前为 Zotero 元数据确认 + 精读笔记框架页；论文尚未正式精读，正文技术结论需后续逐节核对后再定稿。
 
@@ -58,10 +61,10 @@ date_read: "2026-07-03"
 ## 优点与局限
 
 **优点：**
-- 
+-
 
 **局限：**
-- 
+-
 
 ## 对我研究的启发
 
@@ -69,6 +72,7 @@ date_read: "2026-07-03"
 
 ## 相关文献
 
+- [[../../concepts/mmc/_index]] — MMC 稳定知识、当前研究与文献证据的统一语义入口。
 - [[]]
 - [[]]
 
