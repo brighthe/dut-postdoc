@@ -1482,3 +1482,286 @@
   - 验证：demo degree 2/3/4 收敛（σ 4–5 阶）、from_box 无松弛对照、pytest 81 通过；3D `div_basis` 无同类问题（`variables='x'` 已正确）。
 - 新建 [[concepts/fealpy4-api-notes]]：沉淀 7 条 FEALPy 4.0 API 行为差异（grad_shape_function 参考导数、spsolve 原地修改、bc_to_point 单元维、bmat 丢块、edgedata 移除、cell_to_edge_sign、角点松弛仅 2D），并在 [[concepts/_index]] 登记。
 - 本次新建/修改：概念页、concepts/_index、log.md；尚未做关联页面扩展检查。
+
+## [2026-08-06] edit | 补齐 GPU/HPC 稳定知识：异构执行模式分类与参考库 GPU 设计对比
+- 新建 `[[concepts/gpu-hpc/heterogeneous-execution-modes]]`：GPU 异构并行实现方式分类体系（硬件拓扑五种基本方式、执行层级、编程模型六档、数据/精度策略），补充供应商锁定维度（王大庆 2026 工业视角，非正式来源不登记进来源区）。
+- 新建 `[[concepts/gpu-hpc/fealpy-mfem-gpu-backend-comparison]]`：FEALPy 4.0（BackendManager 运行时对象分派）与 MFEM（Device + forall 编译期展开）GPU 后端设计对比；硬件支持均非仅 CUDA（MFEM 原生 HIP；FEALPy 取决于框架，MindSpore/Paddle 覆盖昇腾/海光 DCU）。
+- 更新 `[[concepts/gpu-hpc/_index]]`：稳定知识表 +2 页，新增命名边界声明（GPU/HPC 覆盖广义异构高性能计算，不代表全部 HPC，也不代表团队已有 GPU 成果）。
+- 同步关联：concepts/_index（GPU/HPC 行描述）、research/technical-lines/_index（基础概念清单）、gpu-hpc-research-guide（2.1 节引用与权威事实来源）、high-performance-solver-survey（4.7 节引用）、fealpy4-api-notes 与 assembly-levels（相关页面链接）。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] edit | 新建 FEALPy backend 架构页，精简对比页并同步索引
+- 新建 `[[concepts/fealpy-backend-architecture]]`：FEALPy 4.0 多后端抽象的机制设计（BackendManager 运行时对象分派：动态加载/线程本地/懒加载/__getattr__ 属性重定向）、BackendProxy 协议与 7 个后端实现、三条 GPU 执行路径（CuPy/PyTorch/Taichi）与国产路线（MindSpore/Paddle）、覆盖范围（sparse 已后端化、solver 部分后端化、测试仅 numpy）。
+- 精简 `[[concepts/gpu-hpc/fealpy-mfem-gpu-backend-comparison]]`：§1 定位表格压缩为引用句，章节号重排；FEALPy 后端列表与覆盖范围改为引用新文档，消除两页重复维护。
+- 登记与同步：concepts/_index 新增 FEALPy backend 架构行；fealpy4-api-notes 相关页面补充链接。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] edit | 归档 FEALPy 迁移笔记，新建 MFEM backend 架构页，对称精简对比页
+- 归档 `[[archive/fealpy34-to-40-migration]]`：从 concepts/ 移入 archive/（status: archived, date_archived 2026-08-06）；同步全部引用（concepts/_index 删行、fealpy-backend-architecture 4 处、对比页 3 处、根 index.md 从概念页区移入历史档案区）。
+- 新建 `[[concepts/gpu-hpc/mfem-backend-architecture]]`：MFEM Device/forall 后端架构——Backend::Id 15 个后端位枚举、Device 单例 Configure 优先级链与 MemoryType/MemoryClass、forall 宏编译期展开链（CuWrap/HipWrap/RajaWrap/OmpWrap）、构建选项映射、与 FEALPy 编译期 vs 运行期的层次对比。
+- 对称精简 `[[concepts/gpu-hpc/fealpy-mfem-gpu-backend-comparison]]`：MFEM 细节（后端枚举/优先级链/MemoryClass）压缩为指向 mfem-backend-architecture 的引用句；heterogeneous-execution-modes §4 改为链接两个架构页 + 对比页。
+- 登记：gpu-hpc/_index 稳定知识表新增 mfem-backend-architecture 行。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] edit | 新建 MFEM MPI 并行架构页，补齐 MFEM 全景
+- 新建 `[[concepts/gpu-hpc/mfem-mpi-parallel-architecture]]`：Par* 对象体系（继承+扩展模式）、领域分解与三类自由度（本地/共享/远程）、并行组装四阶段与通信模式、HypreParMatrix/ParCSR 与 Hypre 求解接口、多后端×MPI 混合架构（GPU-aware MPI 决策路径与职责隔离）、五项可迁移架构启示（H-1~H-5）与迁移约束。
+- 来源：本人 houzai 报告（`docs/affairs/external_reports/2026_07_31_dalianligong_first_biweekly/attachments/mfem_multibackend_and_mpi.md`）与 MFEM 社区工作坊公开演讲；报告原文留在公司仓库，知识库只提炼架构模式。
+- 同步关联：gpu-hpc/_index 稳定知识表新增行；mfem-backend-architecture、fealpy-mfem-gpu-backend-comparison、matrix-free/distributed-operator-and-shared-dofs 相关页面补充链接。
+- 边界：本页（MPI 并行层实现）与 mfem-backend-architecture（单进程多后端机制）、distributed-operator-and-shared-dofs（MPI 算子第一原理）互补不重复。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] edit | 用户将 fealpy-backend-architecture 移入 gpu-hpc/，修复全部相对链接并补登记
+- 页面从 concepts/ 移入 concepts/gpu-hpc/（与 MFEM 两架构页、对比页同目录，主题归位）。
+- 修复移动导致的 11 处相对链接失效：页面内部 8 处（archive 3 处改 ../../、research guide 1 处改 ../../、同目录化 4 处）；外部 3 处（对比页 3 处、heterogeneous-execution-modes 1 处改同目录）。
+- gpu-hpc/_index 稳定知识表补登记 fealpy-backend-architecture 行；concepts/_index 保留全库总索引登记（短名链接无需改）。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] edit | 新建 FEALPy MPI 并行架构页（EMPI 轻量分布式层）
+- 新建 `[[concepts/gpu-hpc/fealpy-mpi-parallel-architecture]]`：EMPI 设计哲学（轻量通信接口、共享对机制、无归属区分）、sync_add/gather_add/bcast 三类通信操作、分布式组装工作流（distribute_mesh → distribute_space → DistributedOperator 包装 → gmres_mpi → gather_add）、与 MFEM MPI 层的对比表、成熟度边界（早期实现）。
+- 来源：suanhaitech/xihe 的 EMPI 讲义（`kb/explanation/empi.md`）与简单盒算例（`examples/simple_box/run_parallel.py`）、suanhaitech/fealpy 与本地 fealpy_stable 的 `fealpy/distributed/` 三模块；公司仓库内容只提炼机制与引用路径，不复制代码。
+- 同步关联：gpu-hpc/_index 稳定知识表新增行；mfem-mpi-parallel-architecture、fealpy-backend-architecture、matrix-free/distributed-operator-and-shared-dofs 相关页面补充链接。
+- 至此 gpu-hpc/ 四个架构页齐全：FEALPy backend / FEALPy MPI / MFEM backend / MFEM MPI，与 distributed-operator-and-shared-dofs 第一原理形成完整对照。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] edit | gpu-hpc 目录瘦身：参考库分析移入 reference-libraries/ 子目录
+- 将 5 个参考库页面（fealpy-backend-architecture、fealpy-mpi-parallel-architecture、mfem-backend-architecture、mfem-mpi-parallel-architecture、fealpy-mfem-gpu-backend-comparison）移入 `concepts/gpu-hpc/reference-libraries/`（普通容器目录，不建 _index）。
+- gpu-hpc/ 根目录回到与 matrix-free/piml 同构的 4 个核心页（_index、heterogeneous-execution-modes、performance-model、method-lineage）；_index 稳定知识表分「核心概念/参考库架构」两节。
+- 修复全部相对链接：被移文件内部 17 处（../../ → ../../../、../matrix-free → ../../matrix-free）；外部 6 处（matrix-free 侧 3 处、research 侧 2 处、archive 1 处）；短名 wikilink 无需改动。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] edit | soptx gpu_elasticity 算例跑通，补录 research guide 阶段 1 证据状态
+- 确认 `/home/brighthe/workspace/soptx/examples/gpu_elasticity/minimal_demo.py`（pytorch 后端 CPU vs CUDA 逐位比对）已运行通过：真相对残差 ≤ 1e-10 + GPU/CPU 位移逐位一致 ≤ 1e-9。
+- 补录 `gpu-hpc-research-guide` §5.2 新条目（已跑通证据，标注与阶段 1 门禁差异：二维平面应变制造解 vs 三维悬臂梁、上游 FEALPy、未绑定性能记录格式）；同步更新 §5.4 证据入口行。
+- 概念页不动（工程证据不属 concepts）；该证据同时为第 80 批申请书第 6 节研究基础的下游消费对象。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] edit | gpu-hpc-research-guide 瘦身：分层路由 + 粒度控制
+- §3.2/3.3 国内外研究现状从逐篇长叙述压缩为 2 段总括（演进脉络 + 一句话覆盖），逐篇贡献与边界指向 §4 证据锚点表与 survey（跨线综合权威）。
+- §4 开头补充分工说明（单线证据边界 vs survey 跨线证据成熟度）。
+- 5.2 minimal_demo 条目压缩为证据级别摘要（判据 + 与门禁差异 + 工程入口路径）；工程细节归代码仓库。
+- 5.5 阶段 1 删除「当前状态」行（动态状态不再混入门禁定义，由 5.1-5.4 维护）。
+- 结构保持三线同构（目标/路线/现状/证据/门禁/来源），guide 从 250 行降至 235 行，稳定核心（目标、路线、门禁、缺口）未删减。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] edit | fealpy-backend-architecture 补充 CuPy 后端实际状态（占位实现）
+- 核查 fealpy_stable 代码：`cupy_backend.py` 仅 287 行（numpy/pytorch 为 679/913），`set_default_device`/`simplex_hess_shape_function`/`tensor_measure` 抛 NotImplementedError（错误消息残留 "NumPyBackend"，为复制占位），仅覆盖少量几何工具函数，sparse/solver 核心使用面未接入；官方测试零覆盖（test_backends.py 只参数化 numpy，无 test_cupy_backend.py）。
+- 更新 fealpy-backend-architecture 4 处：一句话、后端表 cupy 行（设计定位 vs 实际状态分离）、§3 CuPy 路径、§4 覆盖范围表（新增 cupy 后端本体行）。
+- 同步关联：fealpy-mfem-gpu-backend-comparison 4 处（单 GPU 行、多厂商设备行、kernel 行、数据组织维度）；gpu-hpc/_index 与 concepts/_index 描述行加注。
+- heterogeneous-execution-modes 与 research guide 无需改：分类页为通用编程模型表述（CuPy 作为技术存在），guide 无 CuPy 可用性表述。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] edit | 参考库架构页补架构图与官方口径（MFEM 论文 + mermaid 图）
+- 下载 Anderson et al. 2021 MFEM 论文（arXiv:1911.09220；ScienceDirect 签名 URL 被反爬拦截，改用 arXiv 预印本），提取 §2 对象抽象链与 §6.3 GPU 官方口径。
+- MFEM 页重组为 9 节：新增 §1 整体架构与核心对象抽象链（mermaid）；§3 Device 配置图、§4 forall 展开链图、§5 GPU 路径模块化图（重画自论文 Figure 8，不复制图片）；§6 覆盖范围改用论文官方口径（linalg/mesh/fem 三目录 + 未移植边界）；来源补论文（DOI + arXiv）与 mfem.org。
+- FEALPy 页补 3 张 mermaid：§1 分派流程、§2 注册加载链、§3 GPU 路径分层全景（各路径状态标注）。
+- refs.bib 登记 andersonMFEMModularFinite2021。
+- 修复 gpu-hpc-research-guide §4 证据表 2 处表格内管道符 wikilink（链接移至表下注释行）。
+- 全库扫描发现表格内管道符 wikilink 101 处/18 文件（根 index.md 16 处、survey 17 处等），属 Obsidian 渲染正常、GitHub/VS Code 预览错乱的共性问题；未批量修改，待用户决定是否统一清理。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] edit | 参考库架构页合并：backend + MPI 每库一页
+- 按"每库一页 + 一页对比"重构 reference-libraries/：4 页（fealpy-backend / fealpy-mpi / mfem-backend / mfem-mpi）合并为 2 页（[[fealpy-architecture]]、[[mfem-architecture]]），对比页保留，目录 5 页变 3 页。
+- fealpy-architecture：§1–4 多后端机制（含 3 张 mermaid 图）+ §5 EMPI 分布式层（共享对、三类通信、组装工作流、与 MFEM 对比表）+ §6 成熟度边界。
+- mfem-architecture：§1 整体架构与对象抽象链 + §2–4 Device/forall 机制（图）+ §5 Par\* 并行体系 + §6–7 GPU 路径与覆盖范围（官方口径）+ §8 多后端×MPI 混合架构 + §9 可迁移启示 + §10 层次对比。
+- 修复全部引用 13 处：archive 迁移页、gpu-hpc/_index（4 行→2 行）、concepts/_index、pinn-paradigm、对比页 5 处（2 处锚点 #3. GPU 执行路径 / #4. 覆盖范围 在新页编号下保持有效）、heterogeneous-execution-modes、fealpy-sciml-architecture、distributed-operator-and-shared-dofs 2 处、新页内部锚点。
+- 删除 4 个旧页；grep 验证全库零残留（log.md 历史条目除外）。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] edit | 对比页 §5 新增"侵入性决定采用成本"启示
+- 新增第 5 条启示：FEALPy "侵入浅而广"（约束 `bm` 接口约定、换后端零改动、上层有限元透明）vs MFEM "侵入深而窄"（计算热点改写 `forall` 设备代码、换后端需重编译）——抽象机制的工程后果视角，服务参考库选型决策。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] lint | 清理表格内未转义管道符 wikilink（43 行 54 处 / 9 文件）
+- 精确扫描区分：先前 101 处命中中 58 处已是 `\|` 转义形式（Obsidian/GFM 均正常），仅 43 行 54 处未转义会破坏 GitHub/VS Code 表格渲染。
+- 统一转义为 `\|`（与库内已有风格一致，Obsidian 渲染不变）：index.md 3、matrix-free-research-guide 4、project-plan 2、literature/matrix-free/_index 1、literature/_index 7、high-performance-solver-survey 23、topology-opt/_index 6、80th-2026-application-workbook 4、80th-2026 4。
+- 脚本按表格行处理、保留原换行符与编码；git diff 抽查确认纯转义无误伤；grep 验证未转义 pattern 零残留。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] edit | mfem-architecture §4 补充 kernel/lambda 概念解释
+- 应对话中困惑（"MFEM 的 GPU 路径不理解"）：在 §4 forall 处补引用块，解释 lambda 是写法（C++ 匿名函数）、kernel 是执行形态（GPU 并行子程序），MFEM_HOST_DEVICE 生成 host/device 两份代码、forall 包装替用户完成 launch——用户只写 lambda 不写 kernel，即"单一源码"。
+- 评估保留对比页 fealpy-mfem-gpu-backend-comparison（与分类页职责分离：分类页为六档通用框架，对比页承载实例对照+启示+研究位置；8 文件 10 处引用，合并会造成三角重复）；kernel/lambda 不写入 heterogeneous-execution-modes（分类页不装具体库机制）。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] edit | heterogeneous-execution-modes §4 补充归类口径澄清（抽象层 vs 执行路径）
+- 在「可移植后端」档两实例链接段落后补充：归类判定的是抽象层而非执行路径——FEALPy 抽象层为运行时对象分派、GPU 计算委托给后端框架（PyTorch/CuPy 属高层库接口档、Taichi 属 Python+JIT 档）；MFEM 抽象层为 forall 编译期展开、产物即原生 CUDA/HIP kernel launch（可调用 cuSPARSE 等厂商库）。
+- 该澄清回答"两库属于哪一档"的归类口径，属分类页应有内容；不展开具体库机制（职责边界保持）。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] lint | gpu-hpc 四个文档精简检查与执行（A/B/C/D 四组）
+- A 组（确定冗余）：fealpy-architecture §1 文本流程代码块删除（与同节 mermaid 分派图完全重复）；heterogeneous-execution-modes §2.1 识别流程 5 条压缩为 1 句（与 §2 表格重复）；对比页 §1 小节编号 2.1/2.2 修正为 1.1/1.2。
+- B 组（跨页重复收敛）：mfem-architecture §10 关键差异段删除、改一行引用对比页 §1（编译期 vs 运行期可移植在分类页 §4 新段与对比页 §1 已有完整展开）；mfem-architecture §3 的 3 节点 mermaid 删除（信息在图下文字完整覆盖）；两架构页"一句话"各压缩至 2 行内。
+- C 组（图/表二选一）：fealpy-architecture §3 分层全景 mermaid 删除（路径全景表为状态权威，4 条路径细节保留，信息无损失）。
+- D 组：fealpy-architecture 导航段重复的 fealpy34-to-40-migration 链接删除（来源/相关页面各留 1 处）；对比页三张对比表与 fealpy §5.5 对比表保留（对照速查价值，不压缩）。
+- 删除的两张 mermaid 图信息均在图下文字/表格中完整覆盖，无信息损失；需要恢复可从 git 历史取回。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] edit | 新建 work-reports/guo-yilin/：郭一麟博士 PIML 合作交流页
+- 背景：郭旭老师 2026-08 介绍郭一麟博士（PIML 方向，可能涉及 GPU 加速），建议交流；名字经用户确认采用"郭一麟（Guo Yilin，xuProblemindependentMachineLearning2025 作者列表）"。
+- 新建对象目录 guo-yilin/_index（交流时间线、页面入口、维护规则）+ 交流页 `2026-08-piml-gpu-合作交流`（status: preparing）：三部分介绍正文（GPU 编程模型六档分类 / 多后端抽象路线 / MFEM 可移植后端路线，口径：不提 FEALPy 名称、不强调未完成路径、MFEM 标注第三方开源库）、事实边界表（含 PyTorch 已验证、CuPy 占位不可用等自用边界）、TODO 与待确认事项、会后结论留空不预写。
+- 同步：work-reports/_index 汇报对象表新增行；根 index.md 汇报对象状态表新增行；method-lineage 为 Xu 2025 上下文入口。
+- 事实源分工：逐字沟通记录归 heliangos/wechat，本页只留带来源的必要摘要。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] lint | work-reports → discussions 目录改名 + 新增人物关系文档
+- 用户调整目录定位：work-reports（周期性工作汇报）→ discussions（科研讨论对象与交流），因为目录实际沉淀的是"需要进行科研讨论的人"；新增关系文档说明人物之间的关系。
+- `git mv work-reports discussions`；批量替换 17 个活跃 md 文件的 `work-reports` → `discussions`（log.md 历史不动，append-only）；grep 验证活跃文件零残留。
+- 语义调整（13 处）：ai/llm-wiki-workflow 目录地图与页面类型定义（work report → discussion 类型，涵盖导师汇报与合作者交流）；README 目录地图（含 relationships.md 行）；根 index 三处（导航描述、📋 行、章节标题 → 科研讨论与交流）；discussions/_index 标题与定位（科研讨论与交流索引，讨论对象表含关系总览行）；guo-xu/liu-chang 对象 _index 标题 → "与XX老师的科研讨论入口"；concepts/matrix-free、gpu-hpc _index 定位段；research/technical-lines/_index 分工表行。
+- 新建 `discussions/relationships.md`：人物关系 mermaid（郭旭→博导→刘畅→硕导→郭一麟 + 何亮位置）、人物表、师门链表（两条师门链均标注"本人 2026-08-06 提供，待核验"）、待确认项（郭一麟博士阶段去向、关系核验、郭刘分工边界）；三个对象 _index 各补 relationships 链接。
+- 姓名经用户最终确认：郭一麟（Guo Yilin，xuProblemindependentMachineLearning2025 作者）。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-06] edit | relationships.md 补充申长雨师门关系
+- 用户补充：郭一麟的博士导师是申长雨（本人 2026-08-06 提供，待核验）。
+- 更新 relationships.md 三处：mermaid 关系图加申长雨节点（SCY -->|博导| GYL）；师门链表加"申长雨 → 郭一麟"行；待确认项更新（移除"博士阶段去向"——已确认；新增申长雨公开身份信息与实体页待建项）。
+- 至此郭一麟师门链完整：硕士导师刘畅、博士导师申长雨。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-07] lint | concepts/ 架构体检与规范化修复
+- 体检范围：concepts/ 全部 27 个文件的目录分层、frontmatter、wikilink 可解析性、正文收尾节与索引状态同步。
+- **结构确认（未改动）**：一级子目录定为 4 个（piml/、matrix-free/、gpu-hpc/、mmc/），与 research/ 的 4 个研究单元一一对应；二级 reference-libraries/ 保留 2 个（piml/、gpu-hpc/）；其余 L1 页面平铺在 concepts/ 顶层并登记到 _index 的 3 组表格。不为 research/piml-matrix-free-gpu/ 融合项目、主线一或 L1 学科分组新建子目录；下次变更的唯一触发条件是 research/ 新增或撤销研究单元。
+- **死链清理**：删除 5 处指向已删除页 concepts/pca-pod.md 的引用（machine-learning、mmc/mathematical-foundations、mmc/_index、piml/_index、literature/topology-opt/notes/Lei2018-machinelearningdriven）；log.md 历史条目不动（append-only）。
+- **frontmatter 补全**：concepts/_index.md 与 piml/reference-libraries/fealpy-sciml-architecture.md 补完整 YAML（此前完全缺失）；piml/piml-paradigm.md、pinn-paradigm.md 补 date_update；krylov-subspace-methods、mmc/_index、mmc/mathematical-foundations 去掉 status 值的引号。
+- **收尾节统一**为模板节名「来源与证据」/「相关页面」：改名 6 处（ml-roles-and-boundaries、piml/method-lineage、piml/piml-paradigm、fealpy-sciml-architecture 的出链节；huzhang-mixed-fem、linear-elasticity 的「来源与边界」）；拆分混合节 3 处（gpu-hpc/method-lineage、piml/mathematical-foundations 的「来源与相关页面」；substructural-condensation 的「关联阅读与文献证据链」，并去掉其证据链图中的自链）；pinn-paradigm 合并功能重复的两节。
+- **孤页补链**：substructural-condensation 此前全库仅 concepts/_index 一处入链，现由 piml/mathematical-foundations、piml/method-lineage、piml/_index 与 literature/topology-opt/notes/Huang2023-PIML-substructure 链入；huzhang-mixed-fem 由 research/long-term-research-lines 与 papers/arbitrary-order-huzhang-topopt-outline §5 链入（论文正文 draft-zh 不加 wikilink，避免污染投稿正文）。
+- **索引同步**：piml/_index 稳定知识拆为「核心概念」+「参考库架构」两小节（对齐 gpu-hpc/_index 的 L3 登记方式），method-lineage 状态列 draft → in-progress 与文件对齐；matrix-free/_index 关联主题登记 gpu-hpc/reference-libraries/mfem-architecture 并说明其事实所有权。
+- **数学记号**：huzhang-mixed-fem 的矩阵跳量由 `[[·]]` 改为 `[\![·]\!]`，消除与 wikilink 语法的字面冲突（此前会被任意 lint 脚本误报为死链）。
+- 校验结果：concepts/ 及本次改动的库外文件零死链；27 个文件 frontmatter 六个必填字段齐全；4 个子索引状态列与文件 frontmatter 全部一致。
+- 未处理（待决策）：ML 四页（machine-learning、ml-roles-and-boundaries、pinn-paradigm、piml/piml-paradigm）的内容重叠范围待单独核查；huzhang-mixed-fem 与 substructural-condensation 是否随主线一立研究单元后下沉，待 VEM 调研页建立后再判。
+- 本次未 stage、commit 或 push。
+
+## [2026-08-07] edit | Hu–Zhang 拓扑优化投稿论文：按 CICP 体裁重构章节并新建实现节
+- **体裁核查**：读取 CICP Guide for Authors（确认不规定章节结构，只覆盖 PDF 投稿、录用后 LaTeX 源、版权转让、`cicp.cls` 模板与 AI 声明）及两篇范本正文结构——Chen/Chen/Huang/Wei, CiCP 35(4) 2024, 1045–1072（28 页；构造 16 页、实现 5 页、数值 3 页、无结论节）与 Chen/Chen/Gao/Huang/Wei, *Basis Construction for Smooth Finite Element Spaces*, CiCP 2026 在审（32 页；无结论节，含 Appendix A）。
+- **outline**：§三重写为四个子节——CICP 体裁约定（front matter 顺序含 AMS subject classifications 与 Key words、路线图段落强制、用 Appendix 而非 Supplementary Material）、7 节 + 附录 A/B 的骨架与篇幅预算（合计 32–35 页）、§4 Implementation 六小节分工、从中文稿的搬迁映射；§4.2 acceptance 由无序列表改为表格，每项绑定「验证的正文小节」与「报告位置」（$J_n\le10^{-10}$ → §4.1/4.3/4.4，平衡残差 $\le10^{-8}$ → §4.5/4.6，成本与失败记录 → §4.6）；§七新增角点松弛算法统一待办。叙事路线定为「方法构造 + 充分数值证据」。
+- **draft-zh**：5 节扩为 7 节 + 附录 A/B。新建 §2 预备知识（含新写的 2.1 单纯形/子单形/格点记号）、§3 任意次 Hu–Zhang（原 2.3–2.6）、**§4 实现（新建 4.1–4.6）**、§5 优化模型（原 3）、§6 数值（原 4 重组为 6.1 / 6.2.1–6.2.3 / 6.3.1–6.3.3 / 6.4）、§7 结论。§4 主题句为「自由度管理即法向迹连续性管理」，4.1/4.2/4.3/4.5/4.6 写成正文，4.4 只写不依赖算法选择的部分并声明 $\boldsymbol\Sigma_{h,\mathrm{rel}}^k\subset H(\operatorname{div};\mathbb S)$ 不变量；新增 §6.2.3 伴随灵敏度有限差分验证（原稿缺该小节，由 acceptance 绑定暴露）。摘要、贡献第 2 条、路线图段落与结论同步；交叉引用（原 2.5/2.6 → 3.3/3.4）与「补充材料」表述一并修正。
+- **concepts/huzhang-mixed-fem**：§2.4 补非齐次牵引的消元法与 lifting 两种实现及其在密度相关问题中的灵敏度差别；§4.2 补密度相关材料下的 $\gamma_F=\gamma_0\mu_{\mathrm{ref}}/L_0^2$ 记号 (8')；§5 加证据边界声明（博士论文历史结论，不作为 CICP 投稿证据）；§3.4 加待确认标记，指出本页的虚拟分割线实现与投稿稿的自由度复制实现不是同一算法。
+- **待办**：角点松弛算法二选一（阻塞 draft §4.4 的 Algorithm 2 与概念页 §3.4 改写）；§4.1 标架定向规则与 §4.2 编号顺序需与实现核对；draft 中 4 处「待补」（自由度计数表、Algorithm 1、成本表、附录 A/B 内容）；`assets/refs.bib` 缺 draft 全部 12 条参考文献；Hu–Zhang 方向尚无文献笔记。
+- 未运行数值实验，未修改实现代码，未 stage、commit 或 push。
+
+## [2026-08-07] edit | Hu–Zhang 投稿稿：记号统一、§4 结构收敛、refs.bib 补齐并按 soptx 核定实现约定
+- **记号统一（draft-zh）**：全篇统一为黑板体 $\mathbb N_f(\mathbb S)$／$\mathbb T_f(\mathbb S)$，消除 §3.4、§4.4 与 §3.1／§4.2／§4.3 之间的花体/黑板体混用；密度过滤邻域由 $\mathcal N_e$ 改记 $\mathcal S_e$ 并补上定义式，解除与角点分割边法向分量集 $\mathbb N_e(\mathbb S)$ 的一符两义。**残留**：§2.1 多重指标集仍记 $\mathbb T_d^k$，与 $\mathbb T_f(\mathbb S)$ 同字母，是否改记待定。
+- **§4 结构收敛（6 处待补/待核 → 4 处）**：删除 §4.6 的成本表待补，实测代价统一移入 §6.2.1（§4 只保留 §4.2 的解析计数）；撤销附录 B，有限差分数据表折入 §6.2.3 正文，全文只余附录 A（对齐 CICP 范本 2 的单附录惯例）；角点示意图由四联降为二联；算法 1／算法 2 重新定位为「自由度构建」与「作用于其输出的局部后处理」，不再是两条并列流程。
+- **refs.bib**：从本机 Zotero 库（只读副本查询）核出 draft 全部 12 条文献的完整元数据并追加到 `assets/refs.bib`（14 → 26 条），draft 参考文献表逐条标注 cite key。核对中修正三处：Bendsøe–Sigmund 由 2003 改 2004（Zotero 与 DOI 10.1007/978-3-662-05086-6 一致）；Bruggi–Venini 2007 期号 33 → 33-34；Svanberg 1987、Duysinx–Bendsøe 1998、Le 等 2010 补齐卷期页码与 DOI。**副产品**：Zotero 库内 Chen 等 CiCP 2024 有 4 条重复项（含 1 条 preprint、1 条 volume 字段被写成 JSON 串），Hu 2015、Chen–Hu–Huang 2017、Hu–Ma 2021、Bruggi 系列各有 2 条重复，建议后续在 Zotero 内合并。
+- **按 `soptx` 核定实现约定**（只读核对 `src/soptx/fem/spaces/huzhang_fe_space_2d.py`，未运行代码）：
+  - **角点松弛（A2 定案）**：实现为**两单元 + 真实内部边**构造，不是虚拟分割线。`_get_corner_data` 强制要求角点恰好关联 2 个单元、二者恰好共享 1 条与角点相连的内部边、各含恰好 1 条与角点相连的边界边且互不相同，不满足直接报错。分割边取网格自身的边，故 $(\boldsymbol n_e,\boldsymbol t_e)$ 由拓扑唯一确定，原「分割线取向」待核项随之消解。角点 4 个自由度 $(d_0,d_1,d_2,d_3)$ 中 $d_0,d_1$ 两单元共享，$d_2$、$d_3$ 分别私有（`cell_to_dof` 中 `local_dof = [[0,1,2],[0,1,3]]`）。draft §3.4／§4.4、outline §3.3／§七、concepts/huzhang-mixed-fem §3.4 全部同步。
+  - **§4.1 标架规则修正**：原稿写「由顶点全局编号升序确定」，与实现不符。实际为边标架取 `face_unit_normal`／`edge_unit_tangent`、单元标架取笛卡尔标架、顶点标架由关联边继承（边界顶点取边界边、松弛角点取分割边）；全局唯一性来自按实体编号存储而非编号升序规则。
+  - **§4.3 实质改写**：原设的局部→全局基变换块 $\boldsymbol E\mapsto\boldsymbol Q\boldsymbol E\boldsymbol Q^{\mathsf T}$ 在实现中不存在——`basis()` 直接用全局 `nsframe`／`esframe`／`csframe` 生成形函数，未松弛时 `_transform_matrix` 恒返回单位阵；唯一非平凡块是松弛角点上的 $4\times4$。小节改题为「基函数的直接全局标架构造」。
+  - **§4.2 已验证**：$\mathrm{ldof}_\sigma$、$\mathrm{eldof}$、$\mathrm{cldof}$、$\mathrm{gdof}_\sigma$ 与 $k=1{-}4$ 计数表与实现 `number_of_*_dofs` 逐项一致（$k=1,2,3,4$ 的 cldof 分别为 0、3、9、18）；补记松弛附加自由度编号位置（顶点段之后、边段之前）。
+- **剩余待补（4 项）**：算法 1 伪代码、角点二联图、附录 A（$k=1,2$ 显式局部基）、§6.2.1 实测成本表与 §6.2.3 有限差分表（后两项需跑数）。
+- 未运行数值实验，未修改实现代码，未 stage、commit 或 push。
+
+## [2026-08-09] edit | Matrix-Free 基线文档修缮：soptx 入口/链接归位、evidence 门禁补齐、证据 provenance 更正
+- **背景**：核查 `soptx:examples/matrix_free_elasticity` 阶段 1 进展时发现，提交 `a5cb8cf` 把 `run.py`/`validate.py`/`sync_results.py`/`contract.py` 移入 `utils/` 后，README 与 math_spec 的运行入口和代码链接全部失效；同时 evidence provenance 存在实质错误。
+- **soptx 侧（不属本库，仅记录）**：`README.md` 合并两个重复「环境与运行」小节、驱动脚本路径改为 `utils/*.py`、PowerShell/`.\examples\...` 改为 WSL bash 相对路径、schema version 2→3；`math_spec.md` 修正 3 处失效代码锚点（`distributed.py:92` → `operator.py:33` 的 `OverlapOperator.__matmul__`；已删除的 `analyzer.py:_overlap_cg` → `solver.py:83` 的 `weighted_cg` 并补 `utils/analyzer.py:74` 派发）。新建 `results_analysis.md` 承接全部数值与证据区块，对齐 soptx `CLAUDE.md` 的三文档约定。
+- **修复 evidence 门禁缺陷**：`utils/sync_results.py` 原先既不校验 `git_dirty`，又把 `git_dirty=false` 当字面量写进生成区块，导致 dirty worktree 结果被渲染成 clean-revision 正式证据。现 `require_formal_environment` 硬性拒绝 `git_dirty != false`，渲染改读 payload 真实标志；36 个单测通过，`sync_results.py --dim all --check` 按预期以非零状态拒绝当前 dirty 产物。
+- **证据 provenance 更正（本库三页）**：此前多处记载二维、三维 evidence 绑定 clean revision `608cedf25038ed690f6db3be5b3f24f92329c5ec`。实际核查为：`evidence/*.json` 中 `git_revision` 为 `4cd4e8da17189eb57f9a68cc316bcdf189c084ec` 且 `git_dirty=true`，距当前 HEAD 9 个提交。**当前不存在任何 clean-revision 正式 evidence。**
+  - [[research/technical-lines/matrix-free-research-guide]]：阶段 1 状态行改写为「只有 dirty 开发证据」，权威事实来源补 `results_analysis.md` 与 `math_spec.md`。
+  - [[concepts/matrix-free/_index]]：关联实现补 `results_analysis.md` 指针并标注证据成色。
+  - [[discussions/guo-xu/first-formal-work-report]]（`status: preparing`，尚未汇报）：该页第三节两张表的数值来自 `608cedf`，而仓库中对应 evidence 文件已被 `4cd4e8d` 的 dirty 运行覆盖且数值有变（二维 $8\times 8$ 真相对残差 $4.95\times10^{-11}$ → $5.13\times10^{-11}$），**表格已无法回溯到仓库任何文件**。已加入 provenance 警告并更正结果边界；汇报前必须 clean 重放并替换数值，未替换前不得表述为「已验证结果」。
+- 未替换汇报页表格数值（不用 dirty 数据覆盖），未运行数值算例、MPI 或 GPU，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 强化 PIML 数学基础与子结构载体依赖
+- 重构 `concepts/piml/mathematical-foundations.md` 第 5 节：明确 `concepts/substructural-condensation.md` 是子结构 $\mathbf K^j \to (\mathbf N_{\mathrm{exact}}^j, \mathbf K_{s,\mathrm{exact}}^j)$、结构性质及全局接口流程的唯一数学事实源；本页只维护精确标签到可学习表示的转换、路线 A/B 与误差边界。
+- 以“局部密度 → 局部刚度 → 精确标签 → 预测表示 → 全局评价”替代重复的 Schur 补推导；将预测 $\mathbf N$ 并构造 $\mathbf K_s$ 写为当前首个实现原型，同时保留直接预测 $\mathbf K_s$ 的后续对照地位。
+- 已检查 `substructural-condensation.md`、`piml-paradigm.md`、`piml/_index.md` 与 PIML 技术线指南；现有双链与职责边界足够，本次不改关联页或阶段状态。
+
+## [2026-08-09] edit | 重构 PIML 数学基础为统一局部载体框架
+- `concepts/piml/mathematical-foundations.md` 由“Huang 2022 → 训练损失 → 子结构扩展”的文献叙事，重构为“问题无关性 → 统一局部载体契约 → EMsFEM/子结构载体 → 路线 A/B → 结构误差与回退 → 页面边界”的数学入口。
+- 明确子结构静力缩聚的完整定义与接口流程只由 `concepts/substructural-condensation.md` 维护；本页保留精确标签到可学习表示、当前路线 A 原型与路线 B 对照的职责。
+- 关联页经此前授权检查无须同步改写；未修改技术线阶段状态、未运行数值程序、未 stage、commit 或 push。
+
+## [2026-08-09] edit | 拆分子结构缩聚与 PIML 专属内容
+- `concepts/substructural-condensation.md` 删除“机器学习代理（PIML）的嵌入切口”专属章节，保留子结构有限元、Schur 补、接口组装、恢复和文献证据等通用数学内容；原“来源与证据”顺延为第 5 节。
+- 该页入口和关联页面改为指向 `concepts/piml/mathematical-foundations.md`，由后者唯一维护子结构缩聚的 PIML 映射、路线 A/B、预测结构条件与回退边界。
+
+## [2026-08-09] edit | 在 PIML 主题入口补充局部力学与精确缩聚架构导航
+- `concepts/piml/_index.md` 新增“局部力学表示与精确缩聚验证基础”小节，以职责表和实施链连接 PIML 数学入口、精确缩聚事实源、线弹性前提、ML 边界、技术线实施契约、`soptx` 程序证据及基金表述。
+- 不新建页面，不复制 Schur 补推导、运行结果或项目状态；`concepts/_index.md` 与根 `index.md` 的稳定主题入口未变化，因此无需同步。
+- 未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 压缩 PIML 主题入口中的局部力学架构导航
+- 将 `concepts/piml/_index.md` 的该节由细粒度职责表收敛为“一条实施链 + 四个入口”；将线弹性、ML/PINN 边界与文献证据降为补充链接。
+- 保持 `_index.md` 作为主题地图，不使其承担数学、缩聚、实施状态或程序证据的正文职责；未新建页面。
+- 未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 精简 PIML 主题入口的术语说明
+- 删除 `concepts/piml/_index.md` 的“术语消歧”表格及重复说明，仅在页面开头保留 PIML 指 Problem-Independent Machine Learning、与 Physics-Informed Machine Learning 区分的简短提示。
+- 未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 收敛 PIML 主题入口目录结构
+- `concepts/piml/_index.md` 的一级目录收敛为“稳定知识—当前实施架构—当前研究—文献证据—页面边界与关联入口”；稳定知识内合并核心概念与参考库架构。
+- 删除独立的“工作汇报”“历史档案”“管理边界”区；将跨主题链接与边界说明合并到末节，阶段性汇报和历史档案仍可由各自目录及根入口访问。
+- 未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 合并 PIML 主题入口的实施与研究导航
+- `concepts/piml/_index.md` 将“当前实施架构”与“当前研究”合并为“PIML 与子结构静力缩聚”；原研究链接移入其下“项目与技术线入口”。
+- 标题改为稳定的语义关系，明确子结构静力缩聚是当前 PIML 的局部力学载体，不以易过期的“当前”命名长期主题导航。
+- 未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 明确 PIML 子结构缩聚的 SOPTX 关联实现入口
+- `concepts/piml/_index.md` 将原有代码目录行改为“关联实现（SOPTX）”，列出 `README.md`、`compare_lagrange.py` 与 `minimal_demo.py` 的职责。
+- 不在主题入口复制运行参数或数值结果，代码仓库仍是程序与运行产物的唯一事实源。
+- 未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 明确 PIML 子结构缩聚的程序实现必读入口
+- `concepts/piml/_index.md` 在“PIML 与子结构静力缩聚”下将既有四项导航明确标为“程序实现必读入口”，规定其作为 SOPTX 程序讨论/启动前的阅读顺序。
+- 未增加重复清单或实现细节；数学、工程和代码事实仍分别由原有页面与 SOPTX 仓库维护。
+- 未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 压缩 PIML 程序实现入口中的 SOPTX 说明
+- `concepts/piml/_index.md` 将 SOPTX 从“程序实现必读入口”表格中移出，表格仅保留三份文档事实源；表后以一句关联实现说明保留 `examples/substructure_elasticity/` 与其 `README.md` 的入口。
+- 未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 删除 PIML 技术线指南的阶段执行章节
+- 删除 `research/technical-lines/piml-research-guide.md` 原第 5 节“阶段门禁与当前执行状态”（含当前动作、条件性实验、停止规则与 Lei 2018/2019 条件性复现），原第 6 节“权威事实来源”顺延为第 5 节；frontmatter 与定位段同步去除“阶段门禁／当前执行状态”职责。
+- 第 2 节已维护局部学习对象、结构检查、精确回退和统一比较契约，故删除不造成工程契约缺口；项目级阶段与状态归 `project-plan.md`，程序与运行产物归 SOPTX。
+- 同步 `concepts/piml/_index.md`、`mathematical-foundations.md`、technical-lines 与核心项目入口、刘畅讨论/实体页、PIML 范式/谱系页、Lei 2018 文献笔记、成果路线图及跨线综述，清除已删除章节锚点与不再成立的状态职责。
+- 未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 删除 PIML 指南中的远端原型历史证据节
+- 删除 `research/technical-lines/piml-research-guide.md` 的 §4.2“远端原型历史证据边界”，并移除第 1 节及“权威事实来源”中对该未复现远端分支的重复状态/来源说明；历史原型的公式、数值和解释只由入站答辩档案维护。
+- `discussions/liu-chang/first-formal-work-report.md` 将唯一的 §4.2 链接改为直接指向该历史档案，保持“非本人本次运行结果”的证据边界。
+- 未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 补齐 PIML-子结构缩聚结合的数学契约，使 3.2 可作为程序实现依据
+- `concepts/piml/mathematical-foundations.md` 将 §3.2 从路由说明升级为可实现的局部—全局契约：局部输入 $\boldsymbol\rho^j$ 的逐单元形状与 SIMP 进入方式、$i/b$ 节点级自由度划分与 $d n+k$ 编号、精确标签 $(\mathbf N^j,\mathbf K_s^j)$ 的定义式与维度、路线 A 推理需保留 $\mathbf K^j$、预测与精确共用同一 Scatter-Add/接口求解/恢复链，以及 SOPTX 基线文件职责与 `results_analysis.md` 契约入口。
+- `concepts/substructural-condensation.md` 在 §2.1 补充当前实现约定的节点分类（坐标容差）与自由度编号规则，使缩聚公式在维度与排序上可计算。
+- 维护既有事实所有权：Schur 补推导、刚体模态、能量一致性与接口系统方程仍由 `substructural-condensation.md` 唯一维护，数学基础页只引用结果。
+- 未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 关联同步：更新 PIML 页面职责描述
+- `concepts/piml/_index.md`：稳定知识与程序实现必读入口中 `mathematical-foundations` 的一句话说明补充“实现契约／精确缩聚标签契约”。
+- `concepts/piml/_index.md`：页面边界段的“数学推导分别由两页维护”改为“数学事实分别由 `mathematical-foundations.md`（PIML 局部—全局契约）与 `substructural-condensation.md`（Schur 补缩聚推导）维护”，与两页事实所有权对齐。
+- `concepts/piml/piml-paradigm.md`、`concepts/piml/method-lineage.md`：将 `mathematical-foundations` 的职责描述由“子结构静力缩聚与 Schur 补原理”改为“局部—全局契约、精确缩聚标签与路线 A/B”，Schur 补原理归属指回 `substructural-condensation.md`。
+- 其余引用页（`linear-elasticity`、`ml-roles-and-boundaries`、`concepts/_index`、`entities/guo-xu`、技术线指南、文献笔记等）为泛化链接，描述仍成立，未改动；根 `index.md` 与 `README.md` 无稳定入口或目录结构变化，不需要同步。
+- 未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 将 mathematical-foundations.md 回归数学原理定位
+- 小节标题改为「3. 局部载体」「3.1 EMsFEM 粗单元」「3.2 子结构静力缩聚」，删除“历史起点与比较载体”“当前实现载体”等实现/历史措辞。
+- §3.2 删除实现过程内容：SOPTX 文件职责与 `results_analysis.md` 映射、训练集生成流程、shape/dtype/设备/容差工程契约等均不再属于本页；保留数学契约（局部输入定义、$i/b$ 划分与编号、精确标签定义式、路线 A/B 与全局接入的数学关系）。
+- `concepts/piml/_index.md` 同步将 `mathematical-foundations` 一句话说明中的“实现契约”改回“局部—全局契约”。
+- 未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 清除 mathematical-foundations.md 中残余的实现/工程措辞
+- §2 契约表“精确标签”行的“训练监督”改为“学习目标”；删除 `LocalOperatorProvider` 类名与“shape、dtype、数据划分、设备、容差”枚举，工程约定仅保留为指向 `piml-research-guide` 的边界说明。
+- §4 路线 A 删除“当前首个实现原型”“最小可核验的起点”表述；路线 B 删除“后续”“数据划分”“在线输出”等过程/部署措辞，改为纯数学表述（输出不依赖 $\mathbf K^j$、不保持与 $\mathbf N^j$ 的恢复/能量关系）。
+- 未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 删除 mathematical-foundations.md 顶部术语边界段
+- 删除“术语边界”块（Problem-Independent 与 Physics-Informed 的对照说明及 `_index` 指针）；按 `piml/_index` 的“活跃页面首次出现写出全称”规则，将全称保留在页面首现处（“一句话”行）。
+- 本次为自包含删改，未改链接与事实所有权，关联页面无需同步；未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 删除 mathematical-foundations.md 的“页面边界与关联入口”节
+- 删除 §6“页面边界与关联入口”，原 §7“来源与证据”顺延为 §6；无入链指向被删节。
+- 理由：该节不属于概念页模板结构、同级概念页均无此节，且其“不维护”清单与结尾“相关页面”的一行行描述及 `piml/_index` 的主题级事实所有权声明重复。
+- 未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-09] edit | 统一五个复杂主题入口为六节模板并修复 huzhang 缺陷
+- 重写 `assets/templates/topic-index.md`：确定“稳定知识—{主题机制节}—项目与技术线入口—文献证据—关联入口—管理边界”六节骨架，规则以 HTML 注释内嵌。主题机制节标题按主题实际内容命名，用一张最小机制图加 `### 程序实现必读入口` 回答“这个主题机械上是什么形状、动代码前先读哪几页”；无可落地机制链路时可整节删除，但不得为凑结构编造流程。「关联入口」合并原关联主题、关联实现、工作汇报与历史档案，每条加角色前缀；「管理边界」必须保留独立标题。
+- 按新模板改写 `concepts/matrix-free/_index.md`（`status: draft → in-progress`，新增“Matrix-Free 算子作用与装配层次”机制节与 T/L/E/Q 四层向量图）、`concepts/piml/_index.md`（节级对齐并新增独立「管理边界」）、`concepts/gpu-hpc/_index.md`（新增“分布式系统的三层解耦”机制节，保留稳定知识下的「核心概念」「参考库架构」两张子表）、`concepts/mmc/_index.md`（新增“显式几何到优化闭环”机制节；将 `Lei2018#模型选型证据卡` 由原“当前研究”节移入「文献证据」）。
+- 修复 `concepts/huzhang/_index.md` 三处缺陷：3 条机器绝对路径 `\wsl.localhost\Ubuntu-24.04\...\soptx\...` 改为 `soptx:docs/...`、`soptx:examples/...` 相对写法；补回整节缺失的「管理边界」；新增“鞍点结构与稳定化”机制节。该页第三节命名为「项目与论文路线入口」，因其在 `research/technical-lines/` 下无技术线、产出载体是论文，为全库唯一的该节命名差异，已在节内说明。
+- 所有机制节的流程图均落在已有页面原文上（`assembly-levels` 的因子链、`distributed-algebra-and-execution-decoupling` 的 mermaid 层名、`mmc/mathematical-foundations` 的 1–6 节标题、`huzhang-mixed-fem` 的抬头段），未编造流程。
+- 同步 `ai/llm-wiki-workflow.md`（“复杂主题入口模板与职责”条改写为六节规范，写明管理边界必须独立成节、跨仓库路径用 `repo:path`）、`concepts/_index.md`（Matrix-Free 状态 `draft → in-progress`）、`README.md`（`_index.md` 规则段与“新建复杂主题入口”条对齐六节模板；目录树补 `concepts/huzhang/`、两处 `reference-libraries/`、`heterogeneous-execution-modes.md`、`archive/fealpy34-to-40-migration.md`）。
+- 修复根 `index.md` 死链：`[[concepts/huzhang-mixed-fem]]` 实际路径为 `concepts/huzhang/huzhang-mixed-fem.md`，且 huzhang 主题入口此前未在根索引登记，改为 `[[concepts/huzhang/_index|胡张混合元]]`；五条概念描述改写为新节名。
+- 关联同步（经用户确认后执行）：全库除 `log.md` 历史条目外无任何链接指向五个主题入口的具体章节，本次改节名未产生死锚点；`discussions/guo-xu/_index.md`、`discussions/liu-chang/_index.md` 中镜像旧节结构的四条入口描述已改写为新节名。文献单篇笔记与概念页中“稳定知识、当前研究与文献证据的统一语义入口”属泛化内容描述而非节标题镜像，语义仍成立，未改动。
+- 顺带发现未修：`research/technical-lines/gpu-hpc-research-guide.md:140` 指向 `concepts/gpu-hpc/performance-model#4. 异构执行与通信口径`，而 `performance-model.md` 已在本次会话之前被删除；需先确认该部分内容迁往何处再重指，超出本次授权范围。
+- 验证：六个改动主题页与根 `index.md` 的全部 wikilink 逐条按相对路径解析，死链为 0。未运行数值程序，未 stage、commit 或 push。

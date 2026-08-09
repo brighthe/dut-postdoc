@@ -18,10 +18,9 @@
     - **WP3：PIML/Matrix-Free/GPU**——在 WP1、WP2 门禁通过后的条件性融合与端到端验证。
 - 执行与支撑
   - [[research/funding/postdoc-funding-applications|基金申请]]——核心项目的条件性资助渠道；第 80 批是第一次申请，不是项目本身。
-  - [[work-reports/_index|周期性工作汇报]]——抽取项目进展、记录导师反馈和阶段决策，不建立第二套研究状态账。
+  - [[discussions/_index|科研讨论与交流]]——以人为对象的科研讨论（导师汇报、合作者交流）与人物关系，不建立第二套研究状态账。
   - [[research/technical-lines/_index|technical-lines]]——PIML、Matrix-Free、GPU/HPC 可跨项目复用的技术能力和详细任务。
-  - [[concepts/_index|concepts]]、[[literature/_index|literature]]——稳定知识与论文证据。
-  - [[research/workflows/_index|workflows]]——研究执行、训练、记录和验收流程。
+  - [[concepts/_index|concepts]]、[[literature/_index|literature]]——稳定知识、范式流程与论文证据；具体计算程序与运行规范由代码仓库（如 `soptx`）维护。
 
 ## 导航
 
@@ -29,7 +28,7 @@
 |---|---|---|
 | 📄 文献笔记 | 单篇论文精读（summary） | [[literature/_index]] |
 | 🔬 研究路线与调研 | 长期主线、课题与方向综合（synthesis） | [[research/_index]] |
-| 📋 工作汇报 | 自包含的会前完整底稿、会后结论与行动项 | [[work-reports/_index]] |
+| 📋 科研讨论 | 以人为对象的科研讨论/交流与人物关系 | [[discussions/_index]] |
 | 💡 概念页 | 跨源概念提炼 | [[concepts/_index]] |
 | 👥 实体页 | 人/团队/方法/软件档案 | [[entities/_index]] |
 | ✍️ 论文草稿 | 自己写的稿件 | `papers/` |
@@ -47,17 +46,18 @@
 
 | 入口 | 内容 |
 |---|---|
-| [[literature/_index|文献总索引]] | 当前 ingest 队列、储备候选池与研究主线导航 |
-| [[literature/matrix-free/_index|Matrix-Free 方法文献]] | 以 Matrix-Free 方法为主要贡献的实际笔记、译文与交叉主题链接 |
-| [[literature/topology-opt/_index|拓扑优化已入库文献]] | 实际单篇笔记、译文和派生图片 |
+| [[literature/_index\|文献总索引]] | 当前 ingest 队列、储备候选池与研究主线导航 |
+| [[literature/matrix-free/_index\|Matrix-Free 方法文献]] | 以 Matrix-Free 方法为主要贡献的实际笔记、译文与交叉主题链接 |
+| [[literature/topology-opt/_index\|拓扑优化已入库文献]] | 实际单篇笔记、译文和派生图片 |
 
-## 工作汇报
+## 科研讨论与交流
 
 | 入口 / 汇报 | 状态 |
 |---|---|
-| [[work-reports/_index]] | in-progress |
-| [[work-reports/guo-xu/_index]] | in-progress |
-| [[work-reports/liu-chang/_index]] | in-progress |
+| [[discussions/_index]] | in-progress |
+| [[discussions/guo-xu/_index]] | in-progress |
+| [[discussions/liu-chang/_index]] | in-progress |
+| [[discussions/guo-yilin/_index]] | in-progress |
 
 ## 研究路线与调研
 
@@ -75,19 +75,19 @@
 | 档案 | 日期 | 状态 |
 |---|---|---|
 | [[archive/2026-postdoc-entry-assessment/README\|2026 博士后入站考核答辩]] | 2026-07-05 | archived |
+| [[archive/fealpy34-to-40-migration\|FEALPy 3.4 → 4.0 API 迁移笔记]] | 2026-08-06 | archived |
 
 ## 概念页
 
 | 概念 | 一句话 |
 |---|---|
 | [[concepts/llm-wiki]] | 个人 AI 知识库模式：由 AI 工具维护原始资料与研究者之间的持久 Markdown 中间层 |
-| [[concepts/pca-pod\|PCA/POD]] | 高维快照的中心化或非中心化低维表示、系数、重构与截断误差 |
 | [[concepts/linear-elasticity\|线弹性]] | 小变形静力各向同性线弹性的连续模型、变分形式与 Lagrange 有限元离散 |
-| [[concepts/mmc/_index\|MMC]] | MMC 稳定知识、当前研究、文献证据与历史档案的统一语义入口 |
-| [[concepts/piml/_index\|PIML]] | PIML 稳定知识、当前研究、工作汇报、文献证据与历史档案的统一语义入口 |
-| [[concepts/matrix-free/_index\|Matrix-Free]] | Matrix-Free 稳定知识、当前研究、工作汇报、文献证据、关联实现与历史档案的统一语义入口 |
-| [[concepts/gpu-hpc/_index\|GPU/HPC]] | GPU/HPC 稳定知识、当前研究、工作汇报、文献证据与历史档案的统一语义入口 |
-| [[concepts/fealpy4-api-notes\|FEALPy 4.0 API 迁移笔记]] | 从 FEALPy 3.4 迁移到 4.0 时验证过的 API 行为差异与修复对照（直接影响混合有限元求解链） |
+| [[concepts/huzhang/_index\|胡张混合元]] | 应力—位移混合有限元的统一语义入口：鞍点结构与稳定化、程序实现必读入口、论文路线与文献证据 |
+| [[concepts/mmc/_index\|MMC]] | MMC 统一语义入口：显式几何到优化闭环的主题地图、研究路线、文献证据与历史档案 |
+| [[concepts/piml/_index\|PIML]] | PIML 统一语义入口：术语边界、子结构缩聚主题地图、程序实现必读入口、项目入口与文献证据 |
+| [[concepts/matrix-free/_index\|Matrix-Free]] | Matrix-Free 统一语义入口：装配层次主题地图、程序实现必读入口、技术线入口、文献证据与关联入口 |
+| [[concepts/gpu-hpc/_index\|GPU/HPC]] | GPU/HPC 统一语义入口：三层解耦主题地图、程序实现必读入口、技术线入口、文献证据与关联入口 |
 
 ## 实体页
 

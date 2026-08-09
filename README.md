@@ -43,43 +43,51 @@ dut-postdoc/
 │   ├── piml-matrix-free-gpu/ # 博士后核心研究项目：总计划、统一入口与跨线技术调研
 │   ├── mmc-mmv/             # 课题：MMC/MMV 数值离散与高效分析调研
 │   ├── technical-lines/     # 跨课题复用的 PIML、Matrix-Free、GPU/HPC 长期技术线
-│   ├── workflows/           # 通用研究执行与训练工作流
 │   └── funding/             # 项目与基金申请台账
-├── work-reports/       # 周期性工作汇报：自包含的会前完整底稿、会后结论与行动项
-│   ├── _index.md       # 工作汇报事实源分工、生命周期和新建流程
-│   ├── guo-xu/         # 面向郭旭老师的历次工作汇报
-│   └── liu-chang/      # 面向刘畅老师的历次工作汇报
+├── discussions/       # 科研讨论对象与交流：导师汇报、合作者交流及人物关系
+│   ├── _index.md       # 科研讨论事实源分工、生命周期和新建流程
+│   ├── relationships.md # 人物关系：郭旭→刘畅→郭一麟 师门链
+│   ├── guo-xu/         # 与郭旭老师的科研讨论
+│   ├── liu-chang/      # 与刘畅老师的科研讨论
+│   └── guo-yilin/      # 与郭一麟博士的合作交流
 ├── concepts/           # 稳定概念：简单概念单页，复杂主题使用子目录
 │   ├── _index.md       # 概念域入口
-│   ├── llm-wiki.md     # 简单概念页
-│   ├── pca-pod.md      # PCA/POD 表示、系数、重构与截断误差
+│   ├── llm-wiki.md、linear-elasticity.md、machine-learning.md 等  # 简单概念单页
 │   ├── mmc/
 │   │   ├── _index.md   # MMC 主题入口
 │   │   └── mathematical-foundations.md
 │   ├── piml/
 │   │   ├── _index.md   # Problem-Independent 项目释义与 Physics-Informed 外部背景边界
 │   │   ├── mathematical-foundations.md
-│   │   └── method-lineage.md
+│   │   ├── method-lineage.md
+│   │   └── reference-libraries/  # FEALPy SciML 等参考库架构分析
 │   ├── matrix-free/
 │   │   ├── _index.md   # Matrix-Free 主题入口
 │   │   ├── assembly-levels.md
-│   │   ├── distributed-operator-and-shared-dofs.md
 │   │   └── method-lineage.md
+│   ├── huzhang/
+│   │   ├── _index.md   # Hu–Zhang 混合有限元主题入口
+│   │   └── huzhang-mixed-fem.md
 │   └── gpu-hpc/
 │       ├── _index.md   # GPU/HPC 主题入口
-│       ├── performance-model.md
-│       └── method-lineage.md
+│       ├── heterogeneous-execution-modes.md  # GPU 异构并行实现方式的四维分类
+│       ├── distributed-operator-and-shared-dofs.md  # MPI 分区、共享自由度与分布式算子第一原理
+│       ├── distributed-algebra-and-execution-decoupling.md # 代数/算法层与硬件/执行层解耦框架
+│       ├── method-lineage.md
+│       └── reference-libraries/  # FEALPy、MFEM 的 GPU/MPI 架构分析与对比
 ├── entities/           # 实体页（人物/团队/机构/软件）
 ├── papers/             # 自己写的论文草稿
 ├── talks/              # 准备中或仍需维护的报告/讲稿（LaTeX）
 ├── archive/            # 已完成事件的最终交付物与准备材料
-│   └── 2026-postdoc-entry-assessment/
+│   ├── _index.md
+│   ├── 2026-postdoc-entry-assessment/
+│   └── fealpy34-to-40-migration.md
 └── assets/
     ├── refs.bib        # 共用参考文献库
     └── templates/      # 各类页面模板
 ```
 
-`_index.md` 是语义入口，不与物理文件夹机械地一一对应。只有当一个目录形成明确主题、包含多个权威页面或需要跨目录连接稳定知识、当前研究、文献证据、工作汇报与历史档案时，才建立 `_index.md`。复杂主题入口只负责导航、页面职责和事实所有权说明，不复制其他页面正文，也不建立第二套任务状态账。
+`_index.md` 是语义入口，不与物理文件夹机械地一一对应。只有当一个目录形成明确主题、包含多个权威页面或需要跨目录连接稳定知识、当前研究、文献证据、科研讨论与历史档案时，才建立 `_index.md`。复杂主题入口统一按“稳定知识—主题机制节—项目与技术线入口—文献证据—关联入口—管理边界”六节组织：主题机制节的标题按主题实际内容命名，回答“这个主题机械上是什么形状、动代码前先读哪几页”；关联入口合并关联主题、工作汇报与历史档案并以角色前缀标注；管理边界必须保留独立标题，是判断禁区的依据。入口页只负责导航、页面职责和事实所有权说明，不复制其他页面正文，也不建立第二套任务状态账。
 
 ## 三个核心操作（详见 [ai/llm-wiki-workflow.md](ai/llm-wiki-workflow.md)）
 
@@ -95,8 +103,8 @@ dut-postdoc/
 - 新建中文译文：在文献笔记骨架之后复制 `assets/templates/translation-note.md` 到对应 `translations/` 目录，按原文章节建框架并遵循 `ai/paper-translation-workflow.md` 逐节推进和核验
 - 文献阅读先从 `literature/_index.md` 按个人研究主线进入；单篇笔记仍按论文主要贡献选择物理目录，交叉论文可在多条主线中出现但不复制文件
 - 新建调研 / 简单概念页 / 实体页：分别复制 `research-survey.md` / `concept-note.md` / `entity-note.md`
-- 新建复杂主题入口：复制 `assets/templates/topic-index.md` 到 `concepts/<主题>/_index.md`，删除没有实际内容的可选章节
-- 新建工作汇报：复制 `assets/templates/advisor-work-report.md` 到 `work-reports/<对象>/`，并按 `preparing → reported → follow-up-done` 更新同一页面
+- 新建复杂主题入口：复制 `assets/templates/topic-index.md` 到 `concepts/<主题>/_index.md`，按主题实际内容命名主题机制节；确实没有可落地机制链路时可整节删除，但不得为凑结构编造流程，「管理边界」一节必须保留
+- 新建工作汇报：复制 `assets/templates/advisor-work-report.md` 到 `discussions/<对象>/`，并按 `preparing → reported → follow-up-done` 更新同一页面
 - 进入内容目录时先读该目录 `_index.md`；页面间一律用 Obsidian `[[wikilink]]` 互链
 - 新增、移动、删除或重组页面后，收尾检查对应目录 `_index.md`；影响全库导航时同步根 `index.md`
 - 报告完成后，先将长期事实抽取到概念页、技术线或调研页，再把最终交付物和准备材料整体移入 `archive/<event>/`
