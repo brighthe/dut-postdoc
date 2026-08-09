@@ -10,7 +10,7 @@ tags:
   - HPC
 status: "in-progress"
 date_start: 2026-07-21
-date_update: 2026-08-04
+date_update: 2026-08-09
 ---
 
 # 长期技术线索引
@@ -21,11 +21,11 @@ date_update: 2026-08-04
 
 | 技术线 | 指导文档 | 当前定位 |
 |---|---|---|
-| PIML | [[piml-research-guide]] | 当前优先服务 WP2；PIML 指 Problem-Independent Machine Learning，维护局部力学表示、二维／三维结构检查、全局评价、阶段门禁与当前动作 |
+| PIML | [[piml-research-guide]] | 优先服务 WP2；PIML 指 Problem-Independent Machine Learning，维护局部力学表示、二维／三维结构检查、全局评价、模型选型与证据边界 |
 | Matrix-Free | [[matrix-free-research-guide]] | 当前优先服务 WP1，并为 WP3 提供全局算子接口；长期路线与当前任务统一由 guide 维护 |
 | GPU/HPC | [[gpu-hpc-research-guide]] | 横向服务 WP1–WP3；维护异构执行、计时边界和端到端性能门禁 |
 
-研究执行、训练、记录与验收流程统一见 [[../workflows/_index]]，不在本目录维护具体 workflow 正文。
+通用生命周期与 5 阶段执行骨架见 [[../../concepts/machine-learning]]；具体计算程序与运行 SOP 由 `soptx` 仓库维护。
 
 ## 基础概念
 
@@ -34,7 +34,9 @@ date_update: 2026-08-04
 - [[../../concepts/piml/method-lineage]] — 郭旭老师团队公开 PIML 成果的演进与事实边界。
 - [[../../concepts/matrix-free/assembly-levels]] — Matrix-Free 五级装配层次、MFEM/libCEED 术语映射及跨框架分类准则。
 - [[../../concepts/matrix-free/method-lineage]] — 郭旭老师团队公开 Matrix-Free 相关成果的演进、纳入标准和事实边界。
-- [[../../concepts/gpu-hpc/performance-model]] — GPU/HPC 五级计时边界、Roofline、强弱扩展与可复现性能记录协议。
+- [[../../concepts/gpu-hpc/distributed-algebra-and-execution-decoupling]] — 分布式计算系统的代数/算法层与硬件/执行层解耦框架。
+- [[../../concepts/gpu-hpc/heterogeneous-execution-modes]] — GPU 异构并行实现方式分类：硬件拓扑、执行层级、编程模型与数据/精度策略四个正交维度。
+- [[../../concepts/gpu-hpc/reference-libraries/fealpy-mfem-gpu-backend-comparison]] — 两个主要参考库（FEALPy 4.0 与 MFEM）的 GPU 后端设计对比。
 - [[../../concepts/gpu-hpc/method-lineage]] — 郭旭老师团队公开 HPC 成果的演进、纳入标准和 GPU/异构事实边界。
 
 ## 与其他页面的分工
@@ -46,7 +48,7 @@ date_update: 2026-08-04
 | 课题主题页（`research/piml-matrix-free-gpu/`、`research/mmc-mmv/`） | 当前科研问题如何组合技术线或形成跨论文研究判据 |
 | 综合调研与技术 synthesis | 三条线为什么结合、当前总体判断是什么 |
 | archive 事件档案 | 已完成报告当时如何解释、使用哪些证据和答辩口径；不再维护当前研究事实 |
-| work-reports | 某次面向导师或合作团队实际汇报什么 |
+| discussions | 以人为对象的科研讨论：某次面向导师或合作团队实际汇报/交流什么 |
 
 ## 维护规则
 
@@ -62,4 +64,4 @@ date_update: 2026-08-04
 - [[../piml-matrix-free-gpu/_index]] — 博士后核心研究项目统一入口。
 - [[../piml-matrix-free-gpu/project-plan]] — 项目目标、WP1–WP3、两年阶段和总体推进顺序。
 - [[../piml-matrix-free-gpu/high-performance-solver-survey]] — PIML、Matrix-Free 与 GPU 三线交叉的证据成熟度、耦合机制、研究假设、统一研究方案与验证协议。
-- [[../../work-reports/guo-xu/first-formal-work-report]] — 面向郭旭老师的第一次正式工作汇报。
+- [[../../discussions/guo-xu/first-formal-work-report]] — 面向郭旭老师的第一次正式工作汇报。

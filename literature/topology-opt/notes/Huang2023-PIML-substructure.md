@@ -210,5 +210,6 @@ $$
 ## 相关文献
 
 - [[../../../concepts/piml/_index]] — PIML 稳定知识、当前研究与文献证据的统一语义入口。
+- [[../../../concepts/substructural-condensation]] — 本文所用子结构划分、Schur 补消元与接口求解的经典数学原理。
 - [[Huang2022-problemindependentmachine]] — PIML 奠基论文，EMsFEM 角节点形函数预测。
 - [[Ma2026-highperformanceparallel]] — 进一步把子结构 PIML、并行计算和按需预测/释放结合起来。

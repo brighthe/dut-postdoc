@@ -31,12 +31,12 @@ related:
 
 | 事项 | 项目口径 |
 |---|---|
-| 所属长期方向 | [[../long-term-research-lines#主线二：智能高性能计算力学|主线二：智能高性能计算力学]] |
+| 所属长期方向 | [[../long-term-research-lines#主线二：智能高性能计算力学\|主线二：智能高性能计算力学]] |
 | 博士后阶段角色 | 两年科研工作的核心牵引项目和主线二的主要实施载体 |
 | PIML 正式释义 | 问题无关机器学习（Problem-Independent Machine Learning）；学习可跨宏观几何、整体边界条件和载荷复用的局部力学表示 |
 | 计划周期 | 2026-07-22 至 2028-07-21，按当前两年制合同组织 |
 | 项目状态 | `in-progress`；独立于任何一次基金申请是否获批 |
-| 第一次资助申请 | [[../funding/active/china-postdoc-foundation-general-grant/80th-2026|中国博士后科学基金第 80 批面上资助]] |
+| 第一次资助申请 | [[../funding/active/china-postdoc-foundation-general-grant/80th-2026\|中国博士后科学基金第 80 批面上资助]] |
 | 主线一边界 | Hu–Zhang、VEM 等属于博士阶段工作的延续与成果转化，不纳入本项目工作包 |
 
 “问题无关”不表示无条件跨物理泛化：PDE 类型、离散方式、单元类型、材料模型或局部表示改变时，不能默认原模型继续适用。Physics-Informed Machine Learning、PINN 和 neural operator 仅作为外部方法背景或结构约束借鉴，不占用本项目的 PIML 缩写。
@@ -113,7 +113,7 @@ related:
 | 三线交叉现状、证据成熟度、耦合机制、研究假设、统一研究方案与验证协议 | [[high-performance-solver-survey]] |
 | 论文组合、启动条件和博士延续成果 | [[../postdoc-research-output-roadmap]] |
 | 基金批次、资格、材料和提交状态 | [[../funding/postdoc-funding-applications]] 及对应基金执行页 |
-| 面向导师的阶段表达与会后结论 | `work-reports/` 对应页面 |
+| 面向导师的阶段表达与会后结论 | `discussions/` 对应页面 |
 
 - 项目范围、工作包或依赖关系变化时先更新本页，再同步成果路线、基金申报和汇报页面。
 - 单线实验、代码状态和数值结果不得直接写入本页；先由对应 technical-line guide 或软件仓库形成证据，再更新项目级结论。

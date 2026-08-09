@@ -28,7 +28,7 @@ status: done
 rating: 4
 date_added: 2026-06-24
 date_read: 2026-06-24
-date_update: 2026-08-03
+date_update: 2026-08-09
 ---
 
 # Machine Learning-Driven Real-Time Topology Optimization Under Moving Morphable Component-Based Framework
@@ -151,11 +151,11 @@ $$
 
 ### 概念定位：在机器学习与 PIML 谱系中的位置
 
-依据 [[../../concepts/machine-learning]] 和 [[../../concepts/piml/ml-roles-and-boundaries]]，本文的概念定位可以压缩为：
+依据 [[../../../concepts/machine-learning]] 和 [[../../../concepts/ml-roles-and-boundaries]]，本文的概念定位可以压缩为：
 
 - **模型与学习对象**：PCA 负责最终设计表示的降维，SVR/KNN 回归特征系数；统计回归目标是 PCA 系数，任务级预测对象是 MMC 最终设计。
 - **训练与物理角色**：训练使用 MMC 直接优化产生的监督标签；物理和优化约束通过标签生成及可选的后续优化进入，而不是通过 physics-informed loss 进入。
-- **PIML 谱系位置**：本文是问题相关的最终设计代理，不属于 Problem-Independent PIML；它为 Huang 2022 转向可跨宏观边值问题复用的局部力学表示提供对照前史。完整演进关系见 [[../../concepts/piml/method-lineage]]。
+- **PIML 谱系位置**：本文是问题相关的最终设计代理，不属于 Problem-Independent PIML；它为 Huang 2022 转向可跨宏观边值问题复用的局部力学表示提供对照前史。完整演进关系见 [[../../../concepts/piml/method-lineage]]。
 
 ### 优点
 
@@ -178,14 +178,12 @@ $$
 ## 相关文献与页面
 
 - [[../translations/Lei2018-machinelearningdriven-zh]] — 经逐节确认的完整中文译文、公式、图表和译者脚注。
-- [[../../concepts/machine-learning]] — 模型族与架构、学习对象、训练信号和任务目标的多维分类框架。
-- [[../../concepts/pca-pod]] — PCA/POD 特征基、低维系数、中心化边界和数值门禁。
-- [[../../concepts/mmc/_index]] — MMC 稳定知识、当前研究与文献证据的统一语义入口。
-- [[../../concepts/mmc/mathematical-foundations]] — MMC、TDF、Ersatz、灵敏度与优化闭环的通用数学基础。
-- [[../../concepts/piml/_index]] — PIML 稳定知识、当前研究与文献证据的统一语义入口；本文作为问题相关最终设计代理的前史。
-- [[../../concepts/piml/ml-roles-and-boundaries]] — 将本文定位为问题相关的最终设计代理，并与 PINN、Problem-Independent PIML 比较。
-- [[../../concepts/piml/method-lineage]] — Lei 2018/2019 在“直接预测最终设计—学习可复用局部算子”谱系中的位置。
-- [[../../../research/technical-lines/piml-research-guide#5.3 Lei 2018/2019 条件性复现]] — 本文作为问题相关对照路径的条件性复现目标和验收条件。
+- [[../../../concepts/machine-learning]] — 模型族与架构、学习对象、训练信号和任务目标的多维分类框架。
+- [[../../../concepts/mmc/_index]] — MMC 稳定知识、当前研究与文献证据的统一语义入口。
+- [[../../../concepts/mmc/mathematical-foundations]] — MMC、TDF、Ersatz、灵敏度与优化闭环的通用数学基础。
+- [[../../../concepts/piml/_index]] — PIML 稳定知识、当前研究与文献证据的统一语义入口；本文作为问题相关最终设计代理的前史。
+- [[../../../concepts/ml-roles-and-boundaries]] — 将本文定位为问题相关的最终设计代理，并与 PINN、Problem-Independent PIML 比较。
+- [[../../../concepts/piml/method-lineage]] — Lei 2018/2019 在“直接预测最终设计—学习可复用局部算子”谱系中的位置。
 - [[Huang2022-problemindependentmachine]] — 从问题相关最终设计预测转向 EMsFEM 局部形函数预测。
 
 ## 附注

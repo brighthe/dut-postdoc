@@ -1,6 +1,6 @@
 ---
 title: "PIML 局部力学算子技术线研究指南"
-topic: "二维与三维 PIML 局部力学算子的技术路线、证据边界与阶段门禁"
+topic: "二维与三维 PIML 局部力学算子的技术路线与证据边界"
 aliases:
   - "research/piml-model-selection/_index"
   - "research/piml-model-selection/selection-framework"
@@ -10,7 +10,7 @@ aliases:
   - "research/piml-matrix-free/liu-chang-model-selection-task-line"
   - "research/piml-model-selection/liu-chang-model-selection-task-line"
   - "research/piml-model-selection/lei2018-problem-specific-baseline"
-  - "work-reports/liu-chang/first-formal-piml-evidence-baseline-task"
+  - "discussions/liu-chang/first-formal-piml-evidence-baseline-task"
   - "first-formal-piml-evidence-baseline-task"
 tags:
   - technical-line
@@ -21,11 +21,11 @@ tags:
   - topology-optimization
 status: "in-progress"
 date_start: 2026-07-21
-date_update: 2026-08-04
+date_update: 2026-08-09
 related:
   - piml/mathematical-foundations
   - method-lineage
-  - ../workflows/pinn-machine-learning-workflow
+  - machine-learning
   - ../piml-matrix-free-gpu/_index
   - ../piml-matrix-free-gpu/project-plan
 ---
@@ -34,7 +34,7 @@ related:
 
 ## 一、定位、事实所有权与研究目标
 
-本页是 PIML 局部力学算子技术线的长期研究指南，维护可跨项目复用的方法边界、能力目标、模型选型原则、证据综合、阶段门禁和当前执行状态。博士后阶段当前优先服务 [[../piml-matrix-free-gpu/project-plan#三、工作包与依赖|核心项目 WP2]]，并在 WP2 门禁通过后为 WP3 提供结构保持局部算子；项目级目标和状态由核心项目计划维护，程序、配置和运行结果由 `soptx` 维护，单篇论文事实由 `literature/` 维护，具体交流内容和导师反馈由 [[../../work-reports/liu-chang/_index|刘畅工作汇报]]维护。
+本页是 PIML 局部力学算子技术线的长期研究指南，维护可跨项目复用的方法边界、能力目标、模型选型原则与证据综合。博士后阶段优先服务 [[../piml-matrix-free-gpu/project-plan#三、工作包与依赖|核心项目 WP2]]；项目级目标、阶段与状态由核心项目计划维护，程序、配置和运行结果由 `soptx` 维护，单篇论文事实由 `literature/` 维护，具体交流内容和导师反馈由 [[../../discussions/liu-chang/_index|刘畅工作汇报]]维护。
 
 面向大规模结构拓扑优化，本技术线的目标是自行建立覆盖二维与三维的 PIML 局部力学表示，使预测算子能够可信地进入全局结构分析，并最终与 Matrix-Free 和 GPU 求解路径连接。
 
@@ -47,8 +47,6 @@ related:
 | 工程接口 | 形成可重放的数据生成、训练、推理、检查和精确回退入口 |
 | 最终连接 | 向 Matrix-Free 提供局部算子，向 GPU 提供批量推理与局部作用 |
 
-当前事实底线是：目前尚未运行或复现 Problem-Independent 局部算子程序。`C:\workspace\soptx\examples\pinn_elasticity` 属于 PINN 解场学习示例，只用于理解机器学习训练与验证过程，不属于本技术线的局部算子成果。`soptx` 远端分支 `origin/codex/piml-multiscale-prototype` 中存在问题无关局部算子原型和历史数字，但只能作为历史证据与实现参考，不能写成本人当前已经完成的工作。
-
 ## 二、PIML 技术路线与学习对象边界
 
 ### 2.1 术语与路线边界
@@ -57,7 +55,7 @@ related:
 
 Physics-Informed Machine Learning、PINN、neural operator 和结构化学习是本技术线的外部方法背景、表示工具或结构保持类比证据，不是项目 PIML 的正式展开。控制方程、能量原理和代数结构仍可进入问题无关模型的训练、参数化或校正，但应表述为基于力学机理的训练或结构保持机制。采用 mechanics-based loss、DeepONet 或其他物理约束也不自动证明局部算子已经满足所需力学结构。
 
-稳定术语见 [[../../concepts/piml/_index]]，数学定义见 [[../../concepts/piml/mathematical-foundations]]，角色边界见 [[../../concepts/piml/ml-roles-and-boundaries]]，方法演化见 [[../../concepts/piml/method-lineage]]。
+稳定术语见 [[../../concepts/piml/_index]]，数学定义见 [[../../concepts/piml/mathematical-foundations]]，角色边界见 [[../../concepts/ml-roles-and-boundaries]]，方法演化见 [[../../concepts/piml/method-lineage]]。
 
 ### 2.2 学习对象、结构保持与全局接口
 
@@ -103,7 +101,7 @@ Physics-Informed Machine Learning、PINN、neural operator 和结构化学习是
 - 统一比较至少冻结 train/validation/test 职责、输入输出 shape 与单位、精确真值、predictor 接口、参数量、计时边界、硬件、失败条件、回退策略、随机种子、软件版本和机器可读结果。
 - 结果同时报告局部精度、结构性质、下游响应、数据与训练成本、推理与内存、分布外失败和回退比例；不输出脱离问题条件的单一“冠军模型”。
 
-当前只有框架和候选硬门槛，尚未形成经本人程序与数值实验验证的定量选型结论。
+本页不对候选模型作脱离具体问题契约的定量优劣结论；此类结论须由可追溯的程序与数值证据支持。
 
 ## 三、国内外研究现状、研究缺口与选题价值
 
@@ -169,98 +167,14 @@ WP3 的选题价值在于把通过 WP2 门禁的局部算子嵌入精确 Matrix-
 
 国际五篇目前只满足公开来源层级的核验，仍在 [[../../literature/_index#当前 ingest 队列|文献总索引]]中标记为 `to-ingest`；Huang–Ma 单篇全文事实和模型选型证据卡由各自文献笔记唯一维护。新增四篇保持 `draft`，本表只使用已核验元数据／摘要并明确外推边界，不等同于正式精读。
 
-### 4.2 远端原型历史证据边界
-
-`soptx:origin/codex/piml-multiscale-prototype` 记录了一套二维静力缩聚和直接预测 $K_s$ 的历史原型，包括粗网格 $8\times8$、两档子结构细分、`ExactPredictor`／`MockPredictor`／`TrainedPredictor` 共用接口，以及缩聚一致性和局部预测误差数据。该原型能够作为精确子结构链路、predictor 接口和最小学习基线的实现参考。
-
-本人目前尚未运行或复现该分支，因此上述代码结构和数值均不得写成当前成果。历史数据只能支持当时实现中的静力缩聚、接口求解、细尺度恢复和局部 $K_s$ 预测记录，不能支持位移、柔顺度、灵敏度、Krylov 收敛、最终拓扑、结构保持、GPU 加速或端到端收益。完整公式、数值表与历史解释由 [[../../archive/2026-postdoc-entry-assessment/defense-preparation/direction-1-piml-matrix-free/frame7_piml_pipeline_guide|入站答辩历史档案]]唯一维护。
-
-## 五、阶段门禁与当前执行状态
-
-| 阶段 | 能力门禁 | 通过条件 | 当前状态 |
-|---|---|---|---|
-| 1. 精确子结构基线 | 冻结二维、三维参考问题、离散、自由度和误差定义 | 精确 $K_s$、接口位移和恢复位移与全尺度参考结果通过一致性检查，且入口可重放 | `not-started` |
-| 2. 数据与 predictor 契约 | 冻结数据划分、精确标签、输入输出、batch、dtype、device、结构检查与回退字段 | 两个维度的数据和标签可追溯；至少一个非学习简单基线可用 | `not-started` |
-| 3. 候选表示路线 | 在同一问题契约下实现并比较经过证据筛选的局部表示路线，至少覆盖“预测 $N$ 后构造 $K_s$”和“直接预测 $K_s$” | 各候选路线均可重放，并按表示报告局部误差、必要结构检查和部署成本 | `not-started` |
-| 4. 全局评价与可信回退 | 将预测算子接入接口系统，评价全局响应和失败样本 | 位移、柔顺度、恢复误差、结构性质、回退条件和代价均可报告 | `not-started` |
-| 5. Matrix-Free/GPU/拓扑优化连接 | 仅在前四阶段门禁通过后连接批量推理、局部作用和优化闭环 | 至少形成可重放的三维端到端原型，并报告精度、Krylov 行为、时间和显存 | `gated` |
-
-阶段 3 已有文献支持的候选路线 A 为：
-
-$$
-\rho^j \longmapsto \widehat N^j,
-\qquad
-\widehat K_s^j=(\widehat N^j)^{\mathsf T}K^j\widehat N^j.
-$$
-
-候选路线 B 为：
-
-$$
-\rho^j \longmapsto \widehat K_s^j.
-$$
-
-门禁原则如下：
-
-- 二维可用于快速调试，但三维不能被后置为可选扩展。
-- 精确力学基线未通过时不训练或评价学习路径。
-- 不预设候选局部表示的主次；路线选择由结构性质、全局误差、计算与存储成本以及 Matrix-Free/GPU 部署证据共同决定。
-- 不用局部 MSE 代替全局结构分析；局部误差必须继续传播到位移、柔顺度和恢复结果。
-- 预测破坏结构性质或超出训练分布时，必须保留精确局部计算作为回退路径。
-- 历史分支数字只有在本人可追溯复现后，才可转为当前状态证据。
-
-### 5.1 当前动作与推进顺序
-
-Huang 2022/2023/2024、Ma 2026 和 Lei 2018/2019 的统一证据卡及首轮横向综合已经完成；Raissi 2019、Karniadakis 2021、DeepONet 2021、SPD-NN 2021 和 PINNTO 2023 目前只完成官方来源级边界整理，仍由 [[../../literature/_index#当前 ingest 队列|文献总索引]]标记为 `to-ingest`。五篇国际方法论文只有在全文、Zotero item 与 Citation Key 齐备后才进入正式 ingest，但该门禁不阻塞第一次汇报准备。
-
-当前关键路径为：
-
-```text
-完成第一次汇报材料
-  -> 与刘畅老师确认研究切口
-  -> 冻结学习对象、真值、基线和首项指标
-  -> 恢复精确基线并完成一项最小实证
-  -> 第二次结果交流
-  -> 条件化统一 benchmark
-```
-
-当前只推进以下动作：
-
-- 将已核验的论文证据和研究缺口同步到 [[../../work-reports/liu-chang/first-formal-work-report|第一次正式工作汇报]]，压缩为可在 5–10 分钟内说明的阶段性回答。
-- 第一次交流只确认模型选型理解、研究价值和首个交付物；学习对象、代表算例、数据、真值、基线、硬约束和下游指标未确认前，不恢复代码或启动数值实验。
-- 完成一项最小实证并进行第二次交流后，只有刘畅老师确认继续，才启动同题、同真值、同接口的统一 benchmark。
-
-### 5.2 条件性最小实验与停止规则
-
-| 交流后确认的对象 | 首项检查 | 下游评价 | 预期交付 |
-|---|---|---|---|
-| $K_s$ | 对称误差、最小特征值、刚体模态、能量误差及受控结构扰动 | 以精确直接解为真值，测量 CG/GMRES、接口位移和柔顺度误差 | “局部误差—求解行为—响应误差”曲线 |
-| $N$ | 分片统一性、刚体运动、边界一致性或已确认的结构条件 | $K_s$ 构造、接口求解和细尺度恢复误差 | “形函数误差—下游响应误差”结果 |
-| 其他对象 | 先定义精确真值与必要硬约束 | 使用第一次交流确认的下游接口 | 一项只改变一个核心因素的可重放实证 |
-
-- 基线交付必须包含环境、唯一运行命令、输入输出契约、结果和失败诊断；基线不可复现时停止，不在未知基线上比较新模型。
-- 最小实证否定路线时允许停止，不扩大 benchmark 掩盖失败；单一算例结果不得外推为普遍模型选型结论。
-- 第一次交流前不得把候选问题写成双方已经确认的合作任务；没有本人运行结果时不得把历史原型数字写成个人成果。
-- 只有所选对象确实进入全局求解或异构部署时，才展开 Matrix-Free 或 GPU 集成。
-
-### 5.3 Lei 2018/2019 条件性复现
-
-Lei 2018/2019 只作为“问题相关最终设计代理”的前史对照，不属于 WP2 的默认主路径。只有交流后确认其对模型选型或表示研究仍有价值，才按“载荷位置 → MMC 优化标签 → 非中心化 PCA/POD 系数 → SVR/KNN → 重构设计 → 独立 FEA 与可选热启动复核”的流程独立实现。
-
-启动时必须冻结 train/validation/test 职责、中心化与非中心化 PCA 对照、SVR/KNN 超参数、标签非唯一性处理、计时边界和独立 FEA。验收要求包括：标签收敛状态可追溯；PCA 基只由 train 数据拟合；满秩重构与截断误差通过检查；SVR/KNN 使用同一数据契约；预测设计重新计算柔顺度和体积约束；热启动结果不由单例外推为平均加速。
-
-WP2 项目状态仍为 `preparing`，以 [[../piml-matrix-free-gpu/project-plan]] 为准。本章维护技术线当前动作和能力门禁，不建立第二份项目总计划、论文事实表或工作汇报。
-
-## 六、权威事实来源
+## 五、权威事实来源
 
 - [[../../concepts/piml/_index]] — 项目 PIML 的 Problem-Independent 正式释义及 Physics-Informed 外部方法背景边界。
 - [[../../concepts/piml/mathematical-foundations]]、[[../../concepts/piml/method-lineage]] — Problem-Independent 局部力学学习的数学定义与方法谱系。
 - [[../../literature/_index#当前 ingest 队列]] — Physics-Informed ML、PINN、neural operator 和结构保持类比的当前待入库文献。
 - Huang 2022/2023/2024、Ma 2026 与 Lei 2018/2019 的全文事实和模型选型证据卡 — 由 `literature/topology-opt/notes/` 中对应单篇笔记维护。
-- `soptx:origin/codex/piml-multiscale-prototype` — 历史远端分支，当前未由本人运行或复现。
-- [[../../archive/2026-postdoc-entry-assessment/defense-preparation/direction-1-piml-matrix-free/frame7_piml_pipeline_guide]] — 入站答辩时的历史运行记录、完整数值表和解释。
-- `C:\workspace\soptx\examples\pinn_elasticity` — PINN 解场学习过程理解入口，不是 Problem-Independent 局部算子结果。
 - [[matrix-free-research-guide]]、[[gpu-hpc-research-guide]] — Matrix-Free 与 GPU 技术线。
 - [[../piml-matrix-free-gpu/_index]]、[[../piml-matrix-free-gpu/project-plan]] — 博士后核心研究项目入口及 WP2/WP3 的目标、状态和依赖。
 - [[../piml-matrix-free-gpu/high-performance-solver-survey]] — 跨线关系、开放问题与研究切入点。
-- [[../../work-reports/liu-chang/_index]] — 面向刘畅老师的单次汇报、导师反馈和会后行动入口。
-- [[../../work-reports/guo-xu/_index]] — 面向郭旭老师的 PIML 阶段表达入口；汇报页不作为任务状态或研究事实源。
+- [[../../discussions/liu-chang/_index]] — 面向刘畅老师的单次汇报、导师反馈和会后行动入口。
+- [[../../discussions/guo-xu/_index]] — 面向郭旭老师的 PIML 阶段表达入口；汇报页不作为任务状态或研究事实源。

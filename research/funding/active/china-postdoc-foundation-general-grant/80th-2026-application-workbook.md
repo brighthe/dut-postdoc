@@ -45,7 +45,7 @@ related:
 | 图书 | 待核对 | 无符合项时保持空白，不凑数 |
 | 授权专利 | 待核对 | 只填写已授权且信息可核验的专利 |
 | 国际、国家及省部级奖励 | 待核对 | 只填写符合系统口径且可核验的奖励 |
-| 项目信息正文 | 已建立官方六部分骨架，尚未扩写完整初稿 | 在 [[80th-2026-application-draft|申请书正文]] 中撰写并控制字数 |
+| 项目信息正文 | 已建立官方六部分骨架，尚未扩写完整初稿 | 在 [[80th-2026-application-draft\|申请书正文]] 中撰写并控制字数 |
 | 项目信息文件 | 未下载、编辑或上传 | 基金信息保存后分别准备第 1–5 部分和第 6 部分两个 DOCX |
 | 生成并提交申请书 | 未开始 | 两份项目信息文件上传并核验后生成正式申请书 |
 | 申报进度 | 未提交 | 经本人最终确认后提交并持续关注退回状态 |
@@ -56,10 +56,10 @@ related:
 
 | 系统字段 | 建议内容 | 状态 / 依据 |
 |---|---|---|
-| 项目中文名称 | 面向大规模拓扑优化的 PIML Matrix-Free 求解与 GPU 协同加速方法研究 | **与核心项目计划及 [[80th-2026-application-draft#一、项目基本信息|第 80 批申请正文]] 同步；系统为空、未保存** |
-| 项目英文名称 | PIML-Enabled Matrix-Free Solvers and GPU-Coordinated Acceleration for Large-Scale Topology Optimization | **与 [[80th-2026-application-draft#一、项目基本信息|申请书正文]] 同步；系统为空、未保存** |
+| 项目中文名称 | 面向大规模拓扑优化的 PIML Matrix-Free 求解与 GPU 协同加速方法研究 | **与核心项目计划及 [[80th-2026-application-draft#一、项目基本信息\|第 80 批申请正文]] 同步；系统为空、未保存** |
+| 项目英文名称 | PIML-Enabled Matrix-Free Solvers and GPU-Coordinated Acceleration for Large-Scale Topology Optimization | **与 [[80th-2026-application-draft#一、项目基本信息\|申请书正文]] 同步；系统为空、未保存** |
 | 项目来源 | 自选 | 建议稿；系统未选择、未保存 |
-| 关键词 | 大规模拓扑优化，问题无关机器学习，Matrix-Free，Krylov 求解，GPU 加速 | **与 [[80th-2026-application-draft#一、项目基本信息|申请书正文]] 同步；系统为空、未保存** |
+| 关键词 | 大规模拓扑优化，问题无关机器学习，Matrix-Free，Krylov 求解，GPU 加速 | **与 [[80th-2026-application-draft#一、项目基本信息\|申请书正文]] 同步；系统为空、未保存** |
 | 项目所属一级学科 | 力学 | 建议稿；系统为空、未保存 |
 | 项目所属二级学科 | 固体力学 | 建议稿；系统为空、未保存，待合作导师或院系确认 |
 | 学科门类 | 工学 | 预计由系统根据主学科生成；当前为空 |

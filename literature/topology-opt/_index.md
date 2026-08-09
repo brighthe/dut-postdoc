@@ -21,10 +21,10 @@ date_update: 2026-08-04
 | [[notes/Huang2022-problemindependentmachine]] | Problem-Independent PIML 拓扑优化 | PIML, EMsFEM | read |
 | [[notes/Huang2023-PIML-substructure]] | PIML 增强子结构分析与拓扑优化 | PIML, substructure | read |
 | [[notes/Huang2024-PIML-datafree]] | Mechanics-based data-free PIML | PIML, mechanics-based-loss | done |
-| [[notes/Zhang2024-isoparametric-PIML]] | 面向复杂设计域的等参单元 PIML；[[translations/Zhang2024-isoparametric-PIML-zh|中文译文]]待完成 | PIML, isoparametric-elements, complex-domain | draft |
-| [[notes/Xu2025-PIML-lattice-MMC]] | PIML、MMC 与分区坐标映射结合的三维梯度点阵复合结构优化；[[translations/Xu2025-PIML-lattice-MMC-zh|中文译文]]待完成 | PIML, MMC, graded-lattice | draft |
-| [[notes/Guo2026-highgeneralization-bezier]] | 三次 Bézier 边界位移插值与 DeepONet 增强的高泛化子结构分析；[[translations/Guo2026-highgeneralization-bezier-zh|中文译文]]待完成 | PIML, DeepONet, substructure | draft |
-| [[notes/Guo2026-PIML-OFEM]] | 基于超采样数值基函数、重叠有限元和 U-Net 的 PIML-OFEM；[[translations/Guo2026-PIML-OFEM-zh|中文译文]]待完成 | PIML, overlapping-FEM, preprint | draft |
+| [[notes/Zhang2024-isoparametric-PIML]] | 面向复杂设计域的等参单元 PIML；[[translations/Zhang2024-isoparametric-PIML-zh\|中文译文]]待完成 | PIML, isoparametric-elements, complex-domain | draft |
+| [[notes/Xu2025-PIML-lattice-MMC]] | PIML、MMC 与分区坐标映射结合的三维梯度点阵复合结构优化；[[translations/Xu2025-PIML-lattice-MMC-zh\|中文译文]]待完成 | PIML, MMC, graded-lattice | draft |
+| [[notes/Guo2026-highgeneralization-bezier]] | 三次 Bézier 边界位移插值与 DeepONet 增强的高泛化子结构分析；[[translations/Guo2026-highgeneralization-bezier-zh\|中文译文]]待完成 | PIML, DeepONet, substructure | draft |
+| [[notes/Guo2026-PIML-OFEM]] | 基于超采样数值基函数、重叠有限元和 U-Net 的 PIML-OFEM；[[translations/Guo2026-PIML-OFEM-zh\|中文译文]]待完成 | PIML, overlapping-FEM, preprint | draft |
 | [[notes/Ma2026-highperformanceparallel]] | 大规模并行 PIML 拓扑优化 | PIML, matrix-free, parallel-computing | done |
 
 ### Physics-Informed 拓扑优化候选
@@ -45,8 +45,8 @@ Matrix-Free 与 GPU/HPC 的核心证据、算子边界和外推限制分别由 [
 
 | 文献 | 主要定位 | 状态 |
 |---|---|---|
-| [[notes/Traff2023-GPU-topology-optimisation]] | 单 GPU 三维拓扑优化的摘要／元数据级证据；[[translations/Traff2023-GPU-topology-optimisation-zh|中文译文]]与精读待完成 | draft |
-| [[notes/Zhou2025-efficientaccelerationstrategies]] | 文献笔记与[[translations/Zhou2025-efficientaccelerationstrategies-zh|中文译文]]骨架；正文待逐节翻译与精读 | draft |
+| [[notes/Traff2023-GPU-topology-optimisation]] | 单 GPU 三维拓扑优化的摘要／元数据级证据；[[translations/Traff2023-GPU-topology-optimisation-zh\|中文译文]]与精读待完成 | draft |
+| [[notes/Zhou2025-efficientaccelerationstrategies]] | 文献笔记与[[translations/Zhou2025-efficientaccelerationstrategies-zh\|中文译文]]骨架；正文待逐节翻译与精读 | draft |
 | [[notes/Ma2026-highperformanceparallel]] | PIML、CPU/MPI、多重网格与按需预测／释放；全局粗矩阵仍组装 | done |
 
 本表登记已经建立单篇笔记的交叉论文，并同步其最近一级状态；它表示当前知识库状态，不表示公开研究中只有这些相关论文。

@@ -16,7 +16,7 @@ tags:
   - GPU
 status: "in-progress"
 date_start: 2026-07-31
-date_update: 2026-08-04
+date_update: 2026-08-09
 ---
 
 # 博士后科研成果路线
@@ -30,13 +30,13 @@ date_update: 2026-08-04
 - 三篇 A 类论文是个人风险控制主线，不等于三篇论文当前已经完成、投稿、接收或获得学院认定。
 - 中国博士后科学基金面上资助以实际获批为成果目标；提交申请、进入评审或公示均不写成已经完成。
 - 核心项目状态独立于基金结果；基金未获批不终止研究，基金获批也不表示 WP1–WP3 或项目已经完成。
-- PIML 与 GPU/HPC 的当前状态和完成门禁分别由 [[technical-lines/piml-research-guide]]、[[technical-lines/gpu-hpc-research-guide]] 维护；Matrix-Free 的长期阶段、验收原则、当前状态、推进顺序和完成记录统一由 [[technical-lines/matrix-free-research-guide]] 维护。
+- PIML 的方法边界、模型选型与证据综合由 [[technical-lines/piml-research-guide]] 维护，项目级状态由 [[piml-matrix-free-gpu/project-plan]] 维护；GPU/HPC 的当前状态和完成门禁由 [[technical-lines/gpu-hpc-research-guide]] 维护；Matrix-Free 的长期阶段、验收原则、当前状态、推进顺序和完成记录统一由 [[technical-lines/matrix-free-research-guide]] 维护。
 
 ## 二、论文与项目组合
 
 | 编号 | 成果方向 | 所属主线 | 规划定位 | 当前研究入口 | 关键边界 |
 |---|---|---|---|---|---|
-| 论文一 | Hu–Zhang 混合有限元拓扑优化 | 高精度数值离散与拓扑优化 | 博士延续成果；保障论文；中期优先 | [[papers/arbitrary-order-huzhang-topopt-outline]]、[[papers/arbitrary-order-huzhang-topopt-draft-zh]] | 不纳入核心项目工作包；投稿、接收、期刊级别与计分认定另行维护 |
+| 论文一 | Hu–Zhang 混合有限元拓扑优化 | 高精度数值离散与拓扑优化 | 博士延续成果；保障论文；中期优先 | [[../papers/arbitrary-order-huzhang-topopt-outline]]、[[../papers/arbitrary-order-huzhang-topopt-draft-zh]] | 不纳入核心项目工作包；投稿、接收、期刊级别与计分认定另行维护 |
 | 论文二 | 无稳定化项虚单元拓扑优化 | 高精度数值离散与拓扑优化 | 博士延续成果；保障论文；中期并行 | 对应长期调研与论文页待形成稳定内容后建立 | 不纳入核心项目工作包；须形成独立的理论、算法与拓扑优化证据链 |
 | 论文三（A） | WP1：Matrix-Free/GPU | 智能高性能计算力学 | 核心项目基础成果；保障论文；承担出站论文主线 | [[piml-matrix-free-gpu/project-plan#三、工作包与依赖]]、[[technical-lines/matrix-free-research-guide]]、[[technical-lines/gpu-hpc-research-guide]] | 使用精确有限元或精确子结构算子，不引入学习算子 |
 | 论文四（B） | WP2：PIML/GPU | 智能高性能计算力学 | 核心项目局部算子成果；目标扩展论文 | [[piml-matrix-free-gpu/project-plan#三、工作包与依赖]]、[[technical-lines/piml-research-guide]]、[[technical-lines/gpu-hpc-research-guide]] | 不引入全局 Matrix-Free 融合；GPU 必须参与算法与数据流协同设计 |

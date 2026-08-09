@@ -15,7 +15,7 @@ tags:
   - GNN
 status: in-progress
 date_added: 2026-07-30
-date_update: 2026-08-04
+date_update: 2026-08-09
 ---
 
 # 刘畅
@@ -36,7 +36,7 @@ date_update: 2026-08-04
 
 > 职称以官方主页为准；部分第三方学者聚合页仍标注「副教授」，属过期信息。
 >
-> **事实所有权**：本页拥有其公开学术身份、署名工作书目与跨源提炼的模型选型史；通用选型判据和任务排序引用 [[../research/technical-lines/piml-research-guide#2.3 模型选型与统一比较契约|PIML 研究指南]]，Lei 2018/2019 的论文证据引用 [[../literature/topology-opt/notes/Lei2018-machinelearningdriven#模型选型证据卡]]，具体汇报引用 [[../work-reports/liu-chang/_index]]。PIML × Matrix-Free × GPU 的跨线研究假设由 [[../research/piml-matrix-free-gpu/high-performance-solver-survey]] 维护；真实沟通过程由沟通仓库维护，本页不复制上述内容。
+> **事实所有权**：本页拥有其公开学术身份、署名工作书目与跨源提炼的模型选型史；通用选型判据和任务排序引用 [[../research/technical-lines/piml-research-guide#2.3 模型选型与统一比较契约|PIML 研究指南]]，Lei 2018/2019 的论文证据引用 [[../literature/topology-opt/notes/Lei2018-machinelearningdriven#模型选型证据卡]]，具体汇报引用 [[../discussions/liu-chang/_index]]。PIML × Matrix-Free × GPU 的跨线研究假设由 [[../research/piml-matrix-free-gpu/high-performance-solver-survey]] 维护；真实沟通过程由沟通仓库维护，本页不复制上述内容。
 
 ## 可考虑的结合点（概览）
 
@@ -114,7 +114,7 @@ date_update: 2026-08-04
 
 ## 与我的关联
 
-- 其 AI 方向与本人博士后方向一直接重叠；结合点速查见本页「可考虑的结合点」，通用模型选型原则、阶段门禁和当前动作由 [[../research/technical-lines/piml-research-guide]] 维护，具体交流材料由 [[../work-reports/liu-chang/_index]] 维护，本页不复制其内容。
+- 其 AI 方向与本人博士后方向一直接重叠；结合点速查见本页「可考虑的结合点」，通用模型选型原则与证据边界由 [[../research/technical-lines/piml-research-guide]] 维护，项目级阶段与状态由 [[../research/piml-matrix-free-gpu/project-plan]] 维护，具体交流材料由 [[../discussions/liu-chang/_index]] 维护，本页不复制其内容。
 - PIML 历史证据由 [[../research/technical-lines/piml-research-guide]] 维护，条件化融合假设由 [[../research/piml-matrix-free-gpu/high-performance-solver-survey]] 维护；只有所选学习对象确实进入求解器或批量部署时，才把 Krylov 行为和 GPU 成本纳入下游评价。
 - 真实沟通过程、约见安排与关系状态由沟通仓库维护，本页只保留公开学术身份与技术事实。
 
@@ -134,8 +134,7 @@ date_update: 2026-08-04
 
 - [[guo-xu]] — 其博士导师，研究体系、稳定研究方向与权威入口。
 - [[../concepts/piml/method-lineage]] — 「直接预测最终设计 → 学习可复用局部算子」的方法谱系。
-- [[../concepts/piml/ml-roles-and-boundaries]] — 各类 ML 角色与问题无关性的适用边界。
+- [[../concepts/ml-roles-and-boundaries]] — 各类 ML 角色与问题无关性的适用边界。
 - [[../research/technical-lines/piml-research-guide]] — PIML 技术线总入口。
 - [[../research/technical-lines/piml-research-guide#2.3 模型选型与统一比较契约]] — 通用六维选型框架。
-- [[../research/technical-lines/piml-research-guide#五、阶段门禁与当前执行状态]] — WP2 的阶段门禁、当前动作和条件性实验。
 - [[../research/piml-matrix-free-gpu/high-performance-solver-survey]] — 条件性三线融合研究问题。

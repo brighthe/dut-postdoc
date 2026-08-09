@@ -178,7 +178,7 @@ flowchart TD
 
 ### 概念定位：在机器学习与 PIML 谱系中的位置
 
-依据 [[../../concepts/piml/ml-roles-and-boundaries]] 和 [[../../concepts/piml/method-lineage]]，本文的概念定位可以压缩为：
+依据 [[../../../concepts/ml-roles-and-boundaries]] 和 [[../../../concepts/piml/method-lineage]]，本文的概念定位可以压缩为：
 
 - **模型与学习对象**：普通 feedforward ANN 学习局部细单元密度到 EMsFEM 粗单元形函数的映射，任务对象是可进入全局粗网格分析的局部力学表示。
 - **训练与物理角色**：随机局部密度作为输入，EMsFEM 真值提供监督；分区单位关系属于构造约束，刚度矩阵 MSE 属于软约束。
@@ -207,7 +207,7 @@ flowchart TD
 
 ## 相关文献与页面
 
-- [[../../concepts/piml/_index]] — PIML 稳定知识、当前研究与文献证据的统一语义入口。
+- [[../../../concepts/piml/_index]] — PIML 稳定知识、当前研究与文献证据的统一语义入口。
 - [[Guo2022-MMC-review]] — MMC/MMV 综述，PIML 与显式优化结合的宏观背景
 - [[Huang2023-PIML-substructure]] — 本文的子结构扩展，引入力学先验约束
 - [[Guo2023-PIML-data-free]] — data-free 版本，用最小势能原理替代监督学习

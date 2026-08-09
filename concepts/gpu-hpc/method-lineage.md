@@ -123,11 +123,16 @@ soptx 的单次 GPU MatVec 与 `mfleo` 的单 GPU + 单 CPU 核端到端 CG 是�
 - 单 kernel、单 MatVec 和端到端结果分开登记，不允许跨层外推。
 - 本人的任务、实施顺序、工程原型和阶段门禁只更新 research guide。
 
-## 9. 来源与相关页面
+## 9. 来源与证据
 
 - [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel]] — 论文方法、CPU/MPI 强弱扩展、完整优化流程和边界。
 - [Ma et al., 2026, Acta Mechanica Sinica](https://doi.org/10.1007/s10409-025-25942-x) — 出版社 DOI 入口。
+
+## 相关页面
+
+- [[distributed-operator-and-shared-dofs]] — 分布式算子代数第一原理（第 1 柱）。
+- [[distributed-algebra-and-execution-decoupling]] — 系统代数/算法层与硬件/执行层解耦框架（第 2 柱）。
+- [[heterogeneous-execution-modes]] — 异构并行执行模式分类与硬件拓扑（第 3 柱）。
 - [[../piml/method-lineage]] — PIML 前序方法谱系。
 - [[../matrix-free/method-lineage]] — Matrix-Free 存储策略与全局装配边界。
-- [[performance-model]] — 计时层级、性能模型和可复现记录口径。
 - [[../../research/technical-lines/gpu-hpc-research-guide]] — 当前研究目标、证据边界与阶段门禁。

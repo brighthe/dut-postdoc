@@ -38,7 +38,7 @@ date_update: 2026-08-01
 
 ## 相关页面
 
-- [[Huang2022-problemindependentmachine]] 的子结构扩展（本文）
+- [[../topology-opt/notes/Huang2022-problemindependentmachine]] 的子结构扩展（本文）
 - [[../../concepts/piml/mathematical-foundations]]
 - [[../../entities/guo-xu]]
 

@@ -16,7 +16,7 @@ date_update: 2026-07-26
 
 1. 将可长期复用的技术事实抽取到对应概念页、技术线或调研页；
 2. 将最终交付物和准备材料按事件整体移入 `archive/<event>/`；
-3. 更新 [[archive/_index]]、根 [[index]]、相关语义索引与 `log.md`；
+3. 更新 [[../archive/_index]]、根 [[../index]]、相关语义索引与 `log.md`；
 4. 不把归档材料继续当作活跃研究事实源。
 
-PPT/讲稿修改、编译和版式 QA 规则见 [[ai/talks-ppt-editing-rules]]。
+PPT/讲稿修改、编译和版式 QA 规则见 [[../ai/talks-ppt-editing-rules]]。

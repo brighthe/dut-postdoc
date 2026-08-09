@@ -41,8 +41,9 @@ date_update: 2026-08-04
 
 ### 当前入口
 
-- [[papers/arbitrary-order-huzhang-topopt-outline]] — 任意次 Hu–Zhang 混合有限元拓扑优化投稿论文框架。
-- [[papers/arbitrary-order-huzhang-topopt-draft-zh]] — 任意次 Hu–Zhang 混合有限元拓扑优化中文版初稿。
+- [[../papers/arbitrary-order-huzhang-topopt-outline]] — 任意次 Hu–Zhang 混合有限元拓扑优化投稿论文框架。
+- [[../papers/arbitrary-order-huzhang-topopt-draft-zh]] — 任意次 Hu–Zhang 混合有限元拓扑优化中文版初稿。
+- [[../concepts/huzhang-mixed-fem]] — 应力—位移混合变分、$H(\mathrm{div})$ 对称应力空间、低阶跳量稳定化与收敛阶结果的稳定概念页。
 
 无稳定化项虚单元拓扑优化的长期调研和论文入口尚待在形成稳定内容后建立；在此之前不为满足目录形式预建空主题。
 
@@ -64,7 +65,7 @@ date_update: 2026-08-04
 - [[piml-matrix-free-gpu/_index]] — 博士后核心研究项目统一入口。
 - [[piml-matrix-free-gpu/project-plan]] — 核心项目名称、目标、WP1–WP3、两年阶段和资助映射的唯一事实源。
 - [[piml-matrix-free-gpu/high-performance-solver-survey]] — PIML Matrix-Free 求解与 GPU 协同加速的交叉现状、耦合机制、研究假设、统一研究方案与验证协议。
-- [[research/technical-lines/_index]] — PIML、Matrix-Free、GPU/HPC 三条长期技术能力入口。
+- [[technical-lines/_index]] — PIML、Matrix-Free、GPU/HPC 三条长期技术能力入口。
 
 ## 两条主线的关系
 
@@ -91,6 +92,6 @@ date_update: 2026-08-04
 
 - 本页只在长期方向的定义、边界或主线关系发生变化时更新。
 - 博士后核心项目的名称、目标、工作包、阶段与资助映射由 [[piml-matrix-free-gpu/project-plan]] 维护；论文组合与风险控制由 [[postdoc-research-output-roadmap]] 维护。
-- 单项技术的当前能力、阶段门禁和验收标准由 [[research/technical-lines/_index]] 维护。
+- 单项技术的当前能力、阶段门禁和验收标准由 [[technical-lines/_index]] 维护。
 - 具体课题的研究问题、技术综合和证据边界由对应 `research/` 主题页维护。
 - 代码、测试、Benchmark 与版本发布由相应软件仓库维护，本页只保存研究结论和仓库指针。

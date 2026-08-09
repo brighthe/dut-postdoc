@@ -11,9 +11,10 @@ tags:
   - performance-engineering
 status: "in-progress"
 date_start: 2026-07-21
-date_update: 2026-08-04
+date_update: 2026-08-06
 related:
-  - gpu-hpc/performance-model
+  - gpu-hpc/distributed-algebra-and-execution-decoupling
+  - gpu-hpc/heterogeneous-execution-modes
   - gpu-hpc/method-lineage
   - ../piml-matrix-free-gpu/_index
   - ../piml-matrix-free-gpu/project-plan
@@ -21,7 +22,7 @@ related:
 
 # GPU/HPC 异构并行与端到端性能技术线研究指南
 
-> **定位**：本页是 GPU/HPC 技术线的长期第一入口，博士后阶段横向服务 [[../piml-matrix-free-gpu/project-plan#三、工作包与依赖|核心项目 WP1–WP3]]，但长期能力仍可跨项目复用。本页集中回答“目前已经具备什么能力、距离最终目标还有什么差距、下一步如何推进以及何时可以标记完成”。kernel、MatVec、solve、优化迭代和完整任务的计时边界，以及 Roofline、强弱扩展和可复现记录口径见 [[../../concepts/gpu-hpc/performance-model]]；团队公开 HPC 成果的演进与纳入标准见 [[../../concepts/gpu-hpc/method-lineage]]。
+> **定位**：本页是 GPU/HPC 技术线的长期第一入口，博士后阶段横向服务 [[../piml-matrix-free-gpu/project-plan#三、工作包与依赖|核心项目 WP1–WP3]]，但长期能力仍可跨项目复用。本页集中回答“目前已经具备什么能力、距离最终目标还有什么差距、下一步如何推进以及何时可以标记完成”。系统解耦框架见 [[../../concepts/gpu-hpc/distributed-algebra-and-execution-decoupling]]；团队公开 HPC 成果的演进与纳入标准见 [[../../concepts/gpu-hpc/method-lineage]]。
 >
 > **当前主要研究对象**：以三维线弹性 Matrix-Free 求解和 PIML 子结构批处理作为首个统一载体，逐步覆盖 CPU、单 GPU、多 GPU、GPU-aware MPI 与完整拓扑优化流程；其他 PDE、非线性和多物理场仅作为后续扩展方向。
 >
@@ -58,6 +59,8 @@ related:
 
 ### 2.1 执行路线与评价边界
 
+异构执行模式本身的稳定分类（硬件拓扑、执行层级、编程模型、数据/精度策略四个正交维度）见 [[../../concepts/gpu-hpc/heterogeneous-execution-modes]]；本节的五级路线是这些模式在本项目对象上的实施顺序。
+
 当前技术路线按“组装式 CPU/GPU 参考 → 同题 Matrix-Free CPU/单 GPU → PIML 批处理与 Matrix-Free GPU 融合 → 完整拓扑优化与混合精度 → 多 GPU/GPU-aware MPI”逐级推进。每一级都继承上一阶段冻结的离散、边界条件、停止准则与正确性门禁，不允许用单个 kernel、单次 MatVec 或局部吞吐替代完整 solve 与完整优化流程的端到端结论。
 
 性能评价必须同时记录绝对时间、迭代数、峰值内存/显存、数值误差及瓶颈迁移；硬件、装配层级、预条件、数值精度或编程模型发生变化时，应分别标明，不能把联合收益全部归因于 GPU。五级计时、Roofline、强弱扩展与可复现记录协议由 [[../../concepts/gpu-hpc/performance-model]] 统一维护。
@@ -83,27 +86,11 @@ GPU 加速的对象至少包括局部积分或局部算子、gather/scatter、Kr
 
 ### 3.2 国外研究进展
 
-[Williams、Waterman 与 Patterson 2009](https://doi.org/10.1145/1498765.1498785) 用 Roofline 将可达性能与算术强度、实测内存带宽和计算峰值联系起来，为判断有限元算子更受数据移动还是算力限制提供基础；该模型不能替代完整 solve 中的 launch、同步、归约、预条件和通信分析。
-
-[Wadbro 与 Berggren 2009](https://doi.org/10.1137/070699822) 在商品级 GPU 上求解超过 400 万设计变量的像素化材料分布问题，证明 GPU 可以进入完整拓扑优化而不只承担可视化或单个线性代数 kernel；其对象是 Poisson 型二维像素问题，不能直接外推到三维结构弹性、非结构网格或 Matrix-Free Krylov。
-
-[Schmidt 与 Schulz 2011/2012](https://doi.org/10.1007/s00791-012-0180-1) 将三维 SIMP、线弹性有限元和 Matrix-Free CG 完整置于 CUDA GPU，强调程序化生成矩阵向量乘并比较 48 核共享内存 CPU；它建立了三维结构拓扑优化的早期全 GPU 路线，但结论绑定当时的规则问题、硬件和实现，不能作为现代多 GPU、预条件或端到端基准。
-
-[Martínez-Frutos 与 Herrero-Pérez 2015](https://doi.org/10.1016/j.finel.2015.06.005) 利用固定网格规则性，在自由度粒度执行 Matrix-Free GPU MatVec，以数据局部性和片上存储降低显存与访存；该工作主要证明固定网格有限元分析和迭代求解的 GPU 映射，不等同于完整拓扑优化流程。随后，[Martínez-Frutos 与 Herrero-Pérez 2016](https://doi.org/10.1016/j.cma.2016.08.016) 将任务级与数据级并行扩展到多 GPU 鲁棒拓扑优化，覆盖有限元求解、灵敏度与过滤，说明多 GPU 的价值不仅是增加算力，也包括并行不确定性传播和扩大显存容量。
-
-[Abdelfattah et al. 2021](https://doi.org/10.1016/j.parco.2021.102841) 总结 CEED 在 NVIDIA 与 AMD GPU 上的高阶 Matrix-Free 离散、后端抽象和性能可移植路线，说明减少高阶算子的数据移动可以更匹配加速器体系结构；其证据主要来自高阶应用和 CEED benchmark，不能直接替代低阶拓扑优化、动态材料分布或 PIML 局部算子的验证。
-
-[Herrero-Pérez 与 Martínez Castejón 2021](https://doi.org/10.1016/j.advengsoft.2021.103006) 进一步采用多 GPU、分布式 CG、聚合型 AMG 和混合精度处理结构化与非结构网格上的密度法拓扑优化，表明预条件、设备显存和跨设备执行必须共同评价。[[../../literature/topology-opt/notes/Traff2023-GPU-topology-optimisation|Träff et al. 2023]] 的正式摘要报告 OpenMP 4.5 与 Futhark 高层 GPU 实现，在单 GPU 上完成 6550 万单元线性拓扑优化约 2 小时，并演示百万单元非线性问题；摘要可直接支持 GPU 进入完整三维拓扑优化流程，但具体硬件、Matrix-Free 装配层级、求解器和跨平台边界待译文与精读完成后核验。
+国外路线沿“GPU 进入完整拓扑优化（Wadbro & Berggren 2009）→ 三维 Matrix-Free GPU（Schmidt & Schulz 2011/2012）→ 数据局部性细化与多 GPU（Martínez-Frutos & Herrero-Pérez 2015/2016）→ 可移植后端抽象与多 GPU 混合精度（Abdelfattah et al. 2021、Herrero-Pérez & Martínez Castejón 2021）→ 高层语言完整流程（Träff et al. 2023）”演进，核心共识是 GPU 可覆盖完整优化流程，但每项证据的硬件、装配层级和边界均不同，不能跨层外推。逐篇贡献与证据边界见 §4 证据锚点表；跨线证据成熟度与耦合机制见 [[../piml-matrix-free-gpu/high-performance-solver-survey]]。
 
 ### 3.3 国内与团队路线进展
 
-“国内”只依据论文原始机构、实施平台或资助信息判断，不依据作者姓名推断。当前可核实的近期证据已经覆盖 Python 高层 GPU 接口和 CPU–GPU 协同拓扑优化，但尚未形成与本项目完全相同的 PIML–Matrix-Free–GPU 链路。
-
-[Hou et al. 2025](https://doi.org/10.1016/j.finel.2025.104388) 的出版社页面明确列出中国国家重点研发计划、国家自然科学基金和中国博士后科学基金资助。该工作使用 CuPy 和向量化 SpMV，在热传导、结构柔顺性及柔顺机构问题中报告二维、三维最高 6300 万单元算例，为国内低门槛 Python GPU 拓扑优化提供近期证据；但其路径从已经生成的全局刚度矩阵出发并重组 SpMV，作者明确将其与 EbE、NbN、DbD 等 Matrix-Free 路线区分，不能写成本项目所需的全局 Matrix-Free。
-
-[Liu et al. 2026](https://doi.org/10.1016/j.cma.2025.118408) 面向三维层级混杂结构的静力与动力并发拓扑优化，以 EMsFEM、MPI、多 CPU 负载均衡、预条件复用和 RTX 4090 上的 GPU 灵敏度计算组成 CPU–GPU 异构流程，说明异构加速可覆盖结构响应和灵敏度而非单个 kernel；公开实现基于单台多核服务器，宏观算子仍显式分块并由 PETSc 迭代求解，不能外推为多节点 GPU-aware MPI、全局 Matrix-Free 或 PIML 预测算子。
-
-[[../../literature/topology-opt/notes/Ma2026-highperformanceparallel|Ma et al. 2026]] 是当前已入库的团队 HPC 基础：它覆盖 CPU/MPI、PETSc 多重网格、按需预测／释放和完整优化流程，但不使用 GPU，粗网格缩聚矩阵仍显式形成。因而它支撑本项目的并行流程接续点，而不是团队已经完成 GPU 异构融合的证据。
+“国内”只依据论文原始机构、实施平台或资助信息判断，不依据作者姓名推断。当前可核实证据覆盖 Python 高层 GPU 路线（Hou et al. 2025，CuPy 向量化 SpMV，非 Matrix-Free）、CPU–GPU 异构流程（Liu et al. 2026，EMsFEM + MPI + GPU 灵敏度）和团队 CPU/MPI 完整优化流程（[[../../literature/topology-opt/notes/Ma2026-highperformanceparallel|Ma et al. 2026]]，不用 GPU、粗网格仍显式组装）；均未形成与本项目相同的 PIML–Matrix-Free–GPU 链路。逐篇边界见 §4；未建单篇笔记文献的 `to-ingest` 状态见 [[../../literature/_index#当前 ingest 队列]]。
 
 ### 3.4 研究缺口与选题价值
 
@@ -122,6 +109,8 @@ GPU 加速的对象至少包括局部积分或局部算子、gather/scatter、Kr
 
 ## 四、证据锚点及结论边界
 
+本表是单线证据边界（每项证据能支持/不能支持什么）；跨线证据成熟度、耦合机制与研究假设见 [[../piml-matrix-free-gpu/high-performance-solver-survey]]。
+
 | 证据 | 计算对象与平台 | 能支持的结论 | 不能支持的结论与证据边界 |
 |---|---|---|---|
 | Williams et al. 2009 | Roofline；算术强度、带宽与峰值 | 支持数据移动／算力瓶颈的基础判定 | 不解释完整 solve、通信和预条件；`refs.bib` 已登记 |
@@ -131,12 +120,12 @@ GPU 加速的对象至少包括局部积分或局部算子、gather/scatter、Kr
 | Martínez-Frutos & Herrero-Pérez 2016 | 鲁棒拓扑优化；单机多 GPU | 任务级与数据级并行可覆盖求解、灵敏度和过滤 | 不支持多节点 GPU-aware MPI 或 PIML |
 | Abdelfattah et al. 2021 | CEED 高阶 Matrix-Free；NVIDIA/AMD GPU | 支持高阶离散的数据移动优化和后端可移植性 | 不直接支持低阶动态拓扑或 PIML |
 | Herrero-Pérez & Martínez Castejón 2021 | 密度法拓扑优化、分布式 CG/AMG、混合精度；多 GPU | 多 GPU 容量、预条件和精度策略需共同评价 | 不等同于全局不组装或学习算子融合 |
-| [[../../literature/topology-opt/notes/Traff2023-GPU-topology-optimisation|Träff et al. 2023]] | 三维线性／非线性拓扑优化；OpenMP/Futhark；单 GPU | 摘要支持单 GPU 千万级单元与完整优化流程 | 具体硬件、Matrix-Free、求解器和外推边界待译文精读 |
+| Träff et al. 2023 | 三维线性／非线性拓扑优化；OpenMP/Futhark；单 GPU | 摘要支持单 GPU 千万级单元与完整优化流程 | 具体硬件、Matrix-Free、求解器和外推边界待译文精读 |
 | Hou et al. 2025 | CuPy 向量化 SpMV、二维/三维拓扑优化；单 GPU | 支持国内近期 Python GPU 与千万级单元路线 | 全局矩阵已生成，不属于 Matrix-Free |
 | Liu et al. 2026 | EMsFEM 层级结构、MPI CPU + RTX 4090；完整并发优化 | 支持国内 CPU–GPU 异构响应/灵敏度路线 | 单服务器、显式宏观算子；不支持 PIML/全局 Matrix-Free |
-| [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel\|Ma et al. 2026]] | PIML、CPU/MPI、PETSc MG-GMRES；完整优化 | 支持团队并行流程、按需预测和强弱扩展基础 | 不是 GPU 或全局算子级 Matrix-Free；已入库 |
+| Ma et al. 2026 | PIML、CPU/MPI、PETSc MG-GMRES；完整优化 | 支持团队并行流程、按需预测和强弱扩展基础 | 不是 GPU 或全局算子级 Matrix-Free；已入库 |
 
-除 Williams 2009 与 Ma 2026 外，本表目前只采用出版社页面能够直接支持的事实。未建单篇笔记文献的 `to-ingest` 状态统一维护在 [[../../literature/_index#当前 ingest 队列]]；当前证据矩阵不替代后续全文 ingest。
+除 Williams 2009 与 Ma 2026 外，本表目前只采用出版社页面能够直接支持的事实。带链接条目：[[../../literature/topology-opt/notes/Traff2023-GPU-topology-optimisation|Träff et al. 2023]]、[[../../literature/topology-opt/notes/Ma2026-highperformanceparallel|Ma et al. 2026]]。未建单篇笔记文献的 `to-ingest` 状态统一维护在 [[../../literature/_index#当前 ingest 队列]]；当前证据矩阵不替代后续全文 ingest。
 
 ## 五、阶段门禁与当前执行状态
 
@@ -148,6 +137,7 @@ GPU 加速的对象至少包括局部积分或局部算子、gather/scatter、Kr
 
 ### 5.2 部分完成或待核实
 
+- **soptx `examples/gpu_elasticity/minimal_demo.py` 已运行通过**：二维平面应变 FA 组装 + CG 完整 solve，pytorch 后端 CPU/CUDA 逐位一致（真残差 ≤ 1e-10、逐位 ≤ 1e-9），对照设计符合 [[../../concepts/gpu-hpc/performance-model#4. 异构执行与通信口径|CPU/GPU 口径]]。与阶段 1 门禁差异：二维制造解非三维悬臂梁、上游 FEALPy、未绑定性能记录格式；可支撑正确性链路成立，不构成三维悬臂梁或性能数字门禁证据。工程入口：`/home/brighthe/workspace/soptx/examples/gpu_elasticity/`。
 - soptx 当前数字尚未绑定统一的预热、同步、重复统计、硬件软件版本和可重放入口。已 clone 的独立 `C:\workspace\soptx`（`brighthe/soptx`，`main`）包含 `soptx/tests/test_cantilever_3d_wsl.py`：该入口已参数化 NumPy/PyTorch/JAX backend、`cpu/cuda` device、三维悬臂梁和 CG；另有当前模型 `soptx/model/cantilever_3d_lfem.py`。本次只做静态核查，尚未运行，不能登记为标准 GPU 算例已经跑通。
 - `mfleo` 的结果来自独立工程路径，尚未与三维线弹性共享基准、PIML predictor 或当前科研原型对齐。
 - `xihe/matrix_free_3` 可作为 CPU MPI 数据流参考，但相关验证实验尚未运行，不能写成正确性与扩展性已经闭环。
@@ -169,7 +159,7 @@ GPU 加速的对象至少包括局部积分或局部算子、gather/scatter、Kr
 | 能力维度 | 当前状态 | 下一道关键门槛 |
 |---|---|---|
 | 性能协议 | 已有五级计时规范，历史数字仍分散 | 在首个 CPU/GPU 完整 solve 中落实环境、同步、重复统计和正确性字段 |
-| 证据入口 | 独立 `C:\workspace\soptx` 已有参数化三维悬臂梁 CPU/CUDA + CG 候选入口，但尚未运行并冻结 | 从当前主仓库整理唯一可重放的 CPU/GPU 命令；历史数字无法恢复时降级为历史证据 |
+| 证据入口 | `examples/gpu_elasticity/minimal_demo.py` 二维 CPU/GPU 逐位一致已跑通；三维悬臂梁 CPU/CUDA + CG 候选入口尚未运行并冻结 | 从当前主仓库整理唯一可重放的 CPU/GPU 命令；历史数字无法恢复时降级为历史证据 |
 | 参考问题 | 当前 soptx 主仓库已有 `CantileverBeam3d` 和三维悬臂梁测试，各工程基础仍使用不同离散和规模 | 先冻结组装式三维线弹性算例，再由 Matrix-Free 路线继承同题黄金结果 |
 | CPU 基线 | 有候选组装式组件和独立 CPU/MPI 工程基础 | 先完成与 GPU 同题、同精度、同停止准则的组装式 CPU 参考 solve |
 | 单 GPU | 有历史 MatVec 趋势和独立端到端经验 | 先完成 FEALPy/soptx 组装式 GPU CG，再建立同题 Matrix-Free MatVec、预条件和完整 solve |
@@ -187,7 +177,6 @@ GPU 加速的对象至少包括局部积分或局部算子、gather/scatter、Kr
 
 #### 阶段 1：跑通 FEALPy/soptx 三维线弹性 CPU/GPU 算例
 
-- **当前状态**：未完成；本次只进行了候选组件与入口的静态核查，尚未运行 CPU/GPU 算例。
 - 基于独立 `C:\workspace\soptx` 主仓库、FEALPy backend、soptx 三维悬臂梁 PDE 和线弹性组件整理唯一可重放入口，冻结网格、材料、边界、载荷、DOF 顺序、FP64 精度、CG 停止准则与结果格式。
 - CPU 作为参考路径，GPU 使用 PyTorch/CUDA；两条路径均须完成刚度装配、载荷构造、边界条件处理和 CG 状态方程求解，不能以单个 kernel、局部装配或一次 MatVec 代替完整 solve。
 - 对照 CPU/GPU 位移、柔顺度或应变能、真残差、CG 迭代数和边界自由度；先建立正确性与可重放性，再讨论性能。
@@ -228,7 +217,9 @@ GPU 加速的对象至少包括局部积分或局部算子、gather/scatter、Kr
 
 ## 六、权威事实来源
 
-- [[../../concepts/gpu-hpc/performance-model]] — 五级计时边界、Roofline、强弱扩展和可复现性能记录协议。
+- [[../../concepts/gpu-hpc/distributed-algebra-and-execution-decoupling]] — 分布式计算系统的代数/算法层与硬件/执行层解耦框架。
+- [[../../concepts/gpu-hpc/heterogeneous-execution-modes]] — 异构执行模式分类（硬件拓扑、执行层级、编程模型、数据/精度）与本页执行路线的坐标。
+- [[../../concepts/gpu-hpc/reference-libraries/fealpy-mfem-gpu-backend-comparison]] — FEALPy 4.0 与 MFEM 的 GPU 后端设计对比（阶段 1 与 Matrix-Free 路线的实现层参照）。
 - [[../../concepts/gpu-hpc/method-lineage]] — 团队公开 HPC 成果的纳入标准、Ma2026 CPU/MPI 节点与公开空白。
 - [[../piml-matrix-free-gpu/_index]] — 博士后核心研究项目统一入口与最低融合边界。
 - [[../piml-matrix-free-gpu/project-plan]] — WP1–WP3 的 GPU/HPC 角色、阶段依赖和项目级完成条件。
@@ -240,5 +231,5 @@ GPU 加速的对象至少包括局部积分或局部算子、gather/scatter、Kr
 - `C:\workspace\mfleo` — 独立单 GPU PA/Matrix-Free 工程事实源；不作为本知识库运行依赖。
 - `C:\workspace\xihe`（`origin/develop`）— `xihe/matrix_free_3` 的独立公司工程事实源；不复制公司代码、数据、日志或内部文档。
 - [[piml-research-guide]]、[[matrix-free-research-guide]] — 另外两条长期技术线及其正确性门禁。
-- [[../../work-reports/guo-xu/first-formal-work-report]] — 第一次线下汇报中的 GPU/HPC 摘要。
+- [[../../discussions/guo-xu/first-formal-work-report]] — 第一次线下汇报中的 GPU/HPC 摘要。
 - [[_index]] — 长期技术线总入口。

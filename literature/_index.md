@@ -19,8 +19,8 @@ date_update: 2026-08-04
 
 | 个人研究主线 | 文献与综合入口 | 组织边界 |
 |---|---|---|
-| [[../research/long-term-research-lines#主线一：高精度数值离散与拓扑优化|主线一]] | [[topology-opt/_index|拓扑优化已入库文献]] | 当前覆盖 MMC/MMV、机器学习和 PIML 拓扑优化；Hu–Zhang 与 VEM 外部文献尚未形成稳定笔记集合 |
-| [[../research/long-term-research-lines#主线二：智能高性能计算力学|主线二]] | [[matrix-free/_index|Matrix-Free 方法文献]]；[[../research/technical-lines/matrix-free-research-guide|Matrix-Free 证据综合]]；[[../research/technical-lines/piml-research-guide|PIML 证据综合]]；[[topology-opt/_index|拓扑优化应用文献]] | 主题入口管理实际笔记，guide 回答“证据如何支撑研究”，本页只维护 ingest 队列；单篇论文只保存一份 |
+| [[../research/long-term-research-lines#主线一：高精度数值离散与拓扑优化\|主线一]] | [[topology-opt/_index\|拓扑优化已入库文献]] | 当前覆盖 MMC/MMV、机器学习和 PIML 拓扑优化；Hu–Zhang 与 VEM 外部文献尚未形成稳定笔记集合 |
+| [[../research/long-term-research-lines#主线二：智能高性能计算力学\|主线二]] | [[matrix-free/_index\|Matrix-Free 方法文献]]；[[../research/technical-lines/matrix-free-research-guide\|Matrix-Free 证据综合]]；[[../research/technical-lines/piml-research-guide\|PIML 证据综合]]；[[topology-opt/_index\|拓扑优化应用文献]] | 主题入口管理实际笔记，guide 回答“证据如何支撑研究”，本页只维护 ingest 队列；单篇论文只保存一份 |
 
 ## 已入库文献
 

@@ -5,9 +5,9 @@ aliases:
   - "research/technical-lines/matrix-free-task-line"
   - "matrix-free-task-line"
   - "线弹性 Matrix-Free：内部研究任务线"
-  - "work-reports/guo-xu/first-formal-matrix-free-baseline-task"
+  - "discussions/guo-xu/first-formal-matrix-free-baseline-task"
   - "first-formal-matrix-free-baseline-task"
-  - "work-reports/guo-xu/first-formal-matrix-free-pa-qa-baseline-task"
+  - "discussions/guo-xu/first-formal-matrix-free-pa-qa-baseline-task"
   - "first-formal-matrix-free-pa-qa-baseline-task"
 tags:
   - technical-line
@@ -20,12 +20,12 @@ tags:
   - heterogeneous-computing
 status: "in-progress"
 date_start: 2026-07-21
-date_update: 2026-08-04
+date_update: 2026-08-09
 related:
   - linear-elasticity
   - matrix-free/_index
   - matrix-free/assembly-levels
-  - matrix-free/distributed-operator-and-shared-dofs
+  - distributed-operator-and-shared-dofs
   - ../piml-matrix-free-gpu/_index
   - ../piml-matrix-free-gpu/project-plan
 ---
@@ -101,12 +101,12 @@ Hughes、Levit 与 Winget 1983 年的 EBE 方法以省略全局系数矩阵为�
 |---|---|---|---|
 | Hughes et al. 1983 | EBE，省略全局系数矩阵 | EBE 是 Matrix-Free 历史起点 | 出版社摘要；不补写平台、预条件或性能数字 |
 | 刘耀儒等（Liu et al. 2007） | EA/EbE、MPI、Jacobi-PCG、三维水工结构 | 国内已形成 EBE 与分布式 Krylov 路线 | 不支持 PA/UA、GPU 或拓扑优化 |
-| [[../../literature/matrix-free/notes/Kronbichler2012-parallel-cell-operator|Kronbichler & Kormann 2012]] | 摘要级：cell-wise quadrature、sum factorization、MPI、节点内线程与显式向量化 | 现代并行 cell-based Matrix-Free 框架的摘要级锚点 | 译文与精读待完成；不补写装配层级、算例、处理器规模或性能数字，不外推到 GPU、拓扑优化、PIML 或动态拓扑预条件更新 |
+| [[../../literature/matrix-free/notes/Kronbichler2012-parallel-cell-operator\|Kronbichler & Kormann 2012]] | 摘要级：cell-wise quadrature、sum factorization、MPI、节点内线程与显式向量化 | 现代并行 cell-based Matrix-Free 框架的摘要级锚点 | 译文与精读待完成；不补写装配层级、算例、处理器规模或性能数字，不外推到 GPU、拓扑优化、PIML 或动态拓扑预条件更新 |
 | 卞翔、方宗德（Bian & Fang 2017） | assembly-free、OpenMP、deflated CG、屈曲拓扑优化 | Matrix-Free 可进入完整拓扑优化 | 规则体素和专用算法；缓存细节待终审 |
 | Pazner 2020 | Matrix-Free 主算子 + 低阶组装代理、GMG/Schwarz | 主算子与预条件器可采用不同装配层级 | 摘要级高阶椭圆问题；不证明拓扑更新策略 |
-| [[../../literature/topology-opt/notes/Traff2023-GPU-topology-optimisation|Träff et al. 2023]] | 三维线性／非线性拓扑优化；OpenMP/Futhark；单 GPU | 摘要支持单 GPU 千万级单元与完整优化流程 | Matrix-Free 装配层级、具体硬件、求解器和外推边界待译文精读 |
-| [[../../literature/topology-opt/notes/Zhou2025-efficientaccelerationstrategies|周丙臻、朱子贤与王晓平（Zhou et al. 2025）]] | 有限差分、最粗层组装、fully Matrix-Free、N-cycle MGCG 与渐进策略 | 国内近期 fully Matrix-Free + MGCG 三维拓扑优化路线 | 正式摘要／元数据级；译文与精读待完成，不补写平台、算例、稳定性或性能归因 |
-| [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel|郭旭老师团队（Ma et al. 2026）]] | PIML、CPU/MPI、PETSc MG-GMRES；全局粗矩阵仍组装 | PIML 局部表示和重计算换存储基础 | 不属于全局算子级 Matrix-Free 或 GPU 融合；已入库 |
+| [[../../literature/topology-opt/notes/Traff2023-GPU-topology-optimisation\|Träff et al. 2023]] | 三维线性／非线性拓扑优化；OpenMP/Futhark；单 GPU | 摘要支持单 GPU 千万级单元与完整优化流程 | Matrix-Free 装配层级、具体硬件、求解器和外推边界待译文精读 |
+| [[../../literature/topology-opt/notes/Zhou2025-efficientaccelerationstrategies\|周丙臻、朱子贤与王晓平（Zhou et al. 2025）]] | 有限差分、最粗层组装、fully Matrix-Free、N-cycle MGCG 与渐进策略 | 国内近期 fully Matrix-Free + MGCG 三维拓扑优化路线 | 正式摘要／元数据级；译文与精读待完成，不补写平台、算例、稳定性或性能归因 |
+| [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel\|郭旭老师团队（Ma et al. 2026）]] | PIML、CPU/MPI、PETSc MG-GMRES；全局粗矩阵仍组装 | PIML 局部表示和重计算换存储基础 | 不属于全局算子级 Matrix-Free 或 GPU 融合；已入库 |
 
 未建单篇笔记文献的 `to-ingest` 状态统一维护在 [[../../literature/_index#当前 ingest 队列]]，本表不建立第二套状态账。
 
@@ -116,7 +116,7 @@ Hughes、Levit 与 Winget 1983 年的 EBE 方法以省略全局系数矩阵为�
 
 | 阶段 | 目标与完成门禁 | 当前状态 |
 |---|---|---|
-| 1. FA/EA CPU/MPI 基线 | 统一二维、三维参考问题；MatVec、真残差、边界、解误差、收敛阶及跨 rank 一致性形成 clean-revision evidence | `in-progress`：验证契约已静态核对；二维、三维在 `608cedf25038ed690f6db3be5b3f24f92329c5ec` 有 revision-scoped evidence，待当前目标 revision 重放；1/2-rank 正式证据未固化 |
+| 1. FA/EA CPU/MPI 基线 | 统一二维、三维参考问题；MatVec、真残差、边界、解误差、收敛阶及跨 rank 一致性形成 clean-revision evidence | `in-progress`：验证契约已静态核对；`evidence/` 下二维、三维产物实为 `4cd4e8da17189eb57f9a68cc316bcdf189c084ec` 上 **dirty worktree**（`git_dirty=true`）的开发证据，**尚无 clean-revision 正式 evidence**；`utils/sync_results.py` 已于 2026-08-09 补上 dirty 门禁，待冻结 clean target revision 重放；1/2-rank 正式证据未固化 |
 | 2. PA/QA 正确性 | 明确 `gather → B → D → B^T → scatter-add` 和保存对象；主路径不形成全局、进程局部或完整单元矩阵，并通过统一正确性门禁 | `not-started` |
 | 3. UA/NONE、预条件与并行性能 | 完整 solve、峰值内存、通信、迭代数和 Strong/Weak scaling 均有可重放结果 | `gated`：等待阶段 2 |
 | 4. C++/单 GPU 对齐 | 跨语言及 CPU/GPU 一致性通过，完整报告 setup、update、算子、预条件、通信、内存和 solve | `gated`：等待 CPU 黄金结果稳定 |
@@ -128,11 +128,13 @@ Hughes、Levit 与 Winget 1983 年的 EBE 方法以省略全局系数矩阵为�
 
 ## 六、权威事实来源
 
-- `soptx:examples/matrix_free_elasticity/README.md` — 二维、三维实现、运行入口和正式 evidence。
+- `soptx:examples/matrix_free_elasticity/README.md` — 二维、三维实现、运行入口和文件职责。
+- `soptx:examples/matrix_free_elasticity/results_analysis.md` — 实测数值、证据 provenance 和解释边界的唯一事实源。
+- `soptx:examples/matrix_free_elasticity/math_spec.md` — 算子代数、重叠副本表示与门禁阈值的数学定义。
 - [[../piml-matrix-free-gpu/project-plan]] — WP1–WP3、依赖关系和项目级状态。
 - [[../../concepts/matrix-free/_index]] — Matrix-Free 稳定知识与语义入口。
 - [[../../concepts/matrix-free/assembly-levels]] — 五级装配层次和框架术语映射。
-- [[../../concepts/matrix-free/distributed-operator-and-shared-dofs]] — MPI 共享自由度、同步归约和正确性不变量。
+- [[../../concepts/gpu-hpc/distributed-operator-and-shared-dofs]] — MPI 共享自由度、同步归约和正确性不变量。
 - [[../../literature/_index#当前 ingest 队列]] — 当前待入库证据锚点和储备候选池。
 - [[../piml-matrix-free-gpu/high-performance-solver-survey]] — Matrix-Free、PIML 与 GPU/HPC 的跨线问题综合。
 

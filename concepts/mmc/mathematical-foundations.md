@@ -11,7 +11,7 @@ tags:
   - TDF
   - ersatz
   - MMA
-status: "in-progress"
+status: in-progress
 date_added: 2026-07-31
 date_update: 2026-08-02
 ---
@@ -227,5 +227,4 @@ MMC 是显式拓扑优化与低维设计表示的基础，可作为代理模型�
 ## 相关页面
 
 - [[_index]] — MMC 主题入口。
-- [[../pca-pod]] — 对 MMC 设计快照进行低维表示。
 - [[../../literature/topology-opt/notes/Lei2018-machinelearningdriven#模型选型证据卡]] — MMC 低维表示在问题相关最终设计预测中的论文证据。

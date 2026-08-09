@@ -1,6 +1,6 @@
 # 研究路线与调研总览
 
-> 本目录内每个下级目录只承担一条轴：[[long-term-research-lines]] 是个人科研方向总领；`piml-matrix-free-gpu` 维护主线二在博士后阶段的核心研究项目；[[postdoc-research-output-roadmap]] 维护博士延续成果、核心项目论文和风险组合；其他课题目录维护专题或合作问题；`technical-lines` 沉淀跨项目复用的长期技术能力；`workflows` 维护研究执行流程；`funding` 只维护资助机会和批次申请。人与团队等稳定档案统一归入 `entities/`，已完成的入站考核材料见 [[archive/2026-postdoc-entry-assessment/README]]。
+> 本目录内每个下级目录只承担一条轴：[[long-term-research-lines]] 是个人科研方向总领；`piml-matrix-free-gpu` 维护主线二在博士后阶段的核心研究项目；[[postdoc-research-output-roadmap]] 维护博士延续成果、核心项目论文和风险组合；其他课题目录维护专题或合作问题；`technical-lines` 沉淀跨项目复用的长期技术能力；`workflows` 维护研究执行流程；`funding` 只维护资助机会和批次申请。人与团队等稳定档案统一归入 `entities/`，已完成的入站考核材料见 [[../archive/2026-postdoc-entry-assessment/README]]。
 
 ## 总领
 
@@ -80,11 +80,12 @@
 
 三条技术线可被多个研究方向复用，不从属于固定的方向编号；具体 guide 与当前任务从该入口继续导航。
 
-### 研究执行工作流
+### 范式流程与算法实现
 
-- [[workflows/_index]] — 可跨技术线复用的研究执行、机器学习训练、记录与验收流程。
+- [[../concepts/machine-learning|通用机器学习生命周期]] — 统一由 `concepts/machine-learning` 维护生命周期与 5 阶段骨架。
+- 代码实现与运行 SOP 统一由 `soptx` 仓库维护。
 
 ## 共享资源
 
 - `research/assets/` — research 相关附件目录，当前以 `.gitkeep` 保留
-- 模板：[[assets/templates/research-survey]]
+- 模板：[[../assets/templates/research-survey]]

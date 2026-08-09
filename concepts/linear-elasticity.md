@@ -519,13 +519,7 @@ $$
 
 上述系统还需按选定策略施加 Dirichlet 约束。只要采用相同空间、积分、本构、载荷、边界和自由度编号，显式矩阵与隐式算子就表示同一个离散映射。
 
-## 7. 后续算子表示
-
-本页止于线弹性有限元系统 $\mathbf K\mathbf U=\mathbf F$。如何保存并计算 $\mathbf K\mathbf x$，见 [[matrix-free/assembly-levels]]。
-
-式 (20) 中的 $\mathbf G_e$ 只描述单元自由度与全局自由度之间的 gather/scatter。MPI true DOF 到 rank-local DOF 的映射是另一层对象；相关分区、共享副本、归约和全局内积见 [[matrix-free/distributed-operator-and-shared-dofs]]。
-
-## 8. 来源与边界
+## 7. 来源与证据
 
 本页根据博士论文第三章重新组织，不复制论文正文。原始事实源为：
 
@@ -541,7 +535,7 @@ $$
 - [[_index]] — 概念页总索引。
 - [[matrix-free/_index]] — Matrix-Free 稳定知识与当前研究的主题入口。
 - [[matrix-free/assembly-levels]] — FA/LA/EA/PA/UA 的存储和作用层次。
-- [[matrix-free/distributed-operator-and-shared-dofs]] — MPI 分区、共享自由度、归约和 Krylov 内积。
+- [[gpu-hpc/distributed-operator-and-shared-dofs]] — MPI 分区、共享自由度、归约和 Krylov 内积。
 - [[piml/mathematical-foundations]] — 从局部材料密度到多尺度形函数或缩聚刚度的 Problem-Independent PIML 映射。
 - [[../research/technical-lines/matrix-free-research-guide]] — Matrix-Free 长期目标、阶段模型与统一验收原则。
 - [[../research/technical-lines/matrix-free-research-guide#五、阶段门禁与当前执行状态]] — 当前线弹性 Matrix-Free 任务状态与推进顺序。

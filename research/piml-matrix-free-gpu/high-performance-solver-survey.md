@@ -17,13 +17,13 @@ tags:
   - high-performance-computing
 status: "in-progress"
 date: 2026-06-07
-date_update: 2026-08-04
+date_update: 2026-08-09
 source: "郭旭老师团队在大规模结构拓扑优化中 PIML 与 Matrix-Free 高性能求解的研究报告.pdf"
 ---
 
 # 面向大规模拓扑优化的 PIML Matrix-Free 求解与 GPU 协同加速研究综述
 
-> 本页是 [[_index|博士后核心研究项目]]的跨线综合事实源，维护三线交叉现状、证据成熟度、耦合机制、待验证研究假设、统一研究方案和验证协议。项目目标、WP1–WP3、门禁关系与状态由 [[project-plan]] 维护；单线事实与当前执行状态由三份 technical-line guide 维护；具体算例、命令和运行 evidence 由对应软件仓库维护。本页冻结融合研究的数学接口、方法对照和评价契约，不建立第二套低层任务账。
+> 本页是 [[_index|博士后核心研究项目]]的跨线综合事实源，维护三线交叉现状、证据成熟度、耦合机制、待验证研究假设、统一研究方案和验证协议。项目目标、WP1–WP3、门禁关系与状态由 [[project-plan]] 维护；单线方法与证据由对应 technical-line guide 维护，具体算例、命令和运行 evidence 由对应软件仓库维护。本页冻结融合研究的数学接口、方法对照和评价契约，不建立第二套低层任务账。
 
 ## 一、研究问题与范围
 
@@ -115,13 +115,13 @@ $$
 
 | 接口环节 | 输入 | 输出与不变量 | 事实所有权 |
 |---|---|---|---|
-| 局部状态 | $\boldsymbol\rho^j$、局部类型、几何／离散标识、dtype、device 和版本信息 | 可追溯且可批处理的局部状态；不同 PDE、离散或材料模型不得静默复用 | [[../technical-lines/piml-research-guide|PIML guide]] |
-| 构造／预测与 `update` | 局部状态、缓存状态和更新策略 | 精确或 PIML 局部表示、缓存键、来源标识与更新时间 | [[../technical-lines/piml-research-guide|PIML guide]]／[[../technical-lines/gpu-hpc-research-guide|GPU/HPC guide]] |
-| `apply`／`diagonal` | 局部表示或局部状态、局部向量 | 局部算子作用及预条件所需对角／块信息；保存对象与装配层级明确 | [[../technical-lines/matrix-free-research-guide|Matrix-Free guide]] |
-| `check`／误差指示 | 局部表示、结构条件、训练分布和可选精确样本 | 表示相适配的结构诊断、分布外标志、误差指示和可执行处置 | [[../technical-lines/piml-research-guide|PIML guide]] |
-| `fallback` | 失败标志、局部状态与精度要求 | 精确局部算子或精确局部作用，并记录触发原因与代价 | [[../technical-lines/piml-research-guide|PIML guide]]／[[../technical-lines/matrix-free-research-guide|Matrix-Free guide]] |
-| 恢复与灵敏度 | 全局／接口解、局部表示和设计状态 | 必要的细尺度恢复、能量和灵敏度贡献；与参考路径采用同一定义 | [[../technical-lines/piml-research-guide|PIML guide]]／[[project-plan|项目拓扑优化流程]] |
-| 诊断与 provenance | 方法、硬件、配置和运行状态 | 残差、迭代、时间、内存、回退率、代码 revision 与环境记录 | [[../technical-lines/gpu-hpc-research-guide|GPU/HPC guide]] 与软件 evidence |
+| 局部状态 | $\boldsymbol\rho^j$、局部类型、几何／离散标识、dtype、device 和版本信息 | 可追溯且可批处理的局部状态；不同 PDE、离散或材料模型不得静默复用 | [[../technical-lines/piml-research-guide\|PIML guide]] |
+| 构造／预测与 `update` | 局部状态、缓存状态和更新策略 | 精确或 PIML 局部表示、缓存键、来源标识与更新时间 | [[../technical-lines/piml-research-guide\|PIML guide]]／[[../technical-lines/gpu-hpc-research-guide\|GPU/HPC guide]] |
+| `apply`／`diagonal` | 局部表示或局部状态、局部向量 | 局部算子作用及预条件所需对角／块信息；保存对象与装配层级明确 | [[../technical-lines/matrix-free-research-guide\|Matrix-Free guide]] |
+| `check`／误差指示 | 局部表示、结构条件、训练分布和可选精确样本 | 表示相适配的结构诊断、分布外标志、误差指示和可执行处置 | [[../technical-lines/piml-research-guide\|PIML guide]] |
+| `fallback` | 失败标志、局部状态与精度要求 | 精确局部算子或精确局部作用，并记录触发原因与代价 | [[../technical-lines/piml-research-guide\|PIML guide]]／[[../technical-lines/matrix-free-research-guide\|Matrix-Free guide]] |
+| 恢复与灵敏度 | 全局／接口解、局部表示和设计状态 | 必要的细尺度恢复、能量和灵敏度贡献；与参考路径采用同一定义 | [[../technical-lines/piml-research-guide\|PIML guide]]／[[project-plan\|项目拓扑优化流程]] |
+| 诊断与 provenance | 方法、硬件、配置和运行状态 | 残差、迭代、时间、内存、回退率、代码 revision 与环境记录 | [[../technical-lines/gpu-hpc-research-guide\|GPU/HPC guide]] 与软件 evidence |
 
 ### 4.4 阶段路线、输入输出与门禁
 
@@ -175,6 +175,8 @@ $$
 | GPU 调度、同步或显存成为瓶颈 | 在缓存、按需预测、融合、流式 batch 或分区执行间切换 | 端到端时间、峰值显存和数值结果保持情况 |
 
 ### 4.7 GPU 协同执行与端到端性能协议
+
+异构执行模式的稳定分类（硬件拓扑、执行层级、编程模型、数据/精度策略）见 [[../../concepts/gpu-hpc/heterogeneous-execution-modes]]；本节冻结本项目在其中的取值组合与比较协议。
 
 GPU 路径覆盖“局部特征构造—批量预测—局部作用—gather/scatter—Krylov 向量运算—归约—预条件”，而不是只迁移神经网络推理。统一比较三种数据策略：
 
@@ -238,13 +240,13 @@ Physics-Informed ML、PINN 和 neural operator 已提供物理融合、解场学
 
 | 综合论断 | 主要证据 | 可支持与不可外推边界 |
 |---|---|---|
-| MF 已形成多种实现层级 | Hughes 1983；[[../../literature/matrix-free/notes/Kronbichler2012-parallel-cell-operator|Kronbichler 2012（摘要级）]]；[[../technical-lines/matrix-free-research-guide#四、证据锚点及结论边界]] | Kronbichler 摘要支持 cell-based 算子及混合并行框架；装配层级的统一判定属于跨源归纳，其译文完成前不补写全文细节 |
-| MF 主算子可配组装代理预条件器 | Pazner 2020；[[../../literature/topology-opt/notes/Zhou2025-efficientaccelerationstrategies|Zhou 2025（摘要级）]] | 支持混合装配层级；Zhou 2025 译文与精读待完成，不证明动态拓扑中的更新策略 |
-| GPU 可服务完整拓扑优化，MF/GPU 已有分项证据 | Schmidt 2011；Herrero-Pérez 2021；[[../../literature/topology-opt/notes/Traff2023-GPU-topology-optimisation|Träff 2023（摘要级）]] | Träff 摘要支持单 GPU 完整优化；其 MF、求解器和硬件细节待译文精读，不外推到 PIML 或相同多节点性能 |
-| 国内已有 MF 与异构拓扑优化路线 | Liu 2007；Bian 2017；[[../../literature/topology-opt/notes/Zhou2025-efficientaccelerationstrategies|Zhou 2025（摘要级）]]；Hou 2025；Liu 2026 | 支持分线进展；Zhou 2025 译文与精读待完成，不代表三线统一实现 |
+| MF 已形成多种实现层级 | Hughes 1983；[[../../literature/matrix-free/notes/Kronbichler2012-parallel-cell-operator\|Kronbichler 2012（摘要级）]]；[[../technical-lines/matrix-free-research-guide#四、证据锚点及结论边界]] | Kronbichler 摘要支持 cell-based 算子及混合并行框架；装配层级的统一判定属于跨源归纳，其译文完成前不补写全文细节 |
+| MF 主算子可配组装代理预条件器 | Pazner 2020；[[../../literature/topology-opt/notes/Zhou2025-efficientaccelerationstrategies\|Zhou 2025（摘要级）]] | 支持混合装配层级；Zhou 2025 译文与精读待完成，不证明动态拓扑中的更新策略 |
+| GPU 可服务完整拓扑优化，MF/GPU 已有分项证据 | Schmidt 2011；Herrero-Pérez 2021；[[../../literature/topology-opt/notes/Traff2023-GPU-topology-optimisation\|Träff 2023（摘要级）]] | Träff 摘要支持单 GPU 完整优化；其 MF、求解器和硬件细节待译文精读，不外推到 PIML 或相同多节点性能 |
+| 国内已有 MF 与异构拓扑优化路线 | Liu 2007；Bian 2017；[[../../literature/topology-opt/notes/Zhou2025-efficientaccelerationstrategies\|Zhou 2025（摘要级）]]；Hou 2025；Liu 2026 | 支持分线进展；Zhou 2025 译文与精读待完成，不代表三线统一实现 |
 | 物理与算子结构可进入学习过程 | Raissi 2019；Karniadakis 2021；Lu 2021；Xu 2021 | 支持 loss／表示／参数化；不自动保证本项目结构与收敛 |
 | 局部力学表示可跨具体优化设置复用 | Huang 2022/2023/2024 | 适用于相同 PDE、离散和局部类型边界；不外推到任意问题 |
-| 局部学习可进入 CPU/MPI 完整优化 | [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel|Ma 2026]] | 支持按需预测／释放；粗矩阵仍组装，非全局 MF/GPU 闭环 |
+| 局部学习可进入 CPU/MPI 完整优化 | [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel\|Ma 2026]] | 支持按需预测／释放；粗矩阵仍组装，非全局 MF/GPU 闭环 |
 | 三线融合构成待验证研究问题 | 第二章证据成熟度矩阵与第三章交叉问题 | 属跨源归纳和研究假设，不能写成已有成果或绝对优先权 |
 
 ### 5.7 申请书第 2 节的证据—研究设计映射
@@ -253,9 +255,9 @@ Physics-Informed ML、PINN 和 neural operator 已提供物理融合、解场学
 
 | 第 2 节要素 | 仓库证据与综合依据 | 形成的研究设计及边界 |
 |---|---|---|
-| 研究对象 | [[../../concepts/piml/mathematical-foundations|PIML 数学基础]]界定可复用局部力学表示；[[../../concepts/matrix-free/assembly-levels|Matrix-Free 装配层次]]界定全局算子作用；[[../../concepts/gpu-hpc/performance-model|GPU/HPC 性能模型]]界定完整计算链；统一记号见[[#4.2 统一问题、记号与局部—全局算子关系]] | 限定二维／三维线弹性拓扑优化，连接局部预测、全局作用、预条件 Krylov、GPU 执行与设计更新；不外推至其他 PDE 或物理场 |
+| 研究对象 | [[../../concepts/piml/mathematical-foundations\|PIML 数学基础]]界定可复用局部力学表示；[[../../concepts/matrix-free/assembly-levels\|Matrix-Free 装配层次]]界定全局算子作用；GPU/HPC 性能模型界定完整计算链；统一记号见[[#4.2 统一问题、记号与局部—全局算子关系]] | 限定二维／三维线弹性拓扑优化，连接局部预测、全局作用、预条件 Krylov、GPU 执行与设计更新；不外推至其他 PDE 或物理场 |
 | 科学问题 1 | Huang 2022/2023/2024 与 Ma 2026 支持局部表示及其误差进入全局分析；Matrix-Free 技术线支持算子层级、真残差和预条件边界；误差契约见[[#4.6 误差、残差、可靠性与处置协议]] | 研究局部近似经限制／回填、局部作用和全局累加形成的算子扰动，以及结构性质、谱、预条件质量与 Krylov 收敛的关系；不是把近似误差归因于 Matrix-Free 本身 |
-| 科学问题 2 | [[../../concepts/gpu-hpc/performance-model|性能模型]]及 GPU/HPC 技术线表明 kernel、MatVec、solve 与完整优化不可互相替代；现有 PIML 公开证据仍以 CPU/MPI 为主；执行协议见[[#4.7 GPU 协同执行与端到端性能协议]] | 研究批量预测、局部作用、gather/scatter、向量运算、归约、预条件、搬移和同步的耦合，判断端到端收益条件；不以单次推理或单个 kernel 代表完整加速 |
+| 科学问题 2 | [[../../concepts/gpu-hpc/performance-model\|性能模型]]及 GPU/HPC 技术线表明 kernel、MatVec、solve 与完整优化不可互相替代；现有 PIML 公开证据仍以 CPU/MPI 为主；执行协议见[[#4.7 GPU 协同执行与端到端性能协议]] | 研究批量预测、局部作用、gather/scatter、向量运算、归约、预条件、搬移和同步的耦合，判断端到端收益条件；不以单次推理或单个 kernel 代表完整加速 |
 | 研究内容 1／目标 1 | Matrix-Free 技术线的 FA/EA/PA/UA 分类、代理预条件证据和 PIML 技术线的表示相适配检查；统一接口和对照见[[#4.3 跨技术线的概念接口契约]]与[[#4.5 “局部算子来源 × 全局执行路径”二维对照契约]] | 建立精确组装、精确 Matrix-Free 与 PIML 近似 Matrix-Free 的统一基线，研究误差传播和预条件 Krylov；具体学习输出由候选比较确定 |
 | 研究内容 2／目标 2 | GPU/HPC 技术线与性能模型的五级计时、数据驻留、缓存—重算和时间—显存口径；完整协议见[[#4.7 GPU 协同执行与端到端性能协议]] | 建立覆盖完整 GPU 计算链的执行方法与性能模型，离线训练、在线预测、单次求解和完整优化分别计量 |
 | 研究内容 3／目标 3 | PIML 技术线的分布外识别与精确回退，交叉问题中的拓扑误差传播；实验出口见[[#4.8 实验矩阵与评价出口]] | 建立表示相适配的可靠性机制，以二维机理和三维规模算例逐层消融，界定精度、收敛、时间、内存和规模扩展的适用范围 |
@@ -266,10 +268,10 @@ Physics-Informed ML、PINN 和 neural operator 已提供物理融合、解场学
 
 | 技术步骤 | 仓库依据与证据边界 | 方案实现 | 验证指标 |
 |---|---|---|---|
-| 统一基线与局部表示接口 | [[../technical-lines/piml-research-guide|PIML 技术线]]规定精确真值、候选表示、结构检查和回退语义；Huang 2022/2023/2024 与 Ma 2026 支持已知局部表示路线；项目级接口见[[#4.3 跨技术线的概念接口契约]] | 冻结二维／三维问题契约，建立精确组装、精确 Matrix-Free、PIML 组装式和 PIML Matrix-Free 路径；候选表示不预设主次 | 局部真值、表示特有结构性质、全局响应及训练／部署成本可在同一问题下比较 |
-| Matrix-Free 全局作用 | [[../../concepts/matrix-free/assembly-levels|装配层次]]给出限制—局部作用—回填累加的算子形式；[[../technical-lines/matrix-free-research-guide|Matrix-Free 技术线]]规定精确基线和接口 | 以 $\mathbf y=\sum_j\mathbf G_j^{\mathsf T}\widehat{\mathbf A}_j\mathbf G_j\mathbf x$ 实现全局作用，先接入精确局部算子，再替换为 PIML 近似算子 | 精确 Matrix-Free 与精确组装的算子作用、平衡残差和结构响应一致；PIML 路径报告局部—全局误差 |
+| 统一基线与局部表示接口 | [[../technical-lines/piml-research-guide\|PIML 技术线]]规定精确真值、候选表示、结构检查和回退语义；Huang 2022/2023/2024 与 Ma 2026 支持已知局部表示路线；项目级接口见[[#4.3 跨技术线的概念接口契约]] | 冻结二维／三维问题契约，建立精确组装、精确 Matrix-Free、PIML 组装式和 PIML Matrix-Free 路径；候选表示不预设主次 | 局部真值、表示特有结构性质、全局响应及训练／部署成本可在同一问题下比较 |
+| Matrix-Free 全局作用 | [[../../concepts/matrix-free/assembly-levels\|装配层次]]给出限制—局部作用—回填累加的算子形式；[[../technical-lines/matrix-free-research-guide\|Matrix-Free 技术线]]规定精确基线和接口 | 以 $\mathbf y=\sum_j\mathbf G_j^{\mathsf T}\widehat{\mathbf A}_j\mathbf G_j\mathbf x$ 实现全局作用，先接入精确局部算子，再替换为 PIML 近似算子 | 精确 Matrix-Free 与精确组装的算子作用、平衡残差和结构响应一致；PIML 路径报告局部—全局误差 |
 | 预条件 Krylov 与误差监测 | Matrix-Free/PIML 技术线支持真残差、结构性质、代理预条件器和误差传播研究；代理预条件更新在动态拓扑中仍属待验证设计 | 按算子性质选择 Krylov 方法，区分递推残差与由精确局部算子复核的平衡残差，比较预条件器复用、局部更新和重建 | 对称性、半正定或约束后正定性、谱行为、迭代数、更新时间、平衡残差与响应误差 |
-| GPU 协同执行与性能模型 | [[../../concepts/gpu-hpc/performance-model|GPU/HPC 性能模型]]区分 kernel、MatVec、solve、优化迭代和完整任务；GPU/HPC 技术线给出批处理、缓存—重算和数据驻留边界 | 比较缓存局部表示、按需预测和预测—局部作用融合，覆盖 gather/scatter、向量运算、归约和预条件 | 在统一精度、停止准则、硬件和同步语义下报告阶段时间、完整求解／优化时间、迭代数及峰值显存 |
+| GPU 协同执行与性能模型 | GPU/HPC 性能模型区分 kernel、MatVec、solve、优化迭代和完整任务；GPU/HPC 技术线给出批处理、缓存—重算和数据驻留边界 | 比较缓存局部表示、按需预测和预测—局部作用融合，覆盖 gather/scatter、向量运算、归约和预条件 | 在统一精度、停止准则、硬件和同步语义下报告阶段时间、完整求解／优化时间、迭代数及峰值显存 |
 | 拓扑演化可靠性与验证 | [[#4.5 “局部算子来源 × 全局执行路径”二维对照契约]]与 PIML 技术线支持分布外识别、精确回退和表示相适配检查；端到端收益仍是待验证假设 | 监测材料演化、结构检查、平衡残差和预条件质量，按失败类型采用精确回退、预条件更新、缓存或分批执行 | 二维验证误差传播与收敛机理；三维验证位移、柔顺度、灵敏度、优化结果、完整时间、峰值内存和规模扩展 |
 
 ### 5.9 申请书第 4 节的证据—创新增量—表述边界映射

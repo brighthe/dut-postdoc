@@ -23,7 +23,7 @@ date_update: 2026-08-04
 
 | 文献 | 主要定位 | 交叉主题 | 状态 |
 |---|---|---|---|
-| [[notes/Kronbichler2012-parallel-cell-operator]] | 并行 cell-based 有限元算子应用；[[translations/Kronbichler2012-parallel-cell-operator-zh|中文译文]]待完成 | finite-element, sum-factorization, MPI, shared-memory, vectorization | draft |
+| [[notes/Kronbichler2012-parallel-cell-operator]] | 并行 cell-based 有限元算子应用；[[translations/Kronbichler2012-parallel-cell-operator-zh\|中文译文]]待完成 | finite-element, sum-factorization, MPI, shared-memory, vectorization | draft |
 
 单篇笔记 frontmatter 是 `draft → read → done` 状态的权威来源；本表只同步最近一级状态。中文译文达到 `done` 前，笔记保持 `draft`，不得作为全文级证据。
 

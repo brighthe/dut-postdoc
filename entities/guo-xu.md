@@ -89,7 +89,7 @@ SiPESC（Software Integration Platform for Engineering and Scientific Computatio
 | 方向 | 权威页面 |
 |---|---|
 | MMC/MMV 数值离散 | [[../research/mmc-mmv/mmc-mmv-numerical-discretization-survey]] |
-| PIML 方法基础与谱系 | [[../concepts/piml/mathematical-foundations]]；[[../concepts/piml/method-lineage]]；[[../concepts/piml/ml-roles-and-boundaries]] |
+| PIML 方法基础与谱系 | [[../concepts/piml/mathematical-foundations]]；[[../concepts/piml/method-lineage]]；[[../concepts/ml-roles-and-boundaries]] |
 | Matrix-Free 与高性能求解 | [[../concepts/matrix-free/method-lineage]]；[[../research/piml-matrix-free-gpu/high-performance-solver-survey]] |
 | 个人长期科研主线 | [[../research/long-term-research-lines]] |
 | 博士后阶段成果路线 | [[../research/postdoc-research-output-roadmap]] |
@@ -99,7 +99,7 @@ SiPESC（Software Integration Platform for Engineering and Scientific Computatio
 
 - 是本人博士后工作的合作导师，其研究体系构成课题的学术背景；个人长期研究问题以 [[../research/long-term-research-lines]] 为准，博士后阶段成果安排以 [[../research/postdoc-research-output-roadmap]] 为准，[[../archive/2026-postdoc-entry-assessment/postdoc-research-plan]] 只保留入站时的历史交付口径。
 - 当前交叉关注包括 PIML 与高性能结构分析、MMC/MMV 数值离散，以及复杂材料模型下的变分与离散方法。
-- 面向其的周期性工作汇报单独维护在 `work-reports/guo-xu/`，本页不记录汇报内容、行政流程与沟通过程。
+- 面向其的周期性工作汇报单独维护在 `discussions/guo-xu/`，本页不记录汇报内容、行政流程与沟通过程。
 
 ## 待确认
 

@@ -212,14 +212,14 @@ VEM 目前主要由外部团队推动（Antonietti、Bruggi、Paulino 的 PolyTo
 
 | 路线 | 文献 | 与本综述的关系 | 证据状态 |
 |---|---|---|---|
-| EMsFEM 基础版 | [[literature/topology-opt/notes/Huang2022-problemindependentmachine\|Huang et al. 2022]] | 学习细尺度材料分布到粗尺度多尺度形函数的映射 | 全文笔记 |
-| 子结构增强版 | [[literature/topology-opt/notes/Huang2023-PIML-substructure\|Huang et al. 2023]] | 子结构形函数、缩聚刚度和细尺度恢复 | 全文笔记 |
-| 无数据力学驱动版 | [[literature/topology-opt/notes/Huang2024-PIML-datafree\|Huang et al. 2024]] | DeepONet 连续形函数与 mechanics-based data-free 训练 | 全文笔记 |
-| 等参复杂设计域 | [[literature/topology-opt/notes/Zhang2024-isoparametric-PIML\|Zhang et al. 2024]] | 将单元几何形状与材料分布共同作为输入 | `draft`，摘要级 |
-| PIML–MMC 三维点阵 | [[literature/topology-opt/notes/Xu2025-PIML-lattice-MMC\|Xu et al. 2025]] | 以 MMC 显式构件和分区坐标映射描述三维梯度点阵，并用 PIML 提高分析效率 | `draft`，摘要级 |
-| 高性能并行版 | [[literature/topology-opt/notes/Ma2026-highperformanceparallel\|Ma et al. 2026]] | CPU/MPI、按需预测／释放和组装粗矩阵；不是 GPU 实现 | 全文笔记 |
-| Bézier 边界参数化 | [[literature/topology-opt/notes/Guo2026-highgeneralization-bezier\|Guo et al. 2026]] | 参数化边界位移场到子结构内部位移场 | `draft`，摘要级 |
-| PIML-OFEM | [[literature/topology-opt/notes/Guo2026-PIML-OFEM\|Guo et al. 2026]] | 超采样数值基函数与重叠有限元 | `draft`，arXiv v1 摘要级 |
+| EMsFEM 基础版 | [[../../literature/topology-opt/notes/Huang2022-problemindependentmachine\|Huang et al. 2022]] | 学习细尺度材料分布到粗尺度多尺度形函数的映射 | 全文笔记 |
+| 子结构增强版 | [[../../literature/topology-opt/notes/Huang2023-PIML-substructure\|Huang et al. 2023]] | 子结构形函数、缩聚刚度和细尺度恢复 | 全文笔记 |
+| 无数据力学驱动版 | [[../../literature/topology-opt/notes/Huang2024-PIML-datafree\|Huang et al. 2024]] | DeepONet 连续形函数与 mechanics-based data-free 训练 | 全文笔记 |
+| 等参复杂设计域 | [[../../literature/topology-opt/notes/Zhang2024-isoparametric-PIML\|Zhang et al. 2024]] | 将单元几何形状与材料分布共同作为输入 | `draft`，摘要级 |
+| PIML–MMC 三维点阵 | [[../../literature/topology-opt/notes/Xu2025-PIML-lattice-MMC\|Xu et al. 2025]] | 以 MMC 显式构件和分区坐标映射描述三维梯度点阵，并用 PIML 提高分析效率 | `draft`，摘要级 |
+| 高性能并行版 | [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel\|Ma et al. 2026]] | CPU/MPI、按需预测／释放和组装粗矩阵；不是 GPU 实现 | 全文笔记 |
+| Bézier 边界参数化 | [[../../literature/topology-opt/notes/Guo2026-highgeneralization-bezier\|Guo et al. 2026]] | 参数化边界位移场到子结构内部位移场 | `draft`，摘要级 |
+| PIML-OFEM | [[../../literature/topology-opt/notes/Guo2026-PIML-OFEM\|Guo et al. 2026]] | 超采样数值基函数与重叠有限元 | `draft`，arXiv v1 摘要级 |
 
 **核心**：PIML 通过学习可复用局部力学表示或响应映射降低反复局部构造成本；具体对象已超出单一 EMsFEM 形函数。对 MMC/MMV 方向，Xu 2025 提供了 PIML 与显式构件、分区坐标映射及三维梯度点阵结合的应用证据，但其全文尚未精读，当前不据摘要写入加速比、规模或局部算子细节。
 
@@ -300,7 +300,7 @@ MMC 组件边界切割固定网格产生的正是多边形/带悬挂节点单元
 | 积分数据 | 全域 Ersatz 对照为 3200 点；实体侧输出 1028 点，其中 Solid 560、Cut 468 |
 | 输出接口 | 实体侧积分点及权重 $(x,y,w)$，可作为后续高阶、混合、多边形离散和算子实现的入口 |
 
-这组结果只证明显式几何到实体侧积分数据的前向接口已经跑通。原型尚未完成刚度组装、结构响应求解、灵敏度、MMC/MMV 优化闭环，也没有正式接入 soptx 包或 FEALPy 主流程；“3200 → 1028 点”不能表述为求解加速，因为尚无结构求解计时。答辩时的完整参数、图示与历史口径保存在 [[archive/2026-postdoc-entry-assessment/README]]。
+这组结果只证明显式几何到实体侧积分数据的前向接口已经跑通。原型尚未完成刚度组装、结构响应求解、灵敏度、MMC/MMV 优化闭环，也没有正式接入 soptx 包或 FEALPy 主流程；“3200 → 1028 点”不能表述为求解加速，因为尚无结构求解计时。答辩时的完整参数、图示与历史口径保存在 [[../../archive/2026-postdoc-entry-assessment/README]]。
 
 ---
 
@@ -322,15 +322,15 @@ MMC 组件边界切割固定网格产生的正是多边形/带悬挂节点单元
 | 12 | Huang et al., EML 2023 | PIML 子结构增强（10⁴–10⁵×）|
 | 13 | Huang et al., JMPS 2024 | PIML 无数据力学驱动版 |
 | 14 | Lei et al., JAM 2019 | SVR/KNN 实时优化 |
-| 15 | [[literature/topology-opt/notes/Xu2025-PIML-lattice-MMC\|Xu et al., Composite Structures 2025]] | PIML、MMC 与三维梯度点阵应用；摘要级 `draft` |
+| 15 | [[../../literature/topology-opt/notes/Xu2025-PIML-lattice-MMC\|Xu et al., Composite Structures 2025]] | PIML、MMC 与三维梯度点阵应用；摘要级 `draft` |
 
 ---
 
 ## 关联文档
 
-- [[concepts/mmc/_index]] — MMC 稳定概念、数学基础和跨目录主题入口
-- [[concepts/mmc/mathematical-foundations]] — 组件参数、TDF、Ersatz、灵敏度和优化闭环
-- [[research/long-term-research-lines]] — 个人长期科研主线总领；本课题是具体合作与应用课题，不单列为第三条长期主线
-- [[archive/2026-postdoc-entry-assessment/postdoc-research-plan]] — 博士后入站阶段科研计划历史正文（本调研对应当时的第二个研究题目）
-- [[entities/guo-xu]] — 合作导师郭旭院士的稳定档案与研究方向入口
-- [[literature/topology-opt/notes/Huang2022-problemindependentmachine]] — PIML 奠基论文精读笔记
+- [[../../concepts/mmc/_index]] — MMC 稳定概念、数学基础和跨目录主题入口
+- [[../../concepts/mmc/mathematical-foundations]] — 组件参数、TDF、Ersatz、灵敏度和优化闭环
+- [[../long-term-research-lines]] — 个人长期科研主线总领；本课题是具体合作与应用课题，不单列为第三条长期主线
+- [[../../archive/2026-postdoc-entry-assessment/postdoc-research-plan]] — 博士后入站阶段科研计划历史正文（本调研对应当时的第二个研究题目）
+- [[../../entities/guo-xu]] — 合作导师郭旭院士的稳定档案与研究方向入口
+- [[../../literature/topology-opt/notes/Huang2022-problemindependentmachine]] — PIML 奠基论文精读笔记
