@@ -49,8 +49,8 @@ date_archived: 2026-08-06
 
 ## 与相关概念的关系
 
-- **上位/下位**：[[matrix-free/_index|Matrix-Free]] 与 [[gpu-hpc/_index|GPU/HPC]] 技术线的实现层依赖
-- **对比/区分**：与 [[linear-elasticity]] 的关系——位移型线弹性的 Lagrange 离散无此问题；混合元（Hu–Zhang）因涉及散度/梯度/迹而全链路暴露
+- **上位/下位**：[[../concepts/matrix-free/_index|Matrix-Free]] 与 [[../concepts/gpu-hpc/_index|GPU/HPC]] 技术线的实现层依赖
+- **对比/区分**：与 [[../concepts/linear-elasticity]] 的关系——位移型线弹性的 Lagrange 离散无此问题；混合元（Hu–Zhang）因涉及散度/梯度/迹而全链路暴露
 
 ## 来源与证据
 
@@ -69,8 +69,8 @@ date_archived: 2026-08-06
 
 ## 相关页面
 
-- [[matrix-free/_index|Matrix-Free 主题入口]]
-- [[linear-elasticity]]
-- [[gpu-hpc/_index|GPU/HPC 主题入口]]
-- [[fealpy-architecture]] — FEALPy 多后端抽象与 EMPI 分布式层的机制设计（本页是 API 行为差异，角度正交）
-- [[gpu-hpc/reference-libraries/fealpy-mfem-gpu-backend-comparison|FEALPy 与 MFEM 的 GPU 后端设计对比]] — 与 MFEM 的实现层次对比
+- [[../concepts/matrix-free/_index|Matrix-Free 主题入口]]
+- [[../concepts/linear-elasticity]]
+- [[../concepts/gpu-hpc/_index|GPU/HPC 主题入口]]
+- [[../concepts/gpu-hpc/reference-libraries/fealpy-architecture]] — FEALPy 多后端抽象与 EMPI 分布式层的机制设计（本页是 API 行为差异，角度正交）
+- [[../concepts/gpu-hpc/reference-libraries/fealpy-mfem-gpu-backend-comparison|FEALPy 与 MFEM 的 GPU 后端设计对比]] — 与 MFEM 的实现层次对比

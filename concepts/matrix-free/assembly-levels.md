@@ -467,7 +467,7 @@ $$
 - **MPI 分布方式**回答网格如何分区、谁拥有 true DOF、ghost 如何更新以及局部贡献如何归约；
 - **装配层级**回答每个 rank 为一次算子作用预先保存了全局矩阵、局部矩阵、单元矩阵、积分点数据还是更少的数据。
 
-因此，MPI 可以分别与 FA、LA、EA、PA 或 UA 组合。PETSc `MATSHELL`、Firedrake `mat_type="matfree"` 和 NGSolve `nonassemble=True` 都不能单独说明采用哪种 MPI 分区与共享 DOF 协议。各框架的 owner/ghost 数据流及其与对等重叠副本代数的关系见 [[../distributed-operator-and-shared-dofs#13. 与主流有限元框架的对应|分布式框架对应表]]。
+因此，MPI 可以分别与 FA、LA、EA、PA 或 UA 组合。PETSc `MATSHELL`、Firedrake `mat_type="matfree"` 和 NGSolve `nonassemble=True` 都不能单独说明采用哪种 MPI 分区与共享 DOF 协议。各框架的 owner/ghost 数据流及其与对等重叠副本代数的关系见 [[../gpu-hpc/distributed-operator-and-shared-dofs#13. 与主流有限元框架的对应|分布式框架对应表]]。
 
 ## 快速识别流程
 

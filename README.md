@@ -73,6 +73,7 @@ dut-postdoc/
 │       ├── heterogeneous-execution-modes.md  # GPU 异构并行实现方式的四维分类
 │       ├── distributed-operator-and-shared-dofs.md  # MPI 分区、共享自由度与分布式算子第一原理
 │       ├── distributed-algebra-and-execution-decoupling.md # 代数/算法层与硬件/执行层解耦框架
+│       ├── performance-model.md  # 端到端性能模型与五级计时/扩展性/可复现记录口径
 │       ├── method-lineage.md
 │       └── reference-libraries/  # FEALPy、MFEM 的 GPU/MPI 架构分析与对比
 ├── entities/           # 实体页（人物/团队/机构/软件）

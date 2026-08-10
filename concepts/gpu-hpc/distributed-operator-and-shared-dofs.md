@@ -21,7 +21,7 @@ date_update: 2026-08-07
 
 > **一句话**：基于对等重叠副本表示，分布式有限元算子通过一致表示输入、局部算子作用、跨进程同步归约与重叠加权内积，建立与串行全局算子同构且正交自共轭的分布式代数体系。
 > 
-> **定位**：本页是分布式算子、共享自由度与加权内积的**纯代数理论第一原理（What & Math）**。独立于具体软件 API 与硬件架构，对 FA/LA/EA/PA/UA **全部 5 级装配层次通用**（见 [[matrix-free/assembly-levels]]）。
+> **定位**：本页是分布式算子、共享自由度与加权内积的**纯代数理论第一原理（What & Math）**。独立于具体软件 API 与硬件架构，对 FA/LA/EA/PA/UA **全部 5 级装配层次通用**（见 [[../matrix-free/assembly-levels]]）。
 
 ---
 
@@ -113,5 +113,5 @@ $$
 
 - [[distributed-algebra-and-execution-decoupling]] — 系统代数层、接口层与硬件层解耦框架（第 2 柱）。
 - [[heterogeneous-execution-modes]] — 硬件拓扑与异构执行模式（第 3 柱）。
-- [[matrix-free/assembly-levels]] — FA/LA/EA/PA/UA 5 级 Matrix-Free 装配层次。
-- [[linear-elasticity]] — 位移型线弹性有限元离散基础。
+- [[../matrix-free/assembly-levels]] — FA/LA/EA/PA/UA 5 级 Matrix-Free 装配层次。
+- [[../linear-elasticity]] — 位移型线弹性有限元离散基础。

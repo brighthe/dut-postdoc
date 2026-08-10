@@ -43,7 +43,7 @@ date_update: 2026-08-04
 
 - [[../papers/arbitrary-order-huzhang-topopt-outline]] — 任意次 Hu–Zhang 混合有限元拓扑优化投稿论文框架。
 - [[../papers/arbitrary-order-huzhang-topopt-draft-zh]] — 任意次 Hu–Zhang 混合有限元拓扑优化中文版初稿。
-- [[../concepts/huzhang-mixed-fem]] — 应力—位移混合变分、$H(\mathrm{div})$ 对称应力空间、低阶跳量稳定化与收敛阶结果的稳定概念页。
+- [[../concepts/huzhang/huzhang-mixed-fem]] — 应力—位移混合变分、$H(\mathrm{div})$ 对称应力空间、低阶跳量稳定化与收敛阶结果的稳定概念页。
 
 无稳定化项虚单元拓扑优化的长期调研和论文入口尚待在形成稳定内容后建立；在此之前不为满足目录形式预建空主题。
 

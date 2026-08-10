@@ -14,7 +14,7 @@ keywords:
 source:
   - "repository:xtu-phd-thesis:thesis/brightPhD.pdf#第五章"
   - "repository:xtu-phd-thesis:thesis/body/chapter05/chapter05.tex"
-outline: "[[papers/arbitrary-order-huzhang-topopt-outline]]"
+outline: "[[arbitrary-order-huzhang-topopt-outline]]"
 ---
 
 # 任意次 Hu–Zhang 混合有限元拓扑优化

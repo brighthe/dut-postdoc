@@ -1770,3 +1770,13 @@
 - 补入前次提交（bdd864b）暂缓的 7 个图件：`ch5_fixed_fixed_beam_geo.pdf`、`hzfem_k2/k3/k4-1.png`、`lfem_k2/k3/k4-1.png`，共约 13 MB。经确认为 Hu–Zhang 论文的源图，非废弃文件，与已入库的 4 张正文图同属 `papers/arbitrary-order-huzhang-topopt-draft-zh` 的派生资产。
 - 已检查根门面三件套：本次只增派生图件，不改内容入口、导航、目录结构或研究主线，`index.md` 与 `README.md` 无需更新。
 - 未运行数值程序。
+
+## [2026-08-10] edit | 恢复 performance-model.md 并修复目录重组遗留的 27 条死链
+- 恢复 `concepts/gpu-hpc/performance-model.md`（从 `480bc0c` checkout）。排查结论：该页是被删除而非迁移——`host-to-device`、`预热` 等关键词全库仅剩引用方命中，无任何 `concepts/` 页承接；两个候选后继页 `heterogeneous-execution-modes`（分类体系）与 `distributed-algebra-and-execution-decoupling`（设计框架）体裁均不同，不是测量协议；`log.md` 无删除记录。删除使 GPU/HPC 阶段门禁（`gpu-hpc-research-guide.md:183` 的“以本页为规范”）失去规范依据，故恢复而非重指。
+- 修复 `bdd864b` 目录重组遗留的机械死链 19 条，均系页面移动后未按 `ai/llm-wiki-workflow.md:84` 改写出链/入链：`concepts/huzhang/huzhang-mixed-fem.md` 13 条（`[[linear-elasticity]]`×5、`[[../papers/...]]`×4、vault 根路径自引用×1、跨目录裸路径×2、`[[../literature/...]]`×1）、`concepts/gpu-hpc/distributed-operator-and-shared-dofs.md` 3 条、`concepts/matrix-free/assembly-levels.md` 1 条入链（指向已移入 `gpu-hpc/` 的分布式框架对应表）、`research/long-term-research-lines.md` 1 条、`papers/arbitrary-order-huzhang-topopt-draft-zh.md` frontmatter `outline` 字段 1 条。
+- 追加修复 `archive/fealpy34-to-40-migration.md` 8 条：该页出链全部相对 `concepts/` 写成，是同一类页面移动回归（移入 `archive/` 时未改写出链），已改为 `../concepts/...`；其中 `[[fealpy-architecture]]` 原为跨目录裸文件名，实际路径为 `concepts/gpu-hpc/reference-libraries/fealpy-architecture`。该页是 soptx 求解链的在用排错手册，修复导航链接不改动其历史结论。
+- 同步 `concepts/gpu-hpc/_index.md`：六节模板改写是在 `performance-model.md` 已被删除的状态下做的，恢复后该页未登记。已在「核心概念」表补 `performance-model` 与 `distributed-operator-and-shared-dofs` 两行（后者移入本目录后一直只在「程序实现必读入口」出现）、在「程序实现必读入口」补 `performance-model` 行、在「管理边界」写明计时与可复现记录口径由该页维护。
+- 已检查根门面三件套：`README.md` 目录树补 `concepts/gpu-hpc/performance-model.md`；`index.md` 只登记主题入口与稳定入口，本次恢复的是 `gpu-hpc/_index` 下的叶子页，无需更新。
+- 验证：7 个受影响页面的全部 wikilink 逐条按相对路径解析，死链为 0。全库重扫的剩余报告项均为已知误报或历史条目——`.png` 附件嵌入（Obsidian 按 vault 全局文件名解析）、`log.md` append-only 历史条目、规则/模板文档中反引号内的示例与 `{{}}` 占位符、以及规则允许的「将来要补的页」占位链接。
+- 未修（历史事件材料，非在用页面）：`archive/2026-postdoc-entry-assessment/` 下 3 条指向 `literature/topology-opt/` 的链接缺 `notes/` 段，另有若干指向已删除页面的链接。答辩准备材料属一次性事件语境，不随目录重组同步改写。
+- 未运行数值程序。

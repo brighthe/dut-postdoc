@@ -25,7 +25,7 @@ date_update: 2026-08-07
 > **一句话**：胡张元把应力提升为 $H(\mathrm{div})$ 顺应、对称张量值的主未知量，与分片不连续位移元组成对称不定鞍点系统，直接逼近应力——这让应力场自带物理可解释性；代价是低次空间不满足离散 inf-sup，需矩阵型跳量惩罚稳定化，且 traction/位移边界语义与位移型元相反。
 
 本页整理应力—位移混合元的最小理论闭环：混合变分形式 → $H(\mathrm{div})$ 应力空间与不连续位移空间 → 鞍点系统 → 低次稳定化 → 收敛阶结果。
-它**复用位移型 [[linear-elasticity]] 的几何、记号与 Hooke 本构**，只引入混合变量与相应离散。
+它**复用位移型 [[../linear-elasticity]] 的几何、记号与 Hooke 本构**，只引入混合变量与相应离散。
 
 本页**不覆盖**：角点松弛在 SOPTX 中的实现与 checkerboard 网格拓扑限制、FEALPy 4.0 实现与 API 迁移细节（属实现，见 SOPTX 文档 `docs/fem/huzhang-mixed-fem.md`）、3D 无松弛空间构造的端到端验证，以及 SOPTX 代码的逐符号映射（见 SOPTX `examples/huzhang_elasticity/math_spec.md`）。
 
@@ -33,9 +33,9 @@ date_update: 2026-08-07
 
 ## 1. 模型假设与几何
 
-与 [[linear-elasticity]] §1 相同的记号：设 $\Omega\subset\mathbb R^d$（$d=2$ 或 $3$）为有界弹性体，$\Gamma_D$ 和 $\Gamma_N$ 是边界上互不相交的相对开集且 $\partial\Omega=\overline{\Gamma_D}\cup\overline{\Gamma_N}$。
+与 [[../linear-elasticity]] §1 相同的记号：设 $\Omega\subset\mathbb R^d$（$d=2$ 或 $3$）为有界弹性体，$\Gamma_D$ 和 $\Gamma_N$ 是边界上互不相交的相对开集且 $\partial\Omega=\overline{\Gamma_D}\cup\overline{\Gamma_N}$。
 $\Gamma_D$ 上施加位移边界条件，$\Gamma_N$ 上施加表面力边界条件。
-小变形、静力、各向同性线弹性，Hooke 本构以**柔度张量** $A=\boldsymbol C^{-1}$（满足 $\boldsymbol\varepsilon=A\boldsymbol\sigma$）表达，与 [[linear-elasticity]] §2.2 的 $\boldsymbol C$ 互为逆。
+小变形、静力、各向同性线弹性，Hooke 本构以**柔度张量** $A=\boldsymbol C^{-1}$（满足 $\boldsymbol\varepsilon=A\boldsymbol\sigma$）表达，与 [[../linear-elasticity]] §2.2 的 $\boldsymbol C$ 互为逆。
 混合元不采用 §2.3 的设计密度参数化。
 
 ---
@@ -95,14 +95,14 @@ $(2,2)$ 块为零是鞍点结构的特征，也是 §4 稳定化的切入点。
 | 位移边界 $\Gamma_D:\ \boldsymbol u=\bar{\boldsymbol u}$ | **自然**边界 | 弱加进应力方程右端项 (2) |
 | 牵引边界 $\Gamma_N:\ \boldsymbol\sigma\cdot\boldsymbol n=\boldsymbol t$ | **本质**边界 | 强加在应力自由度上（置行/置值法修改矩阵与右端） |
 
-与 [[linear-elasticity]] §5 的位移型元相反：那里 $\Gamma_D$ 本质、$\Gamma_N$ 自然。
+与 [[../linear-elasticity]] §5 的位移型元相反：那里 $\Gamma_D$ 本质、$\Gamma_N$ 自然。
 
 **非齐次牵引的两种实现**。作为本质边界条件，$\Gamma_N$ 上的非齐次牵引有两种落地方式：
 
 1. **消元法**：对已知的边界应力自由度置行置值，把它们从未知量中消去；
 2. **牵引提升（lifting）**：取设计无关的 $\boldsymbol\sigma_g$ 满足 $\boldsymbol\sigma_g\boldsymbol n=\boldsymbol t$ on $\Gamma_N$，令 $\boldsymbol\sigma=\boldsymbol\sigma_0+\boldsymbol\sigma_g$ 且 $\boldsymbol\sigma_0$ 满足齐次牵引条件，右端相应出现 $-a(\boldsymbol\sigma_g,\boldsymbol\tau)$ 与 $-b(\boldsymbol\sigma_g,\boldsymbol v)$ 两项。
 
-两者对**前向求解**等价。但当柔度张量依赖设计密度时，$-a_\rho(\boldsymbol\sigma_g,\boldsymbol\tau)$ 仍随密度变化，且目标泛函与灵敏度必须对**总应力** $\boldsymbol\sigma_0+\boldsymbol\sigma_g$ 求导；若沿用消元法而不显式区分齐次未知部分与给定提升，容易在灵敏度中遗漏提升的交叉项。因此密度法拓扑优化中应采用 lifting 表述，见 [[../papers/arbitrary-order-huzhang-topopt-draft-zh]] §2.3 与 §4.5。
+两者对**前向求解**等价。但当柔度张量依赖设计密度时，$-a_\rho(\boldsymbol\sigma_g,\boldsymbol\tau)$ 仍随密度变化，且目标泛函与灵敏度必须对**总应力** $\boldsymbol\sigma_0+\boldsymbol\sigma_g$ 求导；若沿用消元法而不显式区分齐次未知部分与给定提升，容易在灵敏度中遗漏提升的交叉项。因此密度法拓扑优化中应采用 lifting 表述，见 [[../../papers/arbitrary-order-huzhang-topopt-draft-zh]] §2.3 与 §4.5。
 
 ---
 
@@ -137,7 +137,7 @@ Hu–Zhang 用 subsimplex（顶点/边/单元面/单元体）上的多指标构�
 代价是对顶点扇形有结构要求：不满足上述两单元条件的角点必须先做局部网格调整才能启用松弛；SOPTX 对不满足者直接报错而非静默跳过。
 该思路可推广至更复杂的二维多单元交汇角点与三维顶点/棱边连续性（Hu–Ma 2021）。
 
-> **来源**：本节第 1 条的两单元限制、第 4 条的自由度归属，均按 SOPTX `src/soptx/fem/spaces/huzhang_fe_space_2d.py`（`_get_corner_data`、`node_to_internal_dof`、`cell_to_dof`）于 2026-08-07 核对。[[../papers/arbitrary-order-huzhang-topopt-draft-zh]] §3.4 与 §4.4 已同步为同一算法。
+> **来源**：本节第 1 条的两单元限制、第 4 条的自由度归属，均按 SOPTX `src/soptx/fem/spaces/huzhang_fe_space_2d.py`（`_get_corner_data`、`node_to_internal_dof`、`cell_to_dof`）于 2026-08-07 核对。[[../../papers/arbitrary-order-huzhang-topopt-draft-zh]] §3.4 与 §4.4 已同步为同一算法。
 
 ---
 
@@ -193,7 +193,7 @@ $$
 \tag{8'}
 $$
 
-$\gamma_0$ 的取值敏感性通过网格与材料参数消融考察，见 [[../papers/arbitrary-order-huzhang-topopt-draft-zh]] §3.3。
+$\gamma_0$ 的取值敏感性通过网格与材料参数消融考察，见 [[../../papers/arbitrary-order-huzhang-topopt-draft-zh]] §3.3。
 
 作为对比，另一种 γ/h_F 型（DG 标准缩放）在本问题中失效：面测度 $f_m=h_F$ 已乘进积分配置，γ/h_F 与之抵消后净效果为 **$O(\gamma)$ 常数**——惩罚不随 $h\to0$ 衰减，粗层阶看似正常、细层位移/应力阶塌陷、散度发散。
 
@@ -218,7 +218,7 @@ $\mathcal F_h$ 为何不含 $\Gamma_N$：牵引边界是本质边界条件，已
 
 ## 5. 收敛性结果（论文第五章对照）
 
-> **证据边界**：本节数值来自博士论文第五章，属历史结论，只用于恢复问题定义与预期阶次，**不作为 CICP 投稿证据**。投稿证据须由新的实验入口重算，口径见 [[../papers/arbitrary-order-huzhang-topopt-outline]] §四。
+> **证据边界**：本节数值来自博士论文第五章，属历史结论，只用于恢复问题定义与预期阶次，**不作为 CICP 投稿证据**。投稿证据须由新的实验入口重算，口径见 [[../../papers/arbitrary-order-huzhang-topopt-outline]] §四。
 
 数值验证设置：单位正方形域、平面应变、$\lambda=1$、$\mu=0.5$、光滑制造解（精确位移 $u_1=u_2=\sin\pi x\sin\pi y$），$\Gamma_D=\{x=0\}\cup\{y=0\}$ 施加齐次位移、$\Gamma_N=\{x=1\}\cup\{y=1\}$ 施加精确牵引。
 制造解完整定义见 SOPTX 制造解文档。
@@ -258,15 +258,15 @@ $\mathcal F_h$ 为何不含 $\Gamma_N$：牵引边界是本质边界条件，已
 
 | 阶段 / 视图 | 路径 / 链接 | 职责与定位 |
 |---|---|---|
-| **理论概念 (Theory)** | [[concepts/huzhang/huzhang-mixed-fem]] (本页) | 变分原理、鞍点结构、跳量稳定化缩放律、角点松弛理论 |
+| **理论概念 (Theory)** | [[huzhang-mixed-fem]] (本页) | 变分原理、鞍点结构、跳量稳定化缩放律、角点松弛理论 |
 | **软件架构 (Architecture)** | `\\wsl.localhost\Ubuntu-24.04\home\brighthe\workspace\soptx\docs\fem\huzhang-mixed-fem-implementation.md` | `soptx.fem` 底层类图、`A/B/J` 组装器、FEALPy 4.0 兼容与测试套件 |
 | **算例规范 (Math Spec)** | `\\wsl.localhost\Ubuntu-24.04\home\brighthe\workspace\soptx\examples\huzhang_elasticity\math_spec.md` | 符号-代码 1 对 1 映射、鞍点结构代数描述、双验收标准 |
 | **实测数据 (Results)** | `\\wsl.localhost\Ubuntu-24.04\home\brighthe\workspace\soptx\examples\huzhang_elasticity\results_analysis.md` | 收敛误差实测数据、观测阶、相对残差与诊断分析报告 |
-| **投稿大纲 (Outline)** | [[papers/arbitrary-order-huzhang-topopt-outline]] | 投稿目标 CICP 规格、7 个 Case 证据矩阵、投稿门禁规划 |
-| **中文初稿 (Draft)** | [[papers/arbitrary-order-huzhang-topopt-draft-zh]] | 论文中文初稿全文（包含第 6.1 节高低阶前向收敛双表） |
+| **投稿大纲 (Outline)** | [[../../papers/arbitrary-order-huzhang-topopt-outline]] | 投稿目标 CICP 规格、7 个 Case 证据矩阵、投稿门禁规划 |
+| **中文初稿 (Draft)** | [[../../papers/arbitrary-order-huzhang-topopt-draft-zh]] | 论文中文初稿全文（包含第 6.1 节高低阶前向收敛双表） |
 
 ## 相关页面
 
 - [[_index]] — 概念页总索引。
-- [[linear-elasticity]] — 位移型线弹性基础（本页的出发问题）。
-- [[../literature/topology-opt/notes/Huang2022-problemindependentmachine]] — modified SIMP 材料插值，与胡张元应力场的物理可解释性相关。
+- [[../linear-elasticity]] — 位移型线弹性基础（本页的出发问题）。
+- [[../../literature/topology-opt/notes/Huang2022-problemindependentmachine]] — modified SIMP 材料插值，与胡张元应力场的物理可解释性相关。

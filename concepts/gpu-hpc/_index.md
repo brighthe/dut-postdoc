@@ -8,7 +8,7 @@ tags:
   - performance-engineering
 status: in-progress
 date_added: 2026-07-26
-date_update: 2026-08-09
+date_update: 2026-08-10
 ---
 
 # GPU/HPC 主题入口
@@ -25,6 +25,8 @@ date_update: 2026-08-09
 |---|---|---|
 | [[heterogeneous-execution-modes]] | GPU 异构并行实现方式的分类体系：硬件拓扑、执行层级、编程模型与数据/精度策略四个正交维度 | draft |
 | [[distributed-algebra-and-execution-decoupling]] | 分布式计算系统的代数/算法层与硬件/执行层解耦框架：三层设计模型、两个层面深度对比与本库核心三柱全景地图 | complete |
+| [[distributed-operator-and-shared-dofs]] | 分布式有限元算子的第一原理：单元分区、共享自由度、同步归约、重叠加权内积与全局解收集的正确性不变量 | complete |
+| [[performance-model]] | 端到端性能模型与测量口径：五级计时边界、强弱扩展、Roofline、异构与通信口径及最小可复现性能记录 | in-progress |
 | [[method-lineage]] | 郭旭老师团队公开 HPC 成果的纳入标准与演进；当前正式节点为 Ma2026 的 CPU/MPI 并行实现 | draft |
 
 ### 参考库架构
@@ -60,6 +62,7 @@ L3 硬件/HPC 执行层 (Hardware & How) Host/Device 内存、GPU-aware MPI 与 
 | [[distributed-algebra-and-execution-decoupling]] | 三层设计模型与强制解耦原则；判断一处改动属于哪一层的依据。 |
 | [[distributed-operator-and-shared-dofs]] | L1 的数学事实源：单元分区、共享自由度、同步归约、加权内积与全局解收集的正确性不变量。 |
 | [[heterogeneous-execution-modes]] | L3 的分类体系：硬件拓扑、执行层级、编程模型与数据/精度策略四个正交维度。 |
+| [[performance-model]] | 跑出任何性能数字前的测量口径：五级计时边界、预热与同步语义、Roofline 判断与最小可复现记录。 |
 | [[reference-libraries/fealpy-architecture]]、[[reference-libraries/mfem-architecture]] | 两个参考库分别如何落实 L2/L3；实施前的对照对象。 |
 | [[../../research/technical-lines/gpu-hpc-research-guide]] | 研究目标、性能边界、证据锚点与阶段门禁。 |
 
@@ -89,7 +92,7 @@ L3 硬件/HPC 执行层 (Hardware & How) Host/Device 内存、GPU-aware MPI 与 
 
 ## 管理边界
 
-- 三层解耦框架与通信正确性由 [[distributed-algebra-and-execution-decoupling]]、[[distributed-operator-and-shared-dofs]] 维护，单篇论文事实由 `literature/` 维护，实测性能数字由 `research/technical-lines/gpu-hpc-research-guide` 及 SOPTX 对应结果文档维护。
+- 三层解耦框架与通信正确性由 [[distributed-algebra-and-execution-decoupling]]、[[distributed-operator-and-shared-dofs]] 维护，计时边界、扩展性与可复现记录口径由 [[performance-model]] 维护，单篇论文事实由 `literature/` 维护，实测性能数字由 `research/technical-lines/gpu-hpc-research-guide` 及 SOPTX 对应结果文档维护。
 - 不在稳定知识页维护当前任务状态、个人原型进度和预计日期；这些由 `research/` 维护。
 - 工作汇报只保存当次实际表达，历史档案只保存事件发生时的材料；二者都不反向覆盖当前实现和性能事实。
 - 不把单个 kernel 或 MatVec 加速直接表述为完整 solve 或完整优化流程加速。
