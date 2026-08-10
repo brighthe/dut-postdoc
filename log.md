@@ -1765,3 +1765,8 @@
 - 关联同步（经用户确认后执行）：全库除 `log.md` 历史条目外无任何链接指向五个主题入口的具体章节，本次改节名未产生死锚点；`discussions/guo-xu/_index.md`、`discussions/liu-chang/_index.md` 中镜像旧节结构的四条入口描述已改写为新节名。文献单篇笔记与概念页中“稳定知识、当前研究与文献证据的统一语义入口”属泛化内容描述而非节标题镜像，语义仍成立，未改动。
 - 顺带发现未修：`research/technical-lines/gpu-hpc-research-guide.md:140` 指向 `concepts/gpu-hpc/performance-model#4. 异构执行与通信口径`，而 `performance-model.md` 已在本次会话之前被删除；需先确认该部分内容迁往何处再重指，超出本次授权范围。
 - 验证：六个改动主题页与根 `index.md` 的全部 wikilink 逐条按相对路径解析，死链为 0。未运行数值程序，未 stage、commit 或 push。
+
+## [2026-08-10] edit | papers/figures/ 全部图件纳入版本控制
+- 补入前次提交（bdd864b）暂缓的 7 个图件：`ch5_fixed_fixed_beam_geo.pdf`、`hzfem_k2/k3/k4-1.png`、`lfem_k2/k3/k4-1.png`，共约 13 MB。经确认为 Hu–Zhang 论文的源图，非废弃文件，与已入库的 4 张正文图同属 `papers/arbitrary-order-huzhang-topopt-draft-zh` 的派生资产。
+- 已检查根门面三件套：本次只增派生图件，不改内容入口、导航、目录结构或研究主线，`index.md` 与 `README.md` 无需更新。
+- 未运行数值程序。
