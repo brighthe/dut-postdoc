@@ -17,7 +17,7 @@ tags:
   - stabilization
 status: in-progress
 date_added: 2026-08-07
-date_update: 2026-08-07
+date_update: 2026-08-14
 ---
 
 # 胡张应力—位移混合元、变分形式与低阶稳定化
@@ -88,21 +88,55 @@ $$
 其中 $A$ 为柔度矩阵块（(2) 中 $(A\boldsymbol\sigma):\boldsymbol\tau$），$B$ 为应力—位移耦合块（$\int_\Omega \mathrm{div}\,\boldsymbol\tau\cdot\boldsymbol u$）。
 $(2,2)$ 块为零是鞍点结构的特征，也是 §4 稳定化的切入点。
 
-### 2.4 边界条件语义（与位移型元相反）
+### 2.4 边界条件与外载荷处理
 
-| 边界 | 数学 | 离散方式 |
-|---|---|---|
-| 位移边界 $\Gamma_D:\ \boldsymbol u=\bar{\boldsymbol u}$ | **自然**边界 | 弱加进应力方程右端项 (2) |
-| 牵引边界 $\Gamma_N:\ \boldsymbol\sigma\cdot\boldsymbol n=\boldsymbol t$ | **本质**边界 | 强加在应力自由度上（置行/置值法修改矩阵与右端） |
+在应力—位移混合有限元中，由于独立主未知量变为对称应力 $\boldsymbol\sigma$，边界条件与外载荷的处理方式与经典位移元呈现**严格的变分对偶性**。
 
-与 [[../linear-elasticity]] §5 的位移型元相反：那里 $\Gamma_D$ 本质、$\Gamma_N$ 自然。
+#### 2.4.1 边界条件的对偶语义与牵引提升（Lifting）
 
-**非齐次牵引的两种实现**。作为本质边界条件，$\Gamma_N$ 上的非齐次牵引有两种落地方式：
+| 物理边界类型 | 物理方程 | 标准位移法 (LFEM) | 胡张混合法 (HZMFEM) | 变分对偶本质 |
+|---|---|---|---|---|
+| **位移边界 $\Gamma_D$** | $\boldsymbol u = \bar{\boldsymbol u}$ | **本质边界（强施加）**<br>直接在位移自由度上置行置值 | **自然边界（弱施加）**<br>弱加进应力方程右端项 (2) | **几何约束对偶**（位移强 $\leftrightarrow$ 混合弱） |
+| **牵引边界 $\Gamma_N$** | $\boldsymbol\sigma\boldsymbol n = \boldsymbol t$ | **自然边界（弱施加）**<br>通过边界虚功积分进入外力向量 | **本质边界（强施加）**<br>强加在应力法向迹自由度上 | **外力载荷对偶**（位移弱 $\leftrightarrow$ 混合强） |
 
-1. **消元法**：对已知的边界应力自由度置行置值，把它们从未知量中消去；
-2. **牵引提升（lifting）**：取设计无关的 $\boldsymbol\sigma_g$ 满足 $\boldsymbol\sigma_g\boldsymbol n=\boldsymbol t$ on $\Gamma_N$，令 $\boldsymbol\sigma=\boldsymbol\sigma_0+\boldsymbol\sigma_g$ 且 $\boldsymbol\sigma_0$ 满足齐次牵引条件，右端相应出现 $-a(\boldsymbol\sigma_g,\boldsymbol\tau)$ 与 $-b(\boldsymbol\sigma_g,\boldsymbol v)$ 两项。
+**非齐次牵引提升（Traction Lifting）**：
+在混合法中，牵引边界 $\Gamma_N$ 上的非齐次载荷 $\boldsymbol t$ 作为本质条件有两种处理方式：
+1. **代数消元法**：直接对已知边界应力自由度置行置值；
+2. **牵引提升（Lifting）**：取设计无关的 $\boldsymbol\sigma_g$ 满足 $\boldsymbol\sigma_g\boldsymbol n = \boldsymbol t$ on $\Gamma_N$，令 $\boldsymbol\sigma = \boldsymbol\sigma_0 + \boldsymbol\sigma_g$（其中 $\boldsymbol\sigma_0$ 满足齐次牵引条件 $\boldsymbol\sigma_0\boldsymbol n = \mathbf{0}$），右端相应出现 $-a_\rho(\boldsymbol\sigma_g,\boldsymbol\tau)$ 与 $-b(\boldsymbol\sigma_g,\boldsymbol v)$ 两项。
 
-两者对**前向求解**等价。但当柔度张量依赖设计密度时，$-a_\rho(\boldsymbol\sigma_g,\boldsymbol\tau)$ 仍随密度变化，且目标泛函与灵敏度必须对**总应力** $\boldsymbol\sigma_0+\boldsymbol\sigma_g$ 求导；若沿用消元法而不显式区分齐次未知部分与给定提升，容易在灵敏度中遗漏提升的交叉项。因此密度法拓扑优化中应采用 lifting 表述，见 [[../../papers/arbitrary-order-huzhang-topopt-draft-zh]] §2.3 与 §4.5。
+两者在前向求解中等价。但在密度拓扑优化中，柔度张量 $a_\rho$ 依赖材料密度 $\rho$；若沿用代数消元法而不显式分离齐次未知量与给定提升，在对能量目标求导时极易遗漏提升交叉项。因此拓扑优化中统一采用 Lifting 表述（见 [[../../papers/arbitrary-order-huzhang-topopt-draft-zh]] §2.2 与 §3.2），目标与导数一律基于总应力 $\boldsymbol\sigma = \boldsymbol\sigma_0 + \boldsymbol\sigma_g$ 展开。
+
+#### 2.4.2 表面牵引载荷离散机制（分布力与集中力）
+
+##### 1. 分布力（连续面力 / 均布牵引）的处理
+对于施加在边界 $\Gamma_N$ 上的连续表面力 $\boldsymbol t(\boldsymbol x)$（如二维轴承装置顶部的常数均布压应力 $\boldsymbol t_0$）：
+* **位移法 (LFEM)**：属于自然边界条件，通过边界高斯弱积分计算外力向量：
+  $$
+  \boldsymbol F_i = \int_{\Gamma_N} \boldsymbol t(\boldsymbol x) \cdot \boldsymbol v_i\,\mathrm ds \quad (q = 2k + 2).
+  $$
+* **胡张混合法 (HZMFEM)**：属于本质边界条件，直接在对称应力法向迹自由度上强插值施加：
+  $$
+  (\boldsymbol\sigma_h \boldsymbol n)\big|_{\Gamma_N} = \boldsymbol t(\boldsymbol x).
+  $$
+* **两法等价性**：对于常数均布面力，常数函数天然属于任意阶多项式迹空间（强插值无截断、高斯积分精确），两法在**数学上 $100\%$ 精确等价**。
+
+##### 2. 集中力（点载荷）的处理
+对于作用在边界点 $\boldsymbol x_0 \in \Gamma_N$ 上的集中载荷 $\boldsymbol P = P\boldsymbol e$（如两端固支梁底边中点载荷）：
+* **位移法 (LFEM) 原生机制**：位移空间 $V \subset H^1$ 具有空间连续性，点力可直接作为点值泛函 $\langle \boldsymbol P\delta_{\boldsymbol x_0}, \boldsymbol v_h \rangle = \boldsymbol P \cdot \boldsymbol v_h(\boldsymbol x_0)$ 累加到对应几何节点的右端外力分量中；
+* **胡张混合法 (HZMFEM) 的非适定性与分布化**：
+  * 位移测试空间仅为分片不连续的 $V = [L_2(\Omega)]^d$，在二维及以上无连续点值定义（$\delta_{\boldsymbol x_0} \notin V^*$）；
+  * 应力法向迹空间 $H^{-1/2}(\partial\Omega)$ 亦无法容纳点测度。因此集中力在混合变分形式中**数学非适定**，无法直接赋给法向迹自由度；
+  * 必须在物理特征尺度 $l$（如 $l = 1\,\mathrm{mm}$）上转化为局部均布面力：$\bar{\boldsymbol t}_l(\boldsymbol x) = \frac{P}{l}\chi_{\Gamma_{N,l}}(\boldsymbol x)\boldsymbol e$。
+* **受控对比中的统一离散与守恒**：
+  * 若位移法使用节点点力而混合法使用局部均布面力，两者吸收的载荷泛函将产生外生差异，破坏受控对比的公允性；
+  * 为此，在连续分片一次迹空间 $W_h^1(\Gamma_N)$ 上对 $\bar{\boldsymbol t}_l$ 作 $L^2$ 投影求得连续牵引函数 $\boldsymbol t_h$，严格保持合力守恒 $\int_{\Gamma_N}\boldsymbol t_h\,\mathrm ds = \boldsymbol P$ 与一阶力矩守恒；
+  * **两法统一施加**：位移法通过 Neumann 弱积分 $\int_{\Gamma_N} \boldsymbol t_h \cdot \boldsymbol v_h\,\mathrm ds$ 施加，胡张混合法通过应力法向迹 $(\boldsymbol\sigma_h \boldsymbol n)|_{\Gamma_N} = \boldsymbol t_h$ 强插值施加，彻底消除载荷形式引入的人为误差。
+
+#### 2.4.3 体积力（Body Force）的处理
+
+对于域内分布的体积力 $\boldsymbol b(\boldsymbol x) \in [L_2(\Omega)]^d$，位移法与胡张混合法均通过与位移检验函数的分片内积 $\int_\Omega \boldsymbol b \cdot \boldsymbol v_h\,\mathrm dx$ 进入系统方程，两法处理方式完全一致。
+
+> **来源与边界**：集中力分布化与轴承均布载荷的设置参考 xtu-phd-thesis:thesis/brightPhD.pdf#第5.6.1节 与 5.6.3 节。本文只维护数学原理与适用边界，不把某次运行的数值结论写为稳定知识。程序分层、配置键与运行验收量由 soptx:docs/fem/huzhang-mixed-fem-implementation.md 维护。
 
 ---
 
@@ -116,6 +150,10 @@ Hu–Zhang 用 subsimplex（顶点/边/单元面/单元体）上的多指标构�
 ### 3.2 位移空间 $V_h$
 
 分片不连续 Lagrange $P_{k-1}$，张量值（维度 $=d$），跨单元无连续性要求。
+
+**刚体位移（RM）完备性**：单元上的刚体位移空间 $\mathrm{RM}(K)=\{\boldsymbol a+\boldsymbol\omega\times\boldsymbol x\}$ 含平动与无穷小转动，转动部分对 $\boldsymbol x$ 是一次的（[[../linear-elasticity]] §2.1：位移梯度的反对称部分即无穷小刚体转动，不产生应变能）。
+因此 $\mathrm{RM}(K)\subset V_h|_K$ 当且仅当 $k-1\ge1$，即 $k\ge2$。
+$k=1$ 的 $P_0$ 位移只含平动，**不完备包含 RM**，丧失表征单元局部微小转动的能力。这对静力求解不致命（§5），但在变密度拓扑优化中有决定性后果，见 §5 末。
 
 ### 3.3 离散 inf-sup 条件
 
@@ -238,6 +276,17 @@ $\mathcal F_h$ 为何不含 $\Gamma_N$：牵引边界是本质边界条件，已
 - $k=1$：位移 $L^2$ 与应力 $H(\mathrm{div})$ 均严格达到 1 阶最优，消除低阶单元的自锁与数值震荡；
 - $k=2$：位移、应力 $L^2$ 保持 2 阶，应力 $H(\mathrm{div})$ 向 1 阶退化。归因：混合边界下稳定化不施加于 $\Gamma_N$（§4.3），局部稳定化减弱叠加非多项式牵引在 $\Gamma_N$ 上的投影误差，主导并降低散度逼近精度——与纯位移边界下 Chen 等（稳定化混合元）的 2 阶最优不同。
 
+**阶次下限：静力可用 $\ne$ 拓扑优化可用**。上表容易被读成"$k=1$ 已经够用"，但论文第五章的算例把 $k=1$ 排除在外，理由不在收敛阶而在 §3.2 的 RM 完备性。三层结论必须分开陈述：
+
+| 层次 | $k=1$ | 依据 |
+|---|---|---|
+| 离散 inf-sup 稳定性 | 裸格式不满足，**跳量稳定化可恢复** | §3.3、§4 |
+| 静力收敛性 | **可用**，位移 $L^2$ 与应力 $H(\mathrm{div})$ 均达 1 阶最优 | 本节上表 |
+| 变密度拓扑优化 | **不可用** | §3.2 RM 不完备 |
+
+机理：$P_0$ 位移无法表征单元局部微小转动，低密度区域的局部应变能评估严重失真，使演化过度依赖人工界面惩罚，进而诱发数值震荡与非物理拓扑。
+因此稳定化格式在拓扑优化中的下限取 $k=2$（$P_1$ 位移已完备含 RM，提供稳健的底层物理驱动），$k=3,4$ 用于考察高阶原生（无惩罚）格式。这是 SOPTX 侧 `comparison_orders = 2,3,4` 白名单的唯一实质依据——它与迹空间可表示性无关：$\Sigma_h$ 的法向迹是跨边连续的 $k$ 次多项式，连续 $P_1$ 迹载荷（§2.5.3）对任意 $k\ge1$ 都可精确表示。
+
 ---
 
 ## 6. 来源与证据
@@ -247,6 +296,7 @@ $\mathcal F_h$ 为何不含 $\Gamma_N$：牵引边界是本质边界条件，已
 - `xtu-phd-thesis:thesis/brightPhD.pdf#第五章` — Hu–Zhang 元构造、混合弱形式与鞍点结构
 - `xtu-phd-thesis:thesis/brightPhD.pdf#表5.2` — 带稳定化的收敛阶对照
 - `xtu-phd-thesis:thesis/brightPhD.pdf#第5.4.2-5.4.3节` — 矩阵型跳量惩罚、物理量纲缩放与 $H(\mathrm{div})$ 降阶归因
+- `xtu-phd-thesis:thesis/brightPhD.pdf#第5.6.2节` — 两端固支梁算例排除 $k=1$ 的理由（$P_0$ 位移不完备包含 RM 空间）
 - Hu & Zhang, arXiv:1406.7457 — 单纯形网格上弹性问题的共形混合有限元族（原始胡张元）
 - Hu & Ma, *CMAM* 21(1) (2021), 89–108, doi:10.1515/cmam-2020-0003 — 弹性问题共形混合元应力顶点 $C^0$ 连续性的部分松弛
 - Chen–Hu–Huang, *Math. Comp.* 87 (2018), Corollary 3.7(3.18) — $k\ge n+1$ 时应力超收敛

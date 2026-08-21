@@ -25,6 +25,7 @@ date_update: 2026-08-10
 |---|---|---|
 | [[heterogeneous-execution-modes]] | GPU 异构并行实现方式的分类体系：硬件拓扑、执行层级、编程模型与数据/精度策略四个正交维度 | draft |
 | [[distributed-algebra-and-execution-decoupling]] | 分布式计算系统的代数/算法层与硬件/执行层解耦框架：三层设计模型、两个层面深度对比与本库核心三柱全景地图 | complete |
+| [[distributed-matrix-free-computing]] | 分布式无矩阵计算全景主档：区域分解、重叠副本代数、无矩阵（EA/PA）装配与两级混合并行 | complete |
 | [[distributed-operator-and-shared-dofs]] | 分布式有限元算子的第一原理：单元分区、共享自由度、同步归约、重叠加权内积与全局解收集的正确性不变量 | complete |
 | [[performance-model]] | 端到端性能模型与测量口径：五级计时边界、强弱扩展、Roofline、异构与通信口径及最小可复现性能记录 | in-progress |
 | [[method-lineage]] | 郭旭老师团队公开 HPC 成果的纳入标准与演进；当前正式节点为 Ma2026 的 CPU/MPI 并行实现 | draft |

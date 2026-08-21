@@ -14,7 +14,7 @@ tags:
   - krylov
 status: complete
 date_added: 2026-07-27
-date_update: 2026-08-07
+date_update: 2026-08-10
 ---
 
 # 分布式有限元算子：网格分区、共享自由度与 MPI 同步
@@ -62,6 +62,8 @@ graph LR
     style AV fill:#fff3cd,stroke:#ffc107,stroke-width:2px
     style GV fill:#cce5ff,stroke:#004085,stroke-width:2px
 ```
+
+**$\oslash\boldsymbol r$ 是表示转换，不是加权平均。** 凡出现除以引用计数之处，都是把一致表示按副本数均分成加和表示，好让后续的跨 rank 求和不重复计数；它不表达任何「对多份副本取平均」的物理含义。把它误读成平均，会在推导归约顺序时得出错误结论。
 
 ### 2.1 归约算子 $\mathcal{S}$ 与投影算子 $\mathcal{C}$
 - **跨进程同步归约算子 $\mathcal{S}$**：$\bigl[\mathcal{S}(\{\boldsymbol{v}^{(q)}\})\bigr]_p \triangleq \mathbf{E}_p^\top \left( \sum_{q=0}^{P-1} \mathbf{E}_q \boldsymbol{v}^{(q)} \right)$。

@@ -1,3 +1,11 @@
+## [2026-08-13] edit | 集中载荷内容按“概念—实现”边界重新归位
+- concepts/huzhang/huzhang-mixed-fem.md 删除 §2.5.4 的程序分层与验收量，仅保留点力正则化、Hu--Zhang 的函数空间限制和共同离散牵引的数学原理。
+- soptx:docs/fem/huzhang-mixed-fem-implementation.md 已有“工程集中载荷的程序架构”章节，继续作为 FixedFixedBeamCenterLoad2d、cases.toml、boundary_loads.py、两条分析链及运行验收量的唯一实现事实源。未运行数值程序；目录索引无需更新。
+
+## [2026-08-13] edit | Hu--Zhang 集中载荷的数学原理与共同离散牵引
+- concepts/huzhang/huzhang-mixed-fem.md 新增 §2.5：从点力到局部均布牵引的合力/力矩保持条件、Hu--Zhang 不能直接使用节点点力的函数空间原因、边界 P1 迹空间 $L^2$ 投影，以及 LFEM/Hu--Zhang 复用同一 $\boldsymbol t_h$ 的程序分层与验收量。
+- 依据 xtu-phd-thesis:thesis/brightPhD.pdf#第5.6.1节 及算例 5.1；concepts/huzhang/_index.md 的稳定知识描述已补充“共同离散牵引”。未运行数值程序；根 index.md 与 README.md 无需更新。
+
 # 时间线 · log
 
 > Append-only。每次 ingest / query / lint / 重要 edit 追加一条。格式：
@@ -1780,3 +1788,202 @@
 - 验证：7 个受影响页面的全部 wikilink 逐条按相对路径解析，死链为 0。全库重扫的剩余报告项均为已知误报或历史条目——`.png` 附件嵌入（Obsidian 按 vault 全局文件名解析）、`log.md` append-only 历史条目、规则/模板文档中反引号内的示例与 `{{}}` 占位符、以及规则允许的「将来要补的页」占位链接。
 - 未修（历史事件材料，非在用页面）：`archive/2026-postdoc-entry-assessment/` 下 3 条指向 `literature/topology-opt/` 的链接缺 `notes/` 段，另有若干指向已删除页面的链接。答辩准备材料属一次性事件语境，不随目录重组同步改写。
 - 未运行数值程序。
+
+## [2026-08-10] edit | 收敛 matrix-free/_index.md 主题机制节到「只做地图」边界
+- 删除 `concepts/matrix-free/_index.md`「Matrix-Free 算子作用与装配层次」节末的越界段落：其中「串行下 $\mathbf P=\mathbf I$，该区分只在并行时有内容」与 `assembly-levels.md:62` 重复，「主算子与预条件器可以采用不同装配层级……性能报告必须分别注明 operator level、preconditioner level」与 `assembly-levels.md:484` 近乎逐字重复。违反 `ai/llm-wiki-workflow.md` 的「入口页不复制其他页面正文」，且同一结论存在两份时将来只会改一份。该段另两句导航（`linear-elasticity`、`mfem-architecture`）已由本页「关联入口」承载，删除不产生断链。
+- 按 `assets/templates/topic-index.md:32` 补齐机制图读法句的权威页指针：在「预计算前缘」一句后追加「四个因子的定义、$\mathbf P$ 与 $\mathbf G$ 的层次区分、五级判据与存储代价对照，全部由 [[assembly-levels]] 维护」，把删掉的 $\mathbf P$/$\mathbf G$ 提示压回为指针而非事实复述。
+- 跨仓库路径写法对齐全库惯例：`关联实现` 由「SOPTX \`examples/matrix_free_elasticity/\`」改为 `soptx:examples/matrix_free_elasticity/`。
+- `date_update` 更新为 2026-08-10。本次只动一页一节，未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；`assembly-levels.md` 等被指向页未修改。
+- 关联页面反链检查已执行：15 个页面链入 `concepts/matrix-free/_index`，全部只把它当语义入口/导航使用，无一依赖本次删除的两句正文。全库检索 `operator level`／`preconditioner level` 仅剩 `assembly-levels.md:484` 一处（另一处为本条 log），确认结论已收敛为单一事实源。
+- 补齐 `concepts/matrix-free/assembly-levels.md`「相关页面」三条裸链接的职责说明（`gpu-hpc-research-guide`、`high-performance-solver-survey`、`first-formal-work-report`），与同节其余条目写法一致；`fealpy-mfem-gpu-backend-comparison` 一条补句号。该页 `date_update` 更新为 2026-08-10，正文技术内容未改。
+- 未运行数值程序。
+
+## [2026-08-10] edit | 承接 soptx math_spec 数学内容：新增本质边界条件与跨层级正确性判据两节
+- 用户确立跨仓库文档分工规则：`soptx` 每个 `examples/<topic>/` 只保留 `README.md` 与 `results_analysis.md`，完整数学描述一律落在 `dut-postdoc`。基准参照 `soptx:examples/substructure_elasticity/`（README 36 行、results_analysis 54 行，两份均无 `$$` 公式块）。本次范围限定 matrix-free，`soptx:docs/` 树按用户指示不动。
+- `concepts/matrix-free/assembly-levels.md` 新增「本质边界条件在各层级下的施加」：FA/LA 对称消元 vs EA/PA/UA 的投影包装 $\tilde{\mathbf A}=\boldsymbol\Pi_I\mathbf A\boldsymbol\Pi_I+\boldsymbol\Pi_D$、右端项对应形式、对称正定性保持与初值取法，并补子节「并行下 FA 的对称消元不成立」（对等重叠副本表示下 $\mathcal S$ 无插入点，多 rank 会静默给出错误结果）。**记号冲突处理**：来源用 $\mathbf P_D/\mathbf P_I$ 表示 Dirichlet/内部投影，与本页既有的 MPI true/local 映射 $\mathbf P$ 撞名，统一改为 $\boldsymbol\Pi_D/\boldsymbol\Pi_I$ 并在正文写明二者无关。
+- 同页新增「跨层级正确性判据」：把不变量 1 落成裸 MatVec 一致、边界后 MatVec 一致、双线性配对对称性、解一致、收敛阶五条标准形式；写明阈值由实现仓库契约持有、两侧不得各存一份字面量。点明两条 Matrix-Free 特有事实——对称性只能用随机向量双线性配对检验（EA 及以下无可逐元素比较的对象），以及 MatVec 一致不替代完整 solve。
+- `concepts/gpu-hpc/distributed-operator-and-shared-dofs.md` 补一段「$\oslash\boldsymbol r$ 是表示转换，不是加权平均」，承接来源 §3.2 唯一未被本页覆盖的反误读说明；其余 §3 内容（一致/加和表示、$\mathcal S$、$\mathcal C$ 幂等性、解收集）该页定理 1–5 与 §5 已完整覆盖，不重复搬运。`date_update` 更新为 2026-08-10。
+- 本次只做 dut-postdoc 侧的净增吸收，`soptx` 尚未改动：`math_spec.md` 的删除、§1 符号—代码映射并入 `results_analysis.md`、§6 能力边界并入 README 待用户确认后执行。在此之前两侧短暂并存，不丢内容。
+- 根门面三件套无需更新：本次是既有概念页内部扩节，未新增页面、未改稳定入口与高层导航。
+- 未运行数值程序。
+
+## [2026-08-13] edit | 执行 soptx 侧迁移：删除 matrix_free_elasticity/math_spec.md，收敛为 README + results_analysis
+- 承接 2026-08-10 那条 log 遗留的 soptx 侧动作。`soptx:examples/matrix_free_elasticity/math_spec.md`（285 行）已删除，该目录现在只剩 `README.md` 与 `results_analysis.md` 两份 markdown，两份均无 `$$` 公式块（机械校验通过），与基准参照 `soptx:examples/substructure_elasticity/` 一致。
+- 内容三分去向：§1 符号—代码映射与 §2 EA/FA 保存对象 → `results_analysis.md` 新增「1. 数学—代码映射契约」（含 1.1 符号—代码映射、1.2 两级算子的保存／省略对象、1.3 门禁与阈值来源）；§6 本阶段不承诺的内容与 §6.1 算术强度口径 → `README.md` 新增「本阶段明确不承诺的内容」节；§3 重叠副本代数、§4 Dirichlet 施加、§5 判据数学式 → 已由 `concepts/gpu-hpc/distributed-operator-and-shared-dofs.md` 定理 1–5 与 `concepts/matrix-free/assembly-levels.md` 8-10 新增两节覆盖，直接删除不再复制。
+- 阈值处理：`results_analysis.md` §1.3 只列门禁名、阶段、判据类别与 `utils/contract.py` 的常量名，**不写任何数值字面量**；原 math_spec 表格中的 $10^{-12}$、$10^{-8}$、$1.5$ 等一并去掉。数学式改为指向 `assembly-levels.md#跨层级正确性判据`。至此阈值只在 `contract.py` 一处、数学式只在知识库一处。
+- 链接改写共 9 处：`README.md` 6 处（文件职责条目直接删除，其余改指 `results_analysis.md` 相应节或知识库锚点）、`results_analysis.md` 2 处（前言、§6 证据边界改指 README 能力边界节）、`utils/distributed.py` docstring 1 处（去掉「math_spec.md 第 3.3 节」的指路，保留 $\mathcal S\circ K_{\mathrm{loc}}\circ\mathcal C$ 的表述）。全仓检索 `math_spec` 在该目录已无残留，其他目录也无指向该文件的链接。
+- `results_analysis.md` 原五节顺次改号为 2–6；`<!-- BEGIN/END GENERATED -->` 标记与区块内容一字未动，`utils/sync_results.py` 不依赖标题模式，改号安全。区块仍是 dirty worktree 的开发证据，本次未重放、未运行任何数值程序。
+- 未提交：`soptx` 工作区另有 10 个与本任务无关的改动文件，按暂存卫生不做整仓 staging，是否提交待用户决定。
+- 仍待办（用户已明确本轮只做 matrix-free）：`soptx:examples/huzhang_elasticity/math_spec.md`、`soptx:examples/pinn_elasticity/math_spec.md` 两处同类违例；`soptx:docs/` 树按用户指示不动。
+
+## [2026-08-13] edit | 第 80 批申请书第 2 部分“研究对象”段收紧为对象—形态—范围口径
+- `research/funding/active/china-postdoc-foundation-general-grant/80th-2026-application-draft.md` 第 2 部分“研究对象”段改写：保留对象（二维、三维线弹性拓扑优化中的反复结构分析）与“局部—全局计算链”定义句，删除“不预设具体学习输出的主次”（设计原则，第 3 部分已有“不预设优先级”）与 2D/3D 算例分工句（验证设计，第 3 部分已承担），段尾改为“对象覆盖二维机理算例与三维规模算例”的范围声明；术语“反复结构分析”与核心项目计划保持一致，未换用“重分析”。
+- 字数：该段 213 → 196；第 2 部分正文去空白总字符 1749 → 1726，仍在 2000 字限内。
+- `date_update` 更新为 2026-08-13；第 2 部分状态标注为第八稿。
+- 未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；关联页面核验待用户确认后执行。
+
+## [2026-08-13] edit | 第 2 部分“研究对象”段补充 PIML/GPU 分层，三层并重
+- 承接同日本条上文：上一版对象段只把“局部—全局”展开为局部表示与全局算子作用，GPU 执行仅停留在链路名称，PIML 也未在正文分层中显式呈现。现改为“局部层面（PIML 局部力学表示）—全局层面（Matrix-Free 算子按需作用）—执行层面（预测、局部作用、归约与预条件在 GPU 上的协同组织）”三层并重，段末保留“对象覆盖二维机理算例与三维规模算例”。
+- 字数：研究对象段 196 → 245；第 2 部分正文去空白总字符 1726 → 1769，仍满足 2000 字限制。
+- 未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；关联页面核验仍待用户确认后执行。
+
+## [2026-08-13] edit | 关联页面核验：同步工作底稿与执行页的正文进度状态
+- 第 2 部分研究对象段修改后核验关联页面：核心项目计划、`high-performance-solver-survey` 的对象行、`gpu-hpc-research-guide` 数据流与 `krylov-subspace-methods` 页链接均与“PIML—Matrix-Free—GPU 三层并重”口径一致，无需改动。
+- 发现并修正既有过时状态：`80th-2026-application-workbook.md` 两处与 `80th-2026.md` 一处仍写“官方六部分骨架/尚未扩写完整初稿/待扩写完整初稿”，与实际（六部分均已形成初稿或多稿，第 5、6 部分已定稿，第 1–4 部分待导师审阅）不符，已更新；两页 `date_update` 更新为 2026-08-13。
+- 未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-13] edit | 第 2 部分“拟解决的关键科学问题”按三线并重与规模口径打磨
+- 问题 1：加“由 PIML 局部表示直接按需形成全局算子作用、不再显式组装全局系统矩阵”的前提；“整体算子扰动”统一为“全局算子扰动”；“对称性、半正定或约束后正定性及谱性质”简化为“对称性、正（半）定性及谱性质”；结尾点明“PIML 与 Matrix-Free 融合求解可靠性”。
+- 问题 2：标题改为“PIML–Matrix-Free–Krylov GPU 异构计算链的性能耦合与端到端收益形成条件”，保留“异构计算链”以覆盖 CPU/GPU/MPI 数据搬移与同步；因子列表收为“计算、访存、数据搬移、同步、表示复用、回退比例与迭代收敛”；结尾落在“在更大规模问题中取得端到端收益的条件”。全节规模口径统一为“大规模”，未使用“超大规模”。
+- 字数：关键科学问题块 427 → 475；第 2 部分正文去空白总字符 1769 → 1814，仍满足 2000 字限制。
+- 未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；`date_update` 保持 2026-08-13；未运行数值程序。
+
+## [2026-08-13] edit | 将“多后端统一实现”确立为横切事实：长期主线、成果路线与 GPU/HPC 技术线
+- `long-term-research-lines.md` 主线二核心内容后补一句，把多后端（NumPy/PyTorch/JAX）定位为三条技术线共用的实现与 CPU/GPU 对照基础，而非第三条主线。
+- `postdoc-research-output-roadmap.md` 三层论文标题下补一句，把多后端定位为论文 A/B/C 共用的软件载体与对照口径，而非论文主题。
+- `technical-lines/gpu-hpc-research-guide.md` §一 补“横切契约”句，明确同一算子/求解代码在 CPU/GPU 间语义、精度、计时口径一致，支撑逐级消融与端到端对照。
+- `technical-lines/_index.md` GPU/HPC 行补“统一多后端实现（NumPy/PyTorch/JAX）对照”。
+- 四页 `date_update` 更新为 2026-08-13；申请书第 2/3/4 部分后续再从这些事实源提取表达。未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-13] edit | 第 2 部分“主要研究内容”按三线并重与多后端口径打磨
+- 增补导入句，明确两个关键科学问题对应前两项内容、第三项为可靠性与端到端验证闭环（不设第三个科学问题）。
+- 内容 1：“根据具体表示…半正定或约束后正定性”统一为“针对具体表示…正（半）定性”，与问题 1 对齐。
+- 内容 2：标题“计算链”改“异构计算链”，开头补“在统一的多后端实现（NumPy/PyTorch/JAX 等）上”，因子“计算量/显存访问”对齐为“计算/访存”。
+- 内容 3：消融对照补“基于统一多后端实现”，改为比较各路径在 CPU/GPU 上的表现。
+- 字数：主要研究内容 771 → 870；第 2 部分正文去空白总字符 1814 → 1913，仍满足 2000 字限制。
+- 未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；`date_update` 保持 2026-08-13；未运行数值程序。
+
+## [2026-08-13] edit | 第 2 部分“研究目标”按标准做法收口
+- 按申请书标准写法，研究目标保持科学出口：目标 1、2 不改，不把多后端交付物写入目标（其位置在研究内容 2/3、第 5 部分预期成果与第 6 部分研究基础）。
+- 目标 3 将“误差识别”统一为“误差指示”，与研究内容 3 及误差协议术语一致。
+- 字数不变：研究目标 294 字，第 2 部分正文去空白总字符保持 1913，仍满足 2000 字限制。
+- `date_update` 保持 2026-08-13；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-13] edit | 第 2 部分“研究目标 3”补规模量化区间
+- 目标 3 将定性的“规模扩展能力”改为“检验其在百万级至亿级自由度三维问题上的规模扩展能力”，明确量纲并落在已验百万级、目标亿级的区间，避免把“上亿规模”写成无凭据的硬承诺。
+- 字数：研究目标 294 → 314；第 2 部分正文去空白总字符 1913 → 1933，仍满足 2000 字限制。
+- `date_update` 保持 2026-08-13；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-13] edit | survey 去重：§4.4 收敛为交接契约、§5 标注为申请书证据底稿
+- `high-performance-solver-survey.md` §4.4 删除与 project-plan 重复的“核心工作”列，保留“阶段／输入／阶段输出／门禁与停止条件”，并把引导句改为“工作包状态、启动／完成边界与详细事实源以 project-plan 为准”。
+- 同页 §5 标题由“面上资助选题依据的证据综合”改为“第 80 批面上资助申请书证据综合”，说明 §5.1–§5.5 服务选题依据、§5.6–§5.10 服务研究内容／方案／创新／计划，避免与技术综合混读。
+- `date_update` 更新为 2026-08-13；未改目录、未改链接，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-13] edit | 第 3 部分“总体思路”收敛为四阶段并与图一致
+- 总体思路的六节点链“精确基线—局部表示—全局作用—迭代求解—异构执行—优化验证”改为与 mermaid 图及图注一致的四阶段“统一基线—PIML–Matrix-Free 重构—GPU 协同求解—拓扑演化可靠闭环”；“分别闭合”改为“分别建立并验证”，保留“不把局部预测／单次算子／单个 kernel 外推为完整收益”的纪律句。
+- 第 3 部分正文去空白总字符 1769 → 1785，仍满足 2000 字限制。
+- `date_update` 保持 2026-08-13；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-13] edit | 第 3 部分“总体思路”补问题锚点
+- 总体思路开头补“针对大规模拓扑优化中反复结构分析的矩阵装配、存储与求解瓶颈”，与选题依据、研究对象同口径，使第 3 部分即使单独阅读也能先明确所解决的问题。
+- 第 3 部分正文去空白总字符 1785 → 1815，仍满足 2000 字限制。
+- `date_update` 保持 2026-08-13；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-13] edit | 图 1 技术路线图：mermaid 节点简化并生成 Word 用 PNG
+- 申请书第 3 部分图 1 的 mermaid：S1/S2/S3/S4 标签分别对齐为“统一基线 / PIML–Matrix-Free 重构 / GPU 协同求解 / 拓扑演化可靠闭环”，B2 节点去掉文本近似公式，改为“Matrix-Free 算子按需作用（局部作用 + 全局累加）”，避免 Word 渲染数学乱码。
+- 生成 `research/funding/active/china-postdoc-foundation-general-grant/assets/fig1_technical_route.png`（3200×1800，PNG，2 倍高清），用于后续插入 DOCX；mermaid 仅作 Markdown 预览，不直接进入 Word。
+- `date_update` 保持 2026-08-13；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-13] edit | 图 1：Markdown 由 mermaid 源码替换为 PNG 嵌入
+- 申请书第 3 部分图 1 的 mermaid 代码块替换为 `![图 1 …](assets/fig1_technical_route.png)`，保留“图 1 标题”与“图 1 说明”；正文与图注不变。
+- `date_update` 保持 2026-08-13；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 图 1：统一四阶段框配色、修复标题遮挡并删去冗余图注
+- 图 1 源码修复：通过反向无环排序与标准 Mermaid 定义，彻底解决 `② PIML-Matrix-Free 重构` 标题上边缘文字遮挡问题；统一四个阶段大框为浅灰蓝+稳重蓝灰边框，消除样式不一致。
+- 重新渲染生成 `research/funding/active/china-postdoc-foundation-general-grant/assets/fig1_technical_route.png`（3倍超清白底）。
+- 申请书正文采纳方案 A：删去与“总体思路”语义高度重叠的“图 1 说明”独立段落，保留居中图题；第 3 部分正文去除空白总字符降至约 1715 字，符合 2000 字限制。
+- `date_update` 更新为 2026-08-14；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 研究方案第 1 点润色并统一四类对照路径术语
+- 术语对齐：将第 2 部分（研究内容 1）与第 3 部分（方案 1）的“精确局部算子 Matrix-Free”统一规范为“精确 Matrix-Free”，与“精确组装、精确 Matrix-Free、PIML 组装式、PIML Matrix-Free”四类对照路径形成严格 $2\times2$ 工整对仗。
+- 方案第 1 点润色：增补“依托统一多后端张量与算子抽象”（去除与总体思路紧邻重复的括号列举）以及“面向粗网格单元与局部子结构”载体说明，强化接口物理约束与全流程成本统计。
+- 第 3 部分正文去除空白总字符约 1745 字，完全满足 2000 字限制。
+- `date_update` 保持 2026-08-14；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+
+## [2026-08-14] edit | 集中 MLP 通用数学定义并收敛 PINN/PIML 说明
+- `concepts/machine-learning.md` 新增“1.2 MLP 的统一数学定义与代码映射”，集中说明前向计算、维度约定、线性输出层、归纳偏置与 `soptx:src/soptx/ml/networks.py` 的实现映射。
+- `concepts/pinn-paradigm.md` 与 `concepts/piml/piml-substructural.md` 改为链接该统一定义，仅保留坐标解场与子结构密度代理各自的物理语义，避免重复推导。
+- `date_update` 更新为 2026-08-14；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 压平机器学习概念页目录并清理 MLP 段落断行
+- `concepts/machine-learning.md` 将 MLP 定义收为“模型族与神经网络架构”下的四级小节；通用生命周期由五个步骤小节压为“训练前契约”和“训练、验证与部署”两个小节；原第 4、5 节合并为“基线、实例与代码索引”。
+- MLP 正文改为自然段，跨仓库实现位置与接口职责分开表述，消除源码中的手工断行造成的窄栏碎片化阅读。
+- 已检索并同步 `concepts/pinn-paradigm.md`、`concepts/piml/piml-substructural.md` 的 MLP 标题锚点；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 补充 MLP 数学到实现的逐句映射
+- `concepts/machine-learning.md` 在 MLP 小节补充“从公式到 networks.py”：以 `PIMLSurrogateNet` 的维度链为例，逐句对应 `dimensions`、`zip`、`Linear`、激活层插入、`Sequential` 与 `forward`，并明确 batch shape、`activation` 工厂、`dtype`/`device` 与空隐藏层的含义。
+- 未改页面标题或链接；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 申请书第 3 部分方案 1 评估基准与全流程成本表述微调
+- 方案 1 末句润色为“候选表示共享统一数据划分与测试基准，系统核算真值生成、离线训练与在线部署的全流程计算成本”，强化评估公允性与科学计算全流程成本意识。
+- 第 3 部分正文去除空白总字符约 1745 字，完全满足 2000 字限制。
+- `date_update` 保持 2026-08-14；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 将 MLP 实现映射迁回 soptx 文档
+- `concepts/machine-learning.md` 删除逐句实现映射，保留通用数学与归纳偏置，并指向 `soptx:docs/ml/mlp.md`；实现事实改由代码仓库维护，避免跨仓库漂移。
+- `soptx:docs/ml/mlp.md` 新增构造契约、维度链、层序列、张量 shape 与 PINN/PIML 消费者说明；`soptx:docs/fem/substructure-condensation-implementation.md` 同步到当前 `piml_surrogate.py`、Cholesky 下三角参数化、全局接口组装能力与可移植跨仓库路径。
+- 未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 申请书第 3 部分方案 2 全局算子与 Krylov 求解深化润色
+- 方案 2 引入 Gather/Scatter-add 规范术语，深化局部误差向对称正定性与条件数 $\kappa(\widehat{\mathbf{A}})$ 的谱扰动传播分析。
+- 明确“双残差监控机制”（递推残差 + 精确物理平衡残差）与 PCG/GMRES/Flexible Krylov 分类适配策略，建立主算子 Matrix-Free 与代理预条件器低频更新的混合架构。
+- 第 3 部分正文去除空白总字符约 1795 字，完全满足 2000 字限制。
+- `date_update` 保持 2026-08-14；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 补充 Tanh 激活函数的数学说明
+- `concepts/machine-learning.md` 的 MLP 小节新增“激活函数与可微性”，给出双曲正切函数及其导数、值域、$C^\infty$ 光滑性、PINN 自动微分适用性与梯度饱和边界。
+- 未改页面标题或链接；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 将激活函数提升为跨架构概念
+- `concepts/machine-learning.md` 将“激活函数与可微性”从 MLP 小节的下级节点提升为与 MLP 并列的小节，补明其同样服务于 CNN、GNN、Transformer 等架构；保留 Tanh 数学与 PINN 可微性边界。
+- 未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 将激活函数移出模型架构分类
+- `concepts/machine-learning.md` 将“激活函数与可微性”提升为 `1.2`，与“1.1 模型族与神经网络架构”并列；MLP 保留为 1.1 下的具体架构，避免将激活函数误归类为模型族或网络架构。
+- 未改页面链接、稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 申请书第 3 部分方案 3 多后端数据流与 GPU 协同深化润色
+- 方案 3 明确多后端数据驻留与流水线执行，系统对比“显存缓存、即时预测、片上共享内存融合 Kernel”三种执行策略与工作区复用。
+- 引入端到端闭环执行与“时间—显存”性能模型，强化反“虚假加速比”的科学归因原则。
+- 第 3 部分正文去除空白总字符约 1820 字，完全满足 2000 字限制。
+- `date_update` 保持 2026-08-14；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 沉淀 SiLU 与 Cholesky 结构保持输出参数化
+- `concepts/machine-learning.md` 补充 SiLU 的定义、导数与光滑性，并新增“结构保持输出参数化”：说明由下三角因子重构对称正定矩阵的通用数学模式。
+- `concepts/piml/piml-substructural.md` 将路线 B 对齐当前 SOPTX 实现：网络预测 Cholesky 下三角独立条目，经 $\mathbf{L}\mathbf{L}^{\mathsf T}-10^{-6}\mathbf I$ 重构后必须通过最小特征值门禁，否则回退精确缩聚；删除“无条件 100% 正定”及无可溯源误差数字。
+- 未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 收敛机器学习概念页的实现细节并显式命名 Cholesky 参数化
+- `concepts/machine-learning.md` 将 MLP 小节改为纯数学定义，删除 SOPTX 的消费者表、具体配置与层序列，只保留一条实现文档指针；同时在结构保持输出小节显式命名 Cholesky 参数化，并澄清其是预测因子而非对既有矩阵做分解。
+- `concepts/pinn-paradigm.md` 与 `concepts/piml/piml-substructural.md` 同步新的 MLP 标题锚点。
+- 未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 申请书第 3 部分方案 3 批处理与执行流水线句式精炼
+- 方案 3 消除“统一”同句复现，将首句润色为“构建端到端设备驻留与执行流水线，按局部区域类型与边界约束状态组织分组批处理与尾批次对齐”，强化 GPU 并行与计算力学专业措辞。
+- 第 3 部分正文去除空白总字符约 1820 字，完全满足 2000 字限制。
+- `date_update` 保持 2026-08-14；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 补充 Adam 的梯度优化数学
+- `concepts/machine-learning.md` 在通用训练流程中新增“梯度优化与 Adam”，给出梯度、一阶与二阶动量、偏差修正和参数更新公式，并对应 `zero_grad → backward → step` 与 `lr=\alpha`。
+- 未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 将训练优化器收敛为独立小节
+- `concepts/machine-learning.md` 将 Adam 从“训练、验证与部署”移至新增的“2.3 训练优化器”，并补充梯度下降/SGD 与动量/自适应学习率作为 Adam 的算法谱系上下文。
+- 未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 申请书第 3 部分方案 4 可靠性闭环与规模验证润色
+- 方案 4 提炼“动态检测 → 局部精确回退 → 预条件自适应更新”闭环机制，呼应图 1 反馈回路；明确三维百万至亿级自由度完整拓扑优化规模验证及力学多指标评价。
+- 第 3 部分正文去除空白总字符约 1825 字，完全满足 2000 字限制。
+- `date_update` 保持 2026-08-14；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 申请书第 4 部分特色与创新之处体系化对齐与润色
+- 第 4 部分按“全局求解重构（谱扰动）—多后端 GPU 协同（片上融合 Kernel）—全链可靠闭环（双残差+自愈回退）”三重创新体系润色，与第 2、3 部分最新成果与术语全面严密对齐。
+- 创新点 1 末句精炼为“使 PIML 由孤立的局部表示预测延伸至严格可控的全局数值求解”，消除概念冲突；创新点 2 通信口径精炼为“最大限度避免主机—设备间不必要的数据搬移与同步阻塞”，保持学术绝对严谨。
+- 同步移除方案 4 与创新点 3 中冗余的 `（OOD）` 英文括号，统一规范为中文“分布外”，行文更精炼自然。
+- 第 4 部分正文去除空白总字符约 920 字，完全满足 1000 字限制。
+- `date_update` 保持 2026-08-14；未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。
+
+## [2026-08-14] edit | 补充监督学习目标与反向传播数学桥梁
+- `concepts/machine-learning.md` 在训练流程与优化器之间新增“2.3 监督学习目标与反向传播”：给出前向映射、回归 MSE、全批量/小批量语义、链式法则与 `forward -> loss -> backward -> step` 的代码映射；原“训练优化器”顺延为 2.4。
+- 未改稳定入口与高层导航，`index.md`、`README.md` 无需更新；未运行数值程序。

@@ -1,30 +1,30 @@
 ---
-title: "PIML 术语与主题入口"
+title: "Problem-Independent Machine Learning (PIML) 主题入口"
 type: index
 tags:
   - PIML
   - topology-opt
-status: in-progress
 date_added: 2026-07-21
-date_update: 2026-08-09
+date_update: 2026-08-13
 ---
 
-# PIML 术语与主题入口
+# Problem-Independent Machine Learning (PIML) 主题入口
 
-> 本页连接 PIML 的稳定知识、文献证据和当前研究。核心项目题目及 Huang–Ma 方法谱系中的 PIML 均指 **Problem-Independent Machine Learning（问题无关机器学习）**；Physics-Informed Machine Learning 是可借鉴的外部方法框架，但不是本项目 PIML 的正式展开。项目活跃页面首次出现时应写出相应全称。
+> 本页为 Problem-Independent Machine Learning (PIML，问题无关机器学习) 的知识地图，连接 PIML 的稳定知识、核心文献证据与研究路线。
 
 ## 稳定知识
 
-| 页面 | 一句话 | 状态 |
-|---|---|---|
-| [[piml-paradigm]] | 问题无关机器学习 (PIML) 通用 5 步范式、数据流全景图与 PINN 侧向对比卡片 | in-progress |
-| [[mathematical-foundations]] | Problem-Independent 路线的问题无关性、局部映射、EMsFEM 与子结构缩聚的数学说明与局部—全局契约 | in-progress |
-| [[method-lineage]] | Problem-Independent 路线从 EMsFEM 形函数到子结构、data-free 与并行优化的演化主线 | in-progress |
-| [[reference-libraries/fealpy-sciml-architecture]] | FEALPy `fealpy.ml` 的自动微分残差算子、配点采样器、网格—网络绑定容器与可视化导出链 | draft |
+> “稳定知识”仅涵盖视角长期稳定、通用跨问题的基石范式与基础设施文档。
+
+| 页面 | 一句话概括 |
+|---|---|
+| [[piml-paradigm]] | 问题无关机器学习 (PIML) 通用 5 步范式、数据流全景图与 PINN 侧向对比卡片 |
+| [[method-lineage]] | Problem-Independent 路线从 EMsFEM 形函数到子结构、data-free 与并行优化的演化主线 |
+| [[reference-libraries/fealpy-sciml-architecture]] | FEALPy `fealpy.ml` 的自动微分残差算子、配点采样器、网格—网络绑定容器与可视化导出链 |
 
 ## PIML 与子结构静力缩聚
 
-> 本节只提供主题地图；不复制 Schur 补推导、程序运行结果或项目阶段状态。
+> 本节提供 PIML 与子结构静力缩聚结合的核心文档地图；不复制 Schur 补推导、程序运行结果或项目阶段状态。
 
 ```text
 rho^j -> K^j -> (N_exact^j, K_s,exact^j)
@@ -32,26 +32,29 @@ rho^j -> K^j -> (N_exact^j, K_s,exact^j)
       -> 全局接口系统 -> 细尺度恢复与下游验证
 ```
 
-### 程序实现必读入口
-
-启动或讨论 SOPTX 中的 PIML 程序实现前，按下表进入相应的数学、工程与代码事实源；本页只提供阅读顺序和职责路由。
-
-| 入口 | 职责 |
+#### 1. 核心理论与数学事实源 (dut-postdoc 知识库)
+| 入口 | 职责与呈现内容 |
 |---|---|
-| [[mathematical-foundations]] | 局部 PIML 映射、精确缩聚标签契约、路线 A/B、结构检查与精确回退边界。 |
-| [[../substructural-condensation]] | 子结构有限元与精确缩聚的数学事实源。 |
-| [[../../research/technical-lines/piml-research-guide]] | 研究目标、学习对象边界、统一比较契约与证据入口。 |
+| [[../substructural-condensation]] | **子结构有限元与静力缩聚**：子结构划分、Schur 补消元、接口求解与位移恢复的纯力学权威数学事实源。 |
+| [[piml-substructural]] | **子结构 PIML 算子与物理正定范式**：局部 PIML 算子映射、路线 A (形函数 N) 与路线 B (Cholesky 刚度 K_s) 对比、物理正定保证与自动回退。 |
+| [[../../research/technical-lines/piml-research-guide]] | **PIML 研究指南**：研究目标、学习对象边界、统一比较契约与证据入口。 |
 
-关联实现：SOPTX `examples/substructure_elasticity/`，维护当前精确子结构静力缩聚基线；具体入口与运行方式见该目录 `README.md`。
+#### 2. 论文证据与文献事实源 (dut-postdoc 知识库)
+| 入口 | 职责与呈现内容 |
+|---|---|
+| [[../../literature/topology-opt/translations/Huang2023-PIML-substructure-zh]] | **Huang 2023 论文中文精译**：子结构缩聚 PIML 原始论文完整中文翻译，含数学公式 1~18、MBB 梁算例（Section 4.1）与拓扑优化流程。 |
+| [[../../literature/topology-opt/notes/Huang2023-PIML-substructure]] | **Huang 2023 论文阅读笔记**：论文核心创新点、算法骨架与消融实验结构化笔记。 |
 
-线弹性密度—刚度前提见 [[../linear-elasticity]]；ML/PINN 的角色边界见 [[../ml-roles-and-boundaries]] 和 [[../pinn-paradigm]]；子结构 PIML 的论文证据见 [[../../literature/topology-opt/notes/Huang2023-PIML-substructure]]。宏观载荷和边界条件只在全局接口系统阶段进入，不是局部学习输入。
+> 配套开源工程代码实现与实测报告见 SOPTX 仓库 `examples/piml_substructure_elasticity/`。
+
+线弹性密度—刚度前提见 [[../linear-elasticity]]；ML/PINN 的角色边界见 [[../ml-roles-and-boundaries]] 和 [[../pinn-paradigm]]。宏观载荷和边界条件只在全局接口系统阶段进入，不是局部学习输入。
 
 ## 项目与技术线入口
 
-| 页面 | 一句话 | 状态 |
-|---|---|---|
-| [[../../research/technical-lines/piml-research-guide]] | 以 Problem-Independent 局部力学表示学习为项目主线，服务 WP2 的证据综合与模型选型 | in-progress |
-| [[../../research/piml-matrix-free-gpu/_index]] | 以结构保持 PIML 局部算子为核心内容之一的博士后核心研究项目入口 | in-progress |
+| 页面 | 一句话概括 |
+|---|---|
+| [[../../research/technical-lines/piml-research-guide]] | 以 Problem-Independent 局部力学表示学习为项目主线，服务 WP2 的证据综合与模型选型 |
+| [[../../research/piml-matrix-free-gpu/_index]] | 以结构保持 PIML 局部算子为核心内容之一的博士后核心研究项目入口 |
 
 ## 文献证据
 
@@ -74,7 +77,7 @@ rho^j -> K^j -> (N_exact^j, K_s,exact^j)
 
 ## 管理边界
 
-- 数学事实分别由 [[mathematical-foundations]]（PIML 局部—全局契约）与 [[../substructural-condensation]]（Schur 补缩聚推导）维护，单篇论文事实由 `literature/` 维护，阶段性讨论由 `discussions/` 维护。
+- 数学事实分别由 [[piml-substructural]]（PIML 子结构算子）与 [[../substructural-condensation]]（Schur 补缩聚推导）维护，单篇论文事实由 `literature/` 维护，阶段性讨论由 `discussions/` 维护。
 - 不在概念页维护当前任务状态、实施阶段或预计交付日期；这些由 [[../../research/technical-lines/piml-research-guide]] 维护。
 - PINN 是 Physics-Informed ML 的一类方法，与本项目的 Problem-Independent 路线不是同一正式名称或分类维度，不得混用「PIML」指代二者。
 - 新成果只有在论文、预印本、专利或公开软件等来源可核实时，才进入正式时间线。

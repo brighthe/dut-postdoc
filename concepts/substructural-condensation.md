@@ -1,213 +1,188 @@
----
-title: "子结构有限元与静力缩聚 (Substructure FEM & Static Condensation)"
-type: concept
-aliases:
-  - substructural-condensation
-  - substructure-fem
-  - 子结构有限元
-  - 静力缩聚
-  - Schur补
-  - Schur补静力缩聚
-tags:
-  - finite-element
-  - computational-mechanics
-  - static-condensation
-  - schur-complement
-status: in-progress
-date_added: 2026-08-06
-date_update: 2026-08-09
----
+# 子结构有限元与静力缩聚理论体系
 
-# 子结构有限元与静力缩聚 (Substructure FEM & Static Condensation)
-
-> **一句话**：子结构有限元是将复杂物理结构划分为多个局部子域的整体建模框架，而静力缩聚（Schur 补）是消除子域内部节点自由度的代数消元工具；二者融合实现了将全尺度有限元求解降维至接口系统的 100% 精确数学等价分析。
-
-经典有限元线弹性基础见 [[linear-elasticity]]。子结构缩聚如何作为 Problem-Independent PIML 的局部力学载体，由 [[piml/mathematical-foundations|PIML 数学基础]]维护；相关机器学习路线的角色边界见 [[ml-roles-and-boundaries]]。
+本文件作为 SOPTX 子结构分析与 PIML 代理模型的**数学与理论事实源（Source of Truth）**，系统阐述弹性力学弱形式离散、Schur 补静力缩聚推导、刚体模态空间分解、无体力假设理论边界及 8 步通用算法逻辑。
 
 ---
 
-## 1. 概念辨析：整体框架 vs. 代数工具
+## 1. 弹性力学弱形式与子结构划分
 
-在计算力学中，“子结构有限元”与“静力缩聚”既不是完全等同的同一概念，也不是孤立的两个概念，而是**整体建模框架 vs. 核心代数工具**的关系：
+考虑线弹性结构连续区域 $\Omega \subset \mathbb{R}^d$（$d=2, 3$），边界 $\partial \Omega = \Gamma_D \cup \Gamma_N$ 满足 $\Gamma_D \cap \Gamma_N = \emptyset$。
 
-```text
-子结构有限元 (Substructure FEM)   ───> 整体物理/工程建模框架 (Domain Partitioning Framework)
-      │
-      └──> 在静力学条件下采用的核心代数工具 ───> 静力缩聚 (Static Condensation / Schur Complement)
-```
+将计算域剖分为 $M$ 个互不重叠的非重叠子结构（Subdomains）：
+$$\Omega = \bigcup_{j=1}^M \Omega^j, \quad \Omega^j \cap \Omega^k = \emptyset \quad (\forall j \ne k)$$
 
-- **子结构有限元 (Substructure FEM)**：指将一个大尺寸或复杂结构在几何上划分为 $M$ 个无重叠的局部子区域（子结构 $\Omega^j$），建立接口拓扑关系、全局组装与解场恢复的**整体建模与计算框架**。
-- **静力缩聚 (Static Condensation)**：指基于高斯块消去法（Schur Complement Elimination）在子域内部求解消去内部自由度 $\boldsymbol{u}_i = \mathbf{N}\boldsymbol{u}_b$，导出接口刚度矩阵 $\mathbf{K}_s = \mathbf{K}_{bb} - \mathbf{K}_{bi}\mathbf{K}_{ii}^{-1}\mathbf{K}_{ib}$ 的**线性代数数学工具**。
+定义子结构之间的公共接口（Interface / Skeleton）集合：
+$$\Gamma_{\mathcal{B}} = \bigcup_{j < k} (\partial \Omega^j \cap \partial \Omega^k) \cup (\partial \Omega \cap \Gamma_N)$$
+
+在第 $j$ 个子结构 $\Omega^j$ 上，线弹性力学虚功方程（弱形式）表述为：寻找位移场 $\mathbf{u}^j \in \mathcal{V}^j$，使得对任意测试函数 $\mathbf{v}^j \in \mathcal{V}_0^j$ 均满足：
+$$a^j(\mathbf{u}^j, \mathbf{v}^j) = l^j(\mathbf{v}^j) + \int_{\partial \Omega^j \cap \Gamma_{\mathcal{B}}} \mathbf{t}^j \cdot \mathbf{v}^j \, \mathrm{d}s$$
+
+其中双线性形式 $a^j(\cdot, \cdot)$ 与线性外载形式 $l^j(\cdot)$ 分别定义为：
+$$a^j(\mathbf{u}^j, \mathbf{v}^j) = \int_{\Omega^j} \boldsymbol{\varepsilon}(\mathbf{v}^j) : \mathbb{C}(\rho^j) : \boldsymbol{\varepsilon}(\mathbf{u}^j) \, \mathrm{d}\Omega$$
+$$l^j(\mathbf{v}^j) = \int_{\Omega^j} \mathbf{b} \cdot \mathbf{v}^j \, \mathrm{d}\Omega + \int_{\partial \Omega^j \cap \Gamma_N} \mathbf{g}_N \cdot \mathbf{v}^j \, \mathrm{d}s$$
+
+$\mathbf{t}^j = \boldsymbol{\sigma}^j \cdot \mathbf{n}^j$ 为接口上的相互作用面力（Tractions）。
 
 ---
 
-## 2. 第一阶段：子结构有限元 (Substructure FEM) 建模框架
+## 2. Schur 补静力缩聚的严谨数学推导
 
-### 2.1 几何子域划分与节点拓扑分类
-在子结构有限元框架中，全结构计算域 $\Omega$ 被拆解为 $M$ 个相互连接但不重叠的子结构 $\Omega^j$：
+引入有限元多项式基函数离散后，第 $j$ 个子结构的自由度被自然划分为两组互斥集合：
+* **内部自由度（Interior DOFs，下标 $i$）**：几何位置完全位于 $\Omega^j$ 内部，不与其他任何子结构共享；
+* **接口边界自由度（Boundary DOFs，下标 $b$）**：位于子结构外表面 $\partial \Omega^j$，与其他子结构或外边界相连。
 
-$$
-\Omega = \bigcup_{j=1}^M \Omega^j, \quad \Omega^j \cap \Omega^k = \emptyset \quad (j \neq k)
-$$
-
-对每个子结构 $\Omega^j$，内部节点与接口节点建立严密的拓扑分类：
-- **内部自由度 (Internal DOFs, 下标 $i$)**：完全位于 $\Omega^j$ 内部、仅与该子结构自身单元连接的节点自由度；
-- **接口/边界自由度 (Interface DOFs, 下标 $b$)**：位于相邻子结构公共交界面上、共享给两个或多个子结构的节点自由度。
-
-**当前实现约定（节点自由度划分与编号）**：对规则矩形/六面体子结构与 $Q4$/六面体细网格，采用节点级分类——节点坐标到子结构任一边界面距离在坐标容差 $\varepsilon$ 内者归为接口（边界）节点，其余为内部节点；节点 $n$ 的第 $k$ 个位移分量自由度为 $d n+k$（$k=0,\dots,d-1$）。内部/接口自由度数组按该规则展开并排序，$n_i$、$n_b$ 随之唯一确定，并与 $\mathbf N^j\in\mathbb R^{n_i\times n_b}$、$\mathbf K_s^j\in\mathbb R^{n_b\times n_b}$ 的维度一致。换用非规则子结构、非节点自由度或非规则编号时，必须重新显式定义划分与编号，否则局部标签、PIML 预测与全局映射三者无法保持同一契约。
-
-### 2.2 子结构分块有限元方程
-对于给定的子结构 $\Omega^j$，在小变形线弹性假设下，其未缩聚前的局部有限元刚度方程写为如下 $2 \times 2$ 分块形式：
-
+离散后的局部子结构有限元代数方程呈 $2 \times 2$ 分块形式：
 $$
 \begin{bmatrix}
 \mathbf{K}_{ii}^j & \mathbf{K}_{ib}^j \\
 \mathbf{K}_{bi}^j & \mathbf{K}_{bb}^j
 \end{bmatrix}
 \begin{bmatrix}
-\boldsymbol{u}_i^j \\
-\boldsymbol{u}_b^j
+\mathbf{u}_i^j \\ \mathbf{u}_b^j
 \end{bmatrix}
 =
 \begin{bmatrix}
-\mathbf{f}_i^j \\
-\mathbf{f}_b^j
+\mathbf{f}_i^j \\ \mathbf{f}_b^j + \boldsymbol{\lambda}^j
 \end{bmatrix}
 $$
+其中 $\boldsymbol{\lambda}^j$ 为接口上的离散 Lagrange 相互作用反力。
 
-其中 $\mathbf{K}_{ii}^j \in \mathbb{R}^{n_i \times n_i}$ 为内部自由度刚度矩阵，$\mathbf{K}_{bb}^j \in \mathbb{R}^{n_b \times n_b}$ 为接口自由度刚度矩阵，$\mathbf{K}_{ib}^j = (\mathbf{K}_{bi}^j)^{\mathsf T}$ 为内部与接口的耦合刚度矩阵。
+### 2.1 内部自由度消元与多尺度形函数矩阵
+由第一行方程，内部自由度满足局部平衡关系：
+$$\mathbf{K}_{ii}^j \mathbf{u}_i^j + \mathbf{K}_{ib}^j \mathbf{u}_b^j = \mathbf{f}_i^j$$
 
----
+由于内部自由度约束了所有边界位移（Dirichlet 条件），内部刚度矩阵 $\mathbf{K}_{ii}^j$ 是严格**对称正定（SPD）且可逆**的。两端左乘 $(\mathbf{K}_{ii}^j)^{-1}$ 得内部位移显式解：
+$$\mathbf{u}_i^j = (\mathbf{K}_{ii}^j)^{-1} \mathbf{f}_i^j - (\mathbf{K}_{ii}^j)^{-1} \mathbf{K}_{ib}^j \mathbf{u}_b^j$$
 
-## 3. 第二阶段：静力缩聚 (Static Condensation) 代数工具
+定义**多尺度形函数矩阵（Multiscale Shape Functions）** $\mathbf{N}^j \in \mathbb{R}^{n_i \times n_b}$：
+$$\mathbf{N}^j \triangleq - (\mathbf{K}_{ii}^j)^{-1} \mathbf{K}_{ib}^j$$
 
-### 3.1 高斯块消去与 Schur 补导出
-在无内部外载荷的静力学条件下（即 $\mathbf{f}_i^j = \boldsymbol{0}$），展开分块方程第一行：
+在无内部外载（$\mathbf{f}_i^j = \mathbf{0}$）下，内部位移与接口位移严格满足线性齐次映射：
+$$\mathbf{u}_i^j = \mathbf{N}^j \mathbf{u}_b^j$$
 
-$$
-\mathbf{K}_{ii}^j \boldsymbol{u}_i^j + \mathbf{K}_{ib}^j \boldsymbol{u}_b^j = \boldsymbol{0}
-$$
+### 2.2 Schur 补缩聚刚度矩阵
+将 $\mathbf{u}_i^j$ 代入第二行分块平衡方程：
+$$\mathbf{K}_{bi}^j \left( \mathbf{N}^j \mathbf{u}_b^j + (\mathbf{K}_{ii}^j)^{-1} \mathbf{f}_i^j \right) + \mathbf{K}_{bb}^j \mathbf{u}_b^j = \mathbf{f}_b^j + \boldsymbol{\lambda}^j$$
 
-因为约束刚体位移后 $\mathbf{K}_{ii}^j$ 严格对称正定，对内部自由度做精确求逆消元：
+整理合并同类项，得到仅关于接口位移 $\mathbf{u}_b^j$ 的缩聚平衡方程：
+$$\mathbf{K}_s^j \mathbf{u}_b^j = \tilde{\mathbf{f}}_b^j + \boldsymbol{\lambda}^j$$
 
-$$
-\boldsymbol{u}_i^j = - (\mathbf{K}_{ii}^j)^{-1} \mathbf{K}_{ib}^j \boldsymbol{u}_b^j = \mathbf{N}^j \boldsymbol{u}_b^j
-$$
+其中 **Schur 补缩聚刚度矩阵（Condensed Stiffness Matrix）** $\mathbf{K}_s^j \in \mathbb{R}^{n_b \times n_b}$ 与 **等效缩聚载荷向量** $\tilde{\mathbf{f}}_b^j \in \mathbb{R}^{n_b}$ 定义为：
+$$\mathbf{K}_s^j \triangleq \mathbf{K}_{bb}^j - \mathbf{K}_{bi}^j (\mathbf{K}_{ii}^j)^{-1} \mathbf{K}_{ib}^j = \mathbf{K}_{bb}^j + \mathbf{K}_{bi}^j \mathbf{N}^j$$
+$$\tilde{\mathbf{f}}_b^j \triangleq \mathbf{f}_b^j - \mathbf{K}_{bi}^j (\mathbf{K}_{ii}^j)^{-1} \mathbf{f}_i^j = \mathbf{f}_b^j + (\mathbf{N}^j)^{\mathsf{T}} \mathbf{f}_i^j$$
 
-其中 $\mathbf{N}^j = - (\mathbf{K}_{ii}^j)^{-1} \mathbf{K}_{ib}^j \in \mathbb{R}^{n_i \times n_b}$ 即为**子结构多尺度形函数矩阵 (Substructure Shape Function Matrix)**。
+### 2.3 能量二次型与变分等价性
+定义扩展形函数算子 $\tilde{\mathbf{N}}^j = \begin{bmatrix} \mathbf{N}^j \\ \mathbf{I}_{n_b} \end{bmatrix}$，使得全场位移表达为 $\mathbf{u}^j = \tilde{\mathbf{N}}^j \mathbf{u}_b^j$。子结构的总应变能满足严格能量守恒：
+$$\mathcal{E}^j = \frac{1}{2} (\mathbf{u}^j)^{\mathsf{T}} \mathbf{K}^j \mathbf{u}^j = \frac{1}{2} (\mathbf{u}_b^j)^{\mathsf{T}} \left( (\tilde{\mathbf{N}}^j)^{\mathsf{T}} \mathbf{K}^j \tilde{\mathbf{N}}^j \right) \mathbf{u}_b^j = \frac{1}{2} (\mathbf{u}_b^j)^{\mathsf{T}} \mathbf{K}_s^j \mathbf{u}_b^j$$
 
-将 $\boldsymbol{u}_i^j = \mathbf{N}^j \boldsymbol{u}_b^j$ 代入第二行方程：
-
-$$
-\mathbf{K}_s^j \boldsymbol{u}_b^j = \mathbf{f}_b^j
-$$
-
-导出的 $\mathbf{K}_s^j \in \mathbb{R}^{n_b \times n_b}$ 即为**Schur 补缩聚刚度矩阵 (Schur Complement Matrix)**：
-
-$$
-\mathbf{K}_s^j = \mathbf{K}_{bb}^j - \mathbf{K}_{bi}^j (\mathbf{K}_{ii}^j)^{-1} \mathbf{K}_{ib}^j = (\mathbf{N}^j)^{\mathsf T} \mathbf{K}^j \mathbf{N}^j
-$$
-
-### 3.2 刚体模态与能量一致物理硬保持
-- **能量一致性**：$\mathbf{K}_s^j = (\mathbf{N}^j)^{\mathsf T} \mathbf{K}^j \mathbf{N}^j$ 揭示了变分二次型应变能的严格守恒；
-- **对称正定性 (SPD)**：只要局部刚度正定，导出的 Schur 补 $\mathbf{K}_s^j$ 严格对称半正定（约束位移后正定）；
-- **刚体位移零作用**：当接口施加刚体平移/旋转 $\boldsymbol{u}_{b,\text{rigid}}$ 时，内部随之发生严格刚体位移，且 $\mathbf{K}_s^j \boldsymbol{u}_{b,\text{rigid}} = \boldsymbol{0}$。
+这证明了：**Schur 补刚度矩阵 $\mathbf{K}_s^j$ 恰为全局位移在由列向量 $\mathbf{N}^j$ 张成的 Ritz 能量极小化子空间上的变分投影**。
 
 ---
 
-## 4. 第三阶段：两者的融合：静力学子结构缩聚分析全流程
+## 3. 刚体模态 $\mathbf{R}_{\text{rigid}}$ 与变形正交补 $\mathbf{R}_\perp$ 空间分解
 
-在静力学线弹性分析中，子结构物理建模框架与静力缩聚代数工具完美融合为如下端到端计算流程：
+### 3.1 自由漂浮子结构的秩亏（Rank Deficiency）本质
+未施加宏观外边界位移约束的单个子结构 $\Omega^j$ 处于自由漂浮状态。由于弹性力学本构满足平移与转动伽利略不变性，子结构总刚度矩阵具有零空间（Null Space）：
+$$\operatorname{null}(\mathbf{K}^j) = \operatorname{span}\{\mathbf{R}_{\text{rigid}}^j\}$$
+刚体模态数 $n_{\text{rigid}} = \frac{d(d+1)}{2}$（2D 为 3 维：2 平动 + 1 转动；3D 为 6 维：3 平动 + 3 转动）。
+
+**重要定理**：Schur 补缩聚算子精确保持刚体零空间不变，即：
+$$\mathbf{K}_s^j \mathbf{R}_{b,\text{rigid}} = \mathbf{0}_{n_b \times n_{\text{rigid}}}$$
+且位移恢复算子精确重构刚体模态：
+$$\mathbf{N}^j \mathbf{R}_{b,\text{rigid}} = \mathbf{R}_{i,\text{rigid}}$$
+
+### 3.2 空间正交补分解与物理对称正定性
+利用标准正交 QR 分解，将接口自由度空间 $\mathbb{R}^{n_b}$ 正交分解为刚体运动子空间 $\mathcal{V}_{\text{rigid}}$ 与纯弹性变形子空间 $\mathcal{V}_{\text{deform}}$：
+$$\mathbb{R}^{n_b} = \operatorname{range}(\mathbf{R}_{\text{rigid}}) \oplus \operatorname{range}(\mathbf{R}_\perp), \quad \mathbf{R}_{\text{rigid}}^{\mathsf{T}} \mathbf{R}_\perp = \mathbf{0}$$
+
+将 $\mathbf{K}_s^j$ 限制在变形子空间上，所得限制刚度矩阵 $\mathbf{K}_{s,\perp}^j$ 具有**严格的对称正定性（SPD）**：
+$$\mathbf{K}_{s,\perp}^j \triangleq \mathbf{R}_\perp^{\mathsf{T}} \mathbf{K}_s^j \mathbf{R}_\perp \succ 0$$
+
+### 3.3 Cholesky 物理正定参数化（面向 PIML 代理模型）
+利用上述构造性质，任何物理自洽的子结构缩聚刚度矩阵均可显式分解为：
+$$\mathbf{K}_s^j = \mathbf{R}_\perp \mathbf{L}^j (\mathbf{L}^j)^{\mathsf{T}} \mathbf{R}_\perp^{\mathsf{T}}$$
+其中 $\mathbf{L}^j \in \mathbb{R}^{(n_b - n_{\text{rigid}}) \times (n_b - n_{\text{rigid}})}$ 为下三角 Cholesky 因子。此分解从数学构造上消除了刚体伪刚度污染，保证了 PIML 代理刚度在刚体模态方向零能量响应、在变形模态方向绝对正定。
+
+---
+
+## 4. 无体力假设（$f_i = \mathbf{0}$）的理论等价性证明与适用边界
+
+### 4.1 建模假设
+在经典拓扑优化及 Huang 2023 中，均采用无内部载荷的标准建模假设：
+$$\mathbf{f}_i^j \equiv \mathbf{0} \quad (\forall j=1,\dots,M)$$
+
+### 4.2 数学等价性与误差无损证明
+当外载荷仅由边界载荷（集中力、面力）构成时，荷载仅作用于全局接口自由度 $\Gamma_{\mathcal{B}}$ 上。
+此时：
+1. **缩聚荷载无损退化**：$\tilde{\mathbf{f}}_b^j = \mathbf{f}_b^j + (\mathbf{N}^j)^{\mathsf{T}} \mathbf{0} = \mathbf{f}_b^j$，无需进行载荷缩聚积分；
+2. **细尺度恢复无损退化**：$\mathbf{u}_i^j = \mathbf{N}^j \mathbf{u}_b^j + (\mathbf{K}_{ii}^j)^{-1} \mathbf{0} = \mathbf{N}^j \mathbf{u}_b^j$，内部位移完全由接口位移线性表征；
+3. **求解精度**：缩聚解 $\mathbf{U}_{\text{cond}}$ 与全尺度单网格 Lagrange 全装配解 $\mathbf{U}_{\text{full}}$ 在代数意义上**完全等价（浮点数机器精度 $10^{-12} \sim 10^{-13}$）**。
+
+### 4.3 适用边界与扩展形式
+* **适用问题**：MBB 梁、悬臂梁、L 型支架、微结构单胞均质化等外载作用于边界的经典力学问题；
+* **非适用问题与广义扩展**：若物理问题包含显著体力场（如自重、离心力、热应变、电磁力等，此时 $\mathbf{f}_i \ne \mathbf{0}$），必须采用含载荷项的广义 Schur 补形式：
+  $$\tilde{\mathbf{f}}_b^j = \mathbf{f}_b^j - \mathbf{K}_{bi}^j (\mathbf{K}_{ii}^j)^{-1} \mathbf{f}_i^j, \quad \mathbf{u}_i^j = \mathbf{N}^j \mathbf{u}_b^j + (\mathbf{K}_{ii}^j)^{-1} \mathbf{f}_i^j$$
+
+---
+
+## 5. 八步通用算法逻辑与伪代码
+
+### 5.1 算法架构流程图
 
 ```mermaid
-flowchart LR
-    S1["1. 局部子结构<br/>装配局部刚度 K_local<br/>划分 i 与 b 自由度"] --> S2["2. 静力缩聚消元<br/>计算 Schur 补 K_s<br/>计算形函数 N"]
-    S2 --> S3["3. 全局接口装配<br/>Scatter-Add 组装<br/>K_global 与 F_b"]
-    S3 --> S4["4. 解接口方程组<br/>解 K_global U_b = F_b<br/>求得接口位移 U_b"]
-    S4 --> S5["5. 细观位移与应力恢复<br/>回代 u_i = N u_b<br/>计算全场应力 σ"]
+graph TD
+    A["步骤 1: 几何尺寸与离散原型初始化 (生成 KE_unit)"] --> B["步骤 2: SIMP 密度插值与单元刚度批量缩放 (生成 KE)"]
+    B --> C["步骤 3: 单元自由度拓扑散加 (Scatter-Add 生成 K_local)"]
+    C --> D["步骤 4: 内部/接口自由度分块切片 (提取 K_ii, K_ib, K_bb)"]
+    D --> E["步骤 5: 局部 Schur 补消元 (计算 Ks 与恢复矩阵 N)"]
+    E --> F["步骤 6: 全局接口系统 Scatter-Add 装配 (生成全局接口刚度 K_B)"]
+    F --> G["步骤 7: 施加宏观边界条件并求解接口方程 (求解 u_B)"]
+    G --> H["步骤 8: 矩阵乘法细尺度位移回代 (u_i = N u_b 拼合生成 U_full)"]
 ```
 
-> [!IMPORTANT]
-> **关键答案总览**：
-> - **得到 Schur 补 $\mathbf{K}_s^j$ 后的下一步**：将各子结构的 $\mathbf{K}_s^j$ 按全局接口节点编号进行 **Scatter-Add 累加装配**；
-> - **最终求解的核心方程组**：**全局接口线性方程组 $\mathbf{K}_{\text{global}} \boldsymbol{U}_b = \mathbf{F}_b$**。
-
----
-
-### 4.1 详细步骤与代数细节
-
-#### 步骤 1：局部子结构刚度提取 (Local Stiffness Assembly)
-针对每个几何子结构 $\Omega^j$ ($j = 1, \dots, M$)，按照 SIMP 材料插值与单元刚度矩阵装配局部未缩聚刚度 $\mathbf{K}^j \in \mathbb{R}^{(n_i + n_b) \times (n_i + n_b)}$，并按内部节点 ($i$) 和接口节点 ($b$) 划分分块：
-
-$$
-\mathbf{K}^j = \begin{bmatrix} \mathbf{K}_{ii}^j & \mathbf{K}_{ib}^j \\ \mathbf{K}_{bi}^j & \mathbf{K}_{bb}^j \end{bmatrix}
-$$
-
-#### 步骤 2：局部静力缩聚消元 (Schur Complement Elimination)
-假设子结构内部无外载荷（$\mathbf{f}_i^j = \boldsymbol{0}$），通过高斯块消去法解内部方程，导出两组核心代数算子：
-1. **多尺度形函数矩阵**：$\mathbf{N}^j = - (\mathbf{K}_{ii}^j)^{-1} \mathbf{K}_{ib}^j \in \mathbb{R}^{n_i \times n_b}$（用于后续内部位移恢复）；
-2. **Schur 补缩聚刚度矩阵**：$\mathbf{K}_s^j = \mathbf{K}_{bb}^j - \mathbf{K}_{bi}^j (\mathbf{K}_{ii}^j)^{-1} \mathbf{K}_{ib}^j \in \mathbb{R}^{n_b \times n_b}$（用于后续全局装配）。
-
-#### 步骤 3：全局接口系统 Scatter-Add 组装 (Global Interface Assembly)
-定义各子结构接口自由度到全局接口自由度的布尔提取/映射矩阵 $\mathbf{L}_j \in \mathbb{R}^{n_b \times N_{\text{interface\_dofs}}}$。将各子结构的 Schur 补刚度矩阵 $\mathbf{K}_s^j$ 累加装配为全局粗系统刚度 $\mathbf{K}_{\text{global}}$：
-
-$$
-\mathbf{K}_{\text{global}} = \sum_{j=1}^M \mathbf{L}_j^{\mathsf T} \mathbf{K}_s^j \mathbf{L}_j \in \mathbb{R}^{N_{\text{interface\_dofs}} \times N_{\text{interface\_dofs}}}
-$$
-
-同理，将接口上的节点外载荷装配为全局接口载荷向量：
-
-$$
-\mathbf{F}_b = \sum_{j=1}^M \mathbf{L}_j^{\mathsf T} \mathbf{f}_b^j \in \mathbb{R}^{N_{\text{interface\_dofs}}}
-$$
-
-#### 步骤 4：求解全局接口方程组 (Global Interface Solving)
-施加全结构的宏观位移约束（如固定端 $\boldsymbol{U}_b|_{\partial \Omega_D} = \boldsymbol{0}$），解规模大幅降维后的**全局接口方程组**：
-
-$$
-\mathbf{K}_{\text{global}} \boldsymbol{U}_b = \mathbf{F}_b \implies \boldsymbol{U}_b = \mathbf{K}_{\text{global}}^{-1} \mathbf{F}_b
-$$
-
-求得的 $\boldsymbol{U}_b$ 是**包含所有子结构交界面节点的宏观接口位移向量**。
-
-#### 步骤 5：细观内部位移与柯西应力回代恢复 (Fine-Scale Displacement & Stress Recovery)
-已知全局接口位移 $\boldsymbol{U}_b$ 后，截取第 $j$ 个子结构的局部接口位移 $\boldsymbol{u}_b^j = \mathbf{L}_j \boldsymbol{U}_b$，利用步骤 2 导出的形函数矩阵 $\mathbf{N}^j$ 进行极速矩阵乘法：
-
-$$
-\boldsymbol{u}_i^j = \mathbf{N}^j \boldsymbol{u}_b^j
-$$
-
-秒级恢复子结构内部全部细观节点的位移向量 $\boldsymbol{u}^j = [\boldsymbol{u}_i^j; \boldsymbol{u}_b^j]$。进一步利用本构矩阵 $\mathbf{D}$ 与应变-位移矩阵 $\mathbf{B}$ 恢复单元柯西应力：
-
-$$
-\boldsymbol{\sigma}^e = \mathbf{D}^e \mathbf{B}^e \boldsymbol{u}^{j, e}
-$$
-
----
-
-## 5. 来源与证据
-
-本页维护经典子结构有限元与静力缩聚的通用数学原理。在基于子结构的 PIML 研发中，通用原理、学术文献精读与全文译本形成了如下 **三位一体的证据链**：
+### 5.2 语言无关算法伪代码
 
 ```text
-        通用理论原理 (本页)
-                 │
-      ┌──────────┴──────────┐
-      ▼                     ▼
- 学术文献精读与实验证据    全文中文译本
-  Huang2023 精读笔记      Huang2023 中文全译本
+Algorithm: SubstructuralStaticCondensation
+--------------------------------------------------------------------------------
+Input:
+  - 求解域尺寸 L, 宏观子结构划分 n_sub, 局部细网格划分 n_fine, 材料参数 (E, nu)
+  - 单元密度分布场 rho (形状: [B, NC])
+  - 宏观外载向量 F_global, Dirichlet 约束自由度 fixed_dofs
+Output:
+  - 全场位移向量 U_full
+
+[阶段一: 局部子结构刚度提取]
+1. KE_unit = IntegrateUnitElementStiffness(n_fine, E, nu)   // 步骤 1: 模板积分
+2. for j = 1 to B in parallel:
+3.    coef_j = (rho_min + (1 - rho_min) * (rho_j)^p)
+4.    KE_j = coef_j * KE_unit                               // 步骤 2: SIMP 缩放
+5.    K_local_j = ScatterAdd(KE_j, cell2dof)                // 步骤 3: 局部组装
+6.    K_ii_j, K_ib_j, K_bb_j = Slice(K_local_j, i_dofs, b_dofs) // 步骤 4: 分块切片
+
+[阶段二: 局部 Schur 补静力缩聚]
+7. for j = 1 to B in parallel:
+8.    invK_ii_K_ib = SolveLinear(K_ii_j, K_ib_j)            // 局部 Dirichlet 问题
+9.    N_j = - invK_ii_K_ib                                  // 多尺度恢复矩阵
+10.   Ks_j = K_bb_j - (K_ib_j)^T * invK_ii_K_ib             // 步骤 5: Schur 补刚度
+
+[阶段三: 全局接口系统装配与求解]
+11. K_global = ZeroSparseMatrix(n_interface, n_interface)
+12. for j = 1 to B:
+13.   L_j = GetInterfaceMapping(j)
+14.   K_global += (L_j)^T * Ks_j * L_j                      // 步骤 6: 全局接口装配
+15. F_interface = ProjectToInterface(F_global)
+16. fixed_interface = ProjectToInterface(fixed_dofs)
+17. u_interface = SolveConstrainedLinear(K_global, F_interface, fixed_interface) // 步骤 7: 接口求解
+
+[阶段四: 细尺度位移恢复]
+18. U_full = ZeroVector(total_global_dofs)
+19. U_full[interface_dofs] = u_interface
+20. for j = 1 to B in parallel:
+21.   u_b_j = u_interface[L_j]
+22.   u_i_j = N_j * u_b_j                                   // 步骤 8: 细尺度回代
+23.   U_full[interior_dofs_j] = u_i_j
+
+24. return U_full
+--------------------------------------------------------------------------------
 ```
-
-- **通用理论原理**：本页——子结构划分、Schur 补消元、接口求解与位移恢复。
-- **单篇精读笔记**：[[../literature/topology-opt/notes/Huang2023-PIML-substructure|Huang2023 深度精读笔记]]（包含作者的网络架构选型、三维悬臂梁/MBB 梁实验数据与代码线索）
-- **全文中文译本**：[[../literature/topology-opt/translations/Huang2023-PIML-substructure-zh|Huang2023 中文全译本]]（方便逐段核对原论文的英文推导与翻译细节）
-
-## 相关页面
-
-- [[_index]] — 概念页总索引。
-- [[linear-elasticity]] — 子结构装配前的连续模型、变分形式与有限元离散。
-- [[piml/mathematical-foundations]] — 子结构缩聚作为 Problem-Independent PIML 局部力学载体的映射、路线 A/B 与误差边界。
-- [[piml/method-lineage]] — 子结构缩聚在 Huang–Ma 方法谱系中的位置。
-- [[piml/_index]] — PIML 稳定知识、文献证据与当前研究的统一语义入口。
-
-

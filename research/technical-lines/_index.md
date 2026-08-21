@@ -10,20 +10,20 @@ tags:
   - HPC
 status: "in-progress"
 date_start: 2026-07-21
-date_update: 2026-08-09
+date_update: 2026-08-13
 ---
 
 # 长期技术线索引
 
-> 本目录维护可跨项目复用的长期技术能力。博士后阶段三条技术线当前优先服务 [[../piml-matrix-free-gpu/project-plan|核心研究项目]]：Matrix-Free 与 GPU/HPC 支撑 WP1，PIML 与 GPU/HPC 支撑 WP2，三线共同支撑满足门禁后的 WP3。每份 guide 只回答单线能力、阶段和验收边界；项目目标、工作包和总体顺序不在本目录重复维护。
+> 本目录维护可跨项目复用的长期技术能力。博士后阶段三条技术线当前优先服务 [[../piml-matrix-free-gpu/project-plan|核心研究项目]]：PIML 驱动局部力学表示与物理结构保持，Matrix-Free 承担全局无矩阵算子作用与 Krylov/预条件求解，GPU/HPC 承担全链异构管线与端到端性能。每份 guide 只回答单线能力、阶段和验收边界；项目目标、工作包和总体顺序不在本目录重复维护。
 
 ## 三条技术线
 
 | 技术线 | 指导文档 | 当前定位 |
 |---|---|---|
-| PIML | [[piml-research-guide]] | 优先服务 WP2；PIML 指 Problem-Independent Machine Learning，维护局部力学表示、二维／三维结构检查、全局评价、模型选型与证据边界 |
-| Matrix-Free | [[matrix-free-research-guide]] | 当前优先服务 WP1，并为 WP3 提供全局算子接口；长期路线与当前任务统一由 guide 维护 |
-| GPU/HPC | [[gpu-hpc-research-guide]] | 横向服务 WP1–WP3；维护异构执行、计时边界和端到端性能门禁 |
+| PIML | [[piml-research-guide]] | 优先服务 WP2；驱动局部力学表示预测（$N$ / $K_s$）、二维／三维物理结构检查、分布外识别、局部精确回退与证据边界 |
+| Matrix-Free | [[matrix-free-research-guide]] | 优先服务 WP1，并为 WP3 提供全局算子接口；维护全局算子抽象 $\mathbf{y} = \sum \mathbf{G}_j^{\mathsf T} \mathbf{A}_j \mathbf{G}_j \mathbf{x}$、Krylov 求解与代理预条件更新 |
+| GPU/HPC | [[gpu-hpc-research-guide]] | 横向服务 WP1–WP3；作为 PIML 预测与 Matrix-Free 求解的异构执行引擎，维护全链 GPU 数据流、显存驻留、端到端性能门禁与统一多后端实现（NumPy/PyTorch/JAX）对照 |
 
 通用生命周期与 5 阶段执行骨架见 [[../../concepts/machine-learning]]；具体计算程序与运行 SOP 由 `soptx` 仓库维护。
 

@@ -15,7 +15,7 @@ tags:
   - reproducibility
 status: in-progress
 date_added: 2026-07-29
-date_update: 2026-08-06
+date_update: 2026-08-14
 ---
 
 # 机器学习：模型架构、分类框架与通用生命周期
@@ -67,6 +67,64 @@ date_update: 2026-08-06
 | **Neural Operator (FNO / DeepONet)** | 无穷维函数空间映射，**分辨率无关** | 连续场/离散采样 $\to$ 连续场/离散采样 | 跨宏观边界条件与材料分布的 PDE 秒级代理求解 |
 | **Transformer / ViT** | 全局自注意力，长程依赖建模 | 序列/ Token 块 $(B, S, D)$ | 大规模几何/物理多场耦合与通用科学大模型 |
 
+#### MLP：统一数学定义
+
+多层感知机 (MLP) 是由仿射映射和逐元素非线性复合而成的前馈网络。设输入 $\boldsymbol{x}\in\mathbb{R}^{d_0}$，隐藏层维度为 $d_1,\ldots,d_{L-1}$，输出维度为 $d_L$。令 $\boldsymbol{h}^{(0)}=\boldsymbol{x}$，则第 $l$ 个隐藏层和线性输出层分别为：
+
+$$
+\begin{aligned}
+\boldsymbol{z}^{(l)} &= \mathbf{W}^{(l)}\boldsymbol{h}^{(l-1)} + \boldsymbol{b}^{(l)},
+&& l=1,\ldots,L-1, \\
+\boldsymbol{h}^{(l)} &= \sigma\left(\boldsymbol{z}^{(l)}\right),
+&& l=1,\ldots,L-1, \\
+\boldsymbol{y} &= \mathbf{W}^{(L)}\boldsymbol{h}^{(L-1)} + \boldsymbol{b}^{(L)}.
+\end{aligned}
+$$
+
+其中 $\mathbf{W}^{(l)}\in\mathbb{R}^{d_l\times d_{l-1}}$ 与 $\boldsymbol{b}^{(l)}\in\mathbb{R}^{d_l}$ 是可训练参数，$\sigma$ 是隐藏层激活函数。输出层默认不加激活，使 $\boldsymbol{y}$ 可表达任意实值回归目标。激活函数决定可微性：坐标型 PINN 需要对空间坐标求导，通常采用 $\tanh$、SiLU 或 $\sin$ 等足够光滑的激活；PIML 局部代理不对输入坐标求 PDE 导数，可按回归稳定性选择激活。
+
+MLP 不含卷积参数共享、图消息传递或注意力机制。它对输入分量采用全连接混合，但不显式编码网格邻接、平移不变性或跨分辨率函数空间结构；因而适合固定维度的坐标/特征向量回归，不应仅因使用 MLP 就宣称获得算子学习或网格拓扑归纳偏置。
+
+具体实现的构造契约、张量 shape 和层序列见 `soptx:docs/ml/mlp.md`。
+
+### 1.2 激活函数与可微性
+
+激活函数是神经网络的通用组成，不限定于 MLP。它通常置于可学习线性、卷积或消息传递层之后，以引入非线性；若所有层均为线性映射，多层复合仍等价于单个线性映射。
+
+`Tanh` 在 PyTorch 中对应 `nn.Tanh`，其逐元素数学定义和导数为：
+
+$$
+\tanh(z)=\frac{e^z-e^{-z}}{e^z+e^{-z}},
+\qquad
+\frac{\mathrm{d}}{\mathrm{d}z}\tanh(z)=1-\tanh^2(z).
+$$
+
+它的输出范围为 $(-1,1)$，以零为中心，且为 $C^\infty$ 光滑函数。若隐藏层写为 $\boldsymbol{h}=\tanh(\mathbf{W}\boldsymbol{x}+\boldsymbol{b})$，则 PINN 可通过自动微分继续对坐标 $\boldsymbol{x}$ 求一阶或高阶导数，从而构造 PDE 残差。其代价是当 $|z|$ 很大时导数趋近于零，可能出现梯度饱和；这属于训练和初始化策略需要处理的问题，而不改变其可微性。
+
+SiLU（Sigmoid Linear Unit）在 PyTorch 中对应 `nn.SiLU`，定义为：
+
+$$
+\operatorname{SiLU}(z)=z\,\operatorname{sigmoid}(z)
+=\frac{z}{1+e^{-z}},
+\qquad
+\frac{\mathrm{d}}{\mathrm{d}z}\operatorname{SiLU}(z)
+=\operatorname{sigmoid}(z)+z\,\operatorname{sigmoid}(z)\bigl(1-\operatorname{sigmoid}(z)\bigr).
+$$
+
+SiLU 同样是光滑函数；它以输入值调制自身，而非像 ReLU 一样在零点产生不可导折角。“选择哪种激活函数”仍是可通过验证集比较的模型超参数。
+
+### 1.3 结构保持输出参数化
+
+网络的最后一层可以输出无约束向量，也可以先预测某个结构化对象的独立参数，再由确定性映射恢复具有目标性质的输出。这种做法将结构约束编码进输出参数化，而不是仅依赖损失函数惩罚。
+
+对称正定矩阵的一种通用参数化称为 **Cholesky 参数化**。令网络输出向量 $\boldsymbol{p}\in\mathbb{R}^{r(r+1)/2}$，将其填入下三角矩阵 $\mathbf{L}$；对角项通过正值映射设置为 $L_{ii}=\phi(p_{ii})+\delta$，其中 $\phi$ 可取绝对值或 softplus，且 $\delta>0$。再定义
+
+$$
+\mathbf{A}=\mathbf{L}\mathbf{L}^{\mathsf{T}}.
+$$
+
+此时 $\mathbf{L}$ 非奇异。对任意非零向量 $\boldsymbol{v}$，有 $\boldsymbol{v}^{\mathsf{T}}\mathbf{A}\boldsymbol{v}=\lVert\mathbf{L}^{\mathsf{T}}\boldsymbol{v}\rVert_2^2>0$，故 $\mathbf{A}$ 对称正定。这里并非先给定 $\mathbf{A}$ 再对它执行 Cholesky 分解，而是直接学习其 Cholesky 因子 $\mathbf{L}$。协方差矩阵、刚度矩阵等具有正定要求的学习目标可采用这一模式。具体物理对象为何需要正定、是否施加额外正则化及其验收门禁，仍由相应应用页面维护；PIML 缩聚刚度的实例见 [[piml/piml-substructural]]。
+
 ---
 
 ## 2. 通用机器学习生命周期与 5 阶段执行骨架
@@ -114,7 +172,7 @@ flowchart TD
     class L feedback;
 ```
 
-### 2.1 步骤 1：任务定义与 TaskSpec 契约
+### 2.1 训练前契约
 
 训练前首先回答“要学习什么”，而不是先选择网络。任务定义应形成稳定的 `TaskSpec`：
 
@@ -130,7 +188,7 @@ flowchart TD
 | **下游目标** | 局部误差最终会影响什么科学或工程量？ |
 | **失败代价** | 错误预测可否检测、拒绝或回退？ |
 
-### 2.2 步骤 2：样本与训练信号契约
+#### 样本、训练信号与数据划分
 
 样本更通用的表达结构为：$\text{sample} + \text{training signal} + \text{metadata}$。
 
@@ -153,7 +211,7 @@ flowchart TD
 * **防泄漏**：同源切片、同一仿真的派生量或增强副本应按 group 划分，不能跨 split 泄漏。
 * **无固定数据集时**：动态采样/physics-informed 训练仍需冻结 train sampler 分布与 seed，并固定 validation/test 配点集。
 
-### 2.3 步骤 3：张量契约、归一化与训练控制
+### 2.2 训练、验证与部署
 
 每个输入输出张量至少明确：`shape`、`dtype`、`device`、`单位`、`通道顺序`、`坐标与方向`、`有效物理范围` 与 `结构约束`（对称、正定、守恒等）。
 
@@ -169,12 +227,12 @@ flowchart TD
   save last checkpoint -> run test protocol -> run downstream evaluation -> archive
   ```
 
-### 2.4 步骤 4：Validation、Checkpoint 与独立 Test
+#### 验证与独立测试
 
 * **Best vs. Last Checkpoint**：`best` checkpoint 由 validation 主指标决定，用于最终 test；`last` 用于中断恢复与诊断。
 * **独立 Test 规则**：Test 必须在模型、预处理和超参完全冻结后**只执行一次**。若根据 test 结果修改超参，该 test 集即降级为开发集，必须重新准备独立的 test 集。
 
-### 2.5 步骤 5：推理契约与下游评价链
+#### 推理、下游评价与归档
 
 模型输出通常只是中间量。评价链应写为：
 
@@ -201,6 +259,101 @@ $$
 | **loss 下降但 validation 变差** | 数据泄漏、过拟合、分布差异、预处理状态未冻结 |
 | **局部指标好但下游结果差** | 指标与任务错位、误差放大、物理/代数结构性质被破坏 |
 | **重复运行差异大** | seed、初始化、动态采样、非确定性算子、环境漂移 |
+
+### 2.3 监督学习目标与反向传播
+
+设一个训练 batch 为
+
+$$
+\mathcal{B}=\{(\boldsymbol{x}_k,\boldsymbol{y}_k)\}_{k=1}^{B},
+$$
+
+其中 $\boldsymbol{x}_k$ 是输入, $\boldsymbol{y}_k\in\mathbb{R}^{d_y}$ 是监督标签, $B$ 是 batch 大小. 网络参数记为 $\boldsymbol{\theta}$, 前向传播给出预测
+
+$$
+\widehat{\boldsymbol{y}}_k=f_{\boldsymbol{\theta}}(\boldsymbol{x}_k).
+$$
+
+对于连续值回归, 常用的均方误差 (MSE) 目标为
+
+$$
+\mathcal{L}_{\mathcal{B}}(\boldsymbol{\theta})
+=\frac{1}{B d_y}\sum_{k=1}^{B}
+\left\|f_{\boldsymbol{\theta}}(\boldsymbol{x}_k)-\boldsymbol{y}_k\right\|_2^2.
+$$
+
+该目标同时对 batch 中的样本和每个输出分量取平均. 全批量训练取 $\mathcal{B}$ 为整个训练集; 小批量训练每次只取一个子集. 两者的损失定义相同, 差别仅在每次参数更新所使用的样本数.
+
+#### 链式法则与反向传播
+
+反向传播不是另一种目标函数, 而是高效计算参数梯度的链式法则实现. 对任一参数分量 $\theta_j$, 有
+
+$$
+\frac{\partial\mathcal{L}_{\mathcal{B}}}{\partial\theta_j}
+=\sum_{k=1}^{B}
+\sum_{r=1}^{d_y}
+\frac{\partial\mathcal{L}_{\mathcal{B}}}
+     {\partial\widehat{y}_{k,r}}
+\frac{\partial\widehat{y}_{k,r}}
+     {\partial\theta_j}.
+$$
+
+计算图从输入到预测执行前向传播, 再从损失沿相反方向累计上述局部导数, 即得到
+$\nabla_{\boldsymbol{\theta}}\mathcal{L}_{\mathcal{B}}$. 自动微分框架保存必要的中间量并执行该过程, 无需用户手写每层导数.
+
+典型框架代码与数学步骤的对应关系为:
+
+```text
+out = net(X)                 -> \widehat{Y} = f_\theta(X)
+loss = MSE(out, Y)           -> \mathcal{L}_{\mathcal{B}}(\theta)
+optimizer.zero_grad()        -> 清除上一次更新残留的梯度
+loss.backward()              -> 计算并保存 \nabla_\theta\mathcal{L}_{\mathcal{B}}
+optimizer.step()             -> 依据该梯度更新 \theta
+```
+
+其中 `epoch` 是一次完整训练集遍历. 若每个 epoch 仅包含一个完整 batch, 则一次 epoch 对应一次全批量梯度更新; 若训练集被拆为多个小批次, 一个 epoch 包含多次更新.
+
+### 2.4 训练优化器
+
+训练优化器是根据目标函数梯度更新可训练参数的算法，不属于网络架构、激活函数或损失函数。设当前小批次上的目标函数为 $\mathcal{L}_t(\boldsymbol{\theta})$，参数梯度为
+
+$$
+\boldsymbol{g}_t=\nabla_{\boldsymbol{\theta}}\mathcal{L}_t(\boldsymbol{\theta}_{t-1}).
+$$
+
+#### 梯度下降与 SGD
+
+最基本的梯度下降按负梯度方向更新：
+
+$$
+\boldsymbol{\theta}_t=\boldsymbol{\theta}_{t-1}-\alpha\boldsymbol{g}_t,
+$$
+
+其中 $\alpha$ 是学习率。全批量梯度下降使用全部训练样本计算 $\boldsymbol{g}_t$；随机梯度下降（SGD）使用单个样本或小批次估计梯度，以较低单步成本换取随机性。
+
+#### 动量与自适应学习率
+
+动量方法对历史梯度做指数滑动平均，以平滑更新方向并加速沿稳定方向的收敛。RMSProp 等自适应方法进一步维护梯度平方的滑动平均，按参数的梯度尺度缩放更新步长。Adam 将两种机制组合，并对初始时刻的动量偏差进行修正。
+
+#### Adam
+
+Adam 同时维护梯度的一阶动量与逐分量二阶动量。令 $\boldsymbol{m}_0=\boldsymbol{v}_0=\boldsymbol{0}$，则
+
+$$
+\begin{aligned}
+\boldsymbol{m}_t &= \beta_1\boldsymbol{m}_{t-1}+(1-\beta_1)\boldsymbol{g}_t, \\
+\boldsymbol{v}_t &= \beta_2\boldsymbol{v}_{t-1}+(1-\beta_2)(\boldsymbol{g}_t\odot\boldsymbol{g}_t), \\
+\widehat{\boldsymbol{m}}_t &= \frac{\boldsymbol{m}_t}{1-\beta_1^t}, \qquad
+\widehat{\boldsymbol{v}}_t = \frac{\boldsymbol{v}_t}{1-\beta_2^t}, \\
+\boldsymbol{\theta}_t &= \boldsymbol{\theta}_{t-1}
+-\alpha\frac{\widehat{\boldsymbol{m}}_t}
+{\sqrt{\widehat{\boldsymbol{v}}_t}+\epsilon}.
+\end{aligned}
+$$
+
+其中 $\beta_1$、$\beta_2$ 控制两类动量的衰减，$\epsilon$ 防止除零，$\odot$ 表示逐元素乘法。Adam 不替代验证集选型，学习率、weight decay 和训练步数仍须由具体任务确定。
+
+在常见深度学习框架中，`optimizer.zero_grad() → loss.backward() → optimizer.step()` 依次对应清除上次累积梯度、计算并保存 $\boldsymbol{g}_t$、执行优化器参数更新。`optimizer = Adam(..., lr=...)` 中的 `lr` 即为 $\alpha$。
 
 ---
 
@@ -240,7 +393,7 @@ $$
 
 ---
 
-## 4. 经典监督回归基线：SVR 与 KNN
+## 4. 基线、实例与代码索引
 
 在神经网络之前，须建立非深度学习的简单回归基线。
 
@@ -284,9 +437,9 @@ KNN 无需复杂的训练过程，但推理时需检索所有邻域，对维度�
 
 ---
 
-## 5. 多维分类组合示例与实例化索引
+### 4.4 多维分类组合与实例化索引
 
-### 5.1 多维分类组合表
+#### 多维分类组合表
 
 一个具体方法应同时在四个维度上定位：
 
@@ -296,7 +449,7 @@ KNN 无需复杂的训练过程，但推理时需检索所有邻域，对维度�
 | **Neural Operator** | DeepONet、FNO | 算子学习：函数/场 $\to$ 函数/场 | 监督学习、物理约束或混合 | 预测一族参数化 PDE 解场 |
 | **PIML 局部代理** | MLP、DeepONet 等 | 场到矩阵代理 / 局部力学表示 | 监督学习或 mechanics-based 训练 | 预测局部算子，服务全局分析 |
 
-### 5.2 代码实现与课题路线索引
+#### 代码实现与课题路线索引
 
 通用生命周期在不同物理问题与课题主线上的具体代码实现与指南：
 

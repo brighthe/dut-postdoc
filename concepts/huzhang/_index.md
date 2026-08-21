@@ -19,7 +19,7 @@ date_update: 2026-08-09
 
 | 页面 | 一句话 | 状态 |
 |---|---|---|
-| [[huzhang-mixed-fem]] | Hellinger–Reissner 变分原理、鞍点代数结构、跳量稳定化缩放律与角点部分顶点松弛理论 | in-progress |
+| [[huzhang-mixed-fem]] | Hellinger–Reissner 变分原理、鞍点代数结构、集中载荷的共同离散牵引、跳量稳定化缩放律与角点部分顶点松弛理论 | in-progress |
 | [[../linear-elasticity]] | 位移型线弹性基础、强/弱形式与古典位移元对比（本页的出发问题） | in-progress |
 
 ## 鞍点结构与稳定化

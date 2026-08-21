@@ -20,7 +20,7 @@ tags:
   - heterogeneous-computing
 status: "in-progress"
 date_start: 2026-07-21
-date_update: 2026-08-09
+date_update: 2026-08-10
 related:
   - linear-elasticity
   - matrix-free/_index
@@ -28,24 +28,25 @@ related:
   - distributed-operator-and-shared-dofs
   - ../piml-matrix-free-gpu/_index
   - ../piml-matrix-free-gpu/project-plan
+  - piml-research-guide
 ---
 
 # Matrix-Free 全局算子与迭代求解技术线研究指南
 
 ## 一、定位、事实所有权与研究目标
 
-本页是 Matrix-Free 技术线的统一入口，博士后阶段优先服务 [[../piml-matrix-free-gpu/project-plan#三、工作包与依赖|核心项目 WP1]]，并为满足门禁后的 WP3 提供全局算子、Krylov 和预条件接口；长期能力仍可跨项目复用。
+本页是 Matrix-Free 技术线的统一入口，博士后阶段优先服务 [[../piml-matrix-free-gpu/project-plan#三、工作包与依赖|核心项目 WP1]]（精确算子与基线），并为满足门禁后的 WP3 提供全局算子、Krylov 和预条件接口；长期能力仍可跨项目复用。
 
-本页维护研究目标、路线、文献综合、结论边界、阶段门禁和当前任务状态。装配层级与分布式原理由 `concepts/matrix-free/` 维护；代码、命令、原始结果和正式 evidence 由 `soptx:examples/matrix_free_elasticity` 维护；项目级状态由 [[../piml-matrix-free-gpu/project-plan]] 维护。页面生命周期状态不等同于研究任务进度。
+本页维护研究目标、路线、文献综合、结论边界、阶段门禁和当前任务状态。装配层级与分布式原理由 `concepts/matrix-free/` 维护；代码、命令、原始结果和正式 evidence 由 `soptx:examples/matrix_free_elasticity` 维护；项目级状态由 [[../piml-matrix-free-gpu/project-plan]] 维护。局部算子构建、结构保持与 PIML 预测见 [[piml-research-guide]]。
 
-以二维、三维线弹性为统一参考问题，目标是在同一契约下比较 FA/LA/EA/PA/UA，形成 CPU、GPU 和 MPI 环境中的算子、Krylov、预条件及端到端求解闭环。线弹性闭环后，再检验其他 PDE 和 PIML 子结构算子的可迁移性。
+Matrix-Free 技术线的本质是提供**全局线性代数算子作用的抽象与迭代求解机制**。它通过自由度限制与回填，实现全局算子作用 $\mathbf{y} = \mathbf{A}\mathbf{x} = \sum_j \mathbf{G}_j^{\mathsf T} \mathbf{A}_j \mathbf{G}_j \mathbf{x}$，且对局部算子的来源保持数学通用性：既支持精确缩聚算子（$\mathbf{A}_j = \mathbf{K}_s^j$），也支持 PIML 预测的结构保持算子（$\mathbf{A}_j = \widehat{\mathbf{A}}_j$）。
 
 | 维度 | 目标 |
 |---|---|
 | 算子 | 统一 `setup/update/apply/diagonal`、边界处理、自由度映射和诊断语义 |
-| 求解 | CG/MINRES/GMRES、真残差和可组合预条件器可靠闭环 |
+| 求解 | CG/MINRES/GMRES、真残差和可组合预条件器（代理预条件器/多重网格）可靠闭环 |
 | 执行 | Python 参考实现与 C++ 高性能实现对齐，覆盖 CPU、GPU、MPI 和 GPU-aware MPI |
-| 评价 | 同时报正确性、收敛性、完整 solve 时间、峰值内存、通信和失败边界 |
+| 评价 | 同时报正确性、收敛性、算子扰动、真残差、完整 solve 时间、峰值内存与通信 |
 
 ## 二、Matrix-Free 技术路线与装配边界
 
@@ -59,7 +60,9 @@ Matrix-Free 的判定依据是“省略什么、保存什么、重算什么”�
 | PA/QA | 保存形函数、几何和积分点数据，按因子化过程作用 | 不形成完整单元矩阵的核心路线 |
 | UA/NONE | MatVec 时按需生成局部表示，进一步减少缓存 | 在 PA/QA 正确性闭环后研究 |
 
-以 [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel|Ma2026]] 为接续点时，先用精确子结构算子 $K_s^j$ 建立 FA/LA/EA 与 Krylov/预条件闭环，再推进 PA-like 和 UA/NONE；只有这些路径通过门禁后，才以结构保持 PIML 预测算子 $\widehat K_s^j$ 替换局部算子来源。PIML 决定局部算子如何获得，装配层级决定全局 MatVec 如何保存和执行，两者必须分别判定。
+必须明确区分**高阶积分点级 Partial Assembly (PA)** 与 **子结构/大单元级 PIML Matrix-Free**：前者按 Gauss 积分点和和分解（Sum Factorization）作用；后者以子结构或大单元为局部载体，按 $\mathbf{y}_j = \widehat{\mathbf{A}}_j \mathbf{x}_j$ 作用。PIML 学习的本质是局部力学表示，与 Matrix-Free 的局部算子按需累加在计算范式上具有天然契合性，从而避免了“先局部学习、再全局组装”的矛盾路径。
+
+以 [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel|Ma2026]] 为接续点时，先用精确子结构算子 $\mathbf{K}_s^j$ 建立 FA/LA/EA 与 Krylov/预条件闭环（WP1），再推进 PA-like 和 UA/NONE；只有这些路径通过门禁后，才在 WP3 以结构保持 PIML 预测算子 $\widehat{\mathbf{A}}_j$ 替换局部算子来源。PIML 决定局部算子如何获得，装配层级决定全局 MatVec 如何保存和执行，两者必须分别判定。
 
 ## 三、国内外研究现状、研究缺口与选题价值
 
@@ -112,21 +115,7 @@ Hughes、Levit 与 Winget 1983 年的 EBE 方法以省略全局系数矩阵为�
 
 结论遵循四条边界：MatVec 一致不替代完整 solve、真残差和解误差；少量 ranks 不支持扩展性结论；单个 kernel 加速不替代端到端时间与内存；外部框架具备某项能力不等于本技术线已经实现或验证。
 
-## 五、阶段门禁与当前执行状态
-
-| 阶段 | 目标与完成门禁 | 当前状态 |
-|---|---|---|
-| 1. FA/EA CPU/MPI 基线 | 统一二维、三维参考问题；MatVec、真残差、边界、解误差、收敛阶及跨 rank 一致性形成 clean-revision evidence | `in-progress`：验证契约已静态核对；`evidence/` 下二维、三维产物实为 `4cd4e8da17189eb57f9a68cc316bcdf189c084ec` 上 **dirty worktree**（`git_dirty=true`）的开发证据，**尚无 clean-revision 正式 evidence**；`utils/sync_results.py` 已于 2026-08-09 补上 dirty 门禁，待冻结 clean target revision 重放；1/2-rank 正式证据未固化 |
-| 2. PA/QA 正确性 | 明确 `gather → B → D → B^T → scatter-add` 和保存对象；主路径不形成全局、进程局部或完整单元矩阵，并通过统一正确性门禁 | `not-started` |
-| 3. UA/NONE、预条件与并行性能 | 完整 solve、峰值内存、通信、迭代数和 Strong/Weak scaling 均有可重放结果 | `gated`：等待阶段 2 |
-| 4. C++/单 GPU 对齐 | 跨语言及 CPU/GPU 一致性通过，完整报告 setup、update、算子、预条件、通信、内存和 solve | `gated`：等待 CPU 黄金结果稳定 |
-| 5. 子结构与 PIML 接入 | 从精确 $K_s$ 过渡到 $\widehat K_s$；局部结构性质、全局误差、收敛、更新成本和精确回退均有证据 | `gated`：等待 WP1、WP2 核心门禁 |
-
-当前推进顺序为：冻结 clean target revision 并重放二维、三维 FA/EA → 固化 1/2-rank 一致性和 evidence provenance → 建立 PA/QA → 再进入 UA/NONE、预条件、GPU 和 PIML 接入。前置门禁失败时先保留诊断并修复，不降低正确性、真残差、来源追踪或可重放要求。
-
-所有阶段均须按实际范围报告实现覆盖、数值正确性、完整 solve、迭代数、峰值内存和通信；只有 clean-revision 正式 evidence 可以支撑“已完成”。研究状态只在本节维护，工程数字只在 SOPTX 维护，面向导师的表达只在工作汇报维护。
-
-## 六、权威事实来源
+## 五、权威事实来源
 
 - `soptx:examples/matrix_free_elasticity/README.md` — 二维、三维实现、运行入口和文件职责。
 - `soptx:examples/matrix_free_elasticity/results_analysis.md` — 实测数值、证据 provenance 和解释边界的唯一事实源。

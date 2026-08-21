@@ -13,7 +13,7 @@ tags:
   - operator
 status: in-progress
 date_added: 2026-07-21
-date_update: 2026-08-07
+date_update: 2026-08-10
 ---
 
 # Matrix-Free 装配层次
@@ -448,6 +448,55 @@ $$
 
 两点读表须知。其一，FA/LA 的存储是全局量、EA/PA/UA 是每单元量，**同列不可直接比较**；换算到同一问题后的实际排序见 PA 一节末尾的 $P_1$ 四面体对照表。其二，apply 代价一列是浮点计数，而 FA 与 EA 都是访存受限的，浮点少不等于快——判断性能必须看算术强度而非 flop（见 FA 与 EA 各自的算术强度小节）。
 
+## 本质边界条件在各层级下的施加
+
+Dirichlet 条件的施加方式**依赖装配层级**，是五级分类少数几个直接改变实现形态的地方。
+
+记 $\boldsymbol\Pi_D$、$\boldsymbol\Pi_I$ 为 Dirichlet 自由度与内部自由度上的对角投影，$\boldsymbol\Pi_D+\boldsymbol\Pi_I=\mathbf I$；$\bar{\boldsymbol u}$ 为边界取给定值、内部取零的基准向量。**$\boldsymbol\Pi$ 与本页表示 MPI true/local 映射的 $\mathbf P$ 无关**，两者不可混用。
+
+**FA/LA：改写矩阵。** 全局或进程局部稀疏矩阵已经形成，可以直接对 Dirichlet 行列做对称消元。
+
+**EA/PA/UA：改写算子。** 没有可改写的矩阵，只能把原算子包成投影形式：
+
+$$
+\tilde{\mathbf A}=\boldsymbol\Pi_I\mathbf A\boldsymbol\Pi_I+\boldsymbol\Pi_D,
+\qquad
+\tilde{\boldsymbol b}=\boldsymbol\Pi_I\bigl(\boldsymbol b-\mathbf A\bar{\boldsymbol u}\bigr)+\boldsymbol\Pi_D\bar{\boldsymbol u}.
+$$
+
+即每次 apply 执行「置零 → 作用 → 还原」：Dirichlet 分量进入 $\mathbf A$ 前被清零，在输出中被恒等替换。
+
+三点性质：
+
+- $\tilde{\mathbf A}$ 对称；$\mathbf A$ 在内部自由度上正定时 $\tilde{\mathbf A}$ 正定，故 CG 仍适用——与[[#三条跨层级不变量|不变量 2]]一致，施加边界不改变 Krylov 方法的适用性。
+- 两种做法给出**同一个线性系统**。这是跨层级解一致判据得以成立的前提，而不是一个可有可无的巧合。
+- 迭代初值取 $\boldsymbol x_0=\bar{\boldsymbol u}$（已满足边界值），应由调用方显式传入，而非依赖算子内部状态。
+
+### 并行下 FA 的对称消元不成立
+
+在对等重叠副本表示（见 [[../gpu-hpc/distributed-operator-and-shared-dofs]]）下，对称消元发生在矩阵装配**之后**，跨 rank 同步归约 $\mathcal S$ 没有插入点。多 rank 下若沿用 FA 加对称消元，各 rank 会在自己的局部矩阵上求解，**不报错但结果错误**。串行时所有 $\mathcal S$ 退化为恒等，该问题不出现——这是一个只在并行下暴露的静默错误，实现应显式拒绝该组合，而不是留给使用者判断。
+
+## 跨层级正确性判据
+
+[[#三条跨层级不变量|不变量 1]]说五级在精确算术下等价，因此任意两级可以互为参照。本节给出把它落成可执行检查的标准形式。**具体阈值不在本页维护**，由实现仓库的契约持有（如 `soptx:examples/matrix_free_elasticity/utils/contract.py`）；两侧不得各存一份字面量。
+
+设 $\boldsymbol\xi,\boldsymbol\eta$ 为固定随机种子生成的向量，$L_1,L_2$ 为两个装配层级。
+
+| 判据 | 形式 | 检验对象 |
+|---|---|---|
+| 裸 MatVec 一致 | $\lVert\mathbf A^{(L_1)}\boldsymbol\xi-\mathbf A^{(L_2)}\boldsymbol\xi\rVert/\lVert\mathbf A^{(L_2)}\boldsymbol\xi\rVert$ | 因子链的求值路径 |
+| 边界后 MatVec 一致 | 同上，$\mathbf A\to\tilde{\mathbf A}$ | 边界施加两种方式的等价性 |
+| 算子对称正定 | $a=\boldsymbol\xi^{\mathsf T}\tilde{\mathbf A}\boldsymbol\eta$、$b=\boldsymbol\eta^{\mathsf T}\tilde{\mathbf A}\boldsymbol\xi$，取 $\lvert a-b\rvert/\max(\lvert a\rvert,\lvert b\rvert)$；另验 $\boldsymbol\xi^{\mathsf T}\tilde{\mathbf A}\boldsymbol\xi>0$ | [[#三条跨层级不变量\|不变量 2]] 的实现侧验证 |
+| 解一致 | 迭代解与 FA 上直接法解的相对差 | 完整 solve，而非单次作用 |
+| 收敛阶 | $E_k=\lVert\boldsymbol u_h^{(k)}-\boldsymbol u\rVert_{L^2}/\lVert\boldsymbol u\rVert_{L^2}$，相邻网格二等分时 $q_k=\log_2(E_{k-1}/E_k)$ | 离散本身，与装配层级无关 |
+
+两点是 Matrix-Free 特有的，必须点明：
+
+1. **对称性只能用双线性配对检验，不能逐元素比较矩阵**——EA 及以下层级根本不存在可逐元素比较的对象。这是正确性判据在低装配层级下必须改写形式的典型例子，也是[[#三条跨层级不变量|不变量 3]]（代数信息可及性递减）在测试侧的直接后果。
+2. **MatVec 一致不替代完整 solve**。逐点比较只覆盖一次算子作用；真残差、边界误差和解误差是彼此独立的门禁，缺一不可。
+
+容差应按舍入误差量级设定而非按算法精度（[[#三条跨层级不变量|不变量 1]]）。参照解只有 FA 能提供，这正是[[#FA 不可替代的能力|FA 作为黄金参考]]的用途所在。
+
 ## 框架术语映射
 
 | 框架 | Matrix-Free 入口 | 在五级分类中的理解 |
@@ -506,7 +555,7 @@ Matrix-Free 通常只描述主算子路径，预条件器可以使用另一装�
 - [[method-lineage]] — 郭旭老师团队公开 Matrix-Free 相关成果的方法谱系。
 - [[../../research/technical-lines/matrix-free-research-guide]] — 长期能力边界、阶段模型与统一验收原则。
 - [[../../research/technical-lines/matrix-free-research-guide#五、阶段门禁与当前执行状态]] — 当前任务状态、推进顺序与完成记录。
-- [[../../research/technical-lines/gpu-hpc-research-guide]]
-- [[../gpu-hpc/reference-libraries/fealpy-mfem-gpu-backend-comparison]] — MFEM/FEALPy 的 GPU 后端设计对比（装配层级与编程模型正交）
-- [[../../research/piml-matrix-free-gpu/high-performance-solver-survey]]
-- [[../../discussions/guo-xu/first-formal-work-report]]
+- [[../../research/technical-lines/gpu-hpc-research-guide]] — GPU/HPC 技术线的性能边界、证据锚点与阶段门禁；本页只给 setup/update/apply 的代价结构，端到端计时口径由该线维护。
+- [[../gpu-hpc/reference-libraries/fealpy-mfem-gpu-backend-comparison]] — MFEM/FEALPy 的 GPU 后端设计对比（装配层级与编程模型正交）。
+- [[../../research/piml-matrix-free-gpu/high-performance-solver-survey]] — PIML、Matrix-Free 与 GPU 三条技术线组合后的方法关系、开放问题与研究切入点。
+- [[../../discussions/guo-xu/first-formal-work-report]] — 面向郭旭老师的阶段表达快照，引用本页的装配层级口径；不反向覆盖本页定义。

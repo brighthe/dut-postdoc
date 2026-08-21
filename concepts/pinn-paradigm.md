@@ -1,36 +1,22 @@
----
-title: "物理信息神经网络 (Physics-Informed Neural Networks, PINN)"
-type: concept
-aliases:
-  - pinn
-  - pinn-paradigm
-  - pinn-5step-paradigm
-  - pinn-machine-learning-workflow
-  - research/workflows/pinn-machine-learning-workflow
-  - linear-elasticity-pinn-machine-learning-workflow
-  - research/workflows/linear-elasticity-pinn-machine-learning-workflow
-tags:
-  - PIML
-  - machine-learning
-  - SciML
-  - pinn
-status: in-progress
-date_added: 2026-08-06
-date_update: 2026-08-07
----
+# Physics-Informed Neural Networks (PINN) 通用概念与求解范式
 
-# 物理信息神经网络 (PINN)
-
-> 本页记录 Physics-Informed Neural Network (PINN) 求解偏微分方程（PDE）的通用 5 步数学与计算范式、计算力学学者的 ML 入门概念映射，以及 PINN 范式与项目主线 Problem-Independent Machine Learning (PIML) 的异同对比。
-
-## 1. 概念定义与范式消歧
-
-* **Physics-Informed Machine Learning (Problem-Dependent)**：PINN 属于此类范式。它使用神经网络逼近单次边值问题（BVP）的解场，通过将 PDE 控制方程与边界条件残差直接构造为 Loss 函数，利用自动微分与梯度下降算法求解特定参数/边界下的物理场。
-* **与项目主线 PIML 的区别**：项目主线 [[piml/_index|Problem-Independent Machine Learning (PIML)]] 学习的是**可跨宏观 BVP 复用的局部力学表示**（如局部材料 $\to$ 多尺度形函数/缩聚刚度）。PINN 是针对单个 BVP 的无网格优化求解器，不具备跨 BVP 的泛化预测能力。
+本文阐述 Physics-Informed Neural Networks (PINN) 求解偏微分方程（PDE）的连续物理模型、自动微分残差算子与离散 Loss 构造范式。
 
 ---
 
-## 2. PINN 求解 PDE 的通用 5 步数学与计算范式
+## 1. 连续介质力学与 PDE 通用表达
+
+在有界区域 $\Omega \subset \mathbb{R}^d$ 上，考虑微分算子驱动的 PDE 控制方程：
+
+$$
+\mathcal{N}[\boldsymbol{u}](\boldsymbol{x}) = \boldsymbol{f}(\boldsymbol{x}), \quad \boldsymbol{x} \in \Omega
+$$
+
+与边界条件 $\mathcal{B}[\boldsymbol{u}](\boldsymbol{x}) = \boldsymbol{g}(\boldsymbol{x}), \ \boldsymbol{x} \in \partial\Omega$。
+
+---
+
+## 2. 通用 5 步 PINN 求解范式与流程图
 
 无论求解何种偏微分方程（Poisson、线弹性、流体 Navier-Stokes 等），PINN 均遵循以下通用的 5 步计算骨架与训练闭环：
 
@@ -55,19 +41,19 @@ flowchart TD
     I -- "是" --> J --> K
 ```
 
-### 2.1 步骤 1：神经网络参数化表达 (MLP Forward)
-使用多层感知机（MLP）作为解场 $\hat{\boldsymbol{u}}(\boldsymbol{x})$ 的连续逼近器。设输入空间坐标为 $\boldsymbol{x} \in \mathbb{R}^d$（输入层 $\boldsymbol{h}^{(0)} = \boldsymbol{x}$），网络通过 $L-1$ 个隐藏层逐层映射至输出解场预测 $\hat{\boldsymbol{u}} \in \mathbb{R}^{d_{\text{out}}}$：
+### 2.1 步骤 1：PINN 的解场参数化
+
+MLP 的统一前向数学、维度约定和代码映射见
+[[machine-learning#MLP：统一数学定义]]。PINN 在此通用骨干上指定学习对象为
+连续解场:
 
 $$
-\begin{aligned}
-\boldsymbol{h}^{(0)} &= \boldsymbol{x} \in \mathbb{R}^d, \\
-\boldsymbol{z}^{(l)} &= \mathbf{W}^{(l)} \boldsymbol{h}^{(l-1)} + \boldsymbol{b}^{(l)}, \quad & (l = 1, 2, \dots, L-1) \\
-\boldsymbol{h}^{(l)} &= \sigma\left(\boldsymbol{z}^{(l)}\right), \quad & (l = 1, 2, \dots, L-1) \\
-\hat{\boldsymbol{u}} &= \mathbf{W}^{(L)} \boldsymbol{h}^{(L-1)} + \boldsymbol{b}^{(L)} & (\text{输出层线性输出})
-\end{aligned}
+\hat{\boldsymbol{u}}_\theta: \boldsymbol{x}\in\Omega\subset\mathbb{R}^d
+\longmapsto \hat{\boldsymbol{u}}(\boldsymbol{x})\in\mathbb{R}^{d_{\mathrm{out}}}.
 $$
 
-其中 $\mathbf{W}^{(l)}$ 为权重矩阵，$\boldsymbol{b}^{(l)}$ 为偏置向量，$\sigma(\cdot)$ 为逐元素非线性激活函数。网络可优化参数记为 $\boldsymbol{\theta} = \left\{ \mathbf{W}^{(l)}, \boldsymbol{b}^{(l)} \right\}_{l=1}^L$。
+因此 $\boldsymbol{x}$ 必须保留自动微分计算图, 且激活函数的可微阶数必须满足下游 PDE 残差的求导要求.
+本页后续内容只定义 PINN 特有的配点、自动微分、物理残差和优化过程.
 
 ### 2.2 步骤 2：配点采样 (Collocation Sampling)
 PINN 属于无网格 Data-Free 方法，训练配点在计算域中动态生成：
@@ -138,11 +124,27 @@ optimizer.zero_grad() → loss.backward() → optimizer.step()
 
 ## 5. 常见物理问题的实例化索引
 
-通用 PINN 范式在不同物理问题上的具体算例与算法规范：
+### 5.1 线弹性方程 (Linear Elasticity) 物理算子与求导规范
 
-1. **线弹性方程 (Linear Elasticity)**：
-   * 代码实现：[[../entities/soptx]] 算例 `soptx/examples/pinn_elasticity`
-   * 物理算子规范：`soptx/examples/pinn_elasticity/math_spec.md`（包含各向同性 Hooke 本构与二阶应力散度残差）
+在轴对齐有界区域 $\Omega \subset \mathbb{R}^d \ (d \in \{2, 3\})$ 上，线弹性静力平衡控制方程为：
+
+$$
+-\nabla \cdot \boldsymbol{\sigma}(\boldsymbol{u}) = \boldsymbol{b} \quad \text{in } \Omega, \quad \boldsymbol{u} = \bar{\boldsymbol{u}} \quad \text{on } \partial\Omega
+$$
+
+#### 1. 应变与 Hooke 本构
+小变形 Cauchy 应变 $\boldsymbol{\varepsilon} = \frac{1}{2}(\nabla \boldsymbol{u} + (\nabla \boldsymbol{u})^{\mathsf{T}})$，Hooke 本构点值应力张量为：
+$$
+\boldsymbol{\sigma}(\boldsymbol{u}) = \lambda \operatorname{tr}(\boldsymbol{\varepsilon})\mathbf{I} + 2\mu\boldsymbol{\varepsilon}
+$$
+
+#### 2. 基于 PyTorch Autograd 的物理残差求导链
+由位移预测求一阶梯度矩阵 $J_{ij} = \frac{\partial \hat{u}_i}{\partial x_j} = \text{autograd}(\hat{u}_i, x_j; \text{create\_graph=True})$，构造应力后对应力张量各分量求坐标二阶散度：
+$$
+\boldsymbol{R}_{\text{int}}(\boldsymbol{x}; \boldsymbol{\theta}) = -\sum_{j=1}^d \frac{\partial \hat{\sigma}_{ij}}{\partial x_j} - \boldsymbol{b}(\boldsymbol{x}), \quad \boldsymbol{R}_{\text{bnd}}(\boldsymbol{x}; \boldsymbol{\theta}) = \hat{\boldsymbol{u}}(\boldsymbol{x}; \boldsymbol{\theta}) - \bar{\boldsymbol{u}}(\boldsymbol{x})
+$$
+
+* **代码实现参照**：`soptx/examples/pinn_elasticity`
 
 ---
 

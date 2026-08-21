@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="970" viewBox="0 0 2400 970" role="img" aria-labelledby="title desc" version="1.1">
+  <title id="title">关键科学问题、研究内容与研究目标的对应关系</title>
+  <desc id="desc">两个关键科学问题分别对应前两项研究内容和目标，并共同汇入拓扑演化下的可靠性闭环与规模扩展验证。</desc>
+  <metadata>Raster counterpart: 2400 x 970 pixels.</metadata>
+  <defs>
+    <marker id="arrow-green" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L13,6.5 L0,13 Z" fill="#2F855A" />
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="2400" height="970" fill="#FFFFFF" />
+  <!-- 科学问题 1 -->
+  <rect x="70" y="40" width="1080" height="370" rx="30" fill="#EDF5FC" stroke="#2B6CB0" stroke-width="4" />
+  <rect x="70" y="40" width="1080" height="100" rx="30" fill="#2B6CB0" />
+  <rect x="70" y="105" width="1080" height="35" fill="#2B6CB0" />
+  <text x="610" y="111" text-anchor="middle" font-family="Microsoft YaHei" font-weight="700" font-size="44" fill="#FFFFFF">科学问题 1</text>
+  <text x="610" y="220" text-anchor="middle" font-family="Microsoft YaHei" font-weight="700" font-size="52" fill="#1F2937">
+    <tspan x="610" dy="0" font-family="Microsoft YaHei" font-size="52" font-weight="700" fill="#1F2937">PIML 局部近似误差的</tspan>
+    <tspan x="610" dy="76" font-family="Microsoft YaHei" font-size="52" font-weight="700" fill="#1F2937">全局传播机制</tspan>
+  </text>
+  <text x="610" y="382" text-anchor="middle" font-family="Microsoft YaHei" font-weight="700" font-size="42" fill="#2B6CB0">研究内容 1 · 研究目标 1</text>
+  <!-- 科学问题 2 -->
+  <rect x="1250" y="40" width="1080" height="370" rx="30" fill="#FFF5E8" stroke="#B45309" stroke-width="4" />
+  <rect x="1250" y="40" width="1080" height="100" rx="30" fill="#B45309" />
+  <rect x="1250" y="105" width="1080" height="35" fill="#B45309" />
+  <text x="1790" y="111" text-anchor="middle" font-family="Microsoft YaHei" font-weight="700" font-size="44" fill="#FFFFFF">科学问题 2</text>
+  <text x="1790" y="220" text-anchor="middle" font-family="Microsoft YaHei" font-weight="700" font-size="52" fill="#1F2937">
+    <tspan x="1790" dy="0" font-family="Microsoft YaHei" font-size="52" font-weight="700" fill="#1F2937">异构计算链的性能耦合</tspan>
+    <tspan x="1790" dy="76" font-family="Microsoft YaHei" font-size="52" font-weight="700" fill="#1F2937">与端到端收益边界</tspan>
+  </text>
+  <text x="1790" y="382" text-anchor="middle" font-family="Microsoft YaHei" font-weight="700" font-size="42" fill="#B45309">研究内容 2 · 研究目标 2</text>
+  <!-- 两条主线共同汇入第三项研究 -->
+  <path d="M610 410 C610 520 920 525 990 620" fill="none" stroke="#2F855A" stroke-width="9" marker-end="url(#arrow-green)" />
+  <path d="M1790 410 C1790 520 1480 525 1410 620" fill="none" stroke="#2F855A" stroke-width="9" marker-end="url(#arrow-green)" />
+  <rect x="450" y="650" width="1500" height="275" rx="30" fill="#ECF8F0" stroke="#2F855A" stroke-width="4" />
+  <text x="1200" y="775" text-anchor="middle" font-family="Microsoft YaHei" font-weight="700" font-size="52" fill="#1F2937">拓扑演化下的可靠性闭环与规模扩展验证</text>
+  <text x="1200" y="870" text-anchor="middle" font-family="Microsoft YaHei" font-weight="700" font-size="42" fill="#2F855A">研究内容 3 · 研究目标 3</text>
+</svg>

@@ -6,7 +6,7 @@ tags:
   - finite-element
 status: in-progress
 date_added: 2026-07-26
-date_update: 2026-08-09
+date_update: 2026-08-10
 ---
 
 # Matrix-Free 主题入口
@@ -32,7 +32,7 @@ x (T-vector, true DOF)
   --B^T--> E --G^T--> L --P^T--> y (T-vector)
 ```
 
-装配层次就是在这条因子链上选一个**预计算前缘**：前缘以外的因子在 setup 阶段乘起来并保存，前缘以内的留到每次 apply 执行。五级分类没有引入新算子，只是同一条链的不同求值方式。
+装配层次就是在这条因子链上选一个**预计算前缘**：前缘以外的因子在 setup 阶段乘起来并保存，前缘以内的留到每次 apply 执行。五级分类没有引入新算子，只是同一条链的不同求值方式。四个因子的定义、$\mathbf P$ 与 $\mathbf G$ 的层次区分、五级判据与存储代价对照，全部由 [[assembly-levels]] 维护。
 
 ### 程序实现必读入口
 
@@ -45,9 +45,7 @@ x (T-vector, true DOF)
 | [[krylov-subspace-methods]] | MatVec 之上的迭代求解机制、预条件与收敛判据。 |
 | [[../../research/technical-lines/matrix-free-research-guide]] | 研究目标、装配边界、统一验收原则与阶段门禁。 |
 
-关联实现：SOPTX `examples/matrix_free_elasticity/`，维护当前二维、三维可执行线弹性基线；具体入口与运行方式见该目录 `README.md`，实测数值与证据 provenance 的唯一事实源是同目录 `results_analysis.md`，当前只有 dirty worktree 的开发证据，尚无 clean-revision 正式 evidence。
-
-线弹性连续模型、变分形式与单元刚度算子见 [[../linear-elasticity]]；MFEM 的 `FULL/ELEMENT/PARTIAL/NONE` 术语来源见 [[../gpu-hpc/reference-libraries/mfem-architecture]]。$\mathbf P$ 与 $\mathbf G$ 是两层不同的映射，前者是 MPI 进程间的 true/local 关系，后者是进程内 local/element 的限制回填，串行下 $\mathbf P=\mathbf I$，该区分只在并行时有内容。主算子与预条件器可以采用不同装配层级，因此性能报告必须分别注明 operator level、preconditioner level 以及 setup、update、apply 和完整 solve 成本。
+关联实现：`soptx:examples/matrix_free_elasticity/`，维护当前二维、三维可执行线弹性基线；具体入口与运行方式见该目录 `README.md`，实测数值与证据 provenance 的唯一事实源是同目录 `results_analysis.md`，当前只有 dirty worktree 的开发证据，尚无 clean-revision 正式 evidence。
 
 ## 项目与技术线入口
 

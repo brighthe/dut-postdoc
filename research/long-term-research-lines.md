@@ -14,7 +14,7 @@ tags:
   - high-performance-computing
 status: "in-progress"
 date_start: 2026-07-31
-date_update: 2026-08-04
+date_update: 2026-08-13
 ---
 
 # 个人长期科研主线
@@ -59,6 +59,8 @@ date_update: 2026-08-04
 - **Matrix-Free**：避免显式组装或存储大规模全局矩阵，以算子作用连接 Krylov 迭代与预条件方法。
 - **GPU 异构并行计算**：面向局部算子批处理、全局算子作用、迭代求解和端到端流程开展异构并行与性能优化。
 - **三者融合**：形成“PIML 局部预测或构造算子 → Matrix-Free 全局算子作用 → Krylov/预条件 → GPU 与 MPI 异构执行”的研究链路。
+
+上述三条技术线共用统一的多后端实现（NumPy/PyTorch/JAX 等），同一算子与求解代码在 CPU/GPU 间保持语义、精度和计时口径一致，作为跨线可移植性与 CPU/GPU 对照公平性的实现基础。
 
 ### 当前入口
 
