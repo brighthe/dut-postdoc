@@ -42,6 +42,18 @@ talks/**/build/
 .winuser/
 tmp/
 
+# Codex local review and scratch artifacts
+.codex/docx-review-80th*/
+.codex/tmp-figure1/
+.codex_tmp/
+.soptx-patch-link
+.claude/settings.local.json
+
+# Generated document QA and Python caches
+research/funding/active/china-postdoc-foundation-general-grant/.docx-qa/
+**/__pycache__/
+*.py[cod]
+
 # Funding source documents are archived in iCloud, not Git
 research/funding/**/*.pdf
 
