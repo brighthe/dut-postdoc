@@ -1,0 +1,44 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:arxiv.org)",
+      "WebFetch(domain:ar5iv.labs.arxiv.org)",
+      "WebFetch(domain:global-sci.com)",
+      "WebFetch(domain:www.global-sci.com)",
+
+      "Read(//c/workspace/**)",
+      "Read(//c/Users/Administrator/Zotero/**)",
+      "Read(///wsl.localhost/Ubuntu-24.04/home/brighthe/workspace/**)",
+
+      "PowerShell(git status *)",
+      "PowerShell(git log *)",
+      "PowerShell(git diff *)",
+      "PowerShell(git show *)",
+      "PowerShell(git remote -v)",
+      "PowerShell(git branch --show-current)",
+
+      "PowerShell(wsl -d Ubuntu-24.04 -- ls *)",
+      "PowerShell(wsl -d Ubuntu-24.04 -- cat *)",
+
+      "PowerShell(wsl -d Ubuntu-24.04 -- git -C /home/brighthe/workspace/soptx status *)",
+      "PowerShell(wsl -d Ubuntu-24.04 -- git -C /home/brighthe/workspace/soptx log *)",
+      "PowerShell(wsl -d Ubuntu-24.04 -- git -C /home/brighthe/workspace/soptx diff *)",
+      "PowerShell(wsl -d Ubuntu-24.04 -- git -C /home/brighthe/workspace/soptx show *)",
+      "PowerShell(wsl -d Ubuntu-24.04 -- git -C /home/brighthe/workspace/soptx branch *)",
+      "PowerShell(wsl -d Ubuntu-24.04 -- git -C /home/brighthe/workspace/soptx remote -v)",
+
+      "PowerShell(wsl -d Ubuntu-24.04 -- git -C /home/brighthe/workspace/fealpy status *)",
+      "PowerShell(wsl -d Ubuntu-24.04 -- git -C /home/brighthe/workspace/fealpy log *)",
+      "PowerShell(wsl -d Ubuntu-24.04 -- git -C /home/brighthe/workspace/fealpy diff *)",
+      "PowerShell(wsl -d Ubuntu-24.04 -- git -C /home/brighthe/workspace/fealpy show *)",
+      "PowerShell(wsl -d Ubuntu-24.04 -- git -C /home/brighthe/workspace/fealpy branch *)",
+      "PowerShell(wsl -d Ubuntu-24.04 -- git -C /home/brighthe/workspace/fealpy remote -v)",
+
+      "PowerShell(gh repo view *)",
+
+      "Bash(ls *)",
+      "Bash(grep *)"
+    ]
+  }
+}

@@ -2,15 +2,7 @@
 
 @ai/llm-wiki-workflow.md
 
-本文件指导 Claude Code 在 `dut-postdoc` 中工作。
-
-全局 Claude Code / AI 工具配置由个人工具仓库 `C:\workspace\workstation`（GitHub: `brighthe/workstation`）维护；本文件只记录 `dut-postdoc` 的项目级补充规则。不要把该工具仓库视为本知识库的内容来源或运行依赖。
-
-## 启动入口
-
-`ai/llm-wiki-workflow.md` 已通过文件开头的 Claude Code import 在会话启动时自动加载。Claude Code 开始任务前，应读取并遵守 [index.md](index.md)，从中定位当前研究方向、内容入口和对应领域 `_index.md`。
-
-本文件其余内容仅补充 Claude Code 专用规则；工具无关的 LLM Wiki 方法论、目录结构、ingest/query/lint 工作流及专项规则入口均由上述 import 提供。
+本文件指导 Claude Code 在 `dut-postdoc` 中工作。工具无关的定位与边界、LLM Wiki 方法论、目录结构、ingest/query/lint 工作流及专项规则入口，均由上述 import 在会话启动时自动加载；本文件只补充 Claude Code 专用规则。
 
 ## Claude Code 专用补充
 
