@@ -10,6 +10,13 @@
 - **Claude Code 在本机操作 git 用 PowerShell**（原生 Windows git），别用 Bash 工具（cygwin）。
 - **Codex PowerShell 沙箱**：执行本仓库 Git 命令时，显式使用 `git --git-dir=C:\workspace\dut-postdoc\.git --work-tree=C:\workspace\dut-postdoc <command>`，避免沙箱无法正确定位仓库（仅本机 heliang-windows-laptop 需要）。
 
+## 原始资料与派生文件的存储归属
+
+- **iCloud**：保存非论文类官方文件、个人办理材料和其他原件。博士后相关原件以 `iCloudDrive/博士后-大连理工大学/` 为根目录，仓库只记录从 `博士后-大连理工大学` 开始的相对路径、官方 URL 和必要的 SHA-256，不写死 Windows 用户目录。
+- **Zotero**：保存学术论文及其附件；文献笔记通过 Citation Key、DOI 或 `zotero://` 链接回溯，不复制论文 PDF 到 Git。
+- **Git**：保存 Markdown 知识、索引、代码、模板及确有公开复现价值的派生资产。`assets/` 用于模板、图件和可复用派生资源，不作为原始文件归档池。
+- 最终演示文稿、可公开交付物等派生文件可按事件档案需要显式纳入 Git；含个人信息、申报材料或其他敏感内容的文件仍只保存在 iCloud。
+
 ## 提交纪律
 
 - **仅在用户明确要求时**提交/推送。

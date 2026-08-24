@@ -1,3 +1,9 @@
+## [2026-08-24] edit | llm-wiki-workflow 两轮瘦身：拆分常驻规则与按需细则
+- ai/llm-wiki-workflow.md 从 19.6KB 精简至约 5KB 常驻文件：仅保留定位边界、三层红线、写作约定、根门面约定、安全隐私与按任务加载路由；删除理念阐述、目录地图与页面类型速记（目录树与内容地图以 README.md/index.md 为准），压缩链接路径与关联校验的论证性文字，规则语义不变。
+- 新建 ai/core-operations.md：Ingest/Query/Lint 完整步骤与检查清单（按需加载）；新建 ai/page-schemas.md：页面类型速记与各类页面（文献笔记、译文、主题索引、证据卡、复杂主题入口、工作汇报、归档）的模板绑定、状态机细则（按需加载），内容自原文件搬移。
+- ai/git-workflow.md 新增「原始资料与派生文件的存储归属」节，承接 iCloud/Zotero/Git 分工细则。
+- README.md 同步四处：目录树登记两个新文件、“三个核心操作”标题指向 core-operations.md、专项工作流清单补充两个新入口、存储职责锚点改指 git-workflow.md；根 index.md 不登记 ai/ 文件，无需更新。
+
 ## [2026-08-13] edit | 集中载荷内容按“概念—实现”边界重新归位
 - concepts/huzhang/huzhang-mixed-fem.md 删除 §2.5.4 的程序分层与验收量，仅保留点力正则化、Hu--Zhang 的函数空间限制和共同离散牵引的数学原理。
 - soptx:docs/fem/huzhang-mixed-fem-implementation.md 已有“工程集中载荷的程序架构”章节，继续作为 FixedFixedBeamCenterLoad2d、cases.toml、boundary_loads.py、两条分析链及运行验收量的唯一实现事实源。未运行数值程序；目录索引无需更新。

@@ -1,154 +1,42 @@
 # LLM Wiki 通用工作流
 
-本文件是 `dut-postdoc` 的工具无关规则。任何 AI 工具在本仓库工作时，都应先读取并遵守本文件；各工具自己的入口文件只补充工具差异，不重复定义知识库方法论。
-
-参考方法论：Andrej Karpathy, *LLM Wiki: A Personal Knowledge Base Pattern*（<https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f>）。
+本文件是 `dut-postdoc` 的工具无关常驻规则：任何 AI 工具在本仓库工作时先加载并遵守本文件，各工具入口文件只补充工具差异。方法论背景（Karpathy LLM Wiki 模式：在「原始资料」和「我」之间维护一个可被 LLM 读写的持久中间层）与仓库全貌见 [README.md](../README.md)。
 
 ## 定位与边界
 
-- 全局 AI 工具配置由个人工具仓库 `C:\workspace\workstation`（GitHub: `brighthe/workstation`）维护；本仓库内的规则文件只记录 `dut-postdoc` 的项目级补充。不要把该工具仓库视为本知识库的内容来源或运行依赖。
-- 开始任务前，先读取并遵守 [index.md](../index.md)：全库内容地图，从这里定位当前研究方向、内容入口和对应领域 `_index.md`。
+- 全局 AI 工具配置由个人工具仓库 `C:\workspace\workstation`（GitHub: `brighthe/workstation`）维护；本仓库只记录 `dut-postdoc` 的项目级规则，不把工具仓库当作内容来源或运行依赖。
+- 需要定位内容、判断新页面归属或不熟悉全库布局时，先读 [index.md](../index.md)（全库内容地图）；目录树与面向人类的说明见 [README.md](../README.md)。
 
-## 它是什么
+## 三层边界
 
-一句话：**在「原始资料」和「我」之间，维护一个持久、结构化、可被 LLM 读写的中间层**，这样每次提问不必从零重读论文，而是查询一个不断沉淀的 wiki。
-
-维护知识库里真正烦人的不是阅读和思考，而是记账（bookkeeping）。LLM 适合承担这种人类容易半途放弃的维护工作。人的职责是：挑选资料、指明分析方向、提出好问题；AI 的职责是：读取、压缩、互链、索引、回填、体检。
-
-## 三层架构
-
-| 层 | 内容 | 谁拥有 | 规则 |
-|---|---|---|---|
-| **原始源层** | 论文 PDF、官方文件、个人原件、文章和图片等不可变资料 | 人 | AI 只读，**永不修改**；是最终事实来源。原件保存在 iCloud 或 Zotero，不入版本控制 |
-| **Wiki 层** | 文献笔记、调研、工作汇报、概念页、实体页、论文草稿、历史事件档案 | AI | AI 增量创建/维护页面与交叉引用 |
-| **Schema 层** | `ai/` + 根目录工具入口 + 各模板 | 人定，AI 遵守 | 约定、工作流、目录结构 |
-
-### 原始资料存储职责
-
-- **iCloud**：保存非论文类官方文件、个人办理材料和其他原件。博士后相关原件以 `iCloudDrive/博士后-大连理工大学/` 为根目录，仓库只记录从 `博士后-大连理工大学` 开始的相对路径、官方 URL 和必要的 SHA-256，不写死 Windows 用户目录。
-- **Zotero**：保存学术论文及其附件；文献笔记通过 Citation Key、DOI 或 `zotero://` 链接回溯，不复制论文 PDF 到 Git。
-- **Git**：保存 Markdown 知识、索引、代码、模板及确有公开复现价值的派生资产。`assets/` 用于模板、图件和可复用派生资源，不作为原始文件归档池。
-- 最终演示文稿、可公开交付物等派生文件可按事件档案需要显式纳入 Git；含个人信息、申报材料或其他敏感内容的文件仍只保存在 iCloud。
-
-## 目录地图
-
-```
-dut-postdoc/
-├── AGENTS.md          # Codex & Antigravity 项目规则入口
-├── CLAUDE.md          # Claude Code 项目规则入口
-├── ai/                # 多 AI 工具共享的工作流
-│   ├── llm-wiki-workflow.md
-│   ├── git-workflow.md
-│   ├── paper-translation-workflow.md
-│   └── talks-ppt-editing-rules.md
-├── index.md           # 根总目录：稳定入口与高层导航地图
-├── log.md             # 时间线：append-only，记录每次 ingest/query/lint
-├── README.md          # 给人看的仓库说明
-│
-├── literature/        # 文献主题与单篇论文 summary 页
-│   └── <主题>/
-│       ├── _index.md  # 文献主题入口与最近一级状态导航
-│       ├── notes/     # AuthorYear-short-topic 单篇笔记；纯文件容器
-│       ├── translations/ # 中文译文
-│       └── assets/    # 图片等派生资源
-├── research/          # 调研/综合（课题/方向级 ≈ synthesis 页）
-├── discussions/      # 科研讨论对象与交流（导师汇报、合作者交流；自包含会前底稿、会后结论与行动项）
-├── concepts/          # 稳定概念：简单概念单页，复杂主题使用子目录
-│   ├── _index.md      # 概念域入口
-│   ├── piml/          # 数学基础、方法谱系与跨目录主题入口
-│   └── matrix-free/   # 装配层次、方法谱系与跨目录主题入口
-├── entities/          # 实体页（人/团队/机构/方法/软件）
-├── papers/            # 自己写的论文草稿
-├── talks/             # 准备中或仍需维护的报告/讲稿（LaTeX）
-├── archive/           # 已完成事件的最终交付物与准备材料
-└── assets/
-    ├── refs.bib       # 共用参考文献库
-    └── templates/     # 各类页面模板
-```
-
-页面类型速记：
-
-- **summary（文献笔记）**：一篇论文一页，落在 `literature/<主题>/notes/`；`notes/` 只是文件容器，不建立 `_index.md` 或第二套状态账。
-- **synthesis（调研）**：一个课题跨多篇论文，落在 `research/`。
-- **discussion（科研讨论）**：以人为对象的科研讨论与交流（面向导师的周期性工作汇报、面向合作者的交流材料），落在 `discussions/<对象>/`；同一页面持续维护本次实际要汇报/交流的全部内容、必要事实快照、会后结论和行动项，做到讨论时无需跳转其他仓库补充正文。人物之间的关系（师门链、合作背景）由 `discussions/relationships.md` 统一维护。
-- **concept（概念页）**：反复出现的概念经跨源提炼后落在 `concepts/`；简单概念使用 `assets/templates/concept-note.md` 建立单页，具有多个稳定子页面的复杂主题使用 `concepts/<主题>/`，并以 `assets/templates/topic-index.md` 建立统一语义入口。
-- **entity（实体页）**：一个人/团队/机构/方法/软件的档案卡，落在 `entities/`。
-- **archive（事件档案）**：已经完成、不再主动维护的答辩、报告或阶段事件材料，落在 `archive/<event>/`；归档前先把长期有效事实抽取到概念页、技术线或调研页，档案只保存最终交付物、准备过程与历史语境。
+- **原始源层**（论文 PDF、官方文件、个人原件）：人拥有，AI 只读、**永不修改**，是最终事实来源；不入版本控制。
+- **Wiki 层**（文献笔记、调研、工作汇报、概念页、实体页、论文草稿、事件档案）：AI 增量创建、维护与互链。
+- **Schema 层**（`ai/` + 根目录工具入口 + `assets/templates/`）：人定，AI 遵守。
+- 存储归属：iCloud 存官方及个人原件，Zotero 存论文附件，Git 只存 Markdown 知识、模板与确有公开价值的派生资产；细则见 [git-workflow.md](git-workflow.md)「原始资料与派生文件的存储归属」。
 
 ## 写作约定
 
 - **语言**：全中文（专有名词、方法名、变量保留英文）。
-- **文件名与 Citation Key**：文献页面使用稳定、可读的 `AuthorYear-short-topic` basename，如 `Huang2022-problemindependentmachine.md`；作者姓首字母大写，四位年份紧随其后，短主题用连字符分段，既有标准缩写可保留大写。中文译文在同一 basename 后追加 `-zh`。页面文件名与 Zotero Citation Key 分离，Citation Key 只在 `zotero_citation_key`／`citekey` 和 `assets/refs.bib` 中保存。
-- **强制 Frontmatter (笔记属性)**：**任何时候新建或撰写/更新文档，必须严格按照对应模板将顶部的 YAML 属性信息（如 `status`、`tags`、`date_read/update`、作者/年份等）全部真实、完整地填写好，绝不可遗漏或留白**。
-- **文献笔记模板与状态**：`assets/templates/literature-note.md` 是 `literature/<主题>/notes/` 中单篇笔记 frontmatter schema 与正文骨架的唯一规范来源；新建或迁移文献笔记时按该模板填写，不维护并行的 Zotero/ZotLit 生成模板。文献状态依次为：`draft`（只保存已核验元数据、页面框架和译文入口，不形成正文技术结论）、`read`（对应中文译文已经 `done`，笔记已精读回填，但公式、图表、证据边界或关联同步尚未全部终审）、`done`（译文与全文证据核验、frontmatter、链接和关联同步均完成）。中文译文达到 `done` 前，文献笔记不得升级为 `read`／`done`，不得作为全文级证据使用。日期统一使用 `date_added`、`date_read`、`date_update`；未知或尚不适用的可选字段写 YAML `null`。`year` 记录正式卷期年份，online-first 日期另记为 `date_online`；页码与文章号分别使用 `pages`、`article`。Citation Key 统一存入 `zotero_citation_key`，不得另建 `citekey`。
-- **模型选型证据卡**：`assets/templates/model-selection-evidence-card.md` 是按需插入单篇笔记的模板片段，不是独立 Wiki 页面。仅在专题任务需要统一比较时放入“证据边界与可复现性”；填好的卡片继续由该单篇笔记唯一维护，每格必须填写论文事实或“未报告”，并区分作者主张与证据边界。
-- **文献主题索引**：`assets/templates/literature-topic-index.md` 是 `literature/<主题>/_index.md` 的规范骨架，维护主题范围、按子主题组织的论文入口、最近一级状态、交叉主题和归类规则；不复制单篇正文。单篇状态以页面 frontmatter 为权威来源，主题索引只做最近一级同步。
-- **中文译文模板与状态**：`assets/templates/translation-note.md` 是译文 frontmatter 与正文骨架的唯一模板，具体翻译和核验过程遵循 `ai/paper-translation-workflow.md`。先建立元数据文献笔记骨架和对应译文骨架，再逐节翻译；译文状态使用 `draft`（未完成）、`read`（内容已整理但尚待逐页核验）和 `done`（清单声明的内容已经核验）。只有译文 `done` 后才回填正式文献笔记。
-- **复杂主题入口模板与职责**：`assets/templates/topic-index.md` 是复杂主题 `_index.md` 的规范骨架。主题入口按“稳定知识—主题机制节—项目与技术线入口—文献证据—关联入口—管理边界”六节组织。其中**主题机制节**的标题按主题实际内容命名（如“Matrix-Free 算子作用与装配层次”“鞍点结构与稳定化”），用一张最小机制图加 `### 程序实现必读入口` 回答“这个主题机械上是什么形状、动代码前先读哪几页”；确实没有可落地机制链路时可整节删除，但不得为凑结构编造流程。**关联入口**合并原先的关联主题、关联实现、工作汇报与历史档案，每条以角色前缀标注，没有对应页面的角色直接不写。**管理边界必须保留独立标题**，不并入关联入口，也不压成无标题的收尾段——它是规则而非导航，是 AI 工具判断禁区的依据。跨仓库路径一律使用 `repo:path` 相对写法，不写机器绝对路径。入口页只维护导航、页面职责和事实所有权，不复制其他页面正文，不建立第二套任务状态账，不维护固定文件数或全部关键词命中清单。
-- **双链**：页面间一律用 Obsidian `[[wikilink]]`，**链接要给足**。链一个尚不存在的页面也可以，它标记「将来要补的页」。
-- **链接路径写法**：一律使用**相对于当前文件**的路径（同目录直接写文件名，跨目录用 `../`），不使用 vault 根路径（`[[concepts/linear-elasticity]]`）或跨目录裸文件名（在 `gpu-hpc/reference-libraries/` 里写 `[[performance-model]]`）。后两种在 Obsidian 里虽能解析，但一旦出现同名文件就会静默指错，且移动文件时无法机械校验。**移动或重命名页面时，必须同步改写该页自身的全部出链和指向它的全部入链**；批量改写后应复核每条链接能否按相对路径解析，多段路径解析失败时不要回退到按文件名匹配——那会把链接悄悄接到另一个同名页面上。 **例外**：`assets/` 下的图片等二进制资产嵌入沿用裸文件名（`![[Huang2023_Fig1.png]]`），口径以 [paper-translation-workflow.md](paper-translation-workflow.md) §3.3 为准；该例外不适用于任何 Markdown 页面之间的链接。
-- **引用要可溯源**：综合性结论尽量标注来源页（`[[...]]`）或 `refs.bib` 的 cite key，不凭空断言。
-- **不编造**：拿不准的事实标注「待确认」，绝不虚构数据、结论或文献。
-- **工作汇报生命周期与边界**：工作汇报页使用 `preparing → reported → follow-up-done`；未实际汇报不得标为 `reported`。页面应自包含本次实际要汇报的全部内容，包括必要的行政/工作状态摘要、技术事实、研究路线、合作线索和待请教问题；外部事实源仍各自维护完整原始记录与实时状态。真实消息、逐字交流、约见过程、关系状态、完整行政流水和敏感标识由对应沟通仓库维护，项目任务实时状态以项目仓库为准；汇报页只保留有日期和来源说明的必要快照，不建立并行事实账。
-- **报告与事件归档生命周期**：`talks/` 只保存准备中或仍需维护的演示文稿。事件完成后，先抽取长期知识，再把最终交付物和准备材料整体移入 `archive/<event>/`，状态统一为 `archived` 并记录事件日期和归档日期。活跃页面不得继续把归档 guide 当作当前事实源；归档内的历史脚本、话术和阶段状态不再持续更新。
-- **语义 `_index.md` 是主题入口**：不按物理文件夹机械创建 `_index.md`。只有当目录代表明确知识主题或工作流、包含多个需要说明关系与边界的权威页面，或需要跨目录连接稳定知识、当前研究、文献证据、工作汇报和历史档案时，才建立 `_index.md`；附件、临时分组和单一明确页面通常不建立。
-- **从主题入口续接上下文**：主题 `_index.md` 可以链接目录外的 `research/`、`literature/`、`discussions/` 或 `archive/` 页面，不要求只列本目录文件。进入已有主题入口时，先阅读 `_index.md`，再按页面角色打开权威事实源；跨目录链接不改变原页面的事实所有权。
-- **内容变更后同步语义索引**：每次新增、移动、删除或重组主题页面后，检查其最近的语义 `_index.md`；单页 frontmatter 是该页状态的权威来源，状态只同步到最近的主题索引，不向父级和根索引逐层复制。只有稳定入口、概念域或全库高层导航发生变化时，才同步 `concepts/_index.md` 或根 `index.md`。没有语义入口的普通目录不为满足形式要求而新建 `_index.md`。
-- **关联更新与同步校验**：每次新建或修改任何 wiki 页面（如文献笔记、调研页、概念页、实体页等）后，**必须主动检索并检查所有与其关联的其他页面**（如反向双链引用、同类概念交叉引用、团队/机构实体信息等）。**在执行此项检索与检查前，AI 必须提前询问并告知用户（例如：「我将开始检索并检查与本次修改/新增相关联的文件以确认是否需要同步更新，是否继续？」），在得到用户确认后方可进行校验与同步更新**。严禁默默修改单页或未经询问就执行后台关联文件检查。提交前门面检查的授权与具体门禁以 [git-workflow.md](git-workflow.md) 为准；其他关联 Wiki 页面的扩展检查仍适用本规则。
+- **文件名与 Citation Key**：文献页面用 `AuthorYear-short-topic` basename（如 `Huang2022-problemindependentmachine.md`），中文译文同 basename 加 `-zh`；Citation Key 与文件名分离，只存 `zotero_citation_key` 和 `assets/refs.bib`。
+- **强制 Frontmatter**：新建或更新文档必须按对应模板将顶部 YAML 属性（`status`、`tags`、日期、作者/年份等）全部真实、完整填写，不得遗漏或留白。
+- **页面模板与状态机**：新建或升级任何页面前必须读 [page-schemas.md](page-schemas.md)。
+- **双链**：页面间一律用 Obsidian `[[wikilink]]`，链接给足；链尚不存在的页面也可以，标记「将来要补的页」。
+- **链接路径**：一律用相对于当前文件的路径（同目录写文件名，跨目录用 `../`），不用 vault 根路径或跨目录裸文件名。移动或重命名页面时必须同步改写该页全部出链和指向它的全部入链，并复核每条链接可按相对路径解析；解析失败时不回退为按文件名匹配。例外：`assets/` 下二进制资产嵌入沿用裸文件名（`![[xx.png]]`），口径见 [paper-translation-workflow.md](paper-translation-workflow.md) §3.3。
+- **可溯源、不编造**：综合性结论标注来源页 `[[...]]` 或 `refs.bib` cite key；拿不准的事实标「待确认」，绝不虚构数据、结论或文献。
+- **语义 `_index.md`**：只在目录形成明确主题、包含多个权威页面或需要跨目录连接时建立，不按物理文件夹机械创建；进入内容目录先读其 `_index.md`。页面变更后同步最近的语义 `_index.md`；单页 frontmatter 是状态的权威来源，不向父级和根索引逐层复制；仅稳定入口或全库高层导航变化时才同步 `concepts/_index.md` 或根 `index.md`。
+- **关联更新须先询问**：新建或修改页面后应检查关联页面（反向双链、交叉引用等）是否需同步，但执行该检索校验前必须先询问用户并获确认，严禁默默修改单页之外的内容或未经询问执行后台检查。提交前门面检查的授权以 [git-workflow.md](git-workflow.md) 为准。
 
-## 三个核心操作
+## 根门面文件
 
-### 1. Ingest（吸收新资料）
-
-当用户给一篇新论文/文章/图片时：
-
-1. **核验原始资料**：读取 PDF/图片/链接，确认 Zotero item、附件和 Better BibTeX Citation Key。
-2. **建立双骨架**：用 `assets/templates/literature-note.md` 建只含元数据和占位栏目的 `draft` 文献笔记；用 `assets/templates/translation-note.md` 按原文章节建立 `draft` 中文译文。
-3. **逐节翻译与核验**：遵循 `ai/paper-translation-workflow.md` 与用户逐节确认；译文完成全局终审后标记为 `done`。
-4. **回填 summary**：基于已核验译文撰写文献笔记，和用户讨论一句话概括、研究问题、方法、证据边界及研究价值；按终审程度升级为 `read` 或 `done`。
-5. **更新 `refs.bib`**：补上并核验该文献条目。
-6. **横向刷新**：更新受影响的 **概念页**（`concepts/`）、**实体页**（`entities/`）、相关 **调研**（`research/`）。一次 ingest 可能要动 5-15 个文件。
-7. **更新索引**：更新最近的主题 `_index.md`；只有新增、移动或删除稳定入口并影响高层导航时，才同步必要的父级 `_index.md` 和根 `index.md`。
-8. **记一笔 log**。
-
-### 2. Query（查询）
-
-用户提问时：
-
-1. 在 wiki 内**搜索**相关页，通常按 `concepts/` -> `entities/` -> `research/` -> `literature/` 的顺序最高效。
-2. **综合**作答，**带引用**，标注来源页 `[[...]]`。
-3. 如果这条问答有长期价值，**回填**成一个永久页面，或补进已有页面，并更新 `index.md`。
-
-### 3. Lint（健康检查）
-
-用户说「lint / 体检 / 整理」时，扫描并报告，不擅自大改，先列清单：
-
-- **矛盾**：不同页面对同一事实的冲突说法。
-- **过期**：与新资料冲突的旧结论。
-- **孤页**：没有任何页面链入的页面。
-- **缺链**：本该互链却没链的页面、指向不存在页面的死链。
-- **空缺**：`_index.md`/`index.md` 漏登记的页面；frontmatter 缺字段。
-- 在 `log.md` 记一笔 lint 结果。
-
-## index.md、log.md 与 README.md
-
-- **`index.md`（根总目录）**：面向内容的全库稳定入口与高层导航地图。优先列主题入口以及没有专属子索引的关键独立页面，不平铺已经由下级 `_index.md` 管理的叶子页面和单篇状态；只有稳定入口或高层导航变化时更新。
-- **`log.md`（时间线）**：append-only，每次操作追加一条可解析记录：
+- **`log.md`**：append-only 时间线。任何 ingest/query/lint/重要 edit 完成后追加一条，只增不改历史条目：
 
 ```markdown
 ## [YYYY-MM-DD] <ingest|query|lint|edit> | <简述>
 - 动了哪些文件 / 关键结论
 ```
 
-只增不改历史条目。
-- **`README.md`（人类入口）**：面向人类读者的仓库说明，记录仓库用途、目录结构、入口文件、核心工作流与当前研究主线。凡是目录结构、工具入口、协作约定或研究主线发生变化，若会影响人类理解本仓库，应同步检查并更新 `README.md`。
-- **三件根门面文件的分工**：
-  - `index.md` 回答“库里有什么、从哪里进入”；
-  - `log.md` 回答“最近发生了什么、为什么变成现在这样”；
-  - `README.md` 回答“这个仓库是什么、人应该如何使用”。
-- **收尾检查**：每次完成 ingest、目录重组、规则变更或重要研究状态更新后，除对应目录 `_index.md` 外，还要检查这三件根门面文件是否需要同步。若暂不更新，应在回复中明确说明原因或提醒后续处理。
-- **提交前门禁**：用户明确要求 commit/push 时，读取并遵守 [git-workflow.md](git-workflow.md)；该文件是本仓库提交纪律与根门面文件检查的唯一权威来源，本文件不重复定义具体门禁。机器级 Git/SSH 配置已统一由 `workstation` 仓库 git 模块承载，git-workflow.md 内有指针。
-
+- **`index.md`**：全库稳定入口与高层导航，仅入口级变化时更新；**`README.md`**：面向人类的仓库说明，目录结构、工具入口、协作约定或研究主线变化时同步。
+- **收尾检查**：完成 ingest、目录重组、规则变更或重要研究状态更新后，检查对应 `_index.md` 与三件根门面文件是否需同步；暂不更新应说明原因。提交门禁以 [git-workflow.md](git-workflow.md) 为唯一权威来源。
 
 ## 安全与隐私
 
@@ -157,8 +45,11 @@ dut-postdoc/
 
 ## 按任务加载的专项工作流
 
-以下规则只在对应任务触发时读取，不作为所有任务的全局必读项：
+以下文件只在对应任务触发时读取，不作为所有任务的全局必读项：
 
-- **PPT / 讲稿**：修改 `talks/` 下的 PPT、讲稿、逐帧 guide 或执行 PDF/截图 QA 时，读取 [talks-ppt-editing-rules.md](talks-ppt-editing-rules.md)。
-- **论文翻译**：翻译或完善论文译文时，读取 [paper-translation-workflow.md](paper-translation-workflow.md)。
-- **Git 提交与推送**：用户明确要求 commit/push 时，读取 [git-workflow.md](git-workflow.md)。
+- **Ingest / Lint**：吸收新资料（核验原件、建双骨架、翻译、回填、横向刷新、更新索引）或健康检查（矛盾/过期/孤页/缺链/空缺，先列清单不擅自大改）前，读 [core-operations.md](core-operations.md)。
+- **Query**：wiki 内检索、带引用综合作答、有长期价值时回填成页面；可直接执行，检索顺序通常 `concepts/` → `entities/` → `research/` → `literature/` 最高效。
+- **新建或升级页面**：文献笔记、译文、主题索引、汇报页或事件归档前，读 [page-schemas.md](page-schemas.md)。
+- **PPT / 讲稿**：修改 `talks/` 下 PPT、讲稿、逐帧 guide 或执行 PDF/截图 QA 前，读 [talks-ppt-editing-rules.md](talks-ppt-editing-rules.md)。
+- **论文翻译**：翻译或完善论文译文前，读 [paper-translation-workflow.md](paper-translation-workflow.md)。
+- **Git 提交与推送**：用户明确要求 commit/push 时，读 [git-workflow.md](git-workflow.md)。

@@ -19,7 +19,9 @@ dut-postdoc/
 ├── AGENTS.md           # Codex & Antigravity 根入口
 ├── CLAUDE.md           # Claude Code 根入口
 ├── ai/                 # 多 AI 工具共享的工作流
-│   ├── llm-wiki-workflow.md
+│   ├── llm-wiki-workflow.md   # 常驻规则：边界、架构、写作约定与路由
+│   ├── core-operations.md     # Ingest/Query/Lint 详细步骤（按需）
+│   ├── page-schemas.md        # 页面模板绑定与状态机细则（按需）
 │   ├── git-workflow.md
 │   ├── paper-translation-workflow.md
 │   └── talks-ppt-editing-rules.md
@@ -90,7 +92,7 @@ dut-postdoc/
 
 `_index.md` 是语义入口，不与物理文件夹机械地一一对应。只有当一个目录形成明确主题、包含多个权威页面或需要跨目录连接稳定知识、当前研究、文献证据、科研讨论与历史档案时，才建立 `_index.md`。复杂主题入口统一按“稳定知识—主题机制节—项目与技术线入口—文献证据—关联入口—管理边界”六节组织：主题机制节的标题按主题实际内容命名，回答“这个主题机械上是什么形状、动代码前先读哪几页”；关联入口合并关联主题、工作汇报与历史档案并以角色前缀标注；管理边界必须保留独立标题，是判断禁区的依据。入口页只负责导航、页面职责和事实所有权说明，不复制其他页面正文，也不建立第二套任务状态账。
 
-## 三个核心操作（详见 [ai/llm-wiki-workflow.md](ai/llm-wiki-workflow.md)）
+## 三个核心操作（详见 [ai/core-operations.md](ai/core-operations.md)）
 
 - **Ingest**：核验论文与 Zotero → 建立文献笔记和中文译文骨架 → 逐节翻译并核验 → 回填正式笔记 → 更新 `refs.bib`、关联页面、索引与 `log.md`
 - **Query**：提问 → AI 在 wiki 内检索、带引用作答 → 有价值的问答回填成永久页面
@@ -109,8 +111,8 @@ dut-postdoc/
 - 进入内容目录时先读该目录 `_index.md`；页面间一律用 Obsidian `[[wikilink]]` 互链
 - 新增、移动、删除或重组页面后，收尾检查对应目录 `_index.md`；影响全库导航时同步根 `index.md`
 - 报告完成后，先将长期事实抽取到概念页、技术线或调研页，再把最终交付物和准备材料整体移入 `archive/<event>/`
-- 专项工作流按任务加载：PPT/讲稿见 [talks-ppt-editing-rules.md](ai/talks-ppt-editing-rules.md)，论文翻译见 [paper-translation-workflow.md](ai/paper-translation-workflow.md)，提交/推送见 [git-workflow.md](ai/git-workflow.md)
-- 原始资料的存储职责以 [ai/llm-wiki-workflow.md](ai/llm-wiki-workflow.md#原始资料存储职责) 为准：iCloud 保存官方及个人原件，Zotero 保存论文附件，Git 不作为原件归档位置
+- 专项工作流按任务加载：Ingest/Lint 见 [core-operations.md](ai/core-operations.md)，新建/升级页面见 [page-schemas.md](ai/page-schemas.md)，PPT/讲稿见 [talks-ppt-editing-rules.md](ai/talks-ppt-editing-rules.md)，论文翻译见 [paper-translation-workflow.md](ai/paper-translation-workflow.md)，提交/推送见 [git-workflow.md](ai/git-workflow.md)
+- 原始资料的存储职责以 [ai/git-workflow.md](ai/git-workflow.md#原始资料与派生文件的存储归属) 为准：iCloud 保存官方及个人原件，Zotero 保存论文附件，Git 不作为原件归档位置
 - 参考文献统一维护在 `assets/refs.bib`
 
 ## 研究入口
