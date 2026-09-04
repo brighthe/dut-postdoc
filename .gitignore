@@ -52,8 +52,9 @@ tmp/
 .codex-*.patch
 .claude/settings.local.json
 
-# Generated document QA and Python caches
+# Generated document QA, figure intermediates and Python caches
 research/funding/active/china-postdoc-foundation-general-grant/.docx-qa/
+research/funding/active/china-postdoc-foundation-general-grant/assets/dev/
 **/__pycache__/
 *.py[cod]
 

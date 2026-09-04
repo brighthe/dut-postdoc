@@ -3297,3 +3297,6 @@
 
 ## [2026-09-04] edit | assembly-levels 第 1 节拆为串行与并行
 - `concepts/matrix-free/assembly-levels.md`：第 1 节拆成 1.1 串行（$\mathbf A=\mathbf G^{\mathsf T}\mathbf B^{\mathsf T}\mathbf D\mathbf B\mathbf G$，三层向量）与 1.2 并行（外套 $\mathbf P$，四层向量、true DOF 说明）；$\mathbf P$/$\mathbf G$/$\mathbf B$/$\mathbf D$ 四条定义补充串行退化与线弹性含义；删去页首指向 linear-elasticity 的引言段，链接移入 2.3 EA 小节。未 commit、push。
+
+## [2026-09-04] edit | .gitignore 忽略基金图件中间渲染文件
+- `.gitignore`：新增 `research/funding/active/china-postdoc-foundation-general-grant/assets/dev/`，该目录为 `make_figs.py` 的面板中间件与数据快照，不入库。`index.md`、`README.md` 已检查，无需更新。
