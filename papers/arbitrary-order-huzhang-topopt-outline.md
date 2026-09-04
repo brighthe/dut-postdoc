@@ -156,7 +156,9 @@ experiment_source:
 
 公共 v1 不包含两点载荷夹持板、三维算例和全部 legacy variants；只有核心证据不足时才重新评估扩展。
 
-> **实现对齐状态（2026-08-02）**：正式制造解现固定为博士论文第 5.4.3 节的问题定义。当前 `repository:soptx:experiments/huzhang_topopt_paper/cases.toml#forward-manufactured` 及其原生 executor 仍使用另一套 exponential–sine 精确解，尚未与本页对齐；完成该对齐并重新通过 acceptance 之前，现有运行不得作为本算例的正式投稿证据。
+> **实现对齐状态（2026-08-31 更新）**：对齐已完成。`repository:soptx` 于 `a4b793b`（2026-08-03）新增 `MixedBoundarySinusoidalElasticity2D`，实现博士论文第 5.4.3 节的问题定义；`cases.toml` 中原 `forward-manufactured` 已替换为 `manufactured-sinusoidal-convergence`，并于 2026-08-31 按论文两张表拆为 `manufactured-native-k34`（表 5.1，$k=3,4$ 原生格式）与 `manufactured-stabilized-k12`（表 5.2，$k=1,2$ 矩阵跳量稳定化）两条（`model.name` 同为 `MixedBoundarySinusoidalElasticity2D`），实际求解由 `tools/convergence.py` 驱动（2026-08-31 目录重构前为顶层 `manufactured_convergence.py`），不经 `run.py optimize` 的模型注册表。同日 `run.py` 收敛为单层算例入口（原 `optimize` / `convergence` 子命令并入 `--case`），复现命令统一为 `run.py --case manufactured-native-k34` / `run.py --case manufactured-stabilized-k12`：按 case 的 `role` 自动派发驱动，不带其它参数时一律取自 `cases.toml`，因而是产出论文数据的规范路径；`--case` 之后可追加该驱动认识的覆盖参数（如 `--stabilization none`）用于消融，消融产物写入 `ablation_<method>.json`，不覆盖论文表所依赖的 `summary.json`。
+>
+> 表 5.1 / 5.2 已于 2026-08-31 按 soptx `baf1bdfa` + fealpy `66a040cf` 实测重算并回填 [[arbitrary-order-huzhang-topopt-draft-zh]]；此前表中的数值来自博士论文、恰为实测值的 $\sqrt{2}$ 倍，口径见 [[../concepts/huzhang/huzhang-mixed-fem]] §5 的证据边界。**定稿前置条件**：本次运行时 soptx 工作区 dirty，`provenance.reproducible()` 为 `False`，正式投稿数据须在干净提交上复跑一次。
 
 ### 4.2 固定 acceptance
 
