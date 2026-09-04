@@ -43,10 +43,10 @@ date_update: 2026-08-06
 
 | 方法路线 | 学习对象 | 典型映射 | 在计算链中的作用 | 代表工作或外部对照 |
 |---|---|---|---|---|
-| **1. 问题相关的最终设计代理** | 最终优化设计 | 问题参数 → 设计变量／拓扑 | 直接生成候选设计，或为完整优化提供热启动 | [[../literature/topology-opt/notes/Lei2018-machinelearningdriven\|Lei2018]]（MMC 实时拓扑优化） |
+| **1. 问题相关的最终设计代理** | 最终优化设计 | 问题参数 → 设计变量／拓扑 | 直接生成候选设计，或为完整优化提供热启动 | [[../literature/topopt/mmc-mmv/translations/Lei2018-machinelearningdriven-zh\|Lei2018]]（MMC 实时拓扑优化） |
 | **2. 设计表示与分辨率映射** | 不同尺度或分辨率下的设计表示 | 高分辨率设计 ↔ 低分辨率设计 | 将高分辨率问题映射到较低分辨率上优化，再恢复设计 | FE-CNN (2021) |
 | **3. 物理信息解场学习 (PINN)** | 特定 PDE 的解场或待识别参数 | 空间坐标 $\boldsymbol{x} \to$ PDE 解场 $\hat{\boldsymbol{u}}(\boldsymbol{x})$ | 以网络近似解函数，替代传统 PDE 求解或服务反问题 | [[pinn-paradigm\|PINN 5步通用范式]]；[Raissi et al. (2019)](https://doi.org/10.1016/j.jcp.2018.10.045) |
-| **4. 问题无关的局部力学表示学习 (PIML)** | 局部算子、形函数、缩聚刚度矩阵 | 局部材料分布 $\boldsymbol{\rho}^j \to$ 局部算子 $(\mathbf{N}^j, \mathbf{K}_e^j)$ | 替代反复出现的局部构造，拼装至全局方程求解 | [[piml/piml-paradigm\|PIML 5步通用范式]]；[[../literature/topology-opt/notes/Huang2022-problemindependentmachine\|Huang 2022]] 及其扩展 |
+| **4. 问题无关的局部力学表示学习 (PIML)** | 局部算子、形函数、缩聚刚度矩阵 | 局部材料分布 $\boldsymbol{\rho}^j \to$ 局部算子 $(\mathbf{N}^j, \mathbf{K}_e^j)$ | 替代反复出现的局部构造，拼装至全局方程求解 | [[piml/piml-paradigm\|PIML 5步通用范式]]；[[../literature/topopt/piml/translations/Huang2022-problemindependentmachine-zh\|Huang 2022]] 及其扩展 |
 | **5. 本构与多尺度行为学习** | 本构关系、局部响应、均匀化关系 | 实验/微结构信息 → 材料多尺度响应 | 替代或增强材料本构模型及跨尺度关系构造 | MAP123、循环塑性神经网络 |
 | **6. 生成式与逆向设计** | 满足给定条件或性能的候选设计 | 性能/草图/条件 → 候选设计 | 生成候选结构、探索非唯一逆解并辅助后续优化 | DiffMat、神经网络草图辅助拓扑优化 |
 
@@ -58,7 +58,7 @@ date_update: 2026-08-06
 
 | 比较维度 | 问题相关的最终设计代理 | 物理信息解场学习 (PINN) | 问题无关的局部力学表示学习 (PIML) |
 |---|---|---|---|
-| **专一范式入口** | 见 [[../literature/topology-opt/notes/Lei2018-machinelearningdriven\|Lei2018 笔记]] | 👉 **[[pinn-paradigm\|PINN 5步通用范式]]** | 👉 **[[piml/piml-paradigm\|PIML 5步通用范式]]** |
+| **专一范式入口** | 见 [[../literature/topopt/mmc-mmv/translations/Lei2018-machinelearningdriven-zh\|Lei2018 译文]] | 👉 **[[pinn-paradigm\|PINN 5步通用范式]]** | 👉 **[[piml/piml-paradigm\|PIML 5步通用范式]]** |
 | **学习对象** | 最终优化设计 | 特定 PDE 的解场或待识别参数 | 可复用的局部力学算子/表示 |
 | **训练信号** | 优化算法生成的设计标签 | PDE残差、初边值残差 | 局部真值标签或 mechanics-based loss |
 | **主要替代环节** | 完整优化的结果生成或初始设计 | 传统 PDE 求解器 | 局部形函数/缩聚/粗单元矩阵构造 |
@@ -83,4 +83,4 @@ date_update: 2026-08-06
 - [[piml/piml-paradigm|问题无关机器学习 (PIML) 通用 5 步范式]]
 - [[piml/mathematical-foundations|Problem-Independent 路线的数学基础]]
 - [[piml/method-lineage|Huang–Ma PIML 方法演进谱系]]
-- [[../research/technical-lines/piml-research-guide|PIML 局部力学算子技术线研究指南]]
+- [[../research/piml-matrix-free-gpu/piml-research-guide|PIML 局部力学算子技术线研究指南]]

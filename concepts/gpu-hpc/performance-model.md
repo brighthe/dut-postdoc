@@ -14,7 +14,7 @@ tags:
   - profiling
 status: in-progress
 date_added: 2026-07-26
-date_update: 2026-08-03
+date_update: 2026-08-22
 ---
 
 # GPU/HPC 端到端性能模型与测量口径
@@ -52,53 +52,21 @@ $$
 
 ## 2. 加速比与扩展效率
 
-同一问题、同一正确性门禁和一致计时边界下，加速比定义为
+同一问题、同一正确性门禁和一致计时边界下，加速比 $S_p=T_{\mathrm{base}}/T_p$。基线必须写明算法、实现、硬件、进程/线程/设备数、精度和软件版本；**基线若同时改变算法或离散，结果只能称「联合收益」，不得单独归因于 GPU**。
 
-$$
-S_p=\frac{T_{\mathrm{base}}}{T_p}.
-$$
-
-基线必须写明算法、实现、硬件、进程/线程/设备数、精度和软件版本。若基线同时改变算法或离散，结果应称为“联合收益”，不能只归因于 GPU。
-
-### 强扩展
-
-固定总问题规模，增加资源数 $p$：
-
-$$
-S_p^{\mathrm{strong}}=\frac{T_1}{T_p},
-\qquad
-E_p^{\mathrm{strong}}=\frac{T_1}{pT_p}.
-$$
-
-### 弱扩展
-
-保持每个进程或设备的工作量近似恒定：
+强扩展固定总规模、增加资源数 $p$，效率 $E_p^{\mathrm{strong}}=T_1/(pT_p)$；弱扩展保持每进程/设备工作量近似恒定，效率退化为
 
 $$
 E_p^{\mathrm{weak}}=\frac{T_1}{T_p}.
 $$
 
-弱扩展必须同时说明局部规模、全局规模、划分方式、粗网格和停止准则是否随 $p$ 改变。强弱扩展结果均应报告计算、点对点通信、全局归约、负载不均衡和粗网格成本。
+⚠️ 弱扩展效率的分母**不含 $p$**，与强扩展不同——这是最容易写错的一处。弱扩展还须说明局部规模、全局规模、划分方式、粗网格和停止准则是否随 $p$ 改变。强弱扩展均应分项报告计算、点对点通信、全局归约、负载不均衡和粗网格成本。
 
 ## 3. Roofline 与瓶颈判断
 
-算术强度定义为
+算术强度 $I=\text{flops}/\text{bytes}$，可达性能上界 $P_{\mathrm{attainable}}\le\min(P_{\mathrm{peak}},\,I\,B_{\mathrm{mem}})$，其中 $B_{\mathrm{mem}}$ 取**实测**带宽而非标称峰值。
 
-$$
-I=\frac{\text{floating-point operations}}{\text{bytes transferred}},
-$$
-
-经典 Roofline 上界写为
-
-$$
-P_{\mathrm{attainable}}
-\le
-\min\!\left(P_{\mathrm{peak}},\, I\,B_{\mathrm{mem}}\right),
-$$
-
-其中 $P_{\mathrm{peak}}$ 是相应精度下的计算峰值，$B_{\mathrm{mem}}$ 是实测内存带宽。Roofline 用于判断 kernel 更可能受算力还是带宽限制，但不能解释完整 solve 中的 launch、同步、通信、负载不均衡和预条件成本。
-
-PIML 推理、局部 contraction、scatter-add、稀疏/无矩阵算子、点积归约和粗网格求解具有不同算术强度，应分别测量；不得用一个 kernel 的 Roofline 位置代表完整应用。
+Roofline 只判断单个 kernel 更可能受算力还是带宽限制，**不能解释完整 solve 中的 launch、同步、通信、负载不均衡和预条件成本**。PIML 推理、局部 contraction、scatter-add、稀疏/无矩阵算子、点积归约和粗网格求解的算术强度各不相同，必须分别测量；不得用一个 kernel 的 Roofline 位置代表完整应用。
 
 ## 4. 异构执行与通信口径
 
@@ -148,13 +116,12 @@ PIML 推理、局部 contraction、scatter-add、稀疏/无矩阵算子、点积
 - [NVIDIA CUDA C++ Best Practices Guide](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/) — profiling、正确性、精度、内存和扩展实践。
 - [NVIDIA Nsight Systems User Guide](https://docs.nvidia.com/nsight-systems/UserGuide/) — 聚焦关键区间、时间线与 CPU/GPU/MPI profiling。
 - [MPI Forum: MPI Documents](https://www.mpi-forum.org/docs/) — MPI 标准入口；具体设备缓冲区支持仍需以所用 MPI 实现为准。
-- [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel]] — CPU/MPI 强弱扩展和完整优化流程并行的本研究语境。
-- [[../../research/piml-matrix-free-gpu/high-performance-solver-survey]] — 端到端时间分解、GPU/异构并行和性能瓶颈调研。
+- [[../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh]] — CPU/MPI 强弱扩展和完整优化流程并行的本研究语境。
+- [[../../research/piml-matrix-free-gpu/project-plan]] — 端到端时间分解、GPU/异构并行和性能瓶颈调研。
 
 ## 8. 相关页面
 
 - [[_index]] — GPU/HPC 主题入口。
-- [[method-lineage]] — 郭旭老师团队公开 HPC 方法谱系。
-- [[../../research/technical-lines/gpu-hpc-research-guide]] — 当前研究目标、性能边界、证据锚点与阶段门禁。
+- [[../../research/piml-matrix-free-gpu/gpu-hpc-research-guide]] — 当前研究目标、性能边界、证据锚点与阶段门禁。
 - [[../matrix-free/assembly-levels]] — 算子装配层次与数据保存边界。
 - [[../piml/mathematical-foundations]] — PIML 局部学习对象和结构性质。

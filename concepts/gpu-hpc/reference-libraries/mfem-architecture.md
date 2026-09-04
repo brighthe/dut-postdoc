@@ -24,14 +24,14 @@ tags:
   - gpu-aware-mpi
 status: draft
 date_added: 2026-08-06
-date_update: 2026-08-06
+date_update: 2026-08-22
 ---
 
 # MFEM 架构：多后端抽象与 Par* 并行体系
 
 > **一句话**：MFEM 的异构执行是「编译期多后端抽象 + 运行时分派」的混合——`Device` 单例运行时选择后端组合（`Backend::Id` 优先级链），`forall` 宏编译期把同一份 `MFEM_HOST_DEVICE` lambda 展开为 CUDA/HIP/OpenMP/RAJA 等后端的实际调用；分布式并行以 Par\* 对象体系（「继承 + 扩展」升级）承载，构成「节点内 GPU 计算 × 节点间 MPI 通信」的混合架构。
 
-本页是 MFEM 异构执行架构的完整入口：§1–§4 为整体架构与单进程多后端机制，§5 为 Par\* MPI 并行机制，§6–§7 为 GPU 执行路径与覆盖范围，§8–§9 为混合架构与可迁移启示。与 FEALPy 的整体架构对比见 [[fealpy-mfem-gpu-backend-comparison]]，六档分类见 [[../heterogeneous-execution-modes#4. 编程模型]]。
+本页是 MFEM 异构执行架构的完整入口：§1–§4 为整体架构与单进程多后端机制，§5 为 Par\* MPI 并行机制，§6–§7 为 GPU 执行路径与覆盖范围，§8–§9 为混合架构与可迁移启示。与 FEALPy 的层次对比见本页 §10，六档分类见 [[../heterogeneous-execution-modes#4. 编程模型六档分类|编程模型六档分类]]。
 
 ## 1. 整体架构与核心对象抽象链
 
@@ -210,7 +210,7 @@ Memory 类在库侧管理 host/device 双指针（R/W），与 §3 的 MemoryTyp
 |---|---|---|
 | linalg | 大部分 `Vector` 操作与 `SparseMatrix` matvec；Krylov 求解器与时间步进因基于 Vector 原语**自动在设备端执行** | Anderson et al. 2021 §6.3 |
 | mesh | 几何因子（geometric factors）计算已移植 | 同上 |
-| fem | mass/diffusion/convection(DG)/gradient/divergence 及部分 H(curl) integrators；element restriction 与 quadrature interpolator 算子（G/B）；`BilinearForm`/`MixedBilinearForm`/`NonlinearForm` 的 matrix-free action（PA/QA 主战场，术语见 [[../../matrix-free/assembly-levels#框架术语映射]]） | 同上 |
+| fem | mass/diffusion/convection(DG)/gradient/divergence 及部分 H(curl) integrators；element restriction 与 quadrature interpolator 算子（G/B）；`BilinearForm`/`MixedBilinearForm`/`NonlinearForm` 的 matrix-free action（PA/QA 主战场，术语见 [[../../matrix-free/assembly-levels#5. 框架术语映射]]） | 同上 |
 | 未移植（边界） | 网格细化/粗化、多个 integrator、稀疏矩阵显式组装、误差估计、外部库集成 | 同上 |
 
 ## 8. 多后端 × MPI 混合架构
@@ -255,11 +255,16 @@ GPU 可用？
 | 多后端 | 15 个位枚举 + 优先级链 | 7 个插件后端 |
 | 分布式层 | Par\* 类体系（继承+扩展）+ HypreParMatrix | `distribute_*` 函数 + EMPI 共享对（轻量） |
 
-关键差异的完整展开（编译期 vs 运行期可移植、换后端代价对比）见 [[fealpy-mfem-gpu-backend-comparison#1. 后端抽象机制]]。
+**两库对读的四点启示**：
+
+1. 无论哪种抽象，host/device 内存、kernel、launch、数据搬移这些概念都在；抽象层只决定你**何时、以什么形式**与它们打交道。
+2. FEALPy 的 `__getattr__` 转发是「高层库接口」路线的最小完整示例，MFEM 的 `forall` 展开是「可移植后端」路线在 C++ 生态的标准形态（Kokkos 同思路）。
+3. MFEM 把 `MemoryClass` 显式化、FEALPy 交给框架——前者搬移成本可见，后者必须在性能分析时把搬移与同步单独计时。
+4. **侵入性决定采用成本**：FEALPy 侵入浅而广（约束运算层接口，必须走 `bm`；换后端零改动，上层有限元对象完全透明），MFEM 侵入深而窄（只改计算热点，但每个热点都要写成 `forall` 设备代码，换后端需重编译）。这直接决定现有代码 GPU 化的改造范围与迁移成本。
 
 ## 11. 在我研究中的位置
 
-- **mfleo**（独立单 GPU PA/Matrix-Free 工程）以 MFEM 的 PA/UA 算子路径与装配层级为概念参照（[[../../matrix-free/assembly-levels#框架术语映射]]），性能报告以 MFEM PA 基线为对照。
+- **mfleo**（独立单 GPU PA/Matrix-Free 工程）以 MFEM 的 PA/UA 算子路径与装配层级为概念参照（[[../../matrix-free/assembly-levels#5. 框架术语映射]]），性能报告以 MFEM PA 基线为对照。
 - MFEM 的 `FULL/ELEMENT/PARTIAL/NONE` 装配层级是 [[../../matrix-free/assembly-levels]] 五级分类的术语来源之一；其 PA/QA 在设备端的执行路径是 Matrix-Free GPU 求解的设备端参照。
 - MFEM 的 Par\* 体系与混合架构是本项目多 GPU/GPU-aware MPI 阶段（research guide 阶段 5）的对象模型参照。
 - 本项目不直接依赖 MFEM 库；本页只记录可复用的机制知识。
@@ -277,7 +282,6 @@ GPU 可用？
 
 - [[../heterogeneous-execution-modes]] — 六档编程模型分类（本页是其「可移植后端」档的 C++ 实例）。
 - [[fealpy-architecture]] — Python 侧对称文档。
-- [[fealpy-mfem-gpu-backend-comparison]] — 两库对比。
 - [[../../matrix-free/assembly-levels]] — MFEM 装配层级术语来源。
 - [[../distributed-operator-and-shared-dofs]] — 分布式算子数学（owned/ghost、归约）。
-- [[../heterogeneous-execution-modes#2. 硬件拓扑]] — 多节点 GPU-aware MPI 在硬件拓扑分类中的位置。
+- [[../heterogeneous-execution-modes#2. 硬件拓扑的六种基本模式|硬件拓扑]] — 多节点 GPU-aware MPI 在硬件拓扑分类中的位置。

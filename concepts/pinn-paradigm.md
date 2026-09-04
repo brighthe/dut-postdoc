@@ -118,7 +118,7 @@ optimizer.zero_grad() → loss.backward() → optimizer.step()
 | **输出** | 空间某点响应 $\hat{\boldsymbol{u}}(\boldsymbol{x})$ | 局部多尺度形函数 $\boldsymbol{N}(x)$ / 缩聚刚度矩阵 $\mathbf{K}_e$ |
 | **训练数据** | 无数据 (Data-Free)，靠 Collocation 点残差 | 局部材料样本集 (Supervised 或 Data-Free Mechanics) |
 | **重训需求** | 载荷 / 边界条件改变后**必须重新训练** | 训练完成后，**跨宏观 BVP 免重训、秒级推理** |
-| **项目角色** | 物理残差算子基线、ML 入门与对比 Baseline | 博士后核心研究项目 WP2 的主线攻关方向 |
+| **项目角色** | 物理残差算子基线、ML 入门与对比 Baseline | 博士后核心研究项目 PIML 局部表示线的攻关方向 |
 
 ---
 

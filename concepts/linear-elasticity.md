@@ -11,7 +11,7 @@ tags:
   - variational-form
 status: in-progress
 date_added: 2026-07-29
-date_update: 2026-08-01
+date_update: 2026-09-03
 ---
 
 # 线弹性方程、变分形式与有限元离散
@@ -39,7 +39,7 @@ a(\boldsymbol u,\boldsymbol v)=\ell(\boldsymbol v)
 \end{aligned}
 $$
 
-本页采用**位移型、小变形、静力、各向同性线弹性**。均匀材料是基础情形；为连接拓扑优化，§2.3 和 §6 只补充设计相对密度如何参数化本构与离散刚度。动力学、有限变形、非线性材料、应力—位移混合元，以及拓扑优化中的目标函数、约束、灵敏度、滤波、投影和优化更新不属于本页范围。
+本页采用**位移型、小变形、静力、各向同性线弹性**。均匀材料是基础情形；为连接拓扑优化，§2.3 和 §6 只补充设计相对密度如何参数化本构与离散刚度。动力学、有限变形、非线性材料、应力—位移混合元，以及拓扑优化中的目标函数、约束、灵敏度、滤波、投影和优化更新不属于本页范围。其中**有限变形与非线性材料**放松了本页的小变形与线性本构假设，其框架、切线刚度结构与 Newton 求解代价见 [[nonlinear-fem|非线性有限元页]]。
 
 ## 1. 模型假设与几何
 
@@ -526,16 +526,17 @@ $$
 - `xtu-phd-thesis:thesis/brightPhD.pdf#第三章`
 - `xtu-phd-thesis:thesis/body/chapter03/chapter03.tex#线弹性问题的连续模型与变分形式`
 - `xtu-phd-thesis:thesis/body/chapter03/chapter03.tex#线弹性问题的任意次多单元族拉格朗日有限元方法`
-- [[../literature/topology-opt/notes/Huang2022-problemindependentmachine]] — modified SIMP 材料插值及局部材料分布进入有限元分析的文献依据。
+- [[../literature/topopt/piml/translations/Huang2022-problemindependentmachine-zh]] — modified SIMP 材料插值及局部材料分布进入有限元分析的文献依据。
 
 论文源码与定稿 PDF 由 `xtu-phd-thesis` 维护；本知识库只维护从中提炼的可复用理论。本页不替代连续介质力学或有限元专著，也不把当前位移型模型推广为混合元、非线性弹性或动力学。
 
 ## 相关页面
 
 - [[_index]] — 概念页总索引。
+- [[external-loads]] — 本页 §4 载荷泛函 $\ell(\boldsymbol v)$ 中各类外载荷数据的正则性、适定性与离散施加格式。
 - [[matrix-free/_index]] — Matrix-Free 稳定知识与当前研究的主题入口。
 - [[matrix-free/assembly-levels]] — FA/LA/EA/PA/UA 的存储和作用层次。
 - [[gpu-hpc/distributed-operator-and-shared-dofs]] — MPI 分区、共享自由度、归约和 Krylov 内积。
 - [[piml/mathematical-foundations]] — 从局部材料密度到多尺度形函数或缩聚刚度的 Problem-Independent PIML 映射。
-- [[../research/technical-lines/matrix-free-research-guide]] — Matrix-Free 长期目标、阶段模型与统一验收原则。
-- [[../research/technical-lines/matrix-free-research-guide#五、阶段门禁与当前执行状态]] — 当前线弹性 Matrix-Free 任务状态与推进顺序。
+- [[../research/piml-matrix-free-gpu/matrix-free-research-guide]] — Matrix-Free 长期目标、阶段模型与统一验收原则。
+- [[../research/piml-matrix-free-gpu/matrix-free-research-guide#五、权威事实来源]] — 线弹性 Matrix-Free 的实测结果、程序入口与项目级状态的事实来源路由。

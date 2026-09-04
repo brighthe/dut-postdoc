@@ -3,13 +3,15 @@ title: "郭一麟博士 PIML 合作交流：GPU 加速工作介绍"
 aliases:
   - 郭一麟合作交流
   - Guo Yilin cooperation
+  - "discussions/guo-yilin/2026-08-piml-gpu-合作交流"
+  - "entities/guo-yilin/2026-08-piml-gpu-合作交流"
 advisor: "郭一麟博士（合作者，郭旭老师介绍）"
 report_period: "2026-08"
 meeting_date: "待确定"
 meeting_mode: "待定"
 status: "preparing" # preparing | reported | follow-up-done
 date_start: 2026-08-06
-date_update: 2026-08-06
+date_update: 2026-08-27
 tags:
   - 工作汇报
   - 合作交流
@@ -18,6 +20,7 @@ tags:
 topics:
   - "GPU 加速工作介绍；PIML 合作线索"
 related:
+  - "./guo-yilin"
   - "../../concepts/gpu-hpc/heterogeneous-execution-modes"
   - "../../concepts/gpu-hpc/reference-libraries/fealpy-architecture"
   - "../../concepts/gpu-hpc/reference-libraries/mfem-architecture"
@@ -96,4 +99,4 @@ MFEM 是 LLNL 开发的成熟开源有限元库（C++），多后端机制是「
 - [[../../concepts/gpu-hpc/reference-libraries/fealpy-architecture]] — 多后端抽象机制（介绍 §2.2 的事实源）。
 - [[../../concepts/gpu-hpc/reference-libraries/mfem-architecture]] — MFEM 机制（介绍 §2.3 的事实源）。
 - [[../../concepts/piml/method-lineage]] — 团队公开 PIML/HPC 成果谱系（Xu 2025 含 Guo, Yilin 的上下文）。
-- [[../guo-xu/_index|郭旭老师工作汇报入口]] — 引荐背景。
+- [[../guo-xu/guo-xu|郭旭]] — 引荐背景。

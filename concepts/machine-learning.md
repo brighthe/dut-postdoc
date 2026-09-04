@@ -5,7 +5,6 @@ aliases:
   - 机器学习：架构、学习对象与训练范式
   - 机器学习分类框架
   - machine-learning taxonomy
-  - research/technical-lines/machine-learning-workflow
   - research/workflows/machine-learning-workflow
 tags:
   - machine-learning
@@ -15,7 +14,7 @@ tags:
   - reproducibility
 status: in-progress
 date_added: 2026-07-29
-date_update: 2026-08-14
+date_update: 2026-08-31
 ---
 
 # 机器学习：模型架构、分类框架与通用生命周期
@@ -456,7 +455,7 @@ KNN 无需复杂的训练过程，但推理时需检索所有邻域，对维度�
 1. **小变形静力线弹性 PINN 算例**：
    * 代码实现与测试门禁：`soptx` 仓库 `soptx/examples/pinn_elasticity`（含数学规范 `math_spec.md`）
 2. **Problem-Independent PIML 局部算子主线**：
-   * 长期研究指南：[[../research/technical-lines/piml-research-guide|PIML 局部力学算子研究指南]]
+   * 长期研究指南：[[../research/piml-matrix-free-gpu/piml-research-guide|PIML 局部力学算子研究指南]]
 
 ---
 

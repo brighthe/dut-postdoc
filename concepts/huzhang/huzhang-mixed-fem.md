@@ -17,7 +17,7 @@ tags:
   - stabilization
 status: in-progress
 date_added: 2026-08-07
-date_update: 2026-08-14
+date_update: 2026-09-03
 ---
 
 # 胡张应力—位移混合元、变分形式与低阶稳定化
@@ -88,11 +88,9 @@ $$
 其中 $A$ 为柔度矩阵块（(2) 中 $(A\boldsymbol\sigma):\boldsymbol\tau$），$B$ 为应力—位移耦合块（$\int_\Omega \mathrm{div}\,\boldsymbol\tau\cdot\boldsymbol u$）。
 $(2,2)$ 块为零是鞍点结构的特征，也是 §4 稳定化的切入点。
 
-### 2.4 边界条件与外载荷处理
+### 2.4 边界条件的对偶语义与牵引提升
 
-在应力—位移混合有限元中，由于独立主未知量变为对称应力 $\boldsymbol\sigma$，边界条件与外载荷的处理方式与经典位移元呈现**严格的变分对偶性**。
-
-#### 2.4.1 边界条件的对偶语义与牵引提升（Lifting）
+在应力—位移混合有限元中，由于独立主未知量变为对称应力 $\boldsymbol\sigma$，边界条件的施加方式与经典位移元呈现**严格的变分对偶性**。
 
 | 物理边界类型 | 物理方程 | 标准位移法 (LFEM) | 胡张混合法 (HZMFEM) | 变分对偶本质 |
 |---|---|---|---|---|
@@ -106,37 +104,17 @@ $(2,2)$ 块为零是鞍点结构的特征，也是 §4 稳定化的切入点。
 
 两者在前向求解中等价。但在密度拓扑优化中，柔度张量 $a_\rho$ 依赖材料密度 $\rho$；若沿用代数消元法而不显式分离齐次未知量与给定提升，在对能量目标求导时极易遗漏提升交叉项。因此拓扑优化中统一采用 Lifting 表述（见 [[../../papers/arbitrary-order-huzhang-topopt-draft-zh]] §2.2 与 §3.2），目标与导数一律基于总应力 $\boldsymbol\sigma = \boldsymbol\sigma_0 + \boldsymbol\sigma_g$ 展开。
 
-#### 2.4.2 表面牵引载荷离散机制（分布力与集中力）
+**外载荷在本形式下的可施加性**：
 
-##### 1. 分布力（连续面力 / 均布牵引）的处理
-对于施加在边界 $\Gamma_N$ 上的连续表面力 $\boldsymbol t(\boldsymbol x)$（如二维轴承装置顶部的常数均布压应力 $\boldsymbol t_0$）：
-* **位移法 (LFEM)**：属于自然边界条件，通过边界高斯弱积分计算外力向量：
-  $$
-  \boldsymbol F_i = \int_{\Gamma_N} \boldsymbol t(\boldsymbol x) \cdot \boldsymbol v_i\,\mathrm ds \quad (q = 2k + 2).
-  $$
-* **胡张混合法 (HZMFEM)**：属于本质边界条件，直接在对称应力法向迹自由度上强插值施加：
-  $$
-  (\boldsymbol\sigma_h \boldsymbol n)\big|_{\Gamma_N} = \boldsymbol t(\boldsymbol x).
-  $$
-* **两法等价性**：对于常数均布面力，常数函数天然属于任意阶多项式迹空间（强插值无截断、高斯积分精确），两法在**数学上 $100\%$ 精确等价**。
+| 载荷 | 在胡张混合法中的处理 | 与位移法的关系 |
+|---|---|---|
+| 连续面牵引 $\boldsymbol t$ | 本质条件，在应力法向迹自由度上强插值 $(\boldsymbol\sigma_h\boldsymbol n)\vert_{\Gamma_N}=\boldsymbol t$ | 常数均布面力天然属于任意阶迹多项式空间，强插值无截断、位移法侧高斯积分精确，两法精确等价 |
+| 集中力 $\boldsymbol P\delta_{\boldsymbol x_0}$ | 不可直接施加：位移检验空间 $\boldsymbol V=[L_2(\Omega)]^d$ 无逐点值，应力法向迹空间 $H^{-1/2}(\partial\Omega)$ 也容不下点测度 | 位移法在离散层可用点值泛函，混合法没有对应机制；受控对比须先把点力按特征尺度 $l$ 分布化，再由连续 $P_1$ 迹投影得到 $\boldsymbol t_h$，两法施加同一份 $\boldsymbol t_h$ |
+| 体力 $\boldsymbol b$ | $\int_\Omega\boldsymbol b\cdot\boldsymbol v_h\,\mathrm dx$ 进入位移方程右端 | 两法完全一致 |
 
-##### 2. 集中力（点载荷）的处理
-对于作用在边界点 $\boldsymbol x_0 \in \Gamma_N$ 上的集中载荷 $\boldsymbol P = P\boldsymbol e$（如两端固支梁底边中点载荷）：
-* **位移法 (LFEM) 原生机制**：位移空间 $V \subset H^1$ 具有空间连续性，点力可直接作为点值泛函 $\langle \boldsymbol P\delta_{\boldsymbol x_0}, \boldsymbol v_h \rangle = \boldsymbol P \cdot \boldsymbol v_h(\boldsymbol x_0)$ 累加到对应几何节点的右端外力分量中；
-* **胡张混合法 (HZMFEM) 的非适定性与分布化**：
-  * 位移测试空间仅为分片不连续的 $V = [L_2(\Omega)]^d$，在二维及以上无连续点值定义（$\delta_{\boldsymbol x_0} \notin V^*$）；
-  * 应力法向迹空间 $H^{-1/2}(\partial\Omega)$ 亦无法容纳点测度。因此集中力在混合变分形式中**数学非适定**，无法直接赋给法向迹自由度；
-  * 必须在物理特征尺度 $l$（如 $l = 1\,\mathrm{mm}$）上转化为局部均布面力：$\bar{\boldsymbol t}_l(\boldsymbol x) = \frac{P}{l}\chi_{\Gamma_{N,l}}(\boldsymbol x)\boldsymbol e$。
-* **受控对比中的统一离散与守恒**：
-  * 若位移法使用节点点力而混合法使用局部均布面力，两者吸收的载荷泛函将产生外生差异，破坏受控对比的公允性；
-  * 为此，在连续分片一次迹空间 $W_h^1(\Gamma_N)$ 上对 $\bar{\boldsymbol t}_l$ 作 $L^2$ 投影求得连续牵引函数 $\boldsymbol t_h$，严格保持合力守恒 $\int_{\Gamma_N}\boldsymbol t_h\,\mathrm ds = \boldsymbol P$ 与一阶力矩守恒；
-  * **两法统一施加**：位移法通过 Neumann 弱积分 $\int_{\Gamma_N} \boldsymbol t_h \cdot \boldsymbol v_h\,\mathrm ds$ 施加，胡张混合法通过应力法向迹 $(\boldsymbol\sigma_h \boldsymbol n)|_{\Gamma_N} = \boldsymbol t_h$ 强插值施加，彻底消除载荷形式引入的人为误差。
+各类外载荷数据的正则性判据、$\delta$ 的负阶 Sobolev 指标、一致节点力系数与 $P_1$ 迹 $L^2$ 投影的守恒性证明由 [[../external-loads]] 维护，本页不重复推导。
 
-#### 2.4.3 体积力（Body Force）的处理
-
-对于域内分布的体积力 $\boldsymbol b(\boldsymbol x) \in [L_2(\Omega)]^d$，位移法与胡张混合法均通过与位移检验函数的分片内积 $\int_\Omega \boldsymbol b \cdot \boldsymbol v_h\,\mathrm dx$ 进入系统方程，两法处理方式完全一致。
-
-> **来源与边界**：集中力分布化与轴承均布载荷的设置参考 xtu-phd-thesis:thesis/brightPhD.pdf#第5.6.1节 与 5.6.3 节。本文只维护数学原理与适用边界，不把某次运行的数值结论写为稳定知识。程序分层、配置键与运行验收量由 soptx:docs/fem/huzhang-mixed-fem-implementation.md 维护。
+> **来源与边界**：牵引提升与总应力表述对应 xtu-phd-thesis:thesis/brightPhD.pdf#第5.6.1节 与 5.6.3 节。本节只维护胡张形式下边界条件的对偶语义与提升构造，不重复通用载荷数学，也不把某次运行的数值结论写为稳定知识。程序分层、配置键与运行验收量由 soptx:docs/fem/huzhang-mixed-fem-implementation.md 维护，载荷程序架构由 soptx:docs/fem/load-handling-implementation.md 维护。
 
 ---
 
@@ -175,7 +153,62 @@ $k=1$ 的 $P_0$ 位移只含平动，**不完备包含 RM**，丧失表征单元
 代价是对顶点扇形有结构要求：不满足上述两单元条件的角点必须先做局部网格调整才能启用松弛；SOPTX 对不满足者直接报错而非静默跳过。
 该思路可推广至更复杂的二维多单元交汇角点与三维顶点/棱边连续性（Hu–Ma 2021）。
 
-> **来源**：本节第 1 条的两单元限制、第 4 条的自由度归属，均按 SOPTX `src/soptx/fem/spaces/huzhang_fe_space_2d.py`（`_get_corner_data`、`node_to_internal_dof`、`cell_to_dof`）于 2026-08-07 核对。[[../../papers/arbitrary-order-huzhang-topopt-draft-zh]] §3.4 与 §4.4 已同步为同一算法。
+> **来源**：本节第 1 条的两单元限制、第 4 条的自由度归属，均按 SOPTX `src/soptx/fem/spaces/huzhang_fe_space_2d.py`（`_get_corner_data`、`node_to_internal_dof`、`cell_to_dof`）于 2026-08-07 核对。[[../../papers/arbitrary-order-huzhang-topopt-draft-zh]] §3.4 已同步为同一算法。
+
+### 3.5 自由度层级解析计数与装配映射算法
+
+在程序实现与复杂度评估中，胡张应力空间的自由度按几何实体（顶点、边、单元）分层编号与装配：
+- **顶点自由度**：每个几何顶点分配 3 个点值自由度（$\sigma_{xx}, \sigma_{xy}, \sigma_{yy}$），非角点顶点全局共享，松弛角点扩展为 4 个；
+- **边内部自由度**：每条边在局部正交标架 $(\boldsymbol{t}_e, \boldsymbol{n}_e)$ 下，法向牵引部分（$\sigma_{nn}, \sigma_{nt}$）分配 $2(k-1)$ 个连续自由度（相邻单元共享）；切向部分（$\sigma_{tt}$）分配 $(k-1)$ 个私有自由度；
+- **单元内部自由度**：单元内部包含 $\frac{3(k-1)(k-2)}{2}$ 个完全私有的张量泡状自由度。
+
+二维三角形网格上不同多项式阶次 $k$ 的详细自由度计数如下表所示：
+
+| 阶次 $k$ | 顶点 DOF ($\text{node}$) | 边内部 DOF ($\text{edge}$) | 单元内部 DOF ($\text{cell}$) | 单元局部总 DOF ($\text{cldof}_\sigma$) | 松弛角点附加 DOF |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| **1** | $3 \times 1 = 3$ | $2 \times 0 = 0$ | $3 \times 1 = 3$ | **6** | $+1$ |
+| **2** | $3 \times 1 = 3$ | $2 \times 1 = 2$ | $3 \times 3 = 9$ | **18** | $+1$ |
+| **3** | $3 \times 1 = 3$ | $2 \times 2 = 4$ | $3 \times 6 = 18$ | **33** | $+1$ |
+| **4** | $3 \times 1 = 3$ | $2 \times 3 = 6$ | $3 \times 10 = 30$ | **51** | $+1$ |
+
+若全域网格包含 $N_v$ 个顶点、$N_e$ 条棱边、$N_c$ 个单元及 $N_{\mathrm{corner}}$ 个松弛角点，则应力空间全局自由度总规模为：
+$$
+\mathrm{gdof}_\sigma = 3 N_v + 2(k-1) N_e + N_c \left[ 3(k-1) + \frac{3(k-1)(k-2)}{2} \right] + N_{\mathrm{corner}}.
+$$
+
+#### 算法 1：全局自由度映射与 `cell2dof` 装配伪代码
+```
+Algorithm 1: Direct Construction of Hu–Zhang DOFs and cell2dof Mapping
+Input : Mesh T_h, polynomial order k, corner relaxation flag
+Output: cell2dof_sigma, gdof_sigma
+1 Initialize global DOF counter: gdof = 0
+2 // 1. Process standard node DOFs
+3 Assign 3 DOFs for each vertex v \in Nodes(T_h); gdof += 3 * N_v
+4 // 2. Process edge internal DOFs
+5 For each edge e \in Edges(T_h):
+6     Assign 2*(k-1) DOFs for normal trace components; gdof += 2*(k-1)
+7 // 3. Process cell internal DOFs
+8 For each cell T \in Cells(T_h):
+9     Assign 3*(k*(k-1)/2) DOFs for bubble tensor components; gdof += 3*(k*(k-1)/2)
+10 // 4. Apply Corner Relaxation (if enabled)
+11 If corner relaxation enabled:
+12     Execute Algorithm 2; append extra DOF for each qualified corner
+13 Assemble local-to-global indexing matrix cell2dof_sigma
+```
+
+#### 算法 2：两单元角点局部松弛与自由度重构算法
+```
+Algorithm 2: Two-Element Corner Relaxation Algorithm
+Input : Corner node x_c, Mesh T_h, cell2dof_sigma
+Output: Updated cell2dof_sigma with decoupled tangential DOF
+1 Identify neighboring cells sharing x_c: omega(x_c) = {K^+, K^-}
+2 Check admissibility: |omega(x_c)| == 2 and sharing one internal edge e
+3 Retrieve frame (t_e, n_e) of internal edge e
+4 Let original vertex DOFs be (d_0, d_1, d_2) corresponding to (n_e x n_e, sym(n_e x t_e), t_e x t_e)
+5 Allocate new global DOF index: d_3 = gdof_sigma + 1; gdof_sigma += 1
+6 In cell2dof for K^+: keep (d_0, d_1, d_2)
+7 In cell2dof for K^-: replace d_2 with d_3 -> uses (d_0, d_1, d_3)
+```
 
 ---
 
@@ -257,6 +290,8 @@ $\mathcal F_h$ 为何不含 $\Gamma_N$：牵引边界是本质边界条件，已
 ## 5. 收敛性结果（论文第五章对照）
 
 > **证据边界**：本节数值来自博士论文第五章，属历史结论，只用于恢复问题定义与预期阶次，**不作为 CICP 投稿证据**。投稿证据须由新的实验入口重算，口径见 [[../../papers/arbitrary-order-huzhang-topopt-outline]] §四。
+>
+> 2026-08-31 的 SOPTX 实测确认：**只有观测阶可跨来源复现，误差绝对值不可**。博士论文侧的误差值恰为 SOPTX 实测值的 $\sqrt{2}$ 倍（$k=1,2,3,4$ 共 60 个值全部如此）；观测阶是相邻网格的比值、对全局常数因子免疫，故两侧一致。SOPTX 侧的绝对尺度已用解析范数校验（$\|\boldsymbol u\|_0$、$\|\boldsymbol\sigma\|_0$、$\|\nabla\cdot\boldsymbol\sigma\|_0$ 与解析值 9 位吻合）。该 $\sqrt{2}$ 的来源**待确认**，疑为博士论文 5.4.2–5.4.3 节的物理量纲缩放，原件 `brightPhD.pdf` 不在本库。**本节的误差绝对值一律不得引用**。
 
 数值验证设置：单位正方形域、平面应变、$\lambda=1$、$\mu=0.5$、光滑制造解（精确位移 $u_1=u_2=\sin\pi x\sin\pi y$），$\Gamma_D=\{x=0\}\cup\{y=0\}$ 施加齐次位移、$\Gamma_N=\{x=1\}\cup\{y=1\}$ 施加精确牵引。
 制造解完整定义见 SOPTX 制造解文档。
@@ -266,7 +301,7 @@ $\mathcal F_h$ 为何不含 $\Gamma_N$：牵引边界是本质边界条件，已
 - 应力 $L^2$ 误差达到 $\mathcal O(h^{k+1})$ 的理论最优超收敛；对比同阶位移元（$P_{k-1}$ 位移）因形函数求导应力降至 $\mathcal O(h^{k-1})$，胡张元在应力场刻画上优势显著；
 - 位移 $L^2$ 误差与应力 $H(\mathrm{div})$ 误差均为 $\mathcal O(h^{k})$ 最优收敛；$H(\mathrm{div})$ 误差由应力 $L^2$ 逼近与散度误差共同主导，其收敛证实法向牵引力跨单元连续。
 
-**低阶 $k=1,2$（稳定化）**，论文表 5.2（SOPTX 逐格复现，见其 `results_analysis.md`）：
+**低阶 $k=1,2$（稳定化）**，论文表 5.2 的观测阶（SOPTX 实测复现，见其 `results_analysis.md`）：
 
 | $k$ | $\|\boldsymbol u-\boldsymbol u_h\|_{0}$ | $\|\boldsymbol\sigma-\boldsymbol\sigma_h\|_{0}$ | $\|\boldsymbol\sigma-\boldsymbol\sigma_h\|_{H(\mathrm{div})}$ |
 |---|---|---|---|
@@ -319,4 +354,4 @@ $\mathcal F_h$ 为何不含 $\Gamma_N$：牵引边界是本质边界条件，已
 
 - [[_index]] — 概念页总索引。
 - [[../linear-elasticity]] — 位移型线弹性基础（本页的出发问题）。
-- [[../../literature/topology-opt/notes/Huang2022-problemindependentmachine]] — modified SIMP 材料插值，与胡张元应力场的物理可解释性相关。
+- [[../../literature/topopt/piml/translations/Huang2022-problemindependentmachine-zh]] — modified SIMP 材料插值，与胡张元应力场的物理可解释性相关。

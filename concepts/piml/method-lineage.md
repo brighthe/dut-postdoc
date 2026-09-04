@@ -80,19 +80,19 @@ flowchart LR
 
 ## 3. 单篇演进突破与局限快速索引
 
-单篇论文的深度公式、完整算例与模型选型证据见各自在 `literature/topology-opt/notes/` 下的专一笔记：
+单篇论文的深度公式与完整算例见各自在 `literature/topopt/<子类>/translations/` 下的中文译文（单篇笔记层已于 2026-08-30 移除；全文事实以 `sources/` 中的原始 PDF 为准，译文是其派生理解层，两者冲突时以 PDF 为准）：
 
 | 时间 | 代表工作 | 核心贡献与理论突破 | 局限性与开放问题 | 单篇深度笔记 |
 |---|---|---|---|---|
-| **2018** | **Lei 2018/2019** | **前史对照**：MMC 几何参数化 + SVR/KNN，实现已知边界下的实时拓扑预测 | 强问题相关，改变载荷/设计域后必须重新生成样本训练 | [[../../literature/topology-opt/notes/Lei2018-machinelearningdriven\|Lei2018 笔记]] |
-| **2022** | **Huang 2022** | **PIML 开山**：在 EMsFEM 框架中学习“局部密度 $\to$ 多尺度形函数 $\boldsymbol{N}^j$”，实现跨宏观 BVP 复用 | 依赖监督标签，输出维度随细分尺度增加，限制在规则粗网格 | [[../../literature/topology-opt/notes/Huang2022-problemindependentmachine\|Huang2022 笔记]] |
-| **2023** | **Huang 2023** | **子结构缩聚**：扩展到经典子结构 Schur 补，比较形函数 $\boldsymbol{N}$ 与缩聚刚度 $\mathbf{K}_s$ 预测路线 | 直接预测 $\mathbf{K}_s$ 可能破坏与 $\boldsymbol{N}$ 的能量一致性，依赖监督标签 | [[../../literature/topology-opt/notes/Huang2023-PIML-substructure\|Huang2023 笔记]] |
-| **2024** | **Huang 2024** | **Data-Free 连续表示**：用 DeepONet 学习连续形函数，基于总应变能做 Mechanics-based Data-free 训练 | 规则立方体子结构为主，非连通材料分布下优化稳定性有待提升 | [[../../literature/topology-opt/notes/Huang2024-PIML-datafree\|Huang2024 笔记]] |
-| **2026** | **Ma 2026** | **并行与按需重算**：PIML 结合 MPI 并行、多重网格与按需预测/释放，服务十亿单元问题 | 粗网格缩聚系统仍需显式形成与求解，非完全全局无矩阵 | [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel\|Ma2026 笔记]] |
-| **2024** | **Zhang 2024** | **等参扩展**：输入 [几何形状 + 材料分布]，学习几何感知形函数，扩展至复杂设计域 | 摘要级 `draft` 证据，全文级精度与架构细节有待精读核验 | [[../../literature/topology-opt/notes/Zhang2024-isoparametric-PIML\|Zhang2024 笔记]] |
-| **2025** | **Xu 2025** | **点阵应用**：PIML 结合 MMC 参数化与三维梯度点阵结构拓扑优化 | 摘要级 `draft` 证据，属于应用延伸 | [[../../literature/topology-opt/notes/Xu2025-PIML-lattice-MMC\|Xu2025 笔记]] |
-| **2026** | **Guo Yilin 2026 Bézier**<br/>(郭一麟 et al.) | **边界参数化**：Bézier 曲线参数化边界位移，学习边界位移到内部位移响应映射 | 摘要级 `draft` 证据，对高阶复杂边界位移泛化能力有待验证 | [[../../literature/topology-opt/notes/Guo2026-highgeneralization-bezier\|Guo2026 Bézier 笔记]] |
-| **2026** | **Guo Yilin 2026 OFEM**<br/>(郭一麟 et al.) | **重叠有限元**：以 U-Net 预测超采样数值基函数，保留角节点自由度 | arXiv v1 预印本，重叠区域计算与全局代数性质有待验证 | [[../../literature/topology-opt/notes/Guo2026-PIML-OFEM\|Guo2026 OFEM 笔记]] |
+| **2018** | **Lei 2018/2019** | **前史对照**：MMC 几何参数化 + SVR/KNN，实现已知边界下的实时拓扑预测 | 强问题相关，改变载荷/设计域后必须重新生成样本训练 | [[../../literature/topopt/mmc-mmv/translations/Lei2018-machinelearningdriven-zh\|Lei2018 译文]] |
+| **2022** | **Huang 2022** | **PIML 开山**：在 EMsFEM 框架中学习“局部密度 $\to$ 多尺度形函数 $\boldsymbol{N}^j$”，实现跨宏观 BVP 复用 | 依赖监督标签，输出维度随细分尺度增加，限制在规则粗网格 | [[../../literature/topopt/piml/translations/Huang2022-problemindependentmachine-zh\|Huang2022 译文]] |
+| **2023** | **Huang 2023** | **子结构缩聚**：扩展到经典子结构 Schur 补，比较形函数 $\boldsymbol{N}$ 与缩聚刚度 $\mathbf{K}_s$ 预测路线 | 直接预测 $\mathbf{K}_s$ 可能破坏与 $\boldsymbol{N}$ 的能量一致性，依赖监督标签 | [[../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh\|Huang2023 译文]] |
+| **2024** | **Huang 2024** | **Data-Free 连续表示**：用 DeepONet 学习连续形函数，基于总应变能做 Mechanics-based Data-free 训练 | 规则立方体子结构为主，非连通材料分布下优化稳定性有待提升 | [[../../literature/topopt/piml/translations/Huang2024-PIML-datafree-zh\|Huang2024 译文]] |
+| **2026** | **Ma 2026** | **并行与按需重算**：PIML 结合 MPI 并行、多重网格与按需预测/释放，服务十亿单元问题 | 粗网格缩聚系统仍需显式形成与求解，非完全全局无矩阵 | [[../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh\|Ma2026 译文]] |
+| **2024** | **Zhang 2024** | **等参扩展**：输入 [几何形状 + 材料分布]，学习几何感知形函数，扩展至复杂设计域 | 摘要级 `draft` 证据，全文级精度与架构细节有待精读核验 | [[../../literature/topopt/piml/translations/Zhang2024-isoparametric-PIML-zh\|Zhang2024 译文]] |
+| **2025** | **Xu 2025** | **点阵应用**：PIML 结合 MMC 参数化与三维梯度点阵结构拓扑优化 | 摘要级 `draft` 证据，属于应用延伸 | [[../../literature/topopt/piml/translations/Xu2025-PIML-lattice-MMC-zh\|Xu2025 译文]] |
+| **2026** | **Guo Yilin 2026 Bézier**<br/>(郭一麟 et al.) | **边界参数化**：Bézier 曲线参数化边界位移，学习边界位移到内部位移响应映射 | 摘要级 `draft` 证据，对高阶复杂边界位移泛化能力有待验证 | [[../../literature/topopt/piml/translations/Guo2026-highgeneralization-bezier-zh\|Guo2026 Bézier 译文]] |
+| **2026** | **Guo Yilin 2026 OFEM**<br/>(郭一麟 et al.) | **重叠有限元**：以 U-Net 预测超采样数值基函数，保留角节点自由度 | arXiv v1 预印本，重叠区域计算与全局代数性质有待验证 | [[../../literature/topopt/piml/translations/Guo2026-PIML-OFEM-zh\|Guo2026 OFEM 译文]] |
 
 ---
 
@@ -132,4 +132,4 @@ PIML 路线与多分辨率拓扑优化（MTOP）有相似动机：二者都试�
 - [[../ml-roles-and-boundaries|计算力学 ML 6大路线全景图谱与方法边界]] — 鸟瞰计算力学中 6 大 ML 路线的作用位置
 - [[mathematical-foundations|Problem-Independent 路线的数学基础]] — 局部—全局契约、精确缩聚标签与路线 A/B（Schur 补原理见 [[../substructural-condensation]]）
 - [[../substructural-condensation|子结构有限元与静力缩聚]] — Huang2023 之后子结构路线所依托的经典缩聚原理
-- [[../../research/technical-lines/piml-research-guide|PIML 局部力学算子技术线研究指南]] — 博士后 WP2 的模型选型原则与证据综合
+- [[../../research/piml-matrix-free-gpu/piml-research-guide|PIML 局部力学算子技术线研究指南]] — 博士后 PIML 局部表示线的模型选型原则与证据综合

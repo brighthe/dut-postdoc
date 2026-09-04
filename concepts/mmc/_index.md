@@ -40,11 +40,11 @@ MMC 的特征是设计变量始终是显式几何参数，密度场只是并集�
 
 ## 文献证据
 
-- [[../../literature/topology-opt/notes/Zhang2016-MMC-topology]] — 可变厚度 MMC、Ersatz 有限元与 188 行 MATLAB 实现。
-- [[../../literature/topology-opt/notes/Zhang2016-minimum-length-scale]] — MMC 最小尺度控制和精确边界处理。
-- [[../../literature/topology-opt/notes/Lei2018-machinelearningdriven]] — MMC 设计向量结合 PCA 与 SVR/KNN 的问题相关最终设计预测。
-- [[../../literature/topology-opt/notes/Lei2018-machinelearningdriven#模型选型证据卡]] — MMC 低维设计表示在问题相关机器学习代理中的论文证据（同一篇笔记内的证据卡锚点）。
-- [[../../literature/topology-opt/notes/Xu2025-PIML-lattice-MMC]] — PIML、MMC、分区坐标映射与三维梯度点阵复合结构优化；当前为元数据／摘要级 `draft` 证据。
+- [[../../literature/topopt/mmc-mmv/translations/Zhang2016-MMC-topology-zh]] — 可变厚度 MMC、Ersatz 有限元与 188 行 MATLAB 实现。
+- [[../../literature/topopt/mmc-mmv/translations/Zhang2016-minimum-length-scale-zh]] — MMC 最小尺度控制和精确边界处理。
+- [[../../literature/topopt/mmc-mmv/translations/Lei2018-machinelearningdriven-zh]] — MMC 设计向量结合 PCA 与 SVR/KNN 的问题相关最终设计预测。
+- [[../../literature/topopt/mmc-mmv/translations/Lei2018-machinelearningdriven-zh]] — MMC 低维设计表示在问题相关机器学习代理中的论文证据（同一篇笔记内的证据卡锚点）。
+- [[../../literature/topopt/piml/translations/Xu2025-PIML-lattice-MMC-zh]] — PIML、MMC、分区坐标映射与三维梯度点阵复合结构优化；当前为元数据／摘要级 `draft` 证据。
 
 ## 关联入口
 

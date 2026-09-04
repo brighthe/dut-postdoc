@@ -33,14 +33,14 @@ LLM Wiki 不是一次性聊天记录，也不是简单的向量检索库，而�
 - **人的优势**：决定读什么、为什么读、哪些问题值得问、哪些结论真的有研究价值。
 - **LLM 的优势**：做持续的 bookkeeping，包括建页、补链、更新索引、维护引用、把零散问答回填成永久知识。
 - **知识形态**：以 Markdown/Obsidian 双链为主；每个页面尽量短而可组合，能被后续 LLM 快速读取。
-- **可追溯性**：综合判断必须能回到文献笔记、调研页或 `assets/refs.bib`，拿不准的内容标注「待确认」。
+- **可追溯性**：综合判断必须能回到文献笔记、调研页或 `literature/refs.bib`，拿不准的内容标注「待确认」。
 - **增量性**：每次 ingest/query/lint 都让库变得更好一点，而不是只解决当下对话。
 
 ## 在本库中的操作映射
 
 | 操作 | 触发 | 产物 | 必做维护 |
 |---|---|---|---|
-| Ingest | 新论文、文章、图片、链接 | `literature/` 文献笔记，必要时刷新 `concepts/`、`entities/`、`research/` | 更新 `assets/refs.bib`、相关 `_index.md`、[[../index]]、[[../log]] |
+| Ingest | 新论文、文章、图片、链接 | `literature/` 文献笔记，必要时刷新 `concepts/`、`entities/`、`research/` | 更新 `literature/refs.bib`、相关 `_index.md`、[[../index]]、[[../log]] |
 | Query | 研究问题、写作问题、比较问题 | 带 wiki 引用的回答；有长期价值时回填页面 | 搜索顺序优先 `concepts/` → `entities/` → `research/` → `literature/` |
 | Lint | “lint / 体检 / 整理” | 问题清单，不先擅自大改 | 检查矛盾、过期、孤页、缺链、索引遗漏、frontmatter 缺字段 |
 

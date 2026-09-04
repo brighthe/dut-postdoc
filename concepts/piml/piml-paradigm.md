@@ -13,7 +13,7 @@ tags:
   - topology-opt
 status: in-progress
 date_added: 2026-08-06
-date_update: 2026-08-09
+date_update: 2026-08-31
 ---
 
 # 问题无关机器学习 (PIML) 通用范式
@@ -24,10 +24,84 @@ date_update: 2026-08-09
 
 ## 1. 概念定义与范式定位
 
-* **Problem-Independent Machine Learning (PIML)**：课题主线（Huang–Ma 谱系路线）所指的 PIML 特指**学习可跨宏观边值问题（BVP）、宏观几何、整体边界条件和载荷复用的局部力学表示**。模型预测的目标不是特定问题的最终解场或设计，而是局部力学载体（子结构、EMsFEM 粗单元、OFEM 重叠网格等）的多尺度形函数 $\boldsymbol{N}^j$、缩聚/粗刚度 $\mathbf{K}_s^j$ 或其他接口算子。
-* **与 PINN (Problem-Dependent) 的核心机制差异：局部力学载体的显式绑定**：
-  * **PINN (无局部载体)**：输入为全局空间坐标 $\boldsymbol{x} \in \Omega$，直接在整个宏观计算域上逼近单次特定 BVP 的解场。改变边界或载荷后**必须重新训练**。
-  * **PIML (显式绑定局部力学载体)**：输入为局部载体内部的细观材料/几何描述 $\boldsymbol{\rho}^j$（与宏观边界/载荷解耦），输出为该局部载体的接口力学算子。训练一次后，推理阶段可以像“积木”一样将局部算子拼装至任意宏观结构完成**秒级预测与全局求解**。
+本课题（Huang–Ma 谱系）所指的 **Problem-Independent Machine Learning (PIML)**，特指学习可跨宏观边值问题（BVP）、宏观几何、边界条件与载荷复用的局部力学表示。预测目标不是某个问题的最终解场或设计，而是局部力学载体（子结构、EMsFEM 粗单元、OFEM 重叠网格等）的多尺度形函数 $\mathbf{N}^j$、缩聚/粗刚度 $\mathbf{K}_s^j$ 或其他接口算子。
+
+与 PINN 的差别在于是否绑定局部载体。PINN 的输入是宏观域坐标 $\boldsymbol{x} \in \Omega$，直接逼近单次特定 BVP 的解场，改变边界或载荷后必须重新训练；PIML 的输入是局部载体的细观材料/几何描述 $\boldsymbol{\rho}^j$（路线 F 另含载体内部的局部坐标 $\boldsymbol{x} \in \Omega^j$），输出是该载体的接口算子，训练一次后即可像“积木”一样拼装至任意宏观结构。
+
+分界不在「输入是否含空间坐标」，而在**输入是否含宏观边界与载荷**：路线 F（DeepONet 型，见 §5.2）的 trunk 网络以 $\boldsymbol{x}$ 为输入，仍属 PIML，因为 $\Omega^j$ 内的局部坐标与宏观 BVP 解耦；而 PINN 的 $\boldsymbol{x}$ 遍历宏观域 $\Omega$，解场由该次 BVP 的边界与载荷唯一确定。
+
+输出有两类形态。路线 A/B 输出有限维代数对象 $\mathbf{N}^j \in \mathbb{R}^{n_i \times n_b}$、$\mathbf{K}_s^j$，其中内部自由度编号是输出张量的索引，与网格绑定，换网格后输出层维度即失效；路线 F 输出函数值算子 $\boldsymbol{\Phi}_k^j(\cdot)$，$\boldsymbol{x}$ 是网络的输入变量，可在任意点求值，分辨率无关。固定网格上两者由 $N_{pk}^j = \boldsymbol{\Phi}_k^j(\boldsymbol{x}_p)$ 互相确定，表示层面严格等价，但作为被学习的映射并不等价——前者是有限维函数 $\mathbb{R}^m \to \mathbb{R}^{n_i \times n_b}$，后者是算子，且其输出一般不落在有限元空间 $V_h$ 内，缩聚刚度须由应变能直接积分获得而非 $\widehat{\mathbf{N}}^{\mathsf{T}} \mathbf{K} \widehat{\mathbf{N}}$，这构成路线 F 与有限元空间的相容性代价（见 [[method-lineage#6. 仍未解决的开放问题|开放问题]]）。
+
+### 1.1 PIML 的收益前提：昂贵且与全局解耦的局部子问题
+
+PIML 能否在某个计算环节产生收益，取决于该环节的局部子问题是否同时满足两个条件：
+
+1. **昂贵**：求值成本远超 $O(1)$ 且随局部自由度规模增长（如需解局部方程组、局部非线性返回映射或昂贵的局部积分），且每次设计变量更新后必须重算，否则代理没有可替代的成本。
+2. **与全局 BVP 解耦**：输入只含局部材料/几何描述 $\boldsymbol{\rho}^j$，不含宏观边界条件与载荷，否则同一模型无法跨子结构、跨宏观问题复用，problem-independent 不成立。
+
+静力缩聚同时制造出这两个条件。多尺度形函数
+$$
+\mathbf{N}^j = -(\mathbf{K}_{ii}^j)^{-1} \mathbf{K}_{ib}^j
+$$
+的第 $k$ 列，是「第 $k$ 个接口自由度取单位位移、其余锁死为零，且内部无载荷」时的内部平衡位移场；其连续形式是 $\Omega^j$ 上的离散调和延拓，一般无闭式解，求值需一次局部 Cholesky 分解与 $n_b$ 次回代，无法绕过（条件 1）。而其定义只用到子结构自身的分块刚度 $\mathbf{K}_{ii}^j$、$\mathbf{K}_{ib}^j$，与宏观边界条件和载荷无关（条件 2）。分块平衡方程、逐列的单位位移试验与连续形式的完整推导见 [[../substructural-condensation#2.1 内部自由度消元与多尺度形函数矩阵|静力缩聚 §2.1]]。
+
+单次求解本身并无困难：$\mathbf{K}_{ii}^j$ 对称正定，且 $n_b$ 个方程共用同一系数矩阵，只需一次 Cholesky 分解加 $n_b$ 次回代，$n_i \sim 10^2$ 时耗时在亚毫秒量级。构成瓶颈的是重复次数——拓扑优化中每个子结构、每次设计更新都要重算一遍：
+$$
+\underbrace{M}_{\text{子结构数}} \times \underbrace{N_{\text{iter}}}_{\text{优化迭代数}} \sim 10^3 \times 10^2 = 10^5 \ \text{次}
+$$
+以 2D $10 \times 10$ 单元子结构（$n_i = 162$，$n_b = 80$）计，单次约 $\tfrac{1}{3} n_i^3 + 2 n_i^2 n_b \approx 6 \times 10^6$ flops（前项为分解，后项为 $n_b$ 次回代），合计约 $1.2 \times 10^{12}$ flops；这部分成本独立于接口系统的全局求解，改进全局求解器无法消除。**因此条件 1 的判据不是「能否求解」，而是「单次成本 $\times$ 复用次数」**：单元刚度 $\mathbf{K}_e$ 单次 $O(1)$，乘以同样的复用次数仍可忽略，故无收益。
+
+**但静力缩聚只是充分条件，不是必要条件。** 条件 1 只要求求值成本远超 $O(1)$，并不要求求值路径含矩阵求逆——cut-cell/FCM 的昂贵局部积分、局部非线性本构的返回映射、区域分解中的局部块求解，同样可能同时满足两个条件。就现有文献而言，静力缩聚是 PIML 中唯一被系统验证过的载体（见 [[method-lineage#2.1 局部力学载体的演进与分类图谱|5 大局部力学载体]]），其余方向本库尚无证据支撑，标记为**待确认**。因此本节结论应表述为：**PIML 必须依附一个昂贵且与全局 BVP 解耦的局部子问题；静力缩聚是目前实现这一前提的成熟方式，而非唯一方式。**
+
+#### 非线性问题下两个条件的走向相反
+
+条件 2 在线弹性下由静力缩聚天然满足，其最直接的工程后果体现在训练数据的生成方式上：
+
+> 「由于本文仅研究线弹性问题，因此可以将杨氏模量归一化，并在 $[0,1]$ 范围内通过随机过程生成训练样本。」
+> —— [[../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh|Huang 2023 中文译文]]
+
+**能离线随机采样，正是条件 2 的直接推论**——局部量与全局状态无关，样本空间就退化为局部材料参数空间。一旦放松线弹性假设，按非线性类型分三档（各类非线性的定义、切线刚度结构与求解代价见 [[../nonlinear-fem|非线性有限元页]]）：
+
+| 非线性类型 | 条件 2（与全局解耦） | 后果 |
+|---|---|---|
+| 几何非线性，共旋格式 | **近似保持**——刚体转动被分离到局部之外，子结构内部仍是小应变线弹性，$\tilde{\mathbf{K}}^j$ 仍只由 $\boldsymbol{\rho}^j$ 决定 | 在线每子结构多一次转动提取与旋转；离线随机采样前提不变。**本人判断，待验证** |
+| 材料非线性，路径无关（超弹） | **削弱**——局部响应依赖当前变形梯度 $\boldsymbol{F}$ | 需把变形状态并入模型输入，样本空间维度与训练成本上升 |
+| 材料非线性，路径相关（弹塑性、损伤） | **失效**——局部响应依赖高斯点内变量与加载历史 | 样本不能随机生成，必须沿加载路径采样，覆盖性与成本同时恶化 |
+
+条件 1 的走向相反：切线刚度每个 Newton 步作废重算，局部子问题的复用次数从 $M \times N_{\text{iter}}$ 变为 $M \times N_{\text{iter}} \times N_{\text{load}} \times N_{\text{newton}}$，**非线性使条件 1 更容易满足**。因此「非线性更难」并非均匀成立：**代价集中在条件 2，而非条件 1**。
+
+若条件 2 在路径相关本构下确实失效，上文列为待确认的候选载体「局部非线性本构的返回映射」反而可能成为替代路径——学习对象由 $\tilde{\mathbf{K}}^j$ 换为局部本构响应本身，其昂贵性与局部性由本构积分算法自身提供。**本库无证据，仍标待确认。**
+
+本节结论限于范式层的条件分析；具体路线的证据缺口与待验证问题见 [[../../research/piml-matrix-free-gpu/piml-research-guide#3.5 向非线性推广的待验证问题|PIML 研究指南 §3.5]]。
+
+#### 反例：传统全尺度有限元中 PIML 无收益
+
+在不做缩聚的传统全尺度有限元中，局部对象退化为单元刚度矩阵。SIMP 插值下它是闭式的：
+$$
+\mathbf{K}_e(\rho_e) = \big(E_{\min} + \rho_e^{\,p}(E_0 - E_{\min})\big)\, \mathbf{K}_0
+$$
+即一个标量乘以与设计变量无关的常数矩阵 $\mathbf{K}_0$，全网格共用、全程只需计算一次。
+
+| 收益条件 | 单元刚度 $\mathbf{K}_e(\rho_e)$ | 缩聚形函数 $\mathbf{N}^j$ |
+|---|---|---|
+| 与全局 BVP 解耦 | ✅ 只依赖 $\rho_e$ | ✅ 只依赖 $\boldsymbol{\rho}^j$ |
+| 昂贵、无闭式 | ❌ 闭式、$O(1)$ 求值、精确 | ✅ 需局部分解，随 $\boldsymbol{\rho}^j$ 强非线性 |
+| **PIML 是否有收益** | **无**——待学映射退化为一维解析函数 $\rho_e \mapsto E(\rho_e)$ | **有** |
+
+因此「把 PIML 直接用于传统全尺度有限元」不成立的原因**不是技术困难，而是没有可学的对象**：用神经网络逼近一个已有闭式、求值成本 $O(1)$ 且精确的量，只会更慢更不准。
+
+唯一的例外入口是单元级子问题本身变得非平凡的场合——cut-cell／有限胞元法（FCM）中被域边界裁剪的单元、高阶曲边或 trimmed 等参单元、单元内含微结构的情形。这些场合的共同点是**几何进入模型输入**，与不规则子结构划分所需的能力是同一件事，见 [[method-lineage#2.1 局部力学载体的演进与分类图谱|局部力学载体的演进与分类图谱]]。
+
+#### 与 PINN 的分工：组合关系 vs 竞争关系
+
+PINN 同样可以作用于全尺度有限元，但作用方式与 PIML 相反：
+
+* **PIML 与 FEM 组合**——替换 FEM 内部一个昂贵子步，网格、装配、全局求解与灵敏度链条全部保留，正确性继承自 FEM 框架并由硬参数化（SPD、刚体零空间）加固；
+* **PINN 与 FEM 竞争**——网络本身即求解器，整条离散—求解流水线被替代，正确性只能依赖 loss 收敛，没有可继承的框架保证。
+
+竞争路线在全尺度拓扑优化中面临四重不利：（i）以非凸参数优化求解本为凸二次的 $\mathbf{K}\boldsymbol{U} = \mathbf{F}$，精度与收敛保证双双降级；（ii）**训练即求解，不存在离线成本被在线复用摊薄的结构**——PIML 的摊薄比为 $M \times N_{\text{iter}}$（子结构数 × 优化迭代数），PINN 为 $1$；（iii）SIMP 的高对比度间断系数（$E_{\min} \approx 10^{-9} E_0$，且界面随迭代移动）与网络的 spectral bias 直接冲突；（iv）柔顺度灵敏度是位移的二次型，会放大解场误差并污染设计更新方向。
+
+二者真正的结合点不在求解环节而在**训练环节**：PINN 的物理泛函损失可以替代昂贵的监督标签，用局部平衡残差直接训练局部算子，即 §2.3 所述的 Mechanics-based Data-free Loss，见 [[../../literature/topopt/piml/translations/Huang2024-PIML-datafree-zh|Huang 2024 Data-Free]]。逐维度对比见 §4。
 
 ---
 
@@ -136,14 +210,15 @@ $$
 
 | 维度 | PINN (Problem-Dependent) | PIML (Problem-Independent / Huang–Ma 路线) |
 |---|---|---|
-| **输入** | 空间坐标 $\boldsymbol{x} \in \mathbb{R}^d$ | 局部子结构材料/几何分布 $\boldsymbol{\rho}^j \in [0, 1]^m$ |
-| **输出** | 空间某点物理响应 $\hat{\boldsymbol{u}}(\boldsymbol{x})$ | 局部多尺度形函数 $\boldsymbol{N}^j$ / 缩聚刚度矩阵 $\mathbf{K}_s^j$ |
+| **与 FEM 的关系** | **竞争**：网络即求解器，替代整条离散—求解流水线 | **组合**：只替代 FEM 内部的局部缩聚子步，全局框架与灵敏度链条保留（见 §1.1） |
+| **输入** | 空间坐标 $\boldsymbol{x} \in \mathbb{R}^d$（遍历宏观域） | 局部材料/几何分布 $\boldsymbol{\rho}^j \in [0, 1]^m$（路线 F 另含局部坐标 $\boldsymbol{x} \in \Omega^j$）；**不含宏观边界与载荷** |
+| **输出** | 空间某点物理响应 $\hat{\boldsymbol{u}}(\boldsymbol{x})$ | 有限维算子 $\mathbf{N}^j$ / $\mathbf{K}_s^j$（路线 A/B），或函数值算子 $\boldsymbol{\Phi}_k^j(\cdot)$（路线 F） |
 | **训练数据** | 无数据 (Data-Free)，靠 Collocation 点残差 | 局部材料样本集 (Supervised 或 Mechanics-based Data-free) |
 | **重训需求** | 载荷/边界条件改变后**必须重新训练** | **跨宏观 BVP 免重训**，秒级推理与全局求解 |
 | **全局求解** | 无全局组装，网络即求解器 | 预测局部算子，组装至传统全局平衡方程 $K_{\text{global}} U = F$ |
 | **代数结构保持** | 靠 Loss 软约束控制边界与方程 | 可通过硬参数化保持对称性、正定性与刚体模态 |
 | **失败处理** | 训练不收敛则无法得到合理物理解 | 可检测分布外异常并**精准回退 (Exact Fallback)** 到有限元计算 |
-| **课题角色** | 物理残差算子摸底与 Baseline | 博士后核心研究项目 WP2 主线攻关方向 |
+| **课题角色** | 物理残差算子摸底与 Baseline | 博士后核心研究项目 PIML 局部表示线的攻关方向 |
 
 ---
 
@@ -176,11 +251,17 @@ $$
   * **机制**：在带有重叠区域的局部子网格上，用 U-Net 预测超采样数值基函数（Supersampled Basis），保留角节点自由度并装配粗系统。
 * **路线 F：连续场 Neural Operator（DeepONet / FNO 算子）**
   * **代表文献**：*Huang 2024 Data-Free*（Huang et al.）。
-  * **机制**：基于 DeepONet 等 Neural Operator 学习连续材料分布到连续形函数/应变能函数的通用算子映射。
+  * **机制**：用 DeepONet 等 Neural Operator 学习连续材料分布到连续形函数/应变能的算子映射。DeepONet 由两支 MLP 组成，末端做内积给出场值：
+    $$
+    \boldsymbol{\Phi}_k^j(\boldsymbol{x}) \approx \sum_{q=1}^{Q} b_q(\boldsymbol{\rho}^j) \, t_q(\boldsymbol{x})
+    $$
+    branch net 输入子结构密度分布 $\boldsymbol{\rho}^j$ 在固定传感点上的采样值、输出 $Q$ 维系数；trunk net 输入子结构内的单个局部坐标 $\boldsymbol{x} \in \Omega^j$、输出 $Q$ 维基向量。名称取自树形结构：branch 可有多支（对应多个输入函数），trunk 只有一支。
+  * **与有限元展开的对应**：对照 $u_h(\boldsymbol{x}) = \sum_q c_q \boldsymbol{\phi}_q(\boldsymbol{x})$，trunk 学的是基函数、branch 学的是该组基上的系数。区别在于 $\boldsymbol{\phi}_q$ 由网格事先给定而 $t_q$ 由训练得到；$c_q$ 需解 $\mathbf{K}\mathbf{U} = \mathbf{F}$ 才能获得，而 $b_q$ 由 branch 从 $\boldsymbol{\rho}^j$ 直接前向映出。
+  * **代价**：trunk 逐点求值是分辨率无关的来源（训练与推理采样点可完全不同），但 $t_q$ 是全局光滑函数而非分片多项式，张成空间与 $V_h$ 无包含关系，$\widehat{\mathbf{N}}^{\mathsf T} \mathbf{K} \widehat{\mathbf{N}}$ 式代数装配失效，缩聚刚度须由应变能直接积分获得（见 §1）。
 
-关于 EMsFEM 粗单元、经典缩聚子结构、OFEM 重叠网格、等参单元及 Bézier 边界等 5 大局部力学载体的详细演进对比，见 [[method-lineage#21-局部力学载体的演进与分类图谱|PIML 5 大局部力学载体的演进与分类图谱]]。
+关于 EMsFEM 粗单元、经典缩聚子结构、OFEM 重叠网格、等参单元及 Bézier 边界等 5 大局部力学载体的详细演进对比，见 [[method-lineage#2.1 局部力学载体的演进与分类图谱|PIML 5 大局部力学载体的演进与分类图谱]]。
 
-详细的模型选型与统一比较契约见 [[../../research/technical-lines/piml-research-guide|PIML 局部力学算子研究指南]]。
+详细的模型选型与统一比较契约见 [[../../research/piml-matrix-free-gpu/piml-research-guide|PIML 局部力学算子研究指南]]。
 
 ---
 
@@ -190,5 +271,5 @@ $$
 * [[../ml-roles-and-boundaries|计算力学 ML 6大路线全景图谱与方法边界]] — 鸟瞰计算力学中 6 大 ML 路线的作用位置
 * [[mathematical-foundations|Problem-Independent 路线的数学基础]] — 局部—全局契约、精确缩聚标签与路线 A/B（Schur 补原理见 [[../substructural-condensation]]）
 * [[method-lineage|Huang–Ma PIML 方法演进谱系]] — 从 EMsFEM 到 Data-free 与并行 PIML
-* [[../../research/technical-lines/piml-research-guide|PIML 局部力学算子技术线研究指南]] — 博士后 WP2 的模型选型与证据综合
-* [[../../entities/soptx]] — 求解器与测试代码实现仓库（`soptx/examples/pinn_elasticity` 等）
+* [[../../research/piml-matrix-free-gpu/piml-research-guide|PIML 局部力学算子技术线研究指南]] — 博士后 PIML 局部表示线的模型选型与证据综合
+* SOPTX 代码仓库（`soptx/examples/pinn_elasticity` 等）

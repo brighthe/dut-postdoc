@@ -215,8 +215,8 @@ $$
 
 ## 来源与证据
 
-- [[../../literature/topology-opt/notes/Zhang2016-MMC-topology]] — 可变厚度 MMC、Ersatz 有限元、灵敏度与 MATLAB 实现。
-- [[../../literature/topology-opt/translations/Zhang2016-MMC-topology-zh]] — 本页公式和数值实现边界的原文对应译文。
+- [[../../literature/topopt/mmc-mmv/translations/Zhang2016-MMC-topology-zh]] — 可变厚度 MMC、Ersatz 有限元、灵敏度与 MATLAB 实现。
+- [[../../literature/topopt/mmc-mmv/translations/Zhang2016-MMC-topology-zh]] — 本页公式和数值实现边界的原文对应译文。
 - [[../../research/mmc-mmv/mmc-mmv-numerical-discretization-survey]] — Ersatz、精确边界积分与先进离散路线的比较。
 - [[../linear-elasticity]] — 线弹性状态方程与有限元离散。
 
@@ -227,4 +227,4 @@ MMC 是显式拓扑优化与低维设计表示的基础，可作为代理模型�
 ## 相关页面
 
 - [[_index]] — MMC 主题入口。
-- [[../../literature/topology-opt/notes/Lei2018-machinelearningdriven#模型选型证据卡]] — MMC 低维表示在问题相关最终设计预测中的论文证据。
+- [[../../literature/topopt/mmc-mmv/translations/Lei2018-machinelearningdriven-zh]] — MMC 低维表示在问题相关最终设计预测中的论文证据。

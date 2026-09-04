@@ -1,13 +1,16 @@
 ---
 title: "科研讨论对象人物关系"
-type: discussion
+type: entity
 tags:
   - work-report
   - relationships
   - people
 status: "in-progress"
 date_added: 2026-08-06
-date_update: 2026-08-06
+date_update: 2026-08-27
+aliases:
+  - discussions/relationships
+  - relationships
 ---
 
 # 科研讨论对象人物关系
@@ -27,17 +30,17 @@ flowchart LR
     LC -->|硕导| GYL
     SCY -->|博导| GYL
     HL -. 博后合作导师 .-> GX
-    HL -. WP2 合作 .-> LC
+    HL -. PIML 局部表示合作 .-> LC
     HL -. 合作线索（郭旭 2026-08 介绍） .-> GYL
 ```
 
 ## 人物表
 
-| 人物 | 身份 | 与本人的关系 | 事实源 |
+| 人物 | 身份 | 与本人的关系 | 实体主页 |
 |---|---|---|---|
-| 郭旭 | 中国科学院院士，MMC/MMV 显式拓扑优化与 PIML 主导者 | 合作导师（博士后阶段） | [[../entities/guo-xu]] |
-| 刘畅 | 大连理工大学工程力学系教授，AI 赋能结构分析优化 | WP2 合作（PIML 模型选型讨论） | [[../entities/liu-chang]] |
-| 郭一麟 | 博士，PIML 方向（`xuProblemindependentMachineLearning2025` 作者之一） | 合作线索（2026-08 郭旭介绍，PIML × GPU 加速） | [[guo-yilin/_index]] |
+| 郭旭 | 中国科学院院士，MMC/MMV 显式拓扑优化与 PIML 主导者 | 合作导师（博士后阶段） | [[guo-xu/guo-xu\|郭旭]] |
+| 刘畅 | 大连理工大学工程力学系教授，AI 赋能结构分析优化 | PIML 局部表示线合作（模型选型讨论） | [[liu-chang/liu-chang\|刘畅]] |
+| 郭一麟 | 博士，PIML 方向（`xuProblemindependentMachineLearning2025` 作者之一） | 合作线索（2026-08 郭旭介绍，PIML × GPU 加速） | [[guo-yilin/guo-yilin\|郭一麟]] |
 
 ## 师门链
 
@@ -52,12 +55,10 @@ flowchart LR
 ## 待确认项
 
 - [ ] 三条师门链关系经本人/对方核验（核验后移除"待核验"标注）
-- [ ] 郭旭与刘畅在核心项目中的实际分工边界（WP1–WP3 总领 vs WP2 模型选型）
-- [ ] 申长雨的公开身份信息（如需建实体页 [[../entities/shen-changyu|申长雨（待建）]]）
+- [ ] 郭旭与刘畅在核心项目中的实际分工边界（三条推进线总领 vs PIML 局部表示线模型选型）
+- [ ] 申长雨的公开身份信息（如需建实体页 [[shen-changyu|申长雨（待建）]]）
 
 ## 关联文档
 
-- [[_index]] — 科研讨论与交流索引（讨论对象入口）。
-- [[guo-xu/_index]]、[[liu-chang/_index]]、[[guo-yilin/_index]] — 各讨论对象入口。
-- [[../entities/guo-xu]]、[[../entities/liu-chang]] — 人物实体页（公开学术身份）。
-- [[../entities/_index]] — 实体索引。
+- [[_index|实体总索引]] — 实体与讨论对象入口。
+- [[guo-xu/guo-xu|郭旭实体主页]]、[[liu-chang/liu-chang|刘畅实体主页]]、[[guo-yilin/guo-yilin|郭一麟实体主页]] — 各实体主页。

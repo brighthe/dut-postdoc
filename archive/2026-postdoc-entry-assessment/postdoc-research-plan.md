@@ -116,8 +116,8 @@ date_archived: 2026-07-31
 
 ## 关联调研
 
-- [[entities/guo-xu]] — 合作导师郭旭院士的稳定档案与研究方向入口
-- [[research/piml-matrix-free-gpu/high-performance-solver-survey]] — 第一个研究计划题目：PIML 增强多尺度结构分析、Matrix-Free、并行多重网格与 GPU 高性能求解调研
+- [[../../entities/guo-xu/guo-xu|郭旭]] — 合作导师郭旭院士的稳定档案与研究方向入口
+- [[../../research/piml-matrix-free-gpu/project-plan]] — 第一个研究计划题目：PIML 增强多尺度结构分析、Matrix-Free、并行多重网格与 GPU 高性能求解调研
 - [[research/technical-lines/_index]] — 任务推进与阶段门禁由三条技术线 guide 维护；融合课题边界见 [[research/piml-matrix-free-gpu/_index]]。原任务执行计划已于 2026-07-26 删除，不再保留时间表
 - [[research/mmc-mmv/mmc-mmv-numerical-discretization-survey]] — 第二个研究计划题目：MMC/MMV 高效数值离散与快速分析调研
-- [[literature/topology-opt/Huang2022-problemindependentmachine]] — PIML 奠基论文精读笔记
+- [[../../literature/topopt/piml/translations/Huang2022-problemindependentmachine-zh]] — PIML 奠基论文中文译文

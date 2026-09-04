@@ -6,7 +6,7 @@ tags:
   - finite-element
 status: in-progress
 date_added: 2026-07-26
-date_update: 2026-08-10
+date_update: 2026-09-03
 ---
 
 # Matrix-Free 主题入口
@@ -18,7 +18,7 @@ date_update: 2026-08-10
 | 页面 | 一句话 | 状态 |
 |---|---|---|
 | [[assembly-levels]] | Matrix-Free 五级装配层次、跨框架术语和判定边界 | in-progress |
-| [[krylov-subspace-methods]] | Krylov 子空间方法在 Matrix-Free 模式下的求解机制、预条件与 GPU 异构特性 | draft |
+| [[mf-ea-substructural]] | 子结构载体 EA Matrix-Free 算子：算子定义、与显式装配的代数恒等、自由子空间语义与 PIML 接入点 | in-progress |
 | [[method-lineage]] | 郭旭老师团队公开 Matrix-Free 相关成果的方法谱系；当前直接节点为 Ma2026 | draft |
 
 ## Matrix-Free 算子作用与装配层次
@@ -42,8 +42,8 @@ x (T-vector, true DOF)
 |---|---|
 | [[assembly-levels]] | 五级分类判据、预计算前缘、跨层级不变量与跨框架术语映射；判定一份实现属于哪一级的唯一依据。 |
 | [[../gpu-hpc/distributed-operator-and-shared-dofs]] | 因子链中 $\mathbf P$ 这一层的数学事实源：单元分区、共享自由度、同步归约与加权内积的正确性不变量。 |
-| [[krylov-subspace-methods]] | MatVec 之上的迭代求解机制、预条件与收敛判据。 |
-| [[../../research/technical-lines/matrix-free-research-guide]] | 研究目标、装配边界、统一验收原则与阶段门禁。 |
+| [[../linear-solvers/krylov-subspace-methods]] | MatVec 之上的迭代求解机制、预条件与收敛判据。 |
+| [[../../research/piml-matrix-free-gpu/matrix-free-research-guide]] | 研究目标、装配边界、统一验收原则与阶段门禁。 |
 
 关联实现：`soptx:examples/matrix_free_elasticity/`，维护当前二维、三维可执行线弹性基线；具体入口与运行方式见该目录 `README.md`，实测数值与证据 provenance 的唯一事实源是同目录 `results_analysis.md`，当前只有 dirty worktree 的开发证据，尚无 clean-revision 正式 evidence。
 
@@ -51,31 +51,33 @@ x (T-vector, true DOF)
 
 | 页面 | 一句话 | 状态 |
 |---|---|---|
-| [[../../research/technical-lines/matrix-free-research-guide]] | 长期目标、能力边界、阶段模型、统一验收原则与当前任务状态 | in-progress |
+| [[../../research/piml-matrix-free-gpu/matrix-free-research-guide]] | 长期目标、能力边界、阶段模型、统一验收原则与当前任务状态 | in-progress |
 | [[../../research/piml-matrix-free-gpu/_index]] | 以 GPU 加速 Matrix-Free 求解为核心内容之一的博士后核心研究项目入口 | in-progress |
-| [[../../research/piml-matrix-free-gpu/high-performance-solver-survey]] | 三条技术线组合后的方法关系、开放问题与研究切入点 | in-progress |
+| [[../../research/piml-matrix-free-gpu/project-plan]] | 三条技术线组合后的方法关系、开放问题与研究切入点 | in-progress |
 
 ## 文献证据
 
 - [[../../literature/matrix-free/_index]] — 以 Matrix-Free 方法为主要贡献的实际文献、译文与交叉主题入口。
-- [[../../literature/matrix-free/notes/Kronbichler2012-parallel-cell-operator]] — 并行 cell-based 有限元算子应用的 `draft` 骨架；当前仅按正式摘要使用证据，中文译文待完成。
+- [[../../literature/matrix-free/translations/Kronbichler2012-parallel-cell-operator-zh]] — 并行 cell-based 有限元算子应用的 `draft` 骨架；当前仅按正式摘要使用证据，中文译文待完成。
 - [[../../literature/_index#当前 ingest 队列]] — 尚未建立单篇笔记的 Matrix-Free 论文和储备候选入口。
-- [[../../literature/topology-opt/notes/Ma2026-highperformanceparallel]] — 当前唯一经证实、明确使用 `matrix-free` 表述的团队论文。
+- [[../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh]] — 当前唯一经证实、明确使用 `matrix-free` 表述的团队论文。
 
 ## 关联入口
 
 - 关联主题：[[../gpu-hpc/distributed-operator-and-shared-dofs]] — MPI 单元分区、共享自由度、同步归约与分布式 MatVec 的统一数学描述。该页对全部装配层级成立（FA/LA 的 MPI 求解同样需要），属跨技术线的通用基础，与 `concepts/gpu-hpc/` 下的系统解耦框架协同组成分布式体系。
 - 关联主题：[[../linear-elasticity]] — 当前三维参考问题的连续模型、变分形式和有限元离散基础。
+- 关联主题：[[../linear-solvers/_index]] — 直接法、定常迭代、Krylov 与多重网格的分类、收敛机制与预条件；L1 通用基础，Matrix-Free 只是其算子接口的一种提供方式。
 - 关联主题：[[../gpu-hpc/reference-libraries/mfem-architecture]] — [[assembly-levels]] 五级分类的术语来源之一；该页作为软件对象由 `gpu-hpc/reference-libraries/` 唯一维护。
 - 关联主题：[[../piml/_index]] — PIML 稳定知识、方法谱系与当前研究入口。
+- 关联主题：[[../gpu-hpc/parallel-levels]] — 进程/线程/设备内三层并行粒度；与 [[assembly-levels]] 的五级装配层次正交，二者合成定位性能卡点的二维坐标。
 - 关联主题：[[../gpu-hpc/_index]] — GPU/HPC 端到端性能模型、公开成果谱系与当前研究入口。
-- 工作汇报：[[../../discussions/guo-xu/first-formal-work-report]] — 面向郭旭老师的第一次正式工作汇报，保存本次实际要汇报的 Matrix-Free 阶段结果、事实边界和待请教问题；它是阶段表达快照，不是内部任务状态、程序实现或数值 evidence 的事实源。
+- 工作汇报：[[../../entities/guo-xu/first-formal-work-report|郭旭老师第一次工作汇报]] — 面向郭旭老师的第一次正式工作汇报，保存本次实际要汇报的 Matrix-Free 阶段结果、事实边界和待请教问题；它是阶段表达快照，不是内部任务状态、程序实现或数值 evidence 的事实源。
 - 历史档案：[[../../archive/2026-postdoc-entry-assessment/README]] — 2026 年博士后入站考核答辩的历史材料总览，其中包含当时的 Matrix-Free 计划、图件和表达；档案不再维护当前研究事实，不在本页逐一列出内部文件。
 
 ## 管理边界
 
 - 装配层次推导与判定判据由 [[assembly-levels]] 维护，分布式通信协议与正确性不变量由 [[../gpu-hpc/distributed-operator-and-shared-dofs]] 维护，单篇论文事实由 `literature/` 维护，实测数值由 SOPTX 的 `results_analysis.md` 维护。
-- 不在概念页维护当前任务状态、实施阶段或预计交付日期；这些只由 [[../../research/technical-lines/matrix-free-research-guide#五、阶段门禁与当前执行状态]] 维护。
+- 不在概念页维护当前任务状态、实施阶段或预计交付日期；这些由 [[../../research/piml-matrix-free-gpu/matrix-free-research-guide#五、权威事实来源]] 路由到的 soptx 结果文档与 [[../../research/piml-matrix-free-gpu/project-plan]] 维护。
 - 工作汇报只保存阶段表达，历史档案只保存历史语境；二者都不反向覆盖概念定义、当前任务状态和工程 evidence。
 - 不把 PIML 前序论文直接标为 Matrix-Free 成果，也不把尚未公开的设想写成团队既有路线。
 - 新成果只有在论文、预印本、专利或公开软件等来源可核实时，才进入正式时间线。

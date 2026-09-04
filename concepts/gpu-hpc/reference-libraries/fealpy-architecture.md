@@ -22,14 +22,14 @@ tags:
   - sharing-pair
 status: draft
 date_added: 2026-08-06
-date_update: 2026-08-06
+date_update: 2026-08-23
 ---
 
 # FEALPy 架构：多后端抽象与 EMPI 轻量分布式层
 
 > **一句话**：FEALPy 4.0 的异构执行由两层正交机制组成——`BackendManager` 运行时对象分派（`__getattr__` 重定向）让同一份用户代码在 numpy/pytorch/cupy/taichi 等后端下无改动执行，GPU 经 PyTorch/CuPy（高层库接口）与 Taichi（Python+JIT）路径；进程间以 EMPI 共享对机制实现轻量分布式通信（sync_add/gather_add/bcast），与 MFEM 的 Par\* 对象体系形成对照。
 
-本页是 FEALPy 异构执行架构的完整入口：§1–§4 为单进程多后端机制与 GPU 执行路径，§5–§6 为 EMPI 分布式层与成熟度边界。与 MFEM 的整体架构对比见 [[fealpy-mfem-gpu-backend-comparison]]，六档分类见 [[../heterogeneous-execution-modes#4. 编程模型]]。
+本页是 FEALPy 异构执行架构的完整入口：§1–§4 为单进程多后端机制与 GPU 执行路径，§5–§6 为 EMPI 分布式层与成熟度边界。与 MFEM 的层次对比见 [[mfem-architecture#10. 与 FEALPy 的层次对比]]，六档分类见 [[../heterogeneous-execution-modes#4. 编程模型六档分类|编程模型六档分类]]。
 
 ## 1. BackendManager：运行时对象分派
 
@@ -59,7 +59,7 @@ flowchart LR
 
 `fealpy/backend/base.py` 定义 `BackendProxy` 基类与 `TensorLike` 协议（`dtype`/`device`/`shape`/`size`/逐算子接口），各后端实现该协议后注册进 `_available_backends`。
 
-| 后端        | 实现文件                   | 类别（六档分类见 [[../heterogeneous-execution-modes#4. 编程模型]]） | 特点                                                                  |
+| 后端        | 实现文件                   | 类别（六档分类见 [[../heterogeneous-execution-modes#4. 编程模型六档分类|编程模型六档分类]]） | 特点                                                                  |
 | --------- | ---------------------- | --------------------------------------------------- | ------------------------------------------------------------------- |
 | numpy     | `numpy_backend.py`     | 纯 CPU 参考                                            | 默认参考实现                                                              |
 | pytorch   | `pytorch_backend.py`   | 高层库接口                                               | 跨 CUDA/ROCm/MPS；`tensor.device` 显式                                  |
@@ -69,7 +69,7 @@ flowchart LR
 | mindspore | `mindspore_backend.py` | 高层库接口                                               | 华为昇腾等国产硬件路线                                                         |
 | paddle    | `paddle_backend.py`    | 高层库接口                                               | 海光 DCU 等国产硬件路线                                                      |
 
-各后端对 `TensorLike` 协议的逐算子实现细节与行为差异不在本页展开（API 级差异见 [[../../../archive/fealpy34-to-40-migration]]）。
+各后端对 `TensorLike` 协议的逐算子实现细节与行为差异不在本页展开。
 
 **注册与加载链**：
 
@@ -88,7 +88,7 @@ flowchart TD
 
 ## 3. GPU 执行路径
 
-**路径全景**：FEALPy 的 GPU 执行归为两类编程模型（见 [[../heterogeneous-execution-modes#4. 编程模型|六档分类]]）——高层库接口（调用库写好的 kernel）与 Python+JIT（自己写 kernel 编译执行）：
+**路径全景**：FEALPy 的 GPU 执行归为两类编程模型（见 [[../heterogeneous-execution-modes#4. 编程模型六档分类|六档分类]]）——高层库接口（调用库写好的 kernel）与 Python+JIT（自己写 kernel 编译执行）：
 
 | 编程模型档 | 后端 | 状态 |
 |---|---|---|
@@ -197,7 +197,7 @@ root rank：构建全局网格与空间
 
 ## 7. 在我研究中的位置
 
-- **soptx**（阶段 1 载体）：`soptx/tests/test_cantilever_3d_wsl.py` 参数化 NumPy/PyTorch/JAX backend 与 `cpu/cuda` device，直接嫁接 FEALPy 的抽象思路（[[../../../research/technical-lines/gpu-hpc-research-guide#五、阶段门禁与当前执行状态|research guide 阶段 1]]）。
+- **soptx**（阶段 1 载体）：`soptx/tests/test_cantilever_3d_wsl.py` 参数化 NumPy/PyTorch/JAX backend 与 `cpu/cuda` device，直接嫁接 FEALPy 的抽象思路（[[../../../research/piml-matrix-free-gpu/gpu-hpc-research-guide#五、权威事实来源|research guide 权威事实来源]]）。
 - **xihe/matrix_free_3**：分布式算子原型运行在 FEALPy backend 之上。
 - FEALPy backend 层测试覆盖不足（仅 numpy）意味着 GPU 后端行为差异需要自己验证，不可假定与 numpy 一致。
 
@@ -209,14 +209,10 @@ root rank：构建全局网格与空间
 - `suanhaitech/xihe` `examples/simple_box/run_parallel.py` — 三维 Maxwell 并行算例（分布式组装工作流、`DistributedOperator` 模式）。
 - `suanhaitech/fealpy`（develop）与本地 `fealpy_stable` 的 `fealpy/distributed/`：`distributed_mesh.py`（`distribute_mesh`）、`distributed_space.py`（`distribute_space`）、`entity_mpi.py`（`EntityMPI`、`dist_from_masks`、`mapped_masks`）。
 - 公司仓库内容只提炼机制与引用路径，不复制代码。
-- [[../../../archive/fealpy34-to-40-migration]] — API 行为差异与修复对照（已归档）。
-- [[fealpy-mfem-gpu-backend-comparison]] — 与 MFEM 的实现层次对比。
 
 ## 相关页面
 
-- [[../../../archive/fealpy34-to-40-migration]] — FEALPy 3.4→4.0 API 迁移笔记（已归档，角度正交）。
 - [[../heterogeneous-execution-modes]] — 六档编程模型分类（本页是其「可移植后端」档的 Python 实例）。
 - [[mfem-architecture]] — MFEM 整体架构（C++ 编译期展开 + Par\* 对象体系），本页的对照对象。
-- [[fealpy-mfem-gpu-backend-comparison]] — 与 MFEM 的对比。
 - [[../distributed-operator-and-shared-dofs]] — 分布式算子第一原理（sync_add 对应输出归约）。
-- [[../heterogeneous-execution-modes#2. 硬件拓扑]] — 多节点并行在硬件拓扑分类中的位置。
+- [[../heterogeneous-execution-modes#2. 硬件拓扑的六种基本模式|硬件拓扑]] — 多节点并行在硬件拓扑分类中的位置。

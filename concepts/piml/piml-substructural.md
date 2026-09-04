@@ -68,7 +68,7 @@ $$
 ### 2.3 步骤 3：PIML 代理模型训练与表示路线选择 (Surrogate Training & Representations)
 神经网络代理 $\mathcal{G}_\theta$ 建立从局部密度到缩聚力学算子的隐式回归映射 $\mathcal{G}_\theta : \boldsymbol{\rho}^j \longmapsto \widehat{\mathbf{N}}^j \text{ 或 } \widehat{\mathbf{K}}_s^j$。可选择两条不同的技术路线：
 
-MLP 的通用前向数学、激活函数与结构保持输出参数化见 [[../machine-learning#MLP：统一数学定义]]、[[../machine-learning#激活函数与可微性]] 与 [[../machine-learning#结构保持输出参数化]]。本路线仅将其输入/输出专门化为 $\boldsymbol{\rho}^j \mapsto \widehat{\mathbf{N}}^j$ 或 $\boldsymbol{\rho}^j \mapsto \widehat{\mathbf{K}}_s^j$，并在下文定义缩聚、Cholesky 参数化与回退等局部力学约束。
+MLP 的通用前向数学、激活函数与结构保持输出参数化见 [[../machine-learning#MLP：统一数学定义]]、[[../machine-learning#1.2 激活函数与可微性]] 与 [[../machine-learning#1.3 结构保持输出参数化]]。本路线仅将其输入/输出专门化为 $\boldsymbol{\rho}^j \mapsto \widehat{\mathbf{N}}^j$ 或 $\boldsymbol{\rho}^j \mapsto \widehat{\mathbf{K}}_s^j$，并在下文定义缩聚、Cholesky 参数化与回退等局部力学约束。
 
 #### 路线 A：预测多尺度形函数 $\mathbf{N}$ (Huang et al. 2023 路线)
 * **网络预测**：输入密度 $\boldsymbol{\rho}^j$，预测内部节点关于接口节点的形函数 $\widehat{\mathbf{N}}^j = \mathcal{G}_\theta(\boldsymbol{\rho}^j)$。
@@ -125,6 +125,6 @@ $$
 
 - [[../substructural-condensation|子结构有限元与静力缩聚]] — 纯有限元 Schur 补消元推导与接口组装
 - [[piml-paradigm|PIML 通用 5 步范式]] — Problem-Independent PIML 通用原理与流程图
-- [[../../literature/topology-opt/translations/Huang2023-PIML-substructure-zh|Huang2023 论文中文精译]] — 论文第 2 节子结构 PIML 数学推导与第 4.1 节 MBB 梁算例
+- [[../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh|Huang2023 论文中文精译]] — 论文第 2 节子结构 PIML 数学推导与第 4.1 节 MBB 梁算例
 - **代码实现**：`soptx/src/soptx/fem/substructure/piml_surrogate.py`
 - **验证 Demo**：`soptx/examples/piml_substructure_elasticity/minimal_demo.py`
