@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="760" viewBox="0 0 1920 760" role="img" aria-labelledby="title desc">
+  <title id="title">拓扑演化下的可靠性闭环流程图</title>
+  <desc id="desc">材料分布更新后执行 PIML–Matrix-Free GPU 协同求解，并监测分布外程度、结构保持、真残差与预条件子质量。指标正常时进入下一轮拓扑迭代；指标异常时执行局部精确回退、缺陷校正或预条件子更新，然后重新求解。</desc>
+  <style>
+    .text { font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", "Times New Roman", serif; fill: #000000; }
+    .box-title { font-size: 36px; font-weight: bold; text-anchor: middle; }
+    .box-body { font-size: 29px; text-anchor: middle; }
+    .label { font-size: 28px; font-weight: bold; text-anchor: middle; }
+    .frame { fill: #ffffff; stroke: #000000; stroke-width: 2.5; }
+    .rule { stroke: #000000; stroke-width: 1.2; }
+    .arrow { stroke: #000000; stroke-width: 2.5; fill: none; }
+    .feedback { stroke: #000000; stroke-width: 2.5; fill: none; stroke-dasharray: 13 8; }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect width="1920" height="760" fill="#ffffff"/>
+
+  <!-- 异常处置：处置后重新求解 -->
+  <rect x="500" y="55" width="420" height="170" class="frame"/>
+  <text x="710" y="110" class="text box-title">异常处置</text>
+  <line x1="540" y1="127" x2="880" y2="127" class="rule"/>
+  <text class="text box-body"><tspan x="710" y="168">局部精确回退｜缺陷校正</tspan><tspan x="710" y="207">预条件子更新</tspan></text>
+
+  <!-- 主流程：更新 → 求解 → 监测 → 判定 -->
+  <rect x="70" y="310" width="330" height="170" class="frame"/>
+  <text class="text box-title"><tspan x="235" y="375">拓扑迭代</tspan><tspan x="235" y="427">材料分布更新</tspan></text>
+
+  <rect x="500" y="310" width="420" height="170" class="frame"/>
+  <text class="text box-title"><tspan x="710" y="375">PIML–Matrix-Free</tspan><tspan x="710" y="427">GPU 协同求解</tspan></text>
+
+  <rect x="1020" y="285" width="430" height="220" class="frame"/>
+  <text x="1235" y="340" class="text box-title">动态监测</text>
+  <line x1="1060" y1="358" x2="1410" y2="358" class="rule"/>
+  <text class="text box-body"><tspan x="1235" y="410">分布外程度·结构保持</tspan><tspan x="1235" y="459">真残差·预条件子质量</tspan></text>
+
+  <path d="M1650 310 L1800 395 L1650 480 L1500 395 Z" class="frame"/>
+  <text x="1650" y="407" class="text box-title">指标异常？</text>
+
+  <line x1="400" y1="395" x2="488" y2="395" class="arrow" marker-end="url(#arrowhead)"/>
+  <line x1="920" y1="395" x2="1008" y2="395" class="arrow" marker-end="url(#arrowhead)"/>
+  <line x1="1450" y1="395" x2="1488" y2="395" class="arrow" marker-end="url(#arrowhead)"/>
+
+  <!-- 异常：处置后返回求解 -->
+  <path d="M1650 310 L1650 140 L932 140" class="arrow" marker-end="url(#arrowhead)"/>
+  <text x="1690" y="275" class="text label">是</text>
+  <line x1="710" y1="225" x2="710" y2="298" class="arrow" marker-end="url(#arrowhead)"/>
+  <text x="790" y="270" class="text label">重新求解</text>
+
+  <!-- 正常：进入下一轮拓扑迭代 -->
+  <path d="M1650 480 L1650 630 L235 630 L235 492" class="feedback" marker-end="url(#arrowhead)"/>
+  <text x="1690" y="520" class="text label">否</text>
+  <text x="945" y="688" class="text label">进入下一轮拓扑迭代</text>
+</svg>

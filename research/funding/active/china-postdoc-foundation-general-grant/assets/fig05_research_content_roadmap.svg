@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="700" viewBox="0 0 1920 700" role="img" aria-labelledby="title desc">
+  <title id="title">统一基线与三项研究内容的总体技术路线图</title>
+  <desc id="desc">统一基线（四类对照路径）支撑可靠全局求解、GPU 协同与性能建模、拓扑演化可靠闭环三项研究内容；异常时触发回退并反馈至可靠全局求解。</desc>
+  <style>
+    .text { font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", "Times New Roman", serif; fill: #000000; }
+    .box-title { font-size: 36px; font-weight: bold; text-anchor: middle; }
+    .box-body { font-size: 31px; text-anchor: middle; }
+    .base-title { font-size: 36px; font-weight: bold; text-anchor: middle; }
+    .base-body { font-size: 31px; text-anchor: middle; }
+    .label { font-size: 29px; font-weight: bold; text-anchor: middle; }
+    .frame { fill: #ffffff; stroke: #000000; stroke-width: 2.5; }
+    .rule { stroke: #000000; stroke-width: 1.2; }
+    .arrow { stroke: #000000; stroke-width: 2.5; fill: none; }
+    .feedback { stroke: #000000; stroke-width: 2.5; fill: none; stroke-dasharray: 14 9; }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 Z" fill="#000000"/></marker>
+  </defs>
+  <rect width="1920" height="700" fill="#ffffff"/>
+
+  <!-- 统一基线：四类对照路径 -->
+  <rect x="300" y="36" width="1320" height="122" class="frame"/>
+  <text x="960" y="86" class="text base-title">统一基线：四类对照路径</text>
+  <text x="960" y="136" class="text base-body">精确组装 ｜ 精确 Matrix-Free ｜ PIML 近似组装 ｜ PIML 近似 Matrix-Free</text>
+
+  <!-- 基线支撑三项研究内容 -->
+  <line x1="330" y1="158" x2="330" y2="222" class="arrow" marker-end="url(#arrowhead)"/>
+  <line x1="960" y1="158" x2="960" y2="222" class="arrow" marker-end="url(#arrowhead)"/>
+  <line x1="1590" y1="158" x2="1590" y2="222" class="arrow" marker-end="url(#arrowhead)"/>
+
+  <!-- ① 可靠全局求解 -->
+  <rect x="95" y="230" width="470" height="280" class="frame"/>
+  <text x="330" y="286" class="text box-title">① 可靠全局求解</text>
+  <line x1="135" y1="306" x2="525" y2="306" class="rule"/>
+  <text class="text box-body"><tspan x="330" y="358">PIML 局部表示</tspan><tspan x="330" y="412">Matrix-Free 算子作用</tspan><tspan x="330" y="466">预条件 Krylov 求解</tspan></text>
+
+  <!-- ② GPU 协同与性能建模 -->
+  <rect x="725" y="230" width="470" height="280" class="frame"/>
+  <text x="960" y="286" class="text box-title">② GPU 协同与性能建模</text>
+  <line x1="765" y1="306" x2="1155" y2="306" class="rule"/>
+  <text class="text box-body"><tspan x="960" y="358">预测·作用·迭代协同</tspan><tspan x="960" y="412">缓存·重算·算子融合</tspan><tspan x="960" y="466">时间—显存权衡</tspan></text>
+
+  <!-- ③ 拓扑演化可靠闭环 -->
+  <rect x="1355" y="230" width="470" height="280" class="frame"/>
+  <text x="1590" y="286" class="text box-title">③ 拓扑演化可靠闭环</text>
+  <line x1="1395" y1="306" x2="1785" y2="306" class="rule"/>
+  <text class="text box-body"><tspan x="1590" y="358">动态监测</tspan><tspan x="1590" y="412">回退·校正·更新</tspan><tspan x="1590" y="466">规模扩展验证</tspan></text>
+
+  <!-- 递进箭头 -->
+  <line x1="572" y1="370" x2="715" y2="370" class="arrow" marker-end="url(#arrowhead)"/>
+  <line x1="1202" y1="370" x2="1345" y2="370" class="arrow" marker-end="url(#arrowhead)"/>
+
+  <!-- 异常反馈回路 -->
+  <path d="M1590 510 L1590 610 L330 610 L330 520" class="feedback" marker-end="url(#arrowhead)"/>
+  <text x="960" y="656" class="text label">异常触发回退</text>
+</svg>

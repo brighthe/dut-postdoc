@@ -1,25 +1,25 @@
 # 研究路线与调研总览
 
-> 本目录内每个下级目录只承担一条轴：[[long-term-research-lines]] 是个人科研方向总领；`piml-matrix-free-gpu` 维护主线二在博士后阶段的核心研究项目；[[postdoc-research-output-roadmap]] 维护博士延续成果、核心项目论文和风险组合；其他课题目录维护专题或合作问题；`technical-lines` 沉淀跨项目复用的长期技术能力；`workflows` 维护研究执行流程；`funding` 只维护资助机会和批次申请。人与团队等稳定档案统一归入 `entities/`，已完成的入站考核材料见 [[../archive/2026-postdoc-entry-assessment/README]]。
+> 本目录内每个下级目录只承担一条轴：[[long-term-research-lines]] 是个人长期科研方向、博士延续成果、核心项目论文与风险组合的统一总领；`piml-matrix-free-gpu` 维护主线二在博士后阶段的核心研究项目；其他课题目录维护专题或合作问题；`technical-lines` 沉淀跨项目复用的长期技术能力；`workflows` 维护研究执行流程；`funding` 只维护资助机会和批次申请。人与团队等稳定档案统一归入 `entities/`，已完成的入站考核材料见 [[../archive/2026-postdoc-entry-assessment/README]]。
 
-## 总领
-
-| 文档 | 状态 | 说明 |
-|---|---|---|
-| [[long-term-research-lines]] | in-progress | 个人长期科研方向的最高层事实源：高精度数值离散与拓扑优化、智能高性能计算力学 |
-
-## 博士后阶段成果路线
+## 总领与博士后成果路线
 
 | 文档 | 状态 | 说明 |
 |---|---|---|
-| [[postdoc-research-output-roadmap]] | in-progress | 博士阶段延续成果、核心项目 WP1–WP3 论文组合与条件性资助渠道的成果映射 |
+| [[long-term-research-lines]] | in-progress | 个人长期科研方向及博士后成果路线的最高层事实源：两条科研主线、博士延续成果、核心项目论文组合与条件性资助映射 |
 
 ## 博士后核心研究项目
 
 | 文档 | 状态 | 说明 |
 |---|---|---|
 | [[piml-matrix-free-gpu/_index]] | in-progress | “面向大规模拓扑优化的 PIML Matrix-Free 求解与 GPU 协同加速方法研究”的统一导航入口 |
-| [[piml-matrix-free-gpu/project-plan]] | in-progress | 项目名称、总体目标、WP1–WP3、两年阶段、项目级状态和资助映射的唯一事实源 |
+| [[piml-matrix-free-gpu/project-plan]] | in-progress | 项目名称、总体目标、科学问题、三条推进线、依赖关系、自有能力现状与项目级状态的唯一事实源 |
+
+## 工程 Benchmark 算例数学模型
+
+| 文档 | 状态 | 说明 |
+|---|---|---|
+| [[benchmark-cases/_index]] | in-progress | 外部工程算例从原始模型文件到连续形式与离散系统的可溯源数学复原入口 |
 
 ## 阶段性计划与历史材料
 
@@ -64,6 +64,12 @@
 
 ## 长期研究路线
 
+### 主线一研究入口
+
+| 课题 | 文档 | 状态 | 说明 |
+|---|---|---|---|
+| 无稳定化项虚单元拓扑优化 | [[vem-topopt-long-term-survey]] | draft | 主线一核心内容之二：长期调研与论文入口，文献证据待核验笔记回填 |
+
 ### 其他当前研究课题
 
 课题目录按主题命名，与 `concepts/` 的主题子库对齐；原 `postdoc-plan/long-term/direction-1|2-*` 编号层级已于 2026-07-30 撤除，旧路径由各页 frontmatter `aliases` 兜底。
@@ -72,13 +78,13 @@
 |---|---|---|---|
 | MMC / MMV | [[mmc-mmv/mmc-mmv-numerical-discretization-survey]] | draft | 具体合作与应用课题：MMC/MMV 高精度数值离散与高效结构分析，不单列为第三条个人长期主线 |
 
-### 跨课题长期技术线
+### PIML–Matrix-Free–GPU 项目分支
 
 | 入口 | 状态 | 说明 |
 |---|---|---|
-| [[technical-lines/_index\|长期技术线索引]] | in-progress | PIML、Matrix-Free、GPU/HPC 三条可跨课题复用的长期技术能力，以及各自 guide、必要的 task line 和事实所有权 |
+| [[piml-matrix-free-gpu/_index\|核心研究项目入口]] | in-progress | PIML、Matrix-Free、GPU/HPC 三个项目分支及其 guide、项目计划和事实所有权 |
 
-三条技术线可被多个研究方向复用，不从属于固定的方向编号；具体 guide 与当前任务从该入口继续导航。
+三个 guide 均属于 PIML–Matrix-Free–GPU 项目的内部研究分支；稳定数学概念和通用方法分别沉淀在 `concepts/` 与 `literature/`。
 
 ### 范式流程与算法实现
 
@@ -88,4 +94,4 @@
 ## 共享资源
 
 - `research/assets/` — research 相关附件目录，当前以 `.gitkeep` 保留
-- 模板：[[../assets/templates/research-survey]]
+- 模板：[[../ai/templates/research-survey]]

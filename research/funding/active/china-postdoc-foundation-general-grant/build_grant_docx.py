@@ -137,6 +137,59 @@ def parse_and_add_text_runs(p, text, default_font="宋体", default_ascii="Times
             run = p.add_run(token)
             set_run_font(run, default_font, default_ascii, default_size, default_bold, default_italic, color=default_color)
 
+SVG_EXT_URI = "{96DAC541-7B7A-43D3-8B79-37D633B846F1}"
+SVG_NS = "http://schemas.microsoft.com/office/drawing/2016/SVG/main"
+
+
+def add_picture_svg_aware(paragraph, img_path, width):
+    """插图: 有同名 SVG 时按 Word 的矢量图机制插入, 否则退回纯位图。
+
+    Word 的 SVG 图片由一对资源表示: a:blip 仍指向 PNG 作为回退, 其
+    a:extLst/asvg:svgBlip 指向 SVG 并作为实际渲染源(与官方原件中既有
+    图片的结构一致)。python-docx 的 add_picture 只认位图, 故先插 PNG
+    再补挂 SVG 关系。
+    """
+    run = paragraph.add_run()
+    run.add_picture(img_path, width=width)
+
+    svg_path = os.path.splitext(img_path)[0] + ".svg"
+    if not os.path.exists(svg_path):
+        return
+
+    document_part = paragraph.part
+    with open(svg_path, "rb") as handle:
+        svg_bytes = handle.read()
+    from docx.opc.constants import RELATIONSHIP_TYPE as RT
+    from docx.opc.part import Part
+    from docx.opc.packuri import PackURI
+
+    # python-docx 按 image{N}.png 独立给位图编号, 矢量图若也叫 image{N}.svg
+    # 会与位图共用文件名主干(image2.png 与 image2.svg 并存); 官方原件用的是
+    # 位图矢量图共享一个计数器的写法, 这里改用 vector{N}.svg 前缀避开主干相撞。
+    index = 1 + sum(
+        1
+        for part in document_part.package.iter_parts()
+        if str(part.partname).startswith("/word/media/vector")
+    )
+    svg_part = Part(
+        PackURI(f"/word/media/vector{index}.svg"),
+        "image/svg+xml",
+        svg_bytes,
+        document_part.package,
+    )
+    svg_rid = document_part.relate_to(svg_part, RT.IMAGE)
+
+    blip = run._element.findall(".//" + qn("a:blip"))[-1]
+    ext_lst = OxmlElement("a:extLst")
+    ext = OxmlElement("a:ext")
+    ext.set("uri", SVG_EXT_URI)
+    svg_blip = ext.makeelement(f"{{{SVG_NS}}}svgBlip", nsmap={"asvg": SVG_NS})
+    svg_blip.set(qn("r:embed"), svg_rid)
+    ext.append(svg_blip)
+    ext_lst.append(ext)
+    blip.append(ext_lst)
+
+
 def init_doc():
     doc = docx.Document()
     for section in doc.sections:
@@ -367,6 +420,11 @@ def build_full_draft_docx(md_path, output_path, assets_dir):
         if img_match:
             alt_text = img_match.group(1)
             img_src = img_match.group(2)
+            # Markdown 引矢量图, DOCX 只能插位图: python-docx 的 add_picture
+            # 不认 SVG(会抛 UnrecognizedImageError), 故换成同名 PNG。
+            # make_figs.py 两种格式同时导出, 内容一致。
+            if img_src.lower().endswith(".svg"):
+                img_src = img_src[:-4] + ".png"
 
             # Resolve image path
             img_path = os.path.normpath(os.path.join(os.path.dirname(md_path), img_src))
@@ -378,8 +436,10 @@ def build_full_draft_docx(md_path, output_path, assets_dir):
                 p_img.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 p_img.paragraph_format.space_before = Pt(8)
                 p_img.paragraph_format.space_after = Pt(4)
+                # 图与图题必须同页
+                p_img.paragraph_format.keep_with_next = True
                 # Width: 15.2 cm
-                p_img.add_run().add_picture(img_path, width=Cm(15.2))
+                add_picture_svg_aware(p_img, img_path, Cm(15.2))
             i += 1
             continue
 
@@ -391,6 +451,8 @@ def build_full_draft_docx(md_path, output_path, assets_dir):
             p_cap.paragraph_format.space_before = Pt(2)
             p_cap.paragraph_format.space_after = Pt(8)
             p_cap.paragraph_format.keep_with_next = True
+            # 图题自身不允许被分页切开
+            p_cap.paragraph_format.keep_together = True
             parse_and_add_text_runs(p_cap, caption, default_font="黑体", default_size=10.5, default_bold=True)
             i += 1
             continue
@@ -563,6 +625,11 @@ def build_part1_5_anonymous_docx(md_path, output_path, assets_dir):
         img_match = re.match(r'!\[([^\]]*)\]\(([^\)]+)\)', line)
         if img_match:
             img_src = img_match.group(2)
+            # Markdown 引矢量图, DOCX 只能插位图: python-docx 的 add_picture
+            # 不认 SVG(会抛 UnrecognizedImageError), 故换成同名 PNG。
+            # make_figs.py 两种格式同时导出, 内容一致。
+            if img_src.lower().endswith(".svg"):
+                img_src = img_src[:-4] + ".png"
             img_path = os.path.normpath(os.path.join(os.path.dirname(md_path), img_src))
             if not os.path.exists(img_path) and 'assets/' in img_src:
                 img_path = os.path.join(assets_dir, os.path.basename(img_src))
@@ -572,7 +639,9 @@ def build_part1_5_anonymous_docx(md_path, output_path, assets_dir):
                 p_img.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 p_img.paragraph_format.space_before = Pt(8)
                 p_img.paragraph_format.space_after = Pt(4)
-                p_img.add_run().add_picture(img_path, width=Cm(15.2))
+                # 图与图题必须同页
+                p_img.paragraph_format.keep_with_next = True
+                add_picture_svg_aware(p_img, img_path, Cm(15.2))
             i += 1
             continue
 
@@ -584,6 +653,8 @@ def build_part1_5_anonymous_docx(md_path, output_path, assets_dir):
             p_cap.paragraph_format.space_before = Pt(2)
             p_cap.paragraph_format.space_after = Pt(8)
             p_cap.paragraph_format.keep_with_next = True
+            # 图题自身不允许被分页切开
+            p_cap.paragraph_format.keep_together = True
             parse_and_add_text_runs(p_cap, caption, default_font="黑体", default_size=10.5, default_bold=True)
             i += 1
             continue
@@ -694,7 +765,25 @@ def build_part6_research_basis_docx(md_path, output_path, assets_dir):
             i += 1
             continue
 
+        # Level 3 Heading (#### （一）与本项目相关的研究工作积累和成绩...)
+        # 官方"研究基础"三项要求对应 md 里的 #### （一）/（二）/（三）。缺这个
+        # 分支时它们会掉进正文分支, 把字面 '#### ' 印进正式表格。写法与
+        # build_part1_5_anonymous_docx 的同名分支保持一致。
+        if line.startswith('#### '):
+            h_text = line[5:].strip()
+            p = doc.add_paragraph()
+            p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+            p.paragraph_format.space_before = Pt(8)
+            p.paragraph_format.space_after = Pt(3)
+            p.paragraph_format.line_spacing = 1.25
+            p.paragraph_format.first_line_indent = Pt(24)
+            p.paragraph_format.keep_with_next = True
+            parse_and_add_text_runs(p, f"**{h_text}**", default_font="黑体", default_size=12, default_bold=True)
+            i += 1
+            continue
+
         # Sub-heading (e.g. **一、 申请人前期研究积累与核心技术储备**)
+        # 旧版 §6 的写法, 现已改用 #### （一）; 保留以兼容历史草稿。
         if line.startswith('**一、') or line.startswith('**二、') or line.startswith('**三、'):
             p = doc.add_paragraph()
             p.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -712,6 +801,11 @@ def build_part6_research_basis_docx(md_path, output_path, assets_dir):
         img_match = re.match(r'!\[([^\]]*)\]\(([^\)]+)\)', line)
         if img_match:
             img_src = img_match.group(2)
+            # Markdown 引矢量图, DOCX 只能插位图: python-docx 的 add_picture
+            # 不认 SVG(会抛 UnrecognizedImageError), 故换成同名 PNG。
+            # make_figs.py 两种格式同时导出, 内容一致。
+            if img_src.lower().endswith(".svg"):
+                img_src = img_src[:-4] + ".png"
             img_path = os.path.normpath(os.path.join(os.path.dirname(md_path), img_src))
             if not os.path.exists(img_path) and 'assets/' in img_src:
                 img_path = os.path.join(assets_dir, os.path.basename(img_src))
@@ -721,7 +815,9 @@ def build_part6_research_basis_docx(md_path, output_path, assets_dir):
                 p_img.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 p_img.paragraph_format.space_before = Pt(8)
                 p_img.paragraph_format.space_after = Pt(4)
-                p_img.add_run().add_picture(img_path, width=Cm(15.2))
+                # 图与图题必须同页
+                p_img.paragraph_format.keep_with_next = True
+                add_picture_svg_aware(p_img, img_path, Cm(15.2))
             i += 1
             continue
 
@@ -733,6 +829,8 @@ def build_part6_research_basis_docx(md_path, output_path, assets_dir):
             p_cap.paragraph_format.space_before = Pt(2)
             p_cap.paragraph_format.space_after = Pt(6)
             p_cap.paragraph_format.keep_with_next = True
+            # 图题自身不允许被分页切开
+            p_cap.paragraph_format.keep_together = True
             parse_and_add_text_runs(p_cap, caption, default_font="黑体", default_size=10.5, default_bold=True)
             i += 1
             continue

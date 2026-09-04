@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="840" viewBox="0 0 1920 840" role="img" aria-labelledby="title desc">
+  <title id="title">四类对照路径示意图</title>
+  <desc id="desc">以局部算子来源和全局算子形成方式为两个维度构成四类对照路径。精确 Matrix-Free 路径为 PIML 近似 Matrix-Free 主路径提供真残差复核。</desc>
+  <style>
+    .cn { font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", serif; fill: #000000; }
+    .latin { font-family: "Times New Roman", serif; }
+    .super-axis { font-size: 34px; font-weight: bold; text-anchor: middle; }
+    .axis { font-size: 32px; font-weight: bold; text-anchor: middle; }
+    .row-label { font-size: 34px; font-weight: bold; text-anchor: middle; }
+    .path-tag { font-size: 30px; font-weight: bold; text-anchor: middle; }
+    .cell-title { font-size: 36px; font-weight: bold; text-anchor: middle; }
+    .cell-body { font-size: 28px; text-anchor: middle; }
+    .feedback-label { font-size: 26px; font-weight: bold; text-anchor: start; }
+    .frame { fill: #ffffff; stroke: #000000; stroke-width: 2.4; }
+    .frame-main { fill: #ffffff; stroke: #000000; stroke-width: 3.6; }
+    .frame-main-inner { fill: none; stroke: #000000; stroke-width: 1.2; }
+    .divider { stroke: #000000; stroke-width: 1.1; }
+    .axis-rule { stroke: #000000; stroke-width: 1.4; }
+    .feedback { stroke: #000000; stroke-width: 2.2; fill: none; stroke-dasharray: 10 7; }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto">
+      <path d="M0,0 L11,5.5 L0,11 Z" fill="#000000"/>
+    </marker>
+  </defs>
+
+  <rect width="1920" height="840" fill="#ffffff"/>
+
+  <!-- 两个对照维度 -->
+  <text x="1110" y="58" class="cn super-axis">全局算子形成方式</text>
+  <line x1="455" y1="82" x2="1765" y2="82" class="axis-rule"/>
+  <text x="765" y="137" class="cn axis">显式组装</text>
+  <text x="1435" y="137" class="cn axis"><tspan class="latin">Matrix-Free</tspan><tspan> 按需作用</tspan></text>
+
+  <text x="210" y="112" class="cn axis">局部算子来源</text>
+  <line x1="80" y1="137" x2="340" y2="137" class="axis-rule"/>
+
+  <!-- 行标题 -->
+  <text x="210" y="310" class="cn row-label"><tspan x="210">精确</tspan><tspan x="210" dy="48">局部算子</tspan></text>
+  <text x="210" y="650" class="cn row-label"><tspan x="210"><tspan class="latin">PIML</tspan><tspan> 预测</tspan></tspan><tspan x="210" dy="48">局部算子</tspan></text>
+
+  <!-- 路径 I：精确组装 -->
+  <rect x="455" y="175" width="620" height="285" class="frame"/>
+  <text x="765" y="235" class="cn path-tag">路径Ⅰ</text>
+  <text x="765" y="300" class="cn cell-title">精确组装</text>
+  <line x1="505" y1="335" x2="1025" y2="335" class="divider"/>
+  <text x="765" y="402" class="cn cell-body">传统方法基准</text>
+
+  <!-- 路径 II：精确 Matrix-Free -->
+  <rect x="1125" y="175" width="620" height="285" class="frame"/>
+  <text x="1435" y="235" class="cn path-tag">路径Ⅱ</text>
+  <text x="1435" y="300" class="cn cell-title"><tspan>精确 </tspan><tspan class="latin">Matrix-Free</tspan></text>
+  <line x1="1175" y1="335" x2="1695" y2="335" class="divider"/>
+  <text x="1435" y="402" class="cn cell-body">精确算子与真残差基准</text>
+
+  <!-- 路径 III：PIML 近似组装 -->
+  <rect x="455" y="520" width="620" height="285" class="frame"/>
+  <text x="765" y="580" class="cn path-tag">路径Ⅲ</text>
+  <text x="765" y="645" class="cn cell-title"><tspan class="latin">PIML</tspan><tspan> 近似组装</tspan></text>
+  <line x1="505" y1="680" x2="1025" y2="680" class="divider"/>
+  <text x="765" y="747" class="cn cell-body">近似组装对照路径</text>
+
+  <!-- 路径 IV：PIML 近似 Matrix-Free（本项目主路径） -->
+  <rect x="1125" y="520" width="620" height="285" class="frame-main"/>
+  <rect x="1134" y="529" width="602" height="267" class="frame-main-inner"/>
+  <text x="1435" y="580" class="cn path-tag">路径Ⅳ</text>
+  <text x="1435" y="645" class="cn cell-title"><tspan class="latin">PIML</tspan><tspan> 近似 </tspan><tspan class="latin">Matrix-Free</tspan></text>
+  <line x1="1175" y1="680" x2="1695" y2="680" class="divider"/>
+  <text x="1435" y="747" class="cn cell-body">本项目主算子路径</text>
+
+  <!-- 路径 II 为路径 IV 提供真残差复核 -->
+  <line x1="1435" y1="466" x2="1435" y2="507" class="feedback" marker-end="url(#arrowhead)"/>
+  <text x="1470" y="496" class="cn feedback-label">真残差复核</text>
+
+</svg>

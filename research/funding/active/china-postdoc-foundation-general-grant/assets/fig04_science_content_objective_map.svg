@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1780" height="860" viewBox="0 0 1780 860" role="img" aria-label="关键科学问题、研究内容与研究目标的对应关系">
+  <style>
+    .text { font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", "Times New Roman", serif; fill: #000000; }
+    .region { font-size: 33px; font-weight: bold; }
+    .hdr { font-size: 33px; font-weight: bold; text-anchor: middle; }
+    .body { font-size: 28px; text-anchor: middle; }
+    .box { fill: #ffffff; stroke: #000000; stroke-width: 2.5; }
+    .line { stroke: #000000; stroke-width: 2.5; fill: none; }
+    .head { fill: #000000; stroke: none; }
+  </style>
+  <rect width="1780" height="860" fill="#ffffff"/>
+
+  <!-- 行标签 -->
+  <text x="20" y="104" class="text region">引出问题</text>
+  <text x="20" y="317" class="text region">科学问题</text>
+  <text x="20" y="547" class="text region">研究内容</text>
+  <text x="20" y="777" class="text region">研究目标</text>
+
+  <!-- 第一行：引出问题 -->
+  <rect x="345" y="35" width="760" height="115" class="box"/>
+  <text x="725" y="85" class="text hdr">大规模拓扑优化中的反复结构分析</text>
+  <text x="725" y="127" class="text body">全局矩阵组装与存储瓶颈长期未解</text>
+
+  <path d="M 725 150 V 190 H 460 V 208" class="line"/>
+  <polygon points="450,208 460,230 470,208" class="head"/>
+  <path d="M 725 150 V 190 H 990 V 208" class="line"/>
+  <polygon points="980,208 990,230 1000,208" class="head"/>
+
+  <!-- 第二行：科学问题 -->
+  <rect x="180" y="230" width="560" height="150" class="box"/>
+  <text x="460" y="282" class="text hdr">问题 1</text>
+  <text x="460" y="326" class="text body">PIML 局部近似误差向全局算子性质</text>
+  <text x="460" y="364" class="text body">与预条件 Krylov 收敛的传播机制</text>
+
+  <rect x="790" y="230" width="400" height="150" class="box"/>
+  <text x="990" y="282" class="text hdr">问题 2</text>
+  <text x="990" y="326" class="text body">面向 GPU 的异构计算链性能</text>
+  <text x="990" y="364" class="text body">耦合机理与端到端收益边界</text>
+
+  <line x1="460" y1="380" x2="460" y2="438" class="line"/>
+  <polygon points="450,438 460,460 470,438" class="head"/>
+  <line x1="990" y1="380" x2="990" y2="438" class="line"/>
+  <polygon points="980,438 990,460 1000,438" class="head"/>
+
+  <!-- 第三行：研究内容 -->
+  <rect x="180" y="460" width="560" height="150" class="box"/>
+  <text x="460" y="512" class="text hdr">内容 1</text>
+  <text x="460" y="556" class="text body">PIML 局部表示驱动的全局算子级</text>
+  <text x="460" y="594" class="text body">Matrix-Free 作用与可靠 Krylov 求解</text>
+
+  <rect x="790" y="460" width="400" height="150" class="box"/>
+  <text x="990" y="512" class="text hdr">内容 2</text>
+  <text x="990" y="556" class="text body">面向 GPU 的异构计算链</text>
+  <text x="990" y="594" class="text body">协同执行与性能建模</text>
+
+  <rect x="1240" y="460" width="430" height="150" class="box"/>
+  <text x="1455" y="512" class="text hdr">内容 3</text>
+  <text x="1455" y="556" class="text body">拓扑演化下的可靠性闭环</text>
+  <text x="1455" y="594" class="text body">与规模扩展验证</text>
+
+  <line x1="740" y1="535" x2="768" y2="535" class="line"/>
+  <polygon points="768,525 790,535 768,545" class="head"/>
+  <line x1="1190" y1="535" x2="1218" y2="535" class="line"/>
+  <polygon points="1218,525 1240,535 1218,545" class="head"/>
+
+  <line x1="460" y1="610" x2="460" y2="668" class="line"/>
+  <polygon points="450,668 460,690 470,668" class="head"/>
+  <line x1="990" y1="610" x2="990" y2="668" class="line"/>
+  <polygon points="980,668 990,690 1000,668" class="head"/>
+  <line x1="1455" y1="610" x2="1455" y2="668" class="line"/>
+  <polygon points="1445,668 1455,690 1465,668" class="head"/>
+
+  <!-- 第四行：研究目标 -->
+  <rect x="180" y="690" width="560" height="150" class="box"/>
+  <text x="460" y="742" class="text hdr">目标 1</text>
+  <text x="460" y="786" class="text body">PIML–Matrix-Free 可靠求解方法</text>
+  <text x="460" y="824" class="text body">与自适应精度控制准则</text>
+
+  <rect x="790" y="690" width="400" height="150" class="box"/>
+  <text x="990" y="742" class="text hdr">目标 2</text>
+  <text x="990" y="786" class="text body">GPU 协同执行机制</text>
+  <text x="990" y="824" class="text body">与时间—显存性能模型</text>
+
+  <rect x="1240" y="690" width="430" height="150" class="box"/>
+  <text x="1455" y="742" class="text hdr">目标 3</text>
+  <text x="1455" y="786" class="text body">随拓扑演化的动态可靠性闭环</text>
+  <text x="1455" y="824" class="text body">与百万级以上自由度验证</text>
+</svg>

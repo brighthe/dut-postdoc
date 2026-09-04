@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1000" viewBox="0 0 1500 1000" role="img" aria-label="基于 PIML 的可复用局部表示与 Matrix-Free/GPU 协同求解示意">
+  <style>
+    .text { font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", "Times New Roman", serif; fill: #000000; }
+    .region { font-size: 28px; font-weight: bold; }
+    .title { font-size: 28px; font-weight: bold; text-anchor: middle; }
+    .body { font-size: 24px; text-anchor: middle; }
+    .lbl { font-size: 23px; }
+    .box { fill: #ffffff; stroke: #000000; stroke-width: 2.5; }
+    .line { stroke: #000000; stroke-width: 2.5; fill: none; }
+    .head { fill: #000000; stroke: none; }
+    .dashed { stroke: #000000; stroke-width: 2.5; fill: none; stroke-dasharray: 10 7; }
+  </style>
+
+  <rect width="1500" height="1000" fill="#ffffff"/>
+
+  <!-- ===== 离线构建 ===== -->
+  <text x="90" y="58" class="text region">离线构建（训练一次）</text>
+
+  <rect x="90" y="85" width="340" height="190" class="box"/>
+  <text x="260" y="170" class="text title">局部子结构</text>
+  <text x="260" y="225" class="text body">材料分布</text>
+
+  <line x1="430" y1="180" x2="534" y2="180" class="line"/>
+  <polygon points="532,170 554,180 532,190" class="head"/>
+
+  <rect x="560" y="85" width="420" height="190" class="box"/>
+  <text x="770" y="170" class="text title">PIML 局部映射模型</text>
+  <text x="770" y="225" class="text body">缩聚刚度／恢复表示</text>
+
+  <!-- 在线复用（竖向短箭头） -->
+  <line x1="620" y1="275" x2="620" y2="416" class="line"/>
+  <polygon points="610,416 620,438 630,416" class="head"/>
+  <text x="638" y="355" class="text lbl">在线复用</text>
+
+  <!-- ===== 在线求解 ===== -->
+  <text x="90" y="395" class="text region">在线求解（每轮迭代）</text>
+
+  <rect x="90" y="440" width="260" height="200" class="box"/>
+  <text x="220" y="525" class="text title">全局设计域</text>
+  <text x="220" y="578" class="text body">拓扑迭代</text>
+
+  <line x1="350" y1="540" x2="468" y2="540" class="line"/>
+  <polygon points="466,530 488,540 466,550" class="head"/>
+
+  <!-- GPU 协同执行（虚线框） -->
+  <rect x="440" y="410" width="1020" height="270" class="dashed"/>
+  <text x="1435" y="662" class="text lbl" font-weight="bold" text-anchor="end">GPU 协同执行</text>
+
+  <rect x="490" y="440" width="260" height="200" class="box"/>
+  <text x="620" y="550" class="text title">PIML 批量预测</text>
+
+  <line x1="750" y1="540" x2="778" y2="540" class="line"/>
+  <polygon points="776,530 798,540 776,550" class="head"/>
+
+  <rect x="800" y="440" width="330" height="200" class="box"/>
+  <text x="965" y="525" class="text title">Matrix-Free 算子作用</text>
+  <text x="965" y="582" class="text body">ŷ = Σ<tspan dy="6" font-size="16">j</tspan><tspan dy="-6"> G</tspan><tspan dy="6" font-size="16">j</tspan><tspan dy="-15" font-size="16">T</tspan><tspan dy="9"> K̂</tspan><tspan dy="6" font-size="16">j</tspan><tspan dy="-6"> G</tspan><tspan dy="6" font-size="16">j</tspan><tspan dy="-6"> x</tspan></text>
+
+  <line x1="1130" y1="540" x2="1158" y2="540" class="line"/>
+  <polygon points="1156,530 1178,540 1156,550" class="head"/>
+
+  <rect x="1180" y="440" width="240" height="200" class="box"/>
+  <text x="1300" y="550" class="text title">预条件 Krylov</text>
+
+  <!-- Krylov -> 位移响应（竖向） -->
+  <line x1="1300" y1="680" x2="1300" y2="738" class="line"/>
+  <polygon points="1290,738 1300,760 1310,738" class="head"/>
+
+  <!-- ===== 迭代闭环 ===== -->
+  <rect x="1180" y="760" width="240" height="200" class="box"/>
+  <text x="1300" y="845" class="text title">位移响应</text>
+  <text x="1300" y="898" class="text body">柔顺度与约束</text>
+
+  <line x1="1180" y1="860" x2="1152" y2="860" class="line"/>
+  <polygon points="1154,850 1132,860 1154,870" class="head"/>
+
+  <rect x="800" y="760" width="330" height="200" class="box"/>
+  <text x="965" y="845" class="text title">灵敏度分析</text>
+  <text x="965" y="898" class="text body">对设计变量求导</text>
+
+  <line x1="800" y1="860" x2="772" y2="860" class="line"/>
+  <polygon points="774,850 752,860 774,870" class="head"/>
+
+  <rect x="490" y="760" width="260" height="200" class="box"/>
+  <text x="620" y="845" class="text title">设计变量更新</text>
+  <text x="620" y="898" class="text body">密度场演化</text>
+
+  <!-- 回到全局设计域 -->
+  <path d="M 490 860 H 220 V 662" class="line"/>
+  <polygon points="210,662 220,640 230,662" class="head"/>
+  <text x="355" y="838" class="text lbl" text-anchor="middle">进入下一轮</text>
+</svg>

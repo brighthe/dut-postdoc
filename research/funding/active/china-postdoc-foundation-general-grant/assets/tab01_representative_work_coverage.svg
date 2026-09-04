@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="810" viewBox="0 0 1600 810" role="img" aria-labelledby="title desc">
+  <title id="title">代表性研究的覆盖范围与本项目切入点</title>
+  <desc id="desc">对六篇代表性文献在可复用局部表示与按需预测、Matrix-Free 全局算子作用、Krylov 迭代与多重网格预条件、GPU 完整优化流程四个环节的覆盖情况进行比较，并标示本项目拟研究内容。</desc>
+  <style>
+    .text { font-family: "SimSun", "Songti SC", "Noto Serif CJK SC", "Times New Roman", serif; fill: #000000; }
+    .header { font-size: 30px; font-weight: bold; text-anchor: middle; }
+    .body { font-size: 26px; font-weight: 400; }
+    .project { font-size: 30px; font-weight: bold; }
+    .note { font-size: 24px; }
+    .rule-thick { stroke: #000000; stroke-width: 3.5; }
+    .rule-thin { stroke: #000000; stroke-width: 1.5; }
+    .mark { font-size: 26px; text-anchor: middle; }
+    .dash { font-size: 26px; text-anchor: middle; }
+  </style>
+
+  <rect width="1600" height="810" fill="#ffffff"/>
+
+  <!-- 三线表：顶线 / 栏目线 / （本项目行前细线）/ 底线 -->
+  <line x1="50" y1="42" x2="1550" y2="42" class="rule-thick"/>
+  <line x1="50" y1="150" x2="1550" y2="150" class="rule-thin"/>
+  <line x1="50" y1="600" x2="1550" y2="600" class="rule-thin"/>
+  <line x1="50" y1="690" x2="1550" y2="690" class="rule-thick"/>
+
+  <!-- Header -->
+  <text x="275" y="105" class="text header">代表性工作</text>
+  <text class="text header"><tspan x="650" y="88">可复用局部表示</tspan><tspan x="650" y="120">／按需预测</tspan></text>
+  <text class="text header"><tspan x="940" y="88">Matrix-Free</tspan><tspan x="940" y="120">全局算子作用</tspan></text>
+  <text class="text header"><tspan x="1225" y="88">Krylov 迭代／</tspan><tspan x="1225" y="120">多重网格预条件</tspan></text>
+  <text class="text header"><tspan x="1460" y="88">GPU 完整</tspan><tspan x="1460" y="120">优化流程</tspan></text>
+
+  <!-- Row labels（按正文引用顺序：PIML 在前） -->
+  <text x="75" y="205" class="text body">[5]–[6] PIML／局部力学映射</text>
+  <text class="text body"><tspan x="75" y="277">[7] PIML 按需预测与</tspan><tspan x="75" y="310">并行多重网格</tspan></text>
+  <text class="text body"><tspan x="75" y="367">[8] 并行 Matrix-Free 算子</tspan><tspan x="75" y="400">应用接口</tspan></text>
+  <text x="75" y="475" class="text body">[9] GPU 三维拓扑优化</text>
+  <text x="75" y="565" class="text body">[10] Matrix-Free MGPCG</text>
+  <text x="75" y="655" class="text project">本项目拟研究</text>
+
+  <!-- 覆盖标记：● 明确覆盖，— 未覆盖 -->
+  <g class="text mark">
+    <text x="650" y="205">●</text>
+    <text x="650" y="295">●</text><text x="1225" y="295">●</text>
+    <text x="940" y="385">●</text>
+    <text x="1460" y="475">●</text>
+    <text x="940" y="565">●</text><text x="1225" y="565">●</text>
+    <text x="650" y="655">●</text><text x="940" y="655">●</text><text x="1225" y="655">●</text><text x="1460" y="655">●</text>
+  </g>
+  <g class="text dash">
+    <text x="940" y="205">—</text><text x="1225" y="205">—</text><text x="1460" y="205">—</text>
+    <text x="940" y="295">—</text><text x="1460" y="295">—</text>
+    <text x="650" y="385">—</text><text x="1225" y="385">—</text><text x="1460" y="385">—</text>
+    <text x="650" y="475">—</text><text x="940" y="475">—</text><text x="1225" y="475">—</text>
+    <text x="650" y="565">—</text><text x="1460" y="565">—</text>
+  </g>
+
+  <text class="text note">
+    <tspan x="50" y="742">注：依据文献 [5]–[10] 的研究重点及现有证据整理。“●”表示明确覆盖；“—”表示未作为主要研究内容或现有证据不足。</tspan>
+    <tspan x="50" y="779">“本项目拟研究”行表示拟纳入统一研究框架的内容，不代表已经完成。</tspan>
+  </text>
+</svg>
