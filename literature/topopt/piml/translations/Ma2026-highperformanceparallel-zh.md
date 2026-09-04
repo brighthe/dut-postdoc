@@ -3,30 +3,24 @@ title: "翻译：A high-performance parallel algorithm based on problem independ
 status: "read"
 date_created: 2026-06-09
 date_updated: 2026-08-01
-source: "[[../notes/Ma2026-highperformanceparallel]]"
+source: "../sources/Ma2026-highperformanceparallel.pdf"
 citekey: "Ma2026-highperformanceparallel"
 language: "zh-CN"
 ---
 
 # A high-performance parallel algorithm based on problem independent machine learning (PIML) for large-scale topology optimization
 
-## 中文译文（待逐页核验）
-
-> 原笔记：[[../notes/Ma2026-highperformanceparallel]]
-> Zotero 条目：`zotero://select/library/items/E9WMDNJC`
-> PDF 附件：`zotero://open-pdf/library/items/KKMYSDLT`
-> 说明：本页译文已整理入库，但尚未完成逐页 PDF 核验。
-
 ---
 
-# 0 元数据
+# 信息
 
-- **题名**：A high-performance parallel algorithm based on problem independent machine learning (PIML) for large-scale topology optimization
-- **Better BibTeX key**：`Ma2026-highperformanceparallel`
-- **Zotero item key**：`E9WMDNJC`
-- **PDF attachment key**：`KKMYSDLT`
-- **译文状态**：译文已整理入库，尚待逐页对照 PDF 核验
-
+- **中文标题**：基于问题无关机器学习（PIML）的大规模拓扑优化高性能并行算法
+- **作者**：Xinyu Ma; Mengcheng Huang; Zongliang Du; Yilin Guo; Chang Liu; Yue Mei; Xu Guo
+- **单位**：大连理工大学工业装备结构分析优化与 CAE 软件国家重点实验室、工程力学系；清华大学工程力学系应用力学实验室 Mechano-X 研究院；大连理工大学宁波研究院
+- **期刊**：*Acta Mechanica Sinica*
+- **卷 / 期 / 文章号**：42(3): 425942
+- **DOI**：10.1007/s10409-025-25942-x
+- **在线发表 / 正式卷期**：待补 / 2026-01
 
 # 摘要
 

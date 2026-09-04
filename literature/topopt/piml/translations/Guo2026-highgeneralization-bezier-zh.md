@@ -1,39 +1,24 @@
 ---
 title: "翻译：High-Generalization AI-Enhanced mechanical analysis and topology optimization via cubic bézier interpolation of substructure boundary displacements"
-aliases:
-  - guoHighGeneralizationAIEnhancedMechanical2026-zh
-status: draft
+status: "draft"
 date_created: 2026-08-04
 date_updated: 2026-08-04
-source: "[[../notes/Guo2026-highgeneralization-bezier]]"
+source: "../sources/Guo2026-highgeneralization-bezier.pdf"
 citekey: "guoHighGeneralizationAIEnhancedMechanical2026"
 language: "zh-CN"
 ---
 
 # High-Generalization AI-Enhanced mechanical analysis and topology optimization via cubic bézier interpolation of substructure boundary displacements
 
-## 中文译文（未完成）
-
-> 原笔记：[[../notes/Guo2026-highgeneralization-bezier]]
-> Zotero 条目：父条目 key 待补
-> PDF 附件：`zotero://open-pdf/library/items/LPZYK4P5`
-> 说明：本页当前仅建立与原文一致的章节框架；所有正文、公式、图表和图注均待逐节翻译与核验。
-
 ---
 
-# 0 元数据
+# 信息
 
-- **题名**：High-Generalization AI-Enhanced mechanical analysis and topology optimization via cubic bézier interpolation of substructure boundary displacements
-- **中文暂译**：基于子结构边界位移三次 Bézier 插值的高泛化 AI 增强力学分析与拓扑优化
-- **作者**：Yilin Guo；Chang Liu；Zongliang Du；Yibo Jia；Chao Jiang；Xu Guo；Changyu Shen
-- **期刊**：Computer Methods in Applied Mechanics and Engineering
-- **年份**：2026
-- **卷与文章号**：456: 118955
+- **中文标题**：基于子结构边界位移三次 Bézier 插值的高泛化 AI 增强力学分析与拓扑优化
+- **作者**：Yilin Guo; Chang Liu; Zongliang Du; Yibo Jia; Chao Jiang; Xu Guo; Changyu Shen
+- **期刊**：*Computer Methods in Applied Mechanics and Engineering*
+- **卷 / 期 / 文章号**：456: 118955
 - **DOI**：10.1016/j.cma.2026.118955
-- **Better BibTeX key**：`guoHighGeneralizationAIEnhancedMechanical2026`
-- **Zotero item key**：待补
-- **PDF attachment key**：`LPZYK4P5`
-- **译文状态**：仅建立框架，正文尚未开始翻译
 
 # 摘要
 

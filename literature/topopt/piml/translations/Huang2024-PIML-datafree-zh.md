@@ -3,37 +3,24 @@ title: "翻译：A mechanics-based data-free problem independent machine learnin
 status: "done"
 date_created: 2026-07-06
 date_updated: 2026-08-01
-source: "[[../notes/Huang2024-PIML-datafree]]"
+source: "../sources/Huang2024-PIML-datafree.pdf"
 citekey: "Huang2024-mechanicsbaseddatafree"
 language: "zh-CN"
 ---
 
 # A mechanics-based data-free problem independent machine learning (PIML) model for large-scale structural analysis and design optimization
 
-## 完整中文译文
-
-> 原笔记：[[../notes/Huang2024-PIML-datafree]]
-> Zotero 条目：`zotero://select/library/items/CGQZ2HXL`
-> PDF 附件：`zotero://open-pdf/library/items/R85965MZ`
-> 说明：本页收录完整中文译文；已核验范围见文末检查清单。
-
 ---
 
-# 0 元数据
+# 信息
 
-- **题名**：A mechanics-based data-free problem independent machine learning (PIML) model for large-scale structural analysis and design optimization
-- **Better BibTeX key**：`Huang2024-mechanicsbaseddatafree`
-- **Zotero item key**：`CGQZ2HXL`
-- **PDF attachment key**：`R85965MZ`
-- **译文状态**：已完成并核验，具体范围见文末检查清单
-
-- **中文暂译**：一种基于力学机制的无数据问题无关机器学习（PIML）模型：用于大规模结构分析与设计优化
+- **中文标题**：一种基于力学机制的无数据问题无关机器学习（PIML）模型：用于大规模结构分析与设计优化
 - **作者**：Mengcheng Huang; Chang Liu; Yilin Guo; Linfeng Zhang; Zongliang Du; Xu Guo
 - **单位**：大连理工大学 工程力学系 工业装备结构分析优化与 CAE 软件国家重点实验室；大连理工大学宁波研究院
-- **期刊**：Journal of the Mechanics and Physics of Solids
-- **年份**：2024
-- **卷/文章号**：193:105893
+- **期刊**：*Journal of the Mechanics and Physics of Solids*
+- **卷 / 期 / 文章号**：193:105893
 - **DOI**：10.1016/j.jmps.2024.105893
+- **在线发表 / 正式卷期**：2024-10-09 / 2024-10
 
 # 摘要
 

@@ -2,33 +2,25 @@
 title: "翻译：Explicit three dimensional topology optimization via Moving Morphable Void (MMV) approach"
 status: "read"
 date_created: 2026-07-03
-date_updated: 2026-08-01
-source: "[[../notes/Zhang2017-MMV-3D]]"
+date_updated: 2026-09-03
+source: "../sources/Zhang2017-MMV-3D.pdf"
 citekey: "zhangExplicitThreeDimensional2017"
 language: "zh-CN"
 ---
 
 # Explicit three dimensional topology optimization via Moving Morphable Void (MMV) approach
 
-## 中文译文（待逐页核验）
-
-> 原笔记：[[../notes/Zhang2017-MMV-3D]]
-> Zotero 条目：`zotero://select/library/items/M3GVBM67`
-> PDF 附件：`zotero://open-pdf/library/items/CRILJXZ9`
-> 说明：本页译文已整理入库，但尚未完成逐页 PDF 核验。
-
 ---
 
-# 0 元数据
+# 信息
 
-- **题名**：Explicit three dimensional topology optimization via Moving Morphable Void (MMV) approach
-- **Better BibTeX key**：`zhangExplicitThreeDimensional2017`
-- **Zotero item key**：`M3GVBM67`
-- **PDF attachment key**：`CRILJXZ9`
-- **译文状态**：译文已整理入库，尚待逐页对照 PDF 核验
-
-- 论文：Zhang, Weisheng, et al. 2017, *Computer Methods in Applied Mechanics and Engineering*
-- DOI： 10.1016/j.cma.2017.07.031
+- **中文标题**：基于移动可变形空洞（MMV）方法的显式三维拓扑优化
+- **作者**：Weisheng Zhang; Jishun Chen; Xuefeng Zhu; Jianhua Zhou; Dingchuan Xue; Xin Lei; Xu Guo
+- **单位**：大连理工大学工业装备结构分析国家重点实验室、工程力学系、国际计算力学中心；大连理工大学汽车工程学院
+- **期刊**：*Computer Methods in Applied Mechanics and Engineering*
+- **卷 / 期 / 文章号**：322: 590–614
+- **DOI**：10.1016/j.cma.2017.07.031
+- **在线发表 / 正式卷期**：待确认（本地 PDF 为作者稿，无版本日期）/ 2017
 
 # 摘要
 

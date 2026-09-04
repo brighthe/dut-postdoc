@@ -3,32 +3,21 @@ title: "翻译：Minimum length scale control in structural topology optimizatio
 status: "draft"
 date_created: 2026-07-03
 date_updated: 2026-08-01
-source: "[[../notes/Zhang2016-minimum-length-scale]]"
+source: "../sources/Zhang2016-minimum-length-scale.pdf"
 citekey: "zhangMinimumLengthScale2016"
 language: "zh-CN"
 ---
 
 # Minimum length scale control in structural topology optimization based on the moving morphable components (MMC) approach
 
-## 中文译文（未完成）
-
-> 原笔记：[[../notes/Zhang2016-minimum-length-scale]]
-> Zotero 条目：`zotero://select/library/items/6CKKE5R3`
-> PDF 附件：`zotero://open-pdf/library/items/QC8BKFTX`
-> 说明：本页译文尚未完成；缺失部分保留待补标记，本轮仅统一格式与排版。
-
 ---
 
-# 0 元数据
+# 信息
 
-- **题名**：Minimum length scale control in structural topology optimization based on the moving morphable components (MMC) approach
-- **Better BibTeX key**：`zhangMinimumLengthScale2016`
-- **Zotero item key**：`6CKKE5R3`
-- **PDF attachment key**：`QC8BKFTX`
-- **译文状态**：译文尚未完成，缺失部分保留待补标记
-
-- 论文：Zhang, Weisheng, et al. 2016, *Computer Methods in Applied Mechanics and Engineering*
-- DOI： 10.1016/j.cma.2016.08.022
+- **中文标题**：基于移动可变形组件（MMC）方法的结构拓扑优化最小长度尺度控制
+- **作者**：Weisheng Zhang; Dong Li; Jian Zhang; Xu Guo
+- **期刊**：*Computer Methods in Applied Mechanics and Engineering*
+- **DOI**：10.1016/j.cma.2016.08.022
 
 # 摘要
 本文提出了一种在拓扑优化中以直接且显式的方式控制最小尺寸（minimum length scale）的新方法。该方法基于所谓的移动可变形组件（Moving Morphable Components, MMC）求解框架构建，在该框架下，通过在固定的有限元网格上改变一组梯形结构组件的形状和布局，即可获得优化的结构拓扑。采用扩展有限元法（eXtended Finite Element Method, XFEM）进行结构响应分析，并通过沿结构边界进行数值积分来获取形状敏度信息。基于所提出的求解框架，本文还给出了结构最小尺寸的精确定义。与现有方法相比，所提出的方法只需对一组几何设计变量设置下界，即可实现最小尺寸控制。为了获得完全的最小尺寸控制，只需显式地考虑少量施加在相交区域尺寸上的纯几何约束。数值算例验证了所提出方法的有效性。

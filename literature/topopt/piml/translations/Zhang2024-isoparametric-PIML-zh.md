@@ -1,39 +1,24 @@
 ---
 title: "翻译：Problem-independent machine learning-enhanced structural topology optimization of complex design domains based on isoparametric elements"
-aliases:
-  - zhangProblemindependentMachineLearningenhanced2024a-zh
-status: draft
+status: "draft"
 date_created: 2026-08-04
 date_updated: 2026-08-04
-source: "[[../notes/Zhang2024-isoparametric-PIML]]"
+source: "../sources/Zhang2024-isoparametric-PIML.pdf"
 citekey: "zhangProblemindependentMachineLearningenhanced2024a"
 language: "zh-CN"
 ---
 
 # Problem-independent machine learning-enhanced structural topology optimization of complex design domains based on isoparametric elements
 
-## 中文译文（未完成）
-
-> 原笔记：[[../notes/Zhang2024-isoparametric-PIML]]
-> Zotero 条目：父条目 key 待补
-> PDF 附件：`zotero://open-pdf/library/items/3I2PUCC2`
-> 说明：本页当前仅建立与原文一致的章节框架；所有正文、公式、图表和图注均待逐节翻译与核验。
-
 ---
 
-# 0 元数据
+# 信息
 
-- **题名**：Problem-independent machine learning-enhanced structural topology optimization of complex design domains based on isoparametric elements
-- **中文暂译**：基于等参单元的问题无关机器学习增强复杂设计域结构拓扑优化
-- **作者**：Linfeng Zhang；Mengcheng Huang；Chang Liu；Zongliang Du；Tianchen Cui；Xu Guo
-- **期刊**：Extreme Mechanics Letters
-- **年份**：2024
-- **卷与文章号**：72: 102237
+- **中文标题**：基于等参单元的问题无关机器学习增强复杂设计域结构拓扑优化
+- **作者**：Linfeng Zhang; Mengcheng Huang; Chang Liu; Zongliang Du; Tianchen Cui; Xu Guo
+- **期刊**：*Extreme Mechanics Letters*
+- **卷 / 期 / 文章号**：72: 102237
 - **DOI**：10.1016/j.eml.2024.102237
-- **Better BibTeX key**：`zhangProblemindependentMachineLearningenhanced2024a`
-- **Zotero item key**：待补
-- **PDF attachment key**：`3I2PUCC2`
-- **译文状态**：仅建立框架，正文尚未开始翻译
 
 # 摘要
 

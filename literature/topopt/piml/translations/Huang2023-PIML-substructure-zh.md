@@ -3,39 +3,24 @@ title: "翻译：A problem-independent machine learning (PIML) enhanced substruc
 status: "done"
 date_created: 2026-06-30
 date_updated: 2026-08-06
-source: "[[../notes/Huang2023-PIML-substructure]]"
+source: "../sources/Huang2023-PIML-substructure.pdf"
 citekey: "huangProblemindependentMachineLearning2023"
 language: "zh-CN"
 ---
 
 # A problem-independent machine learning (PIML) enhanced substructure-based approach for large-scale structural analysis and topology optimization of linear elastic structures
 
-## 完整中文译文
-
-> 原笔记：[[../notes/Huang2023-PIML-substructure]]
-> Zotero 条目：`zotero://select/library/items/5XMDKI6A`
-> PDF 附件：`zotero://open-pdf/library/items/DAC5HA9I`
-> 说明：本页收录完整中文译文；已核验范围见文末检查清单。
-
 ---
 
-# 0 元数据
+# 信息
 
-- **题名**：A problem-independent machine learning (PIML) enhanced substructure-based approach for large-scale structural analysis and topology optimization of linear elastic structures
-- **Better BibTeX key**：`huangProblemindependentMachineLearning2023`
-- **Zotero item key**：`5XMDKI6A`
-- **PDF attachment key**：`DAC5HA9I`
-- **译文状态**：已完成并核验，具体范围见文末检查清单
-
-- **中文暂译**：一种通用（与问题无关）机器学习增强的基于子结构的大规模线弹性结构分析与拓扑优化方法
+- **中文标题**：一种通用（与问题无关）机器学习增强的基于子结构的大规模线弹性结构分析与拓扑优化方法
 - **作者**：Mengcheng Huang; Tianchen Cui; Chang Liu; Zongliang Du; Jiameng Zhang; Chuhui He; Xu Guo
 - **单位**：大连理工大学工业装备结构分析国家重点实验室、工程力学系、国际计算力学中心
 - **期刊**：*Extreme Mechanics Letters*
 - **卷 / 期 / 文章号**：63: 102041
 - **DOI**：10.1016/j.eml.2023.102041
 - **在线发表 / 正式卷期**：2023-08-16 / 2023-09-01
-- **Zotero 条目 key**：`5XMDKI6A`
-- **Zotero 附件 key**：`DAC5HA9I`
 
 # 摘要
 
@@ -430,12 +415,3 @@ $$
 2. 所提出的方法建立在子结构框架之下，这是边界值问题数值求解的通用范式。因此，它可以应用于求解在多物理场仿真（如流固耦合）、未进行尺度分离的高度非均质材料数值均匀化、涉及裂纹扩展/相变/损伤萌生的自由边界前沿追踪等中出现的各种大规模分析/优化问题。在上述所有应用中，由于子结构中材料属性的空间或时间变化，子结构的缩聚刚度矩阵会发生动态变化，所提出的 ML 增强方法可用于对此提供瞬时预测。最后但同样重要的一点是，考虑到动态子结构方法的成功，有理由期望所提出的方法在分析机械系统的大规模动态问题方面也具有巨大的潜力。
 
 3. 目前的 ML 增强方法具有与其他成熟方法相结合的潜力，例如等几何分析方法 (IGA)、有限元胞法 (FCM) 和切割有限元法 (CutFEM)，以构建全新的有限元分析框架。例如，利用本文所开发的技术，可以建立一个 ML 模型来预测等几何单元的刚度与其控制点坐标之间的关系。这可以有效缓解传统 IGA 中与数值积分相关的大量计算压力。所提出的方法还可以通过学习相应切割模式下的切割单元刚度矩阵，从而与 CutFEM 无缝集成。这可能开辟一条使用固定结构化网格进行高效、准确有限元分析的新途径，即通过将复杂的物理域嵌入到网格中，从而完全避开繁琐的网格生成过程。这是一个非常有趣的研究课题，值得进一步深入调查。
-
-# 译后检查清单
-
-- [x] 摘要、正文第 1–5 节均已完整译毕。
-- [x] 式 (1)–(17) 与主要控制方程均已对照 PDF 原页核验。
-- [x] 图 1–12 均已提取、嵌入并配规范中文图题与居中排版。
-- [x] 全篇中英文间距（盘古之白）、数学公式、标点符号及引用号静态检查通过。
-- [x] 术语统一（PIML、子结构静力缩聚、形函数、缩聚刚度矩阵、DOFs）核验无误。
-- [x] 原阅读笔记及关联元数据已按全文证据同步。

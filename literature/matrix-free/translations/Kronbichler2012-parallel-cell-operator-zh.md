@@ -1,41 +1,26 @@
 ---
 title: "翻译：A generic interface for parallel cell-based finite element operator application"
-aliases:
-  - kronbichlerGenericInterfaceParallel2012-zh
-status: draft
+status: "draft"
 date_created: 2026-08-04
 date_updated: 2026-08-04
-source: "[[../notes/Kronbichler2012-parallel-cell-operator]]"
+source: "../sources/Kronbichler2012-parallel-cell-operator.pdf"
 citekey: "kronbichlerGenericInterfaceParallel2012"
 language: "zh-CN"
 ---
 
 # A generic interface for parallel cell-based finite element operator application
 
-## 中文译文（未完成）
-
-> 原笔记：[[../notes/Kronbichler2012-parallel-cell-operator]]
-> Zotero 条目：`zotero://select/library/items/PZ4SDEMI`
-> PDF 附件：`zotero://open-pdf/library/items/BZZFU2DI`
-> 说明：本页当前仅建立与原文一致的章节框架；所有正文、公式、图表和图注均待逐节翻译与核验。
-
 ---
 
-# 0 元数据
+# 信息
 
-- **题名**：A generic interface for parallel cell-based finite element operator application
-- **中文暂译**：并行基于单元的有限元算子应用通用接口
-- **作者**：Martin Kronbichler；Katharina Kormann
-- **期刊**：Computers & Fluids
-- **年份**：2012
-- **卷与页码**：63: 135–147
-- **在线发表日期**：2012-04-21
-- **卷期出版日期**：2012-06-30
+- **中文标题**：并行基于单元的有限元算子应用通用接口
+- **作者**：Martin Kronbichler; Katharina Kormann
+- **单位**：乌普萨拉大学信息技术系科学计算部（瑞典）
+- **期刊**：*Computers & Fluids*
+- **卷 / 期 / 文章号**：63: 135–147
 - **DOI**：10.1016/j.compfluid.2012.04.012
-- **Better BibTeX key**：`kronbichlerGenericInterfaceParallel2012`
-- **Zotero item key**：`PZ4SDEMI`
-- **PDF attachment key**：`BZZFU2DI`
-- **译文状态**：仅建立框架，正文尚未开始翻译
+- **在线发表 / 正式卷期**：2012-04-21 / 2012-06-30
 
 # 摘要
 

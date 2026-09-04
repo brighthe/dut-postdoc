@@ -1,39 +1,24 @@
 ---
 title: "翻译：Problem-Independent Machine Learning (PIML) enhanced 3D lattice composite structures optimization via moving morphable components approach"
-aliases:
-  - xuProblemindependentMachineLearning2025-zh
-status: draft
+status: "draft"
 date_created: 2026-08-04
 date_updated: 2026-08-04
-source: "[[../notes/Xu2025-PIML-lattice-MMC]]"
+source: "../sources/Xu2025-PIML-lattice-MMC.pdf"
 citekey: "xuProblemindependentMachineLearning2025"
 language: "zh-CN"
 ---
 
 # Problem-Independent Machine Learning (PIML) enhanced 3D lattice composite structures optimization via moving morphable components approach
 
-## 中文译文（未完成）
-
-> 原笔记：[[../notes/Xu2025-PIML-lattice-MMC]]
-> Zotero 条目：父条目 key 待补
-> PDF 附件：`zotero://open-pdf/library/items/IDYTHK96`
-> 说明：摘要已完成初译；其余正文、公式、图表和图注仍待逐节翻译与核验。
-
 ---
 
-# 0 元数据
+# 信息
 
-- **题名**：Problem-Independent Machine Learning (PIML) enhanced 3D lattice composite structures optimization via moving morphable components approach
-- **中文暂译**：基于移动可变形构件法的问题无关机器学习增强三维点阵复合结构优化
-- **作者**：Wu Xu；Chang Liu；Yilin Guo；Mengcheng Huang；Xu Guo
-- **期刊**：Composite Structures
-- **年份**：2025
-- **卷与文章号**：369: 119330
+- **中文标题**：基于移动可变形构件法的问题无关机器学习增强三维点阵复合结构优化
+- **作者**：Wu Xu; Chang Liu; Yilin Guo; Mengcheng Huang; Xu Guo
+- **期刊**：*Composite Structures*
+- **卷 / 期 / 文章号**：369: 119330
 - **DOI**：10.1016/j.compstruct.2025.119330
-- **Better BibTeX key**：`xuProblemindependentMachineLearning2025`
-- **Zotero item key**：待补
-- **PDF attachment key**：`IDYTHK96`
-- **译文状态**：摘要已完成初译，其余正文待翻译
 
 # 摘要
 

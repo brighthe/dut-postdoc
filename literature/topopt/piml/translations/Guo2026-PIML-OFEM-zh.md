@@ -1,39 +1,26 @@
 ---
 title: "翻译：PIML-OFEM: A New Large-Scale Structural Analysis Method Based on Problem-Independent Machine Learning and Overlapping Finite Element Technique"
-aliases:
-  - guoPIMLOFEMNewLargeScale2026-zh
-status: draft
+status: "draft"
 date_created: 2026-08-04
 date_updated: 2026-08-04
-source: "[[../notes/Guo2026-PIML-OFEM]]"
+source: "../sources/Guo2026-PIML-OFEM.pdf"
 citekey: "guoPIMLOFEMNewLargeScale2026"
 language: "zh-CN"
 ---
 
 # PIML-OFEM: A New Large-Scale Structural Analysis Method Based on Problem-Independent Machine Learning and Overlapping Finite Element Technique
 
-## 中文译文（未完成）
-
-> 原笔记：[[../notes/Guo2026-PIML-OFEM]]
-> Zotero 条目：父条目 key 待补
-> PDF 附件：`zotero://open-pdf/library/items/JVG2F9WE`
-> 证据等级：arXiv v1 预印本，不作为已正式发表期刊论文表述。
-> 说明：本页当前仅建立与原文一致的章节框架；所有正文、公式、图表和图注均待逐节翻译与核验。
-
 ---
 
-# 0 元数据
+# 信息
 
-- **题名**：PIML-OFEM: A New Large-Scale Structural Analysis Method Based on Problem-Independent Machine Learning and Overlapping Finite Element Technique
-- **中文暂译**：PIML-OFEM：一种基于问题无关机器学习与重叠有限元技术的大规模结构分析新方法
-- **作者**：Yilin Guo；Chang Liu；Zongliang Du；Jin Liu；Jingyu Feng；Xinyang Zhang；Yang Li；Tianxing Yang；Changyu Shen；Xu Guo
+- **中文标题**：PIML-OFEM：一种基于问题无关机器学习与重叠有限元技术的大规模结构分析新方法
+- **作者**：Yilin Guo; Chang Liu; Zongliang Du; Jin Liu; Jingyu Feng; Xinyang Zhang; Yang Li; Tianxing Yang; Changyu Shen; Xu Guo
+- **单位**：大连理工大学工程力学系、工业装备结构分析优化与 CAE 软件国家重点实验室；大连市工业软件研究院；郑州大学材料科学与工程学院、材料成型及模具技术教育部重点实验室
 - **来源**：arXiv.org
 - **版本**：arXiv:2607.22019v1
 - **提交日期**：2026-07-24
-- **Better BibTeX key**：`guoPIMLOFEMNewLargeScale2026`
-- **Zotero item key**：待补
-- **PDF attachment key**：`JVG2F9WE`
-- **译文状态**：仅建立框架，正文尚未开始翻译
+- **证据等级**：arXiv v1 预印本，不作为已正式发表期刊论文表述。
 
 # 摘要
 

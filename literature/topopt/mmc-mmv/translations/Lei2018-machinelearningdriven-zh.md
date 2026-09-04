@@ -3,39 +3,24 @@ title: "翻译：Machine Learning-Driven Real-Time Topology Optimization Under M
 status: "done"
 date_created: 2026-07-27
 date_updated: 2026-08-01
-source: "[[../notes/Lei2018-machinelearningdriven]]"
+source: "../sources/Lei2018-machinelearningdriven.pdf"
 citekey: "Lei2018-machinelearningdriven"
 language: "zh-CN"
 ---
 
 # Machine Learning-Driven Real-Time Topology Optimization Under Moving Morphable Component-Based Framework
 
-## 完整中文译文
-
-> 原笔记：[[../notes/Lei2018-machinelearningdriven]]
-> Zotero 条目：`zotero://select/library/items/FFDWEI2C`
-> PDF 附件：`zotero://open-pdf/library/items/4287MX5D`
-> 说明：本页收录完整中文译文；已核验范围见文末检查清单。
-
 ---
 
-# 0 元数据
+# 信息
 
-- **题名**：Machine Learning-Driven Real-Time Topology Optimization Under Moving Morphable Component-Based Framework
-- **Better BibTeX key**：`Lei2018-machinelearningdriven`
-- **Zotero item key**：`FFDWEI2C`
-- **PDF attachment key**：`4287MX5D`
-- **译文状态**：已完成并核验，具体范围见文末检查清单
-
-- **中文暂译**：基于移动可变形组件（MMC）框架的机器学习驱动实时拓扑优化
+- **中文标题**：基于移动可变形组件（MMC）框架的机器学习驱动实时拓扑优化
 - **作者**：Xin Lei; Chang Liu; Zongliang Du; Weisheng Zhang; Xu Guo
 - **单位**：大连理工大学工业装备结构分析国家重点实验室、工程力学系、国际计算力学中心
-- **期刊**：Journal of Applied Mechanics
+- **期刊**：*Journal of Applied Mechanics*
 - **卷 / 期 / 文章号**：86(1): 011004
 - **DOI**：10.1115/1.4041319
 - **在线发表 / 正式卷期**：2018-10-05 / 2019-01-01
-- **Zotero 条目 key**：`FFDWEI2C`
-- **Zotero 附件 key**：`4287MX5D`
 
 # 摘要
 

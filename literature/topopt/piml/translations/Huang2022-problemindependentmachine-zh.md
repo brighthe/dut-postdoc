@@ -3,32 +3,24 @@ title: "翻译：Problem-independent machine learning (PIML)-based topology opti
 status: "read"
 date_created: 2026-06-04
 date_updated: 2026-08-01
-source: "[[../notes/Huang2022-problemindependentmachine]]"
+source: "../sources/Huang2022-problemindependentmachine.pdf"
 citekey: "huangProblemindependentMachineLearning2022"
 language: "zh-CN"
 ---
 
 # Problem-independent machine learning (PIML)-based topology optimization—A universal approach
 
-## 中文译文（待逐页核验）
-
-> 原笔记：[[../notes/Huang2022-problemindependentmachine]]
-> Zotero 条目：`zotero://select/library/items/DLAYSQ5H`
-> PDF 附件：`zotero://open-pdf/library/items/TSLB5VAR`
-> 说明：本页译文已整理入库，但尚未完成逐页 PDF 核验。
-
 ---
 
-# 0 元数据
+# 信息
 
-- **题名**：Problem-independent machine learning (PIML)-based topology optimization—A universal approach
-- **Better BibTeX key**：`huangProblemindependentMachineLearning2022`
-- **Zotero item key**：`DLAYSQ5H`
-- **PDF attachment key**：`TSLB5VAR`
-- **译文状态**：译文已整理入库，尚待逐页对照 PDF 核验
-
-- 论文：Huang et al. 2022, *Extreme Mechanics Letters*, 56:101887
-- DOI： 10.1016/j.eml.2022.101887
+- **中文标题**：基于问题无关机器学习（PIML）的拓扑优化——一种通用方法
+- **作者**：Mengcheng Huang; Zongliang Du; Chang Liu; Yonggang Zheng; Tianchen Cui; Yue Mei; Xiao Li; Xiaoyu Zhang; Xu Guo
+- **单位**：大连理工大学工业装备结构分析国家重点实验室、工程力学系；大连理工大学宁波研究院；北京空间飞行器总体设计部
+- **期刊**：*Extreme Mechanics Letters*
+- **卷 / 期 / 文章号**：56: 101887
+- **DOI**：10.1016/j.eml.2022.101887
+- **在线发表 / 正式卷期**：2022-08-29 / 2022-10
 
 # 摘要
 

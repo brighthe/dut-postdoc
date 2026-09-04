@@ -3,32 +3,24 @@ title: "翻译：A new topology optimization approach based on moving morphable 
 status: "read"
 date_created: 2026-07-03
 date_updated: 2026-08-01
-source: "[[../notes/Zhang2016-MMC-topology]]"
+source: "../sources/Zhang2016-MMC-topology.pdf"
 citekey: "zhangNewTopologyOptimization2016"
 language: "zh-CN"
 ---
 
 # A new topology optimization approach based on moving morphable components (MMC) and the ersatz material model
 
-## 中文译文（待逐页核验）
-
-> 原笔记：[[../notes/Zhang2016-MMC-topology]]
-> Zotero 条目：`zotero://select/library/items/QLN8ZLGS`
-> PDF 附件：`zotero://open-pdf/library/items/2VBFE9XZ`
-> 说明：本页译文已整理入库，但尚未完成逐页 PDF 核验。
-
 ---
 
-# 0 元数据
+# 信息
 
-- **题名**：A new topology optimization approach based on moving morphable components (MMC) and the ersatz material model
-- **Better BibTeX key**：`zhangNewTopologyOptimization2016`
-- **Zotero item key**：`QLN8ZLGS`
-- **PDF attachment key**：`2VBFE9XZ`
-- **译文状态**：译文已整理入库，尚待逐页对照 PDF 核验
-
-- 论文：Zhang, Weisheng, et al. 2016, *Structural and Multidisciplinary Optimization*
-- DOI： 10.1007/s00158-015-1372-3
+- **中文标题**：基于移动可变形组件（MMC）与替代材料模型的拓扑优化新方法
+- **作者**：Weisheng Zhang; Jie Yuan; Jian Zhang; Xu Guo
+- **单位**：大连理工大学工业装备结构分析国家重点实验室、工程力学系
+- **期刊**：*Structural and Multidisciplinary Optimization*
+- **卷 / 期 / 文章号**：53: 1243–1260
+- **DOI**：10.1007/s00158-015-1372-3
+- **在线发表 / 正式卷期**：2015-12-09 / 2016
 
 # 摘要
 
