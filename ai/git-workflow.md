@@ -12,10 +12,14 @@
 
 ## 原始资料与派生文件的存储归属
 
+本节是存储归属的唯一权威：`llm-wiki-workflow.md` 与 `README.md` 只留指针，`.gitignore` 是本节规则的执行体。
+
 - **iCloud**：保存非论文类官方文件、个人办理材料和其他原件。博士后相关原件以 `iCloudDrive/博士后-大连理工大学/` 为根目录，仓库只记录从 `博士后-大连理工大学` 开始的相对路径、官方 URL 和必要的 SHA-256，不写死 Windows 用户目录。
-- **Zotero**：保存学术论文及其附件；文献笔记通过 Citation Key、DOI 或 `zotero://` 链接回溯，不复制论文 PDF 到 Git。
-- **Git**：保存 Markdown 知识、索引、代码、模板及确有公开复现价值的派生资产。`assets/` 用于模板、图件和可复用派生资源，不作为原始文件归档池。
-- 最终演示文稿、可公开交付物等派生文件可按事件档案需要显式纳入 Git；含个人信息、申报材料或其他敏感内容的文件仍只保存在 iCloud。
+- **Zotero**：保存学术论文及其附件；文献页面通过 Citation Key、DOI 或 `zotero://` 链接回溯，`literature/refs.bib` 是 citekey 与 Zotero 之间的桥。
+- **Git**：保存 Markdown 知识、索引、代码、模板（`ai/templates/`）及确有公开复现价值的派生资产，不作为原始文件归档池。最终演示文稿、可公开交付物等派生文件可按事件档案需要显式纳入 Git；含个人信息、申报材料或其他敏感内容的文件仍只保存在 iCloud。
+- **本地缓存**：供 AI 直接读取的 raw 副本统一放所属目录的 `sources/`——论文 PDF 在 `literature/**/sources/`（主档 Zotero），算例 BDF 等原件在 `research/benchmark-cases/sources/`（主档 iCloud）；`.gitignore` 全部排除，不入 Git，丢失后按主档重建。
+- **逻辑标识与解析**：页面 `source:` 字段只写逻辑标识，不写机器绝对路径。论文页写 `"../sources/<同名>.pdf"`，按相对路径解析；无 DOI、无第三方托管的原件写 `<数据包>:<包内相对路径>`（如 `DLUTFEM-20260720:testcases/10w-3d.bdf`），由所属目录的 `sources.md` 登记表（文件名 / SHA-256 / iCloud 相对路径）解析。现有登记表：`research/funding/sources.md`、`research/benchmark-cases/sources.md`。
+- **图件归属**：wiki 页面插图放所属方向的 `assets/`（如 `concepts/assets/`、`literature/topopt/assets/`），用 `![[裸文件名]]` 嵌入；`figures/` 只用于 `papers/`、`talks/`、`archive/<event>/` 的 LaTeX 交付树和带生成脚本的 `research/benchmark-cases/`，与源码同级、相对路径引用。根目录不设 `assets/`。
 
 ## 提交纪律
 

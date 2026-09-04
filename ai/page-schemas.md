@@ -1,35 +1,26 @@
 # 页面模板绑定与状态机细则
 
-> **触发时机**：新建或升级文献笔记、中文译文、主题索引、汇报页，或执行事件归档前读取本文件。通用写作约定（语言、命名、frontmatter 强制、双链、链接路径）仍以 [llm-wiki-workflow.md](llm-wiki-workflow.md)「写作约定」为准，本文件只收页面类型、模板绑定与状态流转。
+> **触发时机**：新建或升级中文译文、主题索引、汇报页，或执行事件归档前读取本文件。通用写作约定（语言、命名、frontmatter 强制、双链、链接路径）仍以 [llm-wiki-workflow.md](llm-wiki-workflow.md)「写作约定」为准，本文件只收页面类型、模板绑定与状态流转。
 
 ## 页面类型与归属目录
 
-- **summary（文献笔记）**：一篇论文一页，落在 `literature/<主题>/notes/`；`notes/` 只是文件容器，不建立 `_index.md` 或第二套状态账。
-- **synthesis（调研）**：一个课题跨多篇论文，落在 `research/`，用 `assets/templates/research-survey.md`。
-- **discussion（科研讨论）**：以人为对象的汇报/交流页，落在 `discussions/<对象>/`；同一页面持续维护本次实际要汇报/交流的全部内容、必要事实快照、会后结论和行动项，讨论时无需跳转其他仓库补充正文。人物关系（师门链、合作背景）由 `discussions/relationships.md` 统一维护。
-- **concept（概念页）**：反复出现的概念经跨源提炼后落在 `concepts/`；简单概念用 `assets/templates/concept-note.md` 建单页，具有多个稳定子页面的复杂主题用 `concepts/<主题>/` 子目录并以 `assets/templates/topic-index.md` 建统一语义入口。
-- **entity（实体页）**：一个人/团队/机构/方法/软件的档案卡，落在 `entities/`，用 `assets/templates/entity-note.md`。
+- **文献页面（中文译文）**：一篇论文对应 `literature/<主题>/sources/` 中的原始 PDF 副本（不入 Git，为事实来源）和 `translations/` 中的 `-zh` 中文译文（入 Git，为派生理解层）；`sources/`、`translations/` 只是文件容器，不建立 `_index.md` 或第二套状态账。单篇文献笔记层（`notes/`）已于 2026-08-30 移除，论文与研究主线的相关性在 `research/` 下说明。
+- **synthesis（调研）**：一个课题跨多篇论文，落在 `research/`，用 `ai/templates/research-survey.md`。
+- **entity & discussion（实体与科研讨论）**：一个人/团队/机构/方法/软件的档案卡与交流中心，落在 `entities/<对象>/`；档案卡命名为与目录同名的 `entities/<对象>/<对象>.md`（如 `entities/liu-chang/liu-chang.md`），维护静态学术画像与汇报时间线；**不用 `_index.md`**——`_index.md` 只留给真正的目录语义索引（如 `entities/_index.md`）。同一目录下维护面向该对象的单次汇报与交流底稿（自包含实际要汇报的全部内容、必要事实快照、会后结论和行动项）。人物关系（师门链、合作背景）由 `entities/relationships.md` 统一维护。
+- **concept（概念页）**：反复出现的概念经跨源提炼后落在 `concepts/`；简单概念用 `ai/templates/concept-note.md` 建单页，具有多个稳定子页面的复杂主题用 `concepts/<主题>/` 子目录并以 `ai/templates/topic-index.md` 建统一语义入口。**内容边界**：概念页只写「把某条研究线整个删掉后仍然成立」的内容（判据见 `concepts/_index.md`「三层结构与放置规则」）；本人对方案的判断、路线取舍、待验证的研究问题一律写进 `research/` 对应分支指南或汇报页，不放在概念页——顶层 `concepts/` 页尤其不得出现「对本人方案意味着什么」「开放问题」这类随研究线存亡的小节。概念页正文按概念自身逻辑分节编号，不套模板固定小标题；模板只约束 frontmatter、一句话、来源与证据、相关页面四项。
 - **archive（事件档案）**：已完成、不再主动维护的事件材料，落在 `archive/<event>/`；归档前先把长期有效事实抽取到概念页、技术线或调研页（细则见下文「报告与事件归档生命周期」）。
-
-## 文献笔记模板与状态
-
-`assets/templates/literature-note.md` 是 `literature/<主题>/notes/` 中单篇笔记 frontmatter schema 与正文骨架的唯一规范来源；新建或迁移文献笔记时按该模板填写，不维护并行的 Zotero/ZotLit 生成模板。文献状态依次为：`draft`（只保存已核验元数据、页面框架和译文入口，不形成正文技术结论）、`read`（对应中文译文已经 `done`，笔记已精读回填，但公式、图表、证据边界或关联同步尚未全部终审）、`done`（译文与全文证据核验、frontmatter、链接和关联同步均完成）。中文译文达到 `done` 前，文献笔记不得升级为 `read`／`done`，不得作为全文级证据使用。日期统一使用 `date_added`、`date_read`、`date_update`；未知或尚不适用的可选字段写 YAML `null`。`year` 记录正式卷期年份，online-first 日期另记为 `date_online`；页码与文章号分别使用 `pages`、`article`。Citation Key 统一存入 `zotero_citation_key`，不得另建 `citekey`。
-
-## 模型选型证据卡
-
-`assets/templates/model-selection-evidence-card.md` 是按需插入单篇笔记的模板片段，不是独立 Wiki 页面。仅在专题任务需要统一比较时放入“证据边界与可复现性”；填好的卡片继续由该单篇笔记唯一维护，每格必须填写论文事实或“未报告”，并区分作者主张与证据边界。
 
 ## 文献主题索引
 
-`assets/templates/literature-topic-index.md` 是 `literature/<主题>/_index.md` 的规范骨架，维护主题范围、按子主题组织的论文入口、最近一级状态、交叉主题和归类规则；不复制单篇正文。单篇状态以页面 frontmatter 为权威来源，主题索引只做最近一级同步。
+`ai/templates/literature-topic-index.md` 是 `literature/<主题>/_index.md` 的规范骨架，维护主题范围、按子主题组织的论文入口（含 citation key）、最近一级状态、交叉主题和归类规则；不复制单篇正文。单篇状态以 `-zh` 译文 frontmatter 为权威来源，主题索引只做最近一级同步。
 
 ## 中文译文模板与状态
 
-`assets/templates/translation-note.md` 是译文 frontmatter 与正文骨架的唯一模板，具体翻译和核验过程遵循 [paper-translation-workflow.md](paper-translation-workflow.md)。先建立元数据文献笔记骨架和对应译文骨架，再逐节翻译；译文状态使用 `draft`（未完成）、`read`（内容已整理但尚待逐页核验）和 `done`（清单声明的内容已经核验）。只有译文 `done` 后才回填正式文献笔记。
+`ai/templates/translation-note.md` 是译文 frontmatter 与正文骨架的唯一模板，具体翻译和核验过程遵循 [paper-translation-workflow.md](paper-translation-workflow.md)。译文状态使用 `draft`（未完成）、`read`（内容已整理但尚待逐页核验）和 `done`（清单声明的内容已经核验）；译文达到 `done` 前不作为全文级证据。日期统一使用 `date_created`、`date_updated`；未知或尚不适用的可选字段写 YAML `null`。Citation Key 记录在译文 frontmatter 的 `citekey`、主题 `_index.md` 表格与 `literature/refs.bib` 中。
 
 ## 复杂主题入口模板与职责
 
-`assets/templates/topic-index.md` 是复杂主题 `_index.md` 的规范骨架。主题入口按“稳定知识—主题机制节—项目与技术线入口—文献证据—关联入口—管理边界”六节组织。其中**主题机制节**的标题按主题实际内容命名（如“Matrix-Free 算子作用与装配层次”“鞍点结构与稳定化”），用一张最小机制图加 `### 程序实现必读入口` 回答“这个主题机械上是什么形状、动代码前先读哪几页”；确实没有可落地机制链路时可整节删除，但不得为凑结构编造流程。**关联入口**合并原先的关联主题、关联实现、工作汇报与历史档案，每条以角色前缀标注，没有对应页面的角色直接不写。**管理边界必须保留独立标题**，不并入关联入口，也不压成无标题的收尾段——它是规则而非导航，是 AI 工具判断禁区的依据。跨仓库路径一律使用 `repo:path` 相对写法，不写机器绝对路径。入口页只维护导航、页面职责和事实所有权，不复制其他页面正文，不建立第二套任务状态账，不维护固定文件数或全部关键词命中清单。
+`ai/templates/topic-index.md` 是复杂主题 `_index.md` 的规范骨架。主题入口按“稳定知识—主题机制节—项目与技术线入口—文献证据—关联入口—管理边界”六节组织。其中**主题机制节**的标题按主题实际内容命名（如“Matrix-Free 算子作用与装配层次”“鞍点结构与稳定化”），用一张最小机制图加 `### 程序实现必读入口` 回答“这个主题机械上是什么形状、动代码前先读哪几页”；确实没有可落地机制链路时可整节删除，但不得为凑结构编造流程。**关联入口**合并原先的关联主题、关联实现、工作汇报与历史档案，每条以角色前缀标注，没有对应页面的角色直接不写。**管理边界必须保留独立标题**，不并入关联入口，也不压成无标题的收尾段——它是规则而非导航，是 AI 工具判断禁区的依据。跨仓库路径一律使用 `repo:path` 相对写法，不写机器绝对路径。入口页只维护导航、页面职责和事实所有权，不复制其他页面正文，不建立第二套任务状态账，不维护固定文件数或全部关键词命中清单。
 
 ## 工作汇报生命周期与边界
 

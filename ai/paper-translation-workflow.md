@@ -9,10 +9,10 @@
 以后新开会话要翻译某篇论文时，只需说这一句，AI 即会读取本流程、定位 PDF、提取底稿并与你确认任务：
 
 ```
-基于 paper-translation-workflow，和我一起翻译/完善 <文献笔记 basename>-zh，是否了解任务？
+基于 paper-translation-workflow，和我一起翻译/完善 <文献 basename>-zh，是否了解任务？
 ```
 
-- **`<文献笔记 basename>`**：填写对应阅读笔记的 `AuthorYear-short-topic` 文件名（不含 `.md`），如 `Huang2024-PIML-datafree`；Zotero Citation Key 仍记录在 frontmatter 中，不要求与文件名相同。
+- **`<文献 basename>`**：填写该论文的 `AuthorYear-short-topic` 文件名（不含 `.md`），如 `Huang2024-PIML-datafree`；同一 basename 也用于 `sources/` 下的 PDF 副本。Zotero Citation Key 仍记录在 frontmatter 中，不要求与文件名相同。
 - **示例**：`基于 paper-translation-workflow，和我一起完善 Huang2024-PIML-datafree-zh，是否了解任务？`
 - **两种场景通用**：
   - *从零翻译*：仓库尚无译文文件 → AI 会按 §1 建骨架后逐节推进。
@@ -27,11 +27,11 @@
 - **获取源文件**：优先从 Zotero 本地库取原文 PDF，再用 `pdftotext -layout` 提取纯文本到 scratchpad 临时目录供翻译参考。
   - Zotero 附件按**附件 key**（非条目 key）存于 `…/Zotero/storage/<附件key>/`；笔记里记的常是条目 key，可用文件名在 `storage/` 下检索定位真正的 PDF。
   - 提取的纯文本仅作**参考底稿**，不入库；矩阵/多行公式在纯文本里通常会错行，需后续重构（见 §3）。
-- **建立文献笔记骨架**：若对应 Citation Key 文献笔记尚不存在，先复制 `assets/templates/literature-note.md` 到 `literature/<主题>/notes/`，只填写已核验元数据、译文入口和模板占位，保持 `status: draft`；译文完成前不得回填技术结论。
-- **建立目标译文**：复制 `assets/templates/translation-note.md` 到对应知识库目录（如 `literature/topology-opt/translations/`），并用文献笔记 basename + `-zh` 后缀命名，如 `Huang2024-PIML-datafree-zh.md`。
+- **落位 PDF 副本**：若 `literature/<主题>[/<子类>]/sources/<basename>.pdf` 尚不存在，从 Zotero 复制一份（只复制不移动，不入 Git）；译文以该 PDF 为唯一核验基准，不引入中间转换层。
+- **建立目标译文**：复制 `ai/templates/translation-note.md` 到对应知识库目录（如 `literature/topopt/piml/translations/`），并用文献 basename + `-zh` 后缀命名，如 `Huang2024-PIML-datafree-zh.md`。
 - **确立大纲**：先从原文（或提取文本）扫描各级标题，在目标文档中**按原文目录**预写好各级标题（`# 1`、`## 1.1`…）作为翻译框架与导航图。骨架里每节先放 `> 待翻译。` 占位。
 - **对齐姊妹篇**：若同一系列已有译文（如 Huang2023-zh），先看其排版、术语、图注、引用体例，保持全系列一致。
-- **译文模板与实例**：`assets/templates/translation-note.md` 是 frontmatter、来源区、元数据、正文层级和文末检查清单的唯一模板；`literature/topology-opt/translations/Lei2018-machinelearningdriven-zh.md` 只作为填写完整的实例。图注以 §3.2 的块级 `<div align="center">` 为准。
+- **译文模板与实例**：`ai/templates/translation-note.md` 是 frontmatter、来源区、元数据、正文层级和文末检查清单的唯一模板；`literature/topopt/mmc-mmv/translations/Lei2018-machinelearningdriven-zh.md` 只作为填写完整的实例。图注以 §3.2 的块级 `<div align="center">` 为准。
 
 ## 2. 逐节推进与双语对照（核心循环）
 
@@ -76,7 +76,7 @@
   - 按「对象顺序 + 长宽比 / 页面位置」把图像映射到图号，并 Read 抽取结果中的几张交叉核验。
   - `pdfimages -png` 无损导出，按映射重命名。
 - **命名规范**：`[CitationKey]_Fig[X].png`（如 `Huang2024_Fig3.png`）。
-- **存放**：放到该文档所属方向的 `assets/` 目录（如 `literature/topology-opt/assets/`）；Obsidian 的 `![[名.png]]` 按文件名全库解析。
+- **存放**：放到该文档所属方向的 `assets/` 目录（如 `literature/topopt/assets/`）；Obsidian 的 `![[名.png]]` 按文件名全库解析。 这是 [llm-wiki-workflow.md](llm-wiki-workflow.md)「链接路径写法」的**明示例外**，不要改写为 `![[../assets/名.png]]`。
 - **插入语法**：用 `![[图片名.png]]` 替换占位符，其下按 §3.2 的 `<div align="center">` 块写中文图注。
 
 ## 4. 全局终审（Lint & Review）

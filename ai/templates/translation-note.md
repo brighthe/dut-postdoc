@@ -4,18 +4,18 @@ aliases: []
 status: "draft" # draft | read | done
 date_created: YYYY-MM-DD
 date_updated: YYYY-MM-DD
-source: "[[../notes/{{source_note}}]]"
+source: "../sources/{{source_note}}.pdf"
 citekey: "{{zotero_citation_key}}"
 language: "zh-CN"
 ---
 
-<!-- 文件名使用对应文献笔记的 {{source_note}} basename + -zh，与 Zotero Citation Key 分离。建立本页前先建立对应的 draft 文献笔记骨架；本页 status: done 后，才回填并升级正式文献笔记。 -->
+<!-- 文件名使用该论文的 {{source_note}} basename + -zh，与 Zotero Citation Key 分离；同一 basename 对应 ../sources/{{source_note}}.pdf 原始副本。本页 frontmatter 是该文献 draft → read → done 状态的权威来源。 -->
 
 # {{title}}
 
 ## 中文译文（未完成）
 
-> 原笔记：[[../notes/{{source_note}}]]
+> 原文 PDF：`../sources/{{source_note}}.pdf`
 > Zotero 条目：`zotero://select/library/items/{{zotero_item_key}}`
 > PDF 附件：`zotero://open-pdf/library/items/{{zotero_attachment_key}}`
 > 说明：本页译文尚未完成；缺失部分保留待补标记。
@@ -68,7 +68,7 @@ $$
 - [ ] 公式内容、编号与 LaTeX 环境已对照 PDF 核验。
 - [ ] 图片、表格、图注及本地资产均已检查。
 - [ ] 脚注、引用、链接和 Markdown 结构静态检查通过。
-- [ ] 原笔记及必要关联页面已同步。
+- [ ] 主题 `_index.md` 及必要关联页面已同步。
 
 <!-- 状态与标题同步：
 draft：## 中文译文（未完成）

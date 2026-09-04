@@ -47,6 +47,9 @@ tmp/
 .codex/tmp-figure1/
 .codex_tmp/
 .soptx-patch-link
+# 顶层 .codex-* 暂存目录与补丁：研发代码归 WSL ~/workspace，不入文档仓库
+.codex-*/
+.codex-*.patch
 .claude/settings.local.json
 
 # Generated document QA and Python caches
@@ -56,6 +59,15 @@ research/funding/active/china-postdoc-foundation-general-grant/.docx-qa/
 
 # Funding source documents are archived in iCloud, not Git
 research/funding/**/*.pdf
+research/funding/**/*.doc
+research/funding/**/*.docx
+
+# Paper PDF copies for AI access; originals live in Zotero, not Git
+literature/**/sources/
+
+# Any subdirectory under translations/ is a local derived artifact (e.g. PDF conversion
+# cache) and stays out of Git; the flat -zh.md translation notes remain tracked.
+literature/**/translations/*/
 
 # Research plan typesetting source and its outgoing PDF are archived in iCloud, not Git.
 # postdoc-research-plan.md is the single source of truth for the plan text.
@@ -69,3 +81,7 @@ talks/**/.miktex-userdata/
 talks/**/.miktex-data/
 talks/**/.miktex-pkgs/
 talks/**/.fontconfig/
+
+# Benchmark 算例原件（Nastran BDF 等）供 AI 读取的本地副本；主档归 iCloud，
+# 清单与 SHA-256 登记在 research/benchmark-cases/sources.md，与 literature/**/sources/ 同构。
+research/benchmark-cases/sources/
