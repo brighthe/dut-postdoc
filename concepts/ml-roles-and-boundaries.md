@@ -33,7 +33,7 @@ date_update: 2026-08-06
 
 * **全局分类框架**：[[machine-learning]] 维护通用模型族与 5 阶段生命周期骨架。
 * **PINN 5 步通用范式**：[[pinn-paradigm]] 专门维护物理信息解场学习的 5 步数学与计算范式。
-* **PIML 5 步通用范式**：[[piml/piml-paradigm]] 专门维护问题无关局部算子代理的 5 步端到端流程与数据流图。
+* **PIML 5 步通用范式**：[[piml/piml-paradigm]] 维护问题无关局部算子代理的分类维度、5 步计算流程与文献谱系。
 
 ---
 
@@ -80,7 +80,6 @@ date_update: 2026-08-06
 
 - [[machine-learning|通用机器学习分类与 5 阶段生命周期]]
 - [[pinn-paradigm|物理信息神经网络 (PINN) 通用 5 步范式]]
-- [[piml/piml-paradigm|问题无关机器学习 (PIML) 通用 5 步范式]]
-- [[piml/mathematical-foundations|Problem-Independent 路线的数学基础]]
-- [[piml/method-lineage|Huang–Ma PIML 方法演进谱系]]
+- [[piml/piml-paradigm|问题无关机器学习 (PIML) 分类与计算流程]]
+- [[piml/piml-substructural|基于 PIML 的子结构分析]]
 - [[../research/piml-matrix-free-gpu/piml-research-guide|PIML 局部力学算子技术线研究指南]]

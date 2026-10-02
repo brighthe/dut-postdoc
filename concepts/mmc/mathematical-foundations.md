@@ -226,5 +226,5 @@ MMC 是显式拓扑优化与低维设计表示的基础，可作为代理模型�
 
 ## 相关页面
 
-- [[_index]] — MMC 主题入口。
+- [[../_index#7-结构拓扑优化理论|结构拓扑优化理论总览]] — 结构拓扑优化理论概念总览。
 - [[../../literature/topopt/mmc-mmv/translations/Lei2018-machinelearningdriven-zh]] — MMC 低维表示在问题相关最终设计预测中的论文证据。

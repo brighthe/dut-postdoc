@@ -19,7 +19,7 @@ topics:
   - "PINN 对照实验与 GPU 平台进展"
 related:
   - "./liu-chang"
-  - "../../concepts/piml/_index"
+  - "../../concepts/_index"
   - "../../research/piml-matrix-free-gpu/piml-research-guide"
   - "../../research/piml-matrix-free-gpu/project-plan"
   - "../../research/funding/active/china-postdoc-foundation-general-grant/80th-2026-application-draft"

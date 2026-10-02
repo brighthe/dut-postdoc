@@ -1,8 +1,13 @@
 ---
 title: "翻译：Problem-independent machine learning (PIML)-based topology optimization—A universal approach"
+tags:
+  - translation
+  - PIML
+  - topology-opt
+  - EMsFEM
 status: "read"
 date_created: 2026-06-04
-date_updated: 2026-08-01
+date_updated: 2026-09-09
 source: "../sources/Huang2022-problemindependentmachine.pdf"
 citekey: "huangProblemindependentMachineLearning2022"
 language: "zh-CN"
@@ -15,26 +20,32 @@ language: "zh-CN"
 # 信息
 
 - **中文标题**：基于问题无关机器学习（PIML）的拓扑优化——一种通用方法
-- **作者**：Mengcheng Huang; Zongliang Du; Chang Liu; Yonggang Zheng; Tianchen Cui; Yue Mei; Xiao Li; Xiaoyu Zhang; Xu Guo
-- **单位**：大连理工大学工业装备结构分析国家重点实验室、工程力学系；大连理工大学宁波研究院；北京空间飞行器总体设计部
+- **作者**：Mengcheng Huang（黄孟成）$^1$；Zongliang Du（杜宗亮）$^{1,2,*}$；Chang Liu（刘畅）$^{1,2,*}$；Yonggang Zheng（郑勇刚）$^1$；Tianchen Cui（崔天晨）$^1$；Yue Mei（梅越）$^1$；Xiao Li（李笑）$^3$；Xiaoyu Zhang（张晓宇）$^3$；Xu Guo（郭旭）$^{1,2,*}$
+- **单位**：
+  - $1$: 大连理工大学工程力学系、工业装备结构分析优化与 CAE 软件国家重点实验室（大连 116023）
+  - $2$: 大连理工大学宁波研究院（宁波 315016）
+  - $3$: 北京空间飞行器总体设计部（北京 100094）
 - **期刊**：*Extreme Mechanics Letters*
 - **卷 / 期 / 文章号**：56: 101887
 - **DOI**：10.1016/j.eml.2022.101887
 - **在线发表 / 正式卷期**：2022-08-29 / 2022-10
+- **通讯作者**：Zongliang Du（zldu@dlut.edu.cn）；Chang Liu（c.liu@dlut.edu.cn）；Xu Guo（guoxu@dlut.edu.cn）
 
 # 摘要
 
 求解拓扑优化问题通常具有极高的计算开销，尤其是在追求高分辨率优化结果时更是如此。本文提出了一种问题无关机器学习技术，即 problem-independent machine learning, PIML，用于降低有限元分析，即 finite element analysis, FEA，所带来的计算时间；而有限元分析正是整个拓扑优化求解流程中的主要瓶颈。本文的核心思想是：在扩展多尺度有限元方法，即 extended multi-scale finite element method, EMsFEM，框架下构造结构分析过程，并通过机器学习在 EMsFEM 的形函数与某一粗分辨率单元内部的逐单元材料密度之间建立一种隐式映射关系。与已有工作相比，本文提出的基于力学机制的机器学习技术是真正意义上的问题无关方法。一旦易于实现的离线训练完成，该方法便可以不经任何修改地用于求解任意类型的拓扑优化问题。数值结果表明，本文方法能够显著降低有限元分析时间。特别地，借助该方法，一个具有 2 亿个设计变量的拓扑优化问题可以在个人工作站上求解，并且每一步迭代中的有限元分析平均仅需约 2 分钟。
 
+**关键词**：拓扑优化（Topology optimization）；问题无关机器学习（Problem-independent machine learning, PIML）；扩展多尺度有限元（Extended multiscale finite element method, EMsFEM）；高分辨率（High resolution）
+
 # 1 引言
 
-拓扑优化是一种强有力的工具，能够帮助工程师设计创新性结构与产品，并且已经在众多工业领域中获得了成功应用 `[1–4]`。然而，众所周知，拓扑优化问题的求解具有很高的计算需求，通常需要耗费大量计算资源。为了提高拓扑优化问题的求解效率，已有文献提出了许多方法，例如基于并行计算的方法 `[5–8]`、多尺度方法 `[9–11]`、多分辨率方法 `[12–16]`、设计变量降维方法 `[17,18]` 以及自由度消除策略 `[19,20]` 等。
+拓扑优化是一种强有力的工具，能够帮助工程师设计创新性结构与产品，并且已经在众多工业领域中获得了成功应用 [1–4]。然而，众所周知，拓扑优化问题的求解具有很高的计算需求，通常需要耗费大量计算资源。为了提高拓扑优化问题的求解效率，已有文献提出了许多方法，例如基于并行计算的方法 [5–8]、多尺度方法 [9–11]、多分辨率方法 [12–16]、设计变量降维方法 [17,18] 以及自由度消除策略 [19,20] 等。
 
-随着人工智能，即 artificial intelligence, AI，以及机器学习，即 machine learning, ML，的快速发展，近年来，利用 AI/ML 技术来应对拓扑优化中高计算成本问题引起了广泛关注。例如，大量研究致力于在给定的优化参数与最终优化结构之间建立一种端到端关系，以实现所谓的实时拓扑优化；这些优化参数包括设计域、边界条件，以及外载荷的位置和大小等 `[21–26]`。尽管这些方法已经取得了令人鼓舞的结果，但是当它们被用于求解与训练集中问题相似的任务时，其性能表现仍然缺乏系统性研究。此外，由于这些方法试图在优化参数与优化后的结构布局之间构造直接映射，因此其所涉及的计算成本是难以承受的；这是因为为了生成训练机器学习模型所需的样本，必须预先求解大量代价高昂的拓扑优化问题。
+随着人工智能，即 artificial intelligence, AI，以及机器学习，即 machine learning, ML，的快速发展，近年来，利用 AI/ML 技术来应对拓扑优化中高计算成本问题引起了广泛关注。例如，大量研究致力于在给定的优化参数与最终优化结构之间建立一种端到端关系，以实现所谓的实时拓扑优化；这些优化参数包括设计域、边界条件，以及外载荷的位置和大小等 [21–26]。尽管这些方法已经取得了令人鼓舞的结果，但是当它们被用于求解与训练集中问题相似的任务时，其性能表现仍然缺乏系统性研究。此外，由于这些方法试图在优化参数与优化后的结构布局之间构造直接映射，因此其所涉及的计算成本是难以承受的；这是因为为了生成训练机器学习模型所需的样本，必须预先求解大量代价高昂的拓扑优化问题。
 
-沿着一条相当不同的路径，一些研究者并未追求更具吸引力但泛化能力较弱的实时拓扑设计，而是利用先进的机器学习技术，致力于降低有限元分析，即 finite element analysis, FEA，所需的计算时间；而有限元分析正是高效拓扑优化算法中的主要瓶颈。具体而言，Chi 等人在多分辨率框架下，通过从拓扑优化过程的早期迭代中收集训练数据，提出了一种所谓的通用在线机器学习拓扑优化方法 `[27]`。随后，该方法又通过采用离线训练策略得到了进一步改进，从而将模型训练过程与其在实际拓扑优化中的应用过程相分离 `[28]`。在这一改进方法中，机器学习模型以单个粗分辨率超单元上的位移场和局部材料密度作为输入，用于预测高效更新设计变量所需的细分辨率灵敏度。已有结果表明，采用该方法可以求解规模高达 3800 万个设计变量的大规模设计问题，并实现最高约 30 倍的加速。此外，一种所谓的有限元卷积神经网络，即 finite element convolutional neural networks, FE-CNNs，也被提出用于加速结构拓扑优化算法 `[29]`。所构造的 FE-CNN 被用作高分辨率有限元系统与低分辨率有限元系统之间的映射函数，以降低优化过程中有限元分析的规模。该方法设计并使用了基于力学和拓扑优化先验知识的连接层与激活函数，从而使所提出的神经网络具有较高的精度和适应性。已有研究表明，该方法在计算时间上可以将优化过程加速一个数量级。
+沿着一条相当不同的路径，一些研究者并未追求更具吸引力但泛化能力较弱的实时拓扑设计，而是利用先进的机器学习技术，致力于降低有限元分析，即 finite element analysis, FEA，所需的计算时间；而有限元分析正是高效拓扑优化算法中的主要瓶颈。具体而言，Chi 等人在多分辨率框架下，通过从拓扑优化过程的早期迭代中收集训练数据，提出了一种所谓的通用在线机器学习拓扑优化方法 [27]。随后，该方法又通过采用离线训练策略得到了进一步改进，从而将模型训练过程与其在实际拓扑优化中的应用过程相分离 [28]。在这一改进方法中，机器学习模型以单个粗分辨率超单元上的位移场和局部材料密度作为输入，用于预测高效更新设计变量所需的细分辨率灵敏度。已有结果表明，采用该方法可以求解规模高达 3800 万个设计变量的大规模设计问题，并实现最高约 30 倍的加速。此外，一种所谓的有限元卷积神经网络，即 finite element convolutional neural networks, FE-CNNs，也被提出用于加速结构拓扑优化算法 [29]。所构造的 FE-CNN 被用作高分辨率有限元系统与低分辨率有限元系统之间的映射函数，以降低优化过程中有限元分析的规模。该方法设计并使用了基于力学和拓扑优化先验知识的连接层与激活函数，从而使所提出的神经网络具有较高的精度和适应性。已有研究表明，该方法在计算时间上可以将优化过程加速一个数量级。
 
-尽管上述方法已经取得了显著成果，但仍然存在一些值得进一步解决的挑战性问题。首先，这些方法所构造的机器学习模型并非完全问题无关，因为为了生成训练机器学习模型所需的样本，必须预先求解一组具有特定边界条件和载荷条件的拓扑优化问题，例如以弯曲或扭转为主导的拓扑优化问题等。因此，至少从理论上讲，目前尚不清楚这些被用于训练的问题对于求解更一般的拓扑优化问题是否仍然具有代表性。其次，文献 `[28]` 中机器学习模型所采用的局部依赖假设，其有效性仍然并不明确。原因在于，从理论上讲，一个粗分辨率超单元的位移实际上是由整个设计域中所有设计变量的取值共同决定的，而并不仅仅由该超单元内部的材料密度取值决定。虽然文献 `[29]` 通过将所有材料密度都纳入机器学习模型来处理这一局限性，但这种处理方式可能会导致训练大型机器学习模型时需要难以承受的计算资源，并且对于大规模拓扑优化问题而言实际上是计算上不可处理的。最后，为了在所建立机器学习模型的计算效率与预测精度之间保持平衡，这些方法中的粗分辨率超单元尺寸不能取值过大，例如在文献 `[28]` 中仅为细分辨率单元尺寸的 $2$ 到 $3$ 倍。然而，当机器学习增强技术被用于求解拓扑优化问题时，这一点将不可避免地降低有限元分析的加速比。
+尽管上述方法已经取得了显著成果，但仍然存在一些值得进一步解决的挑战性问题。首先，这些方法所构造的机器学习模型并非完全问题无关，因为为了生成训练机器学习模型所需的样本，必须预先求解一组具有特定边界条件和载荷条件的拓扑优化问题，例如以弯曲或扭转为主导的拓扑优化问题等。因此，至少从理论上讲，目前尚不清楚这些被用于训练的问题对于求解更一般的拓扑优化问题是否仍然具有代表性。其次，文献 [28] 中机器学习模型所采用的局部依赖假设，其有效性仍然并不明确。原因在于，从理论上讲，一个粗分辨率超单元的位移实际上是由整个设计域中所有设计变量的取值共同决定的，而并不仅仅由该超单元内部的材料密度取值决定。虽然文献 [29] 通过将所有材料密度都纳入机器学习模型来处理这一局限性，但这种处理方式可能会导致训练大型机器学习模型时需要难以承受的计算资源，并且对于大规模拓扑优化问题而言实际上是计算上不可处理的。最后，为了在所建立机器学习模型的计算效率与预测精度之间保持平衡，这些方法中的粗分辨率超单元尺寸不能取值过大，例如在文献 [28] 中仅为细分辨率单元尺寸的 $2$ 到 $3$ 倍。然而，当机器学习增强技术被用于求解拓扑优化问题时，这一点将不可避免地降低有限元分析的加速比。
 
 在本文中，我们试图以一种统一的方式解决上述问题。其核心思想是借助多分辨率格式，并采用一种新的问题无关机器学习技术，即 problem-independent machine learning, PIML，从而大幅节省计算开销。实际上，不同于已有工作中学习细分辨率网格相关位移、进而预测细尺度设计变量更新所需灵敏度的做法，本文建议通过一个独立的离线机器学习过程，在扩展多尺度有限元方法，即 extended multi-scale finite element method, EMsFEM，框架下的形函数与粗分辨率单元内部逐单元材料密度之间建立一种隐式映射关系。一旦获得这些形函数，它们便可用于构造与粗分辨率网格相对应的局部刚度矩阵，从而用于 EMsFEM 分析。与其他已有工作的处理方式相比，本文提出的 PIML 技术是真正意义上的问题无关方法，因为它在收集训练样本时不依赖任何特定的拓扑优化问题，并且其输入仅需要粗分辨率单元内部材料分布的局部信息。此外，一旦训练完成，所建立的机器学习模型便可以不经任何修改地用于求解由同一类型偏微分方程控制的任意拓扑优化问题。一个包含 2 亿个设计变量的大规模拓扑优化问题充分证明了本文方法在降低拓扑优化相关计算开销方面的有效性。
 
@@ -42,7 +53,7 @@ language: "zh-CN"
 
 # 2 拓扑优化问题的设置
 
-由于本文的主要目的只是阐明所提出的 PIML 增强技术的基本思想，所以下文仅考虑线弹性假设下、带有体积约束的柔顺度最小化问题。尽管所提出的技术可以与任意拓扑优化方法相结合，以实现高效的求解过程，例如水平集方法 `[30,31]`、双向渐进结构优化方法，即 BESO 方法 `[32]`，以及移动可变形组件/移动可变形孔洞方法，即 MMC/MMV 方法 `[17,33]`，但本文采用的是最为流行的固体各向同性材料惩罚模型，即 Solid Isotropic Material with Penalization, SIMP 方法 `[34]`，并引入密度过滤方法 `[35,36]` 对问题进行正则化处理，以避免棋盘格现象。
+由于本文的主要目的只是阐明所提出的 PIML 增强技术的基本思想，所以下文仅考虑线弹性假设下、带有体积约束的柔顺度最小化问题。尽管所提出的技术可以与任意拓扑优化方法相结合，以实现高效的求解过程，例如水平集方法 [30,31]、双向渐进结构优化方法，即 BESO 方法 [32]，以及移动可变形组件/移动可变形孔洞方法，即 MMC/MMV 方法 [17,33]，但本文采用的是最为流行的固体各向同性材料惩罚模型，即 Solid Isotropic Material with Penalization, SIMP 方法 [34]，并引入密度过滤方法 [35,36] 对问题进行正则化处理，以避免棋盘格现象。
 
 在 SIMP 框架下，本文所考虑的拓扑优化问题可以表述如下：
 $$
@@ -82,7 +93,7 @@ $$
 
 # 3 扩展多尺度有限元方法
 
-为了实现机器学习增强的拓扑优化求解加速，本文采用了文献 `[37]` 中提出的、用于非均匀材料力学分析的扩展多尺度有限元方法，即 extended multi-scale finite element method, EMsFEM，来进行有限元分析。实际上，EMsFEM 是文献 `[38]` 中针对标量场问题所发展多尺度有限元方法的面向矢量场问题的扩展版本。在 EMsFEM 中，构造两类单元来离散设计域。也就是说，首先用一组粗分辨率单元对整个设计域进行离散，然后将每一个粗尺度单元进一步离散为一组细分辨率单元。因此，微尺度材料非均匀性的细节可以由细分辨率单元合理描述，而整体边值问题则可以基于自由度数量少得多的粗分辨率单元高效求解。粗分辨率单元与细分辨率单元之间的桥接，是通过构造一组数值形函数来实现的。已有研究表明，EMsFEM 可以成功用于求解多种类型的多尺度力学分析问题 `[39,40]`。
+为了实现机器学习增强的拓扑优化求解加速，本文采用了文献 [37] 中提出的、用于非均匀材料力学分析的扩展多尺度有限元方法，即 extended multi-scale finite element method, EMsFEM，来进行有限元分析。实际上，EMsFEM 是文献 [38] 中针对标量场问题所发展多尺度有限元方法的面向矢量场问题的扩展版本。在 EMsFEM 中，构造两类单元来离散设计域。也就是说，首先用一组粗分辨率单元对整个设计域进行离散，然后将每一个粗尺度单元进一步离散为一组细分辨率单元。因此，微尺度材料非均匀性的细节可以由细分辨率单元合理描述，而整体边值问题则可以基于自由度数量少得多的粗分辨率单元高效求解。粗分辨率单元与细分辨率单元之间的桥接，是通过构造一组数值形函数来实现的。已有研究表明，EMsFEM 可以成功用于求解多种类型的多尺度力学分析问题 [39,40]。
 
 在 EMsFEM 中，多尺度数值形函数通过如下假设来构造。为简单起见，本文这里只讨论二维问题；其向三维问题的推广是直接的：
 $$
@@ -100,13 +111,11 @@ $$
 $$
 其中，$N$ 是细分辨率网格中的节点总数。
 
-![[Pasted image 20260506110340.png]]
+![[Huang2022_Fig1.png]]
 
-<div align="center">
-
+<center><b>
 图 1：通过设置粗/细分辨率网格构建 EMsFEM。
-
-</div>
+</b></center>
 
 在本文中，采用四节点粗分辨率单元，并在 $\partial\Omega^E$ 上施加线性边界条件来构造数值形函数。此外，粗分辨率单元也被进一步离散为一组四节点细分辨率单元。一旦数值形函数确定，与该粗分辨率单元相对应的 $8\times 8$ 刚度矩阵 $\boldsymbol{K}^E$ 便可以由变分原理得到：
 $$
@@ -118,13 +127,11 @@ $$
 $$
 这里，$l[j_e]$ 表示第 $f$ 个细分辨率单元的第 $j$ 个局部节点在其所属粗分辨率单元内部排序中的全局索引编号。
 
-![[Pasted image 20260506110558.png]]
+![[Huang2022_Fig2.png]]
 
-<div align="center">
-
+<center><b>
 图 2：通过应用线性边界条件构造 EMsFEM 形状函数。
-
-</div>
+</b></center>
 
 通过上述方式获得的粗分辨率单元刚度矩阵，随后可以进行装配，以求解粗分辨率位移向量
 $$
@@ -150,17 +157,15 @@ $$
 
 用于训练形函数的人工神经网络只是一个普通的前馈神经网络，其中各层的激活函数分别设置为 `elu` 函数或 `tanh` 函数。值得注意的是，即使采用这种没有任何特殊结构设计的普通人工神经网络，也可以获得相当好的学习效果。在这里，有必要指出，由于式（8）中关系式的存在，在二维情形下，16 个 $N_i^l$ 分量中实际上只有 12 个是相互独立的。换言之，一旦确定了 $N_{1xx}^l$、$N_{1xy}^l$、$\ldots$、$N_{3xx}^l$、$N_{3xy}^l$、$N_{3yx}^l$、$N_{3yy}^l$ 的取值，$N_{4xx}^l$、$N_{4xy}^l$、$N_{4yx}^l$ 和 $N_{4yy}^l$ 便可以直接由式 (8) 计算得到。考虑到这一事实，神经网络的输出仅设置为粗分辨率单元内部 $N_{1xx}^l$、$N_{1xy}^l$、$\ldots$、$N_{3xx}^l$、$N_{3xy}^l$、$N_{3yx}^l$、$N_{3yy}^l$ 的取值。
 
-![[Pasted image 20260506144437.png]]
+![[Huang2022_Fig3.png]]
 
-<div align="center">
-
+<center><b>
 图 3：用于机器学习的人工神经网络示意图。输入为粗分辨率单元内 $m$ 个细分辨率单元的密度值，输出为 EMsFEM 形函数独立分量的节点值。
-
-</div>
+</b></center>
 
 ## 4.2 人工神经网络的训练
 
-本小节简要描述样本生成、损失函数以及训练方法。首先，对于训练中的每一个样本，其对应的每个粗分辨率单元内部的局部密度均通过随机过程在区间 $[0,1]$ 内生成，因此不需要在真实拓扑优化过程中收集训练样本。其次，损失函数包含两部分：第一部分是预测输出与真实输出之间的均方误差；第二部分是由预测形函数计算得到的刚度矩阵与通过粗分辨率单元的 EMsFEM 得到的精确刚度矩阵之间的均方误差。类似于物理信息神经网络，即 physics-informed neural network 的思想 `[41]`，第二部分实际上是施加在输出上的一种物理约束，用于保证粗分辨率单元刚度矩阵在有限元分析中的精度；而该刚度矩阵的精度将直接决定由 EMsFEM 得到的位移场精度。这一部分对于所构造深度神经网络的成功至关重要。在训练过程中，采用 TensorFlow 中的自动微分算法，并利用随机梯度算法获得损失函数关于神经网络权重系数的导数。最后，通过 Adam 优化器更新权重系数。实际上，在训练过程中，作者仅将 Adam 优化器的学习率设置为 $0.001$，其余参数均采用 TensorFlow 2 中的默认设置，没有进行任何参数调节。在本文中，分别构造了两个深度神经网络，用于预测 $m=5\times 5=25$ 和 $m=10\times 10=100$ 两种情况下的形函数。对于 $m=100$ 的情形，中间层共有 11 层，其激活函数依次设置为 `[tanh, elu, tanh, elu, tanh, elu, elu, tanh, elu, tanh, elu]`，每一层中的激活函数数量分别设置为 `[100, 120, 140, 160, 180, 200, 180, 160, 140, 120, 100]`。对于 $m=25$ 的情形，激活函数设置与 $m=100$ 的情形相同，但每一层中的激活函数数量分别设置为 `[50, 60, 70, 80, 90, 100, 90, 80, 70, 60, 50]`。
+本小节简要描述样本生成、损失函数以及训练方法。首先，对于训练中的每一个样本，其对应的每个粗分辨率单元内部的局部密度均通过随机过程在区间 $[0,1]$ 内生成，因此不需要在真实拓扑优化过程中收集训练样本。其次，损失函数包含两部分：第一部分是预测输出与真实输出之间的均方误差；第二部分是由预测形函数计算得到的刚度矩阵与通过粗分辨率单元的 EMsFEM 得到的精确刚度矩阵之间的均方误差。类似于物理信息神经网络，即 physics-informed neural network 的思想 [41]，第二部分实际上是施加在输出上的一种物理约束，用于保证粗分辨率单元刚度矩阵在有限元分析中的精度；而该刚度矩阵的精度将直接决定由 EMsFEM 得到的位移场精度。这一部分对于所构造深度神经网络的成功至关重要。在训练过程中，采用 TensorFlow 中的自动微分算法，并利用随机梯度算法获得损失函数关于神经网络权重系数的导数。最后，通过 Adam 优化器更新权重系数。实际上，在训练过程中，作者仅将 Adam 优化器的学习率设置为 $0.001$，其余参数均采用 TensorFlow 2 中的默认设置，没有进行任何参数调节。在本文中，分别构造了两个深度神经网络，用于预测 $m=5\times 5=25$ 和 $m=10\times 10=100$ 两种情况下的形函数。对于 $m=100$ 的情形，中间层共有 11 层，其激活函数依次设置为 `[tanh, elu, tanh, elu, tanh, elu, elu, tanh, elu, tanh, elu]`，每一层中的激活函数数量分别设置为 `[100, 120, 140, 160, 180, 200, 180, 160, 140, 120, 100]`。对于 $m=25$ 的情形，激活函数设置与 $m=100$ 的情形相同，但每一层中的激活函数数量分别设置为 `[50, 60, 70, 80, 90, 100, 90, 80, 70, 60, 50]`。
 
 本文所提出机器学习方案的优点可以概括如下：
 （1）该方法是完全问题无关的。这是因为所学习的形函数实际上是底层控制偏微分方程，即 partial differential equations, PDEs，对应 Green 函数的离散版本，而这些函数显然完全独立于待求解拓扑优化问题的具体设置，例如边界条件、设计域以及外载荷等。
@@ -173,15 +178,13 @@ $$
 （1）通过 EMsFEM 显著降低了全局刚度矩阵的维度，因为此时只需求解一个粗分辨率问题。理论上，有限元分析的计算复杂度可以从 $O(n^3)$ 降低到 $O((n/L)^3)$，其中 $n$ 和 $L$ 分别表示整个设计域细分辨率网格对应的自由度数量，以及单个粗分辨率单元所对应的自由度数量。
 （2）由所建立的机器学习模型显著降低了 EMsFEM 形函数的计算时间。此外，为了进一步提高粗分辨率单元刚度矩阵生成的效率，本文引入了两个阈值 $\bar{\rho}$ 和 $\underline{\rho}$。对于平均密度大于 $\bar{\rho}$ 或小于 $\underline{\rho}$ 的粗分辨率单元，分别将其视为纯实体材料或弱材料。对于这两类粗分辨率单元，其 EMsFEM 形函数和刚度矩阵可以预先存储，并在优化过程中直接调用。
 
-![[Pasted image 20260506164552.png]]
+![[Huang2022_Fig4.png]]
 
-<div align="center">
-
+<center><b>
 图 4：本文提出的 PIML 增强型拓扑优化求解流程。
+</b></center>
 
-</div>
-
-由于本文以结构柔顺度作为目标函数，一旦得到细分辨率网格对应的位移场，便可以将其直接代入式 (5) 计算灵敏度，然后采用最优性准则方法，即 optimality criteria, OC 方法 `[36]`，更新细分辨率网格的密度。
+由于本文以结构柔顺度作为目标函数，一旦得到细分辨率网格对应的位移场，便可以将其直接代入式 (5) 计算灵敏度，然后采用最优性准则方法，即 optimality criteria, OC 方法 [36]，更新细分辨率网格的密度。
 
 # 6 数值算例
 
@@ -197,85 +200,79 @@ $$
 
 ## 6.1 短悬臂梁算例
 
-![[Pasted image 20260506203640.png]]
+![[Huang2022_Fig5.png]]
 
-<div align="center">
-
+<center><b>
 图 5：短悬臂梁实例的问题设置。
-
-</div>
+</b></center>
 
 本算例用于验证基于 ANN 的 EMsFEM 的精度与效率。设计域被离散为一组固定的细分辨率 $3200\times 1600$ 均匀四边形平面应力单元。本文考察了两组粗分辨率网格，即 $640\times 320$ 和 $320\times 160$；在这两种情况下，每个粗分辨率单元内分别包含 $5\times 5$ 和 $10\times 10$ 个细分辨率单元。采用本文方法得到的优化构型与经典 SIMP 方法得到的优化构型相似。特别地，对于 $m=5\times 5$ 的情形，优化后的结构柔顺度值与直接细尺度计算得到的结果几乎一致，其相对误差仅为 $8.80\times 10^{-5}$。与此同时，EMsFEM 方法得到的目标函数优化值 $C_{\mathrm{EMs}}$ 与 ANN-EMsFEM 方法得到的目标函数优化值 $C_{\mathrm{ANN-EMs}}$ 之间的相对误差也很小，分别为 $3.00\times 10^{-4}$（$m=5\times 5$）和 $8.72\times 10^{-3}$（$m=10\times 10$），这验证了本文所提出机器学习模型的精度。
 
 此外，在该算例中，过滤半径固定为细分辨率网格尺寸的 $3$ 倍，并且小于粗分辨率网格尺寸；尽管如此，优化结构中并未出现棋盘格现象或 QR 模式。这一结果清楚地表明，本文所建立的 PIML 模型能够准确预测粗分辨率单元的刚度矩阵。
 
+<center><b>
 表 1：不同方法得到的短悬臂梁优化结构、单步迭代平均耗时 $t_{\mathrm{it}}$，以及分别由 ANN-EMsFEM、EMsFEM 和直接细分辨率计算得到的优化结构柔顺度 $C_{\mathrm{ANN-EMs}}$、$C_{\mathrm{EMs}}$ 和 $C_f$
+</b></center>
 
-![[Pasted image 20260507083318.png]]
+![[Huang2022_Table1.png]]
 
 与经典 SIMP 方法对应的结果相比，$t_{\mathrm{it}}$ 分别降低了 $75.77\%$（对于 $10\times 10$ 情形）和 $74.52\%$（对于 $m=5\times 5$ 情形）。在本文提出的 PIML 增强方法中，每次迭代中 OC 更新所消耗的时间占据主要部分。
 
-![[Pasted image 20260507084650.png]]
+![[Huang2022_Fig6.png]]
 
-<div align="center">
-
+<center><b>
 图 6：典型迭代步骤的计算时间比较（短悬臂梁示例）。
-
-</div>
+</b></center>
 
 在经典 SIMP 方法中，总计算时间的 $80.82\%$ 被用于有限元分析；而在本文提出的方法中，OC 更新所消耗的时间超过了总计算时间的 $77\%$。实际上，对于该问题，本文方法已经使有限元分析时间减少了近 $10$ 倍。
 
 ## 6.2 L 型梁算例
 
-![[Pasted image 20260507085503.png]]
+![[Huang2022_Fig7.png]]
 
-<div align="center">
-
+<center><b>
 图 7：L 型梁示例的问题设置。
-
-</div>
+</b></center>
 
 为了进一步测试神经网络的预测精度，并展示所提出机器学习模型的问题无关优势，本文给出了一个包含 $400$ 万个细分辨率网格的 L 型梁算例。对于 $m=5\times 5$ 的情形可以发现，即使对于这种具有复杂应力状态的模型，$C_{\mathrm{ANN-EMs}}$ 与 $C_{\mathrm{EMs}}$ 之间的相对误差也仅为 $1.18\times 10^{-3}$。更有意思的是，优化结构柔顺度 $C_f$ 的取值也与直接细尺度计算得到的结果几乎一致，其相对误差仅为 $3.92\times 10^{-4}$。对于 $m=10\times 10$ 的情形，$C_{\mathrm{ANN-EMs}}$ 与 $C_{\mathrm{EMs}}$ 之间的相对误差为 $3.03\times 10^{-2}$，这是因为对于 $10\times 10$ 情形，神经网络需要输出的节点形函数取值总数为 $972$，约为 $5\times 5$ 情形输出数 $192$ 的 $5$ 倍，误差累积更明显。
 
+<center><b>
 表 2：不同方法得到的 L 型梁优化结构、单步迭代平均耗时 $t_{\mathrm{it}}$，以及分别由 ANN-EMsFEM、EMsFEM 和直接细分辨率计算得到的优化结构柔顺度 $C_{\mathrm{ANN-EMs}}$、$C_{\mathrm{EMs}}$ 和 $C_f$
+</b></center>
 
-![[Pasted image 20260507090459.png]]
+![[Huang2022_Table2.png]]
 
 ## 6.3 MBB 梁算例
 
-![[Pasted image 20260507092400.png]]
+![[Huang2022_Fig8.png]]
 
-<div align="center">
-
+<center><b>
 图 8：MBB 梁示例的问题设置。
-
-</div>
+</b></center>
 
 为了说明本文中的神经网络能够用于优化具有相同单元类型的任意边界问题，本文给出了一个 MBB 梁算例。采用不同数量粗分辨率单元的 ANN-EMsFEM 方法所得到的优化结构，与直接采用 SIMP 方法得到的结构非常相似。SIMP 方法与 ANN-EMsFEM 方法所得目标函数优化值之间的相对误差非常小，分别为 $5.21\times 10^{-4}$（$5\times 5$ 情形）和 $8.60\times 10^{-3}$（$10\times 10$ 情形）。与此同时，本文提出的 ANN-EMsFEM 方法单步迭代平均耗时仅约为 SIMP 方法的 $30\%$。
 
+<center><b>
 表 3：不同方法得到的 MBB 梁优化结构、单步迭代平均耗时 $t_{\mathrm{it}}$，以及分别由 ANN-EMsFEM、EMsFEM 和直接细分辨率计算得到的优化结构柔顺度 $C_{\mathrm{ANN-EMs}}$、$C_{\mathrm{EMs}}$ 和 $C_f$
+</b></center>
 
-![[Pasted image 20260507094007.png]]
+![[Huang2022_Table3.png]]
 
 最后，为了展示本文方法处理超大规模拓扑优化问题的能力，在考虑问题对称性的基础上，本文也对同一个 MBB 梁问题进行了求解。该问题采用 $2000\times 1000$ 的粗分辨率网格，并且每个粗分辨率单元内部包含 $10\times 10=100$ 个细分辨率单元；也就是说，在半个设计域内包含 2 亿个细分辨率单元。随着迭代的推进，结构逐渐收敛到黑白分明的构型，越来越多的粗分辨率单元由纯弱材料或纯实体材料构成，ANN 推断次数显著减少。
 
-![[Pasted image 20260507095133.png]]
+![[Huang2022_Fig9.png]]
 
-<div align="center">
-
+<center><b>
 图 9：2 亿精细分辨率单元的 MBB 梁优化结构。
-
-</div>
+</b></center>
 
 对于这一超大规模拓扑优化问题，采用本文提出的 PIML 增强技术后，在一个典型迭代步中，有限元分析时间（ANN 时间与 EMsFEM 时间之和）仅约为 2 分钟。绝大部分计算时间（超过 $85\%$）消耗在设计变量更新上。使用现有硬件无法通过 SIMP 方法直接求解该问题。
 
-<div align="center">
-
+<center><b>
 表 4：代表性迭代步中的计算时间分解（MBB 梁算例被离散为 2 亿个细分辨率单元）。
+</b></center>
 
-</div>
-
-![[Pasted image 20260507095627.png]]
+![[Huang2022_Table4.png]]
 
 # 7 结论
 
@@ -285,8 +282,88 @@ $$
 
 本文工作可以沿多个方向进一步扩展。首先，由于本文在机器学习中仅采用了初步的全连接人工神经网络，因此，探索如何通过引入当前先进的机器学习架构，例如卷积神经网络，来提升本文方法的性能，是一个值得研究的问题。借助三维 EMsFEM，本文所提出的框架也可以直接扩展到三维设计问题。其次，尽管本文仅在最为流行的 SIMP 框架内对所提出方法进行了验证，但该方法也可以与其他拓扑优化方法相结合，以进一步提高计算效率。例如，正如包含 2 亿设计变量的超大规模算例所显示的那样，大部分计算时间（实际上超过 $85\%$）都消耗在设计变量更新上。因此，除了有限元分析成本之外，如果将本文方法置于基于移动可变形组件，即 moving morphable component, MMC，的拓扑优化框架下，也非常有望在数值优化环节显著节省计算开销；在 MMC 框架中，设计变量数量可以降低 $1$ 到 $2$ 个数量级。最后但同样重要的是，由于本文方法是基于力学机制的，并且完全问题无关，因此从原则上讲，它可以推广到求解包含多种目标函数/约束函数以及多学科物理场的拓扑优化问题。这是因为 EMsFEM 已经展现出处理多种边值问题的巨大潜力。相关研究结果将在其他工作中报道。
 
-# 译后检查清单
+---
 
-- [x] 本轮已完成 Markdown 格式与排版静态检查。
-- [x] 图片引用与本地资产已检查。
-- [ ] 尚未逐页对照 PDF 核验全部译文、公式、图表和引用。
+# 参考文献
+
+[1] Rozvany, A critical review of established methods of structural topology optimization, Struct. Multidiscip. Optim. 37 (2009) 217, https://doi.org/10.1007/s00158-007-0217-0.
+
+[2] Deaton, A survey of structural and multidisciplinary continuum topology optimization: Post 2000, Struct. Multidiscip. Optim. 49 (2014) 1, https://doi.org/10.1007/s00158-013-0956-z.
+
+[3] Guo, Recent development in structural design and optimization, Acta Mech. Sin. 26 (2010) 807, https://doi.org/10.1007/s10409-010-0395-7.
+
+[4] Sigmund, Topology optimization approaches, Struct. Multidiscip. Optim. 48 (2013) 1031, https://doi.org/10.1007/s00158-013-0978-6.
+
+[5] Borrvall, Large-scale topology optimization in 3D using parallel computing, Comput. Methods Appl. Mech. Engrg. 190 (2001) 6201, https://doi.org/10.1016/S0045-7825(01)00216-X.
+
+[6] Aage, Parallel framework for topology optimization using the method of moving asymptotes, Struct. Multidiscip. Optim. 47 (2013) 493, https://doi.org/10.1007/s00158-012-0869-2.
+
+[7] Evgrafov, Large-scale parallel topology optimization using a dual-primal substructuring solver, Struct. Multidiscip. Optim. 36 (2008) 329, https://doi.org/10.1007/s00158-007-0190-7.
+
+[8] Aage, Giga-voxel computational morphogenesis for structural design, Nature 550 (2017) 84, https://doi.org/10.1038/nature23911.
+
+[9] Rodrigues, Hierarchical optimization of material and structure, Struct. Multidiscip. Optim. 24 (2002) 1, https://doi.org/10.1007/s00158-002-0209-z.
+
+[10] Coelho, A hierarchical model for concurrent material and topology optimisation of three-dimensional structures, Struct. Multidiscip. Optim. 35 (2008) 107, https://doi.org/10.1007/s00158-007-0141-3.
+
+[11] Liu, Optimum structure with homogeneous optimum truss-like material, Comput. Struct. 86 (2008) 1417, https://doi.org/10.1016/j.compstruc.2007.04.030.
+
+[12] Nguyen, A computational paradigm for multiresolution topology optimization (MTOP), Struct. Multidiscip. Optim. 41 (2010) 525, https://doi.org/10.1007/s00158-009-0443-8.
+
+[13] Nguyen, Topology optimization using the p-version of the finite element method, Struct. Multidiscip. Optim. 56 (2017) 571, https://doi.org/10.1007/s00158-017-1675-7.
+
+[14] Groen, Higher-order multi-resolution topology optimization using the finite cell method, Internat. J. Numer. Methods Engrg. 110 (2017) 903, https://doi.org/10.1002/nme.5432.
+
+[15] Liu, An efficient moving morphable component (MMC)-based approach for multi-resolution topology optimization, Struct. Multidiscip. Optim. 58 (2018) 2455, https://doi.org/10.1007/s00158-018-2114-0.
+
+[16] Liu, Efficient structure topology optimization by using the multiscale finite element method, Struct. Multidiscip. Optim. 58 (2018) 1411, https://doi.org/10.1007/s00158-018-1972-9.
+
+[17] Guo, Doing topology optimization explicitly and geometrically—a new Moving Morphable Components based framework, Trans. ASME, J. Appl. Mech. 81 (2014), https://doi.org/10.1115/1.4027609.
+
+[18] Zhang, A new topology optimization approach based on moving morphable components (MMC) and the ersatz material model, Struct. Multidiscip. Optim. 53 (2016) 1243, https://doi.org/10.1007/s00158-015-1372-3.
+
+[19] Zhang, Explicit three dimensional topology optimization via moving morphable void (MMV) approach, Comput. Methods Appl. Mech. Engrg. 322 (2017) 590, https://doi.org/10.1016/j.cma.2017.05.002.
+
+[20] Du, An efficient and easy-to-extend Matlab code of the moving morphable component (MMC) method for three-dimensional topology optimization, Struct. Multidiscip. Optim. 65 (2022) 158, https://doi.org/10.1007/s00158-022-03239-4.
+
+[21] Ulu, A data-driven investigation and estimation of optimal topologies under variable loading configurations, Comput. Methods Biomech. Biomed. Eng. Imaging Vis. 4 (2016) 61, https://doi.org/10.1080/21681163.2015.1030775.
+
+[22] Gu, De novo composite design based on machine learning algorithm, Extreme Mech. Lett. 18 (2018) 19, https://doi.org/10.1016/j.eml.2017.10.001.
+
+[23] Lei, Machine learning-driven real-time topology optimization under Moving Morphable Component-based framework, Trans. ASME, J. Appl. Mech. 86 (2019), https://doi.org/10.1115/1.4041319.
+
+[24] Yu, Deep learning for determining a near-optimal topological design without any iteration, Struct. Multidiscip. Optim. 59 (2019) 787, https://doi.org/10.1007/s00158-018-2101-5.
+
+[25] Zhang, A deep convolutional neural network for topology optimization with strong generalization ability, Eng. Optim. 54 (2021) 973
+
+[26] Nie, TopologyGAN: Topology optimization using generative adversarial networks based on physical fields over the initial domain, J. Mech. Des. 143 (2021), https://doi.org/10.1115/1.4049533.
+
+[27] Chi, Universal machine learning for topology optimization, Comput. Methods Appl. Mech. Engrg. 375 (2021), https://doi.org/10.1016/j.cma.2019.112739.
+
+[28] Senhora, Machine learning for topology optimization: Physics-based learning through an independent training strategy, Comput. Methods Appl. Mech. Engrg. 398 (2022), https://doi.org/10.1016/j.cma.2022.115116.
+
+[29] Yue, ,   (2021)
+
+[30] Wang, A level set method for structural topology optimization, Comput. Methods Appl. Mech. Engrg. 192 (2003) 227, https://doi.org/10.1016/S0045-7825(02)00559-5.
+
+[31] Allaire, Structural optimization using sensitivity analysis and a level-set method, J. Comput. Phys. 194 (2004) 363, https://doi.org/10.1016/j.jcp.2003.09.032.
+
+[32] Querin, Evolutionary structural optimisation (ESO) using a bidirectional algorithm, Eng. Comput. 15 (1998) 1031, https://doi.org/10.1108/02644409810244129.
+
+[33] Zhang, Structural topology optimization through explicit boundary evolution, ASME Trans. J. Appl. Mech. 84 (2017), https://doi.org/10.1115/1.4034972.
+
+[34] Zhou, The COC algorithm, part II: Topological, geometrical and generalized shape optimization, Comput. Methods Appl. Mech. Engrg. 89 (1991) 309, https://doi.org/10.1016/0045-7825(91)90046-9.
+
+[35] Bourdin, Filters in topology optimization, Internat. J. Numer. Methods Engrg. 50 (2001) 2143, https://doi.org/10.1002/nme.116.
+
+[36] Andreassen, Efficient topology optimization in MATLAB using 88 lines of code, Struct. Multidiscip. Optim. 43 (2011) 1, https://doi.org/10.1007/s00158-010-0594-7.
+
+[37] Zhang, Extended multiscale finite element method: Its basis and applications for mechanical analysis of heterogeneous materials, Comput. Mech. 53 (2014) 659, https://doi.org/10.1007/s00466-013-0924-x.
+
+[38] Efendiev, ,   (2009)
+
+[39] Lv, A multiscale co-rotational method for geometrically nonlinear shape morphing of 2D fluid actuated cellular structures, Mech. Mater. 79 (2014) 1, https://doi.org/10.1016/j.mechmat.2014.08.004.
+
+[40] Zheng, An arbitrary multi-node extended multiscale finite element method for thermoelastic problems with polygonal microstructures, Int. J. Mech. Mater. Des. 16 (2020) 35, https://doi.org/10.1007/s10999-019-09458-w.
+
+[41] Raissi, Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations, J. Comput. Phys. 378 (2019) 686, https://doi.org/10.1016/j.jcp.2018.10.045.

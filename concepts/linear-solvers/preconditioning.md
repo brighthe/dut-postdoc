@@ -19,7 +19,7 @@ date_update: 2026-09-03
 
 # 预条件
 
-> 预条件用易于求逆的 $\mathbf M\approx\mathbf A$ 把方程组换成谱更聚集的等价问题，是决定 Krylov 方法在大规模问题上是否可用的关键。不同预条件子对矩阵信息的需求差异极大：Jacobi 只要对角元，ILU 与 AMG 要显式稀疏矩阵，几何多重网格要网格层次；「主算子不显式组装时预条件子还能怎么构造」由这张需求表回答。
+> 预条件用易于求逆的 $\mathbf M\approx\mathbf A$ 把方程组换成谱更聚集的等价问题，是在线性求解器体系（见 [[linear-solvers-architecture]]）中决定 Krylov 方法在大规模问题上是否可用的关键枢纽。不同预条件子对矩阵信息的需求差异极大：Jacobi 只要对角元，ILU 与 AMG 要显式稀疏矩阵，几何多重网格要网格层次；「主算子不显式组装时预条件子还能怎么构造」由这张需求表回答。
 
 ## 1. 形式与目标
 
@@ -48,7 +48,7 @@ SPD 情形下 PCG 只需 $\mathbf M$ 对称正定，实现上不必显式对称�
 | 区域分解 / Schwarz | 子域局部矩阵，可选粗空间 | 与并行分区天然匹配；一层 Schwarz 收敛随子域数退化，加粗空间后可扩展 |
 | 低阶 / 代理算子 | 一个更易组装的近似算子 | 高阶算子用低阶组装矩阵作预条件，或用降阶模型近似 |
 
-这张表决定了「当主算子不显式组装时，预条件子还能怎么构造」：装配层级约束的是预条件器而不是求解器，主算子与预条件子可以取不同层级，判据与推导由 [[../matrix-free/assembly-levels#3. 三条跨层级不变量]] 不变量 3 维护。
+这张表决定了「当主算子不显式组装时，预条件子还能怎么构造」：装配层级约束的是预条件器而不是求解器，主算子与预条件子可以取不同层级，判据与推导由 [[../matrix-free/assembly-levels#3. 三条跨层级性质]] 不变量 3 维护。
 
 ## 3. 代价核算
 
@@ -60,8 +60,8 @@ SPD 情形下 PCG 只需 $\mathbf M$ 对称正定，实现上不必显式对称�
 
 一个预条件子值得用，当且仅当减少的迭代次数乘以每步节省，超过 setup 与 apply 增加的总量。矩阵频繁变化的场景中 update 成本往往主导取舍。
 
-## 参考文献
+## 参考依据
 
-[1] SAAD Y. Iterative Methods for Sparse Linear Systems[M]. 2nd ed. Philadelphia: SIAM, 2003. §9 预条件迭代、§10 预条件技术（ILU、多项式、块预条件）、§14 区域分解。**refs.bib 尚无条目。**
-[2] BENZI M. Preconditioning techniques for large linear systems: a survey[J]. Journal of Computational Physics, 2002, 182(2): 418-477. 预条件技术综述。**refs.bib 尚无条目。**
-[3] WATHEN A J. Preconditioning[J]. Acta Numerica, 2015, 24: 329-376. 谱聚集而非条件数作为预条件目标的论述。**refs.bib 尚无条目。**
+- [1] SAAD Y. Iterative Methods for Sparse Linear Systems[M]. 2nd ed. Philadelphia: SIAM, 2003 — §9 预条件迭代、§10 预条件技术（ILU、多项式、块预条件）、§14 区域分解。未入库文献。
+- [2] BENZI M. Preconditioning techniques for large linear systems: a survey[J]. Journal of Computational Physics, 2002, 182(2): 418-477 — 预条件技术综述。未入库文献。
+- [3] WATHEN A J. Preconditioning[J]. Acta Numerica, 2015, 24: 329-376 — 谱聚集而非条件数作为预条件目标的论述。未入库文献。

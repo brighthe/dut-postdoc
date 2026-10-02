@@ -41,7 +41,7 @@ date_update: 2026-08-31
 
 > **职称口径**：官方主页记「教授」；部分第三方聚合页仍标「副教授」，属过期信息（与 [[../liu-chang/liu-chang|刘畅]] 页同类情况）。
 >
-> **事实所有权**：本页只拥有其公开署名事实、公开主页自述方向与面谈核实后的结论。论文正文事实由各译文页拥有；PIML 方法谱系由 [[../../concepts/piml/method-lineage]] 拥有；逐字微信记录、约见过程与沟通口径由同目录 [[wechat-log|微信沟通档案]] 拥有，本页不复制。
+> **事实所有权**：本页只拥有其公开署名事实、公开主页自述方向与面谈核实后的结论。论文正文事实由各译文页拥有；PIML 方法谱系由 [[../../concepts/piml/piml-paradigm#4. 文献谱系|PIML 分类与计算流程页]] 拥有；逐字微信记录、约见过程与沟通口径由同目录 [[wechat-log|微信沟通档案]] 拥有，本页不复制。
 
 ## 研究方向
 
@@ -65,7 +65,7 @@ date_update: 2026-08-31
 | 论文 | 其作者位置 | 该文在方法线上的角色 | 证据状态 |
 |---|---|---|---|
 | [[../../literature/topopt/piml/translations/Huang2022-problemindependentmachine-zh]] | 第 6 / 共 9 | PIML 原始论文：局部密度 → EMsFEM 粗单元形函数 | 全文笔记 |
-| [[../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh]] | 第 6 / 共 7 | 并行化与工程规模化：不换网络，转向并行与按需预测 | 全文笔记 |
+| [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh]] | 第 6 / 共 7 | 并行化与工程规模化：不换网络，转向并行与按需预测 | 全文笔记 |
 
 其余七篇（Lei 2018、Huang 2023、Huang 2024、Zhang 2024、Xu 2025、Guo 2026 Bézier、Guo 2026 PIML-OFEM）的作者名单中**未见其署名**。
 
@@ -122,9 +122,9 @@ date_update: 2026-08-31
 
 | 方向 | 权威页面 |
 |---|---|
-| PIML 方法谱系与主题域 | [[../../concepts/piml/_index]]；[[../../concepts/piml/method-lineage]] |
-| Matrix-Free 算子与求解 | [[../../concepts/matrix-free/_index]] |
-| GPU/HPC 与性能口径 | [[../../concepts/gpu-hpc/_index]] |
+| PIML 方法谱系与主题域 | [[../../concepts/_index#6-机器学习与-piml\|PIML 概念总览]]；[[../../concepts/piml/piml-paradigm#4. 文献谱系\|PIML 文献谱系]] |
+| Matrix-Free 算子与求解 | [[../../concepts/_index#4-矩阵无关求解matrix-free\|Matrix-Free 概念总览]] |
+| GPU/HPC 与性能口径 | [[../../concepts/_index#5-异构计算与-gpuhpc\|GPU/HPC 概念总览]] |
 | 核心研究项目 PIML 推进线 | [[../../research/piml-matrix-free-gpu/project-plan]] |
 | 师门链与人物关系 | [[../relationships]]（其归属待核实后再登记） |
 

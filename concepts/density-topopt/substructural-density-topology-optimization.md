@@ -15,14 +15,14 @@ tags:
   - adjoint-sensitivity
 status: "draft"
 date_added: 2026-09-02
-date_update: 2026-09-02
+date_update: 2026-09-14
 ---
 
 # 子结构缩聚在变密度拓扑优化中的数学闭环
 
 > 子结构缩聚消去内部位移自由度，但保留细网格上的全部密度变量；恢复完整位移后，仍按单元计算柔顺度和灵敏度，再进行过滤回传与设计更新。
 
-本文以 [[../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh|Huang et al. (2023)]] 的子结构分析与拓扑优化框架为基础，并列讨论 Exact Schur + `full_trace` 与 Exact Schur + `linear_corner`。两者共用密度映射、局部消元和优化更新，只在接口位移空间上不同。静力缩聚的详细推导见[[../substructural-condensation|子结构有限元与静力缩聚]]，过滤与投影的定义见[[regularization-and-length-scale-control|正则化与长度尺度控制]]。
+本文以 [[../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh|Huang et al. (2023)]] 的子结构分析与拓扑优化框架为基础，并列讨论 Exact Schur + `full_trace` 与 Exact Schur + `linear_corner`。两者共用密度映射、局部消元和优化更新，只在接口位移空间上不同。静力缩聚的详细推导见[[../exact-substructural|精确子结构分析]]，过滤与投影的定义见[[regularization-and-length-scale-control|正则化与长度尺度控制]]。
 
 ## 1. 优化模型与设计变量
 
@@ -79,75 +79,75 @@ $$
 \mathbf K^j
 =\sum_{e\in\mathcal E_j}\mathbf B_{e,j}^{\mathsf T}\mathbf K_e\mathbf B_{e,j}
 =\begin{bmatrix}
-\mathbf K_{ii}^j&\mathbf K_{ib}^j\\
-\mathbf K_{bi}^j&\mathbf K_{bb}^j
+\mathbf K_{bb}^j&\mathbf K_{bi}^j\\
+\mathbf K_{ib}^j&\mathbf K_{ii}^j
 \end{bmatrix}.
 $$
 
-下标 $i$、$b$ 分别表示内部与完整边界自由度。沿用缩聚基础页的记号，
+下标 $b$、$i$ 分别表示完整边界与内部自由度，自由度按“边界—内部”顺序排列。沿用缩聚基础页的记号，
 
 $$
-\mathbf N_{\mathrm{int}}^j=-(\mathbf K_{ii}^j)^{-1}\mathbf K_{ib}^j,
+\mathbf T^j=-(\mathbf K_{ii}^j)^{-1}\mathbf K_{ib}^j,
 \qquad
-\mathbf H_j=\begin{bmatrix}\mathbf N_{\mathrm{int}}^j\\\mathbf I\end{bmatrix},
+\mathbf H^j=\begin{bmatrix}\mathbf I\\\mathbf T^j\end{bmatrix},
 $$
 
 $$
 \mathbf K_s^j
 =\mathbf K_{bb}^j-\mathbf K_{bi}^j(\mathbf K_{ii}^j)^{-1}\mathbf K_{ib}^j
-=\mathbf H_j^{\mathsf T}\mathbf K^j\mathbf H_j.
+=(\mathbf H^j)^{\mathsf T}\mathbf K^j\mathbf H^j.
 $$
 
-$\mathbf K^j$、$\mathbf H_j$ 和 $\mathbf K_s^j$ 均随当前物理密度更新。固定网格可复用几何数据和索引，但一般不能复用旧密度下的数值分解与缩聚矩阵。逆矩阵记号表示线性方程求解，实际使用分解与回代。
+$\mathbf K^j$、$\mathbf H^j$ 和 $\mathbf K_s^j$ 均随当前物理密度更新。固定网格可复用几何数据和索引，但一般不能复用旧密度下的数值分解与缩聚矩阵。逆矩阵记号表示线性方程求解，实际使用分解与回代。
 
 ### 2.2 两种接口路径
 
-以 $\mathbf T_j$ 表示局部接口迹基，$\mathbf q_j$ 为其坐标，统一写成
+以 $\boldsymbol\Psi^j$ 表示局部接口迹基，$\mathbf q^j$ 为其坐标，统一写成
 
 $$
-\mathbf u_b^j=\mathbf T_j\mathbf q_j,
+\mathbf u_b^j=\boldsymbol\Psi^j\mathbf q^j,
 \qquad
-\mathbf K_r^j=\mathbf T_j^{\mathsf T}\mathbf K_s^j\mathbf T_j,
+\mathbf K_r^j=(\boldsymbol\Psi^j)^{\mathsf T}\mathbf K_s^j\boldsymbol\Psi^j,
 \qquad
-\mathbf f_r^j=\mathbf T_j^{\mathsf T}\mathbf f_b^j.
+\mathbf f_r^j=(\boldsymbol\Psi^j)^{\mathsf T}\mathbf f_b^j.
 $$
 
-$\mathbf T_j$ 固定且与密度无关。两条路径的具体取值为
+$\boldsymbol\Psi^j$ 固定且与密度无关。两条路径的具体取值为
 
-| 路径 | 迹基 $\mathbf T_j$ | 局部刚度 $\mathbf K_r^j$ | 全局坐标 $\mathbf Q$ | 局部提取 $\mathbf G_j$ |
+| 路径 | 迹基 $\boldsymbol\Psi^j$ | 局部刚度 $\mathbf K_r^j$ | 全局坐标 $\mathbf Q$ | 局部提取 $\mathbf G^j$ |
 |---|---|---|---|---|
-| 完整接口 `full_trace` | $\mathbf I$ | $\mathbf K_s^j$ | 完整接口位移 $\mathbf U_\Gamma$ | $\mathbf A_j$ |
-| 角点线性迹 `linear_corner` | $\mathbf L_j$ | $\mathbf K_c^j=\mathbf L_j^{\mathsf T}\mathbf K_s^j\mathbf L_j$ | 全局角点位移 $\mathbf U_C$ | $\mathbf A_{c,j}$ |
+| 完整接口 `full_trace` | $\mathbf I$ | $\mathbf K_s^j$ | 完整接口位移 $\mathbf U_\Gamma$ | $\mathbf A_b^j$ |
+| 角点线性迹 `linear_corner` | $\mathbf L^j$ | $\mathbf K_{s,\mathrm{corner}}^j=(\mathbf L^j)^{\mathsf T}\mathbf K_s^j\mathbf L^j$ | 全局角点位移 $\mathbf U_C$ | $\mathbf A_c^j$ |
 
-完整接口路径保留全部边界自由度。角点线性迹路径则用 $\mathbf L_j$ 将角点位移插值到完整边界：二维规则四边形采用双线性迹，三维规则六面体采用三线性迹。这是接口空间近似，不是 PIML；两条路径的内部消元均为 Exact Schur。
+完整接口路径保留全部边界自由度。角点线性迹路径则用 $\mathbf L^j$ 将角点位移插值到完整边界：二维规则四边形采用双线性迹，三维规则六面体采用三线性迹。这是接口空间近似，不是 PIML；两条路径的内部消元均为 Exact Schur。
 
-$\mathbf G_j$ 是从所选全局坐标中提取局部坐标的 Boolean 矩阵，即 $\mathbf q_j=\mathbf G_j\mathbf Q$。它负责共享自由度编号，$\mathbf T_j$ 负责局部边界插值，两者不能混用。
+$\mathbf G^j$ 是从所选全局坐标中提取局部坐标的 Boolean 矩阵，即 $\mathbf q^j=\mathbf G^j\mathbf Q$。它负责共享自由度编号，$\boldsymbol\Psi^j$ 负责局部边界插值，两者不能混用。
 
 ### 2.3 统一装配与细网格恢复
 
 两条路径均通过
 
 $$
-\mathbf K_T=\sum_j\mathbf G_j^{\mathsf T}\mathbf K_r^j\mathbf G_j,
+\mathbf K_T=\sum_j(\mathbf G^j)^{\mathsf T}\mathbf K_r^j\mathbf G^j,
 \qquad
-\mathbf F_T=\sum_j\mathbf G_j^{\mathsf T}\mathbf f_r^j,
+\mathbf F_T=\sum_j(\mathbf G^j)^{\mathsf T}\mathbf f_r^j,
 \qquad
 \mathbf K_T\mathbf Q=\mathbf F_T
 $$
 
-完成全局求解。$\mathbf f_b^j$ 是一致分配的物理外载，同一载荷只计一次；角点路径通过 $\mathbf T_j^{\mathsf T}\mathbf f_b^j$ 保持虚功一致，而不是直接把载荷移到最近角点。
+完成全局求解。$\mathbf f_b^j$ 是一致分配的物理外载，同一载荷只计一次；角点路径通过 $(\boldsymbol\Psi^j)^{\mathsf T}\mathbf f_b^j$ 保持虚功一致，而不是直接把载荷移到最近角点。
 
-支承也须在所选空间中满足。若 $\mathbf D_j$ 提取受约束的局部边界分量，则要求 $\mathbf D_j\mathbf T_j\mathbf G_j\mathbf Q=\mathbf0$，一般不等于固定几个角点编号。可用固定零空间基 $\mathbf Z$ 写成 $\mathbf Q=\mathbf Z\mathbf y$，实际求解 $\mathbf Z^{\mathsf T}\mathbf K_T\mathbf Z\mathbf y=\mathbf Z^{\mathsf T}\mathbf F_T$；以下省略这一约束投影。若支承落在已消元内部自由度上，应先在局部处理，或将其提升为保留自由度并相应调整迹基。
+支承也须在所选空间中满足。若 $\mathbf D^j$ 提取受约束的局部边界分量，则要求 $\mathbf D^j\boldsymbol\Psi^j\mathbf G^j\mathbf Q=\mathbf0$，一般不等于固定几个角点编号。可用固定零空间基 $\mathbf Z$ 写成 $\mathbf Q=\mathbf Z\mathbf y$，实际求解 $\mathbf Z^{\mathsf T}\mathbf K_T\mathbf Z\mathbf y=\mathbf Z^{\mathsf T}\mathbf F_T$；以下省略这一约束投影。若支承落在已消元内部自由度上，应先在局部处理，或将其提升为保留自由度并相应调整迹基。
 
 求解后按同一表达恢复
 
 $$
-\mathbf u^j=\mathbf H_j\mathbf T_j\mathbf G_j\mathbf Q,
+\mathbf u^j=\mathbf H^j\boldsymbol\Psi^j\mathbf G^j\mathbf Q,
 \qquad
 \mathbf u_e=\mathbf B_{e,j}\mathbf u^j,
 $$
 
-其中完整接口路径取 $\mathbf H_j\mathbf A_j\mathbf U_\Gamma$，角点路径取 $\mathbf H_j\mathbf L_j\mathbf A_{c,j}\mathbf U_C$。相邻子结构的公共接口位移应一致，恢复时不重复相加。
+其中完整接口路径取 $\mathbf H^j\mathbf A_b^j\mathbf U_\Gamma$，角点路径取 $\mathbf H^j\mathbf L^j\mathbf A_c^j\mathbf U_C$。相邻子结构的公共接口位移应一致，恢复时不重复相加。
 
 各路径自身的柔顺度均满足
 
@@ -163,7 +163,7 @@ $$
 
 ### 3.1 从各自的接口方程求导
 
-内部载荷为零，且外载、$\mathbf T_j$、$\mathbf G_j$ 和支承空间固定时，$\mathbf F_T$ 与密度无关。在约束后的独立坐标中，对所选路径的状态方程求微分：
+内部载荷为零，且外载、$\boldsymbol\Psi^j$、$\mathbf G^j$ 和支承空间固定时，$\mathbf F_T$ 与密度无关。在约束后的独立坐标中，对所选路径的状态方程求微分：
 
 $$
 \mathbf K_T\,\mathrm d\mathbf Q=-(\mathrm d\mathbf K_T)\mathbf Q,
@@ -174,31 +174,31 @@ $$
 
 这是各路径自身的柔顺度自伴随关系。角点路径恢复的位移一般不满足原细网格的全部平衡方程，不能直接把它代入 $\mathbf K\mathbf u=\mathbf f$ 来证明梯度。
 
-虽然 $\mathbf H_j$ 随密度变化，但精确内部平衡给出
+虽然 $\mathbf H^j$ 随密度变化，但精确内部平衡给出
 
 $$
-\mathbf K^j\mathbf H_j
-=\begin{bmatrix}\mathbf0\\\mathbf K_s^j\end{bmatrix},
+\mathbf K^j\mathbf H^j
+=\begin{bmatrix}\mathbf K_s^j\\\mathbf0\end{bmatrix},
 \qquad
-\mathrm d\mathbf H_j
-=\begin{bmatrix}\mathrm d\mathbf N_{\mathrm{int}}^j\\\mathbf0\end{bmatrix}.
+\mathrm d\mathbf H^j
+=\begin{bmatrix}\mathbf0\\\mathrm d\mathbf T^j\end{bmatrix}.
 $$
 
-因此，对 $\mathbf K_s^j=\mathbf H_j^{\mathsf T}\mathbf K^j\mathbf H_j$ 求导时，含 $\mathrm d\mathbf H_j$ 的两项均为零。再利用 $\mathrm d\mathbf T_j=\mathbf0$，得到
+因此，对 $\mathbf K_s^j=(\mathbf H^j)^{\mathsf T}\mathbf K^j\mathbf H^j$ 求导时，含 $\mathrm d\mathbf H^j$ 的两项均为零。再利用 $\mathrm d\boldsymbol\Psi^j=\mathbf0$，得到
 
 $$
-\mathrm d\mathbf K_s^j=\mathbf H_j^{\mathsf T}(\mathrm d\mathbf K^j)\mathbf H_j,
+\mathrm d\mathbf K_s^j=(\mathbf H^j)^{\mathsf T}(\mathrm d\mathbf K^j)\mathbf H^j,
 \qquad
 \mathrm d\mathbf K_r^j
-=(\mathbf H_j\mathbf T_j)^{\mathsf T}(\mathrm d\mathbf K^j)(\mathbf H_j\mathbf T_j).
+=(\mathbf H^j\boldsymbol\Psi^j)^{\mathsf T}(\mathrm d\mathbf K^j)(\mathbf H^j\boldsymbol\Psi^j).
 $$
 
 代入全局柔顺度微分，
 
 $$
 \mathrm dC
-=-\sum_j(\mathbf G_j\mathbf Q)^{\mathsf T}
-(\mathrm d\mathbf K_r^j)(\mathbf G_j\mathbf Q)
+=-\sum_j(\mathbf G^j\mathbf Q)^{\mathsf T}
+(\mathrm d\mathbf K_r^j)(\mathbf G^j\mathbf Q)
 =-\sum_j(\mathbf u^j)^{\mathsf T}(\mathrm d\mathbf K^j)\mathbf u^j.
 $$
 
@@ -209,26 +209,26 @@ $$
 SIMP 下的物理密度梯度统一为
 
 $$
-q_e:=\frac{\partial C}{\partial\overline\rho_e}
+s_e:=\frac{\partial C}{\partial\overline\rho_e}
 =-\mathbf u_e^{\mathsf T}
 \frac{\partial\mathbf K_e}{\partial\overline\rho_e}\mathbf u_e
 =-p(E_0-E_{\min})\overline\rho_e^{\,p-1}
 \mathbf u_e^{\mathsf T}\mathbf K_e^0\mathbf u_e.
 $$
 
-两条路径使用相同的公式，但代入各自恢复的 $\mathbf u_e$，因此梯度通常不同。角点路径得到的是角点线性迹模型的一致梯度，不是完整接口模型的精确梯度。这里 $q_e$ 是标量梯度分量，与局部迹坐标 $\mathbf q_j$ 区分。
+两条路径使用相同的公式，但代入各自恢复的 $\mathbf u_e$，因此梯度通常不同。角点路径得到的是角点线性迹模型的一致梯度，不是完整接口模型的精确梯度。
 
 **内部载荷非零时**，两条路径都需使用缩聚载荷和仿射恢复：
 
 $$
-\mathbf f_r^j=\mathbf T_j^{\mathsf T}\widetilde{\mathbf f}_b^j,
+\mathbf f_r^j=(\boldsymbol\Psi^j)^{\mathsf T}\widetilde{\mathbf f}_b^j,
 \qquad
 \mathbf u^j=
-\begin{bmatrix}\mathbf w_i^j\\\mathbf0\end{bmatrix}
-+\mathbf H_j\mathbf T_j\mathbf G_j\mathbf Q.
+\begin{bmatrix}\mathbf0\\\mathbf w_i^j\end{bmatrix}
++\mathbf H^j\boldsymbol\Psi^j\mathbf G^j\mathbf Q.
 $$
 
-$\widetilde{\mathbf f}_b^j$ 和 $\mathbf w_i^j$ 的定义见[[../substructural-condensation#2.2 内部恢复、非零内部载荷与列问题|缩聚基础页]]。此时
+$\widetilde{\mathbf f}_b^j$ 与 $\mathbf w_i^j$ 的定义见[[../exact-substructural#2.1 局部静力缩聚及其变分形式|缩聚基础页 §2.1]]。此时
 
 $$
 C=\mathbf F_T^{\mathsf T}\mathbf Q+c_0,
@@ -243,13 +243,13 @@ $$
 局部梯度按细单元编号回填，再经过与前向密度映射对应的链式法则：
 
 $$
-\mathbf q=\sum_j\mathbf P_j^{\mathsf T}\mathbf q^j,
+\mathbf s=\sum_j\mathbf P_j^{\mathsf T}\mathbf s^j,
 \qquad
 \mathbf D_{\mathcal P}=\operatorname{diag}\bigl(\mathcal P'(\widetilde\rho_e)\bigr),
 $$
 
 $$
-\nabla_{\mathbf x}C=\mathbf F^{\mathsf T}\mathbf D_{\mathcal P}\mathbf q,
+\nabla_{\mathbf x}C=\mathbf F^{\mathsf T}\mathbf D_{\mathcal P}\mathbf s,
 \qquad
 \nabla_{\mathbf x}V=\mathbf F^{\mathsf T}\mathbf D_{\mathcal P}\mathbf v.
 $$
@@ -308,7 +308,7 @@ flowchart TD
 
 每轮密度更新后重新进行局部缩聚、所选接口空间的装配求解与位移恢复；密度过滤和 OC 规则不因路径而变。最终柔顺度应与最终交付密度对应，不能将更新后的密度配上更新前的分析结果。
 
-**完整接口路径**满足[[../substructural-condensation#2.6 “精确等价”的条件与边界|精确缩聚条件]]时，与同一细网格 FA 在固定密度下具有相同位移、柔顺度和灵敏度。初值及确定性更新规则相同时，精确算术下的迭代序列也相同；浮点实现按容差比较，不要求逐位一致。
+**完整接口路径**满足[[../exact-substructural#4.1 完整接口的代数等价|精确缩聚条件]]时，与同一细网格 FA 在固定密度下具有相同位移、柔顺度和灵敏度。初值及确定性更新规则相同时，精确算术下的迭代序列也相同；浮点实现按容差比较，不要求逐位一致。
 
 **角点线性迹路径**是完整接口模型的 Ritz 子空间近似。在同一物理密度、同一外载、相容齐次支承及对称正定条件下，
 
@@ -324,7 +324,7 @@ $$
 ## 参考文献
 
 - [[../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh|Huang et al. (2023) 中文译文]]：子结构分析与拓扑优化的基本框架。`refs.bib` cite key：`huangProblemindependentMachineLearning2023`。
-- [[../substructural-condensation|子结构有限元与静力缩聚]]、[[regularization-and-length-scale-control|正则化与长度尺度控制]]：缩聚与密度映射的符号和基础。
+- [[../exact-substructural|精确子结构分析]]、[[regularization-and-length-scale-control|正则化与长度尺度控制]]：缩聚与密度映射的符号和基础。
 - Andreassen E, Clausen A, Schevenels M, et al. *Efficient topology optimization in MATLAB using 88 lines of code*. Structural and Multidisciplinary Optimization, 2011, 43: 1–16。[DTU 官方论文与代码入口](https://www.topopt.mek.dtu.dk/apps-and-software/efficient-topology-optimization-in-matlab)：SIMP、过滤和 OC 的参考，本库尚无独立文献页。
 - [[../piml/piml-substructural|子结构 PIML]]：近似局部表示与结构保持。
 - [[../matrix-free/mf-ea-substructural|子结构载体 EA Matrix-Free 算子]]：局部算子的全局作用方式。

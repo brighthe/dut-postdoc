@@ -34,7 +34,7 @@ try {
         $dest,
         '/MIR',
         '/XD', '.git', '.agents', '.claude', '.codex',
-        '/XF', '.gitignore', 'AGENTS.md', 'CLAUDE.md', 'GEMINI.md', 'texput.log', '*.tmp', '*.ps1',
+        '/XF', '.gitignore', 'CLAUDE.md', 'GEMINI.md', 'texput.log', '*.tmp', '*.ps1',
         '/R:1',
         '/W:1',
         '/NP'

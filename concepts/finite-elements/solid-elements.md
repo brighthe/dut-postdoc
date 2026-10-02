@@ -268,7 +268,7 @@ $$
 
 ## 相关页面
 
-- [[_index]] — 有限元单元体系总索引。
+- [[../_index#2-有限元单元算子体系|有限元单元体系总览]] — 有限元单元体系概念索引。
 - [[../linear-elasticity]] — 二维与三维连续介质线弹性力学母理论。
 - [[shell-elements]] — 二维流形板壳单元算子与抗自锁方法体系。
 - [[../../research/benchmark-cases/10w-3d-linear-elasticity-model]] — 基于 `CTETRA4` 的三维连续体基准算例。

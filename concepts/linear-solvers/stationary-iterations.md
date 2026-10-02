@@ -59,12 +59,13 @@ Jacobi 与 Gauss-Seidel 对严格对角占优或对称正定矩阵收敛；SOR �
 
 ## 4. 在求解器体系中的位置
 
+在整体线性求解器分层架构（见 [[linear-solvers-architecture]]）中，定常迭代专职充当局部高频误差平滑层：
 - 作为 [[krylov-subspace-methods|Krylov]] 的预条件子：Jacobi 预条件即对角缩放，SSOR、块 Jacobi 是最常见的一批廉价预条件子，见 [[preconditioning]]。
 - 作为[[multigrid|多重网格]]的光滑子：阻尼 Jacobi、Gauss-Seidel、Chebyshev 多项式光滑是标准选择，并行环境下常用 Chebyshev 或多色 Gauss-Seidel。
 - 作为独立求解器只在小规模或强对角占优问题中出现。
 
-## 参考文献
+## 参考依据
 
-[1] SAAD Y. Iterative Methods for Sparse Linear Systems[M]. 2nd ed. Philadelphia: SIAM, 2003. §4 定常迭代、分裂与收敛定理。**refs.bib 尚无条目。**
-[2] VARGA R S. Matrix Iterative Analysis[M]. 2nd ed. Berlin: Springer, 2000. 正则分裂、SOR 最优松弛因子理论。**refs.bib 尚无条目。**
-[3] BRIGGS W L, HENSON V E, MCCORMICK S F. A Multigrid Tutorial[M]. 2nd ed. Philadelphia: SIAM, 2000. §2 定常迭代的光滑性质。**refs.bib 尚无条目。**
+- [1] SAAD Y. Iterative Methods for Sparse Linear Systems[M]. 2nd ed. Philadelphia: SIAM, 2003 — §4 定常迭代、分裂与收敛定理。未入库文献。
+- [2] VARGA R S. Matrix Iterative Analysis[M]. 2nd ed. Berlin: Springer, 2000 — 正则分裂、SOR 最优松弛因子理论。未入库文献。
+- [3] BRIGGS W L, HENSON V E, MCCORMICK S F. A Multigrid Tutorial[M]. 2nd ed. Philadelphia: SIAM, 2000 — §2 定常迭代的光滑性质。未入库文献。

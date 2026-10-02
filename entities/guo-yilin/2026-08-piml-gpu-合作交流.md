@@ -98,5 +98,5 @@ MFEM 是 LLNL 开发的成熟开源有限元库（C++），多后端机制是「
 - [[../../concepts/gpu-hpc/heterogeneous-execution-modes]] — 六档编程模型分类（介绍 §2.1 的事实源）。
 - [[../../concepts/gpu-hpc/reference-libraries/fealpy-architecture]] — 多后端抽象机制（介绍 §2.2 的事实源）。
 - [[../../concepts/gpu-hpc/reference-libraries/mfem-architecture]] — MFEM 机制（介绍 §2.3 的事实源）。
-- [[../../concepts/piml/method-lineage]] — 团队公开 PIML/HPC 成果谱系（Xu 2025 含 Guo, Yilin 的上下文）。
+- [[../../concepts/piml/piml-paradigm#4. 文献谱系|PIML 文献谱系]] — 团队公开 PIML/HPC 成果谱系（Xu 2025 含 Guo, Yilin 的上下文）。
 - [[../guo-xu/guo-xu|郭旭]] — 引荐背景。

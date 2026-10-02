@@ -1,8 +1,15 @@
 ---
 title: "翻译：A mechanics-based data-free problem independent machine learning (PIML) model for large-scale structural analysis and design optimization"
+tags:
+  - translation
+  - PIML
+  - topology-opt
+  - substructure
+  - data-free
+  - operator-learning
 status: "done"
 date_created: 2026-07-06
-date_updated: 2026-08-01
+date_updated: 2026-09-08
 source: "../sources/Huang2024-PIML-datafree.pdf"
 citekey: "Huang2024-mechanicsbaseddatafree"
 language: "zh-CN"
@@ -15,12 +22,15 @@ language: "zh-CN"
 # 信息
 
 - **中文标题**：一种基于力学机制的无数据问题无关机器学习（PIML）模型：用于大规模结构分析与设计优化
-- **作者**：Mengcheng Huang; Chang Liu; Yilin Guo; Linfeng Zhang; Zongliang Du; Xu Guo
-- **单位**：大连理工大学 工程力学系 工业装备结构分析优化与 CAE 软件国家重点实验室；大连理工大学宁波研究院
+- **作者**：Mengcheng Huang（黄孟成）$^1$；Chang Liu（刘畅）$^{1,2,*}$；Yilin Guo（郭一麟）$^1$；Linfeng Zhang（张林峰）$^1$；Zongliang Du（杜宗亮）$^{1,2,*}$；Xu Guo（郭旭）$^{1,2,*}$
+- **单位**：
+  - $1$: 大连理工大学工程力学系、工业装备结构分析优化与 CAE 软件国家重点实验室（大连 116023）
+  - $2$: 大连理工大学宁波研究院（宁波 315016）
 - **期刊**：*Journal of the Mechanics and Physics of Solids*
-- **卷 / 期 / 文章号**：193:105893
+- **卷 / 期 / 文章号**：193: 105893
 - **DOI**：10.1016/j.jmps.2024.105893
 - **在线发表 / 正式卷期**：2024-10-09 / 2024-10
+- **通讯作者**：Chang Liu（c.liu@dlut.edu.cn）；Zongliang Du（zldu@dlut.edu.cn）；Xu Guo（guoxu@dlut.edu.cn）
 
 # 摘要
 
@@ -80,11 +90,9 @@ $$
 
 ![[Huang2024_Fig1.png]]
 
-<div align="center">
-
+<center><b>
 图 1：(a) 由子结构划分的结构域；(b) 子结构 $\Omega_j$ 的节点位移分为内部节点位移向量 $\boldsymbol{u}^j_i$ 与边界节点位移向量 $\boldsymbol{u}^j_b$；(c) 子结构 $\Omega_j$ 边界上的线性变形假设。
-
-</div>
+</b></center>
 
 ## 2.1 子结构方法的复现
 
@@ -118,12 +126,9 @@ $$
 
 在三维情形下，如表 1 所示，由于子结构内自由度的缩减比例大得多，随着子结构数目的增加，子结构方法的效率优势逐渐显现。但遗憾的是，即使三维悬臂梁的有限单元数增至 250,000，子结构方法的时间成本（由 $5\times5\times5$ 单元构成的子结构约 691.3 s，由 $10\times10\times10$ 单元构成的子结构约 1052.3 s）也仅略小于全尺度分析所耗时间（约 1320 s）[^t-hardware]。此外，子结构算法的时间成本大多花在求解缩聚全局刚度矩阵上（内部节点位移插值所耗时间可忽略）。这促使我们进一步缩减经典子结构方法中的自由度，以获得更高的效率。
 
-
-<div align="center">
-
+<center><b>
 表 1：用均匀子结构离散的悬臂梁，分别采用全尺度有限元分析与子结构方法的结果（计算缩聚全局刚度矩阵的时间成本记于圆括号内）。
-
-</div>
+</b></center>
 
 | $m$ | 缩减自由度比例 | 子结构数目 | $U_{\mathrm{RE}}$ | $t_F$ (s) | $t_{\mathrm{sub}}$ (s) |
 |---|---|---|---|---|---|
@@ -159,12 +164,9 @@ $$
 
 **注释（Remark）**：为提高子结构方法的精度，此处的线性变形假设可放宽到更高阶的变形模式，例如采用以 B 样条描述的子结构边界变形假设（Li 和 Hu, 2022）。此时只需将 $\tilde{\boldsymbol{N}}^j$ 中的常数矩阵 $\boldsymbol{L}$ 修改为相应的高阶插值矩阵即可，后续所有 ML 流程均可直接实施，只是采用子结构边界的高阶变形假设会牺牲一定的求解效率。
 
-
-<div align="center">
-
+<center><b>
 表 2：三维悬臂梁分别采用全尺度分析与带边界变形线性假设的子结构方法的结果（计算缩聚全局刚度矩阵的时间成本记于圆括号内）。
-
-</div>
+</b></center>
 
 | $m$ | 缩减自由度比例 | 子结构数目 | $U_{\mathrm{RE}}$ | $t_F$ (s) | $t_{\mathrm{sub}}$ (s) |
 |---|---|---|---|---|---|
@@ -190,11 +192,9 @@ $$
 
 ![[Huang2024_Fig2.png]]
 
-<div align="center">
-
+<center><b>
 图 2：关于多尺度形函数的物理约束：(a) 沿 $x$ 方向平动，$\boldsymbol{V}_1=(1,0,\dots,1,0)^{\top}$；(b) 沿 $y$ 方向平动，$\boldsymbol{V}_2=(0,1,\dots,0,1)^{\top}$；(c) 转动，$\boldsymbol{x}_v$ 与 $\boldsymbol{x}_i$ 分别为顶点节点与内部节点的坐标向量，$\boldsymbol{R}_v$ 与 $\boldsymbol{R}_i$ 分别为顶点节点与内部节点的转动矩阵。
-
-</div>
+</b></center>
 
 ## 3.2 通过监督学习训练 PIML 模型
 
@@ -220,11 +220,9 @@ $$
 
 ![[Huang2024_Fig3.png]]
 
-<div align="center">
-
+<center><b>
 图 3：PIML 模型从子结构内密度（材料属性）分布预测多尺度形函数的流程图。
-
-</div>
+</b></center>
 
 # 4 基于力学的无数据 PIML 模型及其在大规模结构分析与优化中的应用
 
@@ -240,11 +238,9 @@ $$
 
 ![[Huang2024_Fig4.png]]
 
-<div align="center">
-
+<center><b>
 图 4：预测三维子结构连续多尺度形函数的非堆叠（unstacked）DeepONet 架构。网络输出内部节点 $(x_k, y_k, z_k)$ 处的多尺度形函数。
-
-</div>
+</b></center>
 
 ## 4.2 基于力学的损失函数
 
@@ -282,11 +278,9 @@ $$
 
 ![[Huang2024_Fig5.png]]
 
-<div align="center">
-
+<center><b>
 图 5：连续多尺度形函数无监督学习的流程图。
-
-</div>
+</b></center>
 
 ## 4.3 无数据 PIML 模型的无监督学习
 
@@ -356,35 +350,27 @@ $$
 
 ![[Huang2024_Fig6.png]]
 
-<div align="center">
-
+<center><b>
 图 6：悬臂梁算例示意图。
-
-</div>
+</b></center>
 
 ![[Huang2024_Fig7.png]]
 
-<div align="center">
-
+<center><b>
 图 7：悬臂梁中截面处由 EMsFEM 算法、PIML 模型与全尺度分析所得位移场的等值线图。
-
-</div>
+</b></center>
 
 ![[Huang2024_Fig8.png]]
 
-<div align="center">
-
+<center><b>
 图 8：不同算法所得的优化悬臂梁及每次迭代的平均结构分析耗时：(a) $20\times10\times10$ 子结构，EMsFEM 分析；(b) $20\times10\times10$ 子结构，监督学习 PIML 模型分析；(c) $20\times10\times10$ 子结构，无监督学习 PIML 模型分析；(d) $50\times25\times25$ 子结构，无监督学习 PIML 模型分析。
-
-</div>
+</b></center>
 
 ![[Huang2024_Fig9.png]]
 
-<div align="center">
-
+<center><b>
 图 9：由 EMsFEM 算法、PIML 模型与全尺度分析所得图 8(c) 优化设计的三个应力分量（即 $\sigma_{xx}$、$\sigma_{xy}$、$\sigma_{xz}$）分布。
-
-</div>
+</b></center>
 
 ## 5.2 三维箱型算例
 
@@ -398,26 +384,19 @@ $$
 
 ![[Huang2024_Fig10.png]]
 
-<div align="center">
-
+<center><b>
 图 10：三维箱型算例的问题设置（Liu 等, 2018b）。
-
-</div>
+</b></center>
 
 ![[Huang2024_Fig11.png]]
 
-<div align="center">
-
+<center><b>
 图 11：不同参数设置下所得的优化结构：(a) $24\times20\times24$ 子结构、$r_{\min}$ 为子结构尺寸的 0.5 倍；(b) $24\times20\times24$ 子结构、$r_{\min}$ 为子结构尺寸的 0.6 倍；(c) $48\times40\times48$ 子结构、$r_{\min}$ 为子结构尺寸的 0.5 倍；(d) $60\times50\times60$ 子结构、$r_{\min}$ 为子结构尺寸的 0.4 倍。
+</b></center>
 
-</div>
-
-
-<div align="center">
-
+<center><b>
 表 3：不同细网格数目下，PIML 方法与全尺度分析单次迭代的平均时间成本。
-
-</div>
+</b></center>
 
 | 细尺度单元数 | PIML 模型耗时 (s) | 全尺度分析耗时 (s) |
 |---|---|---|
@@ -437,27 +416,21 @@ $$
 
 ![[Huang2024_Fig12.png]]
 
-<div align="center">
-
+<center><b>
 图 12：三维柔顺机构问题的问题设置。
-
-</div>
+</b></center>
 
 ![[Huang2024_Fig13.png]]
 
-<div align="center">
-
+<center><b>
 图 13：不同体积分数的优化柔顺机构。
-
-</div>
+</b></center>
 
 ![[Huang2024_Fig14.png]]
 
-<div align="center">
-
+<center><b>
 图 14：图 13(a) 优化柔顺机构的前视图：(a) 原始构型；(b) 推力载荷下的变形构型；(c) 目标函数值的迭代历程。
-
-</div>
+</b></center>
 
 # 6 结论
 
@@ -511,13 +484,90 @@ $$
 \boldsymbol{R}^4_1 = \cdots = \boldsymbol{R}^4_{(m-1)^3} = \begin{bmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix},\quad \boldsymbol{R}^5_1 = \cdots = \boldsymbol{R}^5_{(m-1)^3} = \begin{bmatrix} 0 & 0 & -1 \\ 0 & 0 & 0 \\ 1 & 0 & 0 \end{bmatrix},\quad \boldsymbol{R}^6_1 = \cdots = \boldsymbol{R}^6_{(m-1)^3} = \begin{bmatrix} 0 & 0 & 0 \\ 0 & 0 & -1 \\ 0 & 1 & 0 \end{bmatrix} \tag{25}
 $$
 
-# 译后检查清单
+---
 
-- [x] 完整作者列表已核对。
-- [x] 原文章节标题已按 PDF 原文同步。
-- [x] 正文（摘要—结论）与附录 A/B 全文译毕。
-- [x] 所有公式编号（式 1–25）与原文一致，`$$`/数学环境成对闭合（全局 Lint 通过）。
-- [x] 表 1–3 已排为 Markdown 表格。
-- [x] 图 1–14 已从 PDF 无损抽取并放入 `topology-opt/assets/Huang2024_FigX.png`，正文用 `![[Huang2024_FigX.png]]` 嵌入，图注紧随其下。
-- [x] 已对照 PDF 原页复核重构公式：式 (10) 映射记号更正为 $\mathcal{F}$、式 (13) 目标函数更正为 $J^j$；式 (22) 大矩阵、式 (23)–(25) 转动矩阵、附录 A 式 (20)/(21) 均确认无误。
-- [x] 与 [[../notes/Huang2022-problemindependentmachine]]、[[../notes/Huang2023-PIML-substructure]]、[[../notes/Ma2026-highperformanceparallel]] 的关系已在笔记 [[../notes/Huang2024-PIML-datafree]] 中同步（关系表「本文」行、核心思路、学习对象、损失、实验、结论均已按全文精读补全）。
+# 参考文献
+
+[1] Aage, Niels, Andreassen, Erik, Lazarov, Boyan S., Sigmund, Ole, 2017. Giga-voxel computational morphogenesis for structural design. Nature 550 (7674), 84–86. https://doi.org/10.1038/nature23911.
+
+[2] Aage, Niels, Lazarov, Boyan S., 2013. Parallel framework for topology optimization using the method of moving asymptotes. Struct. Multidiscip. Optim. 47 (4), 493–505. https://doi.org/10.1007/s00158-012-0869-2.
+
+[3] Abueidda, Diab W., Koric, Seid, Sobh, Nahil A., 2020. Topology optimization of 2D structures with nonlinearities using deep learning. Comput. Struct. 237, 106283. https://doi.org/10.1016/j.compstruc.2020.106283.
+
+[4] Amir, Oded, Aage, Niels, Lazarov, Boyan S., 2014. On multigrid-CG for efficient topology optimization. Struct. Multidiscip. Optim. 49, 815–829. https://doi.org/10.1007/s00158-013-1015-5.
+
+[5] Amsallem, David, Zahr, Matthew, Choi, Youngsoo, Farhat, Charbel, 2015. Design optimization using hyper-reduced-order models. Struct. Multidiscip. Optim. 51 (4), 919–940. https://doi.org/10.1007/s00158-014-1183-y.
+
+[6] Borrvall, Thomas, Petersson, Joakim, 2001. Large-scale topology optimization in 3D using parallel computing. Comput. Methods Appl. Mech. Engrg. 190 (46–47), 6201–6229. https://doi.org/10.1016/S0045-7825(01)00216-X.
+
+[7] Chi, Heng, Zhang, Yuyu, Tang, Tsz Ling Elaine, Mirabella, Lucia, Dalloro, Livio, Song, Le, Paulino, Glaucio H., 2021. Universal machine learning for topology optimization. Comput. Methods Appl. Mech. Engrg. 375, 112739. https://doi.org/10.1016/j.cma.2019.112739.
+
+[8] Cho, Kyunghyun, Van Merriënboer, Bart, Gulcehre, Caglar, Bahdanau, Dzmitry, Bougares, Fethi, Schwenk, Holger, Bengio, Yoshua, 2014. Learning phrase representations using RNN encoder-decoder for statistical machine translation. arXiv preprint arXiv:1406.1078. https://doi.org/10.48550/arXiv.1406.1078.
+
+[9] Deaton, Joshua D., Grandhi, Ramana V., 2014. A survey of structural and multidisciplinary continuum topology optimization: post 2000. Struct. Multidiscip. Optim. 49, 1–38. https://doi.org/10.1007/s00158-013-0956-z.
+
+[10] Du, Zongliang, Cui, Tianchen, Liu, Chang, Zhang, Weisheng, Guo, Yilin, Guo, Xu, 2022. An efficient and easy-to-extend matlab code of the moving morphable component (MMC) method for three-dimensional topology optimization. Struct. Multidiscip. Optim. 65, 158. https://doi.org/10.1007/s00158-022-03239-4.
+
+[11] Dutta, Subhrajit, Ghosh, Siddhartha, Inamdar, Mandar M., 2018. Optimisation of tensile membrane structures under uncertain wind loads using PCE and kriging based metamodels. Struct. Multidiscip. Optim. 57, 1149–1161. https://doi.org/10.1007/s00158-017-1802-5.
+
+[12] Geng, Dongling, Yan, Jun, Xu, Qi, Zhang, Qi, Zhou, Mengfang, Fan, Zhirui, Li, Haijiang, 2023. Real-time structure topology optimization using CNN driven moving morphable component method. Eng. Struct. 290, 116376. https://doi.org/10.1016/j.engstruct.2023.116376.
+
+[13] Guo, Xu, Cheng, Geng-Dong, 2010. Recent development in structural design and optimization. Acta Mech. Sin. 26 (6), 807–823. https://doi.org/10.1007/s10409-010-0395-7.
+
+[14] Guyan, Robert J., 1965. Reduction of stiffness and mass matrices. AIAA J. 3 (2), 380. https://doi.org/10.2514/3.2874.
+
+[15] Hackbusch, Wolfgang, 2013. Multi-grid Methods and Applications. Vol. 4, Springer Science & Business Media. https://doi.org/10.1007/978-3-662-02427-0.
+
+[16] Hoang, K.C., Kerfriden, Pierre, Bordas, Stephane Pierre Alain, 2016. A fast, certified and ‘‘tuning free’’ two-field reduced basis method for the metamodelling of affinely-parametrised elasticity problems. Comput. Methods Appl. Mech. Engrg. 298, 121–158. https://doi.org/10.1016/j.cma.2015.09.014.
+
+[17] Huang, Mengcheng, Cui, Tianchen, Liu, Chang, Du, Zongliang, Zhang, Jiameng, He, Chuhui, Guo, Xu, 2023. A problem-independent machine learning (PIML) enhanced substructure-based approach for large-scale structural analysis and topology optimization of linear elastic structures. Extreme Mech. Lett. 63, 102041. https://doi.org/10.1016/j.eml.2023.102041.
+
+[18] Huang, Mengcheng, Du, Zongliang, Liu, Chang, Zheng, Yonggang, Cui, Tianchen, Mei, Yue, Li, Xiao, Zhang, Xiaoyu, Guo, Xu, 2022. Problem-independent machine learning (PIML)-based topology optimization—A universal approach. Extreme Mech. Lett. 56, 101887. https://doi.org/10.1016/j.eml.2022.101887.
+
+[19] Hughes, Thomas J.R., 2012. The Finite Element Method: Linear Static and Dynamic Finite Element Analysis. Courier Corporation.
+
+[20] Keshavarzzadeh, Vahid, Kirby, Robert M., Narayan, Akil, 2021. Robust topology optimization with low rank approximation using artificial neural networks. Comput. Mech. 68 (6), 1297–1323. https://doi.org/10.1007/s00466-021-02069-3.
+
+[21] Le Maıtre, O.P., Knio, O.M., Debusschere, B.J., Najm, H.N., Ghanem, R.G., 2003. A multigrid solver for two-dimensional stochastic diffusion equations. Comput. Methods Appl. Mech. Engrg. 192 (41–42), 4723–4744. https://doi.org/10.1016/S0045-7825(03)00424-9.
+
+[22] Lei, Xin, Liu, Chang, Du, Zongliang, Zhang, Weisheng, Guo, Xu, 2019. Machine learning-driven real-time topology optimization under moving morphable component-based framework. J. Appl. Mech. 86 (1), 011004. https://doi.org/10.1115/1.4041319.
+
+[23] Li, Ming, Hu, Jingqiao, 2022. Analysis of heterogeneous structures of non-separated scales using curved bridge nodes. Comput. Methods Appl. Mech. Engrg. 392, 114582. https://doi.org/10.1016/j.cma.2022.114582.
+
+[24] Liu, Haixiang, Hu, Yuanming, Zhu, Bo, Matusik, Wojciech, Sifakis, Eftychios, 2018a. Narrow-band topology optimization on a sparsely populated grid. ACM Trans. Graph. 37 (6), 1–14. https://doi.org/10.1145/3272127.3275012.
+
+[25] Liu, Chang, Zhu, Yichao, Sun, Zhi, Li, Dingding, Du, Zongliang, Zhang, Weisheng, Guo, Xu, 2018b. An efficient moving morphable component (MMC)-based approach for multi-resolution topology optimization. Struct. Multidiscip. Optim. 58 (6), 2455–2479. https://doi.org/10.1007/s00158-018-2114-0.
+
+[26] Lu, Lu, Jin, Pengzhan, Pang, Guofei, Zhang, Zhongqiang, Karniadakis, George Em, 2021. Learning nonlinear operators via DeepONet based on the universal approximation theorem of operators. Nat. Mach. Intell. 3 (3), 218–229. https://doi.org/10.1038/s42256-021-00302-5.
+
+[27] Nguyen, Tam H., Paulino, Glaucio H., Song, Junho, Le, Chau H., 2010. A computational paradigm for multiresolution topology optimization (MTOP). Struct. Multidiscip. Optim. 41, 525–539. https://doi.org/10.1007/s00158-009-0443-8.
+
+[28] Rozvany, George I.N., 2009. A critical review of established methods of structural topology optimization. Struct. Multidiscip. Optim. 37, 217–237. https://doi.org/10.1007/s00158-007-0217-0.
+
+[29] Senhora, Fernando V., Chi, Heng, Zhang, Yuyu, Mirabella, Lucia, Tang, Tsz Ling Elaine, Paulino, Glaucio H., 2022. Machine learning for topology optimization: Physics-based learning through an independent training strategy. Comput. Methods Appl. Mech. Engrg. 398, 115116. https://doi.org/10.1016/j.cma.2022.115116.
+
+[30] Shafiq, Muhammad, Gu, Zhaoquan, 2022. Deep residual learning for image recognition: A survey. Appl. Sci. 12 (18), 8972. https://doi.org/10.3390/app12188972.
+
+[31] Sigmund, Ole, Aage, Niels, Andreassen, Erik, 2016. On the (non-) optimality of Michell structures. Struct. Multidiscip. Optim. 54, 361–373. https://doi.org/10.1007/s00158-016-1420-7.
+
+[32] Sigmund, Ole, Maute, Kurt, 2013. Topology optimization approaches: A comparative review. Struct. Multidiscip. Optim. 48 (6), 1031–1055. https://doi.org/10.1007/s00158-013-0978-6.
+
+[33] Sosnovik, Ivan, Oseledets, Ivan, 2019. Neural networks for topology optimization. Russian J. Numer. Anal. Math. Modelling 34 (4), 215–223. https://doi.org/10.1515/rnam-2019-0018.
+
+[34] Wilson, Edward L., 1974. The static condensation algorithm. Internat. J. Numer. Methods Engrg. 8 (1), 198–203. https://doi.org/10.1002/nme.1620080116.
+
+[35] Woldseth, Rebekka V., Aage, Niels, Bærentzen, J. Andreas, Sigmund, Ole, 2022. On the use of artificial neural networks in topology optimisation. Struct. Multidiscip. Optim. 65 (10), 294. https://doi.org/10.1007/s00158-022-03347-1.
+
+[36] Xiao, Manyu, Lu, Dongcheng, Breitkopf, Piotr, Raghavan, Balaji, Dutta, Subhrajit, Zhang, Weihong, 2020. On-the-fly model reduction for large-scale structural topology optimization using principal components analysis. Struct. Multidiscip. Optim. 62, 209–230. https://doi.org/10.1007/s00158-020-02548-w.
+
+[37] Yu, Yonggyun, Hur, Taeil, Jung, Jaeho, Jang, In Gwun, 2019. Deep learning for determining a near-optimal topological design without any iteration. Struct. Multidiscip. Optim. 59 (3), 787–799. https://doi.org/10.1007/s00158-018-2101-5.
+
+[38] Yue, Tianle, Yang, Hang, Du, Zongliang, Liu, Chang, Elkhodary, Khalil I., Tang, Shan, Guo, Xu, 2021. A mechanistic-based data-driven approach to accelerate structural topology optimization through finite element convolutional neural network (FE-CNN). arXiv preprint arXiv:2106.13652. https://doi.org/10.48550/arXiv.2106.13652.
+
+[39] Zhang, Weisheng, Chen, Jishun, Zhu, Xuefeng, Zhou, Jianhua, Xue, Dingchuan, Lei, Xin, Guo, Xu, 2017. Explicit three dimensional topology optimization via moving morphable void (MMV) approach. Comput. Methods Appl. Mech. Engrg. 322, 590–614. https://doi.org/10.1016/j.cma.2017.05.002.
+
+[40] Zhang, H.W., Liu, Y., Zhang, S., Tao, J., Wu, J.K., Chen, B.S., 2014. Extended multiscale finite element method: its basis and applications for mechanical analysis of heterogeneous materials. Comput. Mech. 53, 659–685. https://doi.org/10.1007/s00466-013-0924-x.
+
+[41] Zhang, Lei, Lu, Ye, Tang, Shaoqiang, Liu, Wing Kam, 2022. HiDeNN-TD: reduced-order hierarchical deep learning neural networks. Comput. Methods Appl. Mech. Engrg. 389, 114414. https://doi.org/10.1016/j.cma.2021.114414.
+
+[42] Zheng, Shuai, Fan, Haojie, Zhang, Ziyu, Tian, Zhiqiang, Jia, Kang, 2021. Accurate and real-time structural topology prediction driven by deep learning under moving morphable component-based framework. Appl. Math. Model. 97, 522–535. https://doi.org/10.1016/j.apm.2021.04.017.

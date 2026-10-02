@@ -1,127 +1,225 @@
 ---
-title: "问题无关机器学习 (Problem-Independent Machine Learning, PIML) 通用范式"
+title: "问题无关机器学习 (PIML)：分类与计算流程"
 type: concept
 aliases:
   - PIML 通用范式
   - PIML 5步范式
   - piml-paradigm
   - piml
+  - PIML 方法谱系
+  - PIML method lineage
+  - PIML 方法演化
+  - 问题无关机器学习方法谱系
 tags:
   - PIML
   - machine-learning
   - SciML
   - topology-opt
+  - method-lineage
+  - EMsFEM
+  - substructure
+  - data-free
 status: in-progress
 date_added: 2026-08-06
-date_update: 2026-08-31
+date_update: 2026-09-23
 ---
 
-# 问题无关机器学习 (PIML) 通用范式
+# 问题无关机器学习 (PIML)：分类与计算流程
 
-> 本页记录 Problem-Independent Machine Learning (PIML) 学习局部力学表示与算子代理的通用 5 步数学与计算范式、计算力学学者的 FEA 概念与代数映射、与 PINN 范式的侧向对比矩阵，以及预测局部算子的模型选型与 downstream 评价标准。
+> 本页的 PIML 指 Problem-Independent Machine Learning（问题无关机器学习），与 PINN 等外部方法的区别见 [[../ml-roles-and-boundaries]]。PIML 不预测宏观解场或最终拓扑，而是学习局部材料分布到可复用局部力学算子（多尺度形函数、缩聚刚度、数值基函数）的映射，训练一次后嵌入任意宏观问题的全局组装与求解。郭旭团队的工作从 EMsFEM 形函数出发，经子结构静力缩聚扩展到连续算子表示、几何感知输入、参数化边界位移、超采样重叠基函数，以及并行与三维点阵应用。适用范围目前限于小应变线弹性。
 
 ---
 
-## 1. 概念定义与范式定位
+## 1. 问题无关的含义与成立条件
 
-本课题（Huang–Ma 谱系）所指的 **Problem-Independent Machine Learning (PIML)**，特指学习可跨宏观边值问题（BVP）、宏观几何、边界条件与载荷复用的局部力学表示。预测目标不是某个问题的最终解场或设计，而是局部力学载体（子结构、EMsFEM 粗单元、OFEM 重叠网格等）的多尺度形函数 $\mathbf{N}^j$、缩聚/粗刚度 $\mathbf{K}_s^j$ 或其他接口算子。
+### 1.1 定义
 
-与 PINN 的差别在于是否绑定局部载体。PINN 的输入是宏观域坐标 $\boldsymbol{x} \in \Omega$，直接逼近单次特定 BVP 的解场，改变边界或载荷后必须重新训练；PIML 的输入是局部载体的细观材料/几何描述 $\boldsymbol{\rho}^j$（路线 F 另含载体内部的局部坐标 $\boldsymbol{x} \in \Omega^j$），输出是该载体的接口算子，训练一次后即可像“积木”一样拼装至任意宏观结构。
+“问题无关”不是指模型无条件跨物理、跨单元、跨本构泛化，而是指：在同类 PDE、相同有限元离散与材料本构设置下，局部材料分布唯一决定某种局部力学表示；该表示与宏观结构几何、边界条件和外载荷无关，可通过离线训练复用于不同宏观问题。
 
-分界不在「输入是否含空间坐标」，而在**输入是否含宏观边界与载荷**：路线 F（DeepONet 型，见 §5.2）的 trunk 网络以 $\boldsymbol{x}$ 为输入，仍属 PIML，因为 $\Omega^j$ 内的局部坐标与宏观 BVP 解耦；而 PINN 的 $\boldsymbol{x}$ 遍历宏观域 $\Omega$，解场由该次 BVP 的边界与载荷唯一确定。
+```text
+局部材料分布及表示所需的局部几何／边界参数
+  -> 可复用局部力学表示或响应映射
+  -> 全局有限元或缩聚系统
+  -> 结构响应与优化更新
+```
 
-输出有两类形态。路线 A/B 输出有限维代数对象 $\mathbf{N}^j \in \mathbb{R}^{n_i \times n_b}$、$\mathbf{K}_s^j$，其中内部自由度编号是输出张量的索引，与网格绑定，换网格后输出层维度即失效；路线 F 输出函数值算子 $\boldsymbol{\Phi}_k^j(\cdot)$，$\boldsymbol{x}$ 是网络的输入变量，可在任意点求值，分辨率无关。固定网格上两者由 $N_{pk}^j = \boldsymbol{\Phi}_k^j(\boldsymbol{x}_p)$ 互相确定，表示层面严格等价，但作为被学习的映射并不等价——前者是有限维函数 $\mathbb{R}^m \to \mathbb{R}^{n_i \times n_b}$，后者是算子，且其输出一般不落在有限元空间 $V_h$ 内，缩聚刚度须由应变能直接积分获得而非 $\widehat{\mathbf{N}}^{\mathsf{T}} \mathbf{K} \widehat{\mathbf{N}}$，这构成路线 F 与有限元空间的相容性代价（见 [[method-lineage#6. 仍未解决的开放问题|开放问题]]）。
+### 1.2 与 PINN 的分界
 
-### 1.1 PIML 的收益前提：昂贵且与全局解耦的局部子问题
+判断模型是否属于 PIML，看输入是否与宏观边界和载荷解耦，而不是看输入是否含空间坐标。完整的侧向对比见 [[../pinn-paradigm|PINN 范式页]] §4。
 
-PIML 能否在某个计算环节产生收益，取决于该环节的局部子问题是否同时满足两个条件：
+| 维度 | PIML (Problem-Independent) | PINN (Problem-Dependent) |
+|---|---|---|
+| 输入 | 局部材料/几何 $\boldsymbol{\rho}^j$，连续表示可另含局部坐标 $\boldsymbol{x} \in \Omega^j$；不含宏观边界与载荷 | 宏观域坐标 $\boldsymbol{x} \in \Omega$，解场由该次 BVP 唯一确定 |
+| 输出 | 局部算子 $\mathbf{N}^j$、$\mathbf{K}_s^j$ 或函数值算子 $\boldsymbol{\Phi}_k^j(\cdot)$ | 空间点上的物理响应 $\hat{\boldsymbol{u}}(\boldsymbol{x})$ |
+| 复用 | 离线训练一次，在线跨结构复用 | 单题单训，载荷或约束改变后重新训练 |
+| 与 FEM 的关系 | 组合：只替代 FEM 内部的局部昂贵子步，全局平衡与灵敏度链条保留 | 竞争：网络本身充当求解器 |
+| 代数结构 | 可由硬参数化保持对称性、正定性与刚体模态 | 边界与方程靠损失软约束 |
+| 失败处理 | 可检测分布外输入并回退到局部有限元计算 | 训练不收敛则无合理解 |
 
-1. **昂贵**：求值成本远超 $O(1)$ 且随局部自由度规模增长（如需解局部方程组、局部非线性返回映射或昂贵的局部积分），且每次设计变量更新后必须重算，否则代理没有可替代的成本。
-2. **与全局 BVP 解耦**：输入只含局部材料/几何描述 $\boldsymbol{\rho}^j$，不含宏观边界条件与载荷，否则同一模型无法跨子结构、跨宏观问题复用，problem-independent 不成立。
+### 1.3 加速收益的两个条件
 
-静力缩聚同时制造出这两个条件。多尺度形函数
+PIML 的加速来自用网络前向推理替代经典有限元中反复出现的局部方程组求解，在线阶段不再逐子结构做局部分块分解与回代。替代能否带来净收益，取决于被替代的局部计算是否同时满足两个条件：
+
+1. 原局部求解昂贵：经典求值成本远超 $O(1)$，随局部自由度规模增长（局部方程组、局部非线性返回映射或昂贵的数值积分），且每次材料设计更新后必须重算。
+2. 与全局 BVP 解耦：局部算子的输入只含局部材料/几何描述 $\boldsymbol{\rho}^j$，与宏观边界条件和载荷无关，同一模型才能跨子结构、跨工况复用。
+
+#### 静力缩聚如何满足两个条件
+
+非重叠子结构的静力缩聚是目前满足上述两个条件最成熟、验证最系统的载体，但不是唯一载体。
+
+条件 1：多尺度形函数
+
 $$
 \mathbf{N}^j = -(\mathbf{K}_{ii}^j)^{-1} \mathbf{K}_{ib}^j
 $$
-的第 $k$ 列，是「第 $k$ 个接口自由度取单位位移、其余锁死为零，且内部无载荷」时的内部平衡位移场；其连续形式是 $\Omega^j$ 上的离散调和延拓，一般无闭式解，求值需一次局部 Cholesky 分解与 $n_b$ 次回代，无法绕过（条件 1）。而其定义只用到子结构自身的分块刚度 $\mathbf{K}_{ii}^j$、$\mathbf{K}_{ib}^j$，与宏观边界条件和载荷无关（条件 2）。分块平衡方程、逐列的单位位移试验与连续形式的完整推导见 [[../substructural-condensation#2.1 内部自由度消元与多尺度形函数矩阵|静力缩聚 §2.1]]。
 
-单次求解本身并无困难：$\mathbf{K}_{ii}^j$ 对称正定，且 $n_b$ 个方程共用同一系数矩阵，只需一次 Cholesky 分解加 $n_b$ 次回代，$n_i \sim 10^2$ 时耗时在亚毫秒量级。构成瓶颈的是重复次数——拓扑优化中每个子结构、每次设计更新都要重算一遍：
-$$
-\underbrace{M}_{\text{子结构数}} \times \underbrace{N_{\text{iter}}}_{\text{优化迭代数}} \sim 10^3 \times 10^2 = 10^5 \ \text{次}
-$$
-以 2D $10 \times 10$ 单元子结构（$n_i = 162$，$n_b = 80$）计，单次约 $\tfrac{1}{3} n_i^3 + 2 n_i^2 n_b \approx 6 \times 10^6$ flops（前项为分解，后项为 $n_b$ 次回代），合计约 $1.2 \times 10^{12}$ flops；这部分成本独立于接口系统的全局求解，改进全局求解器无法消除。**因此条件 1 的判据不是「能否求解」，而是「单次成本 $\times$ 复用次数」**：单元刚度 $\mathbf{K}_e$ 单次 $O(1)$，乘以同样的复用次数仍可忽略，故无收益。
+的第 $k$ 列是内部离散调和延拓场，求值需一次局部 Cholesky 分解加 $n_b$ 次回代。单次耗时在亚毫秒量级，但拓扑优化中的在线重复次数为
 
-**但静力缩聚只是充分条件，不是必要条件。** 条件 1 只要求求值成本远超 $O(1)$，并不要求求值路径含矩阵求逆——cut-cell/FCM 的昂贵局部积分、局部非线性本构的返回映射、区域分解中的局部块求解，同样可能同时满足两个条件。就现有文献而言，静力缩聚是 PIML 中唯一被系统验证过的载体（见 [[method-lineage#2.1 局部力学载体的演进与分类图谱|5 大局部力学载体]]），其余方向本库尚无证据支撑，标记为**待确认**。因此本节结论应表述为：**PIML 必须依附一个昂贵且与全局 BVP 解耦的局部子问题；静力缩聚是目前实现这一前提的成熟方式，而非唯一方式。**
+$$
+\underbrace{M}_{\text{子结构数}} \times \underbrace{N_{\text{iter}}}_{\text{优化迭代数}} \sim 10^3 \times 10^2 = 10^5 .
+$$
+
+以二维 $10 \times 10$ 单元子结构（$n_i = 162$，$n_b = 80$）计，单次约 $6 \times 10^6$ flops，在线累计约 $1.2 \times 10^{12}$ flops。这部分成本独立于接口求解，全局求解器的改进无法消除它。条件 1 的判据是“单次成本 $\times$ 复用次数”，不是“能否求解”。
+
+条件 2：形函数定义只用到子结构自身的分块刚度 $\mathbf{K}_{ii}^j$、$\mathbf{K}_{ib}^j$，与宏观边界条件和外载荷无关（局部平衡方程见 [[../exact-substructural#2.1 局部静力缩聚及其变分形式|精确子结构分析 §2.1]]）。
+
+EMsFEM 的粗基求解、OFEM 的超采样数值基、有限胞元法（FCM）中裁剪单元的数值积分，在各自机制下同样满足两个条件，三类载体见 §2.1。
 
 #### 非线性问题下两个条件的走向相反
 
-条件 2 在线弹性下由静力缩聚天然满足，其最直接的工程后果体现在训练数据的生成方式上：
+现有 Huang–Ma 谱系工作均限于小应变线弹性。线弹性下局部响应与宏观工况完全解耦，条件 2 严格成立，这是可以离线随机采样材料样本生成训练集的前提（如 [[../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh|Huang 2023]] 对归一化杨氏模量的随机生成）。
 
-> 「由于本文仅研究线弹性问题，因此可以将杨氏模量归一化，并在 $[0,1]$ 范围内通过随机过程生成训练样本。」
-> —— [[../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh|Huang 2023 中文译文]]
+推广到非线性时两个条件的变化方向相反。条件 1 更容易满足：切线刚度在每个 Newton 步都需重算，可替代的局部计算量成倍增加。条件 2 成为瓶颈：超弹性使局部刚度依赖变形状态，弹塑性与损伤使局部响应绑定加载历史，局部与全局状态耦合，离线随机采样的前提失效。
 
-**能离线随机采样，正是条件 2 的直接推论**——局部量与全局状态无关，样本空间就退化为局部材料参数空间。一旦放松线弹性假设，按非线性类型分三档（各类非线性的定义、切线刚度结构与求解代价见 [[../nonlinear-fem|非线性有限元页]]）：
-
-| 非线性类型 | 条件 2（与全局解耦） | 后果 |
-|---|---|---|
-| 几何非线性，共旋格式 | **近似保持**——刚体转动被分离到局部之外，子结构内部仍是小应变线弹性，$\tilde{\mathbf{K}}^j$ 仍只由 $\boldsymbol{\rho}^j$ 决定 | 在线每子结构多一次转动提取与旋转；离线随机采样前提不变。**本人判断，待验证** |
-| 材料非线性，路径无关（超弹） | **削弱**——局部响应依赖当前变形梯度 $\boldsymbol{F}$ | 需把变形状态并入模型输入，样本空间维度与训练成本上升 |
-| 材料非线性，路径相关（弹塑性、损伤） | **失效**——局部响应依赖高斯点内变量与加载历史 | 样本不能随机生成，必须沿加载路径采样，覆盖性与成本同时恶化 |
-
-条件 1 的走向相反：切线刚度每个 Newton 步作废重算，局部子问题的复用次数从 $M \times N_{\text{iter}}$ 变为 $M \times N_{\text{iter}} \times N_{\text{load}} \times N_{\text{newton}}$，**非线性使条件 1 更容易满足**。因此「非线性更难」并非均匀成立：**代价集中在条件 2，而非条件 1**。
-
-若条件 2 在路径相关本构下确实失效，上文列为待确认的候选载体「局部非线性本构的返回映射」反而可能成为替代路径——学习对象由 $\tilde{\mathbf{K}}^j$ 换为局部本构响应本身，其昂贵性与局部性由本构积分算法自身提供。**本库无证据，仍标待确认。**
-
-本节结论限于范式层的条件分析；具体路线的证据缺口与待验证问题见 [[../../research/piml-matrix-free-gpu/piml-research-guide#3.5 向非线性推广的待验证问题|PIML 研究指南 §3.5]]。
+几何非线性（共旋格式）的可行性与材料非线性的推演见 [[../../research/piml-matrix-free-gpu/piml-research-guide#3.5 向非线性推广的待验证问题|PIML 研究指南 §3.5]]。
 
 #### 反例：传统全尺度有限元中 PIML 无收益
 
-在不做缩聚的传统全尺度有限元中，局部对象退化为单元刚度矩阵。SIMP 插值下它是闭式的：
+不做缩聚的全尺度有限元中，局部对象退化为单元刚度矩阵。SIMP 插值下它是闭式的：
+
 $$
-\mathbf{K}_e(\rho_e) = \big(E_{\min} + \rho_e^{\,p}(E_0 - E_{\min})\big)\, \mathbf{K}_0
+\mathbf{K}_e(\rho_e) = \big(E_{\min} + \rho_e^{\,p}(E_0 - E_{\min})\big)\, \mathbf{K}_0 ,
 $$
-即一个标量乘以与设计变量无关的常数矩阵 $\mathbf{K}_0$，全网格共用、全程只需计算一次。
+
+即标量乘以与设计变量无关的常数矩阵 $\mathbf{K}_0$，全网格共用，只需计算一次。
 
 | 收益条件 | 单元刚度 $\mathbf{K}_e(\rho_e)$ | 缩聚形函数 $\mathbf{N}^j$ |
 |---|---|---|
-| 与全局 BVP 解耦 | ✅ 只依赖 $\rho_e$ | ✅ 只依赖 $\boldsymbol{\rho}^j$ |
-| 昂贵、无闭式 | ❌ 闭式、$O(1)$ 求值、精确 | ✅ 需局部分解，随 $\boldsymbol{\rho}^j$ 强非线性 |
-| **PIML 是否有收益** | **无**——待学映射退化为一维解析函数 $\rho_e \mapsto E(\rho_e)$ | **有** |
+| 与全局 BVP 解耦 | 是，只依赖 $\rho_e$ | 是，只依赖 $\boldsymbol{\rho}^j$ |
+| 昂贵、无闭式 | 否，闭式、$O(1)$ 求值、精确 | 是，需局部分解，随 $\boldsymbol{\rho}^j$ 强非线性变化 |
+| PIML 是否有收益 | 无，待学映射退化为一维解析函数 $\rho_e \mapsto E(\rho_e)$ | 有 |
 
-因此「把 PIML 直接用于传统全尺度有限元」不成立的原因**不是技术困难，而是没有可学的对象**：用神经网络逼近一个已有闭式、求值成本 $O(1)$ 且精确的量，只会更慢更不准。
-
-唯一的例外入口是单元级子问题本身变得非平凡的场合——cut-cell／有限胞元法（FCM）中被域边界裁剪的单元、高阶曲边或 trimmed 等参单元、单元内含微结构的情形。这些场合的共同点是**几何进入模型输入**，与不规则子结构划分所需的能力是同一件事，见 [[method-lineage#2.1 局部力学载体的演进与分类图谱|局部力学载体的演进与分类图谱]]。
-
-#### 与 PINN 的分工：组合关系 vs 竞争关系
-
-PINN 同样可以作用于全尺度有限元，但作用方式与 PIML 相反：
-
-* **PIML 与 FEM 组合**——替换 FEM 内部一个昂贵子步，网格、装配、全局求解与灵敏度链条全部保留，正确性继承自 FEM 框架并由硬参数化（SPD、刚体零空间）加固；
-* **PINN 与 FEM 竞争**——网络本身即求解器，整条离散—求解流水线被替代，正确性只能依赖 loss 收敛，没有可继承的框架保证。
-
-竞争路线在全尺度拓扑优化中面临四重不利：（i）以非凸参数优化求解本为凸二次的 $\mathbf{K}\boldsymbol{U} = \mathbf{F}$，精度与收敛保证双双降级；（ii）**训练即求解，不存在离线成本被在线复用摊薄的结构**——PIML 的摊薄比为 $M \times N_{\text{iter}}$（子结构数 × 优化迭代数），PINN 为 $1$；（iii）SIMP 的高对比度间断系数（$E_{\min} \approx 10^{-9} E_0$，且界面随迭代移动）与网络的 spectral bias 直接冲突；（iv）柔顺度灵敏度是位移的二次型，会放大解场误差并污染设计更新方向。
-
-二者真正的结合点不在求解环节而在**训练环节**：PINN 的物理泛函损失可以替代昂贵的监督标签，用局部平衡残差直接训练局部算子，即 §2.3 所述的 Mechanics-based Data-free Loss，见 [[../../literature/topopt/piml/translations/Huang2024-PIML-datafree-zh|Huang 2024 Data-Free]]。逐维度对比见 §4。
+PIML 不能直接用于全尺度有限元，原因是没有可学的对象：用网络逼近一个已有闭式、$O(1)$ 求值且精确的量，只会更慢更不准。例外是单元级子问题本身变得非平凡的场合，如有限胞元法中被域边界裁剪的单元、高阶曲边或 trimmed 等参单元、单元内含微结构。这些场合的共同点是几何进入模型输入，与不规则子结构划分所需的能力相同。
 
 ---
 
-## 2. PIML 学习局部算子的通用 5 步数学与计算范式
+## 2. 分类维度
 
-无论具体物理子结构是一维、二维还是三维，PIML 代理均遵循以下通用的 5 步计算骨架与数据流转链条：
+PIML 方法按五个相互独立的维度区分：局部力学载体、学习对象、输出表示、训练方式与结构保持、静力缩聚载体内的变体。本节只定义各维度及其取值，各篇文献的归属见 §4.3。
+
+### 2.1 局部力学载体
+
+载体按局部映射的精确真值由什么数学问题定义分为三类。
+
+| 载体 | 几何/拓扑形态 | 局部映射的精确定义 | 数学地位 |
+|---|---|---|---|
+| EMsFEM 粗单元 | 由细单元加密而成的粗单元 | 在粗单元边界 $\partial\Omega^E$ 上施加线性边界条件，令各节点单位位移，逐个求解局部 PDE 得数值形函数 $\boldsymbol{N}$，粗刚度 $\mathbf{K}^E = \boldsymbol{N}^{\mathsf T}\mathbf{K}\boldsymbol{N}$ | 近似多尺度基，边界条件是人为施加的假设 |
+| 静力缩聚子结构 | 区分内部自由度 $i$ 与边界自由度 $b$ 的子结构 | Schur 补 $\mathbf{K}_s^j = \mathbf{K}_{bb} - \mathbf{K}_{bi}\mathbf{K}_{ii}^{-1}\mathbf{K}_{ib}$；内部位移由 $\boldsymbol{N}^j = -\mathbf{K}_{ii}^{-1}\mathbf{K}_{ib}$ 精确恢复 | 精确模型降阶，内部自由度完全消元，无截断误差 |
+| 超采样重叠子结构 | 目标子结构 $\Omega_{\mathrm{sub}}^j$ 外扩 $l$ 层细单元形成的超采样域 $\Omega_{\mathrm{os}}^j$ | 在 $\Omega_{\mathrm{os}}^j$ 外边界上令一个角点自由度为 1、其余角点为 0、四条边线性插值作 Dirichlet 条件，求解局部弹性 BVP，再把解限制回 $\Omega_{\mathrm{sub}}^j$ | 近似基，但目标子结构边界上无人为假设；相邻子结构界面位移不协调，由重叠有限元单位分解修复 |
+
+边界变形线性假设下的缩聚刚度式恰好等价于采用线性边界条件的 EMsFEM（[[../../literature/topopt/piml/translations/Huang2024-PIML-datafree-zh|Huang2024 译文]] §2.2）。前两类因此不是独立的方法路线，而是同一降阶思想在“先施加边界假设再求解”与“先精确消元再施加边界假设”两种次序下的表述。超采样重叠子结构与两者的区别在于把边界假设移出了目标子结构。
+
+### 2.2 学习对象
+
+| 学习对象 | 网络映射 | 局部刚度的构造 | 细尺度恢复 |
+|---|---|---|---|
+| 形函数（路线 A） | $\boldsymbol{\rho}^j \to \widehat{\mathbf{N}}^j$ | $\widehat{\mathbf{K}}_s^j = (\widehat{\mathbf{N}}^j)^{\mathsf T} \mathbf{K}^j \widehat{\mathbf{N}}^j$ | $\boldsymbol{u}_i = \widehat{\mathbf{N}}\boldsymbol{u}_b$ 直接给出 |
+| 缩聚刚度（路线 B） | $\boldsymbol{\rho}^j \to \widehat{\mathbf{K}}_s^j$ | 网络直接输出 | 需另配恢复网络 |
+| Bézier 控制点形函数（路线 A 特例） | $\boldsymbol{\rho}^j \to \widetilde{\mathbf{N}}^j$，$\widetilde{\mathbf{N}}^j$ 把边界控制点位移 $\boldsymbol{a}_b$ 映到内部位移 | 同路线 A，按控制点自由度作变分构造 | $\boldsymbol{u}_i = \widetilde{\mathbf{N}}^j\boldsymbol{a}_b$ 直接给出 |
+| 超采样数值基函数 | $\boldsymbol{\rho}^j \to$ 角点关联的数值基函数 | 基函数经重叠单位分解形成整体基后装配 | 直接给出 |
+
+Bézier 一行不是独立的学习对象：网络输入只有 $\boldsymbol{\rho}^j$，输出为控制点到内部的线性形函数矩阵，控制点位移 $\boldsymbol{a}_b$ 不进入网络（[[../../literature/topopt/piml/translations/Guo2026-highgeneralization-bezier-zh|Guo 2026 Bézier]] §2.4、§3.1）。单列一行只为标出迹基由边界节点换成 Bézier 控制点；[[piml-substructural]] 按 `cubic_bezier` 迹基将其归入路线 A。
+
+路线 A、B 的取舍：
+
+| 性质 | 路线 A：预测形函数 | 路线 B：直接预测刚度 |
+|---|---|---|
+| 对称半正定 | 由变分构造保证（$\mathbf{K}^j$ 正定且 $\widehat{\mathbf{N}}$ 满秩） | 需参数化约束，如 Cholesky 因子 |
+| 能量一致性 | 形函数与刚度满足变分能量关系 | 预测刚度与恢复形函数可能不一致 |
+| 在线开销 | 推理后需计算 $\mathbf{N}^{\mathsf T}\mathbf{K}\mathbf{N}$ | 推理直接给出矩阵元素，最快 |
+| 适用场景 | 需要细尺度位移/应力恢复与严格能量保持 | 只需全局粗求解，对推理延迟敏感 |
+
+路线 A、B 在子结构载体下的约束实现与误差性质见 [[piml-substructural]] §2–§4。
+
+### 2.3 输出表示
+
+| 表示形式 | 典型对象 | 特征 |
+|---|---|---|
+| 有限维离散矩阵 | $\widehat{\mathbf{N}}^j \in \mathbb{R}^{n_i \times n_b}$、$\widehat{\mathbf{K}}_s^j$ | 输出维度受局部自由度编号锁定，换网格需重新映射；可直接代数装配进全局方程 |
+| 坐标连续算子 | $\boldsymbol{\Phi}_k^j(\boldsymbol{x})$，$\boldsymbol{x}$ 作为网络输入 | 可在域内任意坐标求值，分辨率无关；输出一般不在有限元空间 $V_h$ 内，刚度须由应变能积分得到 |
+| 网格场预测 | 细网格节点上的基函数值 | 以图像式场作输出（如 U-Net），与细网格分辨率绑定 |
+
+连续算子的代表是 DeepONet。它由两支 MLP 组成，末端做内积给出场值：
+
+$$
+\boldsymbol{\Phi}_k^j(\boldsymbol{x}) \approx \sum_{q=1}^{Q} b_q(\boldsymbol{\rho}^j) \, t_q(\boldsymbol{x}) .
+$$
+
+branch net 输入子结构密度 $\boldsymbol{\rho}^j$ 在固定传感点上的采样值，输出 $Q$ 维系数；trunk net 输入子结构内的单个局部坐标 $\boldsymbol{x} \in \Omega^j$，输出 $Q$ 维基向量。对照有限元展开 $u_h(\boldsymbol{x}) = \sum_q c_q \boldsymbol{\phi}_q(\boldsymbol{x})$，trunk 对应基函数，branch 对应系数。区别在于 $\boldsymbol{\phi}_q$ 由网格事先给定，$t_q$ 由训练得到；$c_q$ 需解 $\mathbf{K}\mathbf{U} = \mathbf{F}$ 获得，$b_q$ 由 branch 从 $\boldsymbol{\rho}^j$ 直接映出。trunk 逐点求值是分辨率无关的来源，训练与推理的采样点可以不同；但 $t_q$ 是全局光滑函数而非分片多项式，张成空间与 $V_h$ 无包含关系，$\widehat{\mathbf{N}}^{\mathsf T} \mathbf{K} \widehat{\mathbf{N}}$ 式代数装配失效。
+
+### 2.4 训练方式与结构保持
+
+训练分两类。监督训练用局部有限元精确解作标签，以 MSE 为损失，标签生成需对每个样本做局部求解。Mechanics-based data-free 训练以局部总应变能或虚功原理残差为损失，不需预先生成标签（Huang 2024）。
+
+结构保持指让网络输出由构造满足对称性、半正定性、秩与刚体零空间，而不是靠损失惩罚逼近。路线 A 的变分构造天然保持对称半正定，刚体零空间需另外参数化；路线 B 可预测 Cholesky 因子 $\mathbf{L}$，令 $\widehat{\mathbf{K}}_s = \mathbf{L}\mathbf{L}^{\mathsf T}$；也可预测 POD/PCA 低维流形系数。因子化与低秩表示在 §4.3 所列文献中尚无专门工作，属候选方案。子结构载体下的具体参数化见 [[piml-substructural]] §3.1、§4。
+
+### 2.5 静力缩聚载体内的变体
+
+静力缩聚载体内部沿以下方向继续分化：
+
+| 变体轴 | 取值 |
+|---|---|
+| 边界降维 | 保留全部边界节点 / 线性变形假设 / Bézier 控制点插值 |
+| 子结构几何 | 规则四边形/六面体 / 等参四边形 |
+| 实现规模 | 串行 / MPI 并行按需预测与释放 |
+| 宏观设计变量 | SIMP 密度 / MMC 几何参数 |
+
+形函数的离散或连续表示已由 §2.3 覆盖，不再列为变体轴。
+
+边界降维方式决定接口自由度数与全局缩聚矩阵的稀疏性，是与 Matrix-Free 路线的接口。保留全部边界节点被否定的理由是半带宽 $\beta$ 剧增、直接稀疏求解器复杂度按 $\mathcal{O}(N\beta^2)$ 缩放，这一理由只在显式装配下成立。
+
+### 2.6 旧路线编号对照
+
+本页此前按路线 A–F 平铺分类，各路线对应的维度如下。A、B 两个编号在 [[piml-substructural]] 中继续使用。
+
+| 旧编号 | 原名称 | 对应维度与取值 |
+|---|---|---|
+| 路线 A | 预测形函数 | §2.2 学习对象：形函数 |
+| 路线 B | 直接预测刚度 | §2.2 学习对象：缩聚刚度 |
+| 路线 C | 因子化 / 低秩表示 | §2.4 结构保持：路线 B 的参数化方式 |
+| 路线 D | 边界参数到内部响应场 | §2.2 学习对象：路线 A 在 Bézier 控制点迹基下的特例，兼 §2.5 边界降维 |
+| 路线 E | 超采样重叠数值基函数 | §2.1 载体：超采样重叠子结构 |
+| 路线 F | 连续场 Neural Operator | §2.3 输出表示：坐标连续算子 |
+
+---
+
+## 3. 通用 5 步计算流程
+
+无论载体是静力缩聚子结构、EMsFEM 粗单元、超采样重叠子结构还是含微结构的裁剪单元，PIML 代理都遵循同一计算骨架：
 
 ```mermaid
 flowchart TD
-    A(["1 · 局部子结构材料参数化<br/>子结构密度分布 <b>ρ</b><sup>j</sup> ∈ ℝ<sup>m</sup>"])
-    B["2 · 有限元精确缩聚真值 (Exact Baseline)<br/>分块刚度矩阵求逆 → 真值 <b>N</b><sub>exact</sub><sup>j</sup> & <b>K</b><sub>s,exact</sub><sup>j</sup>"]
-    C["3A · 代理网络预测与物理约束<br/>神经网络预测 <b>ρ</b><sup>j</sup> → <b>N̂</b><sup>j</sup> 或 <b>K̂</b><sub>s</sub><sup>j</sup><br/>(代数结构保持: 对称性 / 正定性 / 刚体模态)"]
-    D["3B · 损失函数与参数更新<br/>Supervised MSE Loss 或 Mechanics-based Data-free Loss"]
-    E["4 · 嵌入全局系统组装与求解<br/>将 <b>K̂</b><sub>s</sub><sup>j</sup> 组装至全局粗系统方程 <b>K</b><sub>global</sub> <b>U</b> = <b>F</b> → 求解 <b>U</b><sub>b</sub>"]
-    F["5 · 细尺度场恢复与下游评价<br/>内部位移恢复 <b>u</b><sub>i</sub><sup>j</sup> = <b>N̂</b><sup>j</sup> <b>u</b><sub>b</sub><sup>j</sup> → 柔顺度 / 迭代收敛 / 拓扑更新"]
+    S1(["1 · 局部输入参数化 <b>ρ</b><sup>j</sup>"])
+    S2["2 · 局部精确真值基线 (Exact Baseline)"]
+    S3["3 · 代理网络预测与力学结构保持"]
+    S4["4 · 嵌入全局宏观系统求解"]
+    S5["5 · 细尺度恢复与下游闭环评价"]
 
-    A --> B
-    A --> C --> D --> E --> F
-    B -. "提供监督标签 (Supervised)" .-> D
-    B -. "提供精确回退 (Exact Fallback)" .-> E
+    S1 --> S3 --> S4 --> S5
+    S1 -.-> S2
+    S2 -. "监督标签" .-> S3
+    S5 -. "异常回退" .-> S2
+    S2 -.-> S4
 
     classDef input fill:#EAF2FF,stroke:#2563EB,color:#102A43,stroke-width:1.5px;
     classDef exact fill:#E8FAF5,stroke:#0F9D7A,color:#12372F,stroke-width:1.5px;
@@ -129,147 +227,150 @@ flowchart TD
     classDef global fill:#FFF4E5,stroke:#D97706,color:#4A2A06,stroke-width:1.5px;
     classDef downstream fill:#FFF8CC,stroke:#B88700,color:#3D3100,stroke-width:1.5px;
 
-    class A input;
-    class B exact;
-    class C,D model;
-    class E global;
-    class F downstream;
+    class S1 input;
+    class S2 exact;
+    class S3 model;
+    class S4 global;
+    class S5 downstream;
 ```
 
-### 2.1 步骤 1：局部子结构材料参数化 (Local Input Parameterization)
-假设宏观设计域分割为 $M$ 个子结构单元。对于第 $j$ 个子结构，其内部微观/细观材料分布以元胞密度向量或连续函数描述：
-$$
-\boldsymbol{\rho}^j = [\rho_1^j, \rho_2^j, \dots, \rho_m^j]^{\mathsf T} \in [0, 1]^m
-$$
-该输入向量仅与局部材料几何相关，完全独立于宏观全局边界条件和外载荷。
+### 3.1 步骤 1：局部输入参数化
 
-### 2.2 步骤 2：有限元精确缩聚真值构造 (Exact Substructure Condensation)
-在经典有限元（FEA）中，子结构自由度划分为内部自由度（internal DOFs, 下标 $i$）与边界接口自由度（boundary DOFs, 下标 $b$）。局部刚度方程写为分块形式：
+宏观设计域 $\Omega$ 剖分为 $M$ 个局部载体。第 $j$ 个载体 $\Omega^j$ 内的材料分布或几何以参数向量描述：
+
 $$
-\begin{bmatrix} 
-\mathbf{K}_{ii}^j & \mathbf{K}_{ib}^j \\ 
-\mathbf{K}_{bi}^j & \mathbf{K}_{bb}^j 
-\end{bmatrix} 
-\begin{bmatrix} 
-\boldsymbol{u}_i^j \\ 
-\boldsymbol{u}_b^j 
-\end{bmatrix} 
-= 
-\begin{bmatrix} 
-\boldsymbol{f}_i^j \\ 
-\boldsymbol{f}_b^j 
-\end{bmatrix}
+\boldsymbol{\rho}^j = [\rho_1^j, \rho_2^j, \dots, \rho_m^j]^{\mathsf T} \in [0, 1]^m .
 $$
-在无内部载荷（$\boldsymbol{f}_i^j = \boldsymbol{0}$）假设下，做静力缩聚（Schur Complement）：
-1. **多尺度形函数真值 $\mathbf{N}_{\text{exact}}^j$**（描述边界位移对内部位移的映射）：
-   $$
-   \boldsymbol{u}_i^j = -(\mathbf{K}_{ii}^j)^{-1} \mathbf{K}_{ib}^j \boldsymbol{u}_b^j = \mathbf{N}_{\text{exact}}^j \boldsymbol{u}_b^j
-   $$
-2. **缩聚刚度矩阵真值 $\mathbf{K}_{s,\text{exact}}^j$**（描述接口自由度上的等效力学刚度）：
-   $$
-   \mathbf{K}_{s,\text{exact}}^j = \mathbf{K}_{bb}^j - \mathbf{K}_{bi}^j (\mathbf{K}_{ii}^j)^{-1} \mathbf{K}_{ib}^j
-   $$
 
-### 2.3 步骤 3：代理网络映射与结构保持硬约束 (Surrogate Predictor)
-模型代理拟合局部输入到局部算子的映射。主流两条候选路线：
-* **路线 A（预测形函数 $\boldsymbol{N}$）**：神经网络预测 $\widehat{\mathbf{N}}^j = f_\theta(\boldsymbol{\rho}^j)$，随后由能量一致关系构造缩聚刚度 $\widehat{\mathbf{K}}_s^j = (\widehat{\mathbf{N}}^j)^{\mathsf T} \mathbf{K}^j \widehat{\mathbf{N}}^j$。此路线能硬性保证位移恢复与能量一致性。
-* **路线 B（直接预测缩聚刚度 $\mathbf{K}_s$）**：神经网络直接预测 $\widehat{\mathbf{K}}_s^j = g_\theta(\boldsymbol{\rho}^j)$。在线计算更快，但需要通过 Cholesky 因子化或参数化严格保持**对称正定性（SPD）与刚体模态（Zero Energy Modes）**。
+该向量只描述局部介质状态，与宏观载荷和边界条件无关（§1.3 条件 2）。等参载体另含粗节点坐标（Zhang 2024），Bézier 边界参数化的网络输入仍只有 $\boldsymbol{\rho}^j$，控制点位移只在预测形函数作用时出现（Guo Yilin 2026 Bézier）。
 
-### 2.4 步骤 4：嵌入全局系统组装与求解 (Global Assembly & Solve)
-将所有预测的局部缩聚刚度矩阵 $\widehat{\mathbf{K}}_s^j$ 组装到宏观接口求解系统中：
+### 3.2 步骤 2：局部精确真值
+
+消除局部自由度或构造多尺度基需要求解局部边值子问题（§1.3 条件 1）。三类载体的真值定义见 §2.1：静力缩聚给出 $\mathbf{N}_{\text{exact}}^j = -(\mathbf{K}_{ii}^j)^{-1}\mathbf{K}_{ib}^j$ 与 Schur 补 $\mathbf{K}_{s,\text{exact}}^j$（推导见 [[../exact-substructural]]），EMsFEM 给出粗基 $\boldsymbol{\Phi}_{\text{exact}}^j$ 与粗刚度 $\mathbf{K}_{H,\text{exact}}^j$，超采样重叠子结构给出限制回目标子结构的数值基函数。真值用作监督标签、离线验证基线和在线回退目标。
+
+### 3.3 步骤 3：代理预测与结构保持
+
+网络拟合 $\boldsymbol{\rho}^j$ 到局部算子的映射，学习对象、输出表示、训练方式与结构保持的选择见 §2.2–§2.4。
+
+### 3.4 步骤 4：嵌入全局系统求解
+
+各载体的局部刚度 $\widehat{\mathbf{K}}_H^j$ 装配进宏观粗尺度或接口平衡方程：
+
 $$
-\mathbf{K}_{\text{global}} \boldsymbol{U}_b = \mathbf{F}_b, \quad \text{其中 } \mathbf{K}_{\text{global}} = \sum_{j=1}^M \mathbf{A}_j^{\mathsf T} \widehat{\mathbf{K}}_s^j \mathbf{A}_j
+\mathbf{K}_{\text{global}} \boldsymbol{U}_H = \mathbf{F}_H, \quad \mathbf{K}_{\text{global}} = \sum_{j=1}^M \mathbf{A}_j^{\mathsf T} \widehat{\mathbf{K}}_H^j \mathbf{A}_j .
 $$
-解出宏观接口位移向量 $\boldsymbol{U}_b$。
 
-### 2.5 步骤 5：细尺度场恢复与下游评价 (Fine-scale Recovery & Downstream Metric)
-由宏观接口位移 $\boldsymbol{u}_b^j$，恢复任意子结构的内部细尺度位移与应力场：
+该步也可按 Matrix-Free 方式在 GPU 上执行局部算子作用（Gather $\to$ Local Action $\to$ Scatter-Add），不显式存储全局稀疏矩阵（见 [[../matrix-free/mf-ea-substructural]] 与 [[../gpu-hpc/performance-model|GPU/HPC 性能模型]]）。
+
+### 3.5 步骤 5：细尺度恢复与下游评价
+
+由全局解 $\boldsymbol{U}_H$ 恢复载体内部的细尺度位移与应力：
+
 $$
-\boldsymbol{u}_i^j = \widehat{\mathbf{N}}^j \boldsymbol{u}_b^j
+\boldsymbol{u}_{\text{fine}}^j = \mathcal{R}^j(\boldsymbol{U}_H), \quad \text{子结构中为 } \boldsymbol{u}_i^j = \widehat{\mathbf{N}}^j \boldsymbol{u}_b^j .
 $$
-下游评价不仅检查局部刚度 MSE，更以后续全局柔顺度误差 $C = \mathbf{F}^{\mathsf T} \boldsymbol{U}$、Krylov 迭代收敛行为与拓扑优化更新轨迹作为验收标准。当神经网络预测异常时，触发**精确回退 (Exact Fallback)**。
 
----
+下游评价以全结构柔顺度误差、Krylov 迭代收敛行为和拓扑优化设计变量更新轨迹为验收标准，局部算子的 MSE 只是其中一项。在线检测到预测违反力学约束（如正定性失效）或残差超标时，对该载体回退到步骤 2 的精确计算。
 
-## 3. 计算力学学者的 PIML 概念与代数映射卡片
+### 3.6 通用 5 步与子结构专页章节的映射
 
-将经典有限元（FEM/子结构法）概念映射到 PIML 深度学习的对应组件：
+载体限定为非重叠子结构时，5 步在 [[piml-substructural]] 中对应的章节如下：
 
-| 经典计算力学 / FEM 概念 | PIML 深度学习对应组件 | 数学/工程含义 |
+| 通用步骤 | 子结构专页章节 | 子结构载体中的具体内容 |
 |---|---|---|
-| 单元/子结构材料密度分布 | 输入张量 $\boldsymbol{\rho}^j \in [0, 1]^m$ | 描述局部细观几何/拓扑分布 |
-| 边界自由度 $\boldsymbol{u}_b$ / 内部自由度 $\boldsymbol{u}_i$ | 接口张量维度划分 | 决定网络输出矩阵的 shape |
-| Schur 补 (Schur Complement) | 缩聚刚度标签 $\mathbf{K}_{s,\text{exact}}^j$ | 有限元精确静力缩聚真值 |
-| 内部位移插值基函数 | 多尺度形函数矩阵 $\mathbf{N}^j$ | 描述接口位移到内部细尺度位移的投影 |
-| 整体粗网格刚度组装 | 预测算子作用 / Scatter-Add | 将预测局部刚度嵌入全局平衡方程 |
-| 子结构静力回代恢复 | 解场恢复前向计算 $\boldsymbol{u}_i = \mathbf{N}\boldsymbol{u}_b$ | 获得细尺度位移与应力集中分布 |
+| 步骤 1：局部输入参数化 | §1 局部问题、接口表示与网络输入 | 固定网格离散与线弹性假定，输入为子结构单元密度 $\boldsymbol{\rho}^j$，或另含查询坐标 $\mathbf{x}$ |
+| 步骤 2：局部精确真值 | §1（迹基 $\mathbf{T}_j$ 与 Schur 补基线） | 区分完整接口迹与角点迹，建立精确延拓 $\mathbf{N}_{\text{int}}^j$ 与 Schur 补刚度 $\mathbf{K}_s^j$ |
+| 步骤 3：代理预测与结构保持 | §2 两条路线的分野；§3 路线 A；§4 路线 B；§5 训练方式 | 权衡路线 A 与 B，选择离散矩阵或 DeepONet 连续场，变分二次余项 $\mathbf{E}_j^{\mathsf T}\mathbf{K}_{ii}\mathbf{E}_j$ 与刚体零空间 Cholesky 参数化 |
+| 步骤 4：嵌入全局系统求解 | §6.1 全局接口平衡；§7 计算实现与性能 | 装配全局接口平衡方程，在 GPU 上组织 EA 型 Matrix-Free 算子作用与并行通信 |
+| 步骤 5：细尺度恢复与下游评价 | §6.2 内部恢复与灵敏度传递；§6.3 误差层次与在线门禁 | 细尺度位移与应力恢复，分层区分接口降阶误差、代理误差与求解误差，在线异常检查与局部精确回退 |
 
----
+### 3.7 FEM 概念与 PIML 组件对照
 
-## 4. 范式对比：PIML vs. PINN 侧向对比矩阵
-
-| 维度 | PINN (Problem-Dependent) | PIML (Problem-Independent / Huang–Ma 路线) |
+| 经典计算力学 / FEM 概念 | PIML 对应组件 | 含义 |
 |---|---|---|
-| **与 FEM 的关系** | **竞争**：网络即求解器，替代整条离散—求解流水线 | **组合**：只替代 FEM 内部的局部缩聚子步，全局框架与灵敏度链条保留（见 §1.1） |
-| **输入** | 空间坐标 $\boldsymbol{x} \in \mathbb{R}^d$（遍历宏观域） | 局部材料/几何分布 $\boldsymbol{\rho}^j \in [0, 1]^m$（路线 F 另含局部坐标 $\boldsymbol{x} \in \Omega^j$）；**不含宏观边界与载荷** |
-| **输出** | 空间某点物理响应 $\hat{\boldsymbol{u}}(\boldsymbol{x})$ | 有限维算子 $\mathbf{N}^j$ / $\mathbf{K}_s^j$（路线 A/B），或函数值算子 $\boldsymbol{\Phi}_k^j(\cdot)$（路线 F） |
-| **训练数据** | 无数据 (Data-Free)，靠 Collocation 点残差 | 局部材料样本集 (Supervised 或 Mechanics-based Data-free) |
-| **重训需求** | 载荷/边界条件改变后**必须重新训练** | **跨宏观 BVP 免重训**，秒级推理与全局求解 |
-| **全局求解** | 无全局组装，网络即求解器 | 预测局部算子，组装至传统全局平衡方程 $K_{\text{global}} U = F$ |
-| **代数结构保持** | 靠 Loss 软约束控制边界与方程 | 可通过硬参数化保持对称性、正定性与刚体模态 |
-| **失败处理** | 训练不收敛则无法得到合理物理解 | 可检测分布外异常并**精准回退 (Exact Fallback)** 到有限元计算 |
-| **课题角色** | 物理残差算子摸底与 Baseline | 博士后核心研究项目 PIML 局部表示线的攻关方向 |
+| 单元/子结构材料密度分布 | 输入张量 $\boldsymbol{\rho}^j \in [0, 1]^m$ | 局部细观几何与拓扑分布 |
+| 边界自由度 $\boldsymbol{u}_b$ / 内部自由度 $\boldsymbol{u}_i$ | 接口张量维度划分 | 决定网络输出矩阵的形状 |
+| Schur 补 | 缩聚刚度标签 $\mathbf{K}_{s,\text{exact}}^j$ | 静力缩聚精确真值 |
+| 内部位移插值基函数 | 多尺度形函数矩阵 $\mathbf{N}^j$ | 接口位移到内部细尺度位移的映射 |
+| 整体粗网格刚度组装 | 预测算子作用 / Scatter-Add | 预测局部刚度进入全局平衡方程 |
+| 子结构静力回代 | 恢复前向计算 $\boldsymbol{u}_i = \mathbf{N}\boldsymbol{u}_b$ | 细尺度位移与应力分布 |
 
 ---
 
-## 5. 候选表示路线与算法选择
+## 4. 文献谱系
 
-在 PIML 研发中，根据预测对象的代数形态与物理性质保持方式，存在两条**核心代数基石路线（路线 A 与路线 B）**以及若干**衍生与新型候选路线（路线 C ~ 路线 F）**。各路线需在代数结构保持、能量一致性与计算成本上做出 Pareto 取舍。
+### 4.1 时间线
 
-### 5.1 核心代数基石路线：路线 A vs 路线 B
+```mermaid
+flowchart LR
+    A["Lei 2018/2019<br/>载荷 → MMC 设计变量<br/>前史：问题相关直接预测"]
+    B["Huang 2022<br/>EMsFEM 局部形函数<br/>PIML 起点"]
+    C["Huang 2023<br/>子结构形函数与静力缩聚"]
+    D["Zhang 2024<br/>等参单元与复杂设计域"]
+    E["Huang 2024<br/>Mechanics-based Data-Free"]
+    F["Xu 2025<br/>MMC 与三维梯度点阵应用"]
+    G["Ma 2026<br/>并行、按需预测与大规模实现"]
+    H["Guo Yilin 2026<br/>Bézier 边界位移参数化"]
+    I["Guo Yilin 2026 PIML-OFEM<br/>超采样重叠数值基函数<br/>arXiv v1"]
 
-| 候选路线 | 路线 A：预测形函数 $\boldsymbol{\rho}^j \to \widehat{\mathbf{N}}^j \to \widehat{\mathbf{K}}_s^j$ | 路线 B：直接预测刚度 $\boldsymbol{\rho}^j \to \widehat{\mathbf{K}}_s^j$ |
-|---|---|---|
-| **构造公式** | $\widehat{\mathbf{K}}_s^j = (\widehat{\mathbf{N}}^j)^{\mathsf T} \mathbf{K}^j \widehat{\mathbf{N}}^j$ | 直接由网络多层映射预测 $\widehat{\mathbf{K}}_s^j$ 矩阵元素 |
-| **对称正定性 (SPD)** | **物理硬保持**（只要 $\mathbf{K}^j$ 正定且 $\widehat{\mathbf{N}}$ 满秩） | 需网络参数化约束（如 Cholesky 分解） |
-| **能量一致性** | **物理硬保持**（形函数与刚度满足变分能量关系） | 预测刚度与恢复形函数可能存在能量不一致 |
-| **计算开销** | 在线推理后需进行矩阵乘法 $\mathbf{N}^{\mathsf T}\mathbf{K}\mathbf{N}$ | **在线推理速度最快**，直接输出代数矩阵元素 |
-| **下游恢复能力** | 预测出 $\widehat{\mathbf{N}}$ 后，**天然用于细尺度位移与应力恢复**（$\boldsymbol{u}_i = \widehat{\mathbf{N}}\boldsymbol{u}_b$） | 无法直接恢复细尺度响应，需额外配套恢复网络 |
-| **适用场景** | 需要精确细尺度位移/应力恢复与严格能量保持 | 仅需快速全局粗求解，对推理延迟极度敏感 |
+    A -. 前史与范式对照 .-> B
+    B --> C
+    C --> D
+    C --> E
+    C --> F
+    C --> G
+    C --> H
+    C --> I
+```
 
-### 5.2 衍生与新型候选表示路线
+### 4.2 单篇贡献与局限
 
-除了全量预测形函数和全量刚度外，随着 PIML 的演进还衍生出了以下新型算子/参数映射范式：
+单篇的公式与算例见 `literature/topopt/<子类>/translations/` 下的中文译文；全文事实以 `sources/` 中的原始 PDF 为准，两者冲突时以 PDF 为准。
 
-* **路线 C：因子化 / 低秩分解表示（Factorized / Low-rank Representation）**
-  * **机制**：不直接预测高维刚度矩阵 $\mathbf{K}_s$，而是预测其 Cholesky 分解因子 $\mathbf{L}$（使 $\widehat{\mathbf{K}}_s = \mathbf{L}\mathbf{L}^{\mathsf T}$，无条件物理硬保持 SPD），或基于 POD/PCA 预测低维主成分流形系数。
-* **路线 D：边界控制参数到内部响应场映射（Boundary Operator Learning）**
-  * **代表文献**：*Guo Yilin 2026 CMAME*（郭一麟 et al.）。
-  * **机制**：学习低维多项式/Bézier 曲线参数化的边界位移 $\boldsymbol{a}_b$ 到内部响应场 $\boldsymbol{u}_i$ 的 operator 映射 $\boldsymbol{a}_b \to \boldsymbol{u}_i$。
-* **路线 E：超采样重叠数值基函数（Supersampled Basis）**
-  * **代表文献**：*Guo Yilin 2026 OFEM*（郭一麟 et al.）。
-  * **机制**：在带有重叠区域的局部子网格上，用 U-Net 预测超采样数值基函数（Supersampled Basis），保留角节点自由度并装配粗系统。
-* **路线 F：连续场 Neural Operator（DeepONet / FNO 算子）**
-  * **代表文献**：*Huang 2024 Data-Free*（Huang et al.）。
-  * **机制**：用 DeepONet 等 Neural Operator 学习连续材料分布到连续形函数/应变能的算子映射。DeepONet 由两支 MLP 组成，末端做内积给出场值：
-    $$
-    \boldsymbol{\Phi}_k^j(\boldsymbol{x}) \approx \sum_{q=1}^{Q} b_q(\boldsymbol{\rho}^j) \, t_q(\boldsymbol{x})
-    $$
-    branch net 输入子结构密度分布 $\boldsymbol{\rho}^j$ 在固定传感点上的采样值、输出 $Q$ 维系数；trunk net 输入子结构内的单个局部坐标 $\boldsymbol{x} \in \Omega^j$、输出 $Q$ 维基向量。名称取自树形结构：branch 可有多支（对应多个输入函数），trunk 只有一支。
-  * **与有限元展开的对应**：对照 $u_h(\boldsymbol{x}) = \sum_q c_q \boldsymbol{\phi}_q(\boldsymbol{x})$，trunk 学的是基函数、branch 学的是该组基上的系数。区别在于 $\boldsymbol{\phi}_q$ 由网格事先给定而 $t_q$ 由训练得到；$c_q$ 需解 $\mathbf{K}\mathbf{U} = \mathbf{F}$ 才能获得，而 $b_q$ 由 branch 从 $\boldsymbol{\rho}^j$ 直接前向映出。
-  * **代价**：trunk 逐点求值是分辨率无关的来源（训练与推理采样点可完全不同），但 $t_q$ 是全局光滑函数而非分片多项式，张成空间与 $V_h$ 无包含关系，$\widehat{\mathbf{N}}^{\mathsf T} \mathbf{K} \widehat{\mathbf{N}}$ 式代数装配失效，缩聚刚度须由应变能直接积分获得（见 §1）。
+| 年份 | 工作 | 核心贡献 | 局限与开放问题 | 译文 |
+|---|---|---|---|---|
+| 2018 | Lei 2018/2019 | 前史对照：已知边界与载荷下直接预测最终设计，实现实时拓扑预测 | 强问题相关，载荷或设计域改变后须重新生成样本训练 | [[../../literature/topopt/mmc-mmv/translations/Lei2018-machinelearningdriven-zh\|Lei2018 译文]] |
+| 2022 | Huang 2022 | PIML 起点：学习对象由最终设计改为局部力学构造，训练一次即可跨宏观 BVP 复用 | 依赖监督标签，输出维度随细分尺度增加，限于规则粗网格 | [[../../literature/topopt/piml/translations/Huang2022-problemindependentmachine-zh\|Huang2022 译文]] |
+| 2023 | Huang 2023 | 载体由 EMsFEM 粗单元转到经典子结构静力缩聚，首次对比两种学习对象与两种边界降维方式 | 直接预测 $\mathbf{K}_s$ 可能破坏与 $\boldsymbol{N}$ 的能量一致性，依赖监督标签 | [[../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh\|Huang2023 译文]] |
+| 2024 | Huang 2024 | 去掉监督标签，形函数由离散矩阵改为坐标连续表示 | 以规则立方体子结构为主，非连通材料分布下优化稳定性有待提升 | [[../../literature/topopt/piml/translations/Huang2024-PIML-datafree-zh\|Huang2024 译文]] |
+| 2024 | Zhang 2024 | 子结构几何进入网络输入，由规则子结构推广到等参子结构以适配复杂设计域 | 基于线性边界假定与内角 $30^\circ \sim 150^\circ$ 筛选，三维扩展与保形边界受粗网格几何限制 | [[../../literature/topopt/piml/translations/Zhang2024-isoparametric-PIML-zh\|Zhang2024 译文]] |
+| 2025 | Xu 2025 | 宏观设计变量由 SIMP 密度换成 MMC 几何参数，用于三维梯度点阵；B 样条 PCM 实现宏微观光滑过渡 | 受限于线性位移假定与规则包围盒体素化 | [[../../literature/topopt/piml/translations/Xu2025-PIML-lattice-MMC-zh\|Xu2025 译文]] |
+| 2026 | Ma 2026 | 由方法验证推进到十亿单元规模的并行实现 | 粗网格缩聚系统仍需显式形成与求解，非完全全局无矩阵 | [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh\|Ma2026 译文]] |
+| 2026 | Guo Yilin 2026 Bézier（郭一麟等） | 以高阶边界插值替代线性边界假设 | 突破线性边界假设，保持刚体平移与转动不变性，支持小滤波半径高分辨率优化 | [[../../literature/topopt/piml/translations/Guo2026-highgeneralization-bezier-zh\|Guo2026 Bézier 译文]] |
+| 2026 | Guo Yilin 2026 OFEM（郭一麟等） | 边界假设移出目标子结构，由重叠单位分解恢复全局协调 | 超采样消除目标子结构边界假设，重叠单位分解保证全局协调，支持小滤波半径高分辨率优化；arXiv v1 | [[../../literature/topopt/piml/translations/Guo2026-PIML-OFEM-zh\|Guo2026 OFEM 译文]] |
 
-关于 EMsFEM 粗单元、经典缩聚子结构、OFEM 重叠网格、等参单元及 Bézier 边界等 5 大局部力学载体的详细演进对比，见 [[method-lineage#2.1 局部力学载体的演进与分类图谱|PIML 5 大局部力学载体的演进与分类图谱]]。
+### 4.3 按分类维度归类
 
-详细的模型选型与统一比较契约见 [[../../research/piml-matrix-free-gpu/piml-research-guide|PIML 局部力学算子研究指南]]。
+| 工作                    | 载体（§2.1）   | 学习对象（§2.2）             | 输出表示与网络（§2.3）        | 训练（§2.4）                  | 边界降维（§2.5）         | 其他扩展                        |
+| --------------------- | ---------- | ---------------------- | -------------------- | ------------------------- | ------------------ | --------------------------- |
+| Huang 2022            | EMsFEM 粗单元 | 形函数                    | 离散矩阵，全连接网络           | 监督                        | 线性边界条件             | 规则粗网格                       |
+| Huang 2023            | 静力缩聚子结构    | 形函数与缩聚刚度对比             | 离散矩阵，15 隐藏层前馈网络      | 监督                        | 全部边界节点与线性变形假设对比    | 三维柔顺机构                      |
+| Huang 2024            | 静力缩聚子结构    | 连续形函数                  | 坐标连续算子，DeepONet      | Mechanics-based data-free | 线性变形假设（其 §2.2）     | 规则立方体子结构                    |
+| Zhang 2024            | 静力缩聚子结构    | 形函数                    | 离散矩阵，深度前馈网络，输入含粗节点坐标 | 监督                        | 线性边界假定             | 二维等参子结构                     |
+| Xu 2025               | 静力缩聚子结构    | 形函数                    | 离散矩阵，15 隐藏层前馈网络      | 监督（待确认）                   | 线性位移假定             | 三维 MMC 点阵                   |
+| Ma 2026               | 静力缩聚子结构    | 沿用已训练 PIML 模型（待确认具体对象） | 离散矩阵                 | 沿用已训练模型                   | 线性变形假设             | MPI 并行、并行多重网格、按需预测与释放、无矩阵实现 |
+| Guo Yilin 2026 Bézier | 静力缩聚子结构    | 形函数（Bézier 控制点迹基）        | 坐标连续算子，DeepONet      | 待确认                       | 三次 Bézier 控制点      | 高阶边界插值                      |
+| Guo Yilin 2026 OFEM   | 超采样重叠子结构   | 超采样数值基函数               | 网格场预测，U-Net          | 待确认                       | 仅保留角节点，边界假设移出目标子结构 | 重叠单位分解                      |
 
 ---
 
-## 6. 相关页面
+## 5. 开放问题
 
-* [[../pinn-paradigm|PINN 通用 5 步范式]] — 坐标型 PINN 解场逼近与 AD 求导链
-* [[../ml-roles-and-boundaries|计算力学 ML 6大路线全景图谱与方法边界]] — 鸟瞰计算力学中 6 大 ML 路线的作用位置
-* [[mathematical-foundations|Problem-Independent 路线的数学基础]] — 局部—全局契约、精确缩聚标签与路线 A/B（Schur 补原理见 [[../substructural-condensation]]）
-* [[method-lineage|Huang–Ma PIML 方法演进谱系]] — 从 EMsFEM 到 Data-free 与并行 PIML
-* [[../../research/piml-matrix-free-gpu/piml-research-guide|PIML 局部力学算子技术线研究指南]] — 博士后 PIML 局部表示线的模型选型与证据综合
-* SOPTX 代码仓库（`soptx/examples/pinn_elasticity` 等）
+1. 物理代数一致性：如何使预测形函数 $\widehat{\mathbf{N}}$、缩聚刚度 $\widehat{\mathbf{K}}_s$ 与应变能关系同时严格一致？
+2. 硬结构保持参数化：如何让网络输出天然满足对称性、半正定性、秩保持和刚体模态约束？
+3. Data-free 训练稳定性：纯力学能量损失能否完全替代监督标签，在极端稀疏材料下是否引入新的优化困难？
+4. 复杂几何与非结构网格：如何从规则子结构高效扩展到非结构网格和复杂几何？
+5. 全局求解与 GPU 融合：局部预测加速后，全局缩聚系统如何在不组装全局矩阵的前提下完成 GPU/Krylov 求解？
+
+## 参考依据
+
+- [[../../literature/topopt/mmc-mmv/translations/Lei2018-machinelearningdriven-zh|Lei 2018]]：问题相关直接预测的前史对照。
+- [[../../literature/topopt/piml/translations/Huang2022-problemindependentmachine-zh|Huang 2022]]：PIML 概念首提，EMsFEM 粗单元形函数学习。
+- [[../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh|Huang 2023]]：非重叠子结构静力缩聚，形函数与缩聚刚度两条预测路线，边界降维方式比较。
+- [[../../literature/topopt/piml/translations/Huang2024-PIML-datafree-zh|Huang 2024]]：DeepONet 连续形函数与 mechanics-based data-free 训练；§2.2 线性边界缩聚与 EMsFEM 的等价。
+- [[../../literature/topopt/piml/translations/Zhang2024-isoparametric-PIML-zh|Zhang 2024]]：等参子结构与几何感知输入。
+- [[../../literature/topopt/piml/translations/Xu2025-PIML-lattice-MMC-zh|Xu 2025]]：MMC 参数化与三维点阵应用。
+- [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh|Ma 2026]]：MPI 并行、并行多重网格与按需预测。
+- [[../../literature/topopt/piml/translations/Guo2026-highgeneralization-bezier-zh|Guo Yilin 2026 Bézier]]：Bézier 边界位移参数化与 DeepONet 预测控制点到内部的数值形函数。
+- [[../../literature/topopt/piml/translations/Guo2026-PIML-OFEM-zh|Guo Yilin 2026 OFEM]]：超采样重叠数值基函数与重叠单位分解。
+- [[../exact-substructural|精确子结构分析]]：分块平衡、Schur 补与离散调和延拓的代数依据。

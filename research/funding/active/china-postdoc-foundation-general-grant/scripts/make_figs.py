@@ -157,7 +157,7 @@ OUT_FIG3_PANEL = os.path.join(HERE, "fig09_piml_validation_panel_{}.png")
 OUT_FIG3_PANEL_SVG = os.path.join(HERE, "fig09_piml_validation_panel_{}.svg")
 FIG3_PANEL_SIZE = (4.6, 3.5)
 FIG3_SNAPSHOT = os.path.join(
-    SOPTX_ROOT, "experiments", "piml_capability", "figure_data", "fig3_data.json")
+    SOPTX_ROOT, "experiments", "piml_substructure_capability", "figure_data", "fig3_data.json")
 
 OUT_FIG4 = os.path.join(HERE, "fig10_multibackend_performance.png")
 OUT_FIG4_SVG = os.path.join(HERE, "fig10_multibackend_performance.svg")
@@ -873,7 +873,7 @@ def load_fig3_snapshot():
         raise FileNotFoundError(
             f"图 3 的数据快照不存在: {FIG3_SNAPSHOT}\n"
             "先在 SOPTX 侧采集:\n"
-            "  python experiments/piml_capability/run.py --collect\n"
+            "  python experiments/piml_substructure_capability/run.py --collect\n"
             "若 soptx 不在 ~/workspace/soptx, 用环境变量 SOPTX_ROOT 指定。")
     with open(FIG3_SNAPSHOT, encoding="utf-8") as handle:
         snapshot = json.load(handle)

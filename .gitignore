@@ -63,8 +63,8 @@ research/funding/**/*.pdf
 research/funding/**/*.doc
 research/funding/**/*.docx
 
-# Paper PDF copies for AI access; originals live in Zotero, not Git
-literature/**/sources/
+# Local source copies in any directory; originals live in Zotero, iCloud or upstream
+**/sources/
 
 # Any subdirectory under translations/ is a local derived artifact (e.g. PDF conversion
 # cache) and stays out of Git; the flat -zh.md translation notes remain tracked.
@@ -83,6 +83,4 @@ talks/**/.miktex-data/
 talks/**/.miktex-pkgs/
 talks/**/.fontconfig/
 
-# Benchmark 算例原件（Nastran BDF 等）供 AI 读取的本地副本；主档归 iCloud，
-# 清单与 SHA-256 登记在 research/benchmark-cases/sources.md，与 literature/**/sources/ 同构。
-research/benchmark-cases/sources/
+

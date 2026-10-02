@@ -11,10 +11,22 @@
 | [[guo-yilin/guo-yilin|郭一麟]] | 博士，PIML 方向（`xuProblemindependentMachineLearning2025` 作者之一），PIML × GPU 合作线索 | in-progress |
 | [[mei-yue/mei-yue|梅跃]] | 大连理工大学教授，大连工业软件创新发展研究院常务副院长；计算力学正反问题与 CAE 软件研发，PIML 主线两篇论文共同作者 | in-progress |
 
+## 工作汇报
+
+| 页面 / 入口 | 说明 |
+|---|---|
+| [[guo-xu/reports/overview\|郭老师工作汇报总览]] | PIML 中的 Matrix-Free、GPU、联合应用、可求解规模及在团队软件框架下运行 |
+| [[guo-xu/reports/2026-09-10-sgsim-framework-meeting\|郭旭：2026-09-10 线下汇报]] | 两条主线跑通、规模受限；郭老师要求后续在 SGSim 框架下运行 |
+| [[guo-xu/reports/piml-gpu-matrix-free-demo/report\|郭旭：PIML–GPU–Matrix-Free 小型 Demo]] | 第一次正式工作汇报，包含对照结果与拟讨论问题 |
+
+## 沟通记录
+
+- [[guo-xu/wechat-log|郭旭微信沟通档案]] — 微信消息、线下见面记录及沟通背景。
+
 ## 关系网络
 
 - [[relationships|师门链与人物关系图]] — 记录郭旭、刘畅、郭一麟等讨论对象之间的师门传承与合作背景。
 
 ---
 
-*新建实体页：按实体目录 `entities/<名称>/_index.md` 组织静态画像与汇报底稿，并在本表和 [[../index]] 登记。*
+*新建实体页：按实体目录 `entities/<对象>/<对象>.md` 组织静态画像与讨论底稿，并在本表登记。*

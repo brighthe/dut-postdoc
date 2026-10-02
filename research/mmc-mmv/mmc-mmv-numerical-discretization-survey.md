@@ -217,7 +217,7 @@ VEM 目前主要由外部团队推动（Antonietti、Bruggi、Paulino 的 PolyTo
 | 无数据力学驱动版 | [[../../literature/topopt/piml/translations/Huang2024-PIML-datafree-zh\|Huang et al. 2024]] | DeepONet 连续形函数与 mechanics-based data-free 训练 | 全文笔记 |
 | 等参复杂设计域 | [[../../literature/topopt/piml/translations/Zhang2024-isoparametric-PIML-zh\|Zhang et al. 2024]] | 将单元几何形状与材料分布共同作为输入 | `draft`，摘要级 |
 | PIML–MMC 三维点阵 | [[../../literature/topopt/piml/translations/Xu2025-PIML-lattice-MMC-zh\|Xu et al. 2025]] | 以 MMC 显式构件和分区坐标映射描述三维梯度点阵，并用 PIML 提高分析效率 | `draft`，摘要级 |
-| 高性能并行版 | [[../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh\|Ma et al. 2026]] | CPU/MPI、按需预测／释放和组装粗矩阵；不是 GPU 实现 | 全文笔记 |
+| 高性能并行版 | [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh\|Ma et al. 2026]] | CPU/MPI、按需预测／释放和组装粗矩阵；不是 GPU 实现 | 全文笔记 |
 | Bézier 边界参数化 | [[../../literature/topopt/piml/translations/Guo2026-highgeneralization-bezier-zh\|Guo et al. 2026]] | 参数化边界位移场到子结构内部位移场 | `draft`，摘要级 |
 | PIML-OFEM | [[../../literature/topopt/piml/translations/Guo2026-PIML-OFEM-zh\|Guo et al. 2026]] | 超采样数值基函数与重叠有限元 | `draft`，arXiv v1 摘要级 |
 
@@ -328,7 +328,7 @@ MMC 组件边界切割固定网格产生的正是多边形/带悬挂节点单元
 
 ## 关联文档
 
-- [[../../concepts/mmc/_index]] — MMC 稳定概念、数学基础和跨目录主题入口
+- [[../../concepts/_index#7-结构拓扑优化理论|结构拓扑优化理论总览]] — 拓扑优化与 MMC 稳定概念、数学基础和跨目录主题入口
 - [[../../concepts/mmc/mathematical-foundations]] — 组件参数、TDF、Ersatz、灵敏度和优化闭环
 - [[../long-term-research-lines]] — 个人长期科研主线总领；本课题是具体合作与应用课题，不单列为第三条长期主线
 - [[../../archive/2026-postdoc-entry-assessment/postdoc-research-plan]] — 博士后入站阶段科研计划历史正文（本调研对应当时的第二个研究题目）

@@ -43,8 +43,8 @@ date_update: 2026-08-27
 ## 页面入口与关联
 
 - [[2026-08-piml-gpu-合作交流]] — 可独立使用的交流材料底稿与行动项。
-- [[../../concepts/gpu-hpc/_index|GPU/HPC 主题入口]] — 介绍所依据的稳定知识（分类页与参考库架构页）。
-- [[../../concepts/piml/_index|PIML 主题入口]] — 对方研究方向所在主题域。
+- [[../../concepts/_index#5-异构计算与-gpuhpc|GPU/HPC 概念总览]] — 介绍所依据的稳定知识（分类页与参考库架构页）。
+- [[../../concepts/_index#6-机器学习与-piml|PIML 概念总览]] — 对方研究方向所在主题域。
 - [[../guo-xu/guo-xu|郭旭]] — 引荐人郭旭老师实体页。
 - [[../relationships|师门链与人物关系]] — 科研讨论对象人物关系（师门链）。
 

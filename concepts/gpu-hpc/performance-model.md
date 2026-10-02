@@ -116,12 +116,12 @@ Roofline 只判断单个 kernel 更可能受算力还是带宽限制，**不能�
 - [NVIDIA CUDA C++ Best Practices Guide](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/) — profiling、正确性、精度、内存和扩展实践。
 - [NVIDIA Nsight Systems User Guide](https://docs.nvidia.com/nsight-systems/UserGuide/) — 聚焦关键区间、时间线与 CPU/GPU/MPI profiling。
 - [MPI Forum: MPI Documents](https://www.mpi-forum.org/docs/) — MPI 标准入口；具体设备缓冲区支持仍需以所用 MPI 实现为准。
-- [[../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh]] — CPU/MPI 强弱扩展和完整优化流程并行的本研究语境。
+- [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh]] — CPU/MPI 强弱扩展和完整优化流程并行的本研究语境。
 - [[../../research/piml-matrix-free-gpu/project-plan]] — 端到端时间分解、GPU/异构并行和性能瓶颈调研。
 
 ## 8. 相关页面
 
-- [[_index]] — GPU/HPC 主题入口。
+- [[../_index#5-异构计算与-gpuhpc|GPU/HPC 概念总览]] — GPU/HPC 体系概念总览。
 - [[../../research/piml-matrix-free-gpu/gpu-hpc-research-guide]] — 当前研究目标、性能边界、证据锚点与阶段门禁。
 - [[../matrix-free/assembly-levels]] — 算子装配层次与数据保存边界。
-- [[../piml/mathematical-foundations]] — PIML 局部学习对象和结构性质。
+- [[../piml/piml-substructural]] — PIML 局部学习对象和结构性质。

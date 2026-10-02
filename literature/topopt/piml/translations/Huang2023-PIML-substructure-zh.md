@@ -1,8 +1,13 @@
 ---
 title: "翻译：A problem-independent machine learning (PIML) enhanced substructure-based approach for large-scale structural analysis and topology optimization of linear elastic structures"
+tags:
+  - translation
+  - PIML
+  - topology-opt
+  - substructure
 status: "done"
 date_created: 2026-06-30
-date_updated: 2026-08-06
+date_updated: 2026-09-22
 source: "../sources/Huang2023-PIML-substructure.pdf"
 citekey: "huangProblemindependentMachineLearning2023"
 language: "zh-CN"
@@ -15,18 +20,21 @@ language: "zh-CN"
 # 信息
 
 - **中文标题**：一种通用（与问题无关）机器学习增强的基于子结构的大规模线弹性结构分析与拓扑优化方法
-- **作者**：Mengcheng Huang; Tianchen Cui; Chang Liu; Zongliang Du; Jiameng Zhang; Chuhui He; Xu Guo
-- **单位**：大连理工大学工业装备结构分析国家重点实验室、工程力学系、国际计算力学中心
+- **作者**：Mengcheng Huang（黄孟成）$^1$；Tianchen Cui（崔天晨）$^1$；Chang Liu（刘畅）$^{1,2,*}$；Zongliang Du（杜宗亮）$^{1,2,*}$；Jiameng Zhang$^1$；Chuhui He$^1$；Xu Guo（郭旭）$^{1,2,*}$（Jiameng Zhang、Chuhui He 中文名待确认）
+- **单位**：
+  - $1$: 大连理工大学工业装备结构分析优化与 CAE 软件国家重点实验室、工程力学系（大连 116023）
+  - $2$: 大连理工大学宁波研究院（宁波 315016）
 - **期刊**：*Extreme Mechanics Letters*
 - **卷 / 期 / 文章号**：63: 102041
 - **DOI**：10.1016/j.eml.2023.102041
-- **在线发表 / 正式卷期**：2023-08-16 / 2023-09-01
+- **收稿 / 录用 / 在线发表**：2023-06-05 / 2023-06-17 / 2023-06-21
+- **通讯作者**：Chang Liu（c.liu@dlut.edu.cn）；Zongliang Du（zldu@dlut.edu.cn）；Xu Guo（guoxu@dlut.edu.cn）
 
 # 摘要
 
 由高度非均质材料组成的结构的结构分析通常涉及求解大规模线性代数方程组，即使在线弹性范围内这也是非常耗时的。此外，迭代大规模有限元分析（finite element analysis, FEA）的巨大计算成本也阻碍了拓扑优化作为强大设计工具的广泛使用，特别是当所需的设计分辨率非常高时。为了打破阻碍大规模结构分析和设计优化问题高效求解的瓶颈，本文提出了一种通用的机器学习（machine learning, ML）增强的基于子结构的求解框架。其核心思想是求助于经典的基于子结构的有限元分析方法，并通过离线训练的深度神经网络，在表征子结构内材料分布的参数与对应的缩聚刚度矩阵/数值形函数之间建立隐式映射。与大多数现有的 ML 增强方法相反，所提出的框架真正独立于结构几何、边界条件和外部载荷的形式，并且一旦离线训练完成，就可以应用于求解由相同类型的偏微分方程控制的各种边值问题。借助现代人工智能技术，所提出的方法在某种意义上复兴了有限元分析中经典的子结构方法。与传统范式相比，对于测试的大规模算例，它能够在令人满意的精度下实现 $10^4\text{–}10^5$ 倍的求解效率提升。该方法的有效性还在非自伴随拓扑优化问题（即三维柔顺机构设计）中得到了验证。最后，为了展示所提出方法在处理超大规模三维问题方面的能力，在不借助任何并行计算技术的情况下，在一台笔记本电脑上求解了一个包含约 $10^9$ 个设计变量和 $3 \times 10^9$ 个自由度（degrees of freedom, DOFs）的三维拓扑优化问题。
 
-**关键词**：实时优化；拓扑优化；机器学习；与问题无关（PIML）；子结构方法；缩聚刚度矩阵
+**关键词**：大规模结构分析（Large-scale structural analysis）；高分辨率拓扑优化（High-resolution topology optimization）；子结构方法（Substructure approach）；机器学习（Machine learning）；数值形函数（Numerical shape function）
 
 # 1 引言
 
@@ -190,11 +198,9 @@ $$
 
 ![[Huang2023_Fig2.png]]
 
-<div align="center">
-
+<center><b>
 图 2：PIML 方案示意图。
-
-</div>
+</b></center>
 
 一旦建立了这些映射，就可以绕过相应的矩阵操作，因此 $\tilde{\boldsymbol{K}}_j^h$ 和 $\boldsymbol{N}_j(\boldsymbol{x})$ 几乎可以瞬间构建完成。
 
@@ -281,11 +287,9 @@ $$
 
 ![[Huang2023_Fig3.png]]
 
-<div align="center">
-
+<center><b>
 图 3：预测三维子结构 $(\boldsymbol{N}_{j2})^L$ 的神经网络架构。
-
-</div>
+</b></center>
 
 对于 $m = 5$ 的情况，构建并训练了四个神经网络，并生成了 400,000 个随机样本对其进行训练。对于每个神经网络，总共有 15 个隐藏层，其中的激活函数分别设置为 [tanh, elu, tanh, elu, tanh, elu, tanh, elu, elu, tanh, elu, tanh, elu, tanh, elu]，每层中激活函数的数量分别设置为 [60, 80, 100, 120, 140, 160, 180, 200, 180, 160, 140, 120, 100, 80, 60]。对于二维问题，使用单一的前馈神经网络即足以预测 $\tilde{\boldsymbol{K}}_j^h$ 或 $(\tilde{\boldsymbol{K}}_j^h)^L$。
 
@@ -306,11 +310,9 @@ $$
 
 ![[Huang2023_Fig4.png]]
 
-<div align="center">
-
+<center><b>
 图 4：所提出的基于 PIML 的拓扑优化方法的流程图。
-
-</div>
+</b></center>
 
 此外，在拓扑优化过程中，只有细分辨率网格的密度分布会发生变化。同时，当子结构的局部密度分布由完全相同的值组成时，$\boldsymbol{N}_{j2}$ 的值等于纯实体材料子结构的值 $(\boldsymbol{N}_{j2})_{\text{solid}}$。此外，仅包含一种材料的子结构的缩聚刚度矩阵可如下计算：$\rho_m (\tilde{\boldsymbol{K}}_j^h)_{\text{solid}}$，其中 $\rho_m$ 和 $(\tilde{\boldsymbol{K}}_j^h)_{\text{solid}}$ 分别表示该纯实体材料子结构的平均密度和缩聚刚度矩阵。因此，为了进一步提高生成子结构缩聚刚度矩阵的效率，引入了阈值 $\rho_v$ 来判断子结构的局部密度分布是否由同一个值组成。具体而言，如果局部密度分布的最大值与平均密度 $\rho_m$ 之间的绝对差值小于 $\rho_v$，则可以使用 $\rho_m (\tilde{\boldsymbol{K}}_j^h)_{\text{solid}}$ 来计算该子结构的缩聚刚度矩阵。有了这个判断准则，生成子结构缩聚刚度矩阵的计算时间可以显著减少，特别是对于大规模算例或可用体积分数较低的设计问题。
 
@@ -324,11 +326,9 @@ $$
 
 ![[Huang2023_Fig5.png]]
 
-<div align="center">
-
+<center><b>
 图 5：MBB 梁算例的问题设定。
-
-</div>
+</b></center>
 
 为了检验所提方法在不同细分辨率单元数量下的性能，我们通过改变细分辨率网格尺寸来改变单元数量，同时保持可用体积分数和密度过滤半径不变。需要说明的是，对于 MBB 梁算例，缩聚刚度矩阵是通过式 (17) 计算得到的，而在柔顺机构优化算例中，刚度矩阵是由神经网络直接预测的，以进一步提高计算效率。此外，采用优化准则（OC）法更新设计变量，并在最后五次连续迭代中目标函数值的相对变化小于 0.0002 时终止优化过程。所有算例均在一台配备 Intel(R) Xeon(R) Gold 6256 3.60 GHz CPU 和 512.0 GB RAM 的工作站上求解。
 
@@ -336,21 +336,17 @@ $$
 
 ![[Huang2023_Fig6.png]]
 
-<div align="center">
-
+<center><b>
 图 6：在细分辨率单元数量 ($N_F$) 变化时获得的优化结构，采用 $m = 5$ 的情况。
-
-</div>
+</b></center>
 
 图 7 展示了 $N_F = 1,647,750$ 和 $N_F = 11,718,750$ 时每次迭代的平均时间成本，其中粗网格 FEA 的时间指的是 PIML 方法中计算粗分辨率和细分辨率位移的总时间。而粗网格刚度矩阵的时间指的是由神经网络生成每个子结构的多尺度形函数和单元刚度矩阵所需的时间。最后，优化准则的时间是使用优化准则法更新设计变量的时间。值得注意的是，由于对于 $N_F = 1,647,750$ 和 $N_F = 11,718,750$ 的情况，经典的 SIMP 方法计算时间较长，本文仅报告了前 10 次迭代的平均时间，并且没有给出最终优化结果。此外，受限于计算机存储，对于 $N_F = 37,989,750$ 的模型没有应用传统的 SIMP 方法。具体而言，如图 7 所示，使用传统 SIMP 算法时，细网格下的有限元分析时间几乎占总时间的 100%，而对于本文提出的方法，即使在 $N_F = 11,718,750$ 的情况下，粗网格 FEA 的时间成本也与粗网格刚度矩阵的生成时间处于同一数量级。
 
 ![[Huang2023_Fig7.png]]
 
-<div align="center">
-
+<center><b>
 图 7：在 $N_F = 1,647,750$ 和 $N_F = 11,718,750$ 的情况下，经典 SIMP 方法和基于 PIML 的方法在优化过程中每次迭代的平均时间成本。
-
-</div>
+</b></center>
 
 ## 4.2 柔顺机构算例
 
@@ -358,21 +354,17 @@ $$
 
 ![[Huang2023_Fig8.png]]
 
-<div align="center">
-
+<center><b>
 图 8：柔顺机构算例的问题设定。
-
-</div>
+</b></center>
 
 如图 9 所示，两种优化结果在结构上相似，呈对称的铰链状，正如预期的那样导致了输出端口的向上运动。图 9 还提供了两种方法在每一步中各部分的平均时间成本，结果表明神经网络可以将计算缩聚刚度矩阵的时间减少 60% 以上。最后，使用 EMsFEM 对最优结构进行分析，图 9 中输出点的相应位移记为 $U_{\text{EMs}}^{\text{out}}$，而 $U_{\text{PIML}}^{\text{out}}$ 表示利用神经网络预测的缩聚刚度矩阵所获得的位移。两种方法优化结果中输出点位移的相对误差（即 $|1 - U_{\text{PIML}}^{\text{out}} / U_{\text{EMs}}^{\text{out}}|$）分别为 7.56% 和 7.65%。比较这两种最优设计，可以发现图 9(a) 的结果包含了更多的细节和更平滑的边界，并且图 9(b) 中 $U_{\text{EMs}}^{\text{out}}$ 的值较小，这意味着性能较差。这可能是由于本研究采用的神经网络架构相对简单，从而牺牲了神经网络模型的预测精度。此外，预测的形函数和预测的缩聚刚度矩阵通常无法满足式 (17) 所描述的关系，换句话说，在利用神经网络预测缩聚刚度矩阵的 PIML 方法中，子结构应变能的总和必须等于细分辨率网格的应变能。我们将在未来的工作中尝试解决这一问题。
 
 ![[Huang2023_Fig9.png]]
 
-<div align="center">
-
+<center><b>
 图 9：通过不同缩聚刚度矩阵计算方法得到的优化结构。
-
-</div>
+</b></center>
 
 ## 4.3 短悬臂梁算例
 
@@ -380,29 +372,23 @@ $$
 
 ![[Huang2023_Fig10.png]]
 
-<div align="center">
-
+<center><b>
 图 10：包含 10.24 亿个细分辨率单元的短悬臂梁算例的问题设定。
-
-</div>
+</b></center>
 
 经过 137 次迭代后，在 9–10 天内获得了过滤半径为 5 的优化结构，如图 11 所示。值得注意的是，在整个优化过程中没有使用如并行计算等任何加速技术。唯一的区别是粗分辨率网格上的线性方程组使用了迭代法进行求解。单次迭代步骤的平均时间为 5677.8 秒，如图 12 所示。对于此算例，由于 SIMP 方法中设计变量的数量庞大，即使使用优化准则法来更新设计变量，相关的时间成本仍占总时间的约 26%。
 
 ![[Huang2023_Fig11.png]]
 
-<div align="center">
-
+<center><b>
 图 11：具有 10.24 亿细分辨率单元的优化悬臂梁。
-
-</div>
+</b></center>
 
 ![[Huang2023_Fig12.png]]
 
-<div align="center">
-
+<center><b>
 图 12：包含 10.24 亿细分辨率单元的短悬臂梁算例每次迭代的平均时间成本。
-
-</div>
+</b></center>
 
 # 5 结论
 
@@ -415,3 +401,103 @@ $$
 2. 所提出的方法建立在子结构框架之下，这是边界值问题数值求解的通用范式。因此，它可以应用于求解在多物理场仿真（如流固耦合）、未进行尺度分离的高度非均质材料数值均匀化、涉及裂纹扩展/相变/损伤萌生的自由边界前沿追踪等中出现的各种大规模分析/优化问题。在上述所有应用中，由于子结构中材料属性的空间或时间变化，子结构的缩聚刚度矩阵会发生动态变化，所提出的 ML 增强方法可用于对此提供瞬时预测。最后但同样重要的一点是，考虑到动态子结构方法的成功，有理由期望所提出的方法在分析机械系统的大规模动态问题方面也具有巨大的潜力。
 
 3. 目前的 ML 增强方法具有与其他成熟方法相结合的潜力，例如等几何分析方法 (IGA)、有限元胞法 (FCM) 和切割有限元法 (CutFEM)，以构建全新的有限元分析框架。例如，利用本文所开发的技术，可以建立一个 ML 模型来预测等几何单元的刚度与其控制点坐标之间的关系。这可以有效缓解传统 IGA 中与数值积分相关的大量计算压力。所提出的方法还可以通过学习相应切割模式下的切割单元刚度矩阵，从而与 CutFEM 无缝集成。这可能开辟一条使用固定结构化网格进行高效、准确有限元分析的新途径，即通过将复杂的物理域嵌入到网格中，从而完全避开繁琐的网格生成过程。这是一个非常有趣的研究课题，值得进一步深入调查。
+
+---
+
+# 利益冲突声明
+
+作者声明不存在可能影响本文报道工作的已知经济利益竞争或人际关系冲突。
+
+# 数据可用性声明
+
+本文涉及的研究数据可根据合理要求向作者索取。
+
+# 致谢
+
+本研究得到国家重点研发计划（No. 2020YFB1709401）、国家自然科学基金（No. 11821202、12002073、12002077）、辽宁省兴辽英才计划（No. XLYC2001003）、中央高校基本科研业务费专项资金（No. DUT21RC(3)076、DUT20RC(3)020）、辽宁省博士科研启动基金（No. 2021-BS-063）和高等学校学科创新引智计划（111 计划，No. B14013）的资助。
+
+---
+
+# 参考文献
+
+[1] G.I.N. Rozvany, A critical review of established methods of structural topology optimization, Struct. Multidiscip. Optim. 37 (2008) 217–237, https://doi.org/10.1007/s00158-007-0217-0.
+
+[2] Joshua D. Deaton, Ramana V. Grandhi, A survey of structural and multidisciplinary continuum topology optimization: post 2000, Struct. Multidiscip. Optim. 49 (2013) 1–38, https://doi.org/10.1007/s00158-013-0956-z.
+
+[3] Xu Guo, Geng-Dong Cheng, Recent development in structural design and optimization, Acta Mech. Sin. 26 (2010) 807–823, https://doi.org/10.1007/s10409-010-0395-7.
+
+[4] Ole Sigmund, Kurt Maute, Topology optimization approaches, Struct. Multidiscip. Optim. 48 (2013) 1031–1055, https://doi.org/10.1007/s00158-013-0978-6.
+
+[5] Thomas Borrvall, Joakim Petersson, Large-scale topology optimization in 3D using parallel computing, Comput. Methods Appl. Mech. Engrg. 190 (2001) 6201–6229, https://doi.org/10.1016/S0045-7825(01)00216-X.
+
+[6] Niels Aage, Boyan S. Lazarov, Parallel framework for topology optimization using the method of moving asymptotes, Struct. Multidiscip. Optim. 47 (2013) 493–505, https://doi.org/10.1007/s00158-012-0869-2.
+
+[7] Anton Evgrafov, Cory J. Rupp, Kurt Maute, Martin L. Dunn, Large-scale parallel topology optimization using a dual-primal substructuring solver, Struct. Multidiscip. Optim. 36 (2007) 329–345, https://doi.org/10.1007/s00158-007-0190-7.
+
+[8] Niels Aage, Erik Andreassen, Boyan S. Lazarov, Ole Sigmund, Giga-voxel computational morphogenesis for structural design, Nature 550 (2017) 84–86, https://doi.org/10.1038/nature23911.
+
+[9] Haixiang Liu, Yuanming Hu, Bo Zhu, Wojciech Matusik, Eftychios Sifakis, Narrow-band topology optimization on a sparsely populated grid, ACM Trans. Graph. 37 (2018) 1–14, https://doi.org/10.1145/3272127.3275012.
+
+[10] H. Rodrigues, J.M. Guedes, M.P. Bendsoe, Hierarchical optimization of material and structure, Struct. Multidiscip. Optim. 24 (2002) 1–10, https://doi.org/10.1007/s00158-002-0209-z.
+
+[11] P.G. Coelho, P.R. Fernandes, J.M. Guedes, H.C. Rodrigues, A hierarchical model for concurrent material and topology optimisation of three-dimensional structures, Struct. Multidiscip. Optim. 35 (2007) 107–115, https://doi.org/10.1007/s00158-007-0141-3.
+
+[12] Ling Liu, Jun Yan, Gengdong Cheng, Optimum structure with homogeneous optimum truss-like material, Comput. Struct. 86 (2008) 1417–1425, https://doi.org/10.1016/j.compstruc.2007.04.030.
+
+[13] Tam H. Nguyen, Glaucio H. Paulino, Junho Song, Chau H. Le, A computational paradigm for multiresolution topology optimization (MTOP), Struct. Multidiscip. Optim. 41 (2009) 525–539, https://doi.org/10.1007/s00158-009-0443-8.
+
+[14] Tam H. Nguyen, Chau H. Le, Jerome F. Hajjar, Topology optimization using the p-version of the finite element method, Struct. Multidiscip. Optim. 56 (2017) 571–586, https://doi.org/10.1007/s00158-017-1675-7.
+
+[15] Jeroen P. Groen, Matthijs Langelaar, Ole Sigmund, Martin Ruess, Higher-order multi-resolution topology optimization using the finite cell method, Internat. J. Numer. Methods Engrg. 110 (2017) 903–920, https://doi.org/10.1002/nme.5432.
+
+[16] Chang Liu, Yichao Zhu, Zhi Sun, Dingding Li, Zongliang Du, Weisheng Zhang, Xu Guo, An efficient moving morphable component (MMC)-based approach for multi-resolution topology optimization, Struct. Multidiscip. Optim. 58 (2018) 2455–2479, https://doi.org/10.1007/s00158-018-2114-0.
+
+[17] Hui Liu, Yiqiang Wang, Hongming Zong, Michael Yu Wang, Efficient structure topology optimization by using the multiscale finite element method, Struct. Multidiscip. Optim. 58 (2018) 1411–1430, https://doi.org/10.1007/s00158-018-1972-9.
+
+[18] Xu Guo, Weisheng Zhang, Wenliang Zhong, Doing topology optimization explicitly and geometrically—A new moving morphable components based framework, J. Appl. Mech. 81 (2014), https://doi.org/10.1115/1.4027609.
+
+[19] Weisheng Zhang, Jie Yuan, Jian Zhang, Xu Guo, A new topology optimization approach based on Moving Morphable Components (MMC) and the ersatz material model, Struct. Multidiscip. Optim. 53 (2016) 1243–1260, https://doi.org/10.1007/s00158-015-1372-3.
+
+[20] Zongliang Du, Tianchen Cui, Chang Liu, Weisheng Zhang, Yilin Guo, Xu Guo, An efficient and easy-to-extend matlab code of the Moving Morphable Component (MMC) method for three-dimensional topology optimization, Struct. Multidiscip. Optim. 65 (2022) 158, https://doi.org/10.1007/s00158-022-03239-4.
+
+[21] Muhammad Shafiq, Zhaoquan Gu, Deep residual learning for image recognition: A survey, Appl. Sci. 12 (2022), https://doi.org/10.3390/app12188972.
+
+[22] Kyunghyun Cho, Bart Van Merriënboer, Caglar Gulcehre, Dzmitry Bahdanau, Fethi Bougares, Holger Schwenk, Yoshua Bengio, Learning phrase representations using RNN encoder-decoder for statistical machine translation, 1406, 2014, https://doi.org/10.48550/arXiv.1406.1078.
+
+[23] Maziar Raissi, Paris Perdikaris, George E. Karniadakis, Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations, J. Comput. Phys. 378 (2019) 686–707, https://doi.org/10.1016/j.jcp.2018.10.045.
+
+[24] Arvind T. Mohan, Datta V. Gaitonde, A deep learning based approach to reduced order modeling for turbulent flow control using LSTM neural networks, 1804, 2018, https://doi.org/10.48550/arXiv.1804.09269.
+
+[25] D. Xiao, C.E. Heaney, L. Mottet, F. Fang, W. Lin, I.M. Navon, Y. Guo, O.K. Matar, A.G. Robins, C.C. Pain, A reduced order model for turbulent flows in the urban environment using machine learning, Build. Environ. 148 (2019) 323–337, https://doi.org/10.1016/j.buildenv.2018.10.035.
+
+[26] P. Raccuglia, K.C. Elbert, P.D. Adler, C. Falk, M.B. Wenny, A. Mollo, M. Zeller, S.A. Friedler, J. Schrier, A.J. Norquist, Machine-learning-assisted materials discovery using failed experiments, Nature 533 (2016) 73–76, https://doi.org/10.1038/nature17439.
+
+[27] Gabriel R. Schleder, Antonio C.M. Padilha, Carlos Mera Acosta, Marcio Costa, Adalberto Fazzio, From DFT to machine learning: recent approaches to materials science—a review, J. Phys.: Mater. 2 (2019), https://doi.org/10.1088/2515-7639/ab084.
+
+[28] Linfeng Zhang, Jiequn Han, Han Wang, Roberto Car, Weinan E, Deep potential molecular dynamics: A scalable model with the accuracy of quantum mechanics, Phys. Rev. Lett. 120 (2018) 143001, https://doi.org/10.1103/PhysRevLett.120.143001b.
+
+[29] Erva Ulu, Rusheng Zhang, Levent Burak Kara, A data-driven investigation and estimation of optimal topologies under variable loading configurations, Comput. Methods Biomech. Biomed. Eng. Imaging Vis. 4 (2016) 61–72, https://doi.org/10.1080/21681163.2015.1030775.
+
+[30] Xin Lei, Chang Liu, Zongliang Du, Weisheng Zhang, Xu Guo, Machine learning-driven real-time topology optimization under moving morphable component-based framework, J. Appl. Mech. 86 (2019), https://doi.org/10.1115/1.4041319.
+
+[31] Yonggyun Yu, Taeil Hur, Jaeho Jung, In Gwun Jang, Deep learning for determining a near-optimal topological design without any iteration, Struct. Multidiscip. Optim. 59 (2019) 787–799, https://doi.org/10.1007/s00158-018-2101-5.
+
+[32] Rebekka V. Woldseth, Niels Aage, J. Andreas Bærentzen, Ole Sigmund, On the use of artificial neural networks in topology optimisation, Struct. Multidiscip. Optim. 65 (2022), https://doi.org/10.1007/s00158-022-03347-1.
+
+[33] Heng Chi, Yuyu Zhang, Tsz Ling Elaine Tang, Lucia Mirabella, Livio Dalloro, Le Song, Glaucio H. Paulino, Universal machine learning for topology optimization, Comput. Methods Appl. Mech. Engrg. 375 (2021), https://doi.org/10.1016/j.cma.2019.112739.
+
+[34] Fernando V. Senhora, Heng Chi, Yuyu Zhang, Lucia Mirabella, Tsz Ling Elaine Tang, Glaucio H. Paulino, Machine learning for topology optimization: Physics-based learning through an independent training strategy, Comput. Methods Appl. Mech. Engrg. 398 (2022) 115116, https://doi.org/10.1016/j.cma.2022.115116.
+
+[35] Tianle Yue, Hang Yang, Zongliang Du, Chang Liu, Khalil I. Elkhodary, Shan Tang, Xu Guo, A mechanistic-based data-driven approach to accelerate structural topology optimization through finite element convolutional neural network (FE-CNN), 2106, 2021, https://doi.org/10.48550/arXiv.2106.13652.
+
+[36] Hengyang Li, Stefan Knapik, Yangfan Li, Chanwook Park, Jiachen Guo, Satyajit Mojumder, Ye Lu, Wei Chen, Daniel W. Apley, Wing Kam Liu, Convolution hierarchical deep-learning neural network tensor decomposition (C-HiDeNN-TD) for high-resolution topology optimization, Comput. Mech. (2023) 1–20, https://doi.org/10.1007/s00466-023-02333-8.
+
+[37] Mengcheng Huang, Zongliang Du, Chang Liu, Yonggang Zheng, Tianchen Cui, Yue Mei, Xiao Li, Xiaoyu Zhang, Xu Guo, Problem-independent machine learning (PIML)-based topology optimization—A universal approach, Extreme Mech. Lett. 56 (2022) 101887, https://doi.org/10.1016/j.eml.2022.101887.
+
+[38] Grace X. Gu, Chun-Teh Chen, Markus J. Buehler, De novo composite design based on machine learning algorithm, Extreme Mech. Lett. 18 (2018) 19–28, https://doi.org/10.1016/j.eml.2017.10.001.
+
+[39] Yiquan Zhang, Bo Peng, Xiaoyi Zhou, Cheng Xiang, Dalei Wang, A deep convolutional neural network for topology optimization with strong generalization ability, Eng. Optim. 54 (2019) 973–988, https://doi.org/10.1080/0305215X.2021.1902998.
+
+[40] Zhenguo Nie, Tong Lin, Haoliang Jiang, Levent Burak Kara, Topologygan: Topology optimization using generative adversarial networks based on physical fields over the initial domain, J. Mech. Des. 143 (2021), https://doi.org/10.1115/1.4049533.
+
+[41] Ming Li, Jingqiao Hu, Analysis of heterogeneous structures of non-separated scales using curved bridge nodes, Comput. Methods Appl. Mech. Engrg. 392 (2022), https://doi.org/10.1016/j.cma.2022.114582.

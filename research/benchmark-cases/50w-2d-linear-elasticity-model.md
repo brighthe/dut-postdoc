@@ -24,7 +24,7 @@ source_sha256: "64D2783811E4619147CDB4652FA3F095CCA86F6240567EE21408097578EE5E1D
 source_size_bytes: 13828970
 source_last_modified: "2025-12-10 15:52:14"
 related:
-  - "./_index.md"
+  - "../_index.md"
   - "./10w-3d-linear-elasticity-model.md"
   - "../../concepts/linear-elasticity.md"
   - "../../concepts/finite-elements/shell-elements.md"

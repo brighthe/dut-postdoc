@@ -1,3 +1,55 @@
+## [2026-09-26] add | Fu 等 2023 基于结构化自动微分与高阶有限元多物理场仿真与拓扑优化入库与图件提取
+
+- **新建译文骨架与结构解析**：创建 `literature/topopt/matrix-free/translations/Fu2023-high-order-structured-diff-topopt-zh.md`，状态推进至 `read`。录入 AIAA SciTech 2023 会议论文信息（AIAA 2023-0530，DOI: 10.2514/6.2023-0530）、作者与机构（佐治亚理工学院航空航天工程学院）；完整翻译摘要；建立 1–6 节全文骨架、核心数学列式（弱形式、结构化自动微分的反向–前向–反向三次扫描 Hessian–向量积算法、张量积基函数与 Piola 变换、基于 GLL 节点的低阶等效 AMG 预条件子）、散热与弹性拓扑优化算例解析；完整转录原文 50 篇参考文献并规范化 DOI 链接。
+- **高分辨率图件资产提取与正文嵌入**：从原始 PDF 中以 250+ DPI（scale=3.5）渲染并精确裁切全部 13 幅图件资产（`Fu2023_Fig1.png`–`Fu2023_Fig13.png`），存入主题级目录 `literature/topopt/assets/`；在正文对应位置以裸文件名 `![[Fu2023_Fig{n}.png]]` 嵌入并完善中文居中加粗图注与子图说明。
+- **确认 Matrix-Free 装配层级**：核查原文及对应开源实现 `smdogroup/a2d`（`fematrixfree.h`），确认其在积分点预先计算并缓存局部雅可比矩阵（`qmat`）、在线利用和分解（Sum-Factorization）执行基函数求值与累加，在 CEED / 高阶有限元分类体系中严格对应 Partial Assembly (PA)；在译文页首增加译者说明固定该结论。
+- **原始资料就位与 BibTeX 登记**：将本地 PDF 复制至 `literature/topopt/matrix-free/sources/Fu2023-high-order-structured-diff-topopt.pdf`（不入 Git）；在 `literature/refs.bib` 追加 `Fu2023-high-order-structured-diff-topopt` 标准会议论文条目。
+- **总索引维护**：更新 `literature/_index.md`，总译文数增至 50 篇，在 `### topopt/matrix-free/` 表格中追加条目、状态设为 `read` 并建立双链。
+
+## [2026-09-26] edit | 按五个计算环节重组子结构 PIML 理论文档
+
+- 将 `concepts/piml/piml-substructural.md` 重组为问题定义与学习映射、样本与精确局部问题、训练目标与物理约束、预测局部算子的构造、全局耦合与位移恢复五节；保留原总览、两种接口空间与两条预测路线的主要公式。
+- 补充材料样本及标签定义、监督矩阵损失、由离散势能推出的无标签训练目标和局部刚度二次误差关系；区分本页推导与文献具体方案，不增加网络配置或实验结果。同步概念索引说明。
+- 复查入链及相关出链；此前标记的 `piml-paradigm.md` 旧章节映射与 `substructural-condensation.md` 旧锚点仍待跨页同步授权。核对本地静力缩聚推导及 Huang 2024 译文的能量训练说明，未重新核验原始论文或执行数值验证。
+
+## [2026-09-26] edit | 调整子结构 PIML 理论页标题
+
+- 将 `concepts/piml/piml-substructural.md` 的页面属性与正文标题改为“基于 PIML 的子结构分析”，同步概念索引及 `ml-roles-and-boundaries.md` 中的标题显示；文件路径不变。
+
+## [2026-09-26] edit | 精简子结构 PIML 理论页
+
+- 以用户选定的总览、局部刚度构造和全局接口求解为主体，删除原 §1–§7 的详细展开；补充简短的约束说明及位移恢复，统一标题层级，保留支撑现有总览与方法的参考依据。
+- 同步 `concepts/_index.md` 的页面说明。检查入链及相关出链；`piml-paradigm.md` 的旧章节映射和 `substructural-condensation.md` 的旧 §3.3 锚点需要另行授权同步，当前未修改。文献原始依据未重新核验，未运行数值验证。
+
+## [2026-09-26] edit | assembly-levels §2.3 EA 数学原理重写并更正 Wang 2025 层级描述
+
+- 修改 `concepts/matrix-free/assembly-levels.md` §2.3：开头压缩为 $\mathbf A_e$ 定义、一条 EA MatVec 式与“单元求和从 setup 移到 apply”的对照，删去写冲突一句，gather → 单元矩阵–向量乘 → scatter-add 流程链写入正文；2.3.1 精简为一般形式与 nnz 不等式；2.3.2 精简为适用前提（几何上形状、尺寸与朝向相同、只差平移，本构上只差标量 $s_e=E(\rho_e)/E_0$）、$\mathbf A_e=s_e\mathbf A^0$ 与存储量不等式链 $m^2+N_e<\operatorname{nnz}(\mathbf A_{\mathrm{FA}})\le N_e m^2$，删去 Galerkin 粗层不满足前提一段；正文不再引用其他论文，原稿中 Wang et al. (2025) 中间层“逐单元显式保存粗单元矩阵，属标准 EA”的错误表述随之删除；参考文献中已无正文引用的 Wang、Yang 两条一并删除。
+- 统一符号：§1.1 定义单元自由度数 $m$（$m_e$）与单元数 $N_e$；§1.2 的 $n_e$ 改为 $m_e$；§2.1 装配峰值三元组长度与 2.3.1 不等式由 $\sum_e m_e^2$ 改为 $N_e m^2$；§2.4 两处 $m=d\,n_\varphi$ 由定义改为关系式；2.3.2 的 $N$ 改为 $N_e$；§4 副本数 $m_i$ 改为与 $\boldsymbol r=\mathbf P^{\mathsf T}\mathbf 1$ 一致的 $r_i$。
+- 2.3.2 标题改为“共享参考 EA：只保存 $\mathbf A^0$ 与 $s_e$”，与 2.3.1 形式一致；`linear-elasticity.md`、`matrix-free-research-guide.md` 两处入链锚点同步改为新标题并加显示名“assembly-levels 2.3.2”，`date_update` 更新为 2026-09-26。§1 按代数层次改名：1.1“串行”改为“单元层：$\mathbf G$、$\mathbf B$、$\mathbf D$”，1.2“多进程并行”改为“进程层：$\mathbf P$”，删去 1.2 开头多线程/GPU 写冲突与 MPI 的执行层描述，§1.2、§2.1、§4 三处“串行/MPI”措辞改为“单一分区/进程层”；两个旧锚点无入链。`concepts/gpu-hpc/parallel-levels.md` 同步：§3 写冲突三种解法改为本页直接陈述，删去指向 assembly-levels §2.3 的链接；来源一节对 assembly-levels 的出链说明删去算术强度 `0.25`、`m/8` 与写竞态三解，只保留“MPI 与装配层级正交”。未 commit、push。
+
+## [2026-09-26] update | Yang 等 2026 补充全部图件与表格高分辨率资产并推进至 done 状态
+
+- **图表高分辨率资产提取**：从原始 PDF（arXiv:2604.18020v1）中高分辨率（250 DPI）提取并自动去白边裁切全部 14 个图件（`Yang2026_Fig1.png`–`Yang2026_Fig14.png`）与全部 11 个表格原始版式（`Yang2026_Table1.png`–`Yang2026_Table11.png`），存入主题级目录 `literature/topopt/assets/`。
+- **正文双重嵌入与核验完成**：完善 `literature/topopt/matrix-free/translations/Yang2026-fused-gather-gemm-scatter-zh.md`：
+  - 图 1–14：在各图题上方以裸文件名 `![[Yang2026_Fig{n}.png]]` 嵌入；
+  - 表 1–11：在各表题下方嵌入 `![[Yang2026_Table{n}.png]]`，并保留已录入的 Markdown 结构化表格，形成“高清原版排版 + 可检索数据表格”双重呈现；
+  - frontmatter 状态由 `read` 更新为 `done`（标志逐页图表资产核验完成），更新 `date_updated` 为 `2026-09-26`。
+- **总索引维护**：同步更新 `literature/_index.md` 中 `### topopt/matrix-free/` 表格，状态更新为 `done`。
+
+## [2026-09-25] update | Yang 等 2026 融合 Gather-GEMM-Scatter 译文全面完善至 read 状态
+
+- **正文全文翻译完成**：完善 `literature/topopt/matrix-free/translations/Yang2026-fused-gather-gemm-scatter-zh.md`，状态由 `draft` 推进至 `read`。
+- **章节与算法覆盖**：完整翻译 1–6 节全部段落（含引言、相关工作 2.1–2.6、方法 3.1–3.8、实验结果 4.1–4.10、讨论 5.1–5.5 与结论）；规范录入式 (1)–(10)、算法 1 融合 CUDA 核函数伪代码逻辑。
+- **数据与图表录入**：完整转录表 1–11 全部实测数值（含硬件上限、合成微基准拆解、悬臂梁实际算子带宽利用率、端到端 SIMP-120 扩展性、扭转轴压力测试、硬问题压力测试、BF16 收敛性、五次重复变异性、浮点原子累加确定性、高上限验证与显存快照）；转录并汉化图 1–14 详细图题与物理构型演化说明。
+- **附录与声明补全**：完整翻译 CRediT 贡献声明、利益冲突声明、数据可用性声明、附录 A（可复现性说明）与附录 B（指标约定与产物来源）。
+- **总索引维护**：同步更新 `literature/_index.md` 中 `### topopt/matrix-free/` 表格，状态更新为 `read`，描述更新为全文翻译。
+
+## [2026-09-24] add | Yang 等 2026 融合 Gather-GEMM-Scatter 核函数 Matrix-Free 三维拓扑优化译文骨架
+
+- **新建译文骨架**：创建 `literature/topopt/matrix-free/translations/Yang2026-fused-gather-gemm-scatter-zh.md`，状态 `draft`。录入预印本信息（arXiv:2604.18020v1，2026-04-20）、作者与机构（圣克拉拉大学）；完整翻译摘要与关键词（中英对照）；建立 1–6 节、小节 2.1–2.6、3.1–3.8、4.1–4.10、5.1–5.5、CRediT 贡献声明、利益冲突与数据可用性声明、附录 A–B；完整转录原文 63 篇参考文献并规范化 DOI 链接。正文详细内容、公式与图表待翻译与提取。
+- **BibTeX 登记**：在 `literature/refs.bib` 追加 `yangMatrixFree3DSIMP2026` 标准条目。
+- **总索引维护**：更新 `literature/_index.md`，总译文数增至 49 篇，在 `### topopt/matrix-free/` 表格中追加对应条目并建立双链。
+
 ## [2026-09-04] fix | 更正 direct-methods §3 的两处错误：实现层与接口层混谈、多进程性能的过度断言
 
 - **更正层次错误**：§3 开头原将 `PCLU（PETSc 内置 LU）` 与 MUMPS、PARDISO、CPardiso、SuperLU 并列为「常见的稀疏直接求解器」，这是把框架的接口层与求解器实现层混为一谈。`PCLU` 是 PETSc 的一种 PC 类型，本身不含分解算法，底层实现由 `MatSolverType` 选定；PETSc 自带的分解只支持顺序矩阵，并行矩阵必须转给外部包。改写为：四个实现通常经框架接口接入，`PCLU` / `PCCHOLESKY` 即这样一格接口，本节比较的是实现层而非接口层。
@@ -3306,3 +3358,189 @@
 
 ## [2026-09-04] edit | .gitignore 忽略基金图件中间渲染文件
 - `.gitignore`：新增 `research/funding/active/china-postdoc-foundation-general-grant/assets/dev/`，该目录为 `make_figs.py` 的面板中间件与数据快照，不入库。`index.md`、`README.md` 已检查，无需更新。
+
+## [2026-09-28] edit | 重译 Chen2017 稳定化混合元译文第 1 节引言
+- `literature/fem/translations/Chen2017-stabilized-mixed-elasticity-zh.md` §1：原稿是摘要式改写，现在对照原 PDF 第 1–3 页逐句重译。补回 p.2 文献综述后半段（[21]、[5, 11, 32, 57]、矩形网格、DG/HDG/WG/HHO、弱对称方法）、上标记号约定、Hood–Taylor 型与稳定化元收敛阶及自由度的比较段、全文组织段；恢复原文 [n] 引用体例；式 (1.1)、(1.2) 分开编号；删去原文没有的“Johnson–Mercier”“Hu–Zhang 协调元”“长期悬案”等添加，并去掉自拟小标题与分条列表。
+- 本节空间记号按原文写作 $P_k$；摘要与第 2–5 节仍用 $\mathbb{P}_k$，这些部分未改，也尚未对照原文检查。页面内对 (1.1)–(1.2)、(2.1)、(3.1)–(3.2)、(4.1)–(4.2)、(4.9)–(4.10) 的引用已核对，全部存在；入链只指向文件本身，不涉及锚点。status 保持 `read`。未 commit、push。
+
+## [2026-09-28] edit | Chen2017 译文记号统一为 $P_k$、信息区按原文改写
+- `literature/fem/translations/Chen2017-stabilized-mixed-elasticity-zh.md`：摘要及第 2–5 节的 $\mathbb{P}_k$ 全部改为原文所用的 $P_k$（共 15 处），与第 1 节一致。
+- 信息区“知识库与论文关联”第 2 条：删去“极具实用价值”“悬案”等原文没有的措辞，Hood–Taylor 一句改为原文口径“[19] 中提到尚不清楚是否稳定，本文解决了这一问题”；“$k = 1$ 时全局自由度最少”原先只归于第一类格式，改为原文所述的三种格式。
+- 入链 `literature/_index.md` 的条目描述与原文一致，不需修改。未 commit、push。
+
+## [2026-09-28] edit | Chen2017 译文信息区按模板精简
+- `literature/fem/translations/Chen2017-stabilized-mixed-elasticity-zh.md` 信息区：改用 `schema/templates/translation-note.md` 的字段与角标写法，单位编号并改写为中文，通讯作者单列。删去 Citekey（frontmatter 已有）、MSC 分类、“知识库与论文关联”两条，以及无法从 PDF 核实的“2016 年底在线发表 / 2017-01 正式见刊”；日期只保留原文 PDF 给出的收稿、修回、录用。卷期页码已与 `literature/refs.bib` 核对。
+- 删去的关联条目中有一条指向 `papers/huzhang-topopt/arbitrary-order-huzhang-topopt-draft-zh` 的出链；该论文稿本身并不链接本译文，所以这次删除之后，两页之间就没有双链了。未 commit、push。
+
+## [2026-09-28] edit | substructural-condensation 更名为 exact-substructural，近似内部延拓一节移入 PIML 页
+- `concepts/substructural-condensation.md` 经 `git mv` 更名为 `concepts/exact-substructural.md`，标题改为“精确子结构分析”，与 `concepts/piml/piml-substructural.md` 对应；首段写明“精确”相对 PIML 而言，旧名与旧标题保留在 aliases。status 改为 `done`。
+- 原 §3.6“近似内部延拓与广义变分构造”删去，§3.5 末尾加指向 PIML 页 §4.3 的链接。§2.4 中 full_trace 形函数误差恒等式保留，作为 §4.3 一般式的特例。
+- `concepts/piml/piml-substructural.md` §4.3：按本页记号（$\mathbf L^j$、$\widehat{\mathbf T}^j$、$\mathbf E^j$，交叉项记 $\mathbf C^j$，避开布尔矩阵 $\mathbf A_b^j$、$\mathbf A_c^j$）改写广义变分构造、等效载荷、二次余项恒等式与三条性质，删去指向旧 §3.6 的链接；参考依据段同步改名。
+- 入链同步：`concepts/_index.md`（条目改名，描述删去“近似内部延拓”；PIML 条目补 §4.3 内容）、`density-topopt/substructural-density-topology-optimization.md`（4 处）、`external-loads.md`、`nonlinear-fem.md`、`matrix-free/mf-ea-substructural.md`（4 处）、`piml/piml-paradigm.md`（3 处）、`research/piml-matrix-free-gpu/piml-research-guide.md`（frontmatter 与正文 4 处）。`mf-ea-substructural` 原指向已不存在的“§5 八步算法第 6 步”，改指 §2.5 全局接口装配。所用锚点均已在新页核对存在。`index.md`、`README.md` 无该页条目，无需更新；本文件历史条目中的旧名不改写。
+- WSL 仓库 soptx、soptx-piml、soptx-restruct、soptx-matrix-free 中 12 个文件仍引用旧名，本次未改。参考依据中 Strang & Fix (1973) 正文无引用，更名前已如此，未处理。未 commit、push。
+
+## [2026-09-28] edit | exact-substructural 记号对齐 PIML 页，第 1 章重构为“问题定义与接口空间”
+- `concepts/exact-substructural.md` 记号：局部自由度与分块矩阵统一为“边界—内部”顺序，$\mathbf H^j=[\mathbf I;\mathbf T^j]$。改名如下：$\mathbf N_{\mathrm{int}}^j\to\mathbf T^j$、迹基 $\mathbf T_j\to\boldsymbol\Psi^j$、$\mathbf L_j\to\mathbf L^j$、$\mathbf A_j,\mathbf A_{c,j}\to\mathbf A_b^j,\mathbf A_c^j$、$\mathbf K_c^j\to\mathbf K_{s,\mathrm{corner}}^j$、常数 $C^j\to c^j$；删去 $\mathbf B_j$，新增 $\mathbf T_{\mathrm{corner}}^j=\mathbf T^j\mathbf L^j$。不带接口下标的 $\mathbf T^j$、$\mathbf H^j$、$\mathbf K_s^j$ 指完整接口。
+- 第 1 章分为 1.1 子结构划分与边界集合、1.2 局部问题与适用假设（原 §2.1 的 $\mathbf K_{ii}^j$ 正定条件、原 §2.6 的网格协调前提）、1.3 接口空间（迹基 $\boldsymbol\Psi^j$、角点插值 $\mathbf L^j$ 与迹空间类型表，由原 §3.1、§3.2 移入）、1.4 固定符号。§2.1 改名“局部分块平衡方程”，§3.1 改名“一般迹空间下的降阶刚度”，§3.2 改名“角点迹下的位移延拓”；§2.6、§3.5 编号不变。
+- 入链同步：`piml/piml-paradigm.md` 的 §2.1 锚点；`density-topopt/substructural-density-topology-optimization.md` §2–§3 按上述记号改写，为避开迹坐标 $\mathbf q^j$，§3.2、§4 的密度梯度 $q_e,\mathbf q^j,\mathbf q$ 改记为 $s_e,\mathbf s^j,\mathbf s$。`matrix-free/mf-ea-substructural.md` 以 $\mathbf L_j$ 记 Boolean 矩阵、$\mathbf A$ 记全局接口算子，自成记号，未改；`piml/piml-paradigm.md` 的 $\mathbf N_{\mathrm{exact}}^j$ 未改。其余锚点已核对存在。未 commit、push。
+
+## [2026-09-28] edit | piml-substructural 开头加流程图
+- `concepts/piml/piml-substructural.md` 在首段与组合表之间加 mermaid 流程图，版式与 `concepts/exact-substructural.md` 的流程图一致：首尾圆角节点、配色沿用其 classDef。离线训练节点以带“训练好的模型”标签的虚线连向在线预测，表示训练只做一次。两次分叉：先按学习对象分为预测形函数 / 预测缩聚刚度，汇合为局部缩聚刚度；再按接口空间分为完整接口 / 角点接口装配求解，汇合后逐块内部恢复，最后全场拼装与下游评价。图下补一句分叉依据与精确页的差别。`concepts/exact-substructural.md` 流程图同步在局部内部消元与接口分叉之间加“3 · 局部缩聚刚度”节点，其后节点顺延编号。精确页节点 4B 由“接口迹降阶求解 / Ritz 子空间，柔度下界”改为“角点接口装配求解 / linear_corner，迹降阶误差”；PIML 页 4B 第二行补为“迹降阶 + 局部代理误差”，两页分支节点第二行均写误差构成。PIML 页流程图加 `%%{init: {"flowchart": {"wrappingWidth": 400}}}%%`，避免 4B 标签折成三行。精确页流程图节点、§2.6 正文与 `concepts/_index.md` 条目中的“全接口”统一为“完整接口”，aliases 中旧写法保留。精确页流程图节点 2 改为“Schur 补消去内部自由度”，首段、§1.3、§3.5 与 `concepts/_index.md` 条目中的“Exact Schur”统一改为“Schur 补”，PIML 页图下说明同步。两页标题与锚点未变，入链无需同步。未 commit、push。
+
+## [2026-09-28] edit | piml-substructural §1.1 改为引用精确页 §1.2 并补 PIML 特有假设
+- `concepts/piml/piml-substructural.md` §1.1：局部问题与适用前提改为引用 `concepts/exact-substructural.md` §1.2（补上原缺的界面迹逐自由度匹配，“小变形”改“小应变”），保留 $\mathbf K^j$ 分块式并写明对 $\boldsymbol\eta^j$ 的依赖；另补一句本页适用范围：内部载荷为零，只学习齐次延拓（参数域正定性与离线—在线离散一致已见 §2.1、§3.2.1 与首段，不重复）。角点自由度数 $n_c^j$ 移到 §1.2 的 `linear_corner` 句；§5 开头“沿用内部无载荷假设”改指 §1.1。`concepts/exact-substructural.md` §1.2 删去末段“条件不成立时不能直接用 Cholesky、逆矩阵记号表示求解方程组”的数值实现说明。两节标题未变，入链锚点（仅 exact-substructural 指向 §4.3、piml-paradigm 指向本页）不受影响。未 commit、push。
+
+## [2026-09-28] edit | piml-substructural §1.1 明确载荷适用范围
+- `concepts/piml/piml-substructural.md` §1.1 末句扩为两段。第一段写明全部外载荷须作用在子结构边界节点上（$\mathbf f_i^j=\mathbf 0$），边界节点范围引用 `concepts/exact-substructural.md` §1.1（含块间接口与结构外边界），并要求加载点和位移约束位于子结构边界节点上（按载荷类型列举的一句已删去）。第二段说明该前提下 $\mathbf T^j$、$\mathbf K_s^j$ 与载荷无关，以及 $\mathbf f_i^j\neq\mathbf 0$ 时缺失的位移特解与缩聚载荷修正项。对照 `literature/topopt/piml/translations/Huang2023-PIML-substructure-zh.md` 式 (6)：原文同样设内部载荷为零。§5 开头与 §5.3 的“沿用内部无载荷假设”措辞仍一致，未改；§5.1 的载荷投影与共享节点说明未改。未 commit、push。
+
+## [2026-09-28] edit | exact-substructural §1.1 精简
+- `concepts/exact-substructural.md` §1.1 由约 54 行压缩到约 30 行，标题与锚点不变。删去与后文重复的缩聚—装配—恢复流程复述、全网格单元总数、“二者形式相同 $\mathbf t=\boldsymbol\sigma\mathbf n$”说明；“边界含外边界”原在两处出现，合并为一段；两条加粗编号的装配规则并为末段一句（接口力相消见 §2.5，Neumann 载荷按不相交分割只计一次）。图例节点与自由度计数、非重叠定义、$\Gamma$ 与 $\Gamma_{\mathrm{int}}$、$\Gamma_D$ 与 $\Gamma_N$ 公式保留。入链核对：页内 §1.2 引用“按 §1.1 非重叠划分”、`concepts/piml/piml-substructural.md` §1.1 引用本节的边界节点范围，均仍成立。未 commit、push。
+
+## [2026-09-28] edit | piml-substructural §1.2 拆为接口空间与学习映射
+- `concepts/piml/piml-substructural.md` 原 §1.2“接口空间与学习映射”拆为 §1.2“接口空间”与 §1.3“学习映射”。§1.2 改为引用 `concepts/exact-substructural.md` §1.3，只保留本页所用 `full_trace`、`linear_corner` 两种及 $n_c^j$、$\mathbf L^j$ 维数，删去单位矩阵展开式、$\mathbf L^j$ 显式分块与 $\phi_a$、$N_b^j$、$N_c^j$ 记号（后文未用）。§1.3 将不带接口下标的 $\boldsymbol\eta^j\mapsto\mathbf T^j$、$\boldsymbol\eta^j\mapsto\mathbf K_s^j$ 改为 2×2 表，按学习对象与接口空间列出 $\mathbf T_{\mathrm{full}}^j$、$\mathbf T_{\mathrm{corner}}^j$、$\mathbf K_{s,\mathrm{full}}^j$、$\mathbf K_{s,\mathrm{corner}}^j$ 及维数，与精确页 §1.4“不带下标指完整接口”的约定一致。拆分后 PIML §1.1–§1.2 与精确页 §1.2–§1.3 逐节对应。全库无链接指向原 §1.2 锚点，无需同步。未 commit、push。
+
+## [2026-09-28] edit | exact-substructural §1.3 按接口空间分节
+- `concepts/exact-substructural.md` §1.3“接口空间”下分四个三级小节：1.3.1 迹与迹基（迹的定义与 $\mathbf u_b^j=\boldsymbol\Psi^j\mathbf q^j$）、1.3.2 完整接口（full_trace）、1.3.3 角点线性迹（linear_corner，含原 $\mathbf L^j$ 定义、形函数与性质）、1.3.4 其他迹空间（原类型表与 Craig–Bampton/BDDC/FETI-DP 说明）。原两行对照表删去，其 $\boldsymbol\Psi^j$、$\mathbf q^j$ 与“代数等价，见 §2”“Ritz 子空间近似，见 §3”分别写入 1.3.2、1.3.3 首段；其余正文未改。小节标题不加反引号，与第 2、3 章标题写法一致。“1.3 接口空间”锚点不变。`concepts/piml/piml-substructural.md` §1.2 的 `full_trace`、`linear_corner` 分别链到新 1.3.2、1.3.3。入链核对：全库指向 exact-substructural 的锚点共 8 处（§1.1、§1.2、§1.3、§2、§2.1、§2.2、§2.5、§2.6），均不受影响。页内正文引用同步细化：§3.1 的“§1.3 中的迹基”改指 §1.3.1，§3.2 的“§1.3 的角点插值”改指 §1.3.3，§3.1 末“不同迹基的构造方式见 §1.3”保持泛指。未 commit、push。
+
+## [2026-09-28] edit | exact-substructural 角点自由度数统一记为 n_c^j
+- `concepts/exact-substructural.md` §1.3.3：$\mathbf u_c^j$ 与 $\mathbf L^j$ 的维数由 $2^d d$ 改记为 $n_c^j$，并注明 $n_c^j=2^d d$（$2^d$ 个角点、每点 $d$ 个位移分量），与 `concepts/piml/piml-substructural.md` §1.2 的记号一致。§1.3.3 中角点编号上限 $c=1,\dots,2^d$ 与单位分解求和上限表示角点个数，保持 $2^d$。全库无其他 $2^d d$ 写法。未 commit、push。
+
+## [2026-09-28] edit | exact-substructural §1.3.1 补 n_q 说明
+- `concepts/exact-substructural.md` §1.3.1：在迹基矩阵定义后补 $n_q\le n_b^j$ 为保留的接口坐标个数，`full_trace` 取 $n_q=n_b^j$，`linear_corner` 取 $n_q=n_c^j$。§3.1 的 $n_q\ll n_b^j$ 与 $n_q=n_b^j$ 退化说明沿用此定义，未改。未 commit、push。
+
+## [2026-09-28] edit | exact-substructural 接口坐标数改记 n_q^j
+- `concepts/exact-substructural.md` 中接口坐标个数 $n_q$ 全部改为带子结构上标的 $n_q^j$，与 $n_b^j$、$n_c^j$ 一致，共 10 处：§1.3.1 的 $\mathbf q^j$、$\boldsymbol\Psi^j$ 维数与新补的取值说明；§3.1 的 $n_q^j\ll n_b^j$、$\mathbf K_r^j\in\mathbb R^{n_q^j\times n_q^j}$、$\mathbf f_r^j$ 维数与 $n_q^j=n_b^j$ 退化说明。`concepts/matrix-free/assembly-levels.md` 的 $n_q$ 表示积分点数，含义不同，未改。未 commit、push。
+
+## [2026-09-28] edit | exact-substructural §1.3.3 角点线性迹改为一般定义
+- `concepts/exact-substructural.md` §1.3.3 由“$2^d$ 个角点、Q4/H8 形函数”的写法改为一般定义：子结构视为一个粗单元，角点集合记 $\mathcal C^j$，$n_c^j=d\,|\mathcal C^j|$，$\mathbf L^j$ 的 $d\times d$ 分块取该粗单元一阶 Lagrange 形函数在边界节点上的值。原 Q4、H8 两条形函数并入三列形状表（子结构形状、一阶形函数、$n_c^j$），列三角形（P1，6）、四面体（P1，12）、四边形（Q1，8）、六面体（Q1，24），表后一句说明四边形、六面体的参考域与角点坐标。单位分解求和改为对 $c\in\mathcal C^j$。核对：本页 §1.3.4 类型表“三维 8 角点仅 24 维”为举例，§1.4 符号表、§3 各节未依赖 $2^d$ 或 Q4/H8 措辞，均未改；`concepts/piml/piml-substructural.md` §1.2“双线性（二维）或三线性（三维）”与所用子结构形状一致，未改。未 commit、push。
+
+## [2026-09-28] edit | exact-substructural §1.3.3 删去边界节点数符号
+- `concepts/exact-substructural.md` §1.3.3 形函数采样段原有“$k=1,\dots,n_{\mathrm{node},b}^j$”，该符号全页仅此一处且无定义。改为“子结构边界上第 $k$ 个细网格节点的参考坐标为 $\boldsymbol\xi_k$”，由 $k$ 取遍边界节点，不再引入节点计数符号；本页 $n_*^j$ 统一表示自由度数。本条替换同日先前“补边界节点数定义”一条（该方案已撤回）。未 commit、push。
+
+## [2026-09-28] edit | piml-substructural §1.2 改写接口空间
+- `concepts/piml/piml-substructural.md` §1.2 改写为：删去“接口空间的定义同精确页 §1.3”一句，直接写子结构边界位移 $\mathbf u_b^j=\boldsymbol\Psi^j\mathbf q^j$；两种接口空间用一个 aligned 公式块并列给出：`full_trace` 为 $\boldsymbol\Psi^j=\mathbf I_{n_b^j}$、$\mathbf q^j=\mathbf u_b^j\in\mathbb R^{n_b^j}$，`linear_corner` 为 $\boldsymbol\Psi^j=\mathbf L^j\in\mathbb R^{n_b^j\times n_c^j}$、$\mathbf q^j=\mathbf u_c^j\in\mathbb R^{n_c^j}$；式后一句说明保留的自由度及 $\mathbf L^j$ 由子结构一阶形函数在边界节点上采样得到。§1.2 不含链接和表格。§1.3 起正文未改。未 commit、push。
+
+## [2026-09-28] edit | piml-substructural §1.3 学习映射改为公式
+- `concepts/piml/piml-substructural.md` §1.3 引言末句“两种接口空间各对应一种输出：”改为“每种接口空间对应这两种输出：”；§1.3 的 2×2 表改为 aligned 公式块，按 `full_trace`、`linear_corner` 两行分别给出 $\boldsymbol\eta^j\mapsto\mathbf T^j$ 与 $\boldsymbol\eta^j\mapsto\mathbf K_s^j$ 及维数，写法与 §1.2 一致。引言句和“四种输出的精确标签分别由 §2.2.1、§2.2.2 给出”未改。未 commit、push。
+
+## [2026-09-28] edit | exact-substructural 删除 §1.4 固定符号
+- `concepts/exact-substructural.md` 删除 §1.4“固定符号”整节（引言、19 行符号表与表后说明）。核对：表中符号均在正文首次出现处有定义（$\mathbf A_b^j$ §2.5，$\mathbf H_r^j$、$\mathbf K_r^j$ §3.1，角点特例 §3.2–§3.3，$\mathbf A_c^j$、$\mathbf U_C$、$\mathbf K_C$ §3.4，$\mathbf P$ §3.5）；“边界—内部”排序已在 §1.2 说明，$\mathbf L^j$ 与 $\mathbf A^j$ 的区分已在 §3.4 说明；本页仍在 §3.5 中链接 PIML 页。随之去掉的只有“不带下标指完整接口、对应 PIML 页 full 下标”与转置、下标写法两条约定，未迁移。全库无链接指向该节，两页正文无“§1.4”引用。未 commit、push。
+
+## [2026-09-28] edit | exact-substructural §1.3.2、§1.3.3 标题改为接口空间
+- `concepts/exact-substructural.md` §1.3.2 标题改为“完整接口空间”，§1.3.3 标题由“角点线性迹”改为“角点接口空间”，与 `concepts/piml/piml-substructural.md` §2.2.1、§2.2.2 的“完整接口”“角点接口”对应；原 §1.3.4“其他迹空间”整节删除（用户修改）。正文“角点线性迹”（§1.3.3 首段、§2.6）、“角点迹”（§3.2、§3.4）与 frontmatter 别名“角点线性迹降阶”保留。全库无链接指向这几个小节锚点。未 commit、push。
+
+## [2026-09-28] refactor | exact-substructural 第 2–3 章按计算阶段重组为三章
+- `concepts/exact-substructural.md` 原第 2 章“精确静力缩聚与完整接口分析”与第 3 章“接口迹降阶与角点分析”重组为：§2 局部缩聚刚度（2.1 局部分块平衡方程、2.2 内部消元与位移恢复、2.3 完整接口缩聚刚度 ← 原 2.3 + 原 2.4 前半的 $\mathbf H^j$ 与势能等价、2.4 角点接口缩聚刚度 ← 原 3.1–3.3，分为 2.4.1 一般迹基下的降阶刚度、2.4.2 角点延拓、2.4.3 角点刚度、载荷与位移恢复）；§3 全局装配与求解（3.1 完整接口装配求解 ← 原 2.5，3.2 角点接口装配求解 ← 原 3.4，并把原 3.5 首段的全局延拓矩阵 $\mathbf P$ 与兼容关系前移至此）；§4 等价性与误差（4.1 完整接口的代数等价 ← 原 2.6，4.2 近似延拓的二次余项 ← 原 2.4 后半与原 3.5 末句的 PIML §4.3 链接，4.3 角点接口的 Ritz 投影误差 ← 原 3.5 其余部分）。
+- 第 2、3、4 章各写一段引言；删去“第一层/第二层”说法；页内引用同步：§1.1 两处 §2.5 → §3.1，原 3.4 的“§3.5 的 $\mathbf P$”改为直接引用、“§3.5 的柔度下界”→ §4.3，原 2.6 的“第 3 节”→ §2.4 并补 §4.3，4.2 开头补“§2.3 的变分形式”。公式与其余正文未改；页首 mermaid 未改。
+- 入链同步：`concepts/matrix-free/mf-ea-substructural.md` 两处锚点改为 #2. 局部缩聚刚度、#3.1 完整接口装配求解，参考列表中“§2.5”改为“§3.1”；`concepts/density-topopt/substructural-density-topology-optimization.md` 锚点 #2.6 改为 #4.1 完整接口的代数等价。指向 #1.1、#1.2、#2.1、#2.2 的入链编号未变。未 commit、push。
+
+## [2026-09-28] edit | exact-substructural §2 标题改为基于 Schur 补的局部缩聚刚度构造
+- `concepts/exact-substructural.md` §2 标题由“局部缩聚刚度”改为“基于 Schur 补的局部缩聚刚度构造”，与 `concepts/piml/piml-substructural.md` §4“基于网络预测的缩聚刚度矩阵构造”对应。正文与页首 mermaid 节点名“3 · 局部缩聚刚度”未改。入链同步：`concepts/matrix-free/mf-ea-substructural.md` 锚点 #2. 局部缩聚刚度 改为新标题；全库无其他链接指向该章锚点。未 commit、push。
+
+## [2026-09-28] edit | exact-substructural §2 引言改写并删除 Guyan (1965)
+- `concepts/exact-substructural.md` §2 引言改为：对每个子结构分别消去内部自由度；非重叠划分下不同子结构的内部自由度之间没有刚度耦合，消元可逐块独立进行；这种做法称为静力缩聚（static condensation）。删去“Guyan 缩聚”的说法，Guyan (1965) 原意为整体刚度与质量矩阵的动力缩减并假设被消去自由度无外载，与本章不符。正文不再引用 Guyan (1965)，参考依据删除该条，其余 9 条顺次重编（正文按作者—年份引用，无编号引用）。未 commit、push。
+
+## [2026-09-28] refactor | exact-substructural 合并 §2.1、§2.2 为分块平衡与内部消元
+- `concepts/exact-substructural.md` 原 §2.1“局部分块平衡方程”与 §2.2“内部消元与位移恢复”合并为 §2.1“分块平衡与内部消元”，正文按原顺序直接拼接、未改写；其后小节顺次前移：§2.3 完整接口缩聚刚度 → §2.2，§2.4 角点接口缩聚刚度 → §2.3（2.4.1–2.4.3 → 2.3.1–2.3.3）。页内 13 处 § 引用按新编号同步（原 §2.1、§2.2 → §2.1，§2.3 → §2.2，§2.4 → §2.3）。
+- 入链同步：`concepts/density-topopt/substructural-density-topology-optimization.md` 锚点 #2.2 内部消元与位移恢复、`concepts/piml/piml-paradigm.md` 锚点 #2.1 局部分块平衡方程，均改为 #2.1 分块平衡与内部消元；全库无链接指向原 §2.3、§2.4 锚点。未 commit、push。
+
+## [2026-09-28] edit | exact-substructural §2.2、§2.3 标题改为接口空间名
+- `concepts/exact-substructural.md` §2.2 标题由“完整接口缩聚刚度”改为“完整接口空间”，§2.3 由“角点接口缩聚刚度”改为“角点接口空间”，与本页 §1.3.2、§1.3.3 及 `concepts/piml/piml-substructural.md` §2.2.1、§2.2.2、§4.1、§4.2 同名；章标题已表明本章为局部缩聚刚度构造。正文与 2.3.1–2.3.3 未改；全库无链接指向这两节锚点。未 commit、push。
+
+## [2026-09-28] edit | exact-substructural 完整接口符号加 full 下标、H 改为 N
+- `concepts/exact-substructural.md` 第 2–4 章符号统一为 `concepts/piml/piml-substructural.md` 的写法：$\mathbf K_s^j\to\mathbf K_{s,\mathrm{full}}^j$（18 处）、$\mathbf T^j\to\mathbf T_{\mathrm{full}}^j$（25 处）、$\mathbf H^j\to\mathbf N_{\mathrm{full}}^j$（15 处）、$\mathbf H_{\mathrm{corner}}^j\to\mathbf N_{\mathrm{corner}}^j$（5 处）、$\mathbf H_r^j\to\mathbf N_r^j$（4 处），§4.2 的 $\widehat{\mathbf K}_s^j$、$\widehat{\mathbf T}^j$、$\widehat{\mathbf H}^j$ 相应改为 full 下标（8 处）。§4.2 推导基于 $\mathbf N_{\mathrm{full}}^j=[\mathbf I;\mathbf T_{\mathrm{full}}^j]$，属完整接口，故同样加下标；一般迹空间形式仍见 PIML §4.3。$\mathbf K_{s,\mathrm{corner}}^j$、$\mathbf T_{\mathrm{corner}}^j$、$\mathbf K_r^j$ 与正文文字未改；页首与第 1 章无这些符号。其他页面仍用 $\mathbf K_s^j$、$\mathbf T^j$，本轮按用户决定暂不改。未 commit、push。
+
+## [2026-09-28] edit | exact-substructural 形函数矩阵统一称子结构形函数矩阵
+- `concepts/exact-substructural.md` 中 $\mathbf N_{\mathrm{full}}^j$、$\mathbf N_r^j$、$\mathbf N_{\mathrm{corner}}^j$、$\widehat{\mathbf N}_{\mathrm{full}}^j$ 的叫法统一为“子结构形函数矩阵”，与 `concepts/piml/piml-substructural.md` 一致：§2.2“全场扩展算子”、§2.3.1“全场数值形函数”“数值形函数矩阵”“全场延拓”、§2.3.2“平衡算子”“子结构全场数值形函数矩阵”、§4.2“延拓矩阵”共 7 处改名。§2.1 原称 $\mathbf T_{\mathrm{full}}^j$ 为“形函数矩阵”的一处改为“内部延拓矩阵”，避免与 $\mathbf N$ 混称。公式未改。未 commit、push。
+
+## [2026-09-28] edit | exact-substructural §2.2 删减为后文所需内容
+- `concepts/exact-substructural.md` §2.2 保留局部等效边界平衡方程、Schur 补定义、$\widetilde{\mathbf f}_b^j$ 定义、$\mathbf N_{\mathrm{full}}^j$ 定义、变分形式 $\mathbf K_{s,\mathrm{full}}^j=(\mathbf N_{\mathrm{full}}^j)^{\mathsf T}\mathbf K^j\mathbf N_{\mathrm{full}}^j$ 与有效边界势能 $\Pi_s^j$，分别供 §2.3、§3.1、§4.2 使用。删去 $\mathbf K_{s,\mathrm{full}}^j\preceq\mathbf K_{bb}^j$ 的力学解释、内部载荷虚功分摊与“$\mathbf f_i^j=\mathbf0$ 非必要条件”两段（与 §4.1 重复）、$\mathbf f_i^j=\mathbf0$ 时的应变能等式、仿射恢复式（与 §2.1 重复）；分块相乘推导压为一句，势能等价只保留结论与 $c^j$。§2.2 由约 143 行减为约 89 行。页内 § 引用与锚点不变。
+- 入链修正：`concepts/density-topopt/substructural-density-topology-optimization.md` 原称 $\widetilde{\mathbf f}_b^j$ 与 $\mathbf w_i^j$ 均定义于 #2.1，改为 $\widetilde{\mathbf f}_b^j$ 链接 #2.2 完整接口空间、$\mathbf w_i^j$ 链接 #2.1 分块平衡与内部消元。未 commit、push。
+
+## [2026-09-29] edit | exact-substructural 内部延拓改称形函数内部自由度分量
+- `concepts/exact-substructural.md` 中 $\mathbf T_{\mathrm{full}}^j$ 的“内部延拓（矩阵）”统一改称“子结构形函数的内部自由度分量”，与 `concepts/piml/piml-substructural.md` 一致，共 7 处：§2.1 定义句（括注改为“§2.2 中 $\mathbf N_{\mathrm{full}}^j$ 的内部块”）、§2.1 齐次载荷句（改为直接写 $\mathbf T_{\mathrm{full}}^j$）、§2.3.1 退化说明（“§2.1–§2.2 的内部延拓”改为“§2.1 的形函数内部自由度分量”）、§4 引言、§4.2 标题“近似延拓的二次余项”改为“近似形函数的二次余项”、§4.2 首段与末句。全库无链接指向 #4.2 锚点。§2.3.2 标题“角点延拓”与 §3.2“全局延拓矩阵 $\mathbf P$”指其他对象，未改。公式未改。未 commit、push。
+
+## [2026-09-29] edit | 精确/PIML 子结构页按章重组并补参考依据
+- `concepts/exact-substructural.md` 改为 5 章：1 问题定义与接口空间（不变）、2 局部缩聚刚度构造（2.1 消元、2.2 完整接口）、3 接口迹降阶与角点接口（原 §2.3）、4 整体结构分析（4.1 装配、4.2 求解含支承约束、4.3 子结构位移恢复，与 PIML §5.1–§5.3 同构）、5 等价性与误差（原第 4 章）。原 §2.3.3 与 §3.1 末的恢复式合并为 §4.3，按一般迹基 $\boldsymbol\Psi^j$ 写出。§5.2 二次余项恒等式推广到一般迹基并列出成立前提，不再指向 PIML §4.3。修复 $\mathbf N_{\mathrm{full}}^j$ 矩阵块缺 `\`。重写 mermaid，参考依据补支撑内容，未核对章节标“待确认”。status 改 in-progress，页内 § 引用同步改号。
+- `concepts/piml/piml-substructural.md`：§5.3 悬空引用 §5.3.1 改为“上文路线 A”；§4 开头增精确页指引；§4.2 标注“先预测完整再投影”为本页推导、Huang2023 §3.4 为数值佐证；§4.3 误差定义改为 $\mathbf E^j=\widehat{\mathbf T}^j-\mathbf T_{\mathrm{full}}^j\boldsymbol\Psi^j$ 并引精确页 §5.2；新增参考依据。
+- 入链同步：`concepts/matrix-free/mf-ea-substructural.md` 两处锚点、`concepts/density-topopt/substructural-density-topology-optimization.md` 一处锚点；`concepts/piml/piml-paradigm.md` 死链 `piml-substructural#7. 计算实现与性能` 改指 `gpu-hpc/performance-model`；`concepts/_index.md` PIML 页描述去掉过时的“近似内部延拓”。
+- 已核对：全库对两页的 `#` 锚点均已对应现有标题。未处理：PIML 第 3 章、全局柔度链、精确 §5.3“误差口径解耦”条目、Huang2024 核实。未 commit、push。
+
+## [2026-09-29] edit | 精确子结构页合并接口迹降阶章，改为 4 章
+- `concepts/exact-substructural.md`：原第 3 章“接口迹降阶与角点接口”并回第 2 章作 §2.3（2.3.1 一般迹基下的降阶刚度、2.3.2 角点延拓、2.3.3 角点刚度与载荷），全页改为 4 章：1 问题定义与接口空间、2 局部缩聚刚度构造、3 整体结构分析（含 §3.3 子结构位移恢复）、4 等价性与误差；章号、页内 § 引用与 mermaid 同步，与 PIML 页 §4/§5 对齐。上条“5 章”记录描述的是被本次取代的中间版本。
+- 入链同步：`concepts/piml/piml-substructural.md` 三处（§4 开头、§4.3、参考依据第 9 项）改为 §2.3.1、§4.2；`concepts/matrix-free/mf-ea-substructural.md` 改 #3.1；`concepts/density-topopt/substructural-density-topology-optimization.md` 改 #4.1。
+- 已核对：全库对两页的 `#` 锚点均对应现有标题；全库“精确页/精确子结构分析 §x”文字标签已检查。未处理项同上条。未 commit、push。
+
+## [2026-09-29] edit | exact-substructural §2.3 精简后补回后文所需定义
+- `concepts/exact-substructural.md` §2.3（用户精简，已无 2.3.1–2.3.3 小节）末尾补 $\mathbf K_{s,\mathrm{corner}}^j=(\mathbf N_{\mathrm{corner}}^j)^{\mathsf T}\mathbf K^j\mathbf N_{\mathrm{corner}}^j=(\mathbf L^j)^{\mathsf T}\mathbf K_{s,\mathrm{full}}^j\mathbf L^j$、$\mathbf f_c^j=(\mathbf L^j)^{\mathsf T}\widetilde{\mathbf f}_b^j$，以及一般迹基下 $\mathbf N_r^j=\mathbf N_{\mathrm{full}}^j\boldsymbol\Psi^j$、$\mathbf K_r^j=(\boldsymbol\Psi^j)^{\mathsf T}\mathbf K_{s,\mathrm{full}}^j\boldsymbol\Psi^j$；这些对象被 §3.1.2、§3.3、§4.2 使用。§4.2 的“§2.3.1”与参考依据两处“§2.3.2”改为 §2.3。
+- `concepts/piml/piml-substructural.md`：§4 开头锚点改为 `#2.3 角点接口空间`，参考依据第 9 项改为 §2.2、§2.3、§4.2。未 commit、push。
+## [2026-09-29] edit | 同步 Hu–Zhang 中文对照稿参考文献与数字引用
+
+- 以英文投稿稿 `main.bbl` 的 37 篇实际引用文献及顺序为准，同步中文稿文献表的编号、作者、标题与出版信息；删除未引用的 Stenberg（1986）、Carstensen 等（2008）、Guest 等（2004）三项。文献表格式随英文 abbrv 输出，不另列 DOI。
+- 正文作者—年份引用统一为对应数字编号，保留叙述性作者名称；更新页面日期。英文稿未修改。
+- 核对英文正文引用键与文献表均为 37 项，中文正文的文献编号覆盖 1–37；检查已定位的入链及概念页出链，未发现依赖旧文献编号的跨页引用。页面入口、章节与公式不变，无需更新导航。未重新核验原始文献或编译论文。
+
+## [2026-09-29] edit | Hu–Zhang 论文定位由任意阶调整为高阶
+
+- 按确认清单同步两版标题、英文页眉短标题、摘要、关键词、引言框架概述、第三章标题及结论；3.2 统一为 Finite Element Spaces and Standard Discrete Variational Formulation。原生高阶空间的文献回顾明确为 $k\ge d+1$ 的适用范围，中文图片替代文字改为“不同阶次”。
+- 同步中文论文索引显示名称，保留文件名、公式、数值结果、低阶稳定化说明及一般多项式维数关系；参考文献原题与历史记录不变。
+- 检索两版稿件残留措辞并回读核对。检查已定位入链与概念页出链，未移动文件或改变章节编号；research/long-term-research-lines.md 的“任意次”属于研究主线范围，本轮未修改。未编译论文。
+
+## [2026-09-30] edit | exact-substructural §2 开头补缩聚刚度表达式与构造目的
+- `concepts/exact-substructural.md` §2 开头：给出局部缩聚刚度 $\mathbf K_s^j=\mathbf K_{bb}^j-\mathbf K_{bi}^j(\mathbf K_{ii}^j)^{-1}\mathbf K_{ib}^j$ 与等效载荷 $\widetilde{\mathbf f}_b^j$（不加 box，§2.2 保留 boxed 定义并注明即 $\mathbf K_s^j$；说明 §2.2 起记作 $\mathbf K_{s,\mathrm{full}}^j$，全局记号不变）；补充构造目的（装配、精度、降阶与复用）及 §1.1 算例规模估算（完整接口约为原系统节点数的 63%，本页推导）。
+- 顺带修正：mermaid 首节点改为“1.2 · 局部装配与分块”；§4.2 残留的“§2.3.1”改为 §2.3。更新 date_update。
+- 已核对：标题与锚点未变，全库对本页的 `#` 入链不受影响；新增出链 `piml/piml-substructural` 存在。发现既有问题未处理：`concepts/matrix-free/mf-ea-substructural.md` 第 44 行锚点 `#2. 局部缩聚刚度构造` 与现标题“2. 基于静力缩聚构造局部缩聚刚度”不符。未 commit、push。
+- 追加：统一术语，§2 开头方程称“缩聚方程（等效边界平衡方程）”，与 §2.2“局部等效边界平衡方程”一致；“装配”条的“单元刚度方程”改为“单元平衡方程 $\mathbf K_e\mathbf u_e=\mathbf f_e$”。
+
+## [2026-09-30] edit | exact-substructural §2 摘要与 §2.1 重组
+- `concepts/exact-substructural.md`：§2 摘要精简为定义与可行性、$\mathbf K_s^j$ Schur 补一式、超单元三条作用（装配、精度、复用）和本章路线；删去摘要中的等效载荷、缩聚方程与记号说明。§1.1 算例末尾新增全局规模估算（原在 §2 摘要，本页推导）。
+- §2.1 改名“局部平衡方程与内部消元”，分“局部平衡方程”“内部消元”两段：逐项定义 $\mathbf f_i^j$、$\mathbf f_b^j$（含边界节点体力）、$\boldsymbol\lambda^j$ 与 $\mathbf N_b^j$，新增“$\Gamma_D$ 给定位移留到 §3.2 全局施加”；恢复式一次给出 $\mathbf T_{\mathrm{full}}^j$、$\mathbf w_i^j$，补回指 §1.2 的 $\mathbf K_{ii}^j$ 正定前提与多右端求解说明；删去中间显式解式与修辞句。
+- §2.2 开头说明 $\mathbf K_{s,\mathrm{full}}^j$ 即 §2 开头的 $\mathbf K_s^j$；原 §2.1 中 $\mathbf T_{\mathrm{full}}^j$ 列的物理解释移到 §2.2 $\mathbf N_{\mathrm{full}}^j$ 定义之后。
+- 入链同步：`concepts/piml/piml-paradigm.md` 第 84 行、`concepts/density-topopt/substructural-density-topology-optimization.md` 第 231 行锚点改为 `#2.1 局部平衡方程与内部消元`。已检查全库对本页 §2.1 的锚点与文字引用。发现未处理：`piml-paradigm.md` 第 249 行把 $-(\mathbf K_{ii}^j)^{-1}\mathbf K_{ib}^j$ 记作 $\mathbf N_{\text{exact}}^j$，与本页 $\mathbf T_{\mathrm{full}}^j$（内部块）/ $\mathbf N_{\mathrm{full}}^j$（完整形函数）记号不一致；`mf-ea-substructural.md` 第 44 行旧锚点仍待修。未 commit、push。
+
+## [2026-09-30] edit | exact-substructural §2 摘要定稿
+- `concepts/exact-substructural.md` §2 摘要（用户已删去本章路线段与 PIML 链接，并将缩聚方程放回“装配”条）：“装配”条补 $\widetilde{\mathbf f}_b^j$、$\boldsymbol\lambda^j$ 的简注并回指 §2.1–§2.2；“精度”条注明“相对细网格解”，“迹降阶”补回指 §2.3；“复用”条“内部恢复算子”改为“内部恢复矩阵 $\mathbf T_{\mathrm{full}}^j$”。
+- §2.2 boxed 方程前的名称改为“缩聚方程（见 §2 开头，也称局部等效边界平衡方程）”，与摘要术语对齐。
+- 标题与锚点未变；全库检索“局部等效边界平衡方程”“内部恢复算子”，除本页与历史日志外无其他引用。未 commit、push。
+
+## [2026-09-30] edit | exact-substructural §2.1 精简
+- `concepts/exact-substructural.md` §2.1“内部消元”：“两项的含义”列表压为一句（删去“$\mathbf T_{\mathrm{full}}^j$ 是 $\mathbf N_{\mathrm{full}}^j$ 内部块”，§2.2 定义 $\mathbf N_{\mathrm{full}}^j$ 时已体现）；删去多右端求解段 $\mathbf K_{ii}^j\mathbf T_{\mathrm{full}}^j=-\mathbf K_{ib}^j$（与 §3.3 末“共享同一次分解、不显式求逆”重复）；删去末句 §2.2/§3.3 路线说明。“局部平衡方程”段未改。
+- 标题与锚点未变；页内对 §2.1 的 5 处引用（恢复式、$\boldsymbol\lambda^j$、内部载荷）及 `piml-paradigm.md`、`substructural-density-topology-optimization.md`（引用 $\mathbf w_i^j$ 定义）两处入链所需内容仍在。未 commit、push。
+
+## [2026-09-30] edit | exact-substructural 删去缩聚方程别名
+- `concepts/exact-substructural.md` §2.2 boxed 方程前删去别名“也称局部等效边界平衡方程”，只称“缩聚方程（见 §2 开头）”，避免与 §2.1“局部平衡方程”混淆。全库（除 log.md 历史条目）已无“等效边界平衡方程”。未 commit、push。
+
+## [2026-10-02] refactor | exact-substructural §2 按“局部平衡方程 → 消元代回 → 缩聚方程”重组
+- `concepts/exact-substructural.md` §2 小节由三节改为四节：§2.1 “局部平衡方程”（原 §2.1 前半，正文未改）；§2.2 “从局部平衡方程到缩聚方程”（原 §2.1 内部消元 + 原 §2.2 前半，补写代回第一行的展开式，由系数读出 $\mathbf K_s^j=\mathbf K_{bb}^j+\mathbf K_{bi}^j\mathbf T_{\mathrm{full}}^j$ 与 $\widetilde{\mathbf f}_b^j=\mathbf f_b^j-\mathbf K_{bi}^j\mathbf w_i^j$，只 box 缩聚方程，删去重复 box 的 Schur 补与等效载荷，新增“缩聚方程 + 恢复式 ⇔ 局部平衡方程”的等价性说明，$\mathbf K_{s,\mathrm{full}}^j$ 记号说明移至节末）；§2.3 “子结构形函数与能量形式”（原 §2.2 后半，补有内部体力时的位移表达、变分形式的边界块中间步、Ritz 降阶引出句）；§2.4 “角点接口空间”（原 §2.3，正文未改）。
+- 修正：原有效边界势能驻值条件漏 $\boldsymbol\lambda^j$，改为计入接口力做功后的驻值条件即缩聚方程（本页推导）。
+- 页内引用同步：mermaid M2 节点、§1.1 规模估算、§2.4 第二级映射、§3.3 恢复式、§4.1 角点线性迹、§4.2 变分形式共 6 处编号；§2.4 “§2.2 的完整接口结果”、§3.2 “§2.1 的块间接口力”、§4.1 “§2.1–§2.2” 改后仍成立，未改。
+- 入链同步：`density-topopt/substructural-density-topology-optimization.md` 第 231 行两处锚点合并为 `#2.2 从局部平衡方程到缩聚方程`；`piml/piml-paradigm.md` 第 84 行锚点改为 `#2.1 局部平衡方程`；`piml/piml-substructural.md` 参考依据第 9 项 §2.2、§2.3 改为 §2.3、§2.4；顺带修复 `matrix-free/mf-ea-substructural.md` 第 44 行旧锚点为 `#2. 基于静力缩聚构造局部缩聚刚度`。全库对本页 `#2.` 锚点与 “§2.x” 文字引用已检索核对。`piml-paradigm.md` 第 249 行 $\mathbf N_{\text{exact}}^j$ 记号冲突仍未处理。未 commit、push。
+
+## [2026-10-02] edit | exact-substructural 合并局部平衡与静力缩聚两节
+- `concepts/exact-substructural.md` 原 §2.1、§2.2 合并为 §2.1“局部平衡与静力缩聚”，按“局部平衡方程、内部位移消元、缩聚方程与等效载荷、等价性”组织；原 §2.3、§2.4 顺延为 §2.2、§2.3。保留推导公式与载荷解释，删除章首重复的 Schur 补展示式，保留超单元的装配、精度与复用说明。
+- 同步流程图与全部页内节号；同步 `concepts/piml/piml-paradigm.md`、`concepts/density-topopt/substructural-density-topology-optimization.md` 的标题锚点及 `concepts/piml/piml-substructural.md` 的参考节号。
+- 已检查内容目录内对本页的入链和节号引用；本页无其他 Wiki 页面出链，仅有图件嵌入，未改图件。页面入口与方法结论不变，无需更新 index.md、concepts/_index.md 或 README.md。本轮仅调整文档结构与引用，未重新核验文献或数值结论，未 commit、push。
+
+## [2026-10-02] edit | exact-substructural 将形函数与能量形式并入局部缩聚
+- 原 §2.2 并入 §2.1“局部静力缩聚及其变分形式”，按 §2.1.1 局部平衡方程、§2.1.2 静力缩聚（含等价性与恢复说明）、§2.1.3 子结构形函数与能量形式组织；修正已有小节误编号，原 §2.3 角点接口空间改为 §2.2。补完整接口缩聚刚度的记号说明，保留原形函数与能量公式。
+- 同步页内节号、流程图、piml-paradigm 与子结构拓扑优化页的标题锚点，以及 piml-substructural 的参考节号。入口未变，索引与 README 无需调整。
+- 检查内容目录内入链及本页出链；本页仅有图件嵌入。未重新核验文献或数值结论，未检查渲染效果，未 commit、push。
+
+## [2026-10-02] edit | exact-substructural §2.2 改为接口迹降阶
+- §2.2 改名“接口迹降阶”，先给出一般迹基下的位移限制、Galerkin 投影方程、降阶刚度与载荷，再以角点插值为具体选择；一般迹基定义从原节末移至节首，保留角点形函数与刚度表达。
+- 明确迹基列满秩、公共界面迹协调及 Ritz 近似边界；补明角点全场形函数表达对应无内部载荷，有载荷时引用 §3.3 恢复。同步流程图节点名称。
+- 检查内容目录对旧 §2.2 标题的入链，未发现标题锚点；现有节号引用、一般降阶刚度及形函数定义仍有效。本页仅有图件出链，导航入口不变。回读公式并通过 git diff --check；未检查渲染效果，未重新核验文献或数值结论，未 commit、push。
+
+## [2026-10-02] edit | exact-substructural §2.2 并列完整接口与角点接口
+- §2.2 保留一般迹基表达，增加 §2.2.1“完整接口空间”与 §2.2.2“角点接口空间”，分别说明迹基选择、形函数、缩聚刚度和等效载荷；完整接口作为未降阶的精确对照，角点接口作为降阶情形。
+- 一般坐标维数改为 $n_q^j\le n_b^j$，以覆盖两种情形；低维迹空间的 Ritz 近似说明保留。既有角点推导与章号不变，关联页面节号引用仍有效，入口与导航无需调整。
+- 回读公式，检查内容目录相关入链及页内引用，通过 git diff --check。未检查渲染效果或重新核验文献、数值结论，未 commit、push。
+
+## [2026-10-02] refactor | exact-substructural 接口空间定义移至 §2.2
+- 删除原 §1.3，将迹、接口坐标与一般迹基定义并入 §2.2 节首；完整接口说明合并到 §2.2.1；角点插值矩阵、形函数采样式、单元形函数表与插值性质移至 §2.2.2，合并重复定义与说明，公式保留。
+- 第 1 章标题改为“问题定义与适用假设”；§3.3 一般迹基引用改指 §2.2。检查内容目录内对原 §1.3 及第 1 章标题的锚点入链，未发现需跨页调整的引用。页面入口、导航与图件不变。
+- 回读迁移内容并核对页内节号，通过 git diff --check。未检查渲染效果，未重新核验文献与数值结论，未 commit、push。
+
+## [2026-10-02] edit | exact-substructural §2.2.2 精简
+- 合并角点坐标与边界插值说明，删去两级映射流程公式及重复物理解释，保留插值定义、形函数表、角点形函数与内部恢复矩阵、缩聚刚度和等效载荷；明确内部载荷与近似来源，移除本节 boxed 公式。
+- 回读公式并核对后文依赖的符号仍有定义；检查相关入链，标题与引用目标未变，无需跨页同步。通过 git diff --check；未检查渲染效果，未重新核验文献或数值结论。

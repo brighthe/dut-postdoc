@@ -15,7 +15,7 @@ tags:
   - PIML
 status: "in-progress"
 date_added: 2026-08-22
-date_update: 2026-09-03
+date_update: 2026-09-23
 ---
 
 # 并行的三个层级：进程、线程与设备内
@@ -36,7 +36,7 @@ date_update: 2026-09-03
 
 HPC 的标准提法是 two-level hybrid（外层 MPI + 内层设备）。本页把内层拆成线程与 SIMT，因为两者撞的墙不同：线程级撞节点内共享内存带宽，SIMT 级撞原子加冲突与访存合并度。**讨论跨节点扩展性用两级即可，定位具体卡点必须用三层。**
 
-⚠️ [[_index#分布式系统的三层解耦]] 的 L1/L2/L3 是**职责分层**（这处改动归谁管），本页是**并行粒度分层**（计算切在哪儿），同名不同义。
+⚠️ 此处划分的是**并行粒度分层**（计算切在哪儿，进程/线程/SIMT）；而软硬件工程上的是**职责分层**（这处改动归框架还是算法管），同名不同义。
 
 ## 关键要点
 
@@ -47,7 +47,7 @@ Matrix-Free 是宿主框架，PIML 是换进去的局部表示零件，故每层
 | 层级 | 切什么 | Matrix-Free 侧卡点 | PIML 侧卡点 |
 |---|---|---|---|
 | **进程（节点间 MPI）** | 区域分解：每 rank 一块互不相交的单元 | ① 界面共享自由度的同步归约（halo）；② Krylov 每步内积的全局 `Allreduce` | ① **分区须与子结构边界对齐**（见下）；② 网络权重每 rank 各存一份（常数尺寸，不随规模增长） |
-| **线程（节点内）** | 单元块 → OpenMP / BLAS / torch 线程 | 共享内存带宽墙：EA 算术强度约 `0.25 flop/byte`，加线程很快买不到加速 | 本课题不在 CPU 上做在线推理，耦合弱 |
+| **线程（节点内）** | 单元块 → OpenMP / BLAS / torch 线程 | 共享内存带宽墙：标准 EA 算术强度约 `0.25 flop/byte`，加线程很快买不到加速；共享参考单元矩阵的 EA 约 `m/8 flop/byte`（m 为单元自由度数） | 本课题不在 CPU 上做在线推理，耦合弱 |
 | **设备内（SIMT）** | 单元/自由度 → 数万 CUDA 线程 | ① scatter-add 写竞态（`index_add` 原子加）；② 单元刚度阵访存合并度 | ① 批量推理的 SM 占用率与 batch 形状；② 权重常驻显存 |
 
 **分区对齐是 PIML 特有的约束**（由两页事实推出，尚无实测，标「待验证」）。纯 Matrix-Free 的分区只要互斥且完备（[[distributed-operator-and-shared-dofs]] 第 1 节）怎么切都对；但 PIML 的局部表示在**整个子结构**上缩聚（[[../piml/piml-substructural]]），分区界面若横穿子结构，其接口自由度被切成两半，缩聚算子就无法在单 rank 内完成作用。**故分区面必须是子结构面的子集。**
@@ -76,14 +76,14 @@ Matrix-Free 是宿主框架，PIML 是换进去的局部表示零件，故每层
 
 Matrix-Free + Krylov 只有两处必须跨执行实体交互，其余（gather、单元作用、AXPY）在三层上都无依赖：
 
-1. **全局累加（scatter-add）——写冲突**：进程级表现为界面归约，SIMT 级为原子加竞态，线程级为伪共享。三种解法（原子加 / 单元着色 / 按自由度归约）见 [[../matrix-free/assembly-levels#2.3 EA/EbE：单元矩阵作用]]，本页不重复。
+1. **全局累加（scatter-add）——写冲突**：进程级表现为界面归约，SIMT 级为原子加竞态，线程级为伪共享。三种解法：原子加、单元着色、按自由度归约，均不改变代数结果。
 2. **Krylov 内积——全局同步**：CG 每步 2 次内积，进程级是 `Allreduce`，SIMT 级是 block reduction。共享自由度下须按引用计数加权才等于串行内积（[[distributed-operator-and-shared-dofs#4. 重叠加权内积与 Krylov 求解器收敛理论]] 定理 4）。实现参照：`soptx:src/soptx/fem/solvers/matrix_free_solver.py` 的 `weighted_norm`、`dot_fn` 与 `weighted_cg` 即此加权约定的落地。
 
 这两处是 Matrix-Free 结构本身的性质，不是实现缺陷。
 
 ### 4. 瓶颈迁移：换成 PIML 后每层的墙都换位置
 
-| | 精确单元作用（EA） | PIML 局部表示 |
+| | 精确单元作用（标准 EA） | PIML 局部表示 |
 |---|---|---|
 | 算术强度 | 约 `0.25 flop/byte`，memory-bound | 批量推理化为稠密 GEMM，**可能**转为 compute-bound |
 | 显存随规模 | 需流过全部 $\{\mathbf A_e\}$，随单元数线性增长 | 权重常数尺寸，不随单元数增长 |
@@ -104,7 +104,7 @@ Matrix-Free + Krylov 只有两处必须跨执行实体交互，其余（gather�
 
 ## 来源与证据
 
-- [[../matrix-free/assembly-levels]] — EA `0.25 flop/byte`、scatter-add 写竞态三解、MPI 与装配层级正交。
+- [[../matrix-free/assembly-levels]] — MPI 与装配层级正交。
 - [[distributed-operator-and-shared-dofs]] — 分区互斥/完备契约、同步归约算子 $\mathcal S$、加权内积定理 4。
 - [[../piml/piml-substructural]] — 子结构划分与内部/接口自由度分类。
 - **待补**：线程级带宽饱和点、SIMT 占用率与访存合并度均无本课题实测，本页一律不写具体数值。
@@ -121,6 +121,6 @@ Matrix-Free + Krylov 只有两处必须跨执行实体交互，其余（gather�
 
 ## 相关页面
 
-- [[_index]] — GPU/HPC 主题入口
-- [[../linear-solvers/krylov-subspace-methods]] — Krylov 分族、收敛机制与并行同步点；求解器体系入口见 [[../linear-solvers/_index]]
-- [[../piml/_index]] — PIML 局部表示与批量推理
+- [[../_index#5-异构计算与-gpuhpc|GPU/HPC 概念总览]]
+- [[../linear-solvers/krylov-subspace-methods]] — Krylov 分族、收敛机制与并行同步点；求解器体系见 [[../_index#3-线性方程组求解器体系]]
+- [[../piml/piml-paradigm]] — PIML 局部表示与批量推理（见 [[../_index#6-机器学习与-piml]]）

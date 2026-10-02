@@ -21,7 +21,7 @@ date_update: 2026-09-03
 
 # Krylov 子空间方法
 
-> Krylov 方法在由初始残差与算子反复作用张成的子空间 $\mathcal K_k(\mathbf A,\mathbf r_0)$ 中按投影或极小残差取近似解，每一步都在更大的子空间里取最优，因而不像定常迭代那样被固定算子的谱半径锁死；运行中只需要算子作用接口 $\mathbf y=\mathbf A\mathbf x$。并行下它唯一必须全局同步的运算是内积。
+> Krylov 方法在由初始残差与算子反复作用张成的子空间 $\mathcal K_k(\mathbf A,\mathbf r_0)$ 中按投影或极小残差取近似解，每一步都在更大的子空间里取最优，因而不像定常迭代那样被固定算子的谱半径锁死；在线性代数求解器架构（见 [[linear-solvers-architecture]]）中专职担任第二层投影加速收敛引擎，运行中只需要算子作用接口 $\mathbf y=\mathbf A\mathbf x$。并行下它唯一必须全局同步的运算是内积。
 
 ## 1. 子空间与投影
 
@@ -57,7 +57,7 @@ $$
 
 ## 4. 只需算子作用接口
 
-Krylov 方法运行过程中只调用 $\mathbf y=\mathbf A\mathbf x$，不读取 $\mathbf A$ 的元素。这使它成为各种不显式组装全局矩阵的算子表示的自然外层：算子可以是单元级按需作用、子结构缩聚算子或任何线性映射。这一性质对求解器成立，对预条件子不成立，各装配层级还能提供哪些代数信息由 [[../matrix-free/assembly-levels#3. 三条跨层级不变量]] 不变量 3 维护。
+Krylov 方法运行过程中只调用 $\mathbf y=\mathbf A\mathbf x$，不读取 $\mathbf A$ 的元素。这使它成为各种不显式组装全局矩阵的算子表示的自然外层：算子可以是单元级按需作用、子结构缩聚算子或任何线性映射。这一性质对求解器成立，对预条件子不成立，各装配层级还能提供哪些代数信息由 [[../matrix-free/assembly-levels#3. 三条跨层级性质]] 不变量 3 维护。
 
 ## 5. 并行执行中的同步点
 
@@ -68,9 +68,9 @@ Krylov 迭代的每一步由三类运算组成：算子作用 $\mathbf A\mathbf 
 - **共享自由度必须加权**：分区之间有共享自由度时，直接对各 rank 的局部内积求和会重复计数界面分量，必须使用按引用计数加权的内积，它精确等于串行内积，从而保证并行与串行的迭代序列逐点一致；定理与实现约定见 [[../gpu-hpc/distributed-operator-and-shared-dofs#4. 重叠加权内积与 Krylov 求解器收敛理论]]。
 - **降低归约代价属于换算法**：s-step / communication-avoiding CG 与 pipelined CG 通过重组递推把多次归约合并或与算子作用重叠，但它们改变了浮点运算次序与数值稳定性，收敛行为需单独验证，不能视为同一算法的不同实现。
 
-## 参考文献
+## 参考依据
 
-[1] SAAD Y. Iterative Methods for Sparse Linear Systems[M]. 2nd ed. Philadelphia: SIAM, 2003. §6.1 Krylov 子空间与投影；§6.5–6.7 CG 及其收敛界；§6.11 CG 的并行实现与内积归约；§7.1 GMRES 与 Arnoldi 过程；§9.4 Flexible GMRES。**refs.bib 尚无条目。**
-[2] TREFETHEN L N, BAU D. Numerical Linear Algebra[M]. Philadelphia: SIAM, 1997. Lecture 32、35、38 关于 Krylov 方法作为多项式逼近的观点与 CG 收敛界。**refs.bib 尚无条目。**
-[3] KRONBICHLER M, KORMANN K. A generic interface for parallel cell-based finite element operator application[J]. Computers & Fluids, 2012, 63: 135-147. 只需算子作用接口的 Krylov 求解与单元级算子按需作用的结合路径。cite key `kronbichlerGenericInterfaceParallel2012`。
-[4] GHYSELS P, VANROOSE W. Hiding global synchronization latency in the preconditioned Conjugate Gradient algorithm[J]. Parallel Computing, 2014, 40(7): 224-238. pipelined CG 及其与标准 CG 数值行为的差异。**refs.bib 尚无条目。**
+- [1] SAAD Y. Iterative Methods for Sparse Linear Systems[M]. 2nd ed. Philadelphia: SIAM, 2003 — §6.1 Krylov 子空间与投影；§6.5–6.7 CG 及其收敛界；§6.11 CG 的并行实现与内积归约；§7.1 GMRES 与 Arnoldi 过程；§9.4 Flexible GMRES。未入库文献。
+- [2] TREFETHEN L N, BAU D. Numerical Linear Algebra[M]. Philadelphia: SIAM, 1997 — Lecture 32、35、38 关于 Krylov 方法作为多项式逼近的观点与 CG 收敛界。未入库文献。
+- [3] KRONBICHLER M, KORMANN K. A generic interface for parallel cell-based finite element operator application[J]. Computers & Fluids, 2012, 63: 135-147 — 只需算子作用接口的 Krylov 求解与单元级算子按需作用的结合路径。cite key `kronbichlerGenericInterfaceParallel2012`。
+- [4] GHYSELS P, VANROOSE W. Hiding global synchronization latency in the preconditioned Conjugate Gradient algorithm[J]. Parallel Computing, 2014, 40(7): 224-238 — pipelined CG 及其与标准 CG 数值行为的差异。未入库文献。

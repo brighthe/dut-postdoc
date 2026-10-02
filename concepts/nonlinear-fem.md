@@ -115,7 +115,7 @@ $$
 | 预条件 | 相对成熟 | 显著更难，且每步都要重建或更新 |
 | 额外状态 | 无 | 高斯点内变量（仅路径相关本构） |
 
-「每个 Newton 步 $\mathbf K_T$ 作废」决定了不装配类方法在非线性下的相对价值：切线刚度既然每步重算，装配就是纯重复开销，而算子作用只需 $\boldsymbol y=\mathbf K_T\boldsymbol v$；代价是每次作用都要重做本构求值，预条件也更难。见 [[matrix-free/_index|Matrix-Free 主题入口]]。
+「每个 Newton 步 $\mathbf K_T$ 作废」决定了不装配类方法在非线性下的相对价值：切线刚度既然每步重算，装配就是纯重复开销，而算子作用只需 $\boldsymbol y=\mathbf K_T\boldsymbol v$；代价是每次作用都要重做本构求值，预条件也更难。见 [[_index#4-矩阵无关求解matrix-free|Matrix-Free 求解体系]]。
 
 ## 5. 与线弹性的一页对照
 
@@ -134,8 +134,8 @@ $$
 ## 6. 来源与关联页面
 
 - [[linear-elasticity]] — 小变形线弹性的完整离散闭环，本页的对照基准与起点。
-- [[substructural-condensation]] — 静力缩聚，局部消元的经典代数基础。
-- [[matrix-free/_index|Matrix-Free 主题入口]]、[[linear-solvers/krylov-subspace-methods]] — 非线性下算子作用与 Krylov 方法的适用性。
+- [[exact-substructural]] — 静力缩聚，局部消元的经典代数基础。
+- [[_index#4-矩阵无关求解matrix-free|Matrix-Free 求解体系]]、[[linear-solvers/krylov-subspace-methods]] — 非线性下算子作用与 Krylov 方法的适用性。
 - [[piml/piml-paradigm]] — 依赖「局部量与全局解耦」的代理方法；非线性对其成立前提的影响在该页讨论。
 - `refs.bib` cite key `huangProblemindependentMachineLearning2022` 的参考文献 [39] — Lv、Liu、H.W. Zhang, *A multiscale co-rotational method for geometrically nonlinear shape morphing of 2D fluid actuated cellular structures*, Mech. Mater. 79 (2014)。**本库无该文译文页，未核验，标「待确认」。**
 - 本页正文的连续介质力学与 Newton 求解内容为通用有限元教科书事实，本库尚无对应文献页，未逐条溯源。

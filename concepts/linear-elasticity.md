@@ -11,7 +11,7 @@ tags:
   - variational-form
 status: in-progress
 date_added: 2026-07-29
-date_update: 2026-09-03
+date_update: 2026-09-23
 ---
 
 # 线弹性方程、变分形式与有限元离散
@@ -469,6 +469,8 @@ $$
 \tag{27}
 $$
 
+若网格单元彼此只差平移，如均匀笛卡尔网格，$\mathbf K_e^0$ 对所有单元相同，只需保存一份；Matrix-Free 实现据此只存该矩阵与逐单元缩放系数，见 [[matrix-free/assembly-levels#2.3.2 共享参考 EA：只保存 $\mathbf A^0$ 与 $s_e$|assembly-levels 2.3.2]]。
+
 若设计密度定义在节点上，或需要在积分点处评价连续密度场，则应在数值积分内部使用 $\rho_{eq}$：
 
 $$
@@ -534,9 +536,9 @@ $$
 
 - [[_index]] — 概念页总索引。
 - [[external-loads]] — 本页 §4 载荷泛函 $\ell(\boldsymbol v)$ 中各类外载荷数据的正则性、适定性与离散施加格式。
-- [[matrix-free/_index]] — Matrix-Free 稳定知识与当前研究的主题入口。
+- [[_index#4-矩阵无关求解matrix-free|Matrix-Free 求解体系]] — Matrix-Free 算子作用与五级装配层次。
 - [[matrix-free/assembly-levels]] — FA/LA/EA/PA/UA 的存储和作用层次。
 - [[gpu-hpc/distributed-operator-and-shared-dofs]] — MPI 分区、共享自由度、归约和 Krylov 内积。
-- [[piml/mathematical-foundations]] — 从局部材料密度到多尺度形函数或缩聚刚度的 Problem-Independent PIML 映射。
+- [[piml/piml-substructural]] — 从局部材料密度到多尺度形函数或缩聚刚度的子结构 PIML 映射。
 - [[../research/piml-matrix-free-gpu/matrix-free-research-guide]] — Matrix-Free 长期目标、阶段模型与统一验收原则。
 - [[../research/piml-matrix-free-gpu/matrix-free-research-guide#五、权威事实来源]] — 线弹性 Matrix-Free 的实测结果、程序入口与项目级状态的事实来源路由。

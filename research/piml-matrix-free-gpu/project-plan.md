@@ -22,11 +22,11 @@ tags:
   - status
 status: "in-progress"
 date_start: 2026-07-22
-date_update: 2026-09-04
+date_update: 2026-09-15
 source: "郭旭老师团队在大规模结构拓扑优化中 PIML 与 Matrix-Free 高性能求解的研究报告.pdf"
 related:
   - "../long-term-research-lines.md"
-  - "./_index.md"
+  - "../_index.md"
   - "./matrix-free-research-guide.md"
   - "./piml-research-guide.md"
   - "./gpu-hpc-research-guide.md"
@@ -42,42 +42,34 @@ related:
 
 本部分研究可复用局部力学表示、结构保持和误差控制。全局接口矩阵采用 CPU 显式组装，用于隔离 Matrix-Free 和 GPU 的影响。
 
-PIML 分析路径的分类维度与文献依据见 [[piml-research-guide#2.3 PIML 代表性分析路径|PIML 代表性分析路径]]；该表以「分析组织」列区分 Full-domain 与 Substructure，本节任务名则自带「子结构」限定，两者指同一组路径。本项目当前重点实现“角点线性迹子结构缩聚变密度拓扑优化基线”和“角点线性迹 PIML 路线 A（形函数预测—变分构造）”。
+PIML 分析路径的分类维度与文献依据见 [[piml-research-guide#2.3 PIML 代表性分析路径|PIML 代表性分析路径]]；该表以「分析组织」列区分 Full-domain 与 Substructure，本节任务名则自带「子结构」限定，两者指同一组路径。本项目当前重点验证两种接口下的精确子结构结构分析，并实现“角点线性迹 PIML 形函数预测（变分构造）”。
 
 ### 1.1 候选局部表示
 
-| 候选表示          | 学习输出          | 状态  | 当前结果与适用范围                                                                                                                                                                                         |
-| ------------- | ------------- | :-: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 多尺度形函数 + 变分构造 | $\mathbf N$   | ✅ | 24 子结构系统下全场位移误差 `0.15%`、柔顺度误差 `0.20%`；形函数误差 `8.97%` 经变分构造后局部刚度误差降至 `0.44%`，log-log 斜率为 `2.00`；当前主路线，来源见 [[../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh\|Huang 2023]] |
-| 缩聚刚度直接预测      | $\mathbf K_s$ | ✅ | 同一比较条件下全场位移误差 `2.01%`、柔顺度误差 `3.64%`；采用 Cholesky 参数化，作为对照路线                                                                                                                                        |
-| 坐标连续形函数       | $\mathbf N$   | ⬜ | 计划以 DeepONet 输出形函数，并用伪结构总应变能训练，来源见 [[../../literature/topopt/piml/translations/Huang2024-PIML-datafree-zh\|Huang 2024]]                                                                          |
-| 边界位移场到内部位移场   | 场到场           | ⬜ | 三次 Bézier 表示尚未实现，来源见 [[../../literature/topopt/piml/translations/Guo2026-highgeneralization-bezier-zh\|Guo 2026 Bézier]]                                                                         |
-| 超采样数值基函数      | 局部降阶基         | ⬜ | 属于重叠载体，需重新定义接口自由度和 gather/scatter 语义，来源见 [[../../literature/topopt/piml/translations/Guo2026-PIML-OFEM-zh\|Guo 2026 PIML-OFEM]]                                                                  |
-
-当前载体为互不重叠的子结构，$\Omega^j\cap\Omega^k=\varnothing$。形函数路线源于 [[../../literature/topopt/piml/translations/Huang2022-problemindependentmachine-zh|Huang 2022]]；Cholesky 参数化是本项目增加的结构设计。
+| 候选表示          | 学习输出          | 状态  | 当前结果与适用范围                                                                                                                                                                                        |
+| ------------- | ------------- | :-: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 多尺度形函数 + 变分构造 | $\mathbf N$   |  ✅  | 24 子结构系统下全场位移误差 `0.15%`、柔顺度误差 `0.20%`；形函数误差 `8.97%` 经变分构造后局部刚度误差降至 `0.44%`，log-log 斜率为 `2.00`；当前主路线，来源见 [[../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh\|Huang 2023]] |
+| 缩聚刚度直接预测      | $\mathbf K_s$ |  ✅  | 同一比较条件下全场位移误差 `2.01%`、柔顺度误差 `3.64%`；采用 Cholesky 参数化，作为对照路线                                                                                                                                       |
+| 坐标连续形函数       | $\mathbf N$   |  ⬜  | 计划以 DeepONet 输出形函数，并用伪结构总应变能训练，来源见 [[../../literature/topopt/piml/translations/Huang2024-PIML-datafree-zh\|Huang 2024]]                                                                          |
+| 边界位移场到内部位移场   | 场到场           |  ⬜  | 三次 Bézier 表示尚未实现，来源见 [[../../literature/topopt/piml/translations/Guo2026-highgeneralization-bezier-zh\|Guo 2026 Bézier]]                                                                         |
+| 超采样数值基函数      | 局部降阶基         |  ⬜  | 属于重叠载体，需重新定义接口自由度和 gather/scatter 语义，来源见 [[../../literature/topopt/piml/translations/Guo2026-PIML-OFEM-zh\|Guo 2026 PIML-OFEM]]                                                                  |
 
 ### 1.2 结构分析基线
 
-| 研究任务          | 状态  | 当前结果与适用范围                                                                                                                                                                                                                       |
-| ------------- | :-: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 精确子结构静力缩聚     |  ✅  | 与全装配直解的位移、柔顺度相对差 `<2e-12`，作为 PIML 的精确基线和回退目标                                                                                                                                                                                    |
-| 子结构 PIML 结构分析 |  ✅  | 24 子结构全局接口矩阵显式组装路径已完成求解和内部位移恢复；代理在役 `0/24` 回退                                                                                                                                                                                   |
-| 结构保持          |  ✅  | 多尺度形函数路线满足 $\widetilde{\mathbf K}-\mathbf K_s=\mathbf E^{\mathsf T}\mathbf K_{ii}\mathbf E\succeq0$，刚体零空间残量 `1.2e-16`；直接预测路线采用 $\widehat{\mathbf K}_s=\mathbf R_\perp\mathbf L\mathbf L^{\mathsf T}\mathbf R_\perp^{\mathsf T}$ |
-| 子结构层精确回退      |  ✅  | 条件触发后回退精确 FEA 并记录 `used_fallback`；故障注入已验证门禁能够触发；尚未进入拓扑演化过程                                                                                                                                                                      |
-| 载荷缩聚          |  ⬜  | 当前继承内部自由度不受载假设；推广到内部受载需补充缩聚载荷和位移恢复项                                                                                                                                                                                             |
-| 几何形状作为输入      |  ⬜  | 当前几何固定，改变子结构形状会导致输入输出维度不匹配                                                                                                                                                                                                      |
-| 分布外检测         |  ⬜  | 留出集为独立均匀采样，尚未测试拓扑演化产生的空间相关密度场                                                                                                                                                                                                   |
+| <span style="display: inline-block; min-width: 12em;">研究任务</span> | 验证脚本与结果                                                    | 状态  |
+| ----------------------------------------------------------------- | ---------------------------------------------------------- | :-: |
+| 精确子结构分析（`full_trace` / `linear_corner`）                           | `soptx:experiments/analysis_capability_substructure/`      |  ✅  |
+| PIML 子结构分析（形函数预测 / 降阶刚度直接预测）                                      | `soptx:experiments/analysis_capability_piml_substructure/` | 🟡  |
+
 
 ### 1.3 PIML 拓扑优化闭环
 
-| 研究任务                    | 状态  | 当前结果与适用范围                                                                                                                                                                                                                  |
-| ----------------------- | :-: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 完整接口子结构缩聚变密度拓扑优化        |  ⬜  | 接口迹取 `full_trace`，不作接口降阶，设计变量仍为细网格单元密度。判据是与普通 Lagrange FA 逐迭代柔度、体积分数、灵敏度和最终拓扑一致到舍入精度（等价前提见 [[../../concepts/substructural-condensation#2.6 “精确等价”的条件与边界\|精确等价的条件与边界]]）。用途是分离缩聚—恢复—伴随链路的实现误差与式 (16) 迹降阶误差；保留全部接口自由度，仅限小规模验证 |
-| 角点线性迹子结构缩聚变密度拓扑优化       | 🟡  | 精确局部 Schur 缩聚 + 式 (16) 角点线性迹 + CPU 显式宏观求解，不引入 PIML、Matrix-Free 或 GPU。密度—局部网格—单元序双向映射、MBB 载荷与约束契约、三维宏观八角点映射已修复，2D/3D 映射与边界专项测试、式 (16) 能量恒等、精确路径灵敏度有限差分均已通过；尚需在统一工况下重跑 2D/3D 完整优化并固定可重放证据                                    |
-| 角点线性迹 PIML 路线 A 变密度拓扑优化 |  ✅  | 已完成 2D（24 子结构）与 3D（48 个 Hex8 子结构）MBB 梁闭环：形函数预测与式 (17) 变分构造、细观位移恢复、伴随灵敏度、空间滤波与 OC 更新。相对角点线性迹子结构缩聚基线，2D 最终柔度误差 `3.02%`（47 步 vs 41 步），3D `3.65%`（42 步 vs 36 步）；证据见 `soptx:experiments/piml_substructure_topopt/`              |
-| 角点线性迹 PIML 路线 B 变密度拓扑优化 |  ⬜  | 在与路线 A 相同的 `linear_corner` 接口迹与 SIMP 设置下直接预测角点降阶刚度 $(\widetilde{\mathbf K}_j^h)^L$；需完成结构性质与灵敏度检查、2D/3D MBB 闭环，并与基线及路线 A 对比柔度历史、体积分数、迭代数和最终拓扑                                                                               |
+| <span style="display: inline-block; min-width: 12em;">研究任务</span> | 验证脚本与结果                                                                                                                                                                                                            | 状态  |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :-: |
+| 精确子结构变密度拓扑优化（`full_trace` / `linear_corner`）                      | `soptx:experiments/topopt_simp_substructure/`                                                                                                                                                                      | 🟡  |
+| 角点线性迹 PIML 形函数预测变密度拓扑优化                                           | 已完成 2D（24 子结构）与 3D（48 个 Hex8 子结构）MBB 梁闭环：形函数预测与式 (17) 变分构造、细观位移恢复、伴随灵敏度、空间滤波与 OC 更新。相对角点线性迹子结构缩聚基线，2D 最终柔度误差 `3.02%`（47 步 vs 41 步），3D `3.65%`（42 步 vs 36 步）；证据见 `soptx:experiments/topopt_simp_piml_substructure/` |  ✅  |
+| 角点线性迹 PIML 降阶刚度直接预测变密度拓扑优化                                        | 在与形函数预测路径相同的 `linear_corner` 接口迹与 SIMP 设置下直接预测角点降阶刚度 $(\widetilde{\mathbf K}_j^h)^L$；需完成灵敏度检查、2D/3D MBB 闭环，并与基线及形函数预测路径对比柔度历史、体积分数、迭代数和最终拓扑                                                                        |  ⬜  |
 
-普通 Lagrange FA 是各路径共用的正确性参照，不在本节单列独立任务。完整接口子结构缩聚与 FA 代数等价，其拓扑优化闭环不产生独立数值结论，因此只作为实现门禁单列任务，不作为精度参照；三条路径的关系是「完整接口 → 角点线性迹 → PIML 局部代理」，后两步分别引入迹降阶误差与代理误差。代表性路径的分类、接口迹与文献来源见 [[piml-research-guide#2.3 PIML 代表性分析路径]]；后续其他类型的 PIML 拓扑优化在本表新增独立任务。
 
 ## 二、Matrix-Free
 
@@ -87,16 +79,16 @@ Matrix-Free 分析路径的装配层级、局部载体、保存／重算对象�
 
 ### 2.1 结构分析基线
 
-| 研究任务 | 状态 | 当前结果与适用范围 |
-|---|:--:|---|
-| FA 结构分析参照 | ✅ | 完成 2D/3D 制造解 $L_2$ 收敛阶、载荷等效与残差验证；证据见 `soptx:examples/lagrange_elasticity/` |
-| FA 显式装配内存机制与容量极限 | ✅ | 完成 FA 各路线内存机制与容量上限测试；证据见 `soptx:experiments/fa_assembly_capability/` |
-| EA 单元装配内存机制与容量极限 | 🟡 | 验证算子代数恒等（误差 `<1e-12`）；尚未基于模式先行新架构重新标定；证据见 `soptx:experiments/ea_assembly_capability/` |
-| 子结构载体的精确 EA Matrix-Free 算子 | 🟡 | NumPy/PyTorch 双后端与显式装配恒等 `<1e-15`，裸 CG 端到端一致；尚无独立时间和峰值内存实测 |
-| PA/QA 部分组装 | ⬜ | 存储进一步下降需从 PA 开始，装配层次见 [[../../concepts/matrix-free/assembly-levels]] |
-| UA（严格 fully matrix-free） | ⬜ | 尚未实现；MFEM 中对应 `AssemblyLevel::NONE` |
-| GMRES / Flexible Krylov | ⬜ | 已写入研究方案，尚未实现 |
-| 预条件子 | ⬜ | 无预条件 CG 的迭代数随分辨率按 64→134→250→493→600 增长 |
+| <span style="display: inline-block; min-width: 12em;">研究任务</span> | 验证脚本与结果                                                              | 状态  |
+| ----------------------------------------------------------------- | -------------------------------------------------------------------- | :-: |
+| 结构分析正确性（FA / EA / PA / UA）                                        | `soptx:experiments/assembly_level_consistency/`：UA 未实现               | 🟡  |
+| FA 显式装配的内存分配                                                      | `soptx:experiments/fa_assembly_capability/`                          |  ✅  |
+| EA 单元装配内存分配                                                       | `soptx:experiments/ea_assembly_capability/`                          | 🟡  |
+| 子结构载体的精确 EA Matrix-Free 算子                                        | NumPy/PyTorch 双后端与显式装配恒等 `<1e-15`，裸 CG 端到端一致；尚无独立时间和峰值内存实测           | 🟡  |
+| PA/QA 部分组装                                                        | 存储进一步下降需从 PA 开始，装配层次见 [[../../concepts/matrix-free/assembly-levels]] |  ⬜  |
+| UA（严格 fully matrix-free）                                          | 尚未实现；MFEM 中对应 `AssemblyLevel::NONE`                                  |  ⬜  |
+| GMRES / Flexible Krylov                                           | 已写入研究方案，尚未实现                                                         |  ⬜  |
+| 预条件子                                                              | 无预条件 CG 的迭代数随分辨率按 64→134→250→493→600 增长                              |  ⬜  |
 
 ### 2.2 Matrix-Free 拓扑优化闭环
 
@@ -136,7 +128,7 @@ FA 路径仅作为正确性参照，不计入 Matrix-Free 任务完成状态。
 |---|:--:|---|
 | 单卡 GPU 结构求解 | ✅ | 相对同后端 CPU 的 16 条 `torch` 线程约 `16` 倍，中位数 `16.08`、区间 `14.9`–`16.6`。该 16 线程是 PyTorch 读取 WSL2 虚拟拓扑得到的默认值而非选定配置，口径见 §3.5 |
 | 多后端统一调度 | ✅ | FEALPy 平台由 `76.07 s` 降至 `4.82 s`，加速 `15.8` 倍；求解阶段 `17.0` 倍；两侧误差 `<1e-14`；`n_dofs 1604043`。端到端与求解阶段两个倍数接近，说明 CPU 侧的串行段已计入分母 |
-| PIML 批量推理与缩聚重构 | ❓ | `experiments/piml_capability` 记录单卡 24–384 子结构用时 `0.23~3.32 ms`、相对 CPU `22~26` 倍；结果页尚未统一回填，CPU 分母的线程配置亦未记录 |
+| PIML 批量推理与缩聚重构 | ❓ | `experiments/piml_substructure_capability` 记录单卡 24–384 子结构用时 `0.23~3.32 ms`、相对 CPU `22~26` 倍；结果页尚未统一回填，CPU 分母的线程配置亦未记录 |
 | PIML 批量训练 | ❓ | 有 2000 样本、4000 epochs 的训练配置，但训练设备和批量训练实测尚未明确 |
 | 单节点多卡 GPU | ⬜ | 计划在项目中后期研究 |
 | 多节点 MPI–GPU | ⬜ | 计划在项目后期研究 |

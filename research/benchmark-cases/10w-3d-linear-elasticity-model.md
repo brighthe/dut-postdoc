@@ -20,10 +20,10 @@ source_sha256: "7E2710699A96E5F24A28EE130587A337B38D6E0421A0EB4F9C031E6FDB50068A
 source_size_bytes: 15082200
 source_last_modified: "2025-12-10 13:41:33"
 related:
-  - "./_index.md"
+  - "../_index.md"
   - "../../concepts/linear-elasticity.md"
   - "../../concepts/finite-elements/solid-elements.md"
-  - "../../papers/arbitrary-order-huzhang-topopt-draft-zh.md"
+  - "../../papers/huzhang-topopt/arbitrary-order-huzhang-topopt-draft-zh.md"
 ---
 
 # `10w-3d.bdf` 三维线弹性模型
@@ -212,3 +212,4 @@ $$
 - 源文件没有解析 CAD、物理边界名称或成功求解记录；文件哈希与大小见 frontmatter。
 
 </details>
+

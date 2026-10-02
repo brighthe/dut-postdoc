@@ -75,7 +75,7 @@ related:
 |---|---|---|
 | soptx GPU 算子原型 | EA/EbE 精确 Matrix-Free 与显式组装同解 `<1e-12`，三维约 `159` 万自由度，同内存上限可算规模 `3.1` 倍；单卡 GPU 相对同后端 CPU 的 16 条 `torch` 线程约 `16` 倍（中位数 `16.08`）；平台级多后端调度 `76.07 s → 4.82 s`（`15.8` 倍，`n_dofs 1604043`）；NumPy、PyTorch CPU、CUDA 三后端结果一致 | 限 EA 级、单卡、无预条件；PA/QA 与严格 fully matrix-free 未做。GPU 加速分散在平台级调度与局部缩聚两处，PIML 预测的 $\widehat{\mathbf K}_j$ 尚未进入全局算子作用，不构成设备驻留全链。逐项状态见 [[project-plan#三、GPU]] 与 [[project-plan#四、PIML + Matrix-Free + GPU]] |
 | `mfleo` 单 GPU 工程经验 | 已完成 650 万 DOF、单 GPU + 单 CPU 核条件下的端到端 CG；相对同规模 MFEM PA 基线约 $3.72\times$–$12.74\times$；P2 tet 的 Jacobi、Chebyshev 测试在单 GPU 条件下约 $4\times+$ | 属独立 PA/Matrix-Free 工程路径，未接入当前 soptx/PIML 原型；尚未考虑多 GPU、多 CPU 核协同或 GPU-aware MPI |
-| Ma2026 团队公开 HPC 基础 | 使用 CPU/MPI、PETSc 多重网格和分布式子结构划分，并行覆盖粗网格求解、恢复、灵敏度、PDE 滤波和 MMA，报告强弱扩展 | 属公开 CPU/MPI 完整优化流程证据，不是 GPU 或异构实现；完整边界见本页 §四与 [[../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh]] |
+| Ma2026 团队公开 HPC 基础 | 使用 CPU/MPI、PETSc 多重网格和分布式子结构划分，并行覆盖粗网格求解、恢复、灵敏度、PDE 滤波和 MMA，报告强弱扩展 | 属公开 CPU/MPI 完整优化流程证据，不是 GPU 或异构实现；完整边界见本页 §四与 [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh]] |
 | 分布式算子工程参考 | `xihe/matrix_free_3` 已形成 Python、FEALPy backend、MPI CPU 的 EA/EbE 原型，包含 gather、局部作用、scatter-add、共享自由度同步和 Krylov/预条件探索 | 正确性、收敛性和扩展性验证尚未闭环；公司仓库独立维护，本知识库不复制代码、数据、日志或内部文档 |
 
 这四类基础分别覆盖 GPU MatVec 趋势、单 GPU 端到端工程、团队公开 CPU/MPI 完整流程和分布式算子结构，但不能拼接成“PIML × Matrix-Free × GPU/MPI 已经完成”的结论。
@@ -94,7 +94,7 @@ GPU 加速的对象至少包括局部积分或局部算子、gather/scatter、Kr
 
 ### 3.3 国内与团队路线进展
 
-“国内”只依据论文原始机构、实施平台或资助信息判断，不依据作者姓名推断。当前可核实证据覆盖 Python 高层 GPU 路线（Hou et al. 2025，CuPy 向量化 SpMV，非 Matrix-Free）、CPU–GPU 异构流程（Liu et al. 2026，EMsFEM + MPI + GPU 灵敏度）和团队 CPU/MPI 完整优化流程（[[../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh|Ma et al. 2026]]，不用 GPU、粗网格仍显式组装）；均未形成与本项目相同的 PIML–Matrix-Free–GPU 链路。逐篇边界见 §4；未建单篇笔记文献的 `to-ingest` 状态见 [[../../literature/_index#当前 ingest 队列]]。
+“国内”只依据论文原始机构、实施平台或资助信息判断，不依据作者姓名推断。当前可核实证据覆盖 Python 高层 GPU 路线（Hou et al. 2025，CuPy 向量化 SpMV，非 Matrix-Free）、CPU–GPU 异构流程（Liu et al. 2026，EMsFEM + MPI + GPU 灵敏度）和团队 CPU/MPI 完整优化流程（[[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh|Ma et al. 2026]]，不用 GPU、粗网格仍显式组装）；均未形成与本项目相同的 PIML–Matrix-Free–GPU 链路。逐篇边界见 §4；未建单篇笔记文献的 `to-ingest` 状态见 [[../../literature/_index#当前 ingest 队列]]。
 
 ### 3.4 研究缺口与选题价值
 
@@ -129,22 +129,20 @@ GPU 加速的对象至少包括局部积分或局部算子、gather/scatter、Kr
 | Liu et al. 2026 | EMsFEM 层级结构、MPI CPU + RTX 4090；完整并发优化 | 支持国内 CPU–GPU 异构响应/灵敏度路线 | 单服务器、显式宏观算子；不支持 PIML/全局 Matrix-Free |
 | Ma et al. 2026 | PIML、CPU/MPI、PETSc MG-GMRES；完整优化 | 支持团队并行流程、按需预测和强弱扩展基础 | 不是 GPU 或全局算子级 Matrix-Free；已入库 |
 
-除 Williams 2009 与 Ma 2026 外，本表目前只采用出版社页面能够直接支持的事实。带链接条目：[[../../literature/topopt/gpu-hpc/translations/Traff2023-GPU-topology-optimisation-zh|Träff et al. 2023]]、[[../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh|Ma et al. 2026]]。未建单篇笔记文献的 `to-ingest` 状态统一维护在 [[../../literature/_index#当前 ingest 队列]]；当前证据矩阵不替代后续全文 ingest。
+除 Williams 2009 与 Ma 2026 外，本表目前只采用出版社页面能够直接支持的事实。带链接条目：[[../../literature/topopt/gpu-hpc/translations/Traff2023-GPU-topology-optimisation-zh|Träff et al. 2023]]、[[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh|Ma et al. 2026]]。未建单篇笔记文献的 `to-ingest` 状态统一维护在 [[../../literature/_index#当前 ingest 队列]]；当前证据矩阵不替代后续全文 ingest。
 
 ## 五、权威事实来源
 
 - [[../../concepts/gpu-hpc/heterogeneous-execution-modes]] — 异构执行模式分类（硬件拓扑、执行层级、编程模型、数据/精度）与本页执行路线的坐标。
 - [[../../concepts/gpu-hpc/reference-libraries/mfem-architecture]] — MFEM 架构与其 §10 的 FEALPy/MFEM 层次对比（阶段 1 与 Matrix-Free 路线的实现层参照）。
-- [[_index]] — 博士后核心研究项目统一入口与最低融合边界。
+- [[project-plan]] — 博士后核心研究项目统一入口与最低融合边界。
 - [[project-plan]] — 三条推进线的 GPU/HPC 角色、阶段依赖和项目级完成条件。
-- [[project-plan]] — GPU/异构并行、端到端瓶颈和实验矩阵调研。
 - [[../../literature/_index#当前 ingest 队列]] — 本阶段核心论文和唯一 `to-ingest` 状态入口。
-- [[../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh]] — 团队 CPU/MPI 并行 PIML、PETSc 多重网格和强弱扩展的论文事实。
+- [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh]] — 团队 CPU/MPI 并行 PIML、PETSc 多重网格和强弱扩展的论文事实。
 - `\\wsl.localhost\Ubuntu-24.04\home\brighthe\workspace\soptx`（个人公开仓库 `brighthe/soptx`，`main`）— 阶段 1 的当前实现来源；实测数值与 provenance 见 `examples/matrix_free_elasticity/results_analysis.md` 与 `experiments/matrix_free_capability/`，本知识库只读结论，不建立跨仓库运行依赖。
 - `\\wsl.localhost\Ubuntu-24.04\home\brighthe\workspace\fealpy\app\soptx` — FEALPy 内置的旧版 SOPTX，只作为历史代码参考，不再作为阶段 1 实现基线。
 - `C:\workspace\mfleo` — 独立单 GPU PA/Matrix-Free 工程事实源；不作为本知识库运行依赖。
 - `C:\workspace\xihe`（`origin/develop`）— `xihe/matrix_free_3` 的独立公司工程事实源；不复制公司代码、数据、日志或内部文档。
 - [[piml-research-guide]]、[[matrix-free-research-guide]] — 另外两个项目分支及其正确性门禁。
-- [[../../entities/guo-xu/first-formal-work-report|郭旭老师第一次工作汇报]] — 第一次线下汇报中的 GPU/HPC 摘要。
-
-- [[_index]] — PIML–Matrix-Free–GPU 项目统一入口。
+- [[../../entities/guo-xu/reports/piml-gpu-matrix-free-demo/report|郭旭老师第一次工作汇报]] — 首次汇报准备材料中的 GPU/HPC 摘要。
+- [[project-plan]] — PIML–Matrix-Free–GPU 项目统一入口。

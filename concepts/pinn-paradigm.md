@@ -152,6 +152,6 @@ $$
 
 * [[linear-elasticity|线弹性]] — 静力各向同性线弹性方程与变分形式
 * [[machine-learning|机器学习]] — 经典回归、神经网络与函数/算子学习分类，含 SciML 归纳偏置
-* [[piml/_index|PIML 术语与主题入口]] — Problem-Independent 路线说明
+* [[_index#6-机器学习与-piml|PIML 机器学习范式]] — Problem-Independent 路线说明
 * [[piml/reference-libraries/fealpy-sciml-architecture|FEALPy SciML 与机器学习基础设施架构]] — PINN 求解链的框架侧实现基础
 * [[gpu-hpc/reference-libraries/fealpy-architecture|FEALPy 多后端与张量引擎架构]] — 后端分派与 GPU 执行路径

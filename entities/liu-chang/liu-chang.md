@@ -85,7 +85,7 @@ date_update: 2026-08-27
 | [[../../literature/topopt/piml/translations/Huang2024-PIML-datafree-zh]] | 第 2 作者 | DeepONet + data-free 力学损失 | 密度分支 + 坐标主干 → 坐标连续形函数 | 全文笔记 |
 | [[../../literature/topopt/piml/translations/Zhang2024-isoparametric-PIML-zh]] | 第 3 作者 | 机器学习 + 等参单元 | 单元几何形状与材料分布 → 数值形函数 | `draft`，摘要级 |
 | [[../../literature/topopt/piml/translations/Xu2025-PIML-lattice-MMC-zh]] | 第 2 作者 | PIML + MMC | 三维梯度点阵复合结构的高效分析与优化 | `draft`，摘要级 |
-| [[../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh]] | 第 5 作者 | 不更换网络，转向并行与按需预测 | 多尺度形函数路线的工程化与规模化 | 全文笔记 |
+| [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh]] | 第 5 作者 | 不更换网络，转向并行与按需预测 | 多尺度形函数路线的工程化与规模化 | 全文笔记 |
 | [[../../literature/topopt/piml/translations/Guo2026-highgeneralization-bezier-zh]] | 第 2 作者 | DeepONet + Bézier 参数化 | 参数化边界位移场 → 子结构内部位移场 | `draft`，摘要级 |
 | [[../../literature/topopt/piml/translations/Guo2026-PIML-OFEM-zh]] | 第 2 作者 | U-Net + overlapping FEM | 杨氏模量分布 → 超采样数值基函数 | `draft`，arXiv v1 摘要级 |
 
@@ -127,7 +127,7 @@ date_update: 2026-08-27
 
 | 方向 | 权威页面 |
 |---|---|
-| PIML 局部表示与模型选型 | [[../../concepts/piml/_index]]；[[../../research/piml-matrix-free-gpu/piml-research-guide]] |
+| PIML 局部表示与模型选型 | [[../../concepts/_index#6-机器学习与-piml\|PIML 概念总览]]；[[../../research/piml-matrix-free-gpu/piml-research-guide]] |
 | 核心研究项目 PIML 推进线 | [[../../research/piml-matrix-free-gpu/project-plan]] |
 | 师门链与人物关系 | [[../relationships]] |
 
@@ -141,7 +141,7 @@ date_update: 2026-08-27
 
 - [[wechat-log|微信沟通档案]] — 逐字聊天记录、沟通口径与行政事务待办（2026-08-31 由 heliangos 迁入）。
 - [[../guo-xu/guo-xu|郭旭]] — 其博士导师，研究体系、稳定研究方向与权威入口。
-- [[../../concepts/piml/method-lineage]] — 「直接预测最终设计 → 学习可复用局部算子」的方法谱系。
+- [[../../concepts/piml/piml-paradigm#4. 文献谱系|PIML 文献谱系]] — 「直接预测最终设计 → 学习可复用局部算子」的方法谱系。
 - [[../../concepts/ml-roles-and-boundaries]] — 各类 ML 角色与问题无关性的适用边界。
 - [[../../research/piml-matrix-free-gpu/piml-research-guide]] — PIML 技术线总入口。
 - [[../../research/piml-matrix-free-gpu/piml-research-guide#2.4 模型选型与统一比较契约]] — 通用六维选型框架。

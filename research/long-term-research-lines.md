@@ -40,7 +40,7 @@ date_update: 2026-08-31
 
 这条主线关注“怎样把结构问题离散得更准确、更稳定”。博士后阶段以已有工作的完善和成果转化为主，包括两个方向：
 
-- **Hu–Zhang 混合有限元拓扑优化**：研究任意次 Hu–Zhang 元的离散、结构响应和拓扑优化应用。论文入口为[[../papers/arbitrary-order-huzhang-topopt-outline|投稿框架]]和[[../papers/arbitrary-order-huzhang-topopt-draft-zh|中文初稿]]，理论与离散背景见[[../concepts/huzhang/huzhang-mixed-fem|Hu–Zhang 混合有限元]]。
+- **Hu–Zhang 混合有限元拓扑优化**：研究任意次 Hu–Zhang 元的离散、结构响应和拓扑优化应用。论文入口为[[../papers/arbitrary-order-huzhang-topopt-outline|投稿框架]]和[[high-order-huzhang-topopt-draft-zh|中文初稿]]，理论与离散背景见[[../concepts/huzhang/huzhang-mixed-fem|Hu–Zhang 混合有限元]]。
 - **无稳定化项虚单元拓扑优化**：研究在什么条件下可以去掉额外稳定化项，以及相应的刚度构造、灵敏度分析和多边形单元处理。现阶段从[[vem-topopt-long-term-survey|VEM 长期调研与论文入口]]继续推进。
 
 这两项工作不并入主线二的核心项目，但可以为后续快速求解提供结构清楚、精度可靠的离散算子。
@@ -54,7 +54,7 @@ date_update: 2026-08-31
 - **GPU/MPI**承担局部批处理、全局算子作用、归约和并行求解；
 - 在前述基础上，将 PIML 局部表示嵌入 Matrix-Free 全局求解和拓扑优化迭代。
 
-PIML、Matrix-Free 与 GPU/HPC 三个项目分支共用 NumPy、PyTorch、JAX 等多后端实现，尽量保持 CPU/GPU 上的算子语义、数值精度和计时范围一致；统一入口见[[piml-matrix-free-gpu/_index|核心研究项目]]。
+PIML、Matrix-Free 与 GPU/HPC 三个项目分支共用 NumPy、PyTorch、JAX 等多后端实现，尽量保持 CPU/GPU 上的算子语义、数值精度和计时范围一致；统一方案见[[piml-matrix-free-gpu/project-plan|核心研究项目实施方案]]。
 
 ## 两条主线的关系
 
@@ -70,7 +70,7 @@ PIML、Matrix-Free 与 GPU/HPC 三个项目分支共用 NumPy、PyTorch、JAX �
 
 | 成果 | 定位 | 研究入口 | 贡献边界 |
 |---|---|---|---|
-| 论文一：Hu–Zhang 混合有限元拓扑优化 | 博士延续成果；中期优先 | [[../papers/arbitrary-order-huzhang-topopt-outline]]、[[../papers/arbitrary-order-huzhang-topopt-draft-zh]] | 完成独立的混合有限元离散、结构响应和拓扑优化证据链 |
+| 论文一：Hu–Zhang 混合有限元拓扑优化 | 博士延续成果；中期优先 | [[../papers/arbitrary-order-huzhang-topopt-outline]]、[[high-order-huzhang-topopt-draft-zh]] | 完成独立的混合有限元离散、结构响应和拓扑优化证据链 |
 | 论文二：无稳定化项虚单元拓扑优化 | 博士延续成果；中期并行 | [[vem-topopt-long-term-survey]] | 说明去稳定化的理论条件，并完成算法与拓扑优化验证 |
 | 论文三（A）：精确 Matrix-Free/GPU 基线 | 核心项目基础成果；出站保障 | [[piml-matrix-free-gpu/project-plan#二、Matrix-Free]]、[[piml-matrix-free-gpu/matrix-free-research-guide]] | 使用精确有限元或精确子结构算子，不引入学习算子 |
 | 论文四（B）：PIML 局部表示 | 核心项目扩展成果 | [[piml-matrix-free-gpu/piml-research-guide]]、[[piml-matrix-free-gpu/gpu-hpc-research-guide]] | 研究结构保持、误差传播和 GPU 批处理，不接入全局 Matrix-Free 求解 |
@@ -84,7 +84,8 @@ A 建立可复查的精确求解基线，重点比较完整求解时间、峰值
 - [[piml-matrix-free-gpu/project-plan|PIML Matrix-Free 求解与 GPU 协同加速项目]]是主线二在博士后阶段的主要实施载体，基金是否获批不改变项目本身。
 - [[mmc-mmv/mmc-mmv-numerical-discretization-survey|MMC/MMV 显式拓扑优化先进数值分析]]是合作与应用课题，可以调用两条主线的离散和快速求解能力，但不单列为第三条长期主线。
 - [[../archive/2026-postdoc-entry-assessment/postdoc-research-plan|博士后入站科研计划]]保留入站时的“两大研究方面、四条主线”口径，作为历史材料，不随当前路线改写。
-- PIML、Matrix-Free 和 GPU/HPC 三个分支的技术状态与下一步任务从[[piml-matrix-free-gpu/_index|核心研究项目入口]]进入；项目状态见[[piml-matrix-free-gpu/project-plan|核心项目计划]]，基金状态见[[funding/postdoc-funding-applications|博士后基金申请台账]]。
+- PIML、Matrix-Free 和 GPU/HPC 三个分支的技术状态与下一步任务见[[piml-matrix-free-gpu/project-plan|核心研究项目实施方案]]，基金状态见[[funding/postdoc-funding-applications|博士后基金申请台账]]。
 - 投稿、接收、考核和积分记录由对应论文页及 heliangos:career/dlut-postdoc/ 保存；代码、测试和 Benchmark 留在相应软件仓库。
 
 只有长期方向、论文组合或 A/B/C 的贡献边界发生变化时，才需要更新这份页面。
+

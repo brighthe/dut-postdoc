@@ -47,13 +47,13 @@ EMsFEM 形函数学习
   → 并行 PIML 与多尺度形函数按需预测 / 释放
 ```
 
-完整的前序论文关系见 [[../piml/method-lineage]]。Huang2022—Huang2024 构成 PIML 和子结构方法基础，但当前没有足够证据将其作为独立的 Matrix-Free 节点重复登记。
+完整的前序论文关系见 [[../piml/piml-paradigm#4. 文献谱系|PIML 文献谱系]]。Huang2022—Huang2024 构成 PIML 和子结构方法基础，但当前没有足够证据将其作为独立的 Matrix-Free 节点重复登记。
 
 ## 3. 当前时间线
 
 | 时间 | 代表成果 | Matrix-Free 对象 | 全局算子定位 | 证据状态 |
 |---|---|---|---|---|
-| 2026 | [[../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh]] | 多尺度形函数 $\mathbf N^j$ 按需预测、使用后释放 | 粗网格全局缩聚矩阵仍形成和组装，属于第 1 级 FA/TA | 已核实 |
+| 2026 | [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh]] | 多尺度形函数 $\mathbf N^j$ 按需预测、使用后释放 | 粗网格全局缩聚矩阵仍形成和组装，属于第 1 级 FA/TA | 已核实 |
 
 当前只有一个正式节点，不能据此表述为团队已经形成了完整、连续的算子级 Matrix-Free 路线。
 
@@ -132,14 +132,14 @@ Ma2026 的粗网格线性求解属于第 1 级 FA/TA，而不是 EA、PA 或 UA�
 
 ## 8. 来源与证据
 
-- [[../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh]] — 论文事实、算法流程、实验结果与边界。
+- [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh]] — 论文事实、算法流程、实验结果与边界。
 - [Ma et al., 2026, Acta Mechanica Sinica](https://doi.org/10.1007/s10409-025-25942-x) — 出版社 DOI 入口。
-- [[../piml/method-lineage]] — PIML 的前序方法谱系。
+- [[../piml/piml-paradigm#4. 文献谱系|PIML 文献谱系]] — PIML 的前序方法谱系。
 - [[assembly-levels]] — 五级装配层次及跨框架判定口径。
 
 ## 9. 相关页面
 
-- [[_index]] — Matrix-Free 子知识库入口。
+- [[../_index#4-矩阵无关求解matrix-free|Matrix-Free 概念总览]] — Matrix-Free 概念体系总览。
 - [[../../research/piml-matrix-free-gpu/matrix-free-research-guide]] — 长期目标、能力边界、阶段模型与统一验收原则。
 - [[../../research/piml-matrix-free-gpu/matrix-free-research-guide#五、权威事实来源]] — 实测结果、数学规格与项目级状态的事实来源路由。
 - [[../../entities/guo-xu/guo-xu|郭旭]] — 郭旭院士实体主页。

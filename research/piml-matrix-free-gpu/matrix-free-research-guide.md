@@ -19,13 +19,13 @@ tags:
   - heterogeneous-computing
 status: "in-progress"
 date_start: 2026-07-21
-date_update: 2026-09-01
+date_update: 2026-09-23
 related:
   - linear-elasticity
-  - matrix-free/_index
-  - matrix-free/assembly-levels
-  - distributed-operator-and-shared-dofs
-  - _index
+  - "../../concepts/_index"
+  - "../../concepts/matrix-free/assembly-levels"
+  - "../../concepts/gpu-hpc/distributed-operator-and-shared-dofs"
+  - "../_index"
   - project-plan
   - piml-research-guide
 ---
@@ -65,7 +65,7 @@ Matrix-Free 的判定依据是“省略什么、保存什么、重算什么”�
 
 必须明确区分**高阶积分点级 Partial Assembly (PA)** 与 **子结构/大单元级 PIML Matrix-Free**：前者按 Gauss 积分点和和分解（Sum Factorization）作用；后者以子结构或大单元为局部载体，按 $\mathbf{y}_j = \widehat{\mathbf{A}}_j \mathbf{x}_j$ 作用。PIML 学习的本质是局部力学表示，与 Matrix-Free 的局部算子按需累加在计算范式上具有天然契合性，从而避免了“先局部学习、再全局组装”的矛盾路径。子结构载体算子的作用式、与显式装配的代数恒等及自由子空间语义由 [[../../concepts/matrix-free/mf-ea-substructural|子结构载体 EA Matrix-Free 算子]] 维护。
 
-以 [[../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh|Ma2026]] 为接续点时，先用精确子结构算子 $\mathbf{K}_s^j$ 建立 FA/LA/EA 与 Krylov/预条件闭环（精确 Matrix-Free/GPU 基线），再推进 PA-like 和 UA/NONE；只有这些路径通过门禁后，才在三线融合阶段以结构保持 PIML 预测算子 $\widehat{\mathbf{A}}_j$ 替换局部算子来源。PIML 决定局部算子如何获得，装配层级决定全局 MatVec 如何保存和执行，两者必须分别判定。
+以 [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh|Ma2026]] 为接续点时，先用精确子结构算子 $\mathbf{K}_s^j$ 建立 FA/LA/EA 与 Krylov/预条件闭环（精确 Matrix-Free/GPU 基线），再推进 PA-like 和 UA/NONE；只有这些路径通过门禁后，才在三线融合阶段以结构保持 PIML 预测算子 $\widehat{\mathbf{A}}_j$ 替换局部算子来源。PIML 决定局部算子如何获得，装配层级决定全局 MatVec 如何保存和执行，两者必须分别判定。
 
 ### 2.3 Matrix-Free 代表性分析路径
 
@@ -76,7 +76,7 @@ Matrix-Free 的判定依据是“省略什么、保存什么、重算什么”�
 | 全局组装参照                    | FA/TA   | 全域                | 保存全局稀疏矩阵                           | 直接解或代数预条件 CG                            | 各代表工作均以显式组装作正确性对照                                                                                                                                                                   |
 | 进程局部矩阵 MPI 基线             | LA      | rank 子域           | 每 rank 保存局部稀疏矩阵，省略全局矩阵             | Jacobi-PCG 与 MPI 数据交换                   | Liu et al. 2007，三维水工结构分布式路线                                                                                                                                                         |
 | 单元级 EA/EbE 精确 Matrix-Free | EA/EbE  | 单元                | 保存单元刚度矩阵，省略全局组装                    | 对称正定下 CG；预条件须按无全局矩阵形式构造（对角、deflation 等） | Hughes, Levit & Winget 1983（EBE 历史起点，摘要级）；Liu et al. 2007；Bian & Fang 2017（assembly-free deflated CG，摘要级）                                                                           |
-| 子结构载体精确 EA Matrix-Free    | EA      | 子结构／大单元           | 保存精确缩聚算子 $\mathbf{K}_s^j$，省略全局接口矩阵 | 接口自由度空间上的 CG；预条件须在缩聚接口空间构造              | [[../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh\|Ma et al. 2026]] 为接续点，但其全局粗尺度缩聚矩阵仍显式组装                                                              |
+| 子结构载体精确 EA Matrix-Free    | EA      | 子结构／大单元           | 保存精确缩聚算子 $\mathbf{K}_s^j$，省略全局接口矩阵 | 接口自由度空间上的 CG；预条件须在缩聚接口空间构造              | [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh\|Ma et al. 2026]] 为接续点，但其全局粗尺度缩聚矩阵仍显式组装                                                              |
 | 积分点级 PA/QA 部分组装           | PA/QA   | 单元积分点             | 保存形函数、几何与积分点数据，按和分解重算算子作用          | Matrix-Free 主算子配低阶细化组装代理、GMG 或 Schwarz  | [[../../literature/matrix-free/translations/Kronbichler2012-parallel-cell-operator-zh\|Kronbichler & Kormann 2012]]（摘要级）；Pazner 2020（摘要级）                                           |
 | 完全 Matrix-Free UA/NONE    | UA/NONE | MatVec 时按需生成的局部表示 | 几乎不保存局部算子，全部按需重算                   | 依赖不需矩阵项的预条件；最粗层可局部组装                    | MFEM `AssemblyLevel::NONE`；[[../../literature/topopt/gpu-hpc/translations/Zhou2025-efficientaccelerationstrategies-zh\|Zhou et al. 2025]] 的有限差分 fully matrix-free 与 N-cycle MGCG（摘要级） |
 
@@ -114,6 +114,17 @@ Hughes、Levit 与 Winget 1983 年的 EBE 方法以省略全局系数矩阵为�
 4. 现有代表工作分别覆盖 MPI EBE、单 GPU 拓扑优化或 CPU/MPI PIML，尚未形成多 GPU、GPU-aware MPI 与学习局部算子的统一闭环。
 5. 学习算子会改变对称性、正定性、能量一致性和误差传播，局部误差对 Krylov 收敛、灵敏度及最终拓扑的影响仍待研究。
 
+第 2 条在低阶单纯形上可以量化。三维线弹性 $P_1$ 四面体、单点积分，取 $N_e\approx6N_n$、$\nu_a\approx14$，一律按满存储计：
+
+| | 每单元 | 总量（doubles） |
+|---|---|---|
+| PA，各向同性 | $11$ | $\approx 66\,N_n$ |
+| FA | — | $\operatorname{nnz}=9\sum_a(\nu_a+1)\approx135\,N_n$ |
+| PA，一般各向异性 | $45$ | $\approx 270\,N_n$ |
+| EA | $144$ | $\approx 864\,N_n$ |
+
+逐单元计数与积分阶依赖见 [[../../concepts/matrix-free/assembly-levels#2.4.3 存储与代价]]。表中只有各向同性 PA 的存储真正低于 FA，PA 相对 EA 是存储优化而非计算优化。均匀笛卡尔六面体网格上，共享参考单元矩阵的 EA 每单元只存一个标量，存储也低于 FA（[[../../concepts/matrix-free/assembly-levels#2.3.2 共享参考 EA：只保存 $\mathbf A^0$ 与 $s_e$|assembly-levels 2.3.2]]），但这依赖单元彼此只差平移，一般非结构单纯形网格不满足。低阶单纯形上推进 PA/QA 的目标因此是打通 $\mathbf B$–$\mathbf D$ 数据流与接口语义，不是 kernel 加速；把 Matrix-Free 的价值主张建立在低阶问题的存储节省上站不住。
+
 对精确 Matrix-Free/GPU 基线，本技术线用于建立精确算子、Krylov、预条件及 CPU/GPU/MPI 的统一基线，明确性能来源和失败边界。对满足门禁后的三线融合，则先形成精确局部算子的全局求解闭环，再替换为结构保持预测算子，研究预条件耦合、误差传播、缓存—重算、分布外检测和精确回退，并以精度—时间—内存的端到端证据判断是否真正扩展可解规模。
 
 ## 四、证据锚点及结论边界
@@ -127,7 +138,7 @@ Hughes、Levit 与 Winget 1983 年的 EBE 方法以省略全局系数矩阵为�
 | Pazner 2020 | Matrix-Free 主算子 + 低阶组装代理、GMG/Schwarz | 主算子与预条件器可采用不同装配层级 | 摘要级高阶椭圆问题；不证明拓扑更新策略 |
 | [[../../literature/topopt/gpu-hpc/translations/Traff2023-GPU-topology-optimisation-zh\|Träff et al. 2023]] | 三维线性／非线性拓扑优化；OpenMP/Futhark；单 GPU | 摘要支持单 GPU 千万级单元与完整优化流程 | Matrix-Free 装配层级、具体硬件、求解器和外推边界待译文精读 |
 | [[../../literature/topopt/gpu-hpc/translations/Zhou2025-efficientaccelerationstrategies-zh\|周丙臻、朱子贤与王晓平（Zhou et al. 2025）]] | 有限差分、最粗层组装、fully Matrix-Free、N-cycle MGCG 与渐进策略 | 国内近期 fully Matrix-Free + MGCG 三维拓扑优化路线 | 正式摘要／元数据级；译文与精读待完成，不补写平台、算例、稳定性或性能归因 |
-| [[../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh\|郭旭老师团队（Ma et al. 2026）]] | PIML、CPU/MPI、PETSc MG-GMRES；全局粗矩阵仍组装 | PIML 局部表示和重计算换存储基础 | 不属于全局算子级 Matrix-Free 或 GPU 融合；已入库 |
+| [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh\|郭旭老师团队（Ma et al. 2026）]] | PIML、CPU/MPI、PETSc MG-GMRES；全局粗矩阵仍组装 | PIML 局部表示和重计算换存储基础 | 不属于全局算子级 Matrix-Free 或 GPU 融合；已入库 |
 
 未建单篇笔记文献的 `to-ingest` 状态统一维护在 [[../../literature/_index#当前 ingest 队列]]，本表不建立第二套状态账。
 
@@ -138,7 +149,7 @@ Hughes、Levit 与 Winget 1983 年的 EBE 方法以省略全局系数矩阵为�
 - `soptx:examples/matrix_free_elasticity/README.md` — 二维、三维实现、运行入口和文件职责。
 - `soptx:examples/matrix_free_elasticity/results_analysis.md` — 实测数值、门禁阈值、证据 provenance 和解释边界的唯一事实源。
 - [[project-plan]] — 三条推进线、依赖关系和项目级状态。
-- [[../../concepts/matrix-free/_index]] — Matrix-Free 稳定知识与语义入口。
+- [[../../concepts/_index#4-矩阵无关求解matrix-free|Matrix-Free 概念总览]] — Matrix-Free 稳定知识与语义入口。
 - [[../../concepts/matrix-free/assembly-levels]] — 五级装配层次和框架术语映射。
 - [[../../concepts/gpu-hpc/distributed-operator-and-shared-dofs]] — 算子代数与重叠副本表示：双重向量表示、同步/投影算子、分布式 MatVec 精确等价定理、重叠加权内积与正确性不变量。
 - [[../../literature/_index#当前 ingest 队列]] — 当前待入库证据锚点和储备候选池。

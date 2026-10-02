@@ -18,7 +18,7 @@ date_update: 2026-09-04
 
 # 稀疏直接法
 
-> 直接法把 $\mathbf A$ 分解为三角因子后回代求解，结果只受舍入误差影响，不依赖谱分布；代价是分解过程的填充（fill-in）使三维问题的内存与运算量随自由度数超线性增长，这是大规模三维有限元问题不能依赖直接法的根本原因。它在迭代法体系中保留两个角色：迭代法与 Matrix-Free 算子的正确性对照基线（新求解路径先在小规模问题上与直接解比对），以及[[multigrid|多重网格]]最粗层的求解器（最粗层规模小到直接分解几乎免费）。
+> 直接法把 $\mathbf A$ 分解为三角因子后回代求解，结果只受舍入误差影响，不依赖谱分布；代价是分解过程的填充（fill-in）使三维问题的内存与运算量随自由度数超线性增长，这是大规模三维有限元问题不能依赖直接法的根本原因。在整个线性代数求解器架构（见 [[linear-solvers-architecture]]）中，它保留两个关键角色：迭代法与 Matrix-Free 算子的正确性对照基线（新求解路径先在小规模问题上与直接解比对），以及[[multigrid|多重网格]]最粗层的求解器（最粗层规模小到直接分解几乎免费）。
 
 ## 1. 分解与回代
 
@@ -86,11 +86,11 @@ MUMPS、PARDISO、CPardiso、SuperLU / SuperLU_DIST 是有限元软件中常见�
 
 判断一个求解器是否为 GPU 求解器，判据是**因子与求解过程是否常驻显存并由 GPU 主导**，而不是某个环节能否卸载。按此判据，具备原生 GPU 后端的稀疏直接求解器另有其列：NVIDIA cuDSS（单卡、单节点多卡、多节点多卡三种模式，多节点通过 CUDA-aware MPI 或 NCCL 通信）、SuperLU_DIST、STRUMPACK、PaStiX。GPU 直接法的容量约束比 CPU 更紧：因子必须放进显存，而显存通常远小于主存，§2 的填充增长量级因此更早成为限制。
 
-## 参考文献
+## 参考依据
 
-[1] DAVIS T A. Direct Methods for Sparse Linear Systems[M]. Philadelphia: SIAM, 2006. 稀疏分解、填充与排序算法。**refs.bib 尚无条目。**
-[2] GEORGE A. Nested dissection of a regular finite element mesh[J]. SIAM Journal on Numerical Analysis, 1973, 10(2): 345-363. 嵌套剖分排序及其填充与运算量的量级结果。**refs.bib 尚无条目。**
-[3] SAAD Y. Iterative Methods for Sparse Linear Systems[M]. 2nd ed. Philadelphia: SIAM, 2003. §3 稀疏矩阵与直接法基础。**refs.bib 尚无条目。**
-[4] Intel. oneMKL Developer Reference: PARDISO / Parallel Direct Sparse Solver for Clusters. §3 的函数入口、`iparm`、矩阵输入格式与 OpenMP Offload 目标设备。**厂商文档，非文献条目。**
-[5] MUMPS Technologies. MUMPS User's Guide. §3 的 `ICNTL` / `job` 语义、`libmpiseq` 构建与算术类型分库。**厂商文档，非文献条目。**
-[6] NVIDIA. cuDSS Documentation. §5 的 GPU 直接法模式划分（单卡 / MG / MGMN）。**厂商文档（Preview 状态），非文献条目。**
+- [1] DAVIS T A. Direct Methods for Sparse Linear Systems[M]. Philadelphia: SIAM, 2006 — 稀疏分解、填充与排序算法。未入库文献。
+- [2] GEORGE A. Nested dissection of a regular finite element mesh[J]. SIAM Journal on Numerical Analysis, 1973, 10(2): 345-363 — 嵌套剖分排序及其填充与运算量的量级结果。未入库文献。
+- [3] SAAD Y. Iterative Methods for Sparse Linear Systems[M]. 2nd ed. Philadelphia: SIAM, 2003 — §3 稀疏矩阵与直接法基础。未入库文献。
+- [4] Intel. oneMKL Developer Reference: PARDISO / Parallel Direct Sparse Solver for Clusters — §3 的函数入口、`iparm`、矩阵输入格式与 OpenMP Offload 目标设备。厂商文档。
+- [5] MUMPS Technologies. MUMPS User's Guide — §3 的 `ICNTL` / `job` 语义、`libmpiseq` 构建与算术类型分库。厂商文档。
+- [6] NVIDIA. cuDSS Documentation — §5 的 GPU 直接法模式划分（单卡 / MG / MGMN）。厂商文档（Preview 状态）。

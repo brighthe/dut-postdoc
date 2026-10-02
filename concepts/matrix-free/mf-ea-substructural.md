@@ -14,12 +14,12 @@ tags:
   - operator
 status: in-progress
 date_added: 2026-08-26
-date_update: 2026-09-03
+date_update: 2026-09-14
 ---
 
 # 子结构载体 EA Matrix-Free 算子
 
-子结构静力缩聚（[[../substructural-condensation]]）得到的全局接口系统可以不经显式装配、直接以算子形式进入迭代求解。本页给出该算子的定义、与显式装配的代数恒等、边界条件的子空间表述和对角闭式。按 [[assembly-levels]] 的五级口径，它属 EA 级存储语义、以子结构为载体。
+子结构静力缩聚（[[../exact-substructural]]）得到的全局接口系统可以不经显式装配、直接以算子形式进入迭代求解。本页给出该算子的定义、与显式装配的代数恒等、边界条件的子空间表述和对角闭式。按 [[assembly-levels]] 的五级口径，它属 EA 级存储语义、以子结构为载体。
 
 ## 1. 接口空间与限制、延拓
 
@@ -41,7 +41,7 @@ $$
 
 ## 2. 算子定义与性质
 
-局部数据是各子结构的缩聚刚度 $\mathbf K_s^j \in \mathbb{R}^{n_b \times n_b}$（精确时即 Schur 补，推导见 [[../substructural-condensation#2. Schur 补静力缩聚的严谨数学推导|静力缩聚 §2]]）。全局接口算子定义为
+局部数据是各子结构的缩聚刚度 $\mathbf K_s^j \in \mathbb{R}^{n_b \times n_b}$（精确时即 Schur 补，推导见 [[../exact-substructural#2. 基于静力缩聚构造局部缩聚刚度|精确子结构分析 §2]]）。全局接口算子定义为
 
 $$
 \mathbf A \;:=\; \sum_{j=1}^{B} \mathbf L_j^{\mathsf T}\, \mathbf K_s^{j}\, \mathbf L_j \;\in\; \mathbb{R}^{n_\Gamma \times n_\Gamma},
@@ -67,7 +67,7 @@ $$
 
 ## 3. 与显式装配的代数恒等
 
-显式路径（[[../substructural-condensation#5. 八步通用算法逻辑与伪代码|8 步缩聚算法]]第 6 步）先累加 $\mathbf K_{\text{global}} = \sum_j \mathbf L_j^{\mathsf T}\mathbf K_s^j\mathbf L_j$ 再乘向量；算子路径逐子结构作用后求和。由矩阵乘法对加法的分配律，
+显式路径（[[../exact-substructural#3.1 全局接口方程装配|精确子结构分析 §3.1]]）先累加 $\mathbf K_{\text{global}} = \sum_j \mathbf L_j^{\mathsf T}\mathbf K_s^j\mathbf L_j$ 再乘向量；算子路径逐子结构作用后求和。由矩阵乘法对加法的分配律，
 
 $$
 \mathbf K_{\text{global}}\,\mathbf x
@@ -135,7 +135,7 @@ $$
 
 ## 来源与相关页面
 
-- [[../substructural-condensation]] — $\mathbf K_s^j$ 的数学来历（§2）与被替换的第 6 步（§5）。
+- [[../exact-substructural]] — $\mathbf K_s^j$ 的数学来历（§2）与被替换的显式全局装配（§3.1）。
 - [[assembly-levels]] — 五级装配层次口径，本页 EA 定位的判据来源。
 - [[../linear-solvers/krylov-subspace-methods]] — 算子之上的迭代求解机制；预条件见 [[../linear-solvers/preconditioning]]。
 - [[../piml/piml-substructural]] — $\mathbf K_s^j$ 的 PIML 预测来源；该页管局部矩阵怎么学出来，本页管怎么作用。

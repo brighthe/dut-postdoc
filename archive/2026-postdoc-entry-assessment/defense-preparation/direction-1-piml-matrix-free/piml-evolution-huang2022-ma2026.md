@@ -20,7 +20,7 @@ related:
 > 被问"你的工作与我们已有工作是什么关系"时，按本表与末节口径回答。
 > 数据出处：[[../../../../literature/topopt/piml/translations/Huang2022-problemindependentmachine-zh|Huang 2022 译文]] ·
 > [[../../../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh|Huang 2023 译文]] ·
-> [[../../../../literature/topopt/gpu-hpc/translations/Ma2026-highperformanceparallel-zh|Ma 2026 译文]]。
+> [[../../../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh|Ma 2026 译文]]。
 
 ## 1. 三代工作对照表
 

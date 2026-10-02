@@ -30,12 +30,12 @@ source_paths:
 
 ## 长期知识去向
 
-- 个人长期科研方向总领：[[research/long-term-research-lines]]。
-- PIML 稳定知识与当前研究：[[concepts/piml/_index]]、[[research/technical-lines/piml-research-guide]]。
-- Matrix-Free 稳定知识与当前研究：[[concepts/matrix-free/_index]]、[[research/technical-lines/matrix-free-research-guide]]。
-- GPU/HPC 稳定知识与当前研究：[[concepts/gpu-hpc/_index]]、[[research/technical-lines/gpu-hpc-research-guide]]。
-- PIML × Matrix-Free × GPU 融合课题：[[research/piml-matrix-free-gpu/_index]]。
-- MMC/MMV 稳定知识与当前研究：[[concepts/mmc/_index]]、[[research/mmc-mmv/mmc-mmv-numerical-discretization-survey]]。
+- 个人长期科研方向总领：[[../../research/long-term-research-lines]]。
+- PIML 稳定知识与当前研究：[[../../concepts/_index#6-机器学习与-piml|PIML 概念总览]]、[[../../research/piml-matrix-free-gpu/piml-research-guide]]。
+- Matrix-Free 稳定知识与当前研究：[[../../concepts/_index#4-矩阵无关求解matrix-free|Matrix-Free 概念总览]]、[[../../research/piml-matrix-free-gpu/matrix-free-research-guide]]。
+- GPU/HPC 稳定知识与当前研究：[[../../concepts/_index#5-异构计算与-gpuhpc|GPU/HPC 概念总览]]、[[../../research/piml-matrix-free-gpu/gpu-hpc-research-guide]]。
+- 面向大规模拓扑优化的 PIML Matrix-Free 求解与 GPU 协同加速方法研究：[[../../research/piml-matrix-free-gpu/project-plan|博士后核心研究项目实施方案]]。
+- MMC/MMV 稳定知识与当前研究：[[../../concepts/_index#7-结构拓扑优化理论|结构拓扑优化理论总览]]、[[../../research/mmc-mmv/mmc-mmv-numerical-discretization-survey]]。
 - 博士后入站阶段科研计划历史正文：[[postdoc-research-plan]]。
 
 上述研究页面是当前研究事实和后续任务的维护入口；[[postdoc-research-plan]] 与本档案其他内容只保留入站考核发生时的历史计划、材料快照与表达语境。

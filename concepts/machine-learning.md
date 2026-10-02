@@ -14,7 +14,7 @@ tags:
   - reproducibility
 status: in-progress
 date_added: 2026-07-29
-date_update: 2026-08-31
+date_update: 2026-09-18
 ---
 
 # 机器学习：模型架构、分类框架与通用生命周期
@@ -90,6 +90,15 @@ MLP 不含卷积参数共享、图消息传递或注意力机制。它对输入�
 
 激活函数是神经网络的通用组成，不限定于 MLP。它通常置于可学习线性、卷积或消息传递层之后，以引入非线性；若所有层均为线性映射，多层复合仍等价于单个线性映射。
 
+按光滑阶分类，本节展开的四个激活函数为：
+
+| 类别     | 函数                        | 光滑阶        | 值域                  |
+| ------ | ------------------------- | ---------- | ------------------- |
+| 饱和光滑型  | $\tanh$                   | $C^\infty$ | $(-1,1)$            |
+| 非饱和光滑型 | $\operatorname{SiLU}$     | $C^\infty$ | $[-0.2785,+\infty)$ |
+| 分段线性型  | $\operatorname{ReLU}$     | $C^0$      | $[0,+\infty)$       |
+| 非饱和光滑型 | $\operatorname{softplus}$ | $C^\infty$ | $(0,+\infty)$       |
+
 `Tanh` 在 PyTorch 中对应 `nn.Tanh`，其逐元素数学定义和导数为：
 
 $$
@@ -111,6 +120,30 @@ $$
 $$
 
 SiLU 同样是光滑函数；它以输入值调制自身，而非像 ReLU 一样在零点产生不可导折角。“选择哪种激活函数”仍是可通过验证集比较的模型超参数。
+
+ReLU（Rectified Linear Unit）在 PyTorch 中对应 `nn.ReLU`，定义为：
+
+$$
+\operatorname{ReLU}(z)=\max(0,\,z),
+\qquad
+\frac{\mathrm{d}}{\mathrm{d}z}\operatorname{ReLU}(z)=
+\begin{cases}
+0, & z<0,\\
+1, & z>0.
+\end{cases}
+$$
+
+导数在 $z=0$ 处不存在，在 $z\neq 0$ 处为常数，故二阶导数几乎处处为零。它计算廉价且正半轴不饱和，在以数据拟合为唯一目标的回归与分类中是常用默认项；但凡需要对网络输出继续求二阶导数、或要求一阶导数连续的场合（PINN 的 PDE 残差、灵敏度分析中的梯度连续性）均不适用。
+
+Softplus 在 PyTorch 中对应 `nn.Softplus`，定义为：
+
+$$
+\operatorname{softplus}(z)=\ln\!\left(1+e^{z}\right),
+\qquad
+\frac{\mathrm{d}}{\mathrm{d}z}\operatorname{softplus}(z)=\operatorname{sigmoid}(z)=\frac{1}{1+e^{-z}}.
+$$
+
+它是 $C^\infty$ 光滑函数，值域为 $(0,+\infty)$，可视为 $\operatorname{ReLU}$ 的光滑化；PyTorch 实现带形状参数 $\beta$，写作 $\beta^{-1}\ln(1+e^{\beta z})$，$\beta \to \infty$ 时逐点趋于 $\operatorname{ReLU}$。其输出恒正的性质使它可用作正值参数化映射，第 1.3 节的 Cholesky 对角项即取此用途。
 
 ### 1.3 结构保持输出参数化
 
@@ -462,4 +495,4 @@ KNN 无需复杂的训练过程，但推理时需检索所有邻域，对维度�
 ## 相关页面
 
 * [[pinn-paradigm|物理信息神经网络 (PINN)]] — 坐标型 PINN 的 5 步求解范式与 AD 求导链
-* [[piml/_index|PIML 术语与主题入口]] — Problem-Independent 路线数学定义与角色边界
+* [[_index#6-机器学习与-piml|PIML 机器学习范式]] — Problem-Independent 路线数学定义与角色边界
