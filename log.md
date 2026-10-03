@@ -3703,3 +3703,95 @@
 
 ## [2026-10-03] edit | assembly-levels §2.4.2 缩放系数统一为 s_e
 - 按用户授权，`concepts/matrix-free/assembly-levels.md` §2.4.2 逐积分点算子定义式、逐点算子 $w_q\lvert\det\mathbf J_e\rvert\,s_e\,\mathbf S^{\mathsf T}\mathbf D_0\,\mathbf S$ 与存储说明中的缩放因子 $\rho_e$ 共 3 处改为 $s_e$，说明句改为“$s_e=E(\rho_e)/E_0$ 为 SIMP 等材料插值给出的单元刚度缩放系数，与 2.3.2 相同”，与 §2.3.2 和 `linear-elasticity.md` 式 (27) 一致。§2 阶段表与 §2.5 中表示设计变量依赖的 $\rho_e$ 含义正确，未改。标题与锚点不变，无需同步入链。通过 git diff --check；未验证渲染，未 commit、push。
+
+## [2026-10-03] edit | piml-substructural 第四章统一预测构造与误差基准
+- 章首补与 exact-substructural §2 及本页训练标签的对应关系，统一说明固定网络参数与预测／约束补全映射。完整接口路线 A 补显式预测映射，按预测内部块、补全固定边界块、当前材料场能量投影展开，与角点路线 A 对齐；两种接口均指出精确目标。
+- 完整接口与角点接口路线 B 统一给出预测映射、输出维数及 §3.1 的对称性、刚体零空间和变形子空间正定性要求。保留角点能量投影四项展开、不能套用精确内部平衡关系简化的说明及完整形函数到角点的投影等价关系。
+- §4.3 显式定义同一接口空间内的精确刚度 K_s=Psi^T K_s,full Psi，区分完整／角点取值，并说明误差恒等式比较局部代理误差，不含接口迹降阶误差。
+- 回读第四章并核对本页前后章定义，检查全部 12 处出链路径与标题锚点及全库入链引用；第四章现有标题、节号未改，本轮无需新增跨页同步。原有 piml-paradigm 旧章节映射等问题仍待处理，入链页面未全部全文审查。导航入口与内容范围未变，索引及 README 无需更新。
+- 第四章 12 组公式分隔符成对，通过 git diff --check；未验证 Obsidian 渲染、未运行数值算例或重新对照原始 PDF。仅修改 PIML 页并追加本条日志，未 commit、push。
+
+## [2026-10-03] refactor | piml-substructural 第五章按接口路线合并组装与求解
+- §5.1 合并完整接口提取、刚度／载荷组装、支承反力与自由子系统求解；§5.2 合并角点粗迹协调、载荷投影、全局迹映射、给定位移约束与乘子求解，保留约束相容、独立行处理和唯一解条件。章首统一载荷与支承处理前提，物理约束引用 §3.1、§4。
+- §5.3 保留路线 A 的两种接口恢复式；路线 B 的另配形函数预测模型明确为可选方案，删除重复恢复式并引用路线 A 的形式，保留局部精确求解恢复。补预测恢复一般不严格满足原内部平衡，以及全场内部位移直接拼接、共享边界保持一致不累加的规则；保留预测刚度与恢复位移能量不一致的边界。
+- 同步 §2.2.2 对粗迹协调及位移约束相容性的引用到 §5.2。检查全部 12 处出链路径与标题锚点，检索全库入链及旧第五章节号引用，未发现本轮需同步的跨页引用；既有 piml-paradigm 旧映射等问题未修改，入链页面未全部全文审查。入口与内容范围不变，概念索引、index.md、README.md 无需更新。
+- 回读第五章，11 组公式分隔符成对，通过 git diff --check；未验证 Obsidian 渲染、数值算例或重新核验原始 PDF。仅修改 PIML 页并追加本条日志，未 commit、push。
+
+## [2026-10-03] edit | piml-substructural 添加按章公式编号
+- 仿照 exact-substructural 的 LaTeX tag 写法，为全部 44 组独立公式添加章号.序号：第 1 章 (1.1)–(1.2)，第 2 章 (2.1)–(2.11)，第 3 章 (3.1)–(3.8)，第 4 章 (4.1)–(4.12)，第 5 章 (5.1)–(5.11)。多行公式组共用一个编号，列表公式保留缩进；不修改数学内容。
+- 将关键正文引用明确到式号，包括精确形函数标签、能量目标、角点四项展开与投影关系、二次余项、角点位移约束与求解、另配形函数的位移恢复。
+- 核对 44 组公式各有一个编号、按章连续且不重复，正文引用均对应实际编号；检查全部 12 处出链路径与标题锚点，并检索全库入链，未发现需要同步的既有公式编号引用。页面标题、节号及导航入口不变，索引与 README 无需更新；入链页面未全部全文审查，既有跨页问题未处理。
+- 通过 git diff --check；未验证 Obsidian/MathJax 实际渲染，未运行数值算例或重新核验原始文献。仅修改 PIML 页并追加本条日志，未 commit、push。
+
+## [2026-10-03] concept | 新建 mf-full-trace-schur-substructural 完整接口隐式 Schur 补算子
+- 按用户授权新建 `concepts/matrix-free/mf-full-trace-schur-substructural.md`（status: draft），以 concept-note 模板为起点、沿用 exact-substructural 记号：局部限制矩阵与共享参考细网格算子 (1.1)–(1.3)，两步隐式 Schur 补作用及其与式 (2.2)、(2.6) 的恒等 (2.1)–(2.3)、边界层单元工作量，全局接口算子与调和延拓形式 $\mathbf K_\Gamma=\mathbf R_\Gamma\mathbf K\mathbf N_\Gamma$ (3.1)–(3.2)，直接分解与均匀子结构共享 (4.1)–(4.2)、显式/隐式存储与开销对照，等效载荷、支承子空间与 CG (5.1)–(5.2)，对角不可廉价获得及替代 (5.3)，恢复与灵敏度引用，V1–V5 验证判据。本页推导均标注；与 Wang2025/Yang2026、细网格 MGCG 的效果比较与量级估算属研究判断，未写入概念页；迭代子结构法文献来源标“待补”。
+- 同步：`concepts/exact-substructural.md` §3.1 末尾加一句指向新页（不改既有标题、节号与公式编号）；`concepts/_index.md` §4 Matrix-Free 表新增一行并更新 `date_update`。`mf-ea-substructural.md` 按用户要求本轮不改动，新页仅以一句话链接区分两者存储语义。全库入口未变，index.md、README.md 无需更新。
+- 检查新页全部 19 处出链路径与标题锚点均存在，exact-substructural 入链锚点未受影响；新页公式分隔符成对，通过 git diff --check。未验证 Obsidian/MathJax 渲染，未运行数值算例或核对 soptx 实现；未 commit、push。
+
+## [2026-10-03] simplify | 精简 mf-full-trace-schur-substructural
+- 按用户要求将新页由 7 节 246 行精简为 5 节 78 行：去掉局部限制矩阵记号与调和延拓公式推导，局部作用直接用分块写出式 (1)，全局算子式 (2)，均匀子结构共享式 (3)；载荷、支承、对角、内层迭代限制、恢复、灵敏度与验证判据改为短段落或列表，存储/开销对照表与边界层单元计数删除。数学内容与结论未改变。`concepts/_index.md` 对应说明同步缩短。
+- 新页 12 处出链与锚点均存在，通过 git diff --check；未验证渲染，未 commit、push。
+
+## [2026-10-03] simplify | mf-full-trace-schur-substructural 改为环节清单
+- 按用户要求再次精简（78 行 → 43 行）：正文只保留“需要处理的环节”对照表（§1.2 局部刚度、§2.1 缩聚刚度、§3.1 组装与求解、§3.3 位移恢复各自的显式做法与 Matrix-Free 处理）和三条注意事项（均匀子结构共享、对角不再免费、须用直接分解）；删除各公式推导、调和延拓说明、验证判据与文献实例条目。`concepts/_index.md` 说明未变。
+- 出链与锚点已核对，通过 git diff --check；未验证渲染，未 commit、push。
+
+## [2026-10-03] edit | mf-full-trace-schur-substructural 环节对照表改为编号列表
+- 按用户要求，将“需要处理的环节”对照表改为四条编号列表（局部刚度、缩聚刚度、组装与求解、位移恢复），内容与链接不变。出链与锚点已核对，通过 git diff --check；未 commit、push。
+
+## [2026-10-03] edit | mf-full-trace-schur-substructural 调整小节标题
+- 按用户要求，小节标题“需要处理的环节”改为“1. 隐式 Schur 补的结合方式”，“注意事项”编号为 2，概述末句相应改写；正文内容不变。通过 git diff --check；未 commit、push。
+
+## [2026-10-03] edit | mf-full-trace-schur-substructural 删除注意事项
+- 按用户要求删除“2. 注意事项”整节（均匀子结构共享、对角不再免费、须用直接分解三条）。参考依据节暂保留，待用户确认是否与概念页规范的“参考依据”要求冲突后再处理。通过 git diff --check；未 commit、push。
+
+## [2026-10-03] edit | exact-substructural 补充全局接口矩阵与向量尺寸
+- 按用户授权，在 §3.1 补充提取矩阵 A_b^j、全局接口刚度 K_Gamma、载荷 F_Gamma 与支承反力 R_D 的尺寸；沿用既有 N_Gamma 与 n_b^j 定义，不改公式、编号、标题及双链。
+- 核对矩阵乘积尺寸，检索全库入链并检查相关接口组装引用；出链仅为既有图件，本轮未改。无须同步索引、index.md 或 README.md。关联页面未全文审查，未验证 Obsidian 渲染或运行数值算例；未 commit、push。
+## [2026-10-03] edit | exact-substructural 明确全局接口自由度数
+- 按用户授权，在 §3.1 首次使用 N_Gamma 处说明其为全局接口骨架上的位移自由度总数（含受约束自由度），不使用“去重”表述。
+- 核对与 U_Gamma、A_b^j、K_Gamma、F_Gamma、R_D 的尺寸定义一致；沿用上一轮入链与出链检查范围，标题、公式及双链不变，无需跨页或导航同步。关联页面未全文审查，未验证 Obsidian 渲染；未 commit、push。
+## [2026-10-03] edit | mf-full-trace-schur-substructural 删除参考依据
+- 按用户明确决定删除“参考依据”节；本页由此偏离 page-schemas“概念页含参考依据”的结构要求，来源仍由正文中指向 exact-substructural 各节与 assembly-levels §2.3.2 的链接体现。通过 git diff --check；未 commit、push。
+
+## [2026-10-03] edit | exact-substructural 补充整体分析章组装说明
+- 按用户授权，改写第 3 章导语，说明各子结构局部接口刚度与等效载荷按共享接口自由度组装为全局接口刚度矩阵与载荷向量；保留两种接口的支承求解和共同内部恢复流程，不新增通用记号。
+- 回读导语并核对 §3.1–§3.3 的组装、求解与恢复对应关系；沿用本轮此前入链与出链检查范围，标题、公式、节号和双链不变，无需跨页或导航同步。关联页面未全文审查，未验证 Obsidian 渲染或运行数值算例；未 commit、push。
+## [2026-10-03] edit | mf-full-trace-schur-substructural 引用处补具体公式
+- 按用户要求，四条列表在原有链接旁补出被引用的公式：局部分块刚度与共享参考单元刚度现算式（补 $\mathbf G_e^j$、$s_e$ 定义），式 (2.2) 缩聚刚度及两步隐式作用，式 (3.3)、(3.5) 组装与自由子块方程及逐子结构作用式，式 (2.1) 位移恢复；末句载荷补式 (2.3) 表达式。出链与锚点已核对，公式分隔符成对，通过 git diff --check；未验证渲染，未 commit、push。
+
+## [2026-10-03] fix | mf-full-trace-schur-substructural frontmatter 损坏修复
+- 上一轮补 $\mathbf G_e^j$ 定义时一次失败的 sed 插入把一行误写进 frontmatter 第 2 行（其中 `\r` 被解释为回车，`\rho` 断成两行），导致 Obsidian 显示“无效属性”。删除这两行误插内容，正文第 1 条中的同一定义句保留不变。通过 git diff --check；未 commit、push。
+
+## [2026-10-03] edit | exact-substructural 补充通用全局接口组装公式
+- 根据用户纠正，在第 3 章章首实际补充全局接口坐标 Q、坐标数 N_Q、局部提取矩阵 A_q^j 及尺寸，给出 K_Q、F_Q 的通用组装公式；沿用 §2.2 的 q^j、K_r^j、f_r^j，明确接口迹协调条件及完整／角点两种取值。不改既有公式编号。
+- 核对局部定义和两条路线的对应关系、矩阵尺寸及既有节号引用，沿用此前全库入链与出链检查范围；标题、双链和入口不变，无需同步关联页面与导航。关联页面未全文审查，未验证 Obsidian 渲染或运行数值算例；未 commit、push。
+## [2026-10-03] edit | exact-substructural 全局接口表述改为自由度与位移
+- 按用户授权，第 3 章章首将 N_Q 说明改为“所选接口表示下的全局接口自由度总数（含受约束自由度）”，Q 改称“全局接口位移向量”；公式与完整／角点两种取值不变。
+- 回读定义并核对尺寸与两条接口路线；沿用此前入链与出链检查范围，未改变符号、标题、编号或双链，无需跨页及导航同步。关联页面未全文审查，未验证 Obsidian 渲染；未 commit、push。
+## [2026-10-03] concept | 新建 mf-linear-corner-schur-substructural 角点接口 Schur 补算子
+- 按用户授权、仿 mf-full-trace-schur-substructural 格式新建 `concepts/matrix-free/mf-linear-corner-schur-substructural.md`（status: draft）：概述说明角点缩聚刚度仅 $n_c\times n_c$，保存局部 $\mathbf K_{s,\mathrm{corner}}^j$、只不组装全局 $\mathbf K_C$，不采用隐式现算；正文四条列表在 exact-substructural 引用旁给出公式：局部刚度与共享参考单元刚度现算，式 (2.13)、(2.14) 及 $n_c$ 个右端的形成方式与均匀子结构共享，式 (3.8)、(3.11) 及逐子结构作用、鞍点支承的布尔消元或零空间处理，式 (2.1)、(3.6) 位移恢复；末句载荷引式 (2.15)。无注意事项与参考依据节，与前一页一致。
+- `concepts/_index.md` Matrix-Free 表新增一行。按用户要求，已删除的 `mf-ea-substructural.md` 的既有入链（_index、substructural-density-topology-optimization、piml-paradigm、matrix-free-research-guide）本轮不改，仍为断链。
+- 出链与锚点已核对，公式分隔符成对，通过 git diff --check；未验证渲染，未 commit、push。
+
+## [2026-10-03] refactor | 合并为 mf-schur-substructural 子结构 Schur 补算子
+- 按用户决定，将 `mf-full-trace-schur-substructural.md` 与 `mf-linear-corner-schur-substructural.md`（含用户在磁盘上的改动：删去概述、full-trace 页已并入两路径内容）合并为 `concepts/matrix-free/mf-schur-substructural.md`（status: draft）。结构：简短概述；§1 共同环节（局部刚度与共享参考单元刚度现算、均匀子结构共享，位移恢复按两种接口分别取边界位移，载荷式 (2.3)/(2.15)）；§2 完整接口路径（式 (2.2) 隐式两步作用，式 (3.3)、(3.5) 逐子结构作用与自由子块 CG）；§3 角点接口路径（式 (2.13)、(2.14) 形成并保存局部角点刚度，式 (3.8)、(3.11) 逐子结构作用与鞍点支承的布尔消元或零空间处理）。公式内容沿用原两页，未新增推导；Cholesky 因子不再命名，避免与角点插值 $\mathbf L^j$ 混淆。
+- 删除两个旧文件（均为本日新建、未入 Git）；`concepts/_index.md` 两行合并为一行。全库无其他页面链接旧文件。已删除的 `mf-ea-substructural.md` 的既有入链仍按用户要求未改。
+- 新页出链与锚点已核对，公式分隔符成对，通过 git diff --check；未验证渲染，未 commit、push。
+
+## [2026-10-03] edit | exact-substructural 统一使用限制矩阵术语
+- 按用户授权，将第 3 章 A_q^j、A_b^j、A_c^j 的“提取矩阵”统一为“限制矩阵”，首次附 restriction matrix，明确从全局接口自由度到相应子结构接口／边界／角点自由度的映射方向；符号与公式不变。
+- 核对三处定义与局部位移关系，沿用此前全库入链检索范围；直接关联的 piml-substructural 仍有三处“提取矩阵”，本轮未获跨页修改授权，尚未同步。此前关联检查中的两个 Matrix-Free 页面当前路径已不存在，未检查；关联页未全文审查。标题、双链及导航入口不变，无需修改索引或 README。未验证 Obsidian 渲染，未 commit、push。
+## [2026-10-03] concept | 新建 mf-piml-substructural 子结构 PIML 算子
+- 按用户确认，仿 mf-schur-substructural 格式新建 `concepts/matrix-free/mf-piml-substructural.md`（status: draft），沿 piml-substructural 流程给出两条接口路径的 Matrix-Free 做法：§1 共同环节（不组装 $\mathbf K^j$、不分解 $\mathbf K_{ii}^j$，路线 A 能量投影所需细网格作用按共享参考 EA 现算，均匀子结构可取精确参考值；位移恢复引式 (5.10)、(5.11)，$\widehat{\mathbf T}^j$ 保存或重新推理）；§2 完整接口（式 (4.1)–(4.4)，路线 A 两侧能量投影的现算作用并说明预测不满足内部平衡、$\widehat{\mathbf T}^\mathsf{T}\mathbf y_i$ 项不能省；式 (5.2)、(5.3) 逐子结构作用与 CG 条件）；§3 角点接口（式 (4.5)–(4.9)，$n_c$ 列局部作用形成并保存角点刚度；式 (5.6)、(5.9) 逐子结构作用，支承消去链接 mf-schur-substructural §3）。各组合收益比较属研究判断，未写入。
+- `concepts/_index.md` Matrix-Free 表新增一行。出链与锚点已核对，公式分隔符成对，通过 git diff --check；未验证渲染，未 commit、push。
+
+## [2026-10-03] edit | 删除 mf-ea-substructural 相关引用
+- `concepts/matrix-free/mf-ea-substructural.md` 已删除（工作区删除，非本轮操作）。按用户要求直接删除其全部入链，不改指向：`concepts/_index.md` Matrix-Free 表对应行；`substructural-density-topology-optimization.md` 参考文献中的条目；`piml-paradigm.md` 一处括注中的链接（保留 GPU/HPC 性能模型链接）；`research/piml-matrix-free-gpu/matrix-free-research-guide.md` §2.2 末句与 §2.3 导语中的对应分句。
+- 全库（不含 log.md 历史条目与 .git）复查已无 `mf-ea-substructural` 或“子结构载体 EA”引用；通过 git diff --check。改动处仅删除链接或从句，未调整周边正文含义；未 commit、push。
+
+## [2026-10-03] edit | piml-substructural 第五章对齐通用接口组装与限制矩阵
+- 按用户授权，第五章章首引入预测全局接口位移 Q、自由度数 N_Q、限制矩阵 A_q^j 及尺寸，给出预测刚度 K_Q 与已知载荷 F_Q 的通用组装式和完整／角点两种对应取值；预测量带帽号，限制矩阵与载荷不带帽号，保留内部无载荷及预测平衡区别。
+- §5.1、§5.2 补全局位移、刚度、载荷和支承反力尺寸，注明自由度总数含受约束自由度；三处“提取矩阵”统一为“限制矩阵”，明确全局到局部方向及与插值矩阵的区别。新增章首公式沿用精确页的不编号写法，既有 (5.1)–(5.11) 未改。
+- 检查全部出链路径与标题锚点，检索全库入链并核对 mf-piml-substructural 的第五章公式引用，仍一致；核对 exact-substructural 相应记号与术语。piml-paradigm §3.6 已有旧章节映射需另行授权同步，本轮未改；其余入链页面未全文审查。页面结构和导航入口不变，concepts/_index.md、index.md、README.md 无需同步。
+- 第五章公式分隔符成对，既有编号连续且不重复，通过 git diff --check。未验证 Obsidian/MathJax 渲染，未运行数值算例或重新核验原始文献；仅修改 PIML 页并追加本条日志，未 commit、push。

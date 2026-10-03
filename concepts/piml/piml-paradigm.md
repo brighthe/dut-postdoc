@@ -260,7 +260,7 @@ $$
 \mathbf{K}_{\text{global}} \boldsymbol{U}_H = \mathbf{F}_H, \quad \mathbf{K}_{\text{global}} = \sum_{j=1}^M \mathbf{A}_j^{\mathsf T} \widehat{\mathbf{K}}_H^j \mathbf{A}_j .
 $$
 
-该步也可按 Matrix-Free 方式在 GPU 上执行局部算子作用（Gather $\to$ Local Action $\to$ Scatter-Add），不显式存储全局稀疏矩阵（见 [[../matrix-free/mf-ea-substructural]] 与 [[../gpu-hpc/performance-model|GPU/HPC 性能模型]]）。
+该步也可按 Matrix-Free 方式在 GPU 上执行局部算子作用（Gather $\to$ Local Action $\to$ Scatter-Add），不显式存储全局稀疏矩阵（见 [[../gpu-hpc/performance-model|GPU/HPC 性能模型]]）。
 
 ### 3.5 步骤 5：细尺度恢复与下游评价
 

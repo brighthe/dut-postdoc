@@ -327,5 +327,4 @@ $$
 - [[../exact-substructural|精确子结构分析]]、[[regularization-and-length-scale-control|正则化与长度尺度控制]]：缩聚与密度映射的符号和基础。
 - Andreassen E, Clausen A, Schevenels M, et al. *Efficient topology optimization in MATLAB using 88 lines of code*. Structural and Multidisciplinary Optimization, 2011, 43: 1–16。[DTU 官方论文与代码入口](https://www.topopt.mek.dtu.dk/apps-and-software/efficient-topology-optimization-in-matlab)：SIMP、过滤和 OC 的参考，本库尚无独立文献页。
 - [[../piml/piml-substructural|子结构 PIML]]：近似局部表示与结构保持。
-- [[../matrix-free/mf-ea-substructural|子结构载体 EA Matrix-Free 算子]]：局部算子的全局作用方式。
 - [[../../research/piml-matrix-free-gpu/project-plan|项目计划]]：研究任务与验证状态。

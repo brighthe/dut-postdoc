@@ -360,11 +360,25 @@ $$
 
 ## 3. 整体结构分析
 
-完整接口与角点接口分别组装并施加支承求解（§3.1、§3.2），随后按共同的内部恢复式得到细网格位移（§3.3）。
+在相邻子结构的接口迹协调条件下，令 $N_Q$ 为所选接口表示下的全局接口自由度总数（含受约束自由度），$\mathbf Q\in\mathbb R^{N_Q}$ 为全局接口位移向量。令 $\mathbf A_q^j\in\mathbb R^{n_q^j\times N_Q}$ 为从全局接口自由度到第 $j$ 个子结构接口自由度的限制矩阵（restriction matrix），满足
+
+$$
+\mathbf q^j=\mathbf A_q^j\mathbf Q.
+$$
+
+将式 (2.9)、(2.10) 的局部接口刚度与等效载荷组装，得到通用的全局接口刚度矩阵 $\mathbf K_Q\in\mathbb R^{N_Q\times N_Q}$ 与载荷向量 $\mathbf F_Q\in\mathbb R^{N_Q}$：
+
+$$
+\mathbf K_Q=\sum_{j=1}^{M}(\mathbf A_q^j)^{\mathsf T}\mathbf K_r^j\mathbf A_q^j,
+\qquad
+\mathbf F_Q=\sum_{j=1}^{M}(\mathbf A_q^j)^{\mathsf T}\mathbf f_r^j.
+$$
+
+完整接口取 $\mathbf Q=\mathbf U_\Gamma$、$\mathbf A_q^j=\mathbf A_b^j$，对应 $\mathbf K_Q=\mathbf K_\Gamma$、$\mathbf F_Q=\mathbf F_\Gamma$；角点接口取 $\mathbf Q=\mathbf U_C$、$\mathbf A_q^j=\mathbf A_c^j$，对应 $\mathbf K_Q=\mathbf K_C$、$\mathbf F_Q=\mathbf F_C$。两种接口分别施加支承并求解（§3.1、§3.2），随后按共同的内部恢复式得到细网格位移（§3.3）。
 
 ### 3.1 完整接口组装与求解
 
-令 $\mathbf U_\Gamma\in\mathbb R^{N_\Gamma}$ 为全局完整接口位移向量。令 $\mathbf A_b^j$ 为全局接口位移到第 $j$ 个子结构边界位移的提取矩阵，满足
+令 $N_\Gamma$ 为全局接口骨架 $\Gamma$ 上的位移自由度总数（含受约束自由度），$\mathbf U_\Gamma\in\mathbb R^{N_\Gamma}$ 为全局完整接口位移向量。令 $\mathbf A_b^j\in\mathbb R^{n_b^j\times N_\Gamma}$ 为从全局完整接口自由度到第 $j$ 个子结构边界自由度的限制矩阵，满足
 
 $$
 \mathbf u_b^j=\mathbf A_b^j\mathbf U_\Gamma.
@@ -378,7 +392,7 @@ $$
 \tag{3.2}
 $$
 
-全局刚度与载荷分别为
+全局接口刚度矩阵 $\mathbf K_\Gamma\in\mathbb R^{N_\Gamma\times N_\Gamma}$ 与载荷向量 $\mathbf F_\Gamma\in\mathbb R^{N_\Gamma}$ 分别为
 
 $$
 \mathbf K_\Gamma=\sum_{j=1}^M(\mathbf A_b^j)^{\mathsf T}\mathbf K_{s,\mathrm{full}}^j\mathbf A_b^j.
@@ -390,7 +404,7 @@ $$
 \tag{3.4}
 $$
 
-$\mathbf R_D=\sum_j(\mathbf A_b^j)^{\mathsf T}\mathbf r_D^j$ 为全局支承反力，仅在受约束自由度上可能非零。
+全局支承反力向量 $\mathbf R_D=\sum_j(\mathbf A_b^j)^{\mathsf T}\mathbf r_D^j\in\mathbb R^{N_\Gamma}$，仅在受约束自由度上可能非零。
 
 令 $D$、$F$ 分别为给定位移与自由自由度集合，$(\mathbf U_\Gamma)_D=\mathbf d_D$，则自由位移由下式求得：
 
@@ -400,11 +414,9 @@ $$
 \tag{3.5}
 $$
 
-支承消除全部零能模式后，该系统有唯一解。
-
 ### 3.2 角点接口组装与求解
 
-令 $\mathbf U_C$ 为全局角点接口位移向量，$\mathbf A_c^j$ 为其局部提取矩阵。由式 (2.12)，有
+令 $\mathbf U_C$ 为全局角点接口位移向量，$\mathbf A_c^j$ 为从全局角点接口自由度到第 $j$ 个子结构角点自由度的限制矩阵。由式 (2.12)，有
 
 $$
 \mathbf u_c^j=\mathbf A_c^j\mathbf U_C,
