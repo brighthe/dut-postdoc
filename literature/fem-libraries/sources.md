@@ -8,7 +8,7 @@ tags:
   - FEniCS
 status: "active"
 date_added: 2026-09-05
-date_update: 2026-09-08
+date_update: 2026-10-03
 ---
 
 # 有限元框架源码仓库登记表
@@ -17,9 +17,9 @@ wiki 页面中的逻辑标识 `<仓库名>:<仓库内相对路径>`（如 `mfem:
 
 | 逻辑名        | 内容                                                             | upstream                                | 本地副本                                |
 | ---------- | -------------------------------------------------------------- | --------------------------------------- | ----------------------------------- |
-| `mfem`     | 库源码、examples/miniapps、Doxygen 注释                               | `https://github.com/mfem/mfem.git`      | `Ubuntu-24.04:~/workspace/mfem`     |
-| `mfem-web` | mfem.org 站点源（MkDocs），用户文档、howto、performance 等页                 | `https://github.com/mfem/web.git`       | `Ubuntu-24.04:~/workspace/mfem-web` |
-| `libceed`  | 库源码、examples，用户手册在 `doc/sphinx/`                               | `https://github.com/CEED/libCEED.git`   | `Ubuntu-24.04:~/workspace/libceed`  |
-| `dolfinx`  | 库源码（网格核心 `cpp/dolfinx/mesh/`）、`python/demo`，C++ 文档在 `cpp/doc/` | `https://github.com/FEniCS/dolfinx.git` | `Ubuntu-24.04:~/workspace/dolfinx`  |
+| `mfem`     | 库源码、examples/miniapps、Doxygen 注释                               | `https://github.com/mfem/mfem.git`      | `Ubuntu-24.04:~/codespace/mfem`     |
+| `mfem-web` | mfem.org 站点源（MkDocs），用户文档、howto、performance 等页                 | `https://github.com/mfem/web.git`       | `Ubuntu-24.04:~/codespace/mfem-web` |
+| `libceed`  | 库源码、examples，用户手册在 `doc/sphinx/`                               | `https://github.com/CEED/libCEED.git`   | `Ubuntu-24.04:~/codespace/libceed`  |
+| `dolfinx`  | 库源码（网格核心 `cpp/dolfinx/mesh/`）、`python/demo`，C++ 文档在 `cpp/doc/` | `https://github.com/FEniCS/dolfinx.git` | `Ubuntu-24.04:~/codespace/dolfinx`  |
 
 

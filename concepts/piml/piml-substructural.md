@@ -15,7 +15,7 @@ tags:
   - GPU
 status: in-progress
 date_added: 2026-08-13
-date_update: 2026-09-29
+date_update: 2026-10-03
 ---
 
 # 基于 PIML 的子结构分析
@@ -61,12 +61,14 @@ flowchart TD
 | :------------------------ | :--------------- | :--------------------- | :--------------------------- | :----------------------------- | :-------------------------------------------------- |
 | `linear_corner`<br>+ 精确   | 迹降阶              | 角点阶小稠密块 / 与粗网格相同       | 每步分解内部刚度块，逐角点自由度求解           | 局部分解与形函数存储                     | Hou 1999<br>Zhang 2010<br>Huang 2023（基线）            |
 | `linear_corner`<br>+ PIML | 迹降阶 + 局部代理       | 同上                     | 批量推理；路线 A 加变分构造              | 形函数存储                          | Huang 2023/2024<br>Zhang 2024<br>Xu 2025<br>Ma 2026 |
-| `cubic_bezier`<br>+ 精确    | 迹降阶（弱于角点迹）       | 控制点阶稠密块 / 介于角点迹与完整接口之间 | 每步分解内部刚度块，逐控制点自由度求解          | 局部分解与形函数存储                     | Guo 2026 Bézier（基线）                                 |
+| `cubic_bezier`<br>+ 精确    | 迹降阶（嵌套迹空间下可减小）       | 控制点阶稠密块 / 介于角点迹与完整接口之间 | 每步分解内部刚度块，逐控制点自由度求解          | 局部分解与形函数存储                     | Guo 2026 Bézier（基线）                                 |
 | `cubic_bezier`<br>+ PIML  | 迹降阶 + 局部代理       | 同上                     | 批量推理；路线 A 加变分构造              | 输出维数随控制点数增长                    | Guo 2026 Bézier                                     |
 | `oversampling`<br>+ 精确    | 超采样降阶；界面不协调需另行处理 | 角点阶小稠密块 / 待确认          | 每步在外扩域上逐角点自由度求解              | 外扩域求解规模；重叠单位分解协调               | Zhang 2010<br>Guo 2026 OFEM（基线）                     |
 | `oversampling`<br>+ PIML  | 超采样降阶 + 局部代理     | 同上                     | 批量推理；Galerkin 投影             | 按子结构拓扑类型分别训练                   | Guo 2026 OFEM                                       |
-| `full_trace`<br>+ 精确      | 无                | 接口阶大稠密块 / 与 $n_b$ 同阶   | 显式：逐接口自由度求解<br>隐式：每次作用一次局部求解 | Schur 补条件数；需 BDDC/FETI-DP 类预条件 | Evgrafov 2008<br>Kočvara 2016                       |
-| `full_trace`<br>+ PIML    | 局部代理             | 同上                     | 批量推理；路线 A 构造量随接口维数平方增长       | 输出维数与稠密块作用；预条件无局部分解可用          | Huang 2023（小规模）                                     |
+| `full_trace`<br>+ 精确      | 无                | 接口阶大稠密块 / 与 $n_b$ 同阶   | 显式：逐接口自由度求解<br>隐式：每次作用一次局部求解 | Schur 补条件数；可用 BDDC/FETI-DP 类预条件 | Evgrafov 2008<br>Kočvara 2016                       |
+| `full_trace`<br>+ PIML    | 局部代理             | 同上                     | 批量推理；路线 A 构造量随接口维数平方增长       | 输出维数与稠密块作用；预条件需另行配置          | Huang 2023（小规模）                                     |
+
+表中成本与瓶颈为典型实现的定性比较，随块尺寸、存储策略与求解器配置变化。`cubic_bezier` 与 `oversampling` 仅作扩展方法对照，后文公式限定于非重叠、协调接口的 `full_trace` 与 `linear_corner`；超采样及重叠单位分解不能直接套用本页组装公式。只有角点迹空间包含于所选 Bézier 迹空间、采用同一细网格与相容约束时，才可据 Ritz 原理比较两者的逼近误差。
 
 ## 1. 问题定义与学习映射
 
@@ -84,29 +86,17 @@ $$
 
 在此前提下，内部位移由边界位移经齐次延拓 $\mathbf u_i^j=\mathbf T^j\mathbf u_b^j$ 确定，$\mathbf T^j$ 与 $\mathbf K_s^j$ 只依赖材料分布而与载荷无关，离线训练后可用于任意满足该前提的载荷工况。若 $\mathbf f_i^j\neq\mathbf 0$，内部位移多出随载荷变化的特解 $(\mathbf K_{ii}^j)^{-1}\mathbf f_i^j$，缩聚载荷变为 $\mathbf f_b^j+(\mathbf T^j)^{\mathsf T}\mathbf f_i^j$，仅以材料分布为输入的模型给不出这两项；缩聚刚度的表达式不变。
 
-### 1.2 接口空间
+### 1.2 学习映射
 
-子结构边界位移写成 $\mathbf u_b^j=\boldsymbol\Psi^j\mathbf q^j$，$\boldsymbol\Psi^j$ 为迹基矩阵，$\mathbf q^j$ 为接口坐标。考虑两种接口空间：
-
-$$
-\begin{aligned}
-\texttt{full\_trace}&:\quad \boldsymbol\Psi^j=\mathbf I_{n_b^j}, & \mathbf q^j&=\mathbf u_b^j\in\mathbb R^{n_b^j},\\
-\texttt{linear\_corner}&:\quad \boldsymbol\Psi^j=\mathbf L^j\in\mathbb R^{n_b^j\times n_c^j}, & \mathbf q^j&=\mathbf u_c^j\in\mathbb R^{n_c^j}.
-\end{aligned}
-$$
-
-完整接口空间 `full_trace` 保留全部边界自由度，角点接口空间 `linear_corner` 只保留角点自由度，$\mathbf L^j$ 由子结构的一阶形函数在边界节点上采样得到。
-
-### 1.3 学习映射
-
-以子结构局部材料分布 $\boldsymbol\eta^j$ 为输入，PIML 预测子结构形函数的内部自由度分量或缩聚刚度矩阵，每种接口空间对应这两种输出：
+以子结构局部材料分布 $\boldsymbol\eta^j$ 为输入，PIML 预测子结构形函数的内部自由度分量或缩聚刚度矩阵：
 
 $$
-\begin{aligned}
-\texttt{full\_trace}&:\quad \boldsymbol\eta^j\mapsto\widehat{\mathbf T}_{\mathrm{full}}^j\in\mathbb R^{n_i^j\times n_b^j}, & \boldsymbol\eta^j&\mapsto\widehat{\mathbf K}_{s,\mathrm{full}}^j\in\mathbb R^{n_b^j\times n_b^j},\\
-\texttt{linear\_corner}&:\quad \boldsymbol\eta^j\mapsto\widehat{\mathbf T}_{\mathrm{corner}}^j\in\mathbb R^{n_i^j\times n_c^j}, & \boldsymbol\eta^j&\mapsto\widehat{\mathbf K}_{s,\mathrm{corner}}^j\in\mathbb R^{n_c^j\times n_c^j}.
-\end{aligned}
+\boldsymbol\eta^j\mapsto\widehat{\mathbf T}^j,
+\qquad
+\boldsymbol\eta^j\mapsto\widehat{\mathbf K}_s^j.
 $$
+
+输出矩阵的含义与维数取决于所选接口表示。两种接口空间及其精确训练标签在 §2.2 中定义，预测矩阵的构造见 §4。
 
 ## 2. 材料样本与训练标签生成
 
@@ -129,9 +119,27 @@ $$
 
 ### 2.2 子结构形函数与缩聚刚度标签的计算
 
-对给定材料样本，通过局部有限元求解计算单个子结构形函数与缩聚刚度，作为训练标签。
+对给定材料样本，先选择接口表示，再通过局部有限元求解计算子结构形函数与缩聚刚度，作为训练标签。以下省略子结构下标 $j$。
+
+子结构边界位移统一写为
+
+$$
+\mathbf u_b=\boldsymbol\Psi\mathbf q,
+\qquad
+\boldsymbol\Psi\in\mathbb R^{n_b\times n_q}.
+$$
+
+$\boldsymbol\Psi$ 为列满秩的迹基矩阵，$\mathbf q\in\mathbb R^{n_q}$ 为接口坐标；$\operatorname{range}(\boldsymbol\Psi)$ 为接口迹空间。本页考虑完整接口与角点接口两种表示。
 
 #### 2.2.1 完整接口空间
+
+`full_trace` 保留全部边界自由度，不作接口迹降阶：
+
+$$
+\boldsymbol\Psi=\mathbf I_{n_b},
+\qquad
+\mathbf q=\mathbf u_b\in\mathbb R^{n_b}.
+$$
 
 **（1）学习子结构形函数的内部自由度分量**
 
@@ -170,6 +178,20 @@ $$
 这里直接学习缩聚刚度矩阵，不预测子结构形函数。
 
 #### 2.2.2 角点接口空间
+
+`linear_corner` 只保留角点自由度：
+
+$$
+\boldsymbol\Psi=\mathbf L\in\mathbb R^{n_b\times n_c},
+\qquad
+\mathbf q=\mathbf u_c\in\mathbb R^{n_c},
+\qquad
+\mathbf u_b=\mathbf L\mathbf u_c.
+$$
+
+设角点集合为 $\mathcal C$，则 $n_c=d|\mathcal C|$。本页沿用 [[../exact-substructural#2.2.2 角点接口空间|精确子结构分析 §2.2.2]] 的四边形／六面体粗参考单元与几何映射：$\mathbf L$ 由 $Q_1$ Lagrange 形函数在边界细节点的参考坐标上采样得到，二维为双线性、三维为三线性。采用相同 $Q_1$ 基的等参几何映射时，可精确再现物理坐标中的仿射位移，包括刚体运动。
+
+该表示将边界位移限制在角点插值的迹空间中，一般引入接口迹降阶误差；跨子结构组装还须满足 §5.1.2 的粗迹协调条件，给定位移条件的相容性见 §5.2.2。
 
 **（1）学习子结构形函数的内部自由度分量**
 
@@ -296,7 +318,9 @@ $\|\cdot\|_F$ 为 Frobenius 范数。也可对独立分量定义损失，但其�
 
 #### 3.2.2 无标签能量训练
 
-对形函数路线，在边界块固定且内部无载荷时，可由最小势能原理构造离散目标。以下公式分别适用于 `full_trace` 和 `linear_corner`，省略接口类型下标，$\widehat{\mathbf N}$ 分别取 $\widehat{\mathbf N}_{\mathrm{full}}$ 或 $\widehat{\mathbf N}_{\mathrm{corner}}$：
+对形函数路线，在边界块固定且内部无载荷时，可由最小势能原理构造离散目标。以下 trace 目标为本页推导，表示遍历全部单位接口坐标的应变能之和。Huang2024 的具体方案采用伪结构位移场的能量及变化的位移基，见 [[../../literature/topopt/piml/translations/Huang2024-PIML-datafree-zh#4.2 基于力学的损失函数|Huang2024 §4.2]] 与其 §4.3；本页公式不作为该文训练算法的逐式复现。
+
+以下公式分别适用于 `full_trace` 和 `linear_corner`，省略接口类型下标，$\widehat{\mathbf N}$ 分别取 $\widehat{\mathbf N}_{\mathrm{full}}$ 或 $\widehat{\mathbf N}_{\mathrm{corner}}$：
 
 $$
 \mathcal L_{\mathrm{energy}}(\theta)
@@ -440,17 +464,11 @@ $$
 
 ## 5. 整体结构分析
 
-局部缩聚刚度确定后，通过局部—全局自由度映射建立接口平衡方程。
+局部缩聚刚度确定后，通过局部—全局自由度映射组装接口刚度与载荷（§5.1），施加给定位移条件求解（§5.2），再恢复子结构内部位移（§5.3）。以下沿用 §1.1 的内部无载荷假设；局部刚度在施加全局支承前构造。
 
 ### 5.1 全局接口方程装配
 
-将各子结构的局部缩聚刚度矩阵装配后，得到全局接口平衡方程：
-
-$$
-\widehat{\mathbf K}\widehat{\mathbf U}=\mathbf F.
-$$
-
-其中，$\widehat{\mathbf K}$ 为装配得到的全局接口刚度矩阵，$\mathbf F$ 为对应的接口载荷向量，$\widehat{\mathbf U}$ 为待求的全局接口位移。
+将各子结构的局部缩聚刚度矩阵与载荷组装到同一全局编号。完整接口的未约束系统含支承反力；接口平衡只在自由行上直接等于给定外载荷，受约束行用于求反力。角点接口采用相同的载荷投影原则，并在角点坐标中施加支承约束。
 
 #### 5.1.1 完整接口空间
 
@@ -464,15 +482,17 @@ $$
 其中 $N_\Gamma$ 为全局完整接口自由度数。将预测的局部缩聚刚度装配为全局接口方程：
 
 $$
-\widehat{\mathbf K}_\Gamma\widehat{\mathbf U}_\Gamma=\mathbf F_\Gamma,\qquad
+\widehat{\mathbf K}_\Gamma\widehat{\mathbf U}_\Gamma=\mathbf F_\Gamma+\widehat{\mathbf R}_D,\qquad
 \widehat{\mathbf K}_\Gamma=\sum_j(\mathbf A_b^j)^{\mathsf T}
 \widehat{\mathbf K}_{s,\mathrm{full}}^j\mathbf A_b^j,\qquad
 \mathbf F_\Gamma=\sum_j(\mathbf A_b^j)^{\mathsf T}\mathbf f_b^j.
 $$
 
-无论局部刚度来自形函数的能量投影还是刚度直接预测，全局装配形式均相同。
+$\widehat{\mathbf R}_D$ 为预测系统的支承反力，仅在受约束自由度上可能非零。无论局部刚度来自形函数的能量投影还是刚度直接预测，全局组装形式均相同；路线 A 的方程是预测形函数空间中的变分平衡，不能据此断言恢复位移满足原细网格的每一行平衡。
 
 #### 5.1.2 角点接口空间
+
+相邻子结构须在共享界面采用一致的角点、几何参数化与插值迹；细网格节点和单元面匹配本身不足以保证粗迹协调。以下在该条件下组装角点系统。
 
 以全局角点位移 $\widehat{\mathbf U}_C$ 为待求未知量，提取矩阵 $\mathbf A_c^j$ 建立局部角点位移与全局角点位移的对应关系：
 
@@ -482,10 +502,9 @@ $$
 \widehat{\mathbf u}_b^j=\mathbf L^j\mathbf A_c^j\widehat{\mathbf U}_C,
 $$
 
-其中 $N_C$ 为全局角点自由度数。先将局部边界载荷投影到角点空间，$\mathbf f_c^j=(\mathbf L^j)^{\mathsf T}\mathbf f_b^j$，再将预测的局部缩聚刚度装配为全局角点方程：
+其中 $N_C$ 为全局角点自由度数。先将局部边界载荷投影到角点空间，$\mathbf f_c^j=(\mathbf L^j)^{\mathsf T}\mathbf f_b^j$，再组装全局角点刚度与载荷：
 
 $$
-\widehat{\mathbf K}_C\widehat{\mathbf U}_C=\mathbf F_C,\qquad
 \widehat{\mathbf K}_C=\sum_j(\mathbf A_c^j)^{\mathsf T}
 \widehat{\mathbf K}_{s,\mathrm{corner}}^j\mathbf A_c^j,\qquad
 \mathbf F_C=\sum_j(\mathbf A_c^j)^{\mathsf T}
@@ -498,13 +517,59 @@ $$
 
 ### 5.2 全局接口方程求解
 
-对装配得到的全局接口方程
+支承处理沿用 [[../exact-substructural#3.1 完整接口组装与求解|精确页 §3.1]] 与 [[../exact-substructural#3.2 角点接口组装与求解|§3.2]]，将精确刚度换为预测刚度。局部刚度对称半正定并不意味着未约束全局矩阵可直接求逆；应先施加原问题的给定位移条件，并核对约束后系统的可解性。
+
+#### 5.2.1 完整接口空间
+
+令 $D$、$F$ 分别为给定位移与自由自由度集合，$(\widehat{\mathbf U}_\Gamma)_D=\mathbf d_D$，自由位移满足
 
 $$
-\widehat{\mathbf K}\widehat{\mathbf U}=\mathbf F,
+(\widehat{\mathbf K}_\Gamma)_{FF}(\widehat{\mathbf U}_\Gamma)_F
+=(\mathbf F_\Gamma)_F-(\widehat{\mathbf K}_\Gamma)_{FD}\mathbf d_D.
 $$
 
-求得的 $\widehat{\mathbf U}$ 在 `full_trace` 下为全局接口位移 $\widehat{\mathbf U}_\Gamma$，在 `linear_corner` 下为全局角点位移 $\widehat{\mathbf U}_C$，用于后续子结构位移恢复。
+若预测局部算子满足 §3.1 的能量与零空间要求，且支承消除全部全局零能模式，则自由子系统对称正定，有唯一解。支承反力由受约束行的残量计算：
+
+$$
+(\widehat{\mathbf R}_D)_D
+=(\widehat{\mathbf K}_\Gamma\widehat{\mathbf U}_\Gamma-\mathbf F_\Gamma)_D.
+$$
+
+#### 5.2.2 角点接口空间
+
+在 §5.1.2 的粗迹协调条件下，存在全局迹映射 $\mathbf P\in\mathbb R^{N_\Gamma\times N_C}$，满足
+
+$$
+\widehat{\mathbf U}_\Gamma=\mathbf P\widehat{\mathbf U}_C,
+\qquad
+\mathbf A_b^j\mathbf P=\mathbf L^j\mathbf A_c^j.
+$$
+
+完整接口上的给定位移条件转化为
+
+$$
+\mathbf C_D\widehat{\mathbf U}_C=\mathbf d_D,
+\qquad
+\mathbf C_D:=\mathbf P[D,:].
+$$
+
+须有 $\mathbf d_D\in\operatorname{range}(\mathbf C_D)$，并在核对右端一致性后保留独立约束行；若不相容，应扩大迹空间或明确采用何种边界近似，不能直接把细边界约束等同于固定角点。
+
+可通过 Lagrange 乘子系统求解：
+
+$$
+\begin{pmatrix}
+\widehat{\mathbf K}_C&\mathbf C_D^{\mathsf T}\\
+\mathbf C_D&\mathbf0
+\end{pmatrix}
+\begin{pmatrix}\widehat{\mathbf U}_C\\\widehat{\boldsymbol\lambda}_D\end{pmatrix}
+=
+\begin{pmatrix}\mathbf F_C\\\mathbf d_D\end{pmatrix}.
+$$
+
+$\widehat{\boldsymbol\lambda}_D$ 为支承约束乘子。当 $\mathbf C_D$ 行满秩且 $\widehat{\mathbf K}_C$ 在 $\ker(\mathbf C_D)$ 上正定时，该系统有唯一解；也可采用变量消元或零空间方法。所得位移满足降阶空间中的平衡，一般不满足全部细接口自由行的平衡。
+
+路线 B 的对称性、刚体零空间和变形子空间正定性须由预测与重构单独保证；矩阵尺寸正确或监督损失较小不足以保证上述可解性。
 
 ### 5.3 子结构位移恢复
 
@@ -580,12 +645,12 @@ $$
 
 1. Huang et al. (2023) — HUANG M, CUI T, LIU C, et al. A problem-independent machine learning (PIML) enhanced substructure-based approach for large-scale structural analysis and topology optimization of linear elastic structures[J]. *Extreme Mechanics Letters*, 2023, 63: 102041. DOI: [10.1016/j.eml.2023.102041](https://doi.org/10.1016/j.eml.2023.102041) 支撑：路线 A/B 的形函数预测与刚度直接预测、`full_trace` 与角点构造、§3.4 由预测形函数构造的刚度与精确值接近的数值观察；译文对应 [[../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh|Huang2023 译文]]，公式与章节编号按译文标注，原文页码待确认。
 2. Ma et al. (2026) — MA X, HUANG M, DU Z, et al. A high-performance parallel algorithm based on problem independent machine learning (PIML) for large-scale topology optimization[J]. *Acta Mechanica Sinica*, 2026, 42(3): 425942. DOI: [10.1007/s10409-025-25942-x](https://doi.org/10.1007/s10409-025-25942-x) 支撑：§4.2 角点形函数内部分量的直接预测、刚体约束与约束补全、成本构成；译文对应 [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh|Ma2026 译文]]，译文状态为 read，未逐页核验。
-3. Huang et al. (2024) — HUANG M, LIU C, GUO Y, et al. A mechanics-based data-free problem independent machine learning (PIML) model for large-scale structural analysis and design optimization[J]. *Journal of the Mechanics and Physics of Solids*, 2024, 193: 105893. DOI: [10.1016/j.jmps.2024.105893](https://doi.org/10.1016/j.jmps.2024.105893) 支撑：概览表中的 PIML 组合及 §3.2.2 无标签能量训练；具体支撑内容待确认。
+3. Huang et al. (2024) — HUANG M, LIU C, GUO Y, et al. A mechanics-based data-free problem independent machine learning (PIML) model for large-scale structural analysis and design optimization[J]. *Journal of the Mechanics and Physics of Solids*, 2024, 193: 105893. DOI: [10.1016/j.jmps.2024.105893](https://doi.org/10.1016/j.jmps.2024.105893) 支撑：无标签能量训练的最小势能依据，译文 §4.2–§4.3 采用伪结构位移场能量与变化的位移基；§3.2.2 的 trace 目标为本页推导。译文见 [[../../literature/topopt/piml/translations/Huang2024-PIML-datafree-zh|Huang2024 译文]]；本轮未重新对照原始 PDF，概览表的具体组合支撑仍待确认。
 4. Zhang et al. (2024) — ZHANG L, HUANG M, LIU C, et al. Problem-independent machine learning-enhanced structural topology optimization of complex design domains based on isoparametric elements[J]. *Extreme Mechanics Letters*, 2024, 72: 102237. DOI: [10.1016/j.eml.2024.102237](https://doi.org/10.1016/j.eml.2024.102237) 支撑：概览表 `linear_corner` + PIML 行；具体支撑内容待确认。
 5. Xu et al. (2025) — XU W, LIU C, GUO Y, et al. Problem-independent machine learning (PIML) enhanced 3D lattice composite structures optimization via moving morphable components approach[J]. *Composite Structures*, 2025, 369: 119330. DOI: [10.1016/j.compstruct.2025.119330](https://doi.org/10.1016/j.compstruct.2025.119330) 支撑：概览表 `linear_corner` + PIML 行；具体支撑内容待确认。
 6. Guo et al. (2026a) — GUO Y, LIU C, DU Z, et al. High-generalization AI-enhanced mechanical analysis and topology optimization via cubic Bézier interpolation of substructure boundary displacements[J]. *Computer Methods in Applied Mechanics and Engineering*, 2026, 456: 118955. DOI: [10.1016/j.cma.2026.118955](https://doi.org/10.1016/j.cma.2026.118955) 支撑：概览表 `cubic_bezier` 行；具体支撑内容待确认。
 7. Guo et al. (2026b) — GUO Y, LIU C, DU Z, et al. PIML-OFEM: a new large-scale structural analysis method based on problem-independent machine learning and overlapping finite element technique[EB/OL]. arXiv:2607.22019v1, 2026. 支撑：概览表 `oversampling` 行；预印本，具体支撑内容待确认。
 8. Hou et al. (1999)；Zhang et al. (2010)；Evgrafov et al. (2008)；Kočvara et al. (2016) — 条目见 `literature/refs.bib`。支撑：概览表中 `linear_corner`、`oversampling`、`full_trace` 精确基线行的对应文献；各条具体支撑内容待确认。
-9. [[../exact-substructural|精确子结构分析]] §2.1.2、§2.2、§4.2 — 本页 §4 的变分构造与 §4.3 二次余项恒等式的推导依据。
+9. [[../exact-substructural|精确子结构分析]] §1.2、§2.1.2、§2.2、§3、§4.2 — 本页的局部适用前提、接口表示、变分构造、支承处理与二次余项恒等式的推导依据。
 
-本页推导，非文献结论：§4.2 中"先预测完整接口分量再投影到角点空间"、§4.3 的局部代理误差方向，以及 `full_trace` 与 `linear_corner` 下的统一误差定义。
+本页推导，非文献结论：§3.2.2 的单位接口坐标 trace 能量目标、§4.2 中"先预测完整接口分量再投影到角点空间"、§4.3 的局部代理误差方向，以及 `full_trace` 与 `linear_corner` 下的统一误差定义。
