@@ -35,7 +35,7 @@ date_update: 2026-10-03
 | [[fem/translations/Hu2015-symmetric-tensors-higher-order-zh\|Hu2015]] | 单纯形网格上对称张量的有限元逼近：高阶情形 | *Journal of Computational Mathematics*, 33(3): 283–296, 2015 | `draft` | ✓ |
 | [[fem/translations/Chen2024-geometric-face-edge-elements-zh\|Chen2024]] | 高阶面元与棱元的几何分解及高效实现 | *Communications in Computational Physics*, 35(4): 1045–1072, 2024 | `draft` | ✓ |
 | [[fem/translations/Hu2021-vertex-continuity-relaxation-zh\|Hu 与 Ma 2021]] | 弹性问题协调混合有限元应力顶点连续性的部分松弛 | *CMAM* 21(1): 89–108 | `read` | ✓ |
-| [[fem/translations/Hu2014-rectangular-mixed-elasticity-zh\|Hu 等 2014]] | 任意空间维数下矩形网格上线弹性问题的一种简单协调混合有限元 | *J. Sci. Comput.* 58: 367–379 | `draft` | ✓ |
+| [[fem/translations/Hu2014-rectangular-mixed-elasticity-zh\|Hu 等 2014]] | 任意空间维数下矩形网格上线弹性问题的一种简单协调混合有限元 | *J. Sci. Comput.* 58(2): 367–379 | `draft` | ✓ |
 | [[fem/translations/Chen2017-stabilized-mixed-elasticity-zh\|Chen 等 2017]] | 单纯形网格上 $\mathbb{R}^n$ 中线弹性的稳定化混合有限元方法（最低阶自由度最少；含间断位移跃度稳定化与连续位移稳定化两类格式） | *CMAM* 17(1): 17–31 | `read` | ✓ |
 | [[fem/translations/Chen2018-fast-auxiliary-space-preconditioners-zh\|Chen 等 2018]] | 混合形式线弹性问题的快速辅助空间预条件子（基于应力非协调元与位移向量 Laplacian 辅助空间的统一 FASP 框架） | *Math. Comp.* 87(312): 1601–1633 | `read` | ✓ |
 | [[fem/translations/Chen2018-residual-aposteriori-elasticity-zh\|Chen 等 2018]] | 线弹性问题对称协调混合有限元基于残差的后验误差估计（基于线弹性微分复形与 Argyris 准插值，直接估计对称应力而无需非对称梯度逼近） | *Sci. China Math.* 61(6): 973–992 | `read` | ✓ |
@@ -178,7 +178,7 @@ date_update: 2026-10-03
 
 | 文献 | citation key | 预期 PDF 文件名 | 被引位置 | 状态 |
 |---|---|---|---|---|
-| Haber, Jog & Bendsøe (1996), *A new approach to variable-topology shape design using a constraint on perimeter* | `Haber1996-perimeterconstraint`（元数据待按 DOI 核验） | `Haber1996-perimeterconstraint.pdf` | 概念页 §7 周长约束 | `unsorted` |
+| Haber, Jog & Bendsøe (1996), *A new approach to variable-topology shape design using a constraint on perimeter* | `Haber1996-perimeterconstraint` | `Haber1996-perimeterconstraint.pdf` | 概念页 §7 周长约束 | `unsorted` |
 | Sigmund (1997), *On the design of compliant mechanisms using topology optimization* | `sigmundDesignCompliantMechanisms1997a` | `Sigmund1997-designcompliantmechanisms.pdf` | 概念页 §2.1 灵敏度过滤 | `unsorted` |
 | Sigmund & Petersson (1998), *Numerical instabilities in topology optimization* | `sigmundNumericalInstabilitiesTopology1998` | `Sigmund1998-numericalinstabilities.pdf` | 概念页 §1 数值不稳定性综述 | `unsorted` |
 | Petersson & Sigmund (1998), *Slope constrained topology optimization* | `peterssonSlopeConstrainedTopology1998` | `Petersson1998-slopeconstrained.pdf` | 概念页 §7 斜率约束 | `unsorted` |
@@ -188,10 +188,10 @@ date_update: 2026-10-03
 | Sigmund (2007), *Morphology-based black and white filters for topology optimization* | `sigmundMorphologybasedBlackWhite2007b` | `Sigmund2007-morphologybasedblackwhite.pdf` | 概念页 §4.1、§7 形态学过滤 | `unsorted` |
 | Xu, Cai & Cheng (2010), *Volume preserving nonlinear density filter based on Heaviside functions* | `xuVolumePreservingNonlinear2010` | `Xu2010-volumepreservingnonlinear.pdf` | 概念页 §7 体积保持过滤 | `unsorted` |
 | Wang, Lazarov & Sigmund (2011), *On projection methods, convergence and robust formulations in topology optimization* | `wangProjectionMethodsConvergence2011a` | `Wang2011-projectionmethodsconvergence.pdf` | 概念页 §4.1–4.3 tanh 投影与稳健三场 | `unsorted` |
-| Lazarov & Sigmund (2011), *Filters in topology optimization based on Helmholtz-type differential equations* | `Lazarov2011-helmholtzpdefilter`（元数据待按 DOI 核验） | `Lazarov2011-helmholtzpdefilter.pdf` | 概念页 §7 PDE 过滤 | `unsorted` |
+| Lazarov & Sigmund (2011), *Filters in topology optimization based on Helmholtz-type differential equations* | `Lazarov2011-helmholtzpdefilter` | `Lazarov2011-helmholtzpdefilter.pdf` | 概念页 §7 PDE 过滤 | `unsorted` |
 | De Falco, Schiassi & Calabrò (2026), *Least squares with equality constraints extreme learning machines for the resolution of PDEs* | `DeFalco2026-lse-elm-pdes` | `DeFalco2026-lse-elm-pdes.pdf`（已入库） | 暂无；ELM/PINN 求解 PDE，候选 SciML 方向 | `unsorted` |
 
-Bendsøe & Sigmund (2004) 专著（`Bendsoe2004-topologyoptimizationa`）不复制到 `inbox/`。前 9 条 citation key 直接沿用 `xtu-phd-thesis:thesis/reference/ref.bib` 的既有 key；标注"元数据待按 DOI 核验"的两条 key 已是 basename 形式，符合新文献 citekey 规则，予以保留，只需核验 `literature/refs.bib` 中的作者、卷期与页码。
+Bendsøe & Sigmund (2004) 专著（`Bendsoe2004-topologyoptimizationa`）不复制到 `inbox/`。前 9 条 citation key 直接沿用 `xtu-phd-thesis:thesis/reference/ref.bib` 的既有 key；Haber1996 与 Lazarov2011 两条 key 已是 basename 形式，符合新文献 citekey 规则，予以保留，`literature/refs.bib` 中的元数据已按 DOI 经 CrossRef 核验。
 
 ## 储备候选池
 

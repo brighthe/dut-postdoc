@@ -474,16 +474,17 @@ EI: 是\\
 	doi     = {10.1007/s00158-010-0602-y}
 }
 
-% 待确认：以下两条不在 xtu-phd-thesis ref.bib 中，元数据凭常识填写，key 已是 basename 形式，按新文献 citekey 规则保留；元数据待按 DOI 经 CrossRef 核验
+% 以下两条不在 xtu-phd-thesis ref.bib 中，key 已是 basename 形式，按新文献 citekey 规则保留
 @article{Haber1996-perimeterconstraint,
 	title   = {A New Approach to Variable-Topology Shape Design Using a Constraint on Perimeter},
 	author  = {Haber, R. B. and Jog, C. S. and Bends{\o}e, M. P.},
 	year    = {1996},
 	journal = {Structural Optimization},
 	volume  = {11},
-	number  = {1},
+	number  = {1--2},
 	pages   = {1--12},
-	doi     = {10.1007/BF01279647}
+	doi     = {10.1007/BF01279647},
+	note    = {元数据经 CrossRef 核验 (2026-10-03)}
 }
 
 @article{Lazarov2011-helmholtzpdefilter,
@@ -494,7 +495,8 @@ EI: 是\\
 	volume  = {86},
 	number  = {6},
 	pages   = {765--781},
-	doi     = {10.1002/nme.3072}
+	doi     = {10.1002/nme.3072},
+	note    = {元数据经 CrossRef 核验 (2026-10-03)}
 }
 
 @article{DeFalco2026-lse-elm-pdes,
@@ -707,4 +709,51 @@ EI: 是\\
   address = {National Harbor, MD \& Online},
   doi = {10.2514/6.2023-0530},
   langid = {english}
+}
+
+% ---- 中文译文对应条目（literature/**/translations/ 登记；key 沿用译文 frontmatter 既有 citekey）----
+@article{Carstensen2019-residualbased,
+	title   = {Residual-Based a Posteriori Error Analysis for Symmetric Mixed {Arnold}--{Winther} {FEM}},
+	author  = {Carstensen, Carsten and Gallistl, Dietmar and Gedicke, Joscha},
+	year    = {2019},
+	journal = {Numerische Mathematik},
+	volume  = {142},
+	number  = {2},
+	pages   = {205--234},
+	doi     = {10.1007/s00211-019-01029-7},
+	note    = {元数据经 CrossRef 核验 (2026-10-03)}
+}
+
+@article{Codina2024-stabilizedmixed,
+	title   = {Finite Element Approximation of Stabilized Mixed Models in Finite Strain Hyperelasticity Involving Displacements and Stresses and/or Pressure---{An} Overview of Alternatives},
+	author  = {Codina, Ramon and Casta{\~n}ar, Inocencio and Baiges, Joan},
+	year    = {2024},
+	journal = {International Journal for Numerical Methods in Engineering},
+	volume  = {125},
+	number  = {18},
+	pages   = {e7540},
+	doi     = {10.1002/nme.7540},
+	note    = {元数据经 CrossRef 核验 (2026-10-03)}
+}
+
+@article{Hu2014-rectangularmixed,
+	title   = {A Simple Conforming Mixed Finite Element for Linear Elasticity on Rectangular Grids in Any Space Dimension},
+	author  = {Hu, Jun and Man, Hongying and Zhang, Shangyou},
+	year    = {2014},
+	journal = {Journal of Scientific Computing},
+	volume  = {58},
+	number  = {2},
+	pages   = {367--379},
+	doi     = {10.1007/s10915-013-9736-6},
+	note    = {元数据经 CrossRef 核验 (2026-10-03)}
+}
+
+@misc{barattaDOLFINxNextGeneration2024,
+	title        = {{DOLFINx}: The Next Generation {FEniCS} Problem Solving Environment},
+	author       = {Baratta, Igor A. and Dean, Joseph P. and Dokken, J{\o}rgen S. and Habera, Michal and Hale, Jack S. and Richardson, Chris N. and Rognes, Marie E. and Scroggs, Matthew W. and Sime, Nathan and Wells, Garth N.},
+	year         = {2023},
+	publisher    = {Zenodo},
+	howpublished = {Preprint},
+	doi          = {10.5281/zenodo.10447666},
+	note         = {元数据经 DataCite 核验 (2026-10-03); 本地 PDF 对应此版本 (Issued 2023-12-31), key 中 2024 为既有命名; 概念 DOI 10.5281/zenodo.10447665, 2025 修订版 10.5281/zenodo.18101307}
 }

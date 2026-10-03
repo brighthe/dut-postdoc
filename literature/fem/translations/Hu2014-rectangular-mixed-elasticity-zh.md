@@ -7,7 +7,7 @@ tags:
   - rectangular-grids
 status: draft
 date_created: 2026-09-09
-date_updated: 2026-09-09
+date_updated: 2026-10-03
 source: "../sources/Hu2014-rectangular-mixed-elasticity.pdf"
 citekey: "Hu2014-rectangularmixed"
 language: zh-CN
@@ -23,11 +23,11 @@ language: zh-CN
 - **作者**：Jun Hu；Hongying Man；Shangyou Zhang
 - **单位**：LMAM and School of Mathematical Sciences, Peking University；School of Mathematics, Beijing Institute of Technology；Department of Mathematical Sciences, University of Delaware（依作者顺序）
 - **期刊**：*Journal of Scientific Computing*
-- **卷 / 页码**：58: 367–379，2014
+- **卷 / 期 / 页码**：58(2): 367–379，2014
 - **DOI**：[10.1007/s10915-013-9736-6](https://doi.org/10.1007/s10915-013-9736-6)
 - **在线发表日期**：2013-06-02
 - **本地版本**：期刊排版版，13 页；出版信息与章节骨架依据本地 PDF 核对。
-- **引用键说明**：当前引用键为本库手工建立，按既有 key 保留；元数据待按 DOI 核验。
+- **引用键说明**：当前引用键为本库手工建立，按既有 key 保留；元数据经 CrossRef 核验（2026-10-03），期号 2 据 CrossRef 补入。
 
 # 摘要
 

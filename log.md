@@ -3554,3 +3554,9 @@
 - 新增仓库根 `restore_sources_from_icloud.ps1`：按译文页 `source:` 与 `refs.bib` note 的「本地 PDF」路径定位，从 `文献库/` 只补缺失文件，不覆盖不删除，并报告缺失与未登记 PDF。实测：预演 53 篇全部已登记、0 缺失；移走 Roache1994 后运行可恢复且 SHA-256 一致。`_index.md` 存储说明与 `README.md` 同步写入用法及无译文页 PDF 的登记要求。
 - `sync_to_icloud.ps1` 的 robocopy `/XD` 增加 `sources`，Obsidian 镜像不再携带原件副本；下次运行 `/MIR` 会删除镜像中已有的 `sources/`（约 490 MB），主档在 `文献库/` 与 benchmark 的 iCloud 归档中不受影响。该脚本本轮未运行。
 - 未处理：iCloud 云端上传状态未核对。未 commit、push。
+
+## [2026-10-03] lint | 6 条文献元数据按 DOI 核验并补 refs.bib
+- CrossRef 核验：Carstensen2019、Codina2024 与译文信息一致；Hu2014 补期号，译文与 `literature/_index.md` 表格改为 58(2): 367–379；`refs.bib` 中 Haber1996 期号由 1 改为 1--2（合刊），Lazarov2011 一致。两条 bib 加 note 记核验日期，`_index.md` inbox 表及说明段删去"元数据待按 DOI 核验"标记。
+- Baratta2024：Zenodo DOI 不在 CrossRef 收录范围，改经 DataCite 核验。原登记的 10.5281/zenodo.10447665 是概念 DOI，解析到最新版；本地 PDF 对应版本 10.5281/zenodo.10447666（Issued 2023-12-31），2025 修订版为 10.5281/zenodo.18101307。译文 DOI 与备注据此改写，既有 key `barattaDOLFINxNextGeneration2024` 保留。
+- `refs.bib` 末尾新增四篇译文对应条目（key 沿用译文 frontmatter），四篇译文 `date_updated` 更新为 2026-10-03。
+- 关联检查：`concepts/density-topopt/regularization-and-length-scale-control.md` 参考文献 [7] 仍写 Haber1996 为 11(1)，未改，待确认；Talischi2012 译文参考文献表按原文保留 11(1)。Baratta2024 译文在 `literature/_index.md` 无入口，属既有问题，本轮未处理。
