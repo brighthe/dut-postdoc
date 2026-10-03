@@ -114,7 +114,7 @@ dut-postdoc/
 - 新增、移动、删除或重组页面后，收尾检查对应目录 `_index.md`；影响全库导航时同步根 `index.md`
 - 报告完成后，先将长期事实抽取到概念页、技术线或调研页，再把最终交付物和准备材料整体移入 `archive/<event>/`
 - 页面要求统一见 [page-schemas.md](schema/page-schemas.md)，模板提供写法；协作与提交纪律见 [AGENTS.md](AGENTS.md)。
-- 原始资料的存储职责以 [页面规范](schema/page-schemas.md#存储与来源) 为准：iCloud 保存官方及个人原件与论文 PDF，Git 不作为原件归档位置；换机后运行 `restore_sources_from_icloud.ps1` 从 iCloud `文献库/` 恢复 `literature/**/sources/`。`sync_to_icloud.ps1` 的 Obsidian 镜像排除所有 `sources/`
+- 原始资料的存储职责以 [页面规范](schema/page-schemas.md#存储与来源) 为准：iCloud 保存官方及个人原件与论文 PDF，Git 不作为原件归档位置；换机后运行 `restore_sources_from_icloud.ps1` 从 iCloud `文献库/` 恢复 `literature/**/sources/`。
 - 参考文献统一维护在 `literature/refs.bib`
 
 ## 研究入口

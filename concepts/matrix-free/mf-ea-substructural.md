@@ -67,7 +67,7 @@ $$
 
 ## 3. 与显式装配的代数恒等
 
-显式路径（[[../exact-substructural#3.1 全局接口方程装配|精确子结构分析 §3.1]]）先累加 $\mathbf K_{\text{global}} = \sum_j \mathbf L_j^{\mathsf T}\mathbf K_s^j\mathbf L_j$ 再乘向量；算子路径逐子结构作用后求和。由矩阵乘法对加法的分配律，
+显式路径（[[../exact-substructural#3.1 全局接口系统的组装|精确子结构分析 §3.1]]）先累加 $\mathbf K_{\text{global}} = \sum_j \mathbf L_j^{\mathsf T}\mathbf K_s^j\mathbf L_j$ 再乘向量；算子路径逐子结构作用后求和。由矩阵乘法对加法的分配律，
 
 $$
 \mathbf K_{\text{global}}\,\mathbf x

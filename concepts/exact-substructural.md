@@ -16,23 +16,23 @@ tags:
   - schur-complement
 status: in-progress
 date_added: 2026-08-09
-date_update: 2026-10-02
+date_update: 2026-10-03
 ---
 
 # 精确子结构分析
 
 子结构有限元与静力缩聚（Static Condensation）通过局部分块高斯消元（Schur 补）消去各子结构的内部自由度，将大规模代数系统严格等价地凝聚到全域接口骨架（interface skeleton）$\Gamma=\bigcup_j\partial\Omega^j$ 上。在此基础上可进一步把接口位移限制在低维迹空间（interface trace space，如角点低阶多项式、特征模态或 POD 降阶基）内取势能极小。这一步不再代数等价：所得粗解是真解在该子空间中能量范数意义下的最佳逼近（即 $\min_{\mathbf v\in\mathcal V}\|\mathbf u-\mathbf v\|_{\mathbf K}$），模型偏硬，柔度给出下界。
 
-本页限定于沿单元边界划分、接口协调的**非重叠**子结构与小应变线弹性静力问题；重叠型区域分解（overlapping domain decomposition）与非协调接口（non-conforming interface）不适用本页的消元与装配公式。
+本页限定于沿单元边界划分、接口协调的**非重叠**子结构与小应变线弹性静力问题；重叠型区域分解（overlapping domain decomposition）与非协调接口（non-conforming interface）不适用本页的消元与组装公式。
 
 ```mermaid
 flowchart TD
-    A1(["1.2 · 局部装配与分块"])
+    A1(["1.2 · 局部组装与分块"])
     A2["2 · Schur 补消去内部自由度"]
     M1["2.1 · 局部缩聚刚度"]
     M2["2.2 · 接口迹降阶<br/>linear_corner，Ritz 近似"]
-    B1["3.1–3.2 · 完整接口装配求解<br/>full_trace，代数等价"]
-    B2["3.1–3.2 · 角点接口装配求解<br/>linear_corner，迹降阶误差"]
+    B1["3.1–3.2 · 完整接口组装求解<br/>full_trace，代数等价"]
+    B2["3.1–3.2 · 角点接口组装求解<br/>linear_corner，迹降阶误差"]
     C1["3.3 · 逐块内部恢复"]
     C2(["全场拼装与下游力学评价"])
 
@@ -97,7 +97,7 @@ $$
 \Gamma_D\cap\Gamma_N=\varnothing.
 $$
 
-$\Gamma_{\mathrm{int}}$ 上的接口力是相邻子结构之间未知的作用—反作用，全局装配时成对抵消；$\Gamma_N$ 上的面力是已知输入，按不相交分割 $\Gamma_N=\bigsqcup_j\left(\Gamma_N\cap\partial\Omega^j\right)$ 逐块积分，同一载荷只计入一次。
+$\Gamma_{\mathrm{int}}$ 上的接口力是相邻子结构之间未知的作用—反作用，全局组装时成对抵消；$\Gamma_N$ 上的面力是已知输入，按 $\Gamma_N\cap\partial\Omega^j$ 逐块积分，各边界片在边界面积测度意义下互不重叠（共享棱或顶点可相交）。离散实现按外边界单元面的唯一归属分配载荷，同一载荷只计入一次。
 
 ### 1.2 局部问题与适用假设
 
@@ -129,7 +129,7 @@ $$
 
 #### 2.1.1 局部平衡方程
 
-取子结构 $\Omega^j$ 为隔离体。除原问题的体力与 $\Gamma_N$ 面力外，它还在内部接口 $\partial\Omega^j\cap\Gamma_{\mathrm{int}}$ 上受到相邻子结构的面力 $\mathbf t_{\mathrm{int}}^j$，这个面力是未知的。以 $\mathbf t_{\mathrm{int}}^j$ 作为 Neumann 数据写出 $\Omega^j$ 上的弱形式，用细网格离散，自由度按 “边界—内部” 顺序排列，得到局部平衡方程：
+取子结构 $\Omega^j$ 为隔离体。除原问题的体力与 $\Gamma_N$ 面力外，它还在内部接口 $\partial\Omega^j\cap\Gamma_{\mathrm{int}}$ 上受到相邻子结构的面力 $\mathbf t_{\mathrm{int}}^j$，这个面力是未知的。以 $\mathbf t_{\mathrm{int}}^j$ 作为 Neumann 数据写出 $\Omega^j$ 上的弱形式，用细网格离散，自由度按 “边界—内部” 顺序排列，得到局部平衡方程（受约束边界行计入支承反力）：
 
 $$
 \begin{bmatrix}
@@ -142,7 +142,7 @@ $$
 \end{bmatrix}
 =
 \begin{bmatrix}
-\mathbf f_b^j+\boldsymbol\lambda^j\\
+\mathbf f_b^j+\boldsymbol\lambda^j+\mathbf r_D^j\\
 \mathbf f_i^j
 \end{bmatrix}.
 $$
@@ -153,7 +153,7 @@ $$
 \boldsymbol\lambda^j=\int_{\partial\Omega^j\cap\Gamma_{\mathrm{int}}}(\mathbf N_b^j)^{\mathsf T}\mathbf t_{\mathrm{int}}^j\,\mathrm ds,
 $$
 
-其中 $\mathbf N_b^j$ 为细网格边界节点形函数矩阵。接口力在全局装配时抵消，$\Gamma_D$ 上的给定位移在全局接口系统中施加。
+其中 $\mathbf N_b^j$ 为细网格边界节点形函数矩阵，$\mathbf r_D^j$ 为仅支承在受约束边界自由度上的支承反力向量；自由边界行上的对应分量为零。接口力在全局组装时抵消，支承反力不会抵消；$\Gamma_D$ 上的给定位移在全局接口系统中施加，反力由受约束行的残量确定。
 
 #### 2.1.2 静力缩聚
 
@@ -174,6 +174,7 @@ $$
 \mathbf T_{\mathrm{full}}^j:=-(\mathbf K_{ii}^j)^{-1}\mathbf K_{ib}^j,
 \qquad
 \mathbf w_i^j:=(\mathbf K_{ii}^j)^{-1}\mathbf f_i^j .
+\tag{2.1}
 $$
 
 其中 $\mathbf T_{\mathrm{full}}^j$ 为内部位移恢复矩阵，$\mathbf w_i^j$ 为边界固定（$\mathbf u_b^j=\mathbf0$）时内部体力引起的位移。
@@ -182,32 +183,30 @@ $$
 
 $$
 \mathbf K_{bb}^j\mathbf u_b^j+\mathbf K_{bi}^j\mathbf u_i^j
-=\mathbf f_b^j+\boldsymbol\lambda^j,
+=\mathbf f_b^j+\boldsymbol\lambda^j+\mathbf r_D^j,
 $$
 
 整理得
 
 $$
 \left(\mathbf K_{bb}^j+\mathbf K_{bi}^j\mathbf T_{\mathrm{full}}^j\right)\mathbf u_b^j
-=\mathbf f_b^j-\mathbf K_{bi}^j\mathbf w_i^j+\boldsymbol\lambda^j.
+=\mathbf f_b^j-\mathbf K_{bi}^j\mathbf w_i^j+\boldsymbol\lambda^j+\mathbf r_D^j.
 $$
 
 定义缩聚刚度与等效边界载荷：
 
 $$
 \mathbf K_s^j
-:=
-\mathbf K_{bb}^j+\mathbf K_{bi}^j\mathbf T_{\mathrm{full}}^j
-=
-\mathbf K_{bb}^j-\mathbf K_{bi}^j(\mathbf K_{ii}^j)^{-1}\mathbf K_{ib}^j,
+:=\mathbf K_{bb}^j+\mathbf K_{bi}^j\mathbf T_{\mathrm{full}}^j
+=\mathbf K_{bb}^j-\mathbf K_{bi}^j(\mathbf K_{ii}^j)^{-1}\mathbf K_{ib}^j.
+\tag{2.2}
 $$
 
 $$
 \widetilde{\mathbf f}_b^j
-:=
-\mathbf f_b^j-\mathbf K_{bi}^j\mathbf w_i^j
-=
-\mathbf f_b^j+(\mathbf T_{\mathrm{full}}^j)^{\mathsf T}\mathbf f_i^j .
+:=\mathbf f_b^j-\mathbf K_{bi}^j\mathbf w_i^j
+=\mathbf f_b^j+(\mathbf T_{\mathrm{full}}^j)^{\mathsf T}\mathbf f_i^j.
+\tag{2.3}
 $$
 
 等效载荷的最后一个等号利用了刚度矩阵的对称性；它将内部体力的作用折算到边界，无内部体力时退化为 $\widetilde{\mathbf f}_b^j=\mathbf f_b^j$。由此得到仅以边界位移为位移未知量的缩聚方程：
@@ -215,7 +214,8 @@ $$
 $$
 
 \mathbf K_s^j\mathbf u_b^j
-=\widetilde{\mathbf f}_b^j+\boldsymbol\lambda^j.
+=\widetilde{\mathbf f}_b^j+\boldsymbol\lambda^j+\mathbf r_D^j.
+\tag{2.4}
 $$
 
 缩聚方程还可通过子结构形函数矩阵表示。定义
@@ -223,6 +223,7 @@ $$
 $$
 \mathbf N_{\mathrm{full}}^j
 =\begin{bmatrix}\mathbf I\\\mathbf T_{\mathrm{full}}^j\end{bmatrix}.
+\tag{2.5}
 $$
 
 记局部外载荷向量为 $\mathbf f^j=[(\mathbf f_b^j)^{\mathsf T},(\mathbf f_i^j)^{\mathsf T}]^{\mathsf T}$，则前述缩聚刚度与等效边界载荷可写为
@@ -233,13 +234,14 @@ $$
 \qquad
 \widetilde{\mathbf f}_b^j
 =(\mathbf N_{\mathrm{full}}^j)^{\mathsf T}\mathbf f^j.
+\tag{2.6}
 $$
 
 因此，缩聚方程等价地写为
 
 $$
 (\mathbf N_{\mathrm{full}}^j)^{\mathsf T}\mathbf K^j\mathbf N_{\mathrm{full}}^j\mathbf u_b^j
-=(\mathbf N_{\mathrm{full}}^j)^{\mathsf T}\mathbf f^j+\boldsymbol\lambda^j.
+=(\mathbf N_{\mathrm{full}}^j)^{\mathsf T}\mathbf f^j+\boldsymbol\lambda^j+\mathbf r_D^j.
 $$
 
 ### 2.2 接口迹降阶
@@ -250,18 +252,39 @@ $$
 
 $$
 \mathbf u_b^j=\boldsymbol\Psi^j\mathbf q^j.
+\tag{2.7}
 $$
 
 $\operatorname{range}(\boldsymbol\Psi^j)$ 即该子结构的接口迹空间。
 
-设迹基 $\boldsymbol\Psi^j$ 列满秩。为区分完整接口与降阶接口，记 $\mathbf K_{s,\mathrm{full}}^j:=\mathbf K_s^j$。将边界位移表达代入缩聚方程，并左乘 $(\boldsymbol\Psi^j)^{\mathsf T}$，得到
+设迹基 $\boldsymbol\Psi^j$ 列满秩。为区分完整接口与降阶接口，记 $\mathbf K_{s,\mathrm{full}}^j:=\mathbf K_s^j$。将边界位移表达 (2.7) 代入缩聚方程 (2.4)，并左乘 $(\boldsymbol\Psi^j)^{\mathsf T}$，得到
 
 $$
 \mathbf K_r^j\mathbf q^j
-=\mathbf f_r^j+(\boldsymbol\Psi^j)^{\mathsf T}\boldsymbol\lambda^j,
+=\mathbf f_r^j+(\boldsymbol\Psi^j)^{\mathsf T}(\boldsymbol\lambda^j+\mathbf r_D^j).
+\tag{2.8}
 $$
 
-其中接口刚度、等效载荷与子结构形函数矩阵为
+由式 (2.6)，接口刚度、等效载荷与子结构形函数矩阵为
+
+$$
+\mathbf K_r^j
+=(\boldsymbol\Psi^j)^{\mathsf T}\mathbf K_{s,\mathrm{full}}^j\boldsymbol\Psi^j
+=(\mathbf N_r^j)^{\mathsf T}\mathbf K^j\mathbf N_r^j.
+\tag{2.9}
+$$
+
+$$
+\mathbf f_r^j=(\boldsymbol\Psi^j)^{\mathsf T}\widetilde{\mathbf f}_b^j.
+\tag{2.10}
+$$
+
+$$
+\mathbf N_r^j:=\mathbf N_{\mathrm{full}}^j\boldsymbol\Psi^j.
+\tag{2.11}
+$$
+
+由式 (2.6)，接口刚度、等效载荷与子结构形函数矩阵为
 
 $$
 \mathbf K_r^j
@@ -273,18 +296,18 @@ $$
 \mathbf N_r^j:=\mathbf N_{\mathrm{full}}^j\boldsymbol\Psi^j.
 $$
 
-当 $n_q^j<n_b^j$ 时，这一步是低维接口迹空间上的 Galerkin 投影，一般引入 Ritz 逼近误差。全局耦合还要求相邻子结构的迹表示在公共界面上协调。
+当 $n_q^j<n_b^j$ 时，这一步是低维接口迹空间上的 Galerkin 投影，一般引入 Ritz 逼近误差。
 
 #### 2.2.1 完整接口空间
 
-取 $\boldsymbol\Psi^j=\mathbf I_{n_b^j}$、$\mathbf q^j=\mathbf u_b^j$，保留边界上面内、棱上和角点节点的全部细网格自由度，不作接口迹降阶。子结构形函数矩阵为
+取 $\boldsymbol\Psi^j=\mathbf I_{n_b^j}$、$\mathbf q^j=\mathbf u_b^j$，保留边界上面内、棱上和角点节点的全部细网格自由度，不作接口迹降阶。子结构形函数矩阵即式 (2.5)：
 
 $$
 \mathbf N_{\mathrm{full}}^j
 =\begin{bmatrix}\mathbf I\\\mathbf T_{\mathrm{full}}^j\end{bmatrix}.
 $$
 
-对应的缩聚刚度与等效载荷为
+式 (2.6) 给出对应的缩聚刚度与等效载荷：
 
 $$
 \mathbf K_{s,\mathrm{full}}^j
@@ -295,9 +318,9 @@ $$
 =(\mathbf N_{\mathrm{full}}^j)^{\mathsf T}\mathbf f^j.
 $$
 
-它与 §2.1 的静力缩聚结果相同，作为角点接口降阶的精确基准。
-
 #### 2.2.2 角点接口空间
+
+本节限定子结构具有四边形（二维）或六面体（三维）粗参考单元及一一对应的几何映射 $\mathbf x=\mathbf F^j(\boldsymbol\xi)$，边界细节点的参考坐标由该映射确定。规则矩形／长方体可采用仿射映射；一般单元需明确几何映射，任意细单元集合不自动满足这一条件。相邻子结构还须在共享界面采用一致的角点、几何参数化与插值迹；细网格节点和单元面协调本身不足以保证粗迹协调。
 
 取 $\boldsymbol\Psi^j=\mathbf L^j$、$\mathbf q^j=\mathbf u_c^j$。设角点集合为 $\mathcal C^j$，角点位移 $\mathbf u_c^j\in\mathbb R^{n_c^j}$，其中 $n_c^j=d|\mathcal C^j|$。插值矩阵 $\mathbf L^j\in\mathbb R^{n_b^j\times n_c^j}$ 将角点位移映射到完整边界：
 
@@ -305,18 +328,10 @@ $$
 \mathbf u_b^j=\mathbf L^j\mathbf u_c^j,
 \qquad
 (\mathbf L^j)_{k,c}=N_c(\boldsymbol\xi_k)\mathbf I_d.
+\tag{2.12}
 $$
 
-其中 $\boldsymbol\xi_k$ 为第 $k$ 个边界节点的参考坐标，$\mathbf I_d$ 为单位矩阵，$N_c$ 为角点 $c$ 对应的一阶 Lagrange 形函数：
-
-| 子结构形状 | 一阶形函数 $N_c$ | $n_c^j$ |
-| --- | --- | --- |
-| 三角形 | 线性（P1），$N_c=\lambda_c$，$\lambda_c$ 为重心坐标 | 6 |
-| 四面体 | 线性（P1），$N_c=\lambda_c$ | 12 |
-| 四边形 | 双线性（Q1），$N_c=\frac14(1+\xi_c\xi)(1+\eta_c\eta)$ | 8 |
-| 六面体 | 三线性（Q1），$N_c=\frac18(1+\xi_c\xi)(1+\eta_c\eta)(1+\zeta_c\zeta)$ | 24 |
-
-四边形与六面体的参考域为 $[-1,1]^d$，角点坐标 $\boldsymbol\xi_c\in\{-1,1\}^d$。$\mathbf L^j$ 仅依赖几何与节点分布，可预先构造并复用，具有单位分解与一阶多项式完备性。
+其中 $\boldsymbol\xi_k$ 为第 $k$ 个边界节点的参考坐标，$\mathbf I_d$ 为单位矩阵，$N_c$ 为角点 $c$ 对应的张量积 $Q_1$ Lagrange 形函数：二维为双线性、三维为三线性，并非总次数不超过一的多项式。物理坐标中的仿射位移能否精确再现，还取决于几何映射；采用相同 $Q_1$ 基的等参几何映射可保证这一性质。
 
 角点子结构形函数矩阵为
 
@@ -326,162 +341,174 @@ $$
 =\begin{bmatrix}\mathbf L^j\\\mathbf T_{\mathrm{corner}}^j\end{bmatrix},
 \qquad
 \mathbf T_{\mathrm{corner}}^j:=\mathbf T_{\mathrm{full}}^j\mathbf L^j.
+\tag{2.13}
 $$
-
-无内部载荷时，$\mathbf u^j=\mathbf N_{\mathrm{corner}}^j\mathbf u_c^j$；有内部载荷时按 §3.3 加入内部位移特解。近似来自边界插值限制，内部响应仍满足局部平衡。
 
 对应的缩聚刚度与等效载荷为
 
 $$
 \mathbf K_{s,\mathrm{corner}}^j
 =(\mathbf N_{\mathrm{corner}}^j)^{\mathsf T}\mathbf K^j\mathbf N_{\mathrm{corner}}^j
-=(\mathbf L^j)^{\mathsf T}\mathbf K_{s,\mathrm{full}}^j\mathbf L^j,
-\qquad
+=(\mathbf L^j)^{\mathsf T}\mathbf K_{s,\mathrm{full}}^j\mathbf L^j.
+\tag{2.14}
+$$
+
+$$
 \mathbf f_c^j=(\mathbf L^j)^{\mathsf T}\widetilde{\mathbf f}_b^j.
+\tag{2.15}
 $$
 
 ## 3. 整体结构分析
 
-各子结构的缩聚刚度与载荷按接口自由度的共享关系装配为全局方程组（§3.1），施加支承条件后求解接口未知量（§3.2），再逐块恢复内部位移（§3.3）。各节均分完整接口空间与角点接口空间两种情形。
+各块缩聚刚度与载荷先组装为全局接口系统（§3.1），施加支承条件后求解（§3.2），再恢复细网格位移（§3.3）。以下先给出协调接口空间的一般形式，再说明完整接口与角点接口的取值。
 
-### 3.1 全局接口方程装配
+### 3.1 全局接口系统的组装
 
-#### 3.1.1 完整接口空间
-
-设原有限元系统的全局位移按接口与内部划分为 $\mathbf U = [\mathbf U_\Gamma^{\mathsf T},\ \mathbf U_I^{\mathsf T}]^{\mathsf T}$。其中：
-- $\mathbf U_\Gamma \in \mathbb R^{N_\Gamma}$ 为全域接口骨架 $\Gamma$ 上的唯一物理自由度向量（消除了邻块共享节点的重复记账，对应连续位移场的接口迹 $\mathbf u|_\Gamma$）；
-- $\mathbf U_I = [(\mathbf u_i^1)^{\mathsf T}, (\mathbf u_i^2)^{\mathsf T}, \dots, (\mathbf u_i^M)^{\mathsf T}]^{\mathsf T} \in \mathbb R^{N_I}$（$N_I = \sum_{j=1}^M n_i^j$）为所有子结构内部自由度的直接分块拼合（因非重叠划分，各块内部自由度互不相交，无共享重合）。
-
-各子结构在公共界面上满足位移连续协调，局部边界位移由布尔提取矩阵 $\mathbf A_b^j \in \{0, 1\}^{n_b^j \times N_\Gamma}$（每行仅一个非零元 $1$）确定：
+设全局接口坐标为 $\mathbf Q\in\mathbb R^{N_q}$，布尔矩阵 $\mathbf A_q^j\in\{0,1\}^{n_q^j\times N_q}$ 提取局部坐标（每行一个 $1$）：
 
 $$
-\mathbf u_b^j=\mathbf A_b^j\mathbf U_\Gamma.
-$$
-
-定义多重度对角矩阵 $\mathbf D = \sum_{j=1}^M (\mathbf A_b^j)^{\mathsf T}\mathbf A_b^j = \operatorname{diag}(m_1, \dots, m_{N_\Gamma})$（$m_k$ 为共享第 $k$ 个接口自由度的子结构数），在协调位移下逆映射显式满足 $\mathbf U_\Gamma = \mathbf D^{-1}\sum_{j=1}^M (\mathbf A_b^j)^{\mathsf T}\mathbf u_b^j$。
-
-转置矩阵 $(\mathbf A_b^j)^{\mathsf T}$ 即为有限元全局装配中的分散/累加算子（scatter/assembly operator）。由虚位移原理，邻块在内部接口处的接触力相互抵消（$\sum_j (\mathbf A_b^j)^{\mathsf T}\boldsymbol\lambda^j=\mathbf 0$），得到全局完整接口方程组：
-
-$$
-\boxed{
-\mathbf K_\Gamma
-=
-\sum_{j=1}^{M}
-(\mathbf A_b^j)^{\mathsf T}\mathbf K_{s,\mathrm{full}}^j\mathbf A_b^j
-},
-$$
-
-$$
-\boxed{
-\mathbf F_\Gamma
-=
-\sum_{j=1}^{M}
-(\mathbf A_b^j)^{\mathsf T}\widetilde{\mathbf f}_b^j
-}.
-$$
-
-外载可以在全局层统一生成，也可以一致地分配到局部向量后装配，但同一物理载荷只能计入一次。
-
-#### 3.1.2 角点接口空间
-
-设 $\mathbf U_C$ 为去重后的全局粗接口向量，Boolean 矩阵 $\mathbf A_c^j$ 满足
-
-$$
-\mathbf u_c^j=\mathbf A_c^j\mathbf U_C.
-$$
-
-则全局宏观系统为
-
-$$
-\boxed{
-\mathbf K_C
-=
-\sum_{j=1}^{M}
-(\mathbf A_c^j)^{\mathsf T}
-\mathbf K_{s,\mathrm{corner}}^j
-\mathbf A_c^j
-},
-$$
-
-$$
-\boxed{
-\mathbf F_C
-=
-\sum_{j=1}^{M}
-(\mathbf A_c^j)^{\mathsf T}
-\mathbf f_c^j
-}.
-$$
-
-$\mathbf A_c^j$ 负责角点的共享与装配，$\mathbf L^j$ 负责同一子结构内从角点到完整边界的插值，二者作用空间不同。
-
-接口网格协调保证相邻子结构的插值迹在公共界面上完全吻合，因此存在全局延拓矩阵 $\mathbf P$，满足兼容关系
-
-$$
-\mathbf A_b^j\mathbf P=\mathbf L^j\mathbf A_c^j,
+\mathbf q^j=\mathbf A_q^j\mathbf Q,
 \qquad
-\mathcal V_L=\operatorname{range}(\mathbf P)\subset \mathbb R^{N_\Gamma}.
+\mathbf u_b^j=\boldsymbol\Psi^j\mathbf A_q^j\mathbf Q.
+\tag{3.1}
 $$
 
-### 3.2 全局接口方程求解
-
-#### 3.2.1 完整接口空间
-
-记 $D$ 为完整接口上施加给定位移的自由度集合，$F$ 为其补集，且 $(\mathbf U_\Gamma)_D=\mathbf d_D$。自由自由度满足
+本节限于共享接口迹兼容的空间，即存在全局迹映射 $\mathbf P_q$，使去重后的完整接口位移 $\mathbf U_\Gamma$ 及其局部提取矩阵 $\mathbf A_b^j$ 满足
 
 $$
-(\mathbf K_\Gamma)_{FF}(\mathbf U_\Gamma)_F
-=
-(\mathbf F_\Gamma)_F-(\mathbf K_\Gamma)_{FD}\mathbf d_D.
+\mathbf U_\Gamma=\mathbf P_q\mathbf Q,
+\qquad
+\mathbf A_b^j\mathbf P_q=\boldsymbol\Psi^j\mathbf A_q^j.
+\tag{3.2}
 $$
 
-右端第二项是非零给定位移的贡献；齐次支承下该项为零。约束自由度上的平衡由支承反力补足，不能把未计反力的全向量方程当作所有行都必须满足的方程。支承充分消除刚体运动及其他零能模式时，约束后的系统才具有唯一解。
-
-#### 3.2.2 角点接口空间
-
-**角点迹空间中的支承约束。** 令 $\mathbf U_\Gamma=\mathbf P\mathbf U_C$。完整接口上的给定位移条件 $(\mathbf U_\Gamma)_D=\mathbf d_D$ 转化为
+将式 (3.1) 代入局部投影平衡式 (2.8)，左乘 $(\mathbf A_q^j)^{\mathsf T}$ 并逐块求和；由兼容关系 (3.2)，接口力抵消，得到
 
 $$
-\mathbf C_D\mathbf U_C=\mathbf d_D,\qquad
-\mathbf C_D:=\mathbf P[D,:].
+\mathbf K_Q\mathbf Q=\mathbf F_Q+\mathbf R_Q.
+\tag{3.3}
 $$
 
-其中 $\mathbf P[D,:]$ 表示取出受约束接口自由度对应的行。宏观载荷按虚功一致性取 $\mathbf F_C=\mathbf P^{\mathsf T}\mathbf F_\Gamma$。一般情况下，细网格支承应通过上述映射施加，不能未经核对就替换为固定若干角点。
+其中全局刚度、载荷与广义支承反力分别为
 
-约束可解要求 $\mathbf d_D\in\operatorname{range}(\mathbf C_D)$。若非零给定位移无法由角点迹表示，应扩大迹空间或明确采用边界近似；保留全部原约束时，乘子法也不能消除这种不相容。删除冗余约束前须核对右端一致性。以下仍用 $\mathbf C_D,\mathbf d_D$ 表示保留独立行后的约束。
+$$
+\mathbf K_Q=\sum_{j=1}^M(\mathbf A_q^j)^{\mathsf T}\mathbf K_r^j\mathbf A_q^j.
+\tag{3.4}
+$$
 
-在该约束下对宏观势能取驻值，可采用 Lagrange 乘子系统：
+$$
+\mathbf F_Q=\sum_{j=1}^M(\mathbf A_q^j)^{\mathsf T}\mathbf f_r^j.
+\tag{3.5}
+$$
+
+$$
+\mathbf R_Q=\sum_{j=1}^M(\mathbf A_q^j)^{\mathsf T}(\boldsymbol\Psi^j)^{\mathsf T}\mathbf r_D^j.
+\tag{3.6}
+$$
+
+兼容关系 (3.2) 同时给出全局投影形式，表明局部投影后组装与组装后投影等价：
+
+$$
+\mathbf K_Q=\mathbf P_q^{\mathsf T}\mathbf K_\Gamma\mathbf P_q.
+\tag{3.7}
+$$
+
+$$
+\mathbf F_Q=\mathbf P_q^{\mathsf T}\mathbf F_\Gamma.
+\tag{3.8}
+$$
+
+两种接口空间的取值为：
+
+| 接口空间 | 全局坐标 $\mathbf Q$ | 局部提取 $\mathbf A_q^j$ | 迹基 $\boldsymbol\Psi^j$ | 全局迹映射 $\mathbf P_q$ | 组装结果 |
+|---|---|---|---|---|---|
+| `full_trace` | $\mathbf U_\Gamma$ | $\mathbf A_b^j$ | $\mathbf I$ | $\mathbf I$ | $\mathbf K_\Gamma,\mathbf F_\Gamma$ |
+| `linear_corner` | $\mathbf U_C$ | $\mathbf A_c^j$ | $\mathbf L^j$ | $\mathbf P$ | $\mathbf K_C,\mathbf F_C$ |
+
+$\mathbf K_\Gamma,\mathbf F_\Gamma$ 为式 (3.4)、(3.5) 的完整接口取值；角点兼容条件见 §2.2.2。局部降阶基不自动兼容，须核对式 (3.2)。
+
+外载只计一次。若全局生成原细网格载荷 $\mathbf F=[\mathbf F_b^{\mathsf T},\mathbf F_I^{\mathsf T}]^{\mathsf T}$，仍须缩聚内部载荷：
+
+$$
+\mathbf F_\Gamma=\mathbf F_b-\mathbf K_{\Gamma I}\mathbf K_{II}^{-1}\mathbf F_I,
+\qquad
+\mathbf K_{II}=\operatorname{diag}(\mathbf K_{ii}^1,\dots,\mathbf K_{ii}^M).
+\tag{3.9}
+$$
+
+其中 $\mathbf K_{\Gamma I}$、$\mathbf K_{II}$ 为原全局刚度的对应块；$\mathbf F_I=\mathbf0$ 时，$\mathbf F_\Gamma=\mathbf F_b$。
+
+### 3.2 支承约束与接口求解
+
+记 $D$ 为完整接口上施加给定位移的自由度集合，要求 $(\mathbf U_\Gamma)_D=\mathbf d_D$。由式 (3.2)，约束统一写为
+
+$$
+\mathbf C_D\mathbf Q=\mathbf d_D,
+\qquad
+\mathbf C_D:=\mathbf P_q[D,:].
+$$
+
+$\mathbf P_q[D,:]$ 表示取出受约束细接口自由度对应的行。可解性要求 $\mathbf d_D\in\operatorname{range}(\mathbf C_D)$；不相容时应扩大迹空间或明确采用边界近似，乘子法不能消除这种不相容。删除冗余约束前须核对右端一致性，以下仍用 $\mathbf C_D,\mathbf d_D$ 表示保留独立行后的约束。
+
+在约束下对接口势能取驻值，可采用 Lagrange 乘子系统：
 
 $$
 \begin{pmatrix}
-\mathbf K_C&\mathbf C_D^{\mathsf T}\\
+\mathbf K_Q&\mathbf C_D^{\mathsf T}\\
 \mathbf C_D&\mathbf0
 \end{pmatrix}
-\begin{pmatrix}\mathbf U_C\\\boldsymbol\lambda_D\end{pmatrix}
+\begin{pmatrix}\mathbf Q\\\boldsymbol\lambda_D\end{pmatrix}
 =
-\begin{pmatrix}\mathbf F_C\\\mathbf d_D\end{pmatrix}.
+\begin{pmatrix}\mathbf F_Q\\\mathbf d_D\end{pmatrix}.
 $$
 
-这里 $\boldsymbol\lambda_D$ 是支承约束乘子，与 §2.1 的块间接口力 $\boldsymbol\lambda^j$ 不同。按上述正号约定，宏观支承反力为 $\mathbf K_C\mathbf U_C-\mathbf F_C=-\mathbf C_D^{\mathsf T}\boldsymbol\lambda_D$。当 $\mathbf C_D$ 行满秩，且 $\mathbf K_C$ 在 $\ker(\mathbf C_D)$ 上正定时，该系统有唯一解。
+$\boldsymbol\lambda_D$ 为支承约束乘子，与块间接口力 $\boldsymbol\lambda^j$ 不同。按此正号约定，广义支承反力为 $\mathbf R_Q=\mathbf K_Q\mathbf Q-\mathbf F_Q=-\mathbf C_D^{\mathsf T}\boldsymbol\lambda_D$。当 $\mathbf C_D$ 行满秩且 $\mathbf K_Q$ 在 $\ker(\mathbf C_D)$ 上正定时，系统有唯一解；也可采用变量消元或零空间方法。
 
-乘子法只是求解方式之一；也可采用满足约束的变量消元或零空间方法。非零给定位移对应仿射可行空间，§4.3 的柔度下界等结论不能未经处理直接照搬。
+两种接口空间的支承处理为：
+
+- `full_trace`：$\mathbf P_q=\mathbf I$，直接固定对应接口自由度。令 $F$ 为 $D$ 的补集，可消元为
+
+$$
+(\mathbf K_\Gamma)_{FF}(\mathbf U_\Gamma)_F
+=(\mathbf F_\Gamma)_F-(\mathbf K_\Gamma)_{FD}\mathbf d_D.
+$$
+
+- `linear_corner`：$\mathbf P_q=\mathbf P$，通过 $\mathbf P[D,:]\mathbf U_C=\mathbf d_D$ 施加支承，一般不能直接替换为固定若干角点。粗坐标广义反力不直接给出唯一的原细网格逐节点支承反力分配。
+
+恢复后的完整接口残量满足
+
+$$
+\mathbf r_\Gamma:=\mathbf K_\Gamma\mathbf P_q\mathbf Q-\mathbf F_\Gamma,
+\qquad
+\mathbf P_q^{\mathsf T}\mathbf r_\Gamma=-\mathbf C_D^{\mathsf T}\boldsymbol\lambda_D.
+$$
+
+完整接口解的自由行残量为零，受约束行残量给出支承反力；迹降阶后，未约束细接口上的残量也可能非零，这是降阶残差，不能解释为支承反力。非零给定位移对应仿射可行空间，§4.3 的柔度下界等结论不能未经处理直接照搬。
 
 ### 3.3 子结构位移恢复
 
-求得全局接口位移后，取各子结构的接口坐标 $\mathbf q^j$，按 §2.1 的恢复式逐块得到边界与内部位移。对 §2.2 的任意迹基 $\boldsymbol\Psi^j$：
+求得 $\mathbf Q$ 后，由式 (3.1) 提取局部坐标，结合内部位移恢复式 (2.1)，得到
 
 $$
-\mathbf u_b^j=\boldsymbol\Psi^j\mathbf q^j,
+\mathbf u_b^j=\boldsymbol\Psi^j\mathbf A_q^j\mathbf Q,
 \qquad
-\mathbf u_i^j=\mathbf w_i^j+\mathbf T_{\mathrm{full}}^j\boldsymbol\Psi^j\mathbf q^j .
+\mathbf u_i^j=\mathbf w_i^j+\mathbf T_{\mathrm{full}}^j\boldsymbol\Psi^j\mathbf A_q^j\mathbf Q.
 $$
 
-内部无载荷时 $\mathbf w_i^j=\mathbf0$，合并为 $\mathbf u^j=\mathbf N_{\mathrm{full}}^j\boldsymbol\Psi^j\mathbf q^j=\mathbf N_r^j\mathbf q^j$。两种接口空间的具体形式：
+利用式 (2.11)，局部全场位移也可写为
 
-- `full_trace`（$\boldsymbol\Psi^j=\mathbf I$，$\mathbf q^j=\mathbf u_b^j=\mathbf A_b^j\mathbf U_\Gamma$）：$\mathbf u_i^j=\mathbf w_i^j+\mathbf T_{\mathrm{full}}^j\mathbf A_b^j\mathbf U_\Gamma$；
-- `linear_corner`（$\boldsymbol\Psi^j=\mathbf L^j$，$\mathbf q^j=\mathbf u_c^j=\mathbf A_c^j\mathbf U_C$）：$\mathbf u_b^j=\mathbf L^j\mathbf A_c^j\mathbf U_C$，$\mathbf u_i^j=\mathbf w_i^j+\mathbf T_{\mathrm{corner}}^j\mathbf A_c^j\mathbf U_C$，其中 $\mathbf T_{\mathrm{corner}}^j=\mathbf T_{\mathrm{full}}^j\mathbf L^j$。
+$$
+\mathbf u^j=\begin{bmatrix}\mathbf0\\\mathbf w_i^j\end{bmatrix}+\mathbf N_r^j\mathbf A_q^j\mathbf Q.
+$$
 
-恢复式的内部一步对给定边界位移恒满足局部内部平衡，迹降阶的近似只来自 $\mathbf u_b^j=\boldsymbol\Psi^j\mathbf q^j$。$\mathbf T_{\mathrm{full}}^j$ 的各列共享同一次 $\mathbf K_{ii}^j$ 分解，恢复时通过局部线性方程组求解，不显式求逆。
+内部无载荷时 $\mathbf w_i^j=\mathbf0$。两种接口空间的具体形式为：
+
+- `full_trace`：$\mathbf u_b^j=\mathbf A_b^j\mathbf U_\Gamma$，$\mathbf u_i^j=\mathbf w_i^j+\mathbf T_{\mathrm{full}}^j\mathbf A_b^j\mathbf U_\Gamma$。
+- `linear_corner`：$\mathbf u_b^j=\mathbf L^j\mathbf A_c^j\mathbf U_C$，$\mathbf u_i^j=\mathbf w_i^j+\mathbf T_{\mathrm{corner}}^j\mathbf A_c^j\mathbf U_C$，其中 $\mathbf T_{\mathrm{corner}}^j$ 定义见式 (2.13)。
+
+内部恢复对给定边界位移恒满足局部内部平衡，迹降阶的近似来自边界位移限制。$\mathbf T_{\mathrm{full}}^j$ 的各列共享同一次 $\mathbf K_{ii}^j$ 分解，恢复时可直接求解 $\mathbf K_{ii}^j\mathbf u_i^j=\mathbf f_i^j-\mathbf K_{ib}^j\mathbf u_b^j$，或使用已构造的恢复矩阵，不显式求逆。
+
+全场拼装时，内部自由度逐块拼接；共享边界位移应一致，按唯一全局编号写入，不能像节点力组装一样累加。`full_trace` 恢复后满足原细网格全部自由行平衡；`linear_corner` 保证内部平衡和满足齐次支承约束的粗迹测试空间中的投影平衡，一般不满足全部细接口自由行平衡。
 
 ## 4. 等价性与误差
 
@@ -497,7 +524,7 @@ $$
 
 ### 4.2 近似形函数的二次余项
 
-§2.1.2 的变分形式 $\mathbf K_{s,\mathrm{full}}^j = (\mathbf N_{\mathrm{full}}^j)^{\mathsf T}\mathbf K^j\mathbf N_{\mathrm{full}}^j$ 与 §2.2 的 $\mathbf K_r^j=(\mathbf N_r^j)^{\mathsf T}\mathbf K^j\mathbf N_r^j$ 赋予了缩聚刚度对形函数误差的**二阶鲁棒性**。设内部块的近似为 $\widehat{\mathbf T}_r^j\in\mathbb R^{n_i^j\times n_q^j}$，边界块取精确的 $\boldsymbol\Psi^j$，对应形函数矩阵为
+式 (2.6) 的变分形式 $\mathbf K_{s,\mathrm{full}}^j = (\mathbf N_{\mathrm{full}}^j)^{\mathsf T}\mathbf K^j\mathbf N_{\mathrm{full}}^j$ 与式 (2.9) 的 $\mathbf K_r^j=(\mathbf N_r^j)^{\mathsf T}\mathbf K^j\mathbf N_r^j$ 赋予了缩聚刚度对形函数误差的**二阶鲁棒性**。设内部块的近似为 $\widehat{\mathbf T}_r^j\in\mathbb R^{n_i^j\times n_q^j}$，边界块取精确的 $\boldsymbol\Psi^j$，对应形函数矩阵为
 
 $$
 \widehat{\mathbf N}_r^j
@@ -528,9 +555,9 @@ $$
 由 $\mathbf K_{ib}^j+\mathbf K_{ii}^j\mathbf T_{\mathrm{full}}^j=\mathbf0$ 得无一阶截断误差的**代数二次余项恒等式**：
 
 $$
-\boxed{
+
 \widehat{\mathbf K}_r^j - \mathbf K_r^j = (\mathbf E_r^j)^{\mathsf T} \mathbf K_{ii}^j \mathbf E_r^j
-}
+
 $$
 
 成立前提：
@@ -549,7 +576,19 @@ $\boldsymbol\Psi^j=\mathbf I$ 时退化为完整接口情形。该恒等式给�
 
 ### 4.3 角点接口的 Ritz 投影误差
 
-角点接口将完整接口位移限制在 §3.1.2 的低维真子空间 $\mathcal V_L=\operatorname{range}(\mathbf P)$ 中。将 $\mathbf U_\Gamma=\mathbf P\mathbf U_C$ 代入全局有效接口势能 $\Pi_\Gamma(\mathbf U_\Gamma) = \frac12\mathbf U_\Gamma^{\mathsf T}\mathbf K_\Gamma\mathbf U_\Gamma - \mathbf F_\Gamma^{\mathsf T}\mathbf U_\Gamma$，粗系统实质上是真解在子空间 $\mathcal V_L$ 上的 **Rayleigh-Ritz 能量投影**，对应全局同余形式：
+静力缩聚的能量解释如下（本页推导）：固定边界位移，对局部内部位移取势能极小，得到
+
+$$
+\Pi_s^j(\mathbf u_b^j)
+:=\min_{\mathbf u_i^j}\left[\frac12(\mathbf u^j)^{\mathsf T}\mathbf K^j\mathbf u^j-(\mathbf f^j)^{\mathsf T}\mathbf u^j\right]
+=\frac12(\mathbf u_b^j)^{\mathsf T}\mathbf K_s^j\mathbf u_b^j
+-(\widetilde{\mathbf f}_b^j)^{\mathsf T}\mathbf u_b^j
+-\frac12(\mathbf f_i^j)^{\mathsf T}(\mathbf K_{ii}^j)^{-1}\mathbf f_i^j.
+$$
+
+最后一项与边界位移无关。各块有效势能在协调接口位移下相加，块间接口力的虚功抵消；省略这些常数项即可得到下文的全局有效接口势能 $\Pi_\Gamma$。支承条件限定势能极小的可行空间，不作为已知外载加入。
+
+角点接口将完整接口位移限制在 §3.1 中角点空间的低维真子空间 $\mathcal V_L=\operatorname{range}(\mathbf P)$ 中。将 $\mathbf U_\Gamma=\mathbf P\mathbf U_C$ 代入全局有效接口势能 $\Pi_\Gamma(\mathbf U_\Gamma) = \frac12\mathbf U_\Gamma^{\mathsf T}\mathbf K_\Gamma\mathbf U_\Gamma - \mathbf F_\Gamma^{\mathsf T}\mathbf U_\Gamma$，粗系统实质上是真解在子空间 $\mathcal V_L$ 上的 **Rayleigh-Ritz 能量投影**，对应式 (3.7)、(3.8) 的全局同余形式：
 
 $$
 \mathbf K_C = \mathbf P^{\mathsf T}\mathbf K_\Gamma\mathbf P,
@@ -573,9 +612,9 @@ $$
    $$
 2. **能量勾股分解与柔度下界**：由正交分解 $\|\mathbf U_\Gamma\|_{\mathbf K_\Gamma}^2 = \|\mathbf U_L\|_{\mathbf K_\Gamma}^2 + \|\mathbf U_\Gamma - \mathbf U_L\|_{\mathbf K_\Gamma}^2$，结合力控制下外力功与柔度的对应关系（$C = \|\mathbf U_\Gamma\|_{\mathbf K_\Gamma}^2$、$C_L = \|\mathbf U_L\|_{\mathbf K_\Gamma}^2$），导出**柔度差核心恒等式**：
    $$
-   \boxed{
+
    C-C_L = \|\mathbf U_\Gamma-\mathbf U_L\|_{\mathbf K_\Gamma}^2 \ge 0
-   }.
+   .
    $$
 
 **力学与算法实操启示**：该变分恒等式对拓扑优化算法设计与 PIML 实现具有决定性的指导意义：
