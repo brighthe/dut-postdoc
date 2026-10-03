@@ -123,7 +123,7 @@ Hughes、Levit 与 Winget 1983 年的 EBE 方法以省略全局系数矩阵为�
 | PA，一般各向异性 | $45$ | $\approx 270\,N_n$ |
 | EA | $144$ | $\approx 864\,N_n$ |
 
-逐单元计数与积分阶依赖见 [[../../concepts/matrix-free/assembly-levels#2.4.3 存储与代价]]。表中只有各向同性 PA 的存储真正低于 FA，PA 相对 EA 是存储优化而非计算优化。均匀笛卡尔六面体网格上，共享参考单元矩阵的 EA 每单元只存一个标量，存储也低于 FA（[[../../concepts/matrix-free/assembly-levels#2.3.2 共享参考 EA：只保存 $\mathbf A^0$ 与 $s_e$|assembly-levels 2.3.2]]），但这依赖单元彼此只差平移，一般非结构单纯形网格不满足。低阶单纯形上推进 PA/QA 的目标因此是打通 $\mathbf B$–$\mathbf D$ 数据流与接口语义，不是 kernel 加速；把 Matrix-Free 的价值主张建立在低阶问题的存储节省上站不住。
+逐单元计数与积分阶依赖见 [[../../concepts/matrix-free/assembly-levels#2.4.3 存储与代价]]。表中只有各向同性 PA 的存储真正低于 FA，PA 相对 EA 是存储优化而非计算优化。均匀笛卡尔六面体网格上，共享参考单元矩阵的 EA 每单元只存一个标量，存储也低于 FA（[[../../concepts/matrix-free/assembly-levels#2.3.2 共享参考 EA：只保存 $\mathbf K_e^0$ 与 $s_e$|assembly-levels 2.3.2]]），但这依赖单元彼此只差平移，一般非结构单纯形网格不满足。低阶单纯形上推进 PA/QA 的目标因此是打通 $\mathbf B$–$\mathbf D$ 数据流与接口语义，不是 kernel 加速；把 Matrix-Free 的价值主张建立在低阶问题的存储节省上站不住。
 
 对精确 Matrix-Free/GPU 基线，本技术线用于建立精确算子、Krylov、预条件及 CPU/GPU/MPI 的统一基线，明确性能来源和失败边界。对满足门禁后的三线融合，则先形成精确局部算子的全局求解闭环，再替换为结构保持预测算子，研究预条件耦合、误差传播、缓存—重算、分布外检测和精确回退，并以精度—时间—内存的端到端证据判断是否真正扩展可解规模。
 

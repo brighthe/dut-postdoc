@@ -122,7 +122,7 @@ date_update: 2026-09-05
 >
 > 3996 次迭代是另一件事，先不管，把存储层级和一次 $Kp$ 的成本确定下来再说。
 
-来信记号 $q = Kp$ 即装配层次页的 $\mathbf y = \mathbf A\mathbf x$。
+来信记号 $q = Kp$ 即装配层次页的 $\mathbf y = \mathbf K\mathbf x$。
 
 ## 交流时间线
 

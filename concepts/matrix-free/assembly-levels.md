@@ -13,7 +13,7 @@ tags:
   - operator
 status: in-progress
 date_added: 2026-07-21
-date_update: 2026-09-26
+date_update: 2026-10-03
 ---
 
 # Matrix-Free 装配层次
@@ -27,7 +27,7 @@ date_update: 2026-09-26
 有限元离散算子可写成
 
 $$
-\mathbf A
+\mathbf K
 =
 \mathbf G^{\mathsf T}
 \mathbf B^{\mathsf T}
@@ -39,6 +39,8 @@ $$
 - $\mathbf G$：全局 DOF 与单元 DOF 的限制和回填，即 `cell2dof` 的 gather 与 scatter-add；
 - $\mathbf B$：单元自由度到积分点的插值或微分，线弹性中即应变位移矩阵；
 - $\mathbf D$：积分权重、几何 Jacobian、材料系数和积分点物理核，线弹性中即 $w_q\lvert\det\mathbf J_e\rvert$ 乘本构矩阵。
+
+本页只讨论线弹性，$\mathbf K$ 即全局刚度算子，单元层记 $\mathbf K_e$；求解器页面（[[../linear-solvers/krylov-subspace-methods|Krylov 子空间方法]]、[[../linear-solvers/preconditioning|预条件]]）按通用线性代数记 $\mathbf A\mathbf x=\mathbf b$，其中的 $\mathbf A$ 即此处的 $\mathbf K$。
 
 单元自由度数记为 $m$，各单元不同时写 $m_e$；单元数记为 $N_e$。
 
@@ -57,7 +59,7 @@ $$
 自由度按 rank 分区存储时，每个 rank 只持有自己单元碰到的自由度，界面自由度在每个持有它的 rank 上各有一份副本。在最外层再套一个映射 $\mathbf P$：
 
 $$
-\mathbf A
+\mathbf K
 =
 \mathbf P^{\mathsf T}
 \mathbf G^{\mathsf T}
@@ -129,7 +131,7 @@ $$
 $\mathbf G_e$ 是进程局部自由度到单元 $e$ 自由度的布尔限制矩阵；$\mathbf D_e$ 按积分点 $q$ 分块，积分点之间没有耦合，这是 PA/UA 能够成立的结构前提。代入统一表示得到
 
 $$
-\mathbf A
+\mathbf K
 =\sum_{e=1}^{N_e}
 \bigl(\mathbf G_e\mathbf P\bigr)^{\mathsf T}
 \mathbf B_e^{\mathsf T}\mathbf D_e\mathbf B_e
@@ -167,11 +169,11 @@ $$
 |---|---|---|---|
 | Full/True Assembly（FA/TA） | 全局稀疏矩阵 $\mathbf P^{\mathsf T}\mathbf G^{\mathsf T}\mathbf B^{\mathsf T}\mathbf D\mathbf B\mathbf G\mathbf P$ | 一次 SpMV | 不属于 |
 | Local Assembly（LA） | 每个 rank 的局部稀疏矩阵 $\mathbf G^{\mathsf T}\mathbf B^{\mathsf T}\mathbf D\mathbf B\mathbf G$ | $\mathbf P$、局部 SpMV、$\mathbf P^{\mathsf T}$ | 通常不属于 |
-| Element Assembly / Element-by-Element（EA/EbE） | 稠密单元矩阵 $\{\mathbf A_e=\mathbf B_e^{\mathsf T}\mathbf D_e\mathbf B_e\}$ | gather、$\mathbf A_e\mathbf x_e$、scatter-add | 广义 Matrix-Free |
+| Element Assembly / Element-by-Element（EA/EbE） | 稠密单元矩阵 $\{\mathbf K_e=\mathbf B_e^{\mathsf T}\mathbf D_e\mathbf B_e\}$ | gather、$\mathbf K_e\mathbf x_e$、scatter-add | 广义 Matrix-Free |
 | Partial/Quadrature Assembly（PA/QA） | 积分点数据 $\{\mathbf D_e\}$ | gather、$\mathbf B_e$、$\mathbf D_e$、$\mathbf B_e^{\mathsf T}$、scatter-add | 高阶有限元的主流路线 |
 | Unassembled（UA/NONE） | 几何与材料 | 全链，含 $\mathbf D_e$ 的即时构造 | 严格 fully Matrix-Free |
 
-判定一份实现属于哪一级，看主算子路径实际保存的对象与 MatVec 数据流：保存全局或 true-DOF 稀疏矩阵为 FA/TA；只在各 rank 保存局部稀疏矩阵为 LA；为每个单元保存完整 $\mathbf A_e$，或只保存一份参考单元矩阵与逐单元标量（2.3.2），为 EA；只保存 $\mathbf D_e$ 或等价数据为 PA；$\mathbf D_e$ 在每次 MatVec 中从几何、系数或状态即时计算为 UA。为调试或黄金对照另行构造的 FA 算子不改变主路径的分类。没有全局稀疏矩阵不自动等于 PA 或 UA，`MATSHELL`、`ImplicitMatrix`、`nonassemble=True` 或自定义 `operator.apply()` 只说明采用了隐式算子接口，不决定层级。
+判定一份实现属于哪一级，看主算子路径实际保存的对象与 MatVec 数据流：保存全局或 true-DOF 稀疏矩阵为 FA/TA；只在各 rank 保存局部稀疏矩阵为 LA；为每个单元保存完整 $\mathbf K_e$，或只保存一份参考单元矩阵与逐单元标量（2.3.2），为 EA；只保存 $\mathbf D_e$ 或等价数据为 PA；$\mathbf D_e$ 在每次 MatVec 中从几何、系数或状态即时计算为 UA。为调试或黄金对照另行构造的 FA 算子不改变主路径的分类。没有全局稀疏矩阵不自动等于 PA 或 UA，`MATSHELL`、`ImplicitMatrix`、`nonassemble=True` 或自定义 `operator.apply()` 只说明采用了隐式算子接口，不决定层级。
 
 前缘位置单调控制两件事：前缘越靠内，setup 与 update 越便宜，每次 apply 需要重算的因子越多。存储却不是前缘位置的单调函数，因为“装配”同时做了两件不同的事：预计算把若干因子相乘并保存，增加存储、减少 apply 工作量；合并由 scatter-add 把落在同一全局位置的多份贡献相加，减少存储。合并只在跨越 $\mathbf G$ 和 $\mathbf P$ 时发生，跨越 $\mathbf B$ 和 $\mathbf D$ 时不发生。FA 同时享有预计算与合并；标准 EA 保留了单元内的预计算但放弃了合并，存储反而高于 FA，共享参考单元矩阵的特例除外（2.3.2）；真正的存储下降从 PA 开始，那是往回撤预计算，不是恢复合并。存储与重算的权衡在 EA → PA → UA 之间成立，FA/LA 省的是重复条目，不是重算。
 
@@ -182,16 +184,16 @@ $$
 FA/TA 在 setup 阶段完成单元贡献的 scatter-add，形成并保存全局稀疏矩阵：
 
 $$
-\mathbf A_{\mathrm{FA}}
+\mathbf K_{\mathrm{FA}}
 =
 \sum_e
 \mathbf G_e^{\mathsf T}
-\mathbf A_e
+\mathbf K_e
 \mathbf G_e,
 \qquad
 \mathbf y_{\mathrm{FA}}
 =
-\mathbf A_{\mathrm{FA}}\mathbf x.
+\mathbf K_{\mathrm{FA}}\mathbf x.
 $$
 
 这里的 $\mathbf G_e$ 已含 $\mathbf P$。全局矩阵在 true DOF 编号下形成，setup 之后 $\mathbf P,\mathbf G,\mathbf B,\mathbf D$ 全部可以释放，五级中只有 FA 的 apply 完全不需要网格。FA 强调形成完整全局矩阵，TA 强调该矩阵建立在 true DOF 编号上，单一分区（$\mathbf P=\mathbf I$）下两者无区别，多分区下 TA 的措辞更准确。
@@ -199,13 +201,13 @@ $$
 FA 的稀疏模式由合并决定：$(i,j)$ 非零当且仅当自由度 $i$ 与 $j$ 至少共享一个单元，
 
 $$
-\operatorname{nnz}(\mathbf A_{\mathrm{FA}})
+\operatorname{nnz}(\mathbf K_{\mathrm{FA}})
 =d^2\sum_{a=1}^{N_n}\bigl(\nu_a+1\bigr),
 $$
 
 其中 $\nu_a$ 为与节点 $a$ 共享单元的邻接节点数，$d$ 为每节点分量数。三维四面体网格上 $\nu_a$ 典型在 $10\sim15$，三维向量 $P_1$ 每行约 $33\sim48$ 个非零。
 
-$\operatorname{nnz}$ 只是稳态存储；形成 $\mathbf A_{\mathrm{FA}}$ 的那一刻另有一段瞬时峰值，量级由合并的实现方式决定，而不由 $\operatorname{nnz}$ 决定。把单元贡献先摊平成全长三元组（长度 $N_e m^2$）再排序去重，峰值要同时压住若干份该长度的索引与数值数组，可比 $\operatorname{nnz}$ 高一个量级；先由拓扑建出稀疏模式与单元到槽位的映射、再按单元原地累加，峰值则不超过 $\operatorname{nnz}$ 级。因此 FA 的容量上限由 setup 峰值而非 $\operatorname{nnz}$ 决定，几条实现路线的实测单价由实现仓库持有，本页不给数值。
+$\operatorname{nnz}$ 只是稳态存储；形成 $\mathbf K_{\mathrm{FA}}$ 的那一刻另有一段瞬时峰值，量级由合并的实现方式决定，而不由 $\operatorname{nnz}$ 决定。把单元贡献先摊平成全长三元组（长度 $N_e m^2$）再排序去重，峰值要同时压住若干份该长度的索引与数值数组，可比 $\operatorname{nnz}$ 高一个量级；先由拓扑建出稀疏模式与单元到槽位的映射、再按单元原地累加，峰值则不超过 $\operatorname{nnz}$ 级。因此 FA 的容量上限由 setup 峰值而非 $\operatorname{nnz}$ 决定，几条实现路线的实测单价由实现仓库持有，本页不给数值。
 
 FA 的 apply 是一次 SpMV，浮点量 $2\operatorname{nnz}$ 是五级中最少的，但 SpMV 的性能不由浮点量决定。以 CSR 为例，每个非零读取一个值（8 字节）和一个列索引（4 字节），换来一次乘和一次加：
 
@@ -222,62 +224,64 @@ FA 被排除在 Matrix-Free 之外，不等于它是落后选项。稀疏直接�
 LA 把求和切在 $\mathbf P$ 这一层：每个 rank $p$ 只对本进程的单元求和，形成局部稀疏矩阵，$\mathbf P$ 留到运行时：
 
 $$
-\mathbf A_{\mathrm L}^{(p)}
-=\sum_{e\in\Omega_p}\mathbf G_e^{\mathsf T}\mathbf A_e\mathbf G_e,
+\mathbf K_{\mathrm L}^{(p)}
+=\sum_{e\in\Omega_p}\mathbf G_e^{\mathsf T}\mathbf K_e\mathbf G_e,
 \qquad
 \mathbf y_{\mathrm{LA}}
-=\sum_p\mathbf P_p^{\mathsf T}\!\left[\mathbf A_{\mathrm L}^{(p)}\left(\mathbf P_p\mathbf x\right)\right].
+=\sum_p\mathbf P_p^{\mathsf T}\!\left[\mathbf K_{\mathrm L}^{(p)}\left(\mathbf P_p\mathbf x\right)\right].
 $$
 
-单元分区互不相交且完全覆盖时 $\sum_p \mathbf P_p^{\mathsf T}\mathbf A_{\mathrm L}^{(p)}\mathbf P_p=\mathbf A_{\mathrm{FA}}$，LA 与 FA 在精确算术下等价。
+单元分区互不相交且完全覆盖时 $\sum_p \mathbf P_p^{\mathsf T}\mathbf K_{\mathrm L}^{(p)}\mathbf P_p=\mathbf K_{\mathrm{FA}}$，LA 与 FA 在精确算术下等价。
 
 LA 不是存储优化：界面自由度所在的行在多个 rank 上重复出现，局部矩阵非零总数不小于全局矩阵。它的意义是避免全局编号与集中存储、把 setup 局部化，并为 Schwarz、子结构等区域分解型预条件提供天然的局部代数对象。省略的是全局编号，不是全局矩阵，所以 LA 通常不算 Matrix-Free。
 
 ### 2.3 EA/EbE：单元矩阵作用
 
-EA/EbE 在 setup 中为每个单元形成并保存稠密单元矩阵 $\mathbf A_e=\mathbf B_e^{\mathsf T}\mathbf D_e\mathbf B_e\in\mathbb R^{m\times m}$，但不对单元求和。每次 MatVec 为
+EA/EbE 在 setup 中为每个单元形成并保存稠密单元矩阵 $\mathbf K_e=\mathbf B_e^{\mathsf T}\mathbf D_e\mathbf B_e\in\mathbb R^{m\times m}$，但不对单元求和。每次 MatVec 为
 
 $$
-\mathbf y_{\mathrm{EA}}=\sum_e\mathbf G_e^{\mathsf T}\bigl(\mathbf A_e\,\mathbf G_e\mathbf x\bigr),
+\mathbf y_{\mathrm{EA}}=\sum_e\mathbf G_e^{\mathsf T}\bigl(\mathbf K_e\,\mathbf G_e\mathbf x\bigr),
 $$
 
-按括号从内到外依次为 gather、单元矩阵–向量乘 $\mathbf A_e\mathbf x_e$、scatter-add：
+按括号从内到外依次为 gather、单元矩阵–向量乘 $\mathbf K_e\mathbf x_e$、scatter-add：
 
 $$
-\mathbf x\ \xrightarrow{\ \mathbf G_e\ (\text{gather})\ }\ \mathbf x_e\ \xrightarrow{\ \mathbf A_e\ }\ \mathbf y_e\ \xrightarrow{\ \sum_e\mathbf G_e^{\mathsf T}\ (\text{scatter-add})\ }\ \mathbf y_{\mathrm{EA}} .
+\mathbf x\ \xrightarrow{\ \mathbf G_e\ (\text{gather})\ }\ \mathbf x_e\ \xrightarrow{\ \mathbf K_e\ }\ \mathbf y_e\ \xrightarrow{\ \sum_e\mathbf G_e^{\mathsf T}\ (\text{scatter-add})\ }\ \mathbf y_{\mathrm{EA}} .
 $$
 
-单元矩阵–向量乘只得到各单元的 $\mathbf y_e$，共享节点上来自不同单元的贡献由 scatter-add 累加成全局向量。与 2.1 的 $\mathbf y_{\mathrm{FA}}=\bigl(\sum_e\mathbf G_e^{\mathsf T}\mathbf A_e\mathbf G_e\bigr)\mathbf x$ 相比，EA 只是把单元求和从 setup 移到了每次 apply。
+单元矩阵–向量乘只得到各单元的 $\mathbf y_e$，共享节点上来自不同单元的贡献由 scatter-add 累加成全局向量。与 2.1 的 $\mathbf y_{\mathrm{FA}}=\bigl(\sum_e\mathbf G_e^{\mathsf T}\mathbf K_e\mathbf G_e\bigr)\mathbf x$ 相比，EA 只是把单元求和从 setup 移到了每次 apply。
 
 按单元矩阵的保存方式，EA 分为以下两种。
 
-#### 2.3.1 标准 EA：逐单元保存 $\mathbf A_e$
+#### 2.3.1 标准 EA：逐单元保存 $\mathbf K_e$
 
 标准 EA 对网格、单元类型和材料没有额外要求，是 EA 的一般形式；单元矩阵彼此不成比例时只能用它。代价是存储：对单元求和只合并落在同一全局位置的元，因此
 
 $$
-\operatorname{nnz}(\mathbf A_{\mathrm{FA}})\;\le\;N_e m^2\;=\;\text{标准 EA 的存储量}.
+\operatorname{nnz}(\mathbf K_{\mathrm{FA}})\;\le\;N_e m^2\;=\;\text{标准 EA 的存储量}.
 $$
 
-#### 2.3.2 共享参考 EA：只保存 $\mathbf A^0$ 与 $s_e$
+#### 2.3.2 共享参考 EA：只保存 $\mathbf K_e^0$ 与 $s_e$
 
 适用前提有两条。几何上，所有单元的形状、尺寸与朝向都相同，彼此只差平移，如笛卡尔规则网格上的等尺寸六面体；此时各单元的 Jacobian 相同，$\mathbf B_e=\mathbf B$。本构上，各单元只差一个标量，$\mathbf D_e=s_e\mathbf D^0$，如 SIMP 固定泊松比、只插值弹性模量时 $s_e=E(\rho_e)/E_0$。此时
 
 $$
-\mathbf A_e=s_e\mathbf A^0,
+\mathbf K_e=s_e\mathbf K_e^0,
 \qquad
-\mathbf A^0=\mathbf B^{\mathsf T}\mathbf D^0\mathbf B,
+\mathbf K_e^0=\mathbf B^{\mathsf T}\mathbf D^0\mathbf B,
 $$
 
-只需保存一份 $\mathbf A^0$ 与 $N_e$ 个标量 $s_e$，因此
+$\mathbf K_e^0$ 即 [[../linear-elasticity#6. Voigt 记号、应变矩阵与单元算子|linear-elasticity §6]] 式 (26) 的实体材料单元刚度，在此前提下各单元相同，$\mathbf K_e=s_e\mathbf K_e^0$ 即该页式 (27)。$\mathbf D^0=\operatorname{blkdiag}_q\bigl(w_q\lvert\det\mathbf J\rvert\,\mathbf D_0\bigr)$ 含积分权重与 Jacobian 行列式，与该页的本构矩阵 $\mathbf D_0$ 不是同一对象。
+
+只需保存一份 $\mathbf K_e^0$ 与 $N_e$ 个标量 $s_e$，因此
 
 $$
-\text{共享参考 EA 的存储量}\;=\;m^2+N_e\;<\;\operatorname{nnz}(\mathbf A_{\mathrm{FA}})\;\le\;N_e m^2 .
+\text{共享参考 EA 的存储量}\;=\;m^2+N_e\;<\;\operatorname{nnz}(\mathbf K_{\mathrm{FA}})\;\le\;N_e m^2 .
 $$
 
 ### 2.4 PA/QA：积分点数据作用
 
-PA/QA 连 $\mathbf A_e$ 都不形成，只保存积分点数据 $\mathbf D_e$：
+PA/QA 连 $\mathbf K_e$ 都不形成，只保存积分点数据 $\mathbf D_e$：
 
 $$
 \mathbf y_{\mathrm{PA}}
@@ -364,14 +368,14 @@ $\mathbf S$：不用算。法向行取 $\partial u_i/\partial x_i$，剪切行�
 $\mathbf D_e$ 也不只是本构矩阵，而是逐积分点的一个标量乘一个常量矩阵：
 
 $$
-\mathbf D_{e,q}=w_q\,\lvert\det\mathbf J_e\rvert\,\rho_e\,\mathbf D,
+\mathbf D_{e,q}=w_q\,\lvert\det\mathbf J_e\rvert\,s_e\,\mathbf D_0,
 $$
 
-$\rho_e$ 为 SIMP 等密度插值给出的相对密度，无密度场时取 1。设计更新只改这 $n_q$ 个标量（$n_q$ 为单元积分点数），三个 $\mathbf B$ 因子全部不动，也不需重新积分；该性质在第 3 节与 EA、UA 并列讨论。
+$s_e=E(\rho_e)/E_0$ 为 SIMP 等材料插值给出的单元刚度缩放系数，与 2.3.2 相同，无密度场时取 1。设计更新只改这 $n_q$ 个标量（$n_q$ 为单元积分点数），三个 $\mathbf B$ 因子全部不动，也不需重新积分；该性质在第 3 节与 EA、UA 并列讨论。
 
-由结合律 $\mathbf B_e^{\mathsf T}\mathbf D\,\mathbf B_e=\hat{\mathbf B}^{\mathsf T}\boldsymbol\Gamma^{\mathsf T}(\mathbf S^{\mathsf T}\mathbf D\,\mathbf S)\boldsymbol\Gamma\,\hat{\mathbf B}$，$\mathbf S$ 往左归给 $\mathbf B_e$、往右归给逐点算子都成立。PA 一律往右归：$\mathbf S$ 是方程专有的——热传导没有它，混合元的不一样——而 $\hat{\mathbf B}$ 与 $\boldsymbol\Gamma$ 的依赖里没有方程，$\hat{\mathbf B}_\varphi$ 换个方程仍可共用；且 $\mathbf S$ 跨分量，$\mathbf B_e$ 一旦形成就是 $n_s\times m$ 的稠密对象，$\mathbf I_d\otimes(\cdot)$ 的块对角结构与 sum factorization 都用不上，那恰是 PA 要躲的东西。于是 $\mathbf B$ 一环只做 $\boldsymbol\Gamma\,\hat{\mathbf B}$、交出 $\nabla\boldsymbol u$ 而非 $\widehat{\boldsymbol\varepsilon}$，逐点算子实为 $w_q\lvert\det\mathbf J_e\rvert\,\rho_e\,\mathbf S^{\mathsf T}\mathbf D\,\mathbf S$，形状由 $n_s\times n_s$ 变成 $d^2\times d^2$。libCEED 的 `CeedBasis` 只出 `CEED_EVAL_GRAD`、MFEM 的 `DofToQuad` 只存标量参考基函数的值与梯度、deal.II 的 `FEEvaluation::get_gradient()` 返回张量梯度，对称化一律写在 QFunction 或用户侧，三者同此。
+由结合律 $\mathbf B_e^{\mathsf T}\mathbf D_0\,\mathbf B_e=\hat{\mathbf B}^{\mathsf T}\boldsymbol\Gamma^{\mathsf T}(\mathbf S^{\mathsf T}\mathbf D_0\,\mathbf S)\boldsymbol\Gamma\,\hat{\mathbf B}$，$\mathbf S$ 往左归给 $\mathbf B_e$、往右归给逐点算子都成立。PA 一律往右归：$\mathbf S$ 是方程专有的——热传导没有它，混合元的不一样——而 $\hat{\mathbf B}$ 与 $\boldsymbol\Gamma$ 的依赖里没有方程，$\hat{\mathbf B}_\varphi$ 换个方程仍可共用；且 $\mathbf S$ 跨分量，$\mathbf B_e$ 一旦形成就是 $n_s\times m$ 的稠密对象，$\mathbf I_d\otimes(\cdot)$ 的块对角结构与 sum factorization 都用不上，那恰是 PA 要躲的东西。于是 $\mathbf B$ 一环只做 $\boldsymbol\Gamma\,\hat{\mathbf B}$、交出 $\nabla\boldsymbol u$ 而非 $\widehat{\boldsymbol\varepsilon}$，逐点算子实为 $w_q\lvert\det\mathbf J_e\rvert\,s_e\,\mathbf S^{\mathsf T}\mathbf D_0\,\mathbf S$，形状由 $n_s\times n_s$ 变成 $d^2\times d^2$。libCEED 的 `CeedBasis` 只出 `CEED_EVAL_GRAD`、MFEM 的 `DofToQuad` 只存标量参考基函数的值与梯度、deal.II 的 `FEEvaluation::get_gradient()` 返回张量梯度，对称化一律写在 QFunction 或用户侧，三者同此。
 
-这不改存储的账：三件分开存，$\mathbf S$ 与各向同性下的 $\mathbf D$ 都与单元无关、全网格各一份，逐单元的仍只有 $w_q\lvert\det\mathbf J_e\rvert\,\rho_e$ 这 $n_q$ 个标量。是否把 $\mathbf S^{\mathsf T}\mathbf D\,\mathbf S$ 预乘成一个常量矩阵，属于 apply 侧的实现选择，与常驻量无关。
+这不改存储的账：三件分开存，$\mathbf S$ 与各向同性下的 $\mathbf D_0$ 都与单元无关、全网格各一份，逐单元的仍只有 $w_q\lvert\det\mathbf J_e\rvert\,s_e$ 这 $n_q$ 个标量。是否把 $\mathbf S^{\mathsf T}\mathbf D_0\,\mathbf S$ 预乘成一个常量矩阵，属于 apply 侧的实现选择，与常驻量无关。
 
 写成 $w_q\lvert\det\mathbf J_e\rvert$ 时默认积分权重按参考单元测度归一。部分实现的单纯形求积采用重心坐标、权重之和为 1 而非参考单元测度（FEALPy 即如此），该因子相应写成 $w_q\lvert T_e\rvert$，二者在 $d$ 维单纯形上相差 $d!$ 倍。
 
@@ -387,7 +391,7 @@ $\rho_e$ 为 SIMP 等密度插值给出的相对密度，无密度场时取 1。
 
 PA 的存储优势对任意单元成立，计算优势只在张量积单元加 sum factorization 下成立，加速比 $p^{2d}/p^{d+1}=p^{\,d-1}$，$d=3$ 时 $p=1$ 给出 1，$p=8$ 给出 64。PA 本质上是高阶方法的技术。
 
-$O(n_q)$ 里的常数在低阶上不可忽略。三维线弹性 $P_1$ 四面体上 $m=d\,n_\varphi=12$，$\mathbf B_e\in\mathbb R^{6\times12}$ 为常量、单点积分即精确：EA 存 $\mathbf A_e$ 共 $m^2=144$ 个数，PA 逐积分点存 $w\lvert\det\mathbf J_e\rvert\,\mathbf D_e$（36 个）加 $\mathbf J_e^{-1}$（9 个）共 45 个数，各向同性时 $\mathbf D_e$ 由 $(\lambda_e,\mu_e)$ 确定、降到 11 个数；浮点代价两者同为 $O(m^2)$。几何因子与加权测度都随 $n_q$ 成比例放大，故一般各向异性下 $n_q\ge4$ 时 PA 的每单元存储即超过 EA，引用 PA 的存储结论时须同时给出 $n_q$ 与是否各向同性。
+$O(n_q)$ 里的常数在低阶上不可忽略。三维线弹性 $P_1$ 四面体上 $m=d\,n_\varphi=12$，$\mathbf B_e\in\mathbb R^{6\times12}$ 为常量、单点积分即精确：EA 存 $\mathbf K_e$ 共 $m^2=144$ 个数，PA 逐积分点存 $w\lvert\det\mathbf J_e\rvert\,\mathbf D_e$（36 个）加 $\mathbf J_e^{-1}$（9 个）共 45 个数，各向同性时 $\mathbf D_e$ 由 $(\lambda_e,\mu_e)$ 确定、降到 11 个数；浮点代价两者同为 $O(m^2)$。几何因子与加权测度都随 $n_q$ 成比例放大，故一般各向异性下 $n_q\ge4$ 时 PA 的每单元存储即超过 EA，引用 PA 的存储结论时须同时给出 $n_q$ 与是否各向同性。
 
 ### 2.5 UA/NONE：即时生成的算子作用
 
@@ -414,7 +418,7 @@ $$
 \rho_e\ \text{改变}\;\Longrightarrow\;\mathbf D_e\ \text{改变}\;\Longrightarrow\;
 \begin{cases}
 \text{FA/LA：重新组装全局或局部稀疏矩阵}\\
-\text{EA：重算全部 }\mathbf A_e=\mathbf B_e^{\mathsf T}\mathbf D_e\mathbf B_e\text{；共享参考单元矩阵时只写 }s_e\\
+\text{EA：重算全部 }\mathbf K_e=\mathbf B_e^{\mathsf T}\mathbf D_e\mathbf B_e\text{；共享参考单元矩阵时只写 }s_e\\
 \text{PA：只重算 }\mathbf D_e\\
 \text{UA：无 update 成本，}\rho_e\ \text{直接进 apply}
 \end{cases}
@@ -430,12 +434,12 @@ $$
 
 对角线与子块的可及性随层级下降而递减。预条件器需要的不只是 MatVec：
 
-| 层级 | update 成本 | $\operatorname{diag}(\mathbf A)$ | 非对角子块 |
+| 层级 | update 成本 | $\operatorname{diag}(\mathbf K)$ | 非对角子块 |
 |---|---|---|---|
 | FA/TA | 重新组装 | 直接读取 | 直接读取 |
 | LA | 重新组装 | 直接读取 | 直接读取 |
-| EA/EbE | 重算 $\mathbf A_e$；共享参考单元矩阵时只写 $s_e$ | $\sum_e\mathbf G_e^{\mathsf T}\operatorname{diag}(\mathbf A_e)$，一次 scatter-add | 可从 $\mathbf A_e$ 取出 |
-| PA/QA | 重算 $\mathbf D_e$ | $A_{ii}=\sum_e\sum_{\alpha,\beta}(\mathbf M_e)_{\alpha i}(\mathbf D_e)_{\alpha\beta}(\mathbf M_e)_{\beta i}$，需专门 kernel，代价约一次 apply | 不可直接获得 |
+| EA/EbE | 重算 $\mathbf K_e$；共享参考单元矩阵时只写 $s_e$ | $\sum_e\mathbf G_e^{\mathsf T}\operatorname{diag}(\mathbf K_e)$，一次 scatter-add | 可从 $\mathbf K_e$ 取出 |
+| PA/QA | 重算 $\mathbf D_e$ | $K_{ii}=\sum_e\sum_{\alpha,\beta}(\mathbf M_e)_{\alpha i}(\mathbf D_e)_{\alpha\beta}(\mathbf M_e)_{\beta i}$，需专门 kernel，代价约一次 apply | 不可直接获得 |
 | UA/NONE | 无 | 同 PA | 不可直接获得 |
 
 Jacobi 在所有层级可用，块 Jacobi、ILU 以及依赖 strength-of-connection 的 AMG 在 PA/UA 下无法直接构造：装配层级约束的是预条件器，不是求解器。因此主算子与预条件器可以采用不同层级，主算子取 PA/UA 换存储，预条件器另取一个能提供对角、低阶组装代理或几何多重网格粗空间的层级；性能报告须分别注明 operator level、preconditioner level 以及 setup、update、apply 和完整 solve 成本。
@@ -454,16 +458,16 @@ Dirichlet 条件的施加方式依赖装配层级。记 $\boldsymbol\Pi_D$、$\b
 两者写成同一对公式：
 
 $$
-\tilde{\mathbf A}=\boldsymbol\Pi_I\mathbf A\boldsymbol\Pi_I+\boldsymbol\Pi_D,
+\tilde{\mathbf K}=\boldsymbol\Pi_I\mathbf K\boldsymbol\Pi_I+\boldsymbol\Pi_D,
 \qquad
-\tilde{\boldsymbol b}=\boldsymbol\Pi_I\bigl(\boldsymbol b-\mathbf A\bar{\boldsymbol u}\bigr)+\boldsymbol\Pi_D\bar{\boldsymbol u}.
+\tilde{\boldsymbol b}=\boldsymbol\Pi_I\bigl(\boldsymbol b-\mathbf K\bar{\boldsymbol u}\bigr)+\boldsymbol\Pi_D\bar{\boldsymbol u}.
 $$
 
-对称消元显式存下 $\tilde{\mathbf A}$，投影包装每次算 $\tilde{\mathbf A}\boldsymbol x$，线性系统相同，与 FA 的比较在 $\tilde{\mathbf A}$ 上同样成立。$\tilde{\mathbf A}$ 对称，$\mathbf A$ 在内部自由度上正定时 $\tilde{\mathbf A}$ 正定，CG 仍适用。迭代初值取 $\boldsymbol x_0=\bar{\boldsymbol u}$，由调用方显式传入。
+对称消元显式存下 $\tilde{\mathbf K}$，投影包装每次算 $\tilde{\mathbf K}\boldsymbol x$，线性系统相同，与 FA 的比较在 $\tilde{\mathbf K}$ 上同样成立。$\tilde{\mathbf K}$ 对称，$\mathbf K$ 在内部自由度上正定时 $\tilde{\mathbf K}$ 正定，CG 仍适用。迭代初值取 $\boldsymbol x_0=\bar{\boldsymbol u}$，由调用方显式传入。
 
 两种做法都有框架实现：对称消元见 [[../../literature/fem-libraries/translations/Anderson2021-MFEM-modular-library-zh|Anderson et al. (2021)]] §5.2、§6，投影包装见 [[../../literature/fem-libraries/translations/Brown2021-libCEED-fast-algebra-zh|Brown et al. (2021)]] 算子分解一节。
 
-并行下对称消元在 true-DOF 系统 $\mathbf P^{\mathsf T}\mathbf A\mathbf P$ 上做；LA 若在各 rank 的局部矩阵上消元，经 $\mathbf P^{\mathsf T}$ 归约后 Dirichlet 行的对角为副本数 $r_i$ 而非 1，右端同乘 $r_i$，解不变。
+并行下对称消元在 true-DOF 系统 $\mathbf P^{\mathsf T}\mathbf K\mathbf P$ 上做；LA 若在各 rank 的局部矩阵上消元，经 $\mathbf P^{\mathsf T}$ 归约后 Dirichlet 行的对角为副本数 $r_i$ 而非 1，右端同乘 $r_i$，解不变。
 
 ## 5. 框架术语映射
 
