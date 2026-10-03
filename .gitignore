@@ -63,7 +63,7 @@ research/funding/**/*.pdf
 research/funding/**/*.doc
 research/funding/**/*.docx
 
-# Local source copies in any directory; originals live in Zotero, iCloud or upstream
+# Local source copies in any directory; originals live in iCloud (papers in 文献库/) or upstream
 **/sources/
 
 # Any subdirectory under translations/ is a local derived artifact (e.g. PDF conversion

@@ -3544,3 +3544,13 @@
 ## [2026-10-02] edit | exact-substructural §2.2.2 精简
 - 合并角点坐标与边界插值说明，删去两级映射流程公式及重复物理解释，保留插值定义、形函数表、角点形函数与内部恢复矩阵、缩聚刚度和等效载荷；明确内部载荷与近似来源，移除本节 boxed 公式。
 - 回读公式并核对后文依赖的符号仍有定义；检查相关入链，标题与引用目标未变，无需跨页同步。通过 git diff --check；未检查渲染效果，未重新核验文献或数值结论。
+
+## [2026-10-03] refactor | 论文 PDF 主档由 Zotero 改为 iCloud 文献库
+- 论文 PDF 主档改为 iCloud `文献库/`（相对 iCloudDrive，扁平目录，文件名即 basename，不逐篇登记路径）；Zotero 退出，不再承担附件与 citekey 职责。出版信息改按 DOI 经 CrossRef 核验；既有 citekey 保留，新文献 citekey 取 basename。
+- 文件操作：`literature/sciml/sources/1-s2.0-S0021999125008356-main.pdf` 重命名为 `DeFalco2026-lse-elm-pdes.pdf`（De Falco, Schiassi & Calabrò, *JCP* 547: 114553，全库无入链）；`literature/**/sources/` 共 53 个 PDF 复制到 `文献库/`，逐文件 SHA-256 一致，本地副本未删改。`research/benchmark-cases/sources/` 已有 iCloud 主档，未动。
+- 约定同步：`literature/_index.md`（目录说明、ingest 移除条件、inbox 两条临时 key 改为按新规则保留、存储与维护说明）、`schema/page-schemas.md`（存储与来源、译文要求）、`schema/templates/translation-note.md`（citekey 占位与填写说明）、`README.md`（原始源层、目录树、Ingest、收录新论文、存储职责）、`.gitignore` 注释、`literature/refs.bib` 注释。
+- 措辞同步：`research/piml-matrix-free-gpu/matrix-free-research-guide.md`、`entities/liu-chang/liu-chang.md` 与 Carstensen2019、Codina2024、Hu2014、Baratta2024 四篇译文中的"待与 Zotero 核验"改为按 DOI 核验。全库（除 log.md 历史条目）已无 Zotero 字样；`.claude/settings.json` 的 Zotero 读权限未改。
+- DeFalco2026 归位：`literature/sciml/` 只有该 PDF、无译文页，不符合"目录只在有实际内容时建立"，PDF 移入 `literature/inbox/sources/` 并删除空目录 `sciml/`；inbox 表登记一行，`refs.bib` 新增 `DeFalco2026-lse-elm-pdes` 条目（CrossRef 核验，note 写本地 PDF 路径）。
+- 新增仓库根 `restore_sources_from_icloud.ps1`：按译文页 `source:` 与 `refs.bib` note 的「本地 PDF」路径定位，从 `文献库/` 只补缺失文件，不覆盖不删除，并报告缺失与未登记 PDF。实测：预演 53 篇全部已登记、0 缺失；移走 Roache1994 后运行可恢复且 SHA-256 一致。`_index.md` 存储说明与 `README.md` 同步写入用法及无译文页 PDF 的登记要求。
+- `sync_to_icloud.ps1` 的 robocopy `/XD` 增加 `sources`，Obsidian 镜像不再携带原件副本；下次运行 `/MIR` 会删除镜像中已有的 `sources/`（约 490 MB），主档在 `文献库/` 与 benchmark 的 iCloud 归档中不受影响。该脚本本轮未运行。
+- 未处理：iCloud 云端上传状态未核对。未 commit、push。

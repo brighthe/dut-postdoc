@@ -9,7 +9,7 @@ status: "draft" # draft | read | done
 date_created: 2026-09-08
 date_updated: 2026-09-08
 source: "../sources/Carstensen2019-arnold-winther-aposteriori.pdf"
-citekey: "Carstensen2019-residualbased" # 待与 Zotero 核验
+citekey: "Carstensen2019-residualbased" # 元数据待按 DOI 核验
 language: "zh-CN"
 ---
 
@@ -34,7 +34,7 @@ language: "zh-CN"
 - **投稿 / 修回 / 在线发表**：2017-03-02 / 2018-10-03 / 2019-02-28
 - **MSC**：65N15；65N30
 - **预印本**：arXiv:1705.08851
-- **Better BibTeX key**：`Carstensen2019-residualbased`（待与 Zotero 核验）
+- **Citation Key**：`Carstensen2019-residualbased`（元数据待按 DOI 核验）
 - **译文状态**：骨架已建，正文待翻译
 
 # 摘要

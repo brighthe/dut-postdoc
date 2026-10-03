@@ -21,7 +21,7 @@ language: "zh-CN"
 - **DOI**：10.5281/zenodo.10447665
 - **补充材料**：10.5281/zenodo.10026723
 - **篇幅**：38 页
-- **备注**：存档 PDF 编译于 2024-01-01，正文自述对应 DOLFINx 0.7.3 / Basix 0.7.0 / FFCx 0.7.0；仓库 `CITATION.cff` 的 `preferred-citation` 记 year 2025，年份待与 Zotero 条目对齐。源码副本见 [[../sources|登记表]] 中的 `dolfinx`
+- **备注**：存档 PDF 编译于 2024-01-01，正文自述对应 DOLFINx 0.7.3 / Basix 0.7.0 / FFCx 0.7.0；仓库 `CITATION.cff` 的 `preferred-citation` 记 year 2025，年份待按 DOI 核验。源码副本见 [[../sources|登记表]] 中的 `dolfinx`
 
 # 摘要
 

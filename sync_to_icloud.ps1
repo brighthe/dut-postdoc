@@ -33,7 +33,7 @@ try {
         $source,
         $dest,
         '/MIR',
-        '/XD', '.git', '.agents', '.claude', '.codex',
+        '/XD', '.git', '.agents', '.claude', '.codex', 'sources',
         '/XF', '.gitignore', 'CLAUDE.md', 'GEMINI.md', 'texput.log', '*.tmp', '*.ps1',
         '/R:1',
         '/W:1',

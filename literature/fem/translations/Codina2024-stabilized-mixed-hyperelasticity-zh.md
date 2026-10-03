@@ -10,7 +10,7 @@ status: "draft"
 date_created: 2026-09-09
 date_updated: 2026-09-09
 source: "../sources/Codina2024-stabilized-mixed-hyperelasticity.pdf"
-citekey: "Codina2024-stabilizedmixed" # 手工命名，待与 Zotero 核验
+citekey: "Codina2024-stabilizedmixed" # 手工命名，元数据待按 DOI 核验
 language: "zh-CN"
 ---
 

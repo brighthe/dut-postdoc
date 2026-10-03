@@ -39,8 +39,9 @@
 
 ## 存储与来源
 
-- iCloud 保存非论文原件与敏感材料，Zotero 保存论文附件，Git 保存 Wiki、模板、代码及适合公开复现的派生文件，不作为原件归档池；.gitignore 执行此边界。
+- iCloud 保存全部原件，包括论文 PDF、非论文原件与敏感材料；Git 保存 Wiki、模板、代码及适合公开复现的派生文件，不作为原件归档池；.gitignore 执行此边界。
 - 原始资料只读，本地副本放所属目录 sources/，不入 Git，丢失后从主档重建。译文 source 写 `../sources/<basename>.pdf`，不写机器绝对路径。
+- 论文 PDF 主档平铺于 iCloud `文献库/`（相对 iCloudDrive），文件名即 basename，不逐篇登记路径；出版信息按 DOI 经 CrossRef 核验。
 - 其他原件使用 `<数据包>:<包内相对路径>`，由对应 sources.md 登记来源、必要哈希与 iCloud 相对路径。博士后原件路径从“博士后-大连理工大学”开始记录。
 - 外部源码主档为 upstream Git，本地副本放所属 WSL 代码根，AI 只读、不修改或构建。引用使用 `<仓库名>:<仓库内路径>`，具体代码附 commit，由 literature/fem-libraries/sources.md 解析。
 - Wiki 图件放所属方向 assets/，使用裸文件名嵌入；figures/ 用于论文、报告、档案的 LaTeX 交付树及带生成脚本的算例，与源码同级。根目录不设 assets/。
@@ -55,7 +56,7 @@
 
 ### 译文要求
 
-文献文件使用 AuthorYear-short-topic basename，中文译文加 -zh；Citation Key 与文件名分离，记录在 frontmatter 的 citekey 和 literature/refs.bib。
+文献文件使用 AuthorYear-short-topic basename，中文译文加 -zh；Citation Key 记录在 frontmatter 的 citekey 和 literature/refs.bib，新文献取 basename，既有 key 保留不改。
 
 - 原始 PDF 是核验依据，提取文本仅辅助。按原文章节与编号保留正文、图表、附录及参考文献，术语和引用体例忠实原文；疑似错误或冲突用译者脚注说明。
 - 出版信息与 citekey 须核实，citekey 与 literature/refs.bib 一致；图表数据、单位与公式重构回看原页。

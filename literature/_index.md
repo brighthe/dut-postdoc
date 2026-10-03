@@ -8,7 +8,7 @@ tags:
   - literature
 status: in-progress
 date_added: 2026-06-24
-date_update: 2026-09-26
+date_update: 2026-10-03
 ---
 
 # 文献总索引
@@ -19,7 +19,7 @@ date_update: 2026-09-26
 
 `literature/` 下共五个目录：`fem/`（有限元离散方法）、`matrix-free/`（Matrix-Free 与 EBE 算法）、`fem-libraries/`（有限元框架与库的官方描述论文，按软件而非方法归类，对应 `concepts/` 的 L3「外部实现对象」层，如 MFEM、libCEED、DOLFINx、Firedrake；以算法为主的实现论文仍归 `matrix-free/` 等方法目录）、`topopt/`（拓扑优化，按 `element-types/`、`frameworks/`、`gpu-hpc/`、`matrix-free/`、`mixed-fem/`、`mmc-mmv/`、`piml/`、`stress-constrained/`、`substructuring/` 分子类；其中 `element-types/` 只收「单元类型或阶次选择本身作为研究对象」的文献，与 `mixed-fem/` 的变分格式之争互补，`frameworks/` 收录以拓扑优化通用框架、模块化架构与教学代码为主要贡献的文献，`substructuring/` 收录以子结构、多尺度粗单元或区域分解求解拓扑优化平衡方程为主要贡献的文献（网络预测局部算子的仍归 `piml/`），`matrix-free/` 收录以 matrix-free 算子作用（免组装全局刚度矩阵）为主要贡献的拓扑优化文献，与通用 FEM 算法的顶层 `matrix-free/` 对应，以 GPU 上多重网格或 PCG 加速策略为主的仍归 `gpu-hpc/`；研究 GPU 实现或约束类型的文献仍按其主题归入对应子类），以及 `inbox/`——**尚未确定分类的论文**，只放 PDF、不建译文页，归属确定后整批移入前四者。
 
-每个主题目录下 `sources/` 放原文 PDF（不入 Git），`translations/` 放 `-zh` 译文。跨文献的证据综合由 [[../research/piml-matrix-free-gpu/piml-research-guide\|PIML]]、[[../research/piml-matrix-free-gpu/matrix-free-research-guide\|Matrix-Free]]、[[../research/piml-matrix-free-gpu/gpu-hpc-research-guide\|GPU/HPC]] 三份 research guide 承担（对应 [[../research/long-term-research-lines\|两条研究主线]]），本页只回答"库里有哪些证据、到什么状态"。
+每个主题目录下 `sources/` 放原文 PDF 的本地副本（不入 Git，主档见「存储与维护说明」），`translations/` 放 `-zh` 译文。跨文献的证据综合由 [[../research/piml-matrix-free-gpu/piml-research-guide\|PIML]]、[[../research/piml-matrix-free-gpu/matrix-free-research-guide\|Matrix-Free]]、[[../research/piml-matrix-free-gpu/gpu-hpc-research-guide\|GPU/HPC]] 三份 research guide 承担（对应 [[../research/long-term-research-lines\|两条研究主线]]），本页只回答"库里有哪些证据、到什么状态"。
 
 ## 已入库文献
 
@@ -148,7 +148,7 @@ date_update: 2026-09-26
 
 ## 当前 ingest 队列
 
-本表是未建单篇笔记文献的唯一 `to-ingest` 状态账。只有全文、Zotero item 和 Better BibTeX Citation Key 均核验，并完成笔记、BibTeX 与关联同步后，才从本表移除。
+本表是未建单篇笔记文献的唯一 `to-ingest` 状态账。只有全文存入 iCloud `文献库/`、元数据按 DOI 经 CrossRef 核验并确定 citekey，并完成笔记、BibTeX 与关联同步后，才从本表移除。
 
 | 方向 | 文献 | 当前作用与证据入口 | 状态 |
 |---|---|---|---|
@@ -174,11 +174,11 @@ date_update: 2026-09-26
 
 ## 待归类文献（`inbox/`）
 
-`inbox/sources/` 是尚未确定主题归属的论文 PDF 副本的暂存容器（不入 Git），目前收纳 [[../concepts/density-topopt/regularization-and-length-scale-control]] 所引的正则化与长度尺度控制经典文献。暂存阶段只放 PDF 与 `literature/refs.bib` 条目，**不建 `-zh` 译文页**；待归属确定后整篮移入 `topopt/` 相应子类，再在目标目录建页，避免搬迁时改写双链。PDF 文件名按 `AuthorYear-short-topic.pdf`。
+`inbox/sources/` 是尚未确定主题归属的论文 PDF 副本的暂存容器（不入 Git），目前收纳 [[../concepts/density-topopt/regularization-and-length-scale-control]] 所引的正则化与长度尺度控制经典文献，以及一篇 ELM 求解 PDE 的 SciML 文献。暂存阶段只放 PDF 与 `literature/refs.bib` 条目，**不建 `-zh` 译文页**；待归属确定后整篮移入 `topopt/` 相应子类，再在目标目录建页，避免搬迁时改写双链。PDF 文件名按 `AuthorYear-short-topic.pdf`。
 
 | 文献 | citation key | 预期 PDF 文件名 | 被引位置 | 状态 |
 |---|---|---|---|---|
-| Haber, Jog & Bendsøe (1996), *A new approach to variable-topology shape design using a constraint on perimeter* | `Haber1996-perimeterconstraint`（待与 Zotero 核验） | `Haber1996-perimeterconstraint.pdf` | 概念页 §7 周长约束 | `unsorted` |
+| Haber, Jog & Bendsøe (1996), *A new approach to variable-topology shape design using a constraint on perimeter* | `Haber1996-perimeterconstraint`（元数据待按 DOI 核验） | `Haber1996-perimeterconstraint.pdf` | 概念页 §7 周长约束 | `unsorted` |
 | Sigmund (1997), *On the design of compliant mechanisms using topology optimization* | `sigmundDesignCompliantMechanisms1997a` | `Sigmund1997-designcompliantmechanisms.pdf` | 概念页 §2.1 灵敏度过滤 | `unsorted` |
 | Sigmund & Petersson (1998), *Numerical instabilities in topology optimization* | `sigmundNumericalInstabilitiesTopology1998` | `Sigmund1998-numericalinstabilities.pdf` | 概念页 §1 数值不稳定性综述 | `unsorted` |
 | Petersson & Sigmund (1998), *Slope constrained topology optimization* | `peterssonSlopeConstrainedTopology1998` | `Petersson1998-slopeconstrained.pdf` | 概念页 §7 斜率约束 | `unsorted` |
@@ -188,9 +188,10 @@ date_update: 2026-09-26
 | Sigmund (2007), *Morphology-based black and white filters for topology optimization* | `sigmundMorphologybasedBlackWhite2007b` | `Sigmund2007-morphologybasedblackwhite.pdf` | 概念页 §4.1、§7 形态学过滤 | `unsorted` |
 | Xu, Cai & Cheng (2010), *Volume preserving nonlinear density filter based on Heaviside functions* | `xuVolumePreservingNonlinear2010` | `Xu2010-volumepreservingnonlinear.pdf` | 概念页 §7 体积保持过滤 | `unsorted` |
 | Wang, Lazarov & Sigmund (2011), *On projection methods, convergence and robust formulations in topology optimization* | `wangProjectionMethodsConvergence2011a` | `Wang2011-projectionmethodsconvergence.pdf` | 概念页 §4.1–4.3 tanh 投影与稳健三场 | `unsorted` |
-| Lazarov & Sigmund (2011), *Filters in topology optimization based on Helmholtz-type differential equations* | `Lazarov2011-helmholtzpdefilter`（待与 Zotero 核验） | `Lazarov2011-helmholtzpdefilter.pdf` | 概念页 §7 PDE 过滤 | `unsorted` |
+| Lazarov & Sigmund (2011), *Filters in topology optimization based on Helmholtz-type differential equations* | `Lazarov2011-helmholtzpdefilter`（元数据待按 DOI 核验） | `Lazarov2011-helmholtzpdefilter.pdf` | 概念页 §7 PDE 过滤 | `unsorted` |
+| De Falco, Schiassi & Calabrò (2026), *Least squares with equality constraints extreme learning machines for the resolution of PDEs* | `DeFalco2026-lse-elm-pdes` | `DeFalco2026-lse-elm-pdes.pdf`（已入库） | 暂无；ELM/PINN 求解 PDE，候选 SciML 方向 | `unsorted` |
 
-Bendsøe & Sigmund (2004) 专著（`Bendsoe2004-topologyoptimizationa`）留在 Zotero，不复制到 `inbox/`。前 9 条 citation key 直接沿用 `xtu-phd-thesis:thesis/reference/ref.bib` 的 Better BibTeX key；标注"待与 Zotero 核验"的两条为临时 key，核验后需同步替换本表与 `literature/refs.bib`。
+Bendsøe & Sigmund (2004) 专著（`Bendsoe2004-topologyoptimizationa`）不复制到 `inbox/`。前 9 条 citation key 直接沿用 `xtu-phd-thesis:thesis/reference/ref.bib` 的既有 key；标注"元数据待按 DOI 核验"的两条 key 已是 basename 形式，符合新文献 citekey 规则，予以保留，只需核验 `literature/refs.bib` 中的作者、卷期与页码。
 
 ## 储备候选池
 
@@ -213,8 +214,8 @@ Bendsøe & Sigmund (2004) 专著（`Bendsoe2004-topologyoptimizationa`）留在 
 ## 存储与维护说明
 
 - **唯一入口**：新增文献必须在本页「已入库文献」登记，否则视为未入库；单篇论文只保存一份，交叉属性由 frontmatter tags、research guide 与概念页表达，不建重定向桩页。
-- **raw 层**：原始 PDF 放在所属主题的 `sources/` 下（`.gitignore` 排除，不入 Git），PDF 文件名与译文页 basename 严格对应（`AuthorYear-short-topic.pdf` ↔ `AuthorYear-short-topic-zh.md`），`-zh` 译文以相对路径 `source: "../sources/<同名>.pdf"` 指向它（**不是 citekey**，citekey 另存 `citekey:` 字段）。PDF 是事实源，与译文冲突时以 PDF 为准。
-- **raw 的回溯靠标识符，不靠存储位置**：论文的可再获得性由 DOI（预印本用 arXiv ID + 版本号）保证，附件由 Zotero 托管，`literature/refs.bib` 的 citation key 是二者之间的桥。`sources/` 只是供 AI 直接读取的本地缓存，丢失后按 DOI 或 citekey 重建，**不登记 iCloud 路径**——绝对路径不可移植且会腐化。无 DOI、无第三方托管的原件（如基金官方文件）另按 [[../research/funding/sources]] 的「iCloud 相对路径 + SHA-256」方式登记。参考库源码仓库不缓存到本仓库，按 [[fem-libraries/sources]] 的「upstream + WSL 副本」方式登记，版本标在引用点。
+- **raw 层**：原始 PDF 的主档平铺在 iCloud `文献库/`（相对 `iCloudDrive`），本地副本放在所属主题的 `sources/` 下（`.gitignore` 排除，不入 Git）。PDF 文件名与译文页 basename 严格对应（`AuthorYear-short-topic.pdf` ↔ `AuthorYear-short-topic-zh.md`），`-zh` 译文以相对路径 `source: "../sources/<同名>.pdf"` 指向它（**不是 citekey**，citekey 另存 `citekey:` 字段）。PDF 是事实源，与译文冲突时以 PDF 为准。
+- **raw 的回溯靠文件名，不逐篇登记路径**：iCloud `文献库/` 不分子目录，主档路径由 basename 唯一确定，仓库内重组主题目录时 iCloud 不随之移动。`sources/` 只是供 AI 直接读取的本地副本，丢失后运行仓库根 `restore_sources_from_icloud.ps1`（`-Preview` 只预演）从 `文献库/` 按文件名恢复；脚本按译文页 `source:` 字段定位，无译文页的 PDF 须在 `refs.bib` 条目 `note` 中写明 `本地 PDF <仓库相对路径>`，否则报告为 UNREGISTERED。新入库论文先存入 `文献库/`，再复制到 `sources/`；同名文件不覆盖。出版信息由 DOI（预印本用 arXiv ID + 版本号）经 CrossRef 核验，记录在 `literature/refs.bib`；既有 citekey 保留，新文献 citekey 取 basename。无 DOI、无第三方托管的原件（如基金官方文件）另按 [[../research/funding/sources]] 的「iCloud 相对路径 + SHA-256」方式登记。参考库源码仓库不缓存到本仓库，按 [[fem-libraries/sources]] 的「upstream + WSL 副本」方式登记，版本标在引用点。
 - **派生资源**：图片等派生资源统一放 `topopt/assets/`（主题级共用，不下沉到子类），正文按 Obsidian 全库文件名解析引用 `![[名.png]]`，不写相对路径。
 - **目录只在有实际内容时建立**：不为候选清单预建空主题目录；`inbox/` 是唯一例外的暂存容器，只放 PDF 副本（`inbox/sources/`，不入 Git）与对应 `refs.bib` 条目，不作为长期落点。
 - 只有官方摘要或元数据时，不形成全文级技术结论。

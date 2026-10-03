@@ -6,15 +6,15 @@ status: "draft" # draft | read | done
 date_created: YYYY-MM-DD
 date_updated: YYYY-MM-DD
 source: "../sources/{{basename}}.pdf"
-citekey: "{{zotero_citation_key}}"
+citekey: "{{basename}}"
 language: "zh-CN"
 ---
 
 <!-- 模板填写说明（生成译文后删除）：
 版式参考 literature/topopt/piml/translations/Huang2023-PIML-substructure-zh.md；仅参考结构，不复制其文献事实、章节名称或完成状态。
-文件名为 {{basename}}-zh.md，basename 使用 AuthorYear-short-topic，与 Zotero Citation Key 分离。
+文件名为 {{basename}}-zh.md，basename 使用 AuthorYear-short-topic，同时作为 citekey 与 iCloud 文献库/ 中的 PDF 文件名。
 source 相对于生成后的译文文件定位原始 PDF；日期填写真实日期，tags 按论文主题补充。
-citekey 必须核实；来源与 key 保留在 frontmatter，不在正文重复列出。需要 Zotero 跳转时，可添加已核实的链接，不生成未知 key。
+citekey 须与 literature/refs.bib 条目一致，出版信息按 DOI 经 CrossRef 核验；来源与 key 保留在 frontmatter，不在正文重复列出。
 状态含义见 [[../page-schemas#页面属性与状态]]，核验条件与证据使用边界见 [[../page-schemas#译文要求]]；复制后调整为目标页面的相对链接。
 -->
 
