@@ -469,7 +469,7 @@ $$
 \tag{27}
 $$
 
-若网格单元彼此只差平移，如均匀笛卡尔网格，$\mathbf K_e^0$ 对所有单元相同，只需保存一份；Matrix-Free 实现据此只存该矩阵与逐单元缩放系数，见 [[matrix-free/assembly-levels#2.3.2 共享参考 EA：只保存 $\mathbf A^0$ 与 $s_e$|assembly-levels 2.3.2]]。
+若网格单元彼此只差平移，如均匀笛卡尔网格，$\mathbf K_e^0$ 对所有单元相同，只需保存一份；Matrix-Free 实现据此只存该矩阵与逐单元缩放系数，见 [[matrix-free/assembly-levels#2.3.2 共享参考 EA：只保存 $\mathbf K_e^0$ 与 $s_e$|assembly-levels 2.3.2]]。
 
 若设计密度定义在节点上，或需要在积分点处评价连续密度场，则应在数值积分内部使用 $\rho_{eq}$：
 

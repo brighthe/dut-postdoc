@@ -3635,3 +3635,13 @@
 
 ## [2026-10-03] maintenance | 提交前整合远端变更
 - 整合远端 iCloud 文献库迁移提交，保留双方新增日志；保留本地 sync_to_icloud.ps1 删除，并删除 README 中该已删除脚本的当前说明。未运行同步或资料恢复脚本，原始资料未修改。
+
+## [2026-10-03] edit | assembly-levels 刚度算子记号统一为 K
+- 按用户决定（本库只考虑线弹性拓扑优化），`concepts/matrix-free/assembly-levels.md` 全页 $\mathbf A$ 系记号改为 $\mathbf K$：$\mathbf K$、$\mathbf K_e$、$\mathbf K_{\mathrm{FA}}$、$\mathbf K_{\mathrm L}^{(p)}$、$\tilde{\mathbf K}$、$K_{ii}$，参考单刚 $\mathbf A^0$ 改为与 `linear-elasticity.md` 式 (26)(27) 一致的 $\mathbf K_e^0$；§2.3.2 标题随之改为“共享参考 EA：只保存 $\mathbf K_e^0$ 与 $s_e$”。§1.1 补充本页只讨论线弹性、求解器页面通用记号 $\mathbf A$ 即此处 $\mathbf K$；§2.3.2 补充 $\mathbf K_e^0$ 与式 (26)(27) 的对应，并说明 $\mathbf D^0$ 含积分权重与 Jacobian 行列式、与本构矩阵 $\mathbf D_0$ 不同。`date_update` 更新为 2026-10-03。
+- 同步直接依赖：`linear-elasticity.md`、`research/piml-matrix-free-gpu/matrix-free-research-guide.md` 两处 §2.3.2 标题锚点；`concepts/gpu-hpc/parallel-levels.md` 的 $\{\mathbf K_e\}$；`entities/zang-xinyu/zang-xinyu.md` 的记号对照 $\mathbf y=\mathbf K\mathbf x$。按用户确认的范围，`krylov-subspace-methods.md`、`preconditioning.md`、`concepts/_index.md` 的通用 $\mathbf A\mathbf x=\mathbf b$，`mf-ea-substructural.md` 的接口算子 $\mathbf A$ 与 `project-plan.md` 的 $\widehat{\mathbf A}$ 保持不变，归档文件不改。检查全部入链锚点与残留记号，通过 git diff --check；未验证渲染，未 commit、push。
+
+## [2026-10-03] edit | assembly-levels §2.4.2 本构矩阵记为 D_0
+- 按用户授权，`concepts/matrix-free/assembly-levels.md` §2.4.2 中指本构矩阵的裸 $\mathbf D$ 共 6 处改为 $\mathbf D_0$（逐积分点算子定义式、结合律恒等式、逐点算子 $\mathbf S^{\mathsf T}\mathbf D_0\,\mathbf S$ 及存储说明），与 §2.3.2 和 `linear-elasticity.md` 的实体材料本构矩阵一致，消除与 §1–§2 全局积分点算子 $\mathbf D$ 的混用；其余各节的 $\mathbf D$、$\mathbf D_e$ 均为积分点算子，未改。页面标题与锚点不变，无需同步入链。通过 git diff --check；未验证渲染，未 commit、push。
+
+## [2026-10-03] edit | assembly-levels §2.4.2 缩放系数统一为 s_e
+- 按用户授权，`concepts/matrix-free/assembly-levels.md` §2.4.2 逐积分点算子定义式、逐点算子 $w_q\lvert\det\mathbf J_e\rvert\,s_e\,\mathbf S^{\mathsf T}\mathbf D_0\,\mathbf S$ 与存储说明中的缩放因子 $\rho_e$ 共 3 处改为 $s_e$，说明句改为“$s_e=E(\rho_e)/E_0$ 为 SIMP 等材料插值给出的单元刚度缩放系数，与 2.3.2 相同”，与 §2.3.2 和 `linear-elasticity.md` 式 (27) 一致。§2 阶段表与 §2.5 中表示设计变量依赖的 $\rho_e$ 含义正确，未改。标题与锚点不变，无需同步入链。通过 git diff --check；未验证渲染，未 commit、push。
