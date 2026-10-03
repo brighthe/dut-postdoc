@@ -6,7 +6,7 @@ tags:
   - knowledge-base
 status: in-progress
 date_added: 2026-06-22
-date_update: 2026-09-26
+date_update: 2026-10-03
 ---
 
 # 概念页总索引
@@ -102,7 +102,8 @@ x (T-vector, true DOF)
 | 页面 / 概念 | 说明 |
 |---|---|
 | [[matrix-free/assembly-levels\|Assembly Levels / 五级装配层次]] | Matrix-Free 五级装配层次、跨框架术语映射、预计算前缘、跨层级不变量和判定边界 |
-| [[matrix-free/mf-ea-substructural\|Substructural EA Matrix-Free / 子结构载体 EA 算子]] | 子结构载体 EA Matrix-Free 算子：算子定义、与显式装配的代数恒等、自由子空间语义与 PIML 接入点 |
+| [[matrix-free/mf-schur-substructural\|Substructural Schur Matrix-Free / 子结构 Schur 补算子]] | 精确子结构两条接口路径的 Matrix-Free 做法：完整接口不形成 $\mathbf K_s^j$、作用时现算，角点接口保存局部 $\mathbf K_{s,\mathrm{corner}}^j$；均不组装全局接口矩阵 |
+| [[matrix-free/mf-piml-substructural\|Substructural PIML Matrix-Free / 子结构 PIML 算子]] | PIML 子结构两条接口路径的 Matrix-Free 做法：不分解 $\mathbf K_{ii}^j$，能量投影中的细网格作用按共享参考 EA 现算，均不组装全局接口矩阵 |
 | [[matrix-free/method-lineage\|Matrix-Free Method Lineage / 团队方法谱系]] | 郭旭老师团队公开 Matrix-Free 相关成果的方法谱系；当前直接节点为 Ma2026（多尺度形函数按需重算/释放） |
 
 ---

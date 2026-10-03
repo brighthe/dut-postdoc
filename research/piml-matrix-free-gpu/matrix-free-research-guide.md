@@ -63,13 +63,13 @@ Matrix-Free 的判定依据是“省略什么、保存什么、重算什么”�
 
 ### 2.2 局部载体区分与接续点
 
-必须明确区分**高阶积分点级 Partial Assembly (PA)** 与 **子结构/大单元级 PIML Matrix-Free**：前者按 Gauss 积分点和和分解（Sum Factorization）作用；后者以子结构或大单元为局部载体，按 $\mathbf{y}_j = \widehat{\mathbf{A}}_j \mathbf{x}_j$ 作用。PIML 学习的本质是局部力学表示，与 Matrix-Free 的局部算子按需累加在计算范式上具有天然契合性，从而避免了“先局部学习、再全局组装”的矛盾路径。子结构载体算子的作用式、与显式装配的代数恒等及自由子空间语义由 [[../../concepts/matrix-free/mf-ea-substructural|子结构载体 EA Matrix-Free 算子]] 维护。
+必须明确区分**高阶积分点级 Partial Assembly (PA)** 与 **子结构/大单元级 PIML Matrix-Free**：前者按 Gauss 积分点和和分解（Sum Factorization）作用；后者以子结构或大单元为局部载体，按 $\mathbf{y}_j = \widehat{\mathbf{A}}_j \mathbf{x}_j$ 作用。PIML 学习的本质是局部力学表示，与 Matrix-Free 的局部算子按需累加在计算范式上具有天然契合性，从而避免了“先局部学习、再全局组装”的矛盾路径。
 
 以 [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh|Ma2026]] 为接续点时，先用精确子结构算子 $\mathbf{K}_s^j$ 建立 FA/LA/EA 与 Krylov/预条件闭环（精确 Matrix-Free/GPU 基线），再推进 PA-like 和 UA/NONE；只有这些路径通过门禁后，才在三线融合阶段以结构保持 PIML 预测算子 $\widehat{\mathbf{A}}_j$ 替换局部算子来源。PIML 决定局部算子如何获得，装配层级决定全局 MatVec 如何保存和执行，两者必须分别判定。
 
 ### 2.3 Matrix-Free 代表性分析路径
 
-本表整理 Matrix-Free 分支的代表性分析路径及其文献来源。各路径统一采用精确局部算子，暂不引入 PIML 近似，以隔离装配层级降存与学习算子误差；GPU 与 MPI 只作为执行平台维度，不改变路径归类。装配层级定义与框架术语映射见 [[../../concepts/matrix-free/assembly-levels|五级装配层次]]，子结构载体算子的作用式与代数恒等见 [[../../concepts/matrix-free/mf-ea-substructural|子结构载体 EA Matrix-Free 算子]]。
+本表整理 Matrix-Free 分支的代表性分析路径及其文献来源。各路径统一采用精确局部算子，暂不引入 PIML 近似，以隔离装配层级降存与学习算子误差；GPU 与 MPI 只作为执行平台维度，不改变路径归类。装配层级定义与框架术语映射见 [[../../concepts/matrix-free/assembly-levels|五级装配层次]]。
 
 | 代表性路径                     | 装配层级    | 局部载体              | 保存／重算对象                            | Krylov 与预条件                             | 代表文献                                                                                                                                                                                |
 | ------------------------- | ------- | ----------------- | ---------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
