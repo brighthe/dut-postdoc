@@ -3560,3 +3560,7 @@
 - Baratta2024：Zenodo DOI 不在 CrossRef 收录范围，改经 DataCite 核验。原登记的 10.5281/zenodo.10447665 是概念 DOI，解析到最新版；本地 PDF 对应版本 10.5281/zenodo.10447666（Issued 2023-12-31），2025 修订版为 10.5281/zenodo.18101307。译文 DOI 与备注据此改写，既有 key `barattaDOLFINxNextGeneration2024` 保留。
 - `refs.bib` 末尾新增四篇译文对应条目（key 沿用译文 frontmatter），四篇译文 `date_updated` 更新为 2026-10-03。
 - 关联检查：`concepts/density-topopt/regularization-and-length-scale-control.md` 参考文献 [7] 仍写 Haber1996 为 11(1)，未改，待确认；Talischi2012 译文参考文献表按原文保留 11(1)。Baratta2024 译文在 `literature/_index.md` 无入口，属既有问题，本轮未处理。
+
+## [2026-10-03] edit | Haber1996 引用期号同步与 Baratta2024 译文补入索引
+- `concepts/density-topopt/regularization-and-length-scale-control.md` 参考文献 [7] 的 Haber1996 期号由 11(1) 改为 11(1-2)，与 `refs.bib` 的 CrossRef 核验结果一致。
+- `literature/_index.md` 的 `fem-libraries/` 表补入 Baratta2024 译文一行，译文总数由 50 改为 51；补入后 51 篇 `-zh` 译文均有索引入口。

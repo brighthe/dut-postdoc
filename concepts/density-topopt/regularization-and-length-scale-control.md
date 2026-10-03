@@ -253,7 +253,7 @@ $$
 [4] GUEST J K, PRÉVOST J H, BELYTSCHKO T. Achieving minimum length scale in topology optimization using nodal design variables and projection functions[J]. International Journal for Numerical Methods in Engineering, 2004, 61(2): 238-254.
 [5] SIGMUND O. Morphology-based black and white filters for topology optimization[J]. Structural and Multidisciplinary Optimization, 2007, 33(4-5): 401-424.
 [6] WANG F, LAZAROV B S, SIGMUND O. On projection methods, convergence and robust formulations in topology optimization[J]. Structural and Multidisciplinary Optimization, 2011, 43(6): 767-784.
-[7] HABER R B, JOG C S, BENDSØE M P. A new approach to variable-topology shape design using a constraint on perimeter[J]. Structural Optimization, 1996, 11(1): 1-12.
+[7] HABER R B, JOG C S, BENDSØE M P. A new approach to variable-topology shape design using a constraint on perimeter[J]. Structural Optimization, 1996, 11(1-2): 1-12.
 [8] PETERSSON J, SIGMUND O. Slope constrained topology optimization[J]. International Journal for Numerical Methods in Engineering, 1998, 41(8): 1417-1434.
 [9] XU S, CAI Y, CHENG G. Volume preserving nonlinear density filter based on Heaviside functions[J]. Structural and Multidisciplinary Optimization, 2010, 41(4): 495-505.
 [10] LAZAROV B S, SIGMUND O. Filters in topology optimization based on Helmholtz-type differential equations[J]. International Journal for Numerical Methods in Engineering, 2011, 86(6): 765-781.

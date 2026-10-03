@@ -23,7 +23,7 @@ date_update: 2026-10-03
 
 ## 已入库文献
 
-共 **50 篇译文**。`状态` 取自各 `-zh` frontmatter，是 `draft → read → done` 的唯一事实源，本页不另立状态账；未达 `done` 的译文不作为全文级证据。`raw` 指同主题 `sources/` 下是否有对应 PDF（PDF 不入 Git，见"存储与维护说明"）。
+共 **51 篇译文**。`状态` 取自各 `-zh` frontmatter，是 `draft → read → done` 的唯一事实源，本页不另立状态账；未达 `done` 的译文不作为全文级证据。`raw` 指同主题 `sources/` 下是否有对应 PDF（PDF 不入 Git，见"存储与维护说明"）。
 
 ### `fem/`
 
@@ -63,6 +63,7 @@ date_update: 2026-10-03
 | [[fem-libraries/translations/Anderson2021-MFEM-modular-library-zh\|Anderson 2021]] | MFEM：一个模块化有限元方法库 | *CAMWA* 81: 42–74 | `draft` | ✓ |
 | [[fem-libraries/translations/Andrej2024-MFEM-high-performance-zh\|Andrej 2024]] | MFEM 中的高性能有限元（2021 论文的后续：GPU、四级装配、LOR 求解器） | *IJHPCA* 38(5): 447–467 | `draft` | ✓ |
 | [[fem-libraries/translations/Brown2021-libCEED-fast-algebra-zh\|Brown 2021]] | libCEED：面向高阶基于单元离散的快速代数（restriction–basis–QFunction 算子分解的软件论文） | *JOSS* 6(63): 2945 | `draft` | ✓ |
+| [[fem-libraries/translations/Baratta2024-DOLFINx-next-generation-zh\|Baratta 2024]] | DOLFINx：下一代 FEniCS 问题求解环境 | Zenodo 预印本，10.5281/zenodo.10447666 | `draft` | ✓ |
 
 ### `topopt/element-types/`
 
