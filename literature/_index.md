@@ -92,7 +92,7 @@ date_update: 2026-10-03
 
 | 译文 | 中文标题 | 出处 | 状态 | raw |
 |---|---|---|---|---|
-| [[topopt/matrix-free/translations/Wang2025-top3d-xl-matrix-free-matlab-zh\|Wang 等 2025（TOP3D_XL）]] | 基于 matrix-free MATLAB 代码的高效大规模三维拓扑优化（全文翻译，含算法 1–2、MATLAB 附录及全部图表） | *SMO* 68: 174 | `read` | ✓ |
+| [[topopt/matrix-free/translations/Wang2025-top3d-xl-matrix-free-matlab-zh\|Wang 等 2025（TOP3D_XL）]] | 基于 matrix-free MATLAB 代码的高效大规模三维拓扑优化（全文翻译，含算法 1–2、MATLAB 附录及全部图表） | *SMO* 68: 174 | `done` | ✓ |
 | [[topopt/matrix-free/translations/Yang2026-fused-gather-gemm-scatter-zh\|Yang 等 2026]] | 基于融合 Gather–GEMM–Scatter 核函数的 Matrix-Free 三维 SIMP 拓扑优化（全文翻译，含算法 1、表 1–11 位图与数据、图 1–14 高清图件及附录 A–B） | arXiv:2604.18020v1 | `done` | ✓ |
 | [[topopt/matrix-free/translations/Fu2023-high-order-structured-diff-topopt-zh\|Fu 等 2023]] | 基于结构化自动微分与高阶有限元的多物理场仿真与拓扑优化（支持混合空间 $H^1/H(\text{div})/L^2$、和分解 PA 机制及低阶 AMG 预条件；含全部图 1–13 高分辨率图件与 50 篇参考文献） | *AIAA SciTech 2023*, 10.2514/6.2023-0530 | `read` | ✓ |
 
