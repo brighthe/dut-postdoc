@@ -9,7 +9,7 @@ tags:
   - operator-learning
 status: "done"
 date_created: 2026-07-06
-date_updated: 2026-09-08
+date_updated: 2026-10-04
 source: "../sources/Huang2024-PIML-datafree.pdf"
 citekey: "Huang2024-mechanicsbaseddatafree"
 language: "zh-CN"
@@ -22,7 +22,7 @@ language: "zh-CN"
 # 信息
 
 - **中文标题**：一种基于力学机制的无数据问题无关机器学习（PIML）模型：用于大规模结构分析与设计优化
-- **作者**：Mengcheng Huang（黄孟成）$^1$；Chang Liu（刘畅）$^{1,2,*}$；Yilin Guo（郭一麟）$^1$；Linfeng Zhang（张林峰）$^1$；Zongliang Du（杜宗亮）$^{1,2,*}$；Xu Guo（郭旭）$^{1,2,*}$
+- **作者**：Mengcheng Huang（黄孟成）$^1$；Chang Liu（刘畅）$^{1,2}$；Yilin Guo（郭一麟）$^1$；Linfeng Zhang（张林峰）$^1$；Zongliang Du（杜宗亮）$^{1,2,*}$；Xu Guo（郭旭）$^{1,2,*}$
 - **单位**：
   - $1$: 大连理工大学工程力学系、工业装备结构分析优化与 CAE 软件国家重点实验室（大连 116023）
   - $2$: 大连理工大学宁波研究院（宁波 315016）
@@ -30,7 +30,7 @@ language: "zh-CN"
 - **卷 / 期 / 文章号**：193: 105893
 - **DOI**：10.1016/j.jmps.2024.105893
 - **在线发表 / 正式卷期**：2024-10-09 / 2024-10
-- **通讯作者**：Chang Liu（c.liu@dlut.edu.cn）；Zongliang Du（zldu@dlut.edu.cn）；Xu Guo（guoxu@dlut.edu.cn）
+- **通讯作者**：Zongliang Du（zldu@dlut.edu.cn）；Xu Guo（guoxu@dlut.edu.cn）
 
 # 摘要
 
@@ -144,7 +144,7 @@ $$
 | **10 (3D)** | 0.6451 | 4×2×2 | $2.0279\times10^{-14}$ | 6.1650 | 35.8163 (16.8391) |
 | | 0.6938 | 10×5×5 | $6.7571\times10^{-13}$ | $1.3221\times10^{3}$ | $1.0523\times10^{3}$ (254.350) |
 
-[^t-hardware]: 原文脚注：本文时间成本均在配备 Intel(R) Xeon(R) Gold 6256 3.60 GHz CPU 与 512.0 GB 内存的台式机上测量。
+[^t-hardware]: 原文脚注：本文时间成本均在配备 Intel(R) Xeon(R) Gold 6256 3.60 GHz CPU 与 512.0 GB 内存的台式机上测量。程序在 Windows 10 下以 Matlab 2020b 实现。
 
 ## 2.2 基于边界变形线性假设的高效子结构分析
 
@@ -226,13 +226,15 @@ $$
 
 # 4 基于力学的无数据 PIML 模型及其在大规模结构分析与优化中的应用
 
-为建立对任意尺寸子结构均有效的 PIML 模型，第 4.1 节在子结构内材料的分布函数与连续多尺度形函数之间建立一个轻量级算子学习框架，满足 $\boldsymbol{u}(x,y,z) = \tilde{\boldsymbol{N}}(x,y,z;\boldsymbol{\rho})\,\boldsymbol{u}_v$。随后，第 4.2 与 4.3 节基于最小总势能原理，提出一个具有物理意义的损失函数，以实现 PIML 模型的无数据无监督学习。最后，第 4.4 节借助 PIML 模型勾勒基于 SIMP 的拓扑优化的表述与灵敏度结果。
+为建立对任意尺寸子结构均有效的 PIML 模型，第 4.1 节在子结构内材料的分布函数与连续多尺度形函数之间建立一个轻量级算子学习框架，满足 $\boldsymbol{u}(x,y,z) = \mathcal{G}(x,y,z;\boldsymbol{\rho})\,\boldsymbol{u}_v$[^G-symbol]。随后，第 4.2 与 4.3 节基于最小总势能原理，提出一个具有物理意义的损失函数，以实现 PIML 模型的无数据无监督学习。最后，第 4.4 节借助 PIML 模型勾勒基于 SIMP 的拓扑优化的表述与灵敏度结果。
+
+[^G-symbol]: 本节及第 4.1 节中的算子符号 $\mathcal{G}$ 照原文转录。原文未单独定义 $\mathcal{G}$，按上下文即坐标连续形式的多尺度形函数（第 4.2 节起记作 $\tilde{\boldsymbol{N}}^j$）。
 
 ## 4.1 基于深度算子网络（DeepONet）的轻量级网络
 
 与只能应用于具有某些特定边界条件的偏微分方程（PDEs）的传统神经网络不同，神经算子框架（DeepONet）是 Lu 等（2021）基于算子的通用逼近原理提出的一种新颖机器学习框架，专门为求解具有各种边界条件的 PDEs 而设计。遵循“算子定义了从函数到函数的映射”这一思想，在 DeepONet 中，输入与输出都是函数，而神经网络表示该算子。处理输入函数的网络称为分支网络（branch network），与输出函数对应的网络称为主干网络（trunk network）。
 
-可以假设连续多尺度形函数等价于由图 4 所示 DeepONet 表示的一个算子，满足 $\boldsymbol{u}(x,y,z) = \tilde{\boldsymbol{N}}(x,y,z,\boldsymbol{\rho}\,|\,\boldsymbol{d})\,\boldsymbol{u}_v$。在实现中，$\boldsymbol{\rho}$ 保存子结构内每个细网格中心处的单元密度值；$\boldsymbol{d}$ 表示神经算子的参数，例如 $\boldsymbol{\xi}, \boldsymbol{\omega}, \boldsymbol{\varphi}, \boldsymbol{\theta}, \boldsymbol{\zeta}, \boldsymbol{\phi}$ 等。具体而言，$\sigma$ 表示激活函数（如 tanh、elu 等）；$\boldsymbol{\xi}, \boldsymbol{\omega}, \boldsymbol{\varphi}$ 表示权重矩阵，而 $\boldsymbol{\theta}, \boldsymbol{\zeta}, \boldsymbol{\phi}$ 是 BP（反向传播）神经元的偏置。在此 DeepONet 框架内，分支网络用于提取子结构内材料分布的特征，记为 $\boldsymbol{B}(\boldsymbol{\rho})$；相应地，主干网络负责对子结构内的坐标进行编码，记为 $\boldsymbol{T}(\boldsymbol{x})$。随后，遵循算子的通用逼近定理，将这两部分逐元素相乘，即 $\boldsymbol{T}(\boldsymbol{x}) \cdot \boldsymbol{B}(\boldsymbol{\rho})$，作为最终输出层的输入，如图 4 中虚线框所示。需要指出，$\boldsymbol{B}(\boldsymbol{\rho})$ 与 $\boldsymbol{T}(\boldsymbol{x})$ 并不限于单层 BP 神经元，它们可用其他机器学习模型表示，例如 CNN 或图神经网络。
+可以假设连续多尺度形函数等价于由图 4 所示 DeepONet 表示的一个算子，满足 $\boldsymbol{u}(x,y,z) = \mathcal{G}(x,y,z,\boldsymbol{\rho}\,|\,\boldsymbol{d})\,\boldsymbol{u}_v$。在实现中，$\boldsymbol{\rho}$ 保存子结构内每个细网格中心处的单元密度值；$\boldsymbol{d}$ 表示神经算子的参数，例如 $\boldsymbol{\xi}, \boldsymbol{\omega}, \boldsymbol{\varphi}, \boldsymbol{\theta}, \boldsymbol{\zeta}, \boldsymbol{\phi}$ 等。具体而言，$\sigma$ 表示激活函数（如 tanh、elu 等）；$\boldsymbol{\xi}, \boldsymbol{\omega}, \boldsymbol{\varphi}$ 表示权重矩阵，而 $\boldsymbol{\theta}, \boldsymbol{\zeta}, \boldsymbol{\phi}$ 是 BP（反向传播）神经元的偏置。在此 DeepONet 框架内，分支网络用于提取子结构内材料分布的特征，记为 $\boldsymbol{B}(\boldsymbol{\rho})$；相应地，主干网络负责对子结构内的坐标进行编码，记为 $\boldsymbol{T}(\boldsymbol{x})$。随后，遵循算子的通用逼近定理，将这两部分逐元素相乘，即 $\boldsymbol{T}(\boldsymbol{x}) \cdot \boldsymbol{B}(\boldsymbol{\rho})$，作为最终输出层的输入，如图 4 中虚线框所示。需要指出，$\boldsymbol{B}(\boldsymbol{\rho})$ 与 $\boldsymbol{T}(\boldsymbol{x})$ 并不限于单层 BP 神经元，它们可用其他机器学习模型表示，例如 CNN 或图神经网络。
 
 与图 3 中先前的神经网络相比，坐标变量也被设为 DeepONet 的输入，类似于对原多尺度形函数的一种升尺度（upscaling）操作。这里不是简单地把三个坐标变量与 $m^3$ 个密度值汇集成一个输入向量，而是先用两个独立的子网络（即分支网络与主干网络）分别捕获这两类变量的内在特征，然后通过非线性运算将它们的输出组合以产生最终输出。此外，DeepONet 的输出只包含特定坐标处的多尺度形函数，与图 3 的神经网络相比，这大幅减少了输出变量的数目。为产生整个多尺度形函数 $\tilde{\boldsymbol{N}}^j_{sR}$，可以给定内部节点的坐标与子结构的密度向量，并行地使用训练好的 DeepONet。理论上，该架构可应用于任意尺寸子结构的 PIML 模型，而无需担心多尺度形函数维数过大。
 
@@ -376,7 +378,7 @@ $$
 
 为检验 PIML 模型在相对复杂应力状态下的性能，并研究过滤半径对优化设计的影响，此处考虑图 10 所示的箱型算例。红色圆盘区域为非设计域，半径为 1.5、厚度为 0.15。作为示例，一对扭矩用集中载荷建模。体积分数上界设为 0.02。
 
-根据对称性，用基于 DeepONet 的 PIML 模型、以不同参数设置优化 1/8 设计域，如图 11 所示。对于相对较少的子结构数目（即由 $24\times20\times24$ 个子结构离散），当过滤半径为子结构尺寸的 0.5 倍时，优化设计中存在棋盘格花纹，如图 11(a)。将过滤半径增大到子结构尺寸的 0.6 倍时，该问题在图 11(b) 中显著缓解。这是由于多尺度形函数的线性变形假设高估了子结构的刚度，而这一缺陷在子结构相对较粗、且设计问题体积分数较低时会更为显著。正如 Sigmund 等 (2016) 所指出的，该算例的最优设计并非图 11(b) 那样常见的 Michell 结构，而是一个闭壁壳体结构。将子结构加密为 $48\times40\times48$、采用相同过滤半径时，图 11(c) 中的优化设计与理论最优设计一致，且没有二维码状（QR）花纹。
+根据对称性，用基于 DeepONet 的 PIML 模型、以不同参数设置优化 1/8 设计域，如图 11 所示[^fig11-label]。对于相对较少的子结构数目（即由 $24\times20\times24$ 个子结构离散），当过滤半径为子结构尺寸的 0.5 倍时，优化设计中存在棋盘格花纹，如图 11(a)。将过滤半径增大到子结构尺寸的 0.6 倍时，该问题在图 11(b) 中显著缓解。这是由于多尺度形函数的线性变形假设高估了子结构的刚度，而这一缺陷在子结构相对较粗、且设计问题体积分数较低时会更为显著。正如 Sigmund 等 (2016) 所指出的，该算例的最优设计并非图 11(b) 那样常见的 Michell 结构，而是一个闭壁壳体结构。将子结构加密为 $48\times40\times48$、采用相同过滤半径时，图 11(c) 中的优化设计与理论最优设计一致，且没有二维码状（QR）花纹。
 
 值得注意的是，多分辨率拓扑优化同样用粗尺度网格分析结构，并用细尺度网格的密度分布描述拓扑。由于粗单元刚度矩阵是由其细尺度网格单元刚度矩阵加权求和得到的（Liu 等, 2018b；Nguyen 等, 2010），此类算法也会高估刚度，且当采用一阶有限元时，过滤半径必须始终大于子结构的尺寸。这牺牲了多分辨率拓扑优化方法对大规模问题的意义，因为结构细节被抑制了。在本文中，多尺度形函数为子结构呈现出更灵活的单元刚度矩阵。因此，即使采用线性变形假设，过滤半径也可以小于子结构的尺寸。更有趣的是，随着子结构分辨率的提高，过滤半径可以进一步减小。图 11(d) 表明，即使过滤半径减小到子结构尺寸的 0.4 倍，也能获得没有 QR 花纹的球状优化结构。
 
@@ -394,6 +396,8 @@ $$
 图 11：不同参数设置下所得的优化结构：(a) $24\times20\times24$ 子结构、$r_{\min}$ 为子结构尺寸的 0.5 倍；(b) $24\times20\times24$ 子结构、$r_{\min}$ 为子结构尺寸的 0.6 倍；(c) $48\times40\times48$ 子结构、$r_{\min}$ 为子结构尺寸的 0.5 倍；(d) $60\times50\times60$ 子结构、$r_{\min}$ 为子结构尺寸的 0.4 倍。
 </b></center>
 
+[^fig11-label]: 原文图 11 图题将后两个子图误印为 “(a) 48 × 40 × 48 …” 与 “(a) 60 × 50 × 60 …”；按图中子图标号及正文对图 11(c)、(d) 的引用，译文图题改作 (c)、(d)。
+
 <center><b>
 表 3：不同细网格数目下，PIML 方法与全尺度分析单次迭代的平均时间成本。
 </b></center>
@@ -404,7 +408,7 @@ $$
 | $9.216\times10^{7}$ | 517.51 | \\ |
 | $1.8\times10^{8}$ | 1175.86 | \\ |
 
-[^t3-swap]: 原文此句为“PIML 模型每次迭代平均 11761.28 s，显著快于全尺度分析的 49.07 s”，与表 3 的数值恰好对调（表 3 显示 PIML 为 49.07 s、全尺度为 11761.28 s），且“230 倍以上”的效率提升也应为 $11761.28/49.07\approx240$。此处按表 3 的正确对应关系译出。
+[^t3-swap]: 原文此句为“PIML 模型每次迭代平均 11761.28 s，显著快于全尺度分析的 49.07 s”，与表 3 的数值恰好对调（表 3 显示 PIML 为 49.07 s、全尺度为 11761.28 s）。此处按表 3 的对应关系译出；“230 倍以上”与 $11761.28/49.07\approx240$ 相符，照原文保留。
 
 ## 5.3 柔顺机构算例
 
@@ -440,6 +444,27 @@ $$
 
 因此，本文工作可从多个方向拓展：(1) 放宽线性变形假设，采用具有更高阶变形假设的更灵活子结构，以提高 PIML 模型对中等规模结构的精度；(2) 通过将子结构的几何信息作为额外输入，训练等参（isoparametric）PIML 模型，以更好地适用于几何复杂结构的大规模拓扑优化；(3) 开发并行 PIML 模型，充分发挥子结构方法与超级计算机在超大规模结构分析与设计优化中的作用；(4) 将 PIML 增强子结构方法拓展到多物理场的大规模分析与优化问题。相关工作正在广泛研究中，将在后续报道。
 
+# 作者贡献（CRediT authorship contribution statement）
+
+- **Mengcheng Huang**：写作 - 审阅与编辑、写作 - 初稿、可视化、验证、方法论、调查研究。
+- **Chang Liu**：写作 - 审阅与编辑、验证、指导、调查研究。
+- **Yilin Guo**：写作 - 审阅与编辑、可视化、调查研究。
+- **Linfeng Zhang**：写作 - 审阅与编辑、可视化。
+- **Zongliang Du**：写作 - 审阅与编辑、写作 - 初稿、指导、方法论、经费获取、调查研究。
+- **Xu Guo**：写作 - 审阅与编辑、指导、方法论、经费获取、概念构思。
+
+# 利益冲突声明
+
+作者声明，不存在任何已知的、可能影响本文所报告工作的竞争性经济利益或个人关系。
+
+# 数据可用性
+
+数据可应要求提供。
+
+# 致谢
+
+本研究得到国家重点研发计划（2023YFB3309104）、国家自然科学基金（11821202、123721222）、辽宁省科学技术计划（2023JH2/101600044）以及中国 111 计划（B14013）的资助。
+
 # 附录 A 面力与体力同时作用下的子结构方法
 
 在有限元方法中，体力可以转化为结构域中分布的节点外力。不失一般性，同时受面力与体力作用的子结构平衡方程可表述为：
@@ -458,13 +483,15 @@ $$
 
 # 附录 B 三维子结构物理约束的精确表达式
 
-在由 $m^3$ 个均匀细尺度单元构成的三维子结构中，$\tilde{\boldsymbol{N}}^j_s$ 可表示为
+在由 $m^3$ 个均匀细尺度单元构成的三维子结构中，$\tilde{\boldsymbol{N}}^j_s$ 可表示为[^eq22-sub]
 
 $$
 \tilde{\boldsymbol{N}}^j_s = \begin{bmatrix} \left(N^j_s\right)^{11}_{xx} & \left(N^j_s\right)^{11}_{xy} & \left(N^j_s\right)^{11}_{xz} & \cdots & \left(N^j_s\right)^{18}_{xx} & \left(N^j_s\right)^{18}_{xy} & \left(N^j_s\right)^{18}_{xz} \\ \left(N^j_s\right)^{11}_{yx} & \left(N^j_s\right)^{11}_{yy} & \left(N^j_s\right)^{11}_{yz} & \cdots & \left(N^j_s\right)^{18}_{yx} & \left(N^j_s\right)^{18}_{yy} & \left(N^j_s\right)^{18}_{yz} \\ \left(N^j_s\right)^{11}_{zx} & \left(N^j_s\right)^{11}_{zy} & \left(N^j_s\right)^{11}_{zz} & \cdots & \left(N^j_s\right)^{18}_{zx} & \left(N^j_s\right)^{18}_{zy} & \left(N^j_s\right)^{18}_{zz} \\ \vdots & \vdots & \vdots & \ddots & \vdots & \vdots & \vdots \\ \left(N^j_s\right)^{(m-1)^3\,1}_{xx} & \left(N^j_s\right)^{(m-1)^3\,1}_{xy} & \left(N^j_s\right)^{(m-1)^3\,1}_{xz} & \cdots & \left(N^j_s\right)^{(m-1)^3\,8}_{xx} & \left(N^j_s\right)^{(m-1)^3\,8}_{xy} & \left(N^j_s\right)^{(m-1)^3\,8}_{xz} \\ \left(N^j_s\right)^{(m-1)^3\,1}_{yx} & \left(N^j_s\right)^{(m-1)^3\,1}_{yy} & \left(N^j_s\right)^{(m-1)^3\,1}_{yz} & \cdots & \left(N^j_s\right)^{(m-1)^3\,8}_{yx} & \left(N^j_s\right)^{(m-1)^3\,8}_{yy} & \left(N^j_s\right)^{(m-1)^3\,8}_{yz} \\ \left(N^j_s\right)^{(m-1)^3\,1}_{zx} & \left(N^j_s\right)^{(m-1)^3\,1}_{zy} & \left(N^j_s\right)^{(m-1)^3\,1}_{zz} & \cdots & \left(N^j_s\right)^{(m-1)^3\,8}_{zx} & \left(N^j_s\right)^{(m-1)^3\,8}_{zy} & \left(N^j_s\right)^{(m-1)^3\,8}_{zz} \end{bmatrix} \tag{22}
 $$
 
 其中 $\left(N^j_s\right)^{kl}_{pq}$ 表示第 $j$ 个子结构中，由第 $l$ 个顶点节点沿 $q$ 方向的单位位移所引起的第 $k$ 个内部节点沿 $p$ 方向的位移。
+
+[^eq22-sub]: 原文式 (22) 中第 $(m-1)^3$ 个内部节点 $x$ 方向那一行的最后一项印作 $\left(N^j_s\right)^{(m-1)^3\,8}_{xy}$，与同行规律及其他各行不符，疑为笔误；译文按 $\left(N^j_s\right)^{(m-1)^3\,8}_{xz}$ 写出。
 
 对应于六个刚体运动，六组方程（即 $\tilde{\boldsymbol{N}}^j_s\boldsymbol{\phi}_i = \boldsymbol{b}_i,\ i=1,\dots,6$）意味着：对 PIML 模型而言，$\tilde{\boldsymbol{N}}^j_s$ 的前 18 列可归拢为 $\tilde{\boldsymbol{N}}^j_{sR}$。在预测出 $\tilde{\boldsymbol{N}}^j_{sR}$ 之后，完整的 $\tilde{\boldsymbol{N}}^j_s$ 可根据六个物理要求（式 11）、利用以下表达式复现：
 
