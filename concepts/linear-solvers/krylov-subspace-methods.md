@@ -16,7 +16,7 @@ tags:
   - parallel-reduction
 status: draft
 date_added: 2026-09-03
-date_update: 2026-09-03
+date_update: 2026-10-06
 ---
 
 # Krylov 子空间方法
@@ -53,7 +53,7 @@ $$
 | 对称不定 | MINRES、SYMMLQ | 基于 Lanczos 过程，短递推，MINRES 保证残差单调 |
 | 非对称 / 一般 | GMRES、BiCGSTAB、TFQMR | GMRES 基于 Arnoldi 过程，残差单调极小但长递推须保存全部基向量，实践中定期重启 GMRES(m)；BiCGSTAB 用双正交化换回短递推，代价是残差不再单调 |
 
-对称性决定能否使用短递推，正定性决定能否使用 CG，这两条是选择方法的第一判据。预条件后的对称性同样要看：SPD 问题用非对称预条件子（如单向 Gauss-Seidel）后不能再用 CG，须改用 GMRES 或换对称预条件子；预条件子随迭代变化时须用 Flexible GMRES（FGMRES）一类允许变预条件的变体。
+对称性决定能否使用短递推，正定性决定能否使用 CG，这两条是选择方法的第一判据。预条件后的对称性同样要看：SPD 问题用非对称预条件子（如单向 Gauss-Seidel）后不能再用 CG，须改用 GMRES 或换对称预条件子；预条件子随迭代变化时须用允许变预条件的变体，一般情形为 Flexible GMRES（FGMRES），SPD 情形为 Flexible CG（FCG，见 [[multigrid#4.2 变预条件与 Flexible CG]]）。
 
 ## 4. 只需算子作用接口
 

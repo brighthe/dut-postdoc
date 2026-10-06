@@ -8,7 +8,7 @@ tags:
   - matlab
 status: "done" # draft | read | done
 date_created: 2026-09-24
-date_updated: 2026-10-04
+date_updated: 2026-10-06
 source: "../sources/Wang2025-top3d-xl-matrix-free-matlab.pdf"
 citekey: "Wang2025-top3d-xl-matrix-free-matlab"
 language: "zh-CN"
@@ -178,7 +178,9 @@ $$
 14: end for
 ```
 
-在算法 2 中，$\boldsymbol{K}^{[l]}$、$\boldsymbol{r}^{[l]}$ 和 $\boldsymbol{z}^{[l]}$ 分别代表第 $l$ 层的系统刚度矩阵、残差向量与修正向量。层级索引 $1$ 和 $L$ 分别对应最细网格层与最粗网格层。$\left(\boldsymbol{P}^{[l+1]}\right)^{\mathrm{T}}$ 为将第 $l$ 层的残差限制到第 $l+1$ 层的限制算子（prolongation operator 的转置）。其转置算子 $\boldsymbol{P}^{[l+1]}$ 则用于将第 $l+1$ 层的修正量插值回第 $l$ 层。采用阻尼 Jacobi 平滑器消除当前细网格上的高频误差，阻尼因子 $w$ 设为 $0.65$。$\boldsymbol{D}^{[l]}$ 为矩阵 $\boldsymbol{K}^{[l]}$ 的对角线元素向量。
+在算法 2 中，$\boldsymbol{K}^{[l]}$、$\boldsymbol{r}^{[l]}$ 和 $\boldsymbol{z}^{[l]}$ 分别代表第 $l$ 层的系统刚度矩阵、残差向量与修正向量。层级索引 $1$ 和 $L$ 分别对应最细网格层与最粗网格层。$\left(\boldsymbol{P}^{[l+1]}\right)^{\mathrm{T}}$ 为将第 $l$ 层的残差限制到第 $l+1$ 层的限制算子（prolongation operator 的转置）。其转置算子 $\boldsymbol{P}^{[l+1]}$ 则用于将第 $l+1$ 层的修正量插值回第 $l$ 层。采用阻尼 Jacobi 平滑器消除当前细网格上的高频误差，阻尼因子 $w$ 设为 $0.65$[^阻尼因子]。$\boldsymbol{D}^{[l]}$ 为矩阵 $\boldsymbol{K}^{[l]}$ 的对角线元素向量。
+
+[^阻尼因子]: 原文印作 $0.65$。公开代码 TOP3D_XL（`TOP3D_XL.m`）中对应参数 `weightFactorJacobi_` 只在 `InitialSettings()` 中赋值一次，取 `0.6`；投稿前的提交 `ffa6349b0cc378d969809ae6f57f386296264ff3`（2025-05-14）与当前 HEAD `46a631fb631da1673de72c0ec17a318b0a2a4e41`（2026-05-02）均如此。代码中标准 V 循环与改进 V 循环共用这一参数，即两种变体的默认阻尼都与原文不符。同处的 CG 最大迭代数 `maxIT_` 取 `800`，也与第 7 节所述 $M=600$ 不同。原文实验实际使用哪个取值，待确认。译文照原文翻译。
 
 **层级表示**（Hierarchical representation）：由最细分辨率层级上的全局刚度矩阵 $\boldsymbol{K}^{[l=1]}$ 出发，粗网格层级上的系统矩阵按下式计算[^式8范围]：
 
@@ -219,7 +221,7 @@ $$
 
 在非二进 V 循环中，由于三线性插值在跨度更大的单元上执行，最细层级的残差和插值向量精度有所下降，这可能因迭代次数增加而减慢 V 循环的收敛。然而，由于省去了第 2 层的运算并降低了 V 循环初始化的开销，其单步迭代计算量和内存占用均有所降低。在第 6 节中我们证明，即使在严格的误差容差下，这些改进最终也带来了更短的总求解时间。
 
-**对角松弛**（Diagonal relaxation）：为进一步压缩总求解时间，我们基于非二进 V 循环略去了所有中间层的矩阵–向量乘法。具体而言，我们以简单的对角松弛替代 Jacobi 松弛：省略算法 2 中的第 6 行，并将第 13 行简化为
+**对角松弛**（Diagonal relaxation）：为进一步压缩总求解时间，我们基于非二进 V 循环略去了 V 循环内部所有中间的矩阵–向量乘法[^对角松弛范围]。具体而言，我们以简单的对角松弛替代 Jacobi 松弛：省略算法 2 中的第 6 行，并将第 13 行简化为
 
 $$
 \boldsymbol{z}^{[l]} = \boldsymbol{z}^{[l]} + w\,\boldsymbol{r}^{[l]} ./ \boldsymbol{D}^{[l]}
@@ -227,6 +229,8 @@ $$
 $$
 
 尽管这种处理由于在限制与插值过程中对高频与低频误差的阻尼能力较弱而使得迭代次数有所增加，但它显著降低了单步迭代的计算成本。非二进 V 循环在每次迭代中需要执行三次 $\boldsymbol{K}^{[1]}\boldsymbol{u}$ 计算，并对 $l = 3 : L-1$ 各执行两次 $\boldsymbol{K}^{[l]}\boldsymbol{u}$ 计算（参见算法 1 第 7 行，算法 2 第 6、13 行）；而所提出的方法仅需执行一次 $\boldsymbol{K}^{[1]}\boldsymbol{u}$ 计算（算法 1 第 7 行）。此处 $\boldsymbol{u}$ 为泛指，既表示位移向量，也表示残差向量和修正向量。只要由此导致的迭代步数增长不超过 2 倍，总计算时间就依然能实现净缩减。此外，内存消耗得以进一步降低，因为第 $2$ 到 $L-1$ 层的 $\boldsymbol{K}^{[l]}$ 矩阵无需再做任何存储。
+
+[^对角松弛范围]: 原文为 "omit all intermediate matrix-vector multiplications"，这里的 intermediate 指 V 循环内部的中间计算，不是"中间层"。对角松弛作用于除最粗层外的每一层，包括最细层：算法 2 第 6、13 行所在循环为 $l = 1 : L-1$；本段说明改进后每次迭代只剩算法 1 第 7 行的一次 $\boldsymbol{K}^{[1]}\boldsymbol{u}$；附录 B 提取对角的范围为 $l = 1 : L-1$ 且单列 $l = 1$ 分支；公开代码 `Solving_Vcycle` 的 `'Adapted'` 分支在 `ii = 1:numLevels_-1` 各层只做对角缩放，不调用 `Solving_KbyU_MatrixFree`（提交 `46a631f` 与 `ffa6349` 一致）。
 
 我们在第 6 节（图 8 与图 9）中展示了 V 循环及其变体的收敛行为。后文中我们将这三种 V 循环实现分别记为标准 V 循环（Standard V-cycle）、非二进 V 循环（Non-dyadic V-cycle）与改进非二进 V 循环（Adapted Non-dyadic V-cycle）。
 

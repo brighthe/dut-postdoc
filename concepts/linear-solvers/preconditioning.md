@@ -14,7 +14,7 @@ tags:
   - preconditioning
 status: draft
 date_added: 2026-09-03
-date_update: 2026-09-03
+date_update: 2026-10-06
 ---
 
 # 预条件
@@ -33,7 +33,7 @@ $$
 
 目标不是把 $\kappa$ 压到 1，而是让 $\mathbf M^{-1}\mathbf A$ 的特征值聚集在少数几簇附近，因为 [[krylov-subspace-methods|Krylov]] 的收敛由谱分布而非单一条件数决定。左预条件改变了残差范数（GMRES 极小化的是 $\lVert\mathbf M^{-1}\mathbf r\rVert$），右预条件保持真残差，工程上判停机时须分清。
 
-SPD 情形下 PCG 只需 $\mathbf M$ 对称正定，实现上不必显式对称化：算法在 $\mathbf M$ 内积下运行，每步多一次 $\mathbf z=\mathbf M^{-1}\mathbf r$ 的作用。若 $\mathbf M$ 不对称（如单向 Gauss-Seidel），CG 的理论不再成立，须改用 GMRES 或换对称预条件子；$\mathbf M$ 随迭代变化（内层再套一个迭代求解器）时须用 Flexible GMRES 一类变体。
+SPD 情形下 PCG 只需 $\mathbf M$ 对称正定，实现上不必显式对称化：算法在 $\mathbf M$ 内积下运行，每步多一次 $\mathbf z=\mathbf M^{-1}\mathbf r$ 的作用。若 $\mathbf M$ 不对称（如单向 Gauss-Seidel），CG 的理论不再成立，须改用 GMRES 或换对称预条件子；$\mathbf M$ 随迭代变化（内层再套一个按容差停止的迭代求解器）时，须用允许变预条件的变体：SPD 情形为 Flexible CG，一般情形为 Flexible GMRES。多重网格 V-cycle 作 $\mathbf M^{-1}$ 时怎样保证固定、对称、正定，以及何时退化为变预条件，见 [[multigrid#4.1 V-cycle 作为 PCG 预条件子的条件]] 与 [[multigrid#4.2 变预条件与 Flexible CG]]。
 
 ## 2. 每类预条件子需要什么信息
 

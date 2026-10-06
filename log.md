@@ -3826,3 +3826,13 @@
 - 第 2–6 节为摘要式整理而非全文翻译（缺式 (8)、热传导变分形式、第 3 节 AD 综述与结构化微分推导、第 4 节综述与基函数定义、混合 Helmholtz 预条件说明、第 5 节边界条件与参数、第 6 节规模与未来工作细节等）。status 由 read 改为 draft，信息栏新增“内容说明”列明缺失与章节编号改动，“发表日期”改为原文所印会议日期。
 - 修正第 5.2 节与原文相反的表述（原文为侧部与中部杆件随 p 增加缩小并消失），补回空心圆柱设计在各阶数下一致的结论；摘要、第 3.1、4.2 节及结论中原文没有的 PA / `MatrixFree::initialize` 解读改为译者注或删除，并以脚注说明 PA 为基于开源代码的译者推断；删去第 4.2 节“剖分为 p^3 个子单元”“由于完全采用 Matrix-Free……”及图 6 图题的增译。
 - literature/_index.md 对应行状态改为 draft，描述删去“和分解 PA 机制”并注明第 2–6 节待补译；全库除该索引外无其他页面引用本译文。作者中文名候选、参考文献 [7] 书名替换与工作区内其他会话未提交的“译者说明”删除均未处理。通过 git diff --check，未验证 Obsidian 渲染，未 commit、push。
+
+## [2026-10-06] edit | multigrid 第 4 节补写 MGCG 理论
+- 按用户授权，补写 `concepts/linear-solvers/multigrid.md` 第 4 节，新增四个小节：4.1 V-cycle 作为 PCG 预条件子的条件（线性且固定、对称、正定三项要求表，以及两层误差传播算子 $\mathbf E$ 为 $\mathbf A$-自伴半正定、$\sigma(\mathbf B\mathbf A)\subset(0,1]$ 的推导）；4.2 变预条件与 Flexible CG（Polak–Ribière 形式与截断 FCG）；4.3 Krylov 外层为何更稳健（离群特征值的多项式论证，以 Wang2025 多孔填充优化迭代次数增多为例）；4.4 乘性与加性多层预条件子（BPX 类加性形式、对照表，并推导 Wang2025 "对角松弛"属于 $\mathbf S_l=2w\mathbf D_l^{-1}$ 的加性形式）。4.1、4.3 与加性归类均标为本页推导；参考依据新增 Xu 1992、BPX 1990、Xu–Zikatanov 2017、Notay 2000、Golub–Ye 1999（均未入库，出版信息经 CrossRef 核对）与 Wang2025 译文。Amir 等（2014）只在正文经 Wang2025 转引，未单列。
+- 同步：`preconditioning.md` §1 变预条件一句补上 SPD 情形的 Flexible CG，并链至 multigrid 4.1/4.2；`krylov-subspace-methods.md` §3 同句补 FCG 并链至 multigrid 4.2。三页 `date_update` 改为 2026-10-06。
+- 关联检查：multigrid 的入链（direct-methods、stationary-iterations、preconditioning、krylov-subspace-methods、linear-solvers-architecture、concepts/_index.md、entities/zang-xinyu）均为整页链接或新锚点，无失效；新增出链锚点（preconditioning §1、krylov §2、Wang2025 译文 4.2 节与第 7 节）均已核对存在。`linear-solvers-architecture.md` 第 119 行"V-cycle 作 Krylov 预条件子"的表述与本页一致，未修改；`concepts/_index.md` 入口未变。Golub–Ye 的 Polak–Ribière 归属与 Xu–Zikatanov 中的对应结论未对照原文逐式核验，已在参考依据中注明。文件保持 CRLF，未验证 Obsidian 渲染，未 commit、push。
+
+## [2026-10-06] edit | Wang2025 译文对角松弛范围修正与阻尼因子核对
+- 按用户授权，修改 `literature/topopt/matrix-free/translations/Wang2025-top3d-xl-matrix-free-matlab-zh.md` 4.2 节："omit all intermediate matrix-vector multiplications" 原译"所有中间层的"，改为"V 循环内部所有中间的"，并新增脚注 `[^对角松弛范围]`，说明对角松弛作用于除最粗层外的每一层（含最细层）。依据：原文 PDF 第 5 页算法 2 的循环范围与"只需一次 $K^{[1]}u$"、附录 B 的 $l=1:L-1$，以及公开代码 `Solving_Vcycle` 的 `'Adapted'` 分支（提交 `ffa6349`、`46a631f` 逐字一致）。
+- 4.1 节阻尼因子 $w=0.65$ 处新增脚注 `[^阻尼因子]`：原文 PDF 印作 0.65（pdftotext 核对）；TOP3D_XL 投稿前提交 `ffa6349`（2025-05-14）与当前 HEAD `46a631f`（2026-05-02）中，`weightFactorJacobi_` 只在 `InitialSettings()` 赋值一次，均为 0.6；同处 `maxIT_` 为 800，与第 7 节 $M=600$ 不同。原文实验实际使用哪个取值，标为待确认，译文照原文。`date_updated` 改为 2026-10-06，status 保持 done。
+- 关联检查：`concepts/linear-solvers/multigrid.md` 4.4 节"每层对角松弛→加性形式"的推导前提得到确认，未修改；该页引用的译文锚点（4.2 节、第 7 节）未变。代码经 WebFetch 读取（GitHub raw，未下载到本地），未在 MATLAB 中运行。文件保持 CRLF，未验证 Obsidian 渲染，未 commit、push。
