@@ -3842,3 +3842,49 @@
 - 改写 `linear-solvers-architecture.md`：删除"四层代数协同架构"图与第四节"拓扑优化与高性能计算约束"（第四节按用户要求直接删除）；新增 §1 分类树、判定线表与常见组合表（由 `concepts/_index.md` 第 3 节移入并扩充）；§2 三条判定线保留并修正：删去定常迭代"步数 $O(N^2)$"的错误量级（正确量级 $O(h^{-2})$ 已写入迭代法页 §2.3），精度一节删去"迭代步数剧烈发散"等不准确表述，改为迭代次数按 $\log(1/\mathrm{tol})$ 增长；§3 选型流程删去无出处的固定自由度阈值，改为说明须按问题实测；status 由不合规的 `stable` 改为 `draft`；参考依据补支撑内容说明，删去仅支撑第四节的 performance-model 链接。
 - 同步：`concepts/_index.md` 第 3 节删去分类树与判定线表，入口表改为三行；README.md 目录树改为三个文件；入链 `direct-methods.md`（多重网格→迭代法 §5）、`matrix-free/assembly-levels.md`、`gpu-hpc/parallel-levels.md`、`nonlinear-fem.md`（Krylov→迭代法 §3）、`entities/zang-xinyu/zang-xinyu.md`（多重网格、预条件→迭代法 §5、§4）逐条改链，上述页面 `date_update` 改为 2026-10-06。
 - 关联检查：全库（除 log.md 历史条目外）已无指向四个旧页面的链接；新页及改写页的出链锚点（direct-methods §2/§3、assembly-levels §3、parallel-levels §3、distributed-operator-and-shared-dofs §4、Wang2025 译文 4.2 节/第 7 节）均已核对存在。`concepts/_index.md` 中其他会话未提交的第 4 节两行未受影响。合并页内容未重新对照原始文献；Obsidian 渲染未验证；四页删除已 `git rm` 暂存，未 commit、push。
+
+## [2026-10-07] refactor | iterative-methods 改为"外层迭代格式 × 预条件子构造"两轴结构
+- 按用户确认的结构重排 `concepts/linear-solvers/iterative-methods.md`：§1 迭代法的分类（残差修正形式与统一误差多项式；轴一外层迭代格式、轴二预条件子构造；两轴组合表，说明多重网格与 Krylov 不在同一轴上）；§2 外层迭代格式（2.1 定常迭代、2.2 Chebyshev 迭代、2.3 Krylov 子空间方法 2.3.1–2.3.5、2.4 Flexible CG / GMRES）；§3 预条件子的构造（3.1 形式与目标、3.2 松弛类、3.3 不完全分解 / 多项式 / 代理算子、3.4 多重网格 3.4.1–3.4.7、3.5 区域分解、3.6 信息需求与代价核算）。Jacobi / GS / SOR 格式表由原定常迭代节移入 3.2，原多重网格 5.x 改为 3.4.x。
+- 新增内容：§1 两轴分类表与组合表；§2.2 Chebyshev 迭代（多项式公式、与 CG 收敛界同量级、不需内积、依赖谱区间估计、作光滑子与多项式预条件）；§3.3 ILU、多项式、代理算子各一条说明（由原信息需求表扩写）；§3.5 区域分解（加性 / 乘性 Schwarz 与子空间校正框架、粗空间、非重叠子结构界面 Schur 补，链至 exact-substructural）。aliases 增加 Chebyshev 迭代、Domain Decomposition、区域分解；保留用户此前对概述末句的删改，概述改为两轴说明。参考依据 [1] 补 Saad §12.3（多项式预条件与 Chebyshev 加速），[10] 补区域分解，其余条目只更新所支撑的小节号。
+- 同步：架构页分类树改为两轴；`concepts/_index.md` 迭代法入口说明、README.md 目录注释同步；入链锚点 direct-methods（→ §3.4）、parallel-levels 与 nonlinear-fem（→ §2.3）、zang-xinyu（→ §3.4、§3）改链。上述页面 `date_update` 改为 2026-10-07。
+- 关联检查：页内全部 § 引用均有对应标题；入链锚点 `2.3 Krylov 子空间方法`、`3. 预条件子的构造`、`3.4 多重网格` 均存在；全库除 log.md 外无旧锚点 `#3. Krylov`、`#4. 预条件`、`#5. 多重网格`。§2.2 中 Chebyshev 光滑子取 $[\beta/c,\beta]$ 的做法未单列来源；Saad 章节号凭记忆，未对照原书。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-07] edit | linear-solvers 两页缩写统一为"首次给全称、后续用缩写"
+- 按用户确认的规则修改 `concepts/linear-solvers/iterative-methods.md` 与 `linear-solvers-architecture.md`：格式为"中文全称（English Full Name, 缩写）"，无通行中文译名者（SYMMLQ、TFQMR）只给英文全称；两页各自独立计首次出现；LU、LDLᵀ、GPU 与软件库名不展开，AXPY 改为给出运算式。
+- iterative-methods：在 §1.2 表给出 SOR、SSOR、ILU、IC、GMG、AMG 全称；§1.3 表前新增一句说明组合命名，并给出 CG、GMRES、PCG、MGCG 全称；SPD（§2.2）、FOM 与 MINRES（§2.3.1）、SYMMLQ / BiCGSTAB / TFQMR（§2.3.3）、AXPY（§2.3.5）、FCG / FGMRES（§2.4，中文译名取"灵活"）、ILUT（§3.3）、FMG 补英文全称（§3.4.2）、BPX 改为"Bramble–Pasciak–Xu（BPX）"（§3.4.7）。后续处改为缩写：§2.3.3 表、§3.1、§3.2、§3.4 引言、§3.4.3 标题改为"GMG 与 AMG"及表头、§3.4.4 删去 MGCG 的重复全称、§3.4.5、§3.4.7 表、§3.6 表；"对称正定"作谓语时也改为"为 SPD"。
+- linear-solvers-architecture：分类树与 mermaid 流程图按图示处理，只用缩写、不计首次出现；§1 组合表前新增缩写说明（CG、PCG、MGCG、GMRES、MINRES、GMG、AMG、ILU、SPD）；§2.1 SPD 标签去掉重复全称，BiCGSTAB 给全称；组合表与流程图中"代数 / 几何多重网格"改为 AMG / GMG。
+- 检查：脚本复核两页正文（不含代码块与参考依据），每个缩写首次出现处均带全称，其余位置无重复全称。§3.4.3 标题改名不影响链接（无入链以该标题为锚点）。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-07] edit | iterative-methods §2.3 增加 Krylov 方法成员树与"基生成 × 取解准则"表
+- 按用户确认的方案修改 `concepts/linear-solvers/iterative-methods.md` §2.3：开头新增 Krylov 子空间方法成员树（CG 及其 PCG / FCG、MINRES / SYMMLQ、FOM / GMRES 及 FGMRES、BiCGSTAB / TFQMR），树中只列外层方法，MGCG 等组合按两轴框架指回 §1.3，不挂在 PCG 下。
+- §2.3.1 原段落改为"基的生成（Lanczos / Arnoldi）× 取解准则（Galerkin / 极小残差）"二维表，补充 CG 为 FOM 在 SPD 情形下的特例、Galerkin 条件在 SPD 下等价于能量范数误差最小（§2.3.2 最优性来源）、BiCGSTAB 基于双正交 Lanczos 过程而不在表内三点说明（本页整理，未新增文献）。§2.3.3 表保留，只承担递推与存储说明。
+- 缩写：成员树为代码块图示，不计首次出现；FOM、MINRES 全称移到 §2.3.1 表前，BiCGSTAB 全称移到 §2.3.1 末段，§2.3.3 表中改为缩写。脚本复核全页缩写首次出现均带全称、页内 § 引用均有对应标题。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-07] edit | linear-solvers 两页分类由 text 代码块改为嵌套列表
+- 按用户要求，`concepts/linear-solvers/iterative-methods.md` §2.3 的 Krylov 方法成员树与 `linear-solvers-architecture.md` §1 的求解器分类树由 text 代码块改为 Markdown 嵌套列表；架构页列表中的"迭代法 §2 / §3"改为指向 `iterative-methods#2. 外层迭代格式`、`#3. 预条件子的构造` 的双链，直接法与迭代法条目链至对应页面。
+- 列表属正文，缩写首次出现随之前移：迭代法页 FCG、MINRES、SYMMLQ、FOM、FGMRES、BiCGSTAB、TFQMR 的全称移入 §2.3 列表，§2.3.1、§2.3.3、§2.4 改为缩写，§2.4 标题改为"变预条件：FCG 与 FGMRES"（无入链锚点）；架构页 CG、MINRES、GMRES、BiCGSTAB、SOR、SSOR、ILU、IC、GMG、AMG 的全称移入 §1 列表，组合表前一句只保留 PCG、MGCG、SPD，§2.1 BiCGSTAB 改为缩写。mermaid 流程图仍按图示处理。
+- 检查：两页已无 text 代码块；脚本复核每个缩写首次出现均带全称、无重复全称；新增双链锚点存在；迭代法页内 § 引用均有对应标题。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-07] edit | 架构页 §1 改为"两类短列表 + 两轴组合表 + 用途表"
+- 按用户确认的方案改写 `concepts/linear-solvers/linear-solvers-architecture.md` §1：删去迭代法内部的嵌套列表，第一层只保留直接法 / 迭代法两项并链至对应页面；判定线表保留；新增迭代法"外层迭代格式 × 预条件子构造"两轴组合表（与迭代法页 §1.3 一致，链至 §1.3、§2、§3），表后说明 Chebyshev、Krylov 全部成员与多项式 / 代理算子见迭代法页；"常见组合"表由"组合 | 外层 | 内部组件 | 典型用途"改为"组合 | 适用问题 | 选用理由"，去掉与两轴表重复的两列，补充各组合的选用理由（Jacobi-PCG 迭代次数 $O(h^{-1})$、GMG 层次固定只重算粗层、AMG 须提供刚体模态近核等，均为既有页面内容的整理）。
+- `iterative-methods.md` §1.2、§1.3 两表的行名"多层"统一为"多重网格"；"多层递归""多层预条件子"等术语保留。`concepts/_index.md` 架构页入口说明同步。
+- 缩写：架构页首次出现位置随结构变化，CG、GMRES、PCG、SOR、SSOR、IC、ILU、MGCG、AMG 的全称放在两轴表前，SPD、GMG、MINRES 放在用途表前，BiCGSTAB 全称回到 §2.1。脚本复核两页均满足"首次给全称、后续用缩写"，新增锚点 `1.3 具体求解器是两条轴的组合` 存在。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-07] edit | iterative-methods §2.3 成员列表改为表格并合并 §2.3.3
+- 按用户要求，`concepts/linear-solvers/iterative-methods.md` §2.3 开头的 Krylov 成员嵌套列表改为"方法 | 适用矩阵 | 基的生成 | 递推与存储 | 变预条件版本"表格，并合并原 §2.3.3"按矩阵性质分族"表（内容不变，按新列重排）；缩写全称移到表前一句。§2.3.3 改名为"选择判据"，只保留判据段落；§2.3.1 末句指向改为"§2.3 开头的成员表"；删去过时的"树中只列……"措辞。
+- 顺带修正 §2.3.3 判据表述："对称性决定能否使用短递推"改为"对称性决定能否在保持最优性的同时使用短递推"，并注明 BiCGSTAB 等以放弃每步最优换回短递推，与表中非对称方法用短递推一致（本页整理，未新增文献）。
+- 检查：无外部页面以 §2.3.3 旧标题为锚点；脚本复核缩写首次出现均带全称、页内 § 引用均有对应标题。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-07] edit | iterative-methods §2.3 成员表调整列结构
+- 按用户确认，`concepts/linear-solvers/iterative-methods.md` §2.3 成员表删去"基的生成"列（与 §2.3.1 二维表重复），把 Lanczos / Arnoldi / 双正交 Lanczos 并入"递推与存储"列开头以保留"基的生成决定递推长短"的因果；新增"固定预条件版本"列（CG→PCG、预条件 MINRES、左 / 右预条件 GMRES、预条件 BiCGSTAB），方法列只保留方法名；表后补一句"每个 Krylov 方法都可加预条件，只有 CG 的预条件版本有专门名称 PCG"。
+- "预条件 MINRES 要求 SPD 预条件子"为标准结论，但页面现有参考文献中无专门支撑条目，已在表中标"待确认来源"。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-07] refactor | iterative-methods §2.3 改为按方法组织（CG / MINRES / GMRES / BiCGSTAB）
+- 按用户确认的方案重组 `concepts/linear-solvers/iterative-methods.md` §2.3，面向"理解与使用"：成员表保留（PCG、预条件 MINRES 的指向改为新小节）；2.3.1 共同原理（合并原 2.3.1 与原 2.3.2 的残差多项式部分，补"FOM、SYMMLQ 很少直接使用"）；新增 2.3.2 CG 与 PCG（能量范数最优、每步代价、收敛界与离群特征值〔由原 2.3.2 移入〕、$\kappa=O(h^{-2})$ 下迭代次数 $O(h^{-1})$、PCG 要求固定 SPD 预条件子、使用要点：刚体位移导致半正定、对称施加 Dirichlet 条件、停机判据以 $\lVert\mathbf b\rVert$ 为参照及热启动下以 $\lVert\mathbf r_0\rVert$ 为参照过严、残差不单调、有限精度不可依赖 $n$ 步终止）；2.3.3 MINRES（对称不定、SPD 预条件子、鞍点块对角预条件）；2.3.4 GMRES（重启 m 的取舍、左右预条件的残差含义）；2.3.5 BiCGSTAB 与 TFQMR（短递推、残差振荡与 breakdown）；2.3.6 选择判据改为"矩阵性质 → 首选方法 → 计算力学典型问题"表并链至架构页 §2；原 2.3.4、2.3.5 顺延为 2.3.7、2.3.8，内容不变。
+- 同步页内编号：§2.2 的同步点引用改为 §2.3.8，参考依据 [3][8][9] 的小节号更新；[1] Saad 补 §6.5 GMRES 重启、§7.4 免转置变体（章节号未逐一核对原书）；新增 [16] Paige–Saunders 1975（MINRES / SYMMLQ）、[17] Elman–Silvester–Wathen 2014（鞍点 MINRES 与 SPD 块预条件），出版信息均经 CrossRef 核对，[17] 支撑结论的原书章节未核对。成员表中"预条件 MINRES 要求 SPD 预条件子"的"待确认来源"改为指向 §2.3.3 及 [17]。
+- 新增使用要点（停机判据、残差不单调、刚体位移、BiCGSTAB breakdown 等）为基于标准教材的本页整理，未逐条对照原文。
+- 检查：缩写首次出现均带全称；页内 § 引用均有对应标题（未匹配项均为 Saad 书章节号）；全库 `iterative-methods#` 入链锚点（1.3、2.、2.3、3.、3.4）均存在。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-07] refactor | iterative-methods §2.3 子小节由 8 个合并为 5 个
+- 按用户确认，`concepts/linear-solvers/iterative-methods.md` §2.3 合并为：开头成员表 + 选择判据（原 2.3.6 判据段移入并补一句"SPD 用 CG / PCG、对称不定用 MINRES、非对称用 GMRES 或 BiCGSTAB"，删去与各方法小节重复的"典型问题"表）；2.3.1 共同原理（并入原 2.3.7"只需算子作用接口"段）；2.3.2 CG 与 PCG、2.3.3 MINRES 不变；2.3.4 合并原 GMRES 与 BiCGSTAB / TFQMR 两节为"非对称矩阵：GMRES 与 BiCGSTAB"，新增两者在基的生成、取解准则、残差行为、存储上的对比表，使用要点补"默认先用 GMRES"；原 2.3.8 并行同步点改为 2.3.5，内容不变。
+- 同步页内编号：§2.2 同步点引用、2.3.1 中 BiCGSTAB 指向、参考依据 [8][9] 小节号。外部入链只用 `#2.3 Krylov 子空间方法`，不受影响。检查：无残留 §2.3.6–§2.3.8 引用，页内 § 引用均有对应标题，缩写首次出现均带全称。Obsidian 渲染未验证，未 commit、push。

@@ -15,7 +15,7 @@ tags:
   - PIML
 status: "in-progress"
 date_added: 2026-08-22
-date_update: 2026-10-06
+date_update: 2026-10-07
 ---
 
 # 并行的三个层级：进程、线程与设备内
@@ -122,5 +122,5 @@ Matrix-Free + Krylov 只有两处必须跨执行实体交互，其余（gather�
 ## 相关页面
 
 - [[../_index#5-异构计算与-gpuhpc|GPU/HPC 概念总览]]
-- [[../linear-solvers/iterative-methods#3. Krylov 子空间方法|迭代法 §3 Krylov 子空间方法]] — Krylov 分族、收敛机制与并行同步点；求解器体系见 [[../_index#3-线性方程组求解器体系]]
+- [[../linear-solvers/iterative-methods#2.3 Krylov 子空间方法|迭代法 §2.3 Krylov 子空间方法]] — Krylov 分族、收敛机制与并行同步点；求解器体系见 [[../_index#3-线性方程组求解器体系]]
 - [[../piml/piml-paradigm]] — PIML 局部表示与批量推理（见 [[../_index#6-机器学习与-piml]]）

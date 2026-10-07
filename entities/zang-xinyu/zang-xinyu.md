@@ -17,7 +17,7 @@ tags:
   - linear-solvers
 status: in-progress
 date_added: 2026-09-05
-date_update: 2026-10-06
+date_update: 2026-10-07
 ---
 
 # 臧昕禹
@@ -86,7 +86,7 @@ date_update: 2026-10-06
 
 ### 诊断二：对角预条件，迭代数 $O(h^{-1})$
 
-3996 次是 Jacobi-PCG 在三维弹性上的正常表现，条件数 $O(h^{-2})$，每方向约 105 个单元。对角缩放对 small-cut 病态是正确起手（de Prenter 等 2017，待补 cite key），但不解决 $h$ 依赖。出路是结构化背景网格上的几何多重网格：粗层算子同样共享一份 $K_e$，Chebyshev/Jacobi 光滑，切割层叠加对角或单元级 Schwarz 修正，目标迭代数几十到一百次。见 [[../../concepts/linear-solvers/iterative-methods#5. 多重网格|多重网格]]、[[../../concepts/linear-solvers/iterative-methods#4. 预条件|预条件]]。
+3996 次是 Jacobi-PCG 在三维弹性上的正常表现，条件数 $O(h^{-2})$，每方向约 105 个单元。对角缩放对 small-cut 病态是正确起手（de Prenter 等 2017，待补 cite key），但不解决 $h$ 依赖。出路是结构化背景网格上的几何多重网格：粗层算子同样共享一份 $K_e$，Chebyshev/Jacobi 光滑，切割层叠加对角或单元级 Schwarz 修正，目标迭代数几十到一百次。见 [[../../concepts/linear-solvers/iterative-methods#3.4 多重网格|多重网格]]、[[../../concepts/linear-solvers/iterative-methods#3. 预条件子的构造|预条件]]。
 
 两项叠加，62 分钟的目标量级为十秒到一分钟。
 

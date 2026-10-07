@@ -6,7 +6,7 @@ tags:
   - knowledge-base
 status: in-progress
 date_added: 2026-06-22
-date_update: 2026-10-06
+date_update: 2026-10-07
 ---
 
 # 概念页总索引
@@ -64,9 +64,9 @@ graph TD
 
 | 页面 / 概念 | 说明 |
 |---|---|
-| [[linear-solvers/linear-solvers-architecture\|Linear Solvers Architecture / 线性求解器体系架构]] | 求解器分类树与判定线、常见组合（Jacobi-PCG、MGCG、PCG + AMG、GMRES + ILU 等）、矩阵性质 / 规模 / 精度三条选型判定线与决策流程 |
+| [[linear-solvers/linear-solvers-architecture\|Linear Solvers Architecture / 线性求解器体系架构]] | 直接法 / 迭代法两大类与判定线、迭代法"外层格式 × 预条件子"组合表、常见组合（Jacobi-PCG、MGCG、PCG + AMG、GMRES + ILU 等）的适用问题与选用理由、矩阵性质 / 规模 / 精度三条选型判定线与决策流程 |
 | [[linear-solvers/direct-methods\|Direct Methods / 稀疏直接解法]] | LU / Cholesky 稀疏直接法：填充、排序、多右端复用、三维不可行的根源，以及 MUMPS / PARDISO / CPardiso 的并行模型、三阶段接口与 GPU 支持对照 |
-| [[linear-solvers/iterative-methods\|Iterative Methods / 迭代法]] | 残差修正与误差多项式统一框架下的定常迭代、Krylov 子空间方法（分族、收敛界、并行同步点）、预条件（信息需求、代价、Flexible CG）与多重网格（V-cycle、GMG/AMG、MGCG 条件、乘性与加性） |
+| [[linear-solvers/iterative-methods\|Iterative Methods / 迭代法]] | 按"外层迭代格式 × 预条件子的构造"两条轴分类：外层为定常迭代、Chebyshev 迭代、Krylov 子空间方法（分族、收敛界、并行同步点、Flexible CG）；预条件子为松弛类、不完全分解与多项式、多重网格（V-cycle、GMG/AMG、MGCG 条件、乘性与加性）、区域分解，以及信息需求与代价核算 |
 
 ---
 

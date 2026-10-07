@@ -69,7 +69,7 @@ dut-postdoc/
 │   ├── linear-solvers/
 │   │   ├── linear-solvers-architecture.md  # 求解器体系架构：分类、组合关系、三条判定线与选型流
 │   │   ├── direct-methods.md
-│   │   └── iterative-methods.md  # 定常迭代、Krylov、预条件、多重网格
+│   │   └── iterative-methods.md  # 外层迭代格式（定常 / Chebyshev / Krylov）× 预条件子构造（松弛 / 多重网格等）
 │   ├── matrix-free/
 │   │   ├── assembly-levels.md
 │   │   └── method-lineage.md
