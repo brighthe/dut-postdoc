@@ -13,7 +13,7 @@ tags:
   - operator
 status: in-progress
 date_added: 2026-07-21
-date_update: 2026-10-03
+date_update: 2026-10-06
 ---
 
 # Matrix-Free 装配层次
@@ -40,7 +40,7 @@ $$
 - $\mathbf B$：单元自由度到积分点的插值或微分，线弹性中即应变位移矩阵；
 - $\mathbf D$：积分权重、几何 Jacobian、材料系数和积分点物理核，线弹性中即 $w_q\lvert\det\mathbf J_e\rvert$ 乘本构矩阵。
 
-本页只讨论线弹性，$\mathbf K$ 即全局刚度算子，单元层记 $\mathbf K_e$；求解器页面（[[../linear-solvers/krylov-subspace-methods|Krylov 子空间方法]]、[[../linear-solvers/preconditioning|预条件]]）按通用线性代数记 $\mathbf A\mathbf x=\mathbf b$，其中的 $\mathbf A$ 即此处的 $\mathbf K$。
+本页只讨论线弹性，$\mathbf K$ 即全局刚度算子，单元层记 $\mathbf K_e$；求解器页面（[[../linear-solvers/iterative-methods|迭代法]]，含 Krylov 子空间方法与预条件）按通用线性代数记 $\mathbf A\mathbf x=\mathbf b$，其中的 $\mathbf A$ 即此处的 $\mathbf K$。
 
 单元自由度数记为 $m$，各单元不同时写 $m_e$；单元数记为 $N_e$。
 

@@ -6,7 +6,7 @@ tags:
   - knowledge-base
 status: in-progress
 date_added: 2026-06-22
-date_update: 2026-10-03
+date_update: 2026-10-06
 ---
 
 # 概念页总索引
@@ -60,31 +60,13 @@ graph TD
 
 ## 3. 线性方程组求解器体系
 
-大型稀疏方程组 $\mathbf A\mathbf x=\mathbf b$ 求解器体系：只负责分类树、收敛机制与信息需求，不含非线性 Newton 外层。
-
-```text
-求解线性方程组 A x = b
-├── 直接法：LU / Cholesky 分解 —— MUMPS、CPardiso、PCLU          → direct-methods
-└── 迭代法
-    ├── 定常（经典）迭代：Jacobi、Gauss-Seidel、SOR、Richardson  → stationary-iterations
-    ├── Krylov 子空间方法：CG、MINRES、GMRES、BiCGSTAB            → krylov-subspace-methods
-    └── 多重网格：几何 / 代数 MG —— HYPRE BoomerAMG               → multigrid
-```
-
-| 判定线 | 一侧 | 另一侧 |
-|---|---|---|
-| 是否显式形成 $\mathbf A$ 的分解 | 直接法：形成 $\mathbf L\mathbf U$ 或 $\mathbf L\mathbf L^{\mathsf T}$，一次分解后回代 | 迭代法：只用 $\mathbf A$ 作用于向量的结果 |
-| 每步作用的算子是否固定 | 定常迭代：$\mathbf G$ 与 $k$ 无关，收敛率被 $\rho(\mathbf G)$ 锁死 | Krylov：在不断长大的子空间里取最优解，有效算子随 $k$ 变化 |
-| 是否跨尺度传递误差 | 单层方法：只在同一网格上迭代 | 多重网格：高频分量在细网格消去，低频分量交给粗网格 |
+大型稀疏方程组 $\mathbf A\mathbf x=\mathbf b$ 的求解器体系，分直接法与迭代法两页，分类、组合关系与选型由架构页统一维护；不含非线性 Newton 外层。
 
 | 页面 / 概念 | 说明 |
 |---|---|
-| [[linear-solvers/linear-solvers-architecture\|Linear Solvers Architecture / 线性求解器体系架构]] | 线性代数求解器总览：三条本质判定线、四层代数协同架构、预条件枢纽与拓扑优化选型决策体系 |
+| [[linear-solvers/linear-solvers-architecture\|Linear Solvers Architecture / 线性求解器体系架构]] | 求解器分类树与判定线、常见组合（Jacobi-PCG、MGCG、PCG + AMG、GMRES + ILU 等）、矩阵性质 / 规模 / 精度三条选型判定线与决策流程 |
 | [[linear-solvers/direct-methods\|Direct Methods / 稀疏直接解法]] | LU / Cholesky 稀疏直接法：填充、排序、多右端复用、三维不可行的根源，以及 MUMPS / PARDISO / CPardiso 的并行模型、三阶段接口与 GPU 支持对照 |
-| [[linear-solvers/stationary-iterations\|Stationary Iterations / 定常迭代法]] | 定常迭代 $\mathbf x_{k+1}=\mathbf G\mathbf x_k+\mathbf c$：分裂格式、谱半径判据与高频误差平滑性质 |
-| [[linear-solvers/krylov-subspace-methods\|Krylov Subspace Methods / Krylov 子空间方法]] | Krylov 子空间投影法：CG / MINRES / GMRES 分族、收敛界、与定常迭代的区别、并行内积同步点 |
-| [[linear-solvers/preconditioning\|Preconditioning / 预条件技术]] | 预条件的形式、目标与各类预条件子对矩阵信息的需求 |
-| [[linear-solvers/multigrid\|Multigrid / 多重网格方法]] | 几何 / 代数多重网格：光滑—限制—粗校正—延拓骨架，作为独立求解器或最优预条件子 |
+| [[linear-solvers/iterative-methods\|Iterative Methods / 迭代法]] | 残差修正与误差多项式统一框架下的定常迭代、Krylov 子空间方法（分族、收敛界、并行同步点）、预条件（信息需求、代价、Flexible CG）与多重网格（V-cycle、GMG/AMG、MGCG 条件、乘性与加性） |
 
 ---
 

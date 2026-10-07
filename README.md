@@ -67,12 +67,9 @@ dut-postdoc/
 │   │   ├── piml-substructural.md
 │   │   └── reference-libraries/  # FEALPy SciML 等参考库架构分析
 │   ├── linear-solvers/
-│   │   ├── linear-solvers-architecture.md  # 求解器体系架构：三条判定线、四层分工与选型流
+│   │   ├── linear-solvers-architecture.md  # 求解器体系架构：分类、组合关系、三条判定线与选型流
 │   │   ├── direct-methods.md
-│   │   ├── stationary-iterations.md
-│   │   ├── krylov-subspace-methods.md
-│   │   ├── preconditioning.md
-│   │   └── multigrid.md
+│   │   └── iterative-methods.md  # 定常迭代、Krylov、预条件、多重网格
 │   ├── matrix-free/
 │   │   ├── assembly-levels.md
 │   │   └── method-lineage.md
