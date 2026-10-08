@@ -3888,3 +3888,94 @@
 ## [2026-10-07] refactor | iterative-methods §2.3 子小节由 8 个合并为 5 个
 - 按用户确认，`concepts/linear-solvers/iterative-methods.md` §2.3 合并为：开头成员表 + 选择判据（原 2.3.6 判据段移入并补一句"SPD 用 CG / PCG、对称不定用 MINRES、非对称用 GMRES 或 BiCGSTAB"，删去与各方法小节重复的"典型问题"表）；2.3.1 共同原理（并入原 2.3.7"只需算子作用接口"段）；2.3.2 CG 与 PCG、2.3.3 MINRES 不变；2.3.4 合并原 GMRES 与 BiCGSTAB / TFQMR 两节为"非对称矩阵：GMRES 与 BiCGSTAB"，新增两者在基的生成、取解准则、残差行为、存储上的对比表，使用要点补"默认先用 GMRES"；原 2.3.8 并行同步点改为 2.3.5，内容不变。
 - 同步页内编号：§2.2 同步点引用、2.3.1 中 BiCGSTAB 指向、参考依据 [8][9] 小节号。外部入链只用 `#2.3 Krylov 子空间方法`，不受影响。检查：无残留 §2.3.6–§2.3.8 引用，页内 § 引用均有对应标题，缩写首次出现均带全称。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-07] edit | 两轴组合表补 Chebyshev 迭代列
+- 按用户确认，`concepts/linear-solvers/iterative-methods.md` §1.3 与 `linear-solvers-architecture.md` §1 的"外层格式 × 预条件子"组合表补"Chebyshev 迭代"列，使其与 §1.2 轴一表及 §2 的三种外层格式一致：松弛类一格为 Chebyshev-Jacobi（主要作多重网格光滑子，链至迭代法 §2.2），其余三格为"很少使用"。架构页表头"Krylov 方法"统一为"Krylov 子空间方法"，表后提示删去 Chebyshev 部分，改为"Krylov 方法的全部成员，以及多项式、代理算子类预条件子，见迭代法页"。
+- 检查：表格单元格内双链显示名的竖线已转义为 `\|`，两页组合表各行均为 4 列；锚点 `2.2 Chebyshev 迭代` 存在。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-07] edit | 两轴组合表角标与单元格措辞统一
+- 在用户修改的 `concepts/linear-solvers/iterative-methods.md` §1.3 组合表基础上：角标"外层迭代格式 / 预条件子"改为按"行 \ 列"惯例的"预条件子 \ 外层迭代格式"；定常迭代列"Schwarz 迭代"改为"Schwarz"，与 Jacobi、Gauss-Seidel 一致；表下补一句"Chebyshev-Jacobi 主要用作多重网格的光滑子（§2.2）"，替代原单元格内说明。
+- `linear-solvers-architecture.md` §1 同一张表按上述版本同步（去掉单元格内的"迭代"二字与 Chebyshev 说明），表下说明并入原提示句并链至迭代法 §2.2。两页组合表现已一致。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-07] edit | iterative-methods §2.3.1 重写为"子空间、取解准则与递推代价"
+- 按用户确认重写 `concepts/linear-solvers/iterative-methods.md` §2.3.1，标题由"共同原理"改为"子空间、取解准则与递推代价"（无入链锚点）。三段结构：①为什么是 Krylov 子空间（只用矩阵乘向量，$k$ 步可达的近似解即 $\mathbf x_0+\mathcal K_k$），并由此推出"只需算子作用"（原末段并入）与"预条件只是换算子"（原单句并入）；②两种取解准则及其使用含义（Galerkin 在 SPD 下即能量范数最优的 CG，极小残差即残差单调的 MINRES / GMRES），保留 2×2 表并加角标；③代价：Lanczos 短递推与 Arnoldi 长递推，引 Faber–Manteuffel 说明非对称矩阵上短递推与每步最优不可兼得，GMRES 与 BiCGSTAB 各取其一。删去重复的残差多项式表述与"按谱自适应调整有效算子"一句。
+- 新增参考依据 [18] Faber–Manteuffel 1984（出版信息经 CrossRef 核对；正文对定理条件为概括表述，未逐条对照原文）。检查：页内 § 引用均有对应标题，缩写首次出现规则不受影响。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-07] edit | iterative-methods 删除 §2.3.1，改为 §2.3 开头的定义段
+- 按用户决定，删除 `concepts/linear-solvers/iterative-methods.md` §2.3.1"子空间、取解准则与递推代价"。§2.3 开头新增一段定义：只有矩阵乘向量 → Krylov 子空间 $\mathcal K_k$ → 在其中按准则取 $\mathbf x_k$，各方法区别在基的生成与取解准则；只需算子作用，链至 assembly-levels。原小节其余内容已在别处覆盖（预条件换算子见 §3.1，各方法的取解准则见各方法小节，递推方式见成员表），2×2 表随之删除。
+- 用户此前已删去成员表后的"选择判据"段与"表中只列……"句，故 Faber–Manteuffel 结论改并入 §2.3.3 开头（"对非对称矩阵，短递推与每步最优不能同时得到，GMRES 与 BiCGSTAB 各取其一"）。
+- 小节重新编号：CG 与 PCG 2.3.1、MINRES 2.3.2、GMRES 与 BiCGSTAB 2.3.3、并行同步点 2.3.4；页内引用（成员表、§2.2、§3.1、§3.4.6）与参考依据 [3][8][9][16][17][18] 的小节号同步。外部入链仅用 `#2.3 Krylov 子空间方法`，不受影响。检查：页内 § 引用均有对应标题，缩写首次出现规则不受影响。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-07] refactor | iterative-methods 取消 §2.4，FCG / FGMRES 并入对应矩阵小节
+- 按用户确认的方案 A：删除 `concepts/linear-solvers/iterative-methods.md` §2.4"变预条件：FCG 与 FGMRES"，§2 只保留与外层格式分类对应的 2.1 定常、2.2 Chebyshev、2.3 Krylov 三节。FCG 内容（变预条件破坏 A-共轭性、Polak–Ribière 系数 [14]、截断 FCG [13]、多重网格满足 §3.4.5 时只需 PCG）移入 §2.3.1 PCG 段之后；FGMRES 说明并入 §2.3.3 使用要点。
+- §2.3 子标题统一为"矩阵类型：方法"：2.3.1 改为"SPD 矩阵：CG、PCG 与 FCG"，2.3.2 改为"对称不定矩阵：MINRES"，2.3.3、2.3.4 不变。
+- 同步引用：成员表 FCG → §2.3.1、FGMRES → §2.3.3；§3.4.5 表"须用 §2.4 的 FCG"改为"须用 FCG（§2.3.1）"；参考依据 [13][14] 改标 §2.3.1，[1] Saad §9.4 改标 §2.3.3、§3.1。检查：全库无指向本页 §2.4 的链接，页内 § 引用均有对应标题，缩写首次出现规则不受影响。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-07] refactor | iterative-methods §3 参照 §2 重排结构
+- 按用户确认重排 `concepts/linear-solvers/iterative-methods.md` §3：原 3.1"形式与目标"压缩为 §3 开头定义段（目标为谱聚集、左 / 右 / 分裂三种形式、各外层方法对 $\mathbf B$ 的要求）；原 3.6 信息需求表扩充为 §3 开头成员表（类别 | 代表 | 需要的信息 | 能否配 PCG | 矩阵变化时的更新代价，后两列为本页按各小节内容整理），装配层级说明随表保留。类别小节改为 3.1 松弛类（按"它做什么 / 效果取决于什么 / 使用要点"重排，内容不变）、3.2 不完全分解 / 多项式 / 代理算子、3.3 多重网格、3.4 区域分解，原 3.6 代价核算后半部分改为 3.5。
+- 多重网格子小节由 7 个合并为 4 个：3.3.1 原理与 V-cycle（原 3.4.1、3.4.2、3.4.4）、3.3.2 GMG 与 AMG、3.3.3 作为 PCG 预条件子（原 3.4.5 条件表与推导 + 原 3.4.6 稳健性论证）、3.3.4 乘性与加性多层预条件子。
+- §1.2 轴二表按用户同意精简为"构造类别 | 代表"两列，信息需求统一由 §3 开头成员表承担。ILUT 全称随首次出现移到 §3 成员表。
+- 同步：页内 §3.x 引用与参考依据小节号按新编号重映射；入链 `direct-methods.md`、`entities/zang-xinyu/zang-xinyu.md` 的 `#3.4 多重网格` 改为 `#3.3 多重网格`。检查：全库 6 个 `iterative-methods#` 入链锚点均存在，页内 § 引用均有对应标题，缩写首次出现均带全称。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-07] fix | 恢复 iterative-methods §3 成员表被误删的两格
+- 上一轮精简 §1.2 轴二表时，替换脚本按行首类别名匹配，误删了 §3 开头成员表"松弛类""区域分解"两行的"矩阵变化时的更新代价"列。已恢复为"低：重取对角或对角块""中：重新分解各子域局部矩阵"，两表各行列数已复核（成员表 5 列、轴二表 2 列）。未 commit、push。
+
+## [2026-10-07] refactor | iterative-methods 拆分 §3.2，代理算子改为构造策略说明
+- 按用户确认，`concepts/linear-solvers/iterative-methods.md` 原 §3.2"不完全分解、多项式与代理算子"拆为 §3.2 不完全分解（它做什么 + 使用要点：需显式矩阵、ILU 不对称只能配 GMRES / IC 可配 PCG、块 ILU 并行退化、矩阵变化须重做）与 §3.3 多项式预条件（只需算子作用与谱区间；$q$ 在全部特征值上取正值时为 SPD，可配 PCG，谱区间估计偏差大时无保证）。代理算子不再作为并列类别，移出 §3 成员表，改为表后一句"任一类预条件子都可构造在代理算子上"的构造策略说明。新增使用要点为本页按既有内容与标准结论整理，未新增文献。
+- 多重网格及之后各节后移一位：3.4 多重网格（3.4.1–3.4.4）、3.5 区域分解、3.6 代价核算；页内引用与参考依据小节号同步，多项式相关引用（§2.2 用途句、Saad §12.3）改指 §3.3。§1.2 轴二表"不完全分解、多项式与代理算子"一行拆为"不完全分解""多项式"两行。入链 `direct-methods.md`、`entities/zang-xinyu/zang-xinyu.md` 的 `#3.3 多重网格` 改为 `#3.4 多重网格`。
+- 检查：全库 6 个 `iterative-methods#` 入链锚点均存在；成员表各行 5 列、轴二表各行 2 列；页内 § 引用均有对应标题；缩写首次出现均带全称。修改过程中一次 perl 替换误把 `$q$` 当变量致单元格为空，已用 Edit 补回。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-07] refactor | iterative-methods §3.4 多重网格增加种类表并重排子小节
+- 按用户确认重写 `concepts/linear-solvers/iterative-methods.md` §3.4：开头新增种类表（GMG〔h-多重网格〕、p-多重网格、经典 AMG〔Ruge–Stüben 型〕、光滑聚合 AMG，列为层次从哪里来 | 需要的信息 | 适用 | 典型实现；两类 AMG 的区分与实现对应为本页按 Xu–Zikatanov [12] 等整理，未对照原文），表后说明两个与种类无关的用法选项（循环方式 V / W / F-cycle 与 FMG；层间组合乘性 / 加性）。
+- 子小节改为：3.4.1 原理与 V-cycle（"作为求解器还是预条件子"一段移出，W / F / FMG 移到开头用法选项）；3.4.2 各种类的要点（GMG 的 Galerkin 与重新离散粗算子、p-多重网格与代理算子的关系、AMG 的两类粗化与刚体模态近核及 setup 代价，原 GMG / AMG 对比表因与种类表重复而删去）；3.4.3 乘性与加性多层预条件子（原 3.4.4，Wang2025 对角松弛例子压缩）；3.4.4 使用（作为求解器还是预条件子、PCG 三项条件表、Krylov 外层为何更稳健）。按用户同意，误差传播算子 $\mathbf E$ 的推导压缩为一句结论并引 [12]。
+- 同步：§3.4.3 与 §3.4.4 互换编号，页内引用（§2.3.1、成员表、§3.5）与参考依据 [10][11][12][15] 相应更新，[12] 补"经典 AMG 与光滑聚合 AMG 的区分（§3.4）"。BPX 全称随首次出现移到 §3.4 开头。外部入链只用 `#3.4 多重网格`，不受影响。检查：页内 § 引用均有对应标题，缩写首次出现均带全称（AMG、SPD 的重复计数为括号误报），种类表各行 5 列。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-08] edit | iterative-methods §2.3.1 CG 解释修订
+- 按用户确认修订 `concepts/linear-solvers/iterative-methods.md` §2.3.1 中 CG 的"它做什么""收敛快慢取决于什么"两段：补定义 $\mathbf x^\ast$、$\mathbf e_k$、能量范数与 $\kappa=\lambda_{\max}/\lambda_{\min}$；因原 §2.3.1"共同原理"已删，Galerkin 条件改为括号内说明，正文直接写"每步取能量范数误差最小的近似解"；"所有 Krylov 方法中最省"改为"常用 Krylov 方法中最省"；补"误差缩小到 $\varepsilon$ 倍约需 $\tfrac12\sqrt\kappa\ln(2/\varepsilon)$ 步"（由收敛界推得）；离群特征值处的"§3.4.4 用到"改为说明用途；末段补多重网格预条件后 $\kappa(\mathbf M^{-1}\mathbf A)=O(1)$、迭代次数与网格无关，引 Trottenberg [5]，[5] 的支撑说明同步补充。
+- 修正渲染：`$[a,b]$` 在用户的预览中未渲染（推测为 `$` 后紧跟 `[` 被当作链接语法，未核实），改为 `$\left[a,b\right]$`。检查：页内 § 引用均有对应标题。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-08] edit | iterative-methods §2.3.1 CG 改用势能最小化视角解释
+- 按用户确认，`concepts/linear-solvers/iterative-methods.md` §2.3.1 的 CG 原理部分改写为计算力学视角（沿用用户改后的"**CG**"小标题格式）：①求解即总势能 $\Pi$ 最小化，残差即不平衡力，势能最小与能量范数误差最小等价；②最速下降在细长势能山谷中之字形折返；③CG 把搜索方向修正为 $\mathbf A$-共轭（类比振型互不耦合），故 $k$ 步后在 Krylov 子空间中势能最小，并注明等价于 Galerkin 条件；④新增"每一步做什么"四步表（$\mathbf A\mathbf p$、步长 $\alpha$、更新位移与不平衡力、$\beta$ 与新方向），说明只用上一个方向即与全部旧方向共轭的短递推。收敛段补 $\kappa$ 的力学含义（最硬 / 最软模态刚度比、山谷细长程度）、$\mathbf e_k$ 定义，以及最速下降约需 $\kappa$ 量级步数的对比。
+- 新增参考依据 [19] Shewchuk 1994（CMU-CS-94-125 技术报告，无 DOI，出版信息凭记忆，未核对）。检查：页内 § 引用均有对应标题，四步表各行 3 列。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-08] edit | iterative-methods §2.3.1 CG 部分精简，修复参考依据重复行
+- 按用户确认，`concepts/linear-solvers/iterative-methods.md` §2.3.1 的 CG 部分精简约 45%：势能、共轭条件、子空间最小三个独立公式块改为行内；删去误差上界公式（保留由其推得的步数估计）、能量范数等价说明、Galerkin 条件与 Chebyshev 比较；四步表与短递推、$\kappa$ 的力学含义、离群特征值、$O(h^{-1})$ 与多重网格 $O(1)$ 的对比保留。使用要点"残差曲线"一条的"能量范数误差"相应改为"势能"。
+- 修复：参考依据 [3]、[8]、[18] 各重复一行，原因是此前删除原 2.3.1 时 `perl -p` 脚本中 `print; next` 在 -p 模式下导致该行输出两次。已核对重复行与原行完全一致后删除，现为 [1]–[19] 各一条。检查：页内 § 引用均有对应标题，CG 四步表各行 3 列。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-08] edit | iterative-methods §2.3.1 最速下降一句精简
+- 按用户要求，`concepts/linear-solvers/iterative-methods.md` §2.3.1 CG 原理段"沿 $\mathbf r$ 反复下降（最速下降法）会在细长的势能山谷里来回折返"改为"最速下降法（反复沿 $\mathbf r$ 下降）会来回折返，收敛慢"。未 commit、push。
+
+## [2026-10-08] edit | iterative-methods 误差多项式改名 φ_k，§1.1 补"搜索方向 + 步长"视角
+- `concepts/linear-solvers/iterative-methods.md` 中误差多项式与 CG 搜索方向同用 $p_k$，易混淆。按用户确认：§1.1、§1.2 轴一表、§2.2 Chebyshev 公式中的误差多项式 $p_k$ 统一改为 $\varphi_k$；粗体 $\mathbf p_k$ 保留为搜索方向。
+- §1.1 补"残差修正形式也可读成 $\mathbf x_{k+1}=\mathbf x_k+\alpha_k\mathbf p_k$"一段与小表（定常迭代：方向 $\mathbf B\mathbf r_k$、步长 1；最速下降：方向 $\mathbf r_k$、步长使能量最低；CG / PCG：方向 $\mathbf B\mathbf r_k+\beta_{k-1}\mathbf p_{k-1}$ 与旧方向 $\mathbf A$-共轭），说明 Krylov 方法每步自适应选方向与步长即多项式视角下选最优 $\varphi_k$。§2.3.1 原理段改为"CG 把搜索方向 $\mathbf p_k$ 修正为……"，使符号首次出现即有定义。
+- 遗留：§2.2 Chebyshev 谱区间端点记为 $\alpha,\beta$，与 CG 的步长 $\alpha_k$、系数 $\beta_k$ 字母重复（下标不同），未改，已告知用户。检查：§2.3 之前无残留误差多项式 $p_k$，新表各行 3 列。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-08] edit | iterative-methods §1.1 方向公式改为行间，§2.2 谱区间改记 λ_min / λ_max
+- 按用户确认，`concepts/linear-solvers/iterative-methods.md` §1.1 的 $\mathbf x_{k+1}=\mathbf x_k+\alpha_k\mathbf p_k$ 由行内改为行间公式，与上方残差修正形式对应。
+- §2.2 Chebyshev 迭代的谱区间端点 $[\alpha,\beta]$ 改记为 $[\lambda_{\min},\lambda_{\max}]$（区间、多项式公式、$\kappa$ 定义与光滑子区间 $[\lambda_{\max}/c,\lambda_{\max}]$ 共四处），避免与 CG 的步长 $\alpha_k$、系数 $\beta_k$ 混淆。检查：全页已无不带下标的 $\alpha$、$\beta$。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-08] edit | iterative-methods §1.1 补两个误差公式的关系与特征展开
+- 按用户确认，`concepts/linear-solvers/iterative-methods.md` §1.1 统一误差公式后补两句：取 $\varphi_k(t)=(1-t)^k$ 即得定常迭代 $\mathbf e_k=(\mathbf I-\mathbf B\mathbf A)^k\mathbf e_0$；$\mathbf B\mathbf A$ 可对角化时 $\mathbf e_k=\sum_i\varphi_k(\lambda_i)c_i\mathbf v_i$，收敛快慢取决于 $\varphi_k$ 能否在全部特征值上同时很小（受 $\varphi_k(0)=1$ 约束）。$\varphi_k(0)=1$ 的推导未写入页面。为避免 SPD 首次出现前移，可对角化条件未用缩写表述。未 commit、push。
+
+## [2026-10-08] edit | iterative-methods §1.1 特征展开改写为振型分解解释
+- 按用户要求，`concepts/linear-solvers/iterative-methods.md` §1.1 中特征展开一句改写为精简的振型分解解释：误差按 $\mathbf B\mathbf A$ 特征向量（误差振型）展开、各振型互不耦合、$\mathbf e_k=\sum_i\varphi_k(\lambda_i)c_i\mathbf v_i$ 改为行间公式；说明受 $\varphi_k(0)=1$ 约束，接近 0 的特征值（软模态）最难消除，并以定常迭代 $\lambda_i=0.01$ 约需 460 步、$\lambda_i=1$ 一步消去为例；末句点明各类迭代法的区别在于如何选 $\varphi_k$，预条件的作用是把特征值推离 0 并聚集。460 步由 $0.99^k=0.01$ 推得。未 commit、push。
+
+## [2026-10-08] edit | iterative-methods §1.1 振型分解解释压缩为一句
+- 按用户要求，`concepts/linear-solvers/iterative-methods.md` §1.1 的振型分解解释压缩为一句：误差按 $\mathbf B\mathbf A$ 特征向量（误差振型）展开后各振型互不耦合地乘上 $\varphi_k(\lambda_i)$，$\varphi_k(0)=1$ 使接近 0 的特征值（软模态）最难消除；删去行间公式、460 步算例与预条件作用一句。未 commit、push。
+
+## [2026-10-08] edit | iterative-methods §1.1 补"软模态"括号说明
+- 按用户确认，`concepts/linear-solvers/iterative-methods.md` §1.1"接近 0 的特征值（软模态）"改为"接近 0 的特征值对应的软模态（刚度小、形态光滑的误差分量）"，在该借用术语首次出现处给出含义。未 commit、push。
+
+## [2026-10-08] edit | iterative-methods §1.1 去掉 deg 记号
+- 按用户确认，`concepts/linear-solvers/iterative-methods.md` §1.1 统一误差公式中的"$\varphi_k(0)=1,\ \deg\varphi_k=k$"移出公式，改为文字"其中 $\varphi_k$ 是满足 $\varphi_k(0)=1$ 的 $k$ 次多项式"。全页已无 deg 记号。未 commit、push。
+
+## [2026-10-08] edit | iterative-methods §1.1 改为"迭代的一般形式"
+- 按用户确认重写 `concepts/linear-solvers/iterative-methods.md` §1.1，标题由"残差修正形式"改为"迭代的一般形式"（全库无该锚点入链）：删去残差修正形式 $\mathbf x_{k+1}=\mathbf x_k+\mathbf B(\mathbf b-\mathbf A\mathbf x_k)$（它只是 $\mathbf p_k=\mathbf B\mathbf r_k$、$\alpha_k=1$ 的特例，原"几乎所有迭代法都可从其出发"与"也可以读成"两处表述不准确）；以 $\mathbf x_{k+1}=\mathbf x_k+\alpha_k\mathbf p_k$ 开篇，在方向构造中引入 $\mathbf B\approx\mathbf A^{-1}$（预条件子），随后为用户调整过的方法对照表（原样保留）、定常迭代误差 $(\mathbf I-\mathbf B\mathbf A)^k$、统一误差多项式 $\varphi_k$ 与振型分解一句，收尾改为"用什么 $\mathbf B$，以及怎样选方向与步长，即怎样选 $\varphi_k$"。
+- 检查：页内已无"残差修正形式"表述，§1.1 的引用仅参考依据 [3]，语义不变。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-08] edit | iterative-methods §2.3 开头补两句
+- 按用户确认，`concepts/linear-solvers/iterative-methods.md` §2.3 第一段补两句：①"由于 $\mathbf A$ 稀疏，每乘一次 $\mathbf A$ 信息只向外传播一层单元，这也是网格越细所需步数越多的直观原因"（本页整理）；②"对 CG 一类短递推方法，这就是 §1.1 的 $\mathbf x_{k+1}=\mathbf x_k+\alpha_k\mathbf p_k$，$\mathbf p_k$ 取自 $\mathcal K_{k+1}$，具体形式见 §2.3.1；GMRES 则不逐个方向更新，而是在 $k$ 步后一次性求出子空间中的最优组合"，说明步进形式并非对所有 Krylov 方法成立。未 commit、push。
+
+## [2026-10-08] edit | iterative-methods §2.3 开头改为"定义 + 两步例子 + 要点"，修正 CG / PCG / MINRES 首次出现
+- 按用户确认重写 `concepts/linear-solvers/iterative-methods.md` §2.3 第一段：开头一句定义（保留前 $k$ 次矩阵乘向量得到的全部向量，用其最优组合作近似解）；两步对比例子（不预条件时定常迭代 $\mathbf x_2=\mathbf x_0+2\mathbf r_0-\mathbf A\mathbf r_0$ 系数固定，Krylov 取 $\mathbf x_0+c_0\mathbf r_0+c_1\mathbf A\mathbf r_0$ 系数择优，前者按 $\mathbf B=\mathbf I$、步长 1 推得）；$\mathcal K_k$ 改为行间公式；其余改为三条要点（准则不同方法不同；CG 逐步更新与 GMRES 一次求组合；稀疏传播直观与只需算子作用）。删去"基怎样生成"半句（成员表"递推与存储"列已覆盖）。
+- 缩写修正：MINRES 首次出现前移到新要点，全称随之移入，成员表前一句改为"除 CG、PCG、MINRES 与 GMRES 外"；复查发现此前加入 §1.1 方法对照表时 CG / PCG 已先于 §1.3 出现而未带全称（当时未重跑检查），现把两者全称移到 §1.1 表中，§1.3 改用缩写。检查：缩写首次出现均带全称、无重复全称，§1.1 表各行 3 列，页内 § 引用均有对应标题。Obsidian 渲染未验证，未 commit、push。

@@ -35,14 +35,14 @@ date_update: 2026-10-07
 
 迭代法内部的两条轴：外层迭代格式决定怎样选误差多项式（[[iterative-methods#2. 外层迭代格式|迭代法 §2]]），预条件子的构造决定近似逆 $\mathbf B\approx\mathbf A^{-1}$ 是什么（[[iterative-methods#3. 预条件子的构造|迭代法 §3]]），具体求解器是二者的组合（[[iterative-methods#1.3 具体求解器是两条轴的组合|迭代法 §1.3]]）。组合按"预条件子-外层方法"命名：外层以共轭梯度法（Conjugate Gradient, CG）与广义极小残差法（Generalized Minimal Residual, GMRES）为代表，带预条件的 CG 称为预条件共轭梯度法（Preconditioned Conjugate Gradient, PCG）。表中其余缩写为逐次超松弛（Successive Over-Relaxation, SOR）、对称逐次超松弛（Symmetric SOR, SSOR）、不完全 Cholesky 分解（Incomplete Cholesky, IC）、不完全 LU 分解（Incomplete LU, ILU）、多重网格预条件共轭梯度法（Multigrid-Preconditioned Conjugate Gradient, MGCG）与代数多重网格（Algebraic Multigrid, AMG）。
 
-| | 定常迭代 | Krylov 方法 |
-|---|---|---|
-| 松弛类 | Jacobi 迭代、Gauss-Seidel 迭代、SOR | Jacobi-PCG、SSOR-PCG |
-| 不完全分解 | 很少单独使用 | IC-PCG、ILU-GMRES |
-| 多重网格 | 多重网格求解器 | MGCG、AMG-PCG |
-| 区域分解 | Schwarz 迭代 | Schwarz-PCG |
+| 预条件子 \ 外层迭代格式 | 定常迭代 | Chebyshev 迭代 | Krylov 子空间方法 |
+|---|---|---|---|
+| 松弛类 | Jacobi、Gauss-Seidel、SOR | Chebyshev-Jacobi | Jacobi-PCG、SSOR-PCG |
+| 不完全分解 | 很少单独使用 | 很少使用 | IC-PCG、ILU-GMRES |
+| 多重网格 | 多重网格求解器 | 很少使用 | MGCG、AMG-PCG |
+| 区域分解 | Schwarz | 很少使用 | Schwarz-PCG |
 
-表中只列两种最常用的外层格式；Chebyshev 迭代、Krylov 方法的全部成员与多项式、代理算子类预条件子见迭代法页。
+Chebyshev-Jacobi 主要用作多重网格的光滑子（[[iterative-methods#2.2 Chebyshev 迭代|迭代法 §2.2]]）。Krylov 方法的全部成员，以及多项式、代理算子类预条件子，见迭代法页。
 
 常见组合的适用问题与选用理由如下，表中另用到对称正定（Symmetric Positive Definite, SPD）、几何多重网格（Geometric Multigrid, GMG）与极小残差法（Minimal Residual, MINRES）：
 
