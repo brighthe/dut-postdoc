@@ -1,3 +1,4 @@
+\newcommand{\DoNotLoadEpstopdf}{}
 % Figure 3.2. Partial relaxation of vertex stress continuity at a 2D corner.
 % Build in WSL: pdflatex for PDF, pdftocairo -eps for EPS, pdftocairo -png -r 300 for PNG.
 \documentclass[tikz,border=3pt]{standalone}
@@ -15,9 +16,12 @@
   % ================= (a) 松弛前 =================
   \begin{scope}[shift={(0,0)}]
     \draw (0,0) -- (\W,\H) -- (\W,-\H) -- cycle;
-    \draw[fill=white] (-0.04,0.05) circle (\R);
-    \draw[fill=white] (0.04,-0.05) circle (\R);
-    \node[left=3pt] at (0,0) {$x_c$};
+    % Offset DOF symbols; the leader identifies their common vertex.
+    \draw[line width=0.35pt] (-0.65,0.43) -- (0,0);
+    \fill (-0.65,0.83) circle (\R);
+    \draw[fill=white] (-0.80,0.57) circle (\R);
+    \draw[fill=white] (-0.50,0.57) circle (\R);
+    \node[left=2pt] at (-0.08,-0.22) {$x_c$};
     \node at (0.62*\W,0) {$T$};
     \node[above left] at (0.5*\W,0.5*\H) {$e_+$};
     \node[below left] at (0.5*\W,-0.5*\H) {$e_-$};
@@ -28,9 +32,12 @@
   \begin{scope}[shift={(\G,0)}]
     \draw (0,0) -- (\W,\H) -- (\W,-\H) -- cycle;
     \draw (0,0) -- (\W,0);
-    \draw[fill=white] (-0.04,0.05) circle (\R);
-    \draw[fill=white] (0.04,-0.05) circle (\R);
-    \node[left=3pt] at (0,0) {$x_c$};
+    % Offset DOF symbols; the leader identifies their common vertex.
+    \draw[line width=0.35pt] (-0.65,0.43) -- (0,0);
+    \fill (-0.65,0.83) circle (\R);
+    \draw[fill=white] (-0.80,0.57) circle (\R);
+    \draw[fill=white] (-0.50,0.57) circle (\R);
+    \node[left=2pt] at (-0.08,-0.22) {$x_c$};
     \node[right] at (\W,0) {$e$};
     \node at (0.66*\W,0.32*\H) {$T^+$};
     \node at (0.66*\W,-0.32*\H) {$T^-$};
@@ -44,11 +51,14 @@
     \def\d{0.12}
     \draw (0,\d) -- (\W,\H+\d) -- (\W,\d) -- cycle;
     \draw (0,-\d) -- (\W,-\H-\d) -- (\W,-\d) -- cycle;
-    \fill (0,\d+0.02) circle (\R);
-    \fill (0,-\d-0.02) circle (\R);
-    \draw[fill=white] (-0.08,0) circle (\R);
-    \draw[fill=white] (0.08,0) circle (\R);
-    \node[left=5pt] at (0,0) {$x_c$};
+    % Both drawn corners represent the same physical vertex x_c.
+    \draw[line width=0.35pt] (-0.65,0.43) -- (-0.18,0);
+    \draw[line width=0.35pt] (0,\d) -- (-0.18,0) -- (0,-\d);
+    \fill (-0.80,0.83) circle (\R);
+    \fill (-0.50,0.83) circle (\R);
+    \draw[fill=white] (-0.80,0.57) circle (\R);
+    \draw[fill=white] (-0.50,0.57) circle (\R);
+    \node[left=2pt] at (-0.08,-0.22) {$x_c$};
     \node[right] at (\W,0) {$e$};
     \node at (0.66*\W,0.32*\H+\d) {$T^+$};
     \node at (0.66*\W,-0.32*\H-\d) {$T^-$};
