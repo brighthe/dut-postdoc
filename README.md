@@ -56,7 +56,8 @@ dut-postdoc/
 │   ├── guo-xu/         # 郭旭院士（学术画像、研究体系、历次汇报）
 │   │   └── reports/   # 每次汇报独立目录，正文为 report.md，入口见 entities/_index.md
 │   ├── liu-chang/      # 刘畅教授（学术画像、PIML选型谱系、历次汇报）
-│   └── guo-yilin/      # 郭一麟博士（合作线索、GPU加速交流）
+│   ├── guo-yilin/      # 郭一麟博士（合作线索、GPU加速交流）
+│   └── sgsim/          # 软件档案：研究院 SGSim 框架（PIML 模块接口与代码位置）
 ├── concepts/           # 稳定概念：简单概念单页，复杂主题使用子目录
 │   ├── _index.md       # 概念域总入口（统一直接索引所有子目录概念页，无二级 _index.md）
 │   ├── linear-elasticity.md、machine-learning.md 等  # 简单概念单页

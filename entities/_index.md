@@ -11,6 +11,12 @@
 | [[guo-yilin/guo-yilin|郭一麟]] | 博士，PIML 方向（`xuProblemindependentMachineLearning2025` 作者之一），PIML × GPU 合作线索 | in-progress |
 | [[mei-yue/mei-yue|梅跃]] | 大连理工大学教授，大连工业软件创新发展研究院常务副院长；计算力学正反问题与 CAE 软件研发，PIML 主线两篇论文共同作者 | in-progress |
 
+## 软件
+
+| 实体 | 说明 | 状态 |
+|---|---|---|
+| [[sgsim/sgsim\|SGSim]] | 研究院软件框架；当前整理其 PIML 模块的支持范围、数据与 C++ 接口、推理流程、代码位置及与本库概念的对应 | draft |
+
 ## 工作汇报
 
 | 页面 / 入口 | 说明 |

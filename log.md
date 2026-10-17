@@ -3979,3 +3979,8 @@
 ## [2026-10-08] edit | iterative-methods §2.3 开头改为"定义 + 两步例子 + 要点"，修正 CG / PCG / MINRES 首次出现
 - 按用户确认重写 `concepts/linear-solvers/iterative-methods.md` §2.3 第一段：开头一句定义（保留前 $k$ 次矩阵乘向量得到的全部向量，用其最优组合作近似解）；两步对比例子（不预条件时定常迭代 $\mathbf x_2=\mathbf x_0+2\mathbf r_0-\mathbf A\mathbf r_0$ 系数固定，Krylov 取 $\mathbf x_0+c_0\mathbf r_0+c_1\mathbf A\mathbf r_0$ 系数择优，前者按 $\mathbf B=\mathbf I$、步长 1 推得）；$\mathcal K_k$ 改为行间公式；其余改为三条要点（准则不同方法不同；CG 逐步更新与 GMRES 一次求组合；稀疏传播直观与只需算子作用）。删去"基怎样生成"半句（成员表"递推与存储"列已覆盖）。
 - 缩写修正：MINRES 首次出现前移到新要点，全称随之移入，成员表前一句改为"除 CG、PCG、MINRES 与 GMRES 外"；复查发现此前加入 §1.1 方法对照表时 CG / PCG 已先于 §1.3 出现而未带全称（当时未重跑检查），现把两者全称移到 §1.1 表中，§1.3 改用缩写。检查：缩写首次出现均带全称、无重复全称，§1.1 表各行 3 列，页内 § 引用均有对应标题。Obsidian 渲染未验证，未 commit、push。
+
+## [2026-10-17] ingest | 整理 SGSim PIML 模块说明
+
+- 据 2026-10-15 微信接收的《SGSim_PIML说明.pdf》（3 页）新建软件档案 [[entities/sgsim/sgsim]]（draft）：整理 PIML 模块的支持范围、数据与 C++ 接口、训练与推理组织、代码位置；另列与 PIML 子结构、子结构 PIML Matrix-Free 概念页的对应（标为本页推导，未经源码核实）及 7 项待确认。说明文档作者为黄靖翔博士；按用户决定不登记原件。
+- 同步 [[entities/_index]] 新增“软件”表；[[entities/guo-xu/reports/overview]] §5 与 2026-09-10 汇报待办指向新页，注明权限、对接人与 MPI/GPU 层仍待问；`README.md` 目录树补 `sgsim/`。根 `index.md` 无需更新；未修改概念页，未 push。
