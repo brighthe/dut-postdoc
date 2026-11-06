@@ -82,7 +82,7 @@ $$
 $$
 H(\operatorname{div},\Omega;\mathbb{S}) = \left\{ \boldsymbol{\tau} \in L^2(\Omega;\mathbb{S}) : \operatorname{div}\boldsymbol{\tau} \in L^2(\Omega;\mathbb{R}^d) \right\},
 $$
-其中，散度按分布意义理解，$\|\cdot\|_{0,\Omega}$ 表示相应的 $L^2$ 范数。该空间配备范数 $\|\boldsymbol{\tau}\|_{H(\operatorname{div})}^2 = \|\boldsymbol{\tau}\|_{0,\Omega}^2 + \|\operatorname{div}\boldsymbol{\tau}\|_{0,\Omega}^2$。
+其中散度按分布意义理解，$\|\cdot\|_{0,\Omega}$ 表示相应的 $L^2$ 范数。该空间的范数满足 $\|\boldsymbol{\tau}\|_{H(\operatorname{div})}^2 = \|\boldsymbol{\tau}\|_{0,\Omega}^2 + \|\operatorname{div}\boldsymbol{\tau}\|_{0,\Omega}^2$。
 
 ### 2.2 Linear Elasticity and Hellinger–Reissner Variational Formulation
 

@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="640" viewBox="0 0 1320 640" role="img" aria-labelledby="title desc">
+<title id="title">两族子结构的接口：非重叠拼接与重叠协调</title>
+<desc id="desc">左图为非重叠拼接：2×2 个子结构只共用一条边，共享边上的节点用红色标记，全局只编号一次。中图为重叠协调：四个子结构各向邻块延伸宽 h 的带，带内被 2 块覆盖，中心被 4 块覆盖。右图为带内权函数 w_A、w_B 从 1 到 0 的过渡，以及两侧独立位移 u_A、u_B 在带内被加权合成为连续位移；若按非重叠方式拼接，接口处会出现位移跳跃。示意图不按物理尺寸比例绘制。</desc>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#1f2d3a">
+<text x="40" y="42" font-size="26" font-weight="700">两族子结构的接口：非重叠拼接与重叠协调</text>
+<text x="40" y="74" font-size="17" fill="#64748b">二维示意 · 几何比例为示意 · 红色为接口共享节点，橙色为重叠带</text>
+
+<!-- ① 非重叠拼接 -->
+<text x="45" y="123" font-size="21" font-weight="700">① 非重叠拼接：相邻块共用一条边</text>
+<text x="45" y="152" font-size="17">共享边节点全局只编号一次，两侧位移取同一值</text>
+<g stroke="#b9c8d5" stroke-width="1">
+<line x1="100" y1="180" x2="100" y2="500"/><line x1="140" y1="180" x2="140" y2="500"/><line x1="180" y1="180" x2="180" y2="500"/>
+<line x1="260" y1="180" x2="260" y2="500"/><line x1="300" y1="180" x2="300" y2="500"/><line x1="340" y1="180" x2="340" y2="500"/>
+<line x1="60" y1="220" x2="380" y2="220"/><line x1="60" y1="260" x2="380" y2="260"/><line x1="60" y1="300" x2="380" y2="300"/>
+<line x1="60" y1="380" x2="380" y2="380"/><line x1="60" y1="420" x2="380" y2="420"/><line x1="60" y1="460" x2="380" y2="460"/>
+</g>
+<rect x="60" y="180" width="320" height="320" fill="none" stroke="#395569" stroke-width="2"/>
+<line x1="220" y1="180" x2="220" y2="500" stroke="#c65c3b" stroke-width="3"/>
+<line x1="60" y1="340" x2="380" y2="340" stroke="#c65c3b" stroke-width="3"/>
+<g fill="#c65c3b">
+<circle cx="220" cy="180" r="5"/><circle cx="220" cy="220" r="5"/><circle cx="220" cy="260" r="5"/><circle cx="220" cy="300" r="5"/><circle cx="220" cy="340" r="5"/><circle cx="220" cy="380" r="5"/><circle cx="220" cy="420" r="5"/><circle cx="220" cy="460" r="5"/><circle cx="220" cy="500" r="5"/>
+<circle cx="60" cy="340" r="5"/><circle cx="100" cy="340" r="5"/><circle cx="140" cy="340" r="5"/><circle cx="180" cy="340" r="5"/><circle cx="260" cy="340" r="5"/><circle cx="300" cy="340" r="5"/><circle cx="340" cy="340" r="5"/><circle cx="380" cy="340" r="5"/>
+</g>
+<g font-size="18" fill="#395569" text-anchor="middle">
+<text x="140" y="268">Ω¹</text><text x="300" y="268">Ω²</text><text x="140" y="428">Ω³</text><text x="300" y="428">Ω⁴</text>
+</g>
+<text x="45" y="540" font-size="17" fill="#64748b">拼装时按共享自由度叠加，位移天然连续；</text>
+<text x="45" y="565" font-size="17" fill="#64748b">接口位移形状受所选迹空间限制（角点方案为线性）</text>
+
+<!-- ② 重叠协调 -->
+<text x="465" y="123" font-size="21" font-weight="700">② 重叠协调：相邻块各向对方延伸宽 h 的带</text>
+<text x="465" y="152" font-size="17">各块基函数独立构造，带内由权函数混合</text>
+<g stroke="#b9c8d5" stroke-width="1">
+<line x1="520" y1="180" x2="520" y2="540"/><line x1="560" y1="180" x2="560" y2="540"/><line x1="600" y1="180" x2="600" y2="540"/><line x1="640" y1="180" x2="640" y2="540"/><line x1="680" y1="180" x2="680" y2="540"/><line x1="720" y1="180" x2="720" y2="540"/><line x1="760" y1="180" x2="760" y2="540"/><line x1="800" y1="180" x2="800" y2="540"/>
+<line x1="480" y1="220" x2="840" y2="220"/><line x1="480" y1="260" x2="840" y2="260"/><line x1="480" y1="300" x2="840" y2="300"/><line x1="480" y1="340" x2="840" y2="340"/><line x1="480" y1="380" x2="840" y2="380"/><line x1="480" y1="420" x2="840" y2="420"/><line x1="480" y1="460" x2="840" y2="460"/><line x1="480" y1="500" x2="840" y2="500"/>
+</g>
+<rect x="480" y="180" width="360" height="360" fill="none" stroke="#395569" stroke-width="2"/>
+<rect x="640" y="180" width="40" height="360" fill="#cc7c14" fill-opacity="0.22"/>
+<rect x="480" y="340" width="360" height="40" fill="#cc7c14" fill-opacity="0.22"/>
+<rect x="640" y="340" width="40" height="40" fill="#cc7c14" fill-opacity="0.30"/>
+<g fill="none" stroke-width="2.5" stroke-dasharray="8 5">
+<rect x="480" y="180" width="200" height="200" stroke="#267ab8"/>
+<rect x="640" y="180" width="200" height="200" stroke="#c65c3b"/>
+<rect x="480" y="340" width="200" height="200" stroke="#2e8b57"/>
+<rect x="640" y="340" width="200" height="200" stroke="#cc7c14"/>
+</g>
+<g font-size="18" font-weight="700" text-anchor="middle">
+<text x="560" y="268" fill="#267ab8">A</text><text x="760" y="268" fill="#c65c3b">B</text><text x="560" y="468" fill="#2e8b57">C</text><text x="760" y="468" fill="#cc7c14">D</text>
+</g>
+<g font-size="14" fill="#8a4b00" text-anchor="middle">
+<text x="660" y="262">2 块</text><text x="560" y="365">2 块</text><text x="660" y="365">4 块</text><text x="760" y="365">2 块</text><text x="660" y="462">2 块</text>
+</g>
+<line x1="640" y1="170" x2="680" y2="170" stroke="#8a4b00" stroke-width="1.5"/>
+<line x1="640" y1="165" x2="640" y2="175" stroke="#8a4b00" stroke-width="1.5"/>
+<line x1="680" y1="165" x2="680" y2="175" stroke="#8a4b00" stroke-width="1.5"/>
+<text x="700" y="174" font-size="14" fill="#8a4b00">h</text>
+<text x="465" y="575" font-size="17" fill="#64748b">重叠不增加全局未知量，只给细尺度刚度增加耦合项；</text>
+<text x="465" y="600" font-size="17" fill="#64748b">是对独立基函数不协调的补救，不是出发点</text>
+
+<!-- ③ 权函数混合 -->
+<text x="945" y="123" font-size="21" font-weight="700">③ 带内的权函数混合</text>
+<text x="945" y="152" font-size="17">w_A + w_B = 1，合成位移连续</text>
+<rect x="1090" y="200" width="60" height="105" fill="#cc7c14" fill-opacity="0.18"/>
+<line x1="960" y1="295" x2="1280" y2="295" stroke="#7890a2" stroke-width="1"/>
+<line x1="960" y1="215" x2="1280" y2="215" stroke="#dbe3eb" stroke-width="1" stroke-dasharray="3 4"/>
+<polyline points="960,215 1090,215 1150,295 1280,295" fill="none" stroke="#267ab8" stroke-width="2.5"/>
+<polyline points="960,295 1090,295 1150,215 1280,215" fill="none" stroke="#c65c3b" stroke-width="2.5"/>
+<g font-size="14">
+<text x="946" y="220" fill="#64748b">1</text><text x="946" y="299" fill="#64748b">0</text>
+<text x="975" y="238" fill="#267ab8" font-weight="700">w_A</text><text x="1240" y="238" fill="#c65c3b" font-weight="700">w_B</text>
+<text x="1120" y="190" fill="#8a4b00" text-anchor="middle">重叠带</text>
+</g>
+<rect x="1090" y="335" width="60" height="170" fill="#cc7c14" fill-opacity="0.18"/>
+<polyline points="960,470 1020,458 1090,447 1150,436" fill="none" stroke="#267ab8" stroke-width="2.5"/>
+<polyline points="1090,468 1150,458 1210,447 1280,436" fill="none" stroke="#c65c3b" stroke-width="2.5"/>
+<polyline points="960,470 1020,458 1090,447 1120,452 1150,458 1210,447 1280,436" fill="none" stroke="#1f2d3a" stroke-width="3" stroke-dasharray="7 4"/>
+<line x1="1120" y1="442" x2="1120" y2="463" stroke="#cc7c14" stroke-width="2" stroke-dasharray="2 2"/>
+<circle cx="1120" cy="442" r="3" fill="#267ab8"/><circle cx="1120" cy="463" r="3" fill="#c65c3b"/>
+<g font-size="14">
+<text x="965" y="492" fill="#267ab8" font-weight="700">u_A</text><text x="1245" y="428" fill="#c65c3b" font-weight="700">u_B</text>
+<text x="960" y="355" fill="#1f2d3a">虚线：合成位移 w_A·u_A + w_B·u_B</text>
+<text x="1158" y="500" fill="#8a4b00">接口两侧取值不同，</text>
+<text x="1158" y="518" fill="#8a4b00">非重叠拼接即跳跃</text>
+</g>
+<text x="945" y="575" font-size="17" fill="#64748b">带外只剩一侧位移，带内平滑过渡；</text>
+<text x="945" y="600" font-size="17" fill="#64748b">全局位移 C⁰ 连续，应变与应变能有定义</text>
+
+<text x="40" y="630" font-size="15" fill="#64748b">① 精确族：full-trace／Lagrange／Bernstein；②③ 超采样族：见 oversampling-substructural</text>
+</g>
+</svg>

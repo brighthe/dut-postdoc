@@ -396,7 +396,7 @@ $$
 ## 相关页面
 
 - [[../_index#2-有限元单元算子体系|有限元单元体系总览]] — 有限元单元体系概念索引。
-- [[../linear-elasticity]] — 二维与三维连续介质位移型线弹性母理论。
+- [[linear-elasticity]] — 二维与三维连续介质位移型线弹性母理论。
 - [[solid-elements]] — 二维与三维连续介质实体单元算子。
 - [[../../research/benchmark-cases/50w-2d-linear-elasticity-model]] — 大规模工业板壳基准算例（`50w-2d`）。
 - [[../../research/benchmark-cases/10w-3d-linear-elasticity-model]] — 大规模三维实体基准算例（`10w-3d`）。

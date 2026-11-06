@@ -1,65 +1,65 @@
-% Figure 3.1. Local orthonormal frames on sub-simplices of a triangle and the
-% normal/tangential symmetric tensor components (red: shared, black: element-private).
-% Build in WSL: pdflatex for PDF, pdftocairo -eps for EPS, pdftocairo -png -r 300 for PNG.
-\documentclass[tikz,border=3pt]{standalone}
-\usepackage{amsmath}
-\usepackage{tikz}
+\newcommand{\DoNotLoadEpstopdf}{}
+\documentclass[tikz,border=7pt]{standalone}
+\usepackage{amsmath,amssymb}
 \usetikzlibrary{arrows.meta,calc}
-
-\definecolor{shared}{RGB}{220,0,0}
+\definecolor{shared}{RGB}{170,48,60}
+\definecolor{local}{RGB}{0,0,0}
+\definecolor{line}{RGB}{0,0,0}
 \tikzset{
-  frame/.style={line width=1.1pt,-{Latex[length=3mm,width=2mm]}},
-  dof/.style={dashed,line width=0.6pt},
-  lab/.style={circle,draw,inner sep=0.6pt,minimum size=4.2mm,font=\footnotesize}
+ axis/.style={line width=.9pt,line,-{Latex[length=2mm,width=1.4mm]}},
+ badge/.style={circle,draw,line width=.8pt,minimum size=5mm,inner sep=0pt,font=\small,fill=white},
+ title/.style={font=\normalsize,text=local},
+ eq/.style={font=\small,text=local}
 }
-
-% \frameDOF{P}{a}{b}{c1}{c2}{c3}
-% P：标架原点；a、b：单位向量（b 为 a 顺时针旋转 90 度）；
-% c1、c2、c3：分量 sym(a⊗a)、sym(a⊗b)、sym(b⊗b) 的标记颜色。
-\newcommand{\frameDOF}[6]{
-  \coordinate (P) at #1;
-  \coordinate (A) at #2;
-  \coordinate (B) at #3;
-  \coordinate (Ta) at ($(P)+1.4*(A)$);
-  \coordinate (Tb) at ($(P)+1.4*(B)$);
-  \coordinate (D) at ($0.7071*(A)+0.7071*(B)$);
-  \draw[frame] (P) -- (Ta);
-  \draw[frame] (P) -- (Tb);
-  % ① a⊗a
-  \draw[dof,#4] ($(P)+1.15*(A)$) circle (0.36);
-  \node[lab,#4] at ($(P)+1.15*(A)+0.62*(D)$) {1};
-  % ② sym(a⊗b)
-  \draw[dof,#5,{Stealth[length=1.6mm]}-{Stealth[length=1.6mm]}]
-    ($(P)+0.62*(A)$) to[bend left=50] ($(P)+0.62*(B)$);
-  \node[lab,#5] at ($(P)+1.2*(D)$) {2};
-  % ③ b⊗b
-  \draw[dof,#6] ($(P)+1.15*(B)$) circle (0.36);
-  \node[lab,#6] at ($(P)+1.15*(B)+0.62*(D)$) {3};
+\newcommand{\components}[3]{
+ \draw[axis] (0,0)--(0,1.65);
+ \draw[axis] (0,0)--(1.65,0);
+ \node[badge,draw=#1,text=#1] at (-.45,1.32){1};
+ \draw[#2,line width=.8pt,{Latex[length=1.2mm]}-{Latex[length=1.2mm]}]
+ (0,.72) to[bend left=40] (.72,0);
+ \node[badge,draw=#2,text=#2] at (.73,.79){2};
+ \node[badge,draw=#3,text=#3] at (1.3,-.46){3};
 }
-
 \begin{document}
 \begin{tikzpicture}[x=1cm,y=1cm]
-  % 三角形顶点
-  \coordinate (V1) at (0,0);
-  \coordinate (V2) at (7.5,0);
-  \coordinate (V3) at (3.5,5.75);
-
-  \draw[line width=1.6pt,line join=round] (V1) -- (V2) -- (V3) -- cycle;
-
-  % ================= 顶点：全局笛卡尔标架，三个分量均共享 =================
-  \frameDOF{(V1)}{(0,1)}{(1,0)}{shared}{shared}{shared}
-  \frameDOF{(V2)}{(0,1)}{(1,0)}{shared}{shared}{shared}
-  \frameDOF{(V3)}{(0,1)}{(1,0)}{shared}{shared}{shared}
-
-  % ================= 边：(n_e, t_e) 标架，n⊗n 与 sym(t⊗n) 共享，t⊗t 私有 =================
-  % 底边：n_e 取向上（指向单元内部），t_e 自左向右
-  \frameDOF{($(V1)!0.5!(V2)$)}{(0,1)}{(1,0)}{shared}{shared}{black}
-  % 左边：t_e 自 V1 指向 V3，n_e 指向单元外部
-  \frameDOF{($(V1)!0.5!(V3)$)}{(-0.8543,0.5199)}{(0.5199,0.8543)}{shared}{shared}{black}
-  % 右边：t_e 自 V3 指向 V2，n_e 指向单元外部
-  \frameDOF{($(V3)!0.5!(V2)$)}{(0.8209,0.5711)}{(0.5711,-0.8209)}{shared}{shared}{black}
-
-  % ================= 单元内部：全局标架，三个分量均私有 =================
-  \frameDOF{(3.667,1.917)}{(0,1)}{(1,0)}{black}{black}{black}
+% Three entity columns without decorative panels. Numbers retain the original tensor-component meanings.
+\foreach \x/\name/\dim in {0/Vertex/0,4.6/Edge/1,9.2/Interior/2}{
+ \node[title] at (\x+2.15,5.25){\name};
+ \node[text=line,font=\small] at (\x+2.15,4.87){$\ell=\dim$};
+ \begin{scope}[shift={(\x+1.45,3.65)}]
+   \coordinate (A) at (0,0);\coordinate (B) at (1.4,0);\coordinate (C) at (.7,1.02);
+   \draw[line,line width=.8pt] (A)--(B)--(C)--cycle;
+ \end{scope}
+}
+% Highlight the entity represented by each panel.
+\fill[shared] (1.45,3.65) circle (2.1pt);
+\draw[shared,line width=1.6pt] (6.05,3.65)--(7.45,3.65);
+\fill[local] (11.35,3.99) circle (2.1pt);
+\begin{scope}[shift={(1.32,1.55)}]
+ \components{shared}{shared}{shared}
+ \node[text=line,font=\small,anchor=south] at (0,1.75){$\boldsymbol a$};
+ \node[text=line,font=\small,anchor=west] at (1.77,0){$\boldsymbol b$};
+\end{scope}
+\begin{scope}[shift={(5.92,1.55)}]
+ \components{shared}{shared}{local}
+ \node[text=line,font=\small,anchor=south] at (0,1.75){$\boldsymbol n_e$};
+ \node[text=line,font=\small,anchor=west] at (1.77,0){$\boldsymbol t_e$};
+\end{scope}
+\begin{scope}[shift={(10.52,1.55)}]
+ \components{local}{local}{local}
+ \node[text=line,font=\small,anchor=south] at (0,1.75){$\boldsymbol a$};
+ \node[text=line,font=\small,anchor=west] at (1.77,0){$\boldsymbol b$};
+\end{scope}
+\node[eq] at (2.15,.45){$\mathbb T_f(\mathbb S)=\{0\}$};
+\node[eq] at (2.15,.02){$\mathbb N_f(\mathbb S)=\mathbb S$};
+\node[eq] at (6.75,.45){$\dim\mathbb T_e(\mathbb S)=1$};
+\node[eq] at (6.75,.02){$\dim\mathbb N_e(\mathbb S)=2$};
+\node[eq] at (11.35,.45){$\mathbb T_T(\mathbb S)=\mathbb S$};
+\node[eq] at (11.35,.02){$\mathbb N_T(\mathbb S)=\{0\}$};
+% Color key; tensor-component definitions are given in the caption.
+\node[draw=shared,line width=.8pt,circle,minimum size=3mm,inner sep=0pt] at (3.9,-.63){};
+\node[anchor=west,font=\small,text=shared] at (4.15,-.63){Shared DOFs};
+\node[draw=local,line width=.8pt,circle,minimum size=3mm,inner sep=0pt] at (7.45,-.63){};
+\node[anchor=west,font=\small,text=local] at (7.7,-.63){Local DOFs};
 \end{tikzpicture}
 \end{document}

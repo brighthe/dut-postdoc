@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="510" viewBox="0 0 1100 510" role="img" aria-labelledby="title desc">
+<title id="title">角点松弛：公共边、共同法向和界面牵引</title>
+<desc id="desc">左图两个三角形共享右上角，公共边由左下通往右上。共同法向从上侧单元T指向右侧单元R，朝右下。右图中T的外法向朝右下，界面牵引向左；R的外法向朝左上，界面牵引向右。</desc>
+<defs>
+ <marker id="gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#596579"/></marker>
+ <marker id="blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#1768ac"/></marker>
+ <style>text{font-family:'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#172538;font-size:18px}.heading{font-size:22px;font-weight:600}.edge{stroke:#344054;stroke-width:2;fill:none}.normal{stroke:#596579;stroke-width:2.5;stroke-dasharray:7 5;fill:none;marker-end:url(#gray)}.force{stroke:#1768ac;stroke-width:3;fill:none;marker-end:url(#blue)}.small{font-size:16px}</style>
+</defs>
+<rect width="1100" height="510" fill="white"/>
+<text x="35" y="36" class="heading">① 两个单元与共同法向</text>
+<text x="580" y="36" class="heading">② 各自外法向与界面牵引</text>
+<g id="left">
+ <polygon points="65,110 405,110 235,280" fill="#f5e8d5"/>
+ <polygon points="405,110 405,450 235,280" fill="#e1eff9"/>
+ <path class="edge" d="M65 110H405V450Z M235 280L405 110"/>
+ <circle cx="405" cy="110" r="5" fill="#172538"/>
+ <text x="405" y="88" text-anchor="end">角点 x_c</text>
+ <text x="80" y="88">上边：g = 0</text>
+ <text x="170" y="155">单元 T</text>
+ <text x="327" y="352">单元 R</text>
+ <text x="173" y="302">公共边 e</text>
+ <path class="normal" d="M310 205L363 258"/>
+ <text x="310" y="290">共同法向 n ↘</text>
+ <path class="force" d="M438 360V280"/>
+ <text x="432" y="245">g = (0,1)</text>
+ <path d="M65 417H130 M65 417V352" stroke="#596579" stroke-width="2" fill="none" marker-end="url(#gray)"/>
+ <text x="136" y="423">x</text><text x="59" y="342">y</text>
+</g>
+<g id="right" transform="translate(545 0)">
+ <polygon points="65,110 405,110 235,280" fill="#f5e8d5"/>
+ <polygon points="405,110 405,450 235,280" fill="#e1eff9"/>
+ <path class="edge" d="M65 110H405V450Z M235 280L405 110"/>
+ <circle cx="405" cy="110" r="5" fill="#172538"/>
+ <text x="405" y="88" text-anchor="end">角点 x_c</text>
+ <text x="170" y="151">单元 T</text><text x="328" y="352">单元 R</text>
+ <path class="normal" d="M352 163L395 206"/>
+ <text x="405" y="223">n_T = n</text>
+ <path class="force" d="M352 163H279"/>
+ <text x="273" y="191">g_T ←</text>
+ <path class="normal" d="M270 245L227 202"/>
+ <text x="160" y="180">n_R = −n</text>
+ <path class="force" d="M270 245H344"/>
+ <text x="302" y="274">g_R →</text>
+ <text x="128" y="311">公共边 e</text>
+ <text x="80" y="398" class="small">虚线：界面外法向</text>
+ <text x="80" y="427" class="small">蓝色实线：实际界面牵引</text>
+</g>
+<text x="35" y="490" class="small">x 向右、y 向上；n = (1, −1) / √2。两侧牵引箭头错开放置表示方向，不表示边上幅值恒定。</text>
+</svg>

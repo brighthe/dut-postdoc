@@ -11,7 +11,6 @@ Thumbs.db
 *~
 
 # LaTeX 编译产物
-talks/**/build/
 
 *.aux
 *.log
@@ -53,15 +52,15 @@ tmp/
 .claude/settings.local.json
 
 # Generated document QA, figure intermediates and Python caches
-research/funding/active/china-postdoc-foundation-general-grant/.docx-qa/
-research/funding/active/china-postdoc-foundation-general-grant/assets/dev/
+funding/china-postdoc-foundation-general-grant/.docx-qa/
+funding/china-postdoc-foundation-general-grant/assets/dev/
 **/__pycache__/
 *.py[cod]
 
 # Funding source documents are archived in iCloud, not Git
-research/funding/**/*.pdf
-research/funding/**/*.doc
-research/funding/**/*.docx
+funding/**/*.pdf
+funding/**/*.doc
+funding/**/*.docx
 
 # Local source copies in any directory; originals live in iCloud (papers in 文献库/) or upstream
 **/sources/
@@ -76,11 +75,5 @@ research/postdoc-research-plan.tex
 
 # Local MiKTeX cache created when compiling under sandboxed user dirs
 .miktex/
-talks/**/.miktex/
-talks/**/.miktex-userconfig/
-talks/**/.miktex-userdata/
-talks/**/.miktex-data/
-talks/**/.miktex-pkgs/
-talks/**/.fontconfig/
 
 

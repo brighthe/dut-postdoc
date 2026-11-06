@@ -13,16 +13,16 @@ tags:
   - operator
 status: draft
 date_added: 2026-10-03
-date_update: 2026-10-03
+date_update: 2026-10-25
 ---
 
 # 子结构 Schur 补 Matrix-Free 算子
 
-> 按 [[../exact-substructural|精确子结构分析]] 的流程，给出两条接口路径结合 Matrix-Free 的做法：完整接口（`full_trace`）不形成 $\mathbf K_s^j$，作用时现算；角点接口（`linear_corner`）保存 $n_c^j\times n_c^j$ 的局部 $\mathbf K_{s,\mathrm{corner}}^j$。两者都不组装全局接口矩阵，精确算术下与显式路径恒等。
+> 按 [[../substructure/exact-substructural|精确子结构分析]] 的流程，给出两条接口路径结合 Matrix-Free 的做法：完整接口（`full_trace`）不形成 $\mathbf K_s^j$，作用时现算；角点接口（`linear_corner`）保存 $n_c^j\times n_c^j$ 的局部 $\mathbf K_{s,\mathrm{corner}}^j$。两者都不组装全局接口矩阵，精确算术下与显式路径恒等。单元层改用 PA 的结合方式见 §4 与 [[mf-pa-schur-substructural]]。
 
 ## 1. 共同环节
 
-1. **局部刚度**（[[../exact-substructural#1.2 局部问题与适用假设|§1.2]]）：原式为分块刚度
+1. **局部刚度**（[[../substructure/exact-substructural-full-trace#1. 矩阵组装|full-trace §1]]）：原式为分块刚度
    $$
    \mathbf K^j=\begin{bmatrix}\mathbf K_{bb}^j&\mathbf K_{bi}^j\\ \mathbf K_{ib}^j&\mathbf K_{ii}^j\end{bmatrix}.
    $$
@@ -33,7 +33,7 @@ date_update: 2026-10-03
    \mathbf K^j\mathbf v=\sum_{e\subset\Omega^j}(\mathbf G_e^j)^{\mathsf T}\,s_e\mathbf K_e^0\,\mathbf G_e^j\mathbf v .
    $$
    其中 $\mathbf G_e^j$ 从子结构局部向量中提取单元 $e$ 的自由度，$s_e=E(\overline\rho_e)/E_0$。子结构材料均匀（$s_e\equiv s_j$）时 $\mathbf K^j=s_j\mathbf K_{\mathrm{ref}}$，$\mathbf T^j$ 与 $s_j$ 无关、缩聚刚度按 $s_j$ 缩放，可共用一份分解与缩聚结果。
-2. **位移恢复**（[[../exact-substructural#3.3 子结构位移恢复|§3.3]]，式 (2.1)）：复用 $\mathbf K_{ii}^j$ 的同一分解：
+2. **位移恢复**（[[../substructure/exact-substructural-full-trace#4.1 形函数表示与非零内部载荷|full-trace §4.1]]，含非零内部载荷）：复用 $\mathbf K_{ii}^j$ 的同一分解：
    $$
    \mathbf u_i^j=\mathbf w_i^j+\mathbf T_{\mathrm{full}}^j\mathbf u_b^j,
    \qquad
@@ -41,11 +41,11 @@ date_update: 2026-10-03
    $$
    完整接口取 $\mathbf u_b^j=\mathbf A_b^j\mathbf U_\Gamma$；角点接口取 $\mathbf u_c^j=\mathbf A_c^j\mathbf U_C$、$\mathbf u_b^j=\mathbf L^j\mathbf u_c^j$，此时 $\mathbf T_{\mathrm{full}}^j\mathbf u_b^j=\mathbf T_{\mathrm{corner}}^j\mathbf u_c^j$，$\mathbf T_{\mathrm{corner}}^j$（$n_i^j\times n_c^j$）可在 §3 第 1 条中保存，或重新求解。
 
-载荷（完整接口用式 (2.3)：$\widetilde{\mathbf f}_b^j=\mathbf f_b^j-\mathbf K_{bi}^j\mathbf w_i^j$，$\mathbf w_i^j=(\mathbf K_{ii}^j)^{-1}\mathbf f_i^j$；角点接口再用式 (2.15)：$\mathbf f_c^j=(\mathbf L^j)^{\mathsf T}\widetilde{\mathbf f}_b^j$）、支承反力或乘子与灵敏度不需改动。
+载荷（完整接口按 full-trace 式 (14)：$\widetilde{\mathbf f}_b^j=\mathbf f_b^j-\mathbf K_{bi}^j\mathbf w_i^j$，$\mathbf w_i^j=(\mathbf K_{ii}^j)^{-1}\mathbf f_i^j$；角点接口按 Lagrange 式 (19) 投影：$\mathbf f_c^j=(\mathbf L^j)^{\mathsf T}\widetilde{\mathbf f}_b^j$）、支承反力或乘子与灵敏度不需改动。
 
 ## 2. 完整接口路径
 
-1. **缩聚刚度**（[[../exact-substructural#2.1 局部静力缩聚及其变分形式|§2.1]] 式 (2.2)）：原式为
+1. **缩聚刚度**（[[../substructure/exact-substructural-full-trace#2. 静力缩聚|full-trace §2]] 式 (3)）：原式为
    $$
    \mathbf K_s^j=\mathbf K_{bb}^j-\mathbf K_{bi}^j(\mathbf K_{ii}^j)^{-1}\mathbf K_{ib}^j .
    $$
@@ -55,7 +55,7 @@ date_update: 2026-10-03
    \qquad
    \mathbf K_s^j\mathbf x_b=\mathbf K_{bb}^j\mathbf x_b+\mathbf K_{bi}^j\mathbf v_i .
    $$
-2. **组装与求解**（[[../exact-substructural#3.1 完整接口组装与求解|§3.1]] 式 (3.3)、(3.5)）：原式为
+2. **组装与求解**（[[../substructure/exact-substructural-full-trace#3. 求解与位移恢复|full-trace §3]] 式 (4)、(9)）：原式为
    $$
    \mathbf K_\Gamma=\sum_{j}(\mathbf A_b^j)^{\mathsf T}\mathbf K_s^j\mathbf A_b^j,
    \qquad
@@ -68,7 +68,9 @@ date_update: 2026-10-03
 
 ## 3. 角点接口路径
 
-1. **缩聚刚度**（[[../exact-substructural#2.2.2 角点接口空间|§2.2.2]] 式 (2.13)、(2.14)）：原式为
+以下是 Lagrange 页的 $p=1$ 特例：$\mathbf S_1^j=\mathbf L^j$、$\mathbf Q=\mathbf U_C$、$\mathbf A_r^j=\mathbf A_c^j$；本页的 $\mathbf K_{s,\mathrm{full}}^j$ 即 full-trace 页的 $\mathbf K_s^j$。
+
+1. **缩聚刚度**（[[../substructure/exact-substructural-lagrange#1.6 角点方案与一般几何映射|Lagrange §1.6]]）：原式为
    $$
    \mathbf T_{\mathrm{corner}}^j=\mathbf T_{\mathrm{full}}^j\mathbf L^j,
    \qquad
@@ -80,7 +82,7 @@ date_update: 2026-10-03
    \qquad
    \mathbf K_{s,\mathrm{corner}}^j=(\mathbf L^j)^{\mathsf T}\big(\mathbf K_{bb}^j\mathbf L^j+\mathbf K_{bi}^j\mathbf T_{\mathrm{corner}}^j\big).
    $$
-2. **组装与求解**（[[../exact-substructural#3.2 角点接口组装与求解|§3.2]] 式 (3.8)、(3.11)）：原式为
+2. **组装与求解**（[[../substructure/exact-substructural-lagrange#3.1 位移约束与全局求解|Lagrange §3.1]] 及 §2.1 式 (9)）：原式为
    $$
    \mathbf K_C=\sum_{j}(\mathbf A_c^j)^{\mathsf T}\mathbf K_{s,\mathrm{corner}}^j\mathbf A_c^j,
    \qquad
@@ -96,4 +98,8 @@ date_update: 2026-10-03
    $$
    \mathbf Z^{\mathsf T}\mathbf K_C\mathbf Z\,\mathbf y=\mathbf Z^{\mathsf T}\big(\mathbf F_C-\mathbf K_C\mathbf U_p\big).
    $$
-   在精确子结构分析 §3.2 的唯一解条件下（$\mathbf K_C$ 在 $\ker(\mathbf C_D)$ 上正定），两种方式的系统算子均对称正定，用 CG 求解。
+   在 Lagrange 页 §3.1 的唯一解条件下（$\mathbf K_C$ 在 $\ker(\mathbf C_D)$ 上正定），两种方式的系统算子均对称正定，用 CG 求解。
+
+## 4. 与 PA 的结合
+
+单元层由共享参考 EA 改为 PA 时，算子作用 $\mathbf K_{bb}^j\mathbf x$、$\mathbf K_{ib}^j\mathbf x$ 可直接替换；卡点在内部求逆 $(\mathbf K_{ii}^j)^{-1}$——PA 不保存显式矩阵，无法直接分解。三种结合方式（仍组装分解 $\mathbf K_{ii}^j$、内部改用 PCG、单元级静态凝聚）及适用判断见 [[mf-pa-schur-substructural|子结构 Schur 补算子的 PA 结合]]。

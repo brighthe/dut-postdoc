@@ -1,0 +1,6 @@
+# 原始运行场与逐步帧仅供本地复核, 论文维护保留摘要及来源记录.
+frames/
+probe-views/
+**/*.vtu
+**/*.npz
+**/driver_effective.py

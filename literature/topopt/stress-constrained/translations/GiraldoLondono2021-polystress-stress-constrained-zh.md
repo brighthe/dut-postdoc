@@ -6,7 +6,7 @@ tags:
   - stress-constraints
 status: "read"
 date_created: 2026-09-07
-date_updated: 2026-09-08
+date_updated: 2026-10-13
 source: "../sources/GiraldoLondono2021-polystress-stress-constrained.pdf"
 citekey: "GiraldoLondono2021-polystress"
 language: "zh-CN"
@@ -19,17 +19,17 @@ language: "zh-CN"
 # 信息
 
 - **中文标题**：PolyStress：基于增广拉格朗日方法的局部应力约束拓扑优化 Matlab 实现
-- **作者**：Oliver Giraldo-Londoño; Glaucio H. Paulino
-- **单位**：佐治亚理工学院土木与环境工程学院；密苏里大学土木与环境工程系
+- **作者**：Oliver Giraldo-Londoño$^{1,2}$；Glaucio H. Paulino$^1$
+- **单位**：
+  - $1$: 佐治亚理工学院土木与环境工程学院（School of Civil and Environmental Engineering, Georgia Institute of Technology，亚特兰大，GA 30332，美国）
+  - $2$: 密苏里大学土木与环境工程系（Department of Civil and Environmental Engineering, University of Missouri，哥伦比亚，MO 65211，美国）
 - **期刊**：*Structural and Multidisciplinary Optimization* (SMO)
-- **卷 / 期 / 页码**：63: 2065–2097
-- **年份**：2021
-- **收稿 / 修回 / 接收**：2019-12-28 / 2020-06-03 / 2020-10-06
-- **在线发表**：2021-02-10
-- **DOI**：10.1007/s00158-020-02760-8
-- **责任编辑**：Ole Sigmund
-- **题献**：献给 Martin Philip Bendsøe 教授（1955-12-29 至今）
-- **电子补充材料**：在线版本包含仅向授权用户开放的补充材料。
+- **卷 / 期 / 页码**：63(4): 2065–2097 (2021)
+- **DOI**：[10.1007/s00158-020-02760-8](https://doi.org/10.1007/s00158-020-02760-8)
+- **收稿 / 修回 / 录用 / 在线发表**：2019-12-28 / 2020-06-03 / 2020-10-06 / 2021-02-10
+- **通讯作者**：Glaucio H. Paulino（[paulino@gatech.edu](mailto:paulino@gatech.edu)）
+
+---
 
 # 摘要
 
@@ -1476,3 +1476,11 @@ $$
 - Zhou M, Rozvany GIN (1991) The COC algorithm, part II: topological, geometrical and generalized shape optimization. *Comput Methods Appl Mech Eng* 89(1–3):309–336.
 
 **出版方声明（Publisher’s note）**：Springer Nature 对已发表地图及机构隶属关系涉及的管辖权主张保持中立。
+
+---
+
+# 其他出版信息
+
+- **责任编辑**：Ole Sigmund
+- **题献**：献给 Martin Philip Bendsøe 教授（1955-12-29 至今）
+- **电子补充材料**：在线版本附有电子补充材料（ZIP，33.7 KB）。

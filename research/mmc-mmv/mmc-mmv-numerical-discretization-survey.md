@@ -218,8 +218,8 @@ VEM 目前主要由外部团队推动（Antonietti、Bruggi、Paulino 的 PolyTo
 | 等参复杂设计域 | [[../../literature/topopt/piml/translations/Zhang2024-isoparametric-PIML-zh\|Zhang et al. 2024]] | 将单元几何形状与材料分布共同作为输入 | `draft`，摘要级 |
 | PIML–MMC 三维点阵 | [[../../literature/topopt/piml/translations/Xu2025-PIML-lattice-MMC-zh\|Xu et al. 2025]] | 以 MMC 显式构件和分区坐标映射描述三维梯度点阵，并用 PIML 提高分析效率 | `draft`，摘要级 |
 | 高性能并行版 | [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh\|Ma et al. 2026]] | CPU/MPI、按需预测／释放和组装粗矩阵；不是 GPU 实现 | 全文笔记 |
-| Bézier 边界参数化 | [[../../literature/topopt/piml/translations/Guo2026-highgeneralization-bezier-zh\|Guo et al. 2026]] | 参数化边界位移场到子结构内部位移场 | `draft`，摘要级 |
-| PIML-OFEM | [[../../literature/topopt/piml/translations/Guo2026-PIML-OFEM-zh\|Guo et al. 2026]] | 超采样数值基函数与重叠有限元 | `draft`，arXiv v1 摘要级 |
+| Bézier 边界参数化 | [[../../literature/topopt/piml/translations/Guo2026-highgeneralization-bezier-zh\|Guo et al. 2026]] | 参数化边界位移场到子结构内部位移场 | 全文笔记 |
+| PIML-OFEM | [[../../literature/topopt/piml/translations/Guo2026-PIML-OFEM-zh\|Guo et al. 2026]] | 超采样数值基函数与重叠有限元 | `done`，全文译文已核验，arXiv v1 预印本 |
 
 **核心**：PIML 通过学习可复用局部力学表示或响应映射降低反复局部构造成本；具体对象已超出单一 EMsFEM 形函数。对 MMC/MMV 方向，Xu 2025 提供了 PIML 与显式构件、分区坐标映射及三维梯度点阵结合的应用证据，但其全文尚未精读，当前不据摘要写入加速比、规模或局部算子细节。
 

@@ -11,10 +11,10 @@ tags:
   - topology-optimization
 status: "in-progress"
 date_start: 2026-07-21
-date_update: 2026-09-01
+date_update: 2026-10-25
 related:
   - ../../concepts/piml/piml-paradigm
-  - ../../concepts/exact-substructural
+  - ../../concepts/substructure/exact-substructural
   - _index
   - project-plan
 ---
@@ -44,7 +44,7 @@ related:
 
 Physics-Informed Machine Learning、PINN、neural operator 和结构化学习是本分支的外部方法背景、表示工具或结构保持类比证据，不是项目 PIML 的正式展开。控制方程、能量原理和代数结构仍可进入问题无关模型的训练、参数化或校正，但应表述为基于力学机理的训练或结构保持机制。采用 mechanics-based loss、DeepONet 或其他物理约束也不自动证明局部算子已经满足所需力学结构。
 
-稳定术语与 PIML 数学—计算范式见 [[../../concepts/piml/piml-paradigm]]，子结构缩聚和接口迹空间定义见 [[../../concepts/exact-substructural]]，角色边界见 [[../../concepts/ml-roles-and-boundaries]]，方法演化见 [[../../concepts/piml/piml-paradigm#4. 文献谱系|PIML 文献谱系]]。
+稳定术语与 PIML 数学—计算范式见 [[../../concepts/piml/piml-paradigm]]，子结构缩聚和接口迹空间定义见 [[../../concepts/substructure/exact-substructural]]，角色边界见 [[ml-roles-and-boundaries]]，方法演化见 [[../../concepts/piml/piml-paradigm#4. 文献谱系|PIML 文献谱系]]。
 
 ### 2.2 学习对象、结构保持与全局接口
 
@@ -63,7 +63,7 @@ Physics-Informed Machine Learning、PINN、neural operator 和结构化学习是
 
 ### 2.3 PIML 代表性分析路径
 
-本表整理 PIML 分支的代表性分析路径及其文献来源。各路径统一采用 CPU 显式接口组装，暂不引入 Matrix-Free 和 GPU，以隔离接口迹降阶与 PIML 局部代理产生的误差。子结构静力缩聚与接口迹空间的数学定义见 [[../../concepts/exact-substructural|精确子结构分析]]。
+本表整理 PIML 分支的代表性分析路径及其文献来源。各路径统一采用 CPU 显式接口组装，暂不引入 Matrix-Free 和 GPU，以隔离接口迹降阶与 PIML 局部代理产生的误差。子结构静力缩聚与接口迹空间的数学定义见 [[../../concepts/substructure/exact-substructural|精确子结构分析]]。
 
 | 代表性路径 | FE 离散 | 分析组织 | 局部缩聚／算子来源 | 接口迹 | 代表文献 |
 |---|---|---|---|---|---|
@@ -136,7 +136,7 @@ Physics-Informed Machine Learning、PINN、neural operator 和结构化学习是
 
 [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh|Ma 2026]] 将局部预测、缩聚刚度构造、粗网格求解、位移恢复、灵敏度、滤波和优化更新扩展到 CPU/MPI 流程，并通过 PETSc 多重网格预处理 GMRES 与多尺度形函数按需预测／释放处理数十亿单元问题。这里的 `matrix-free` 主要指不长期保存多尺度形函数；全局粗网格缩聚矩阵仍被形成和组装，因此不能写成学习局部算子已经嵌入全局 Matrix-Free/Krylov 主算子。
 
-四篇新建 `draft` 文献入口补充了表示与应用分支，但当前只完成元数据／摘要核验：[[../../literature/topopt/piml/translations/Zhang2024-isoparametric-PIML-zh|Zhang 2024]] 将子结构单元几何形状与材料分布共同作为输入并学习数值形函数，扩展到复杂设计域；[[../../literature/topopt/piml/translations/Guo2026-highgeneralization-bezier-zh|Guo 2026 Bézier]] 学习三次 Bézier 参数化边界位移场到子结构内部位移场的映射；[[../../literature/topopt/piml/translations/Guo2026-PIML-OFEM-zh|Guo 2026 PIML-OFEM]] 以超采样数值基函数、重叠有限元和 U-Net 构造另一类局部降阶表示，证据等级为 arXiv v1；[[../../literature/topopt/piml/translations/Xu2025-PIML-lattice-MMC-zh|Xu 2025]] 将 PIML 与 MMC、分区坐标映射和三维梯度点阵优化结合。它们支持“不预先锁定 $N/K_s$”和“表示选择受几何、边界参数化与应用对象驱动”的判断，但尚不能支持全文级结构性质、性能比较或 PIML–Matrix-Free–GPU 闭环结论。
+[[../../literature/topopt/piml/translations/Guo2026-PIML-OFEM-zh|Guo 2026 PIML-OFEM]] 以超采样数值基函数、重叠有限元和 U-Net 构造另一类局部降阶表示（全文译文已核验，证据等级为 arXiv v1 预印本）；其余三篇新建文献入口补充了表示与应用分支：[[../../literature/topopt/piml/translations/Zhang2024-isoparametric-PIML-zh|Zhang 2024]] 将子结构单元几何形状与材料分布共同作为输入并学习数值形函数，扩展到复杂设计域；[[../../literature/topopt/piml/translations/Guo2026-highgeneralization-bezier-zh|Guo 2026 Bézier]] 学习三次 Bézier 参数化边界位移场到子结构内部位移场的映射（全文译文已核验）；[[../../literature/topopt/piml/translations/Xu2025-PIML-lattice-MMC-zh|Xu 2025]] 将 PIML 与 MMC、分区坐标映射和三维梯度点阵优化结合。它们支持“不预先锁定 $N/K_s$”和“表示选择受几何、边界参数化与应用对象驱动”的判断，但尚不能支持 PIML–Matrix-Free–GPU 闭环结论。
 
 ### 3.4 研究缺口与选题价值
 
@@ -153,7 +153,7 @@ PIML 局部表示线的选题价值不是再训练一个只追求局部 MSE 的�
 
 ### 3.5 向非线性推广的待验证问题
 
-承 §3.4 第 6 条。范式层的条件分析（几何非线性在共旋格式下可能保持「与全局解耦」，路径相关本构则使该条件失效；而「昂贵」条件在非线性下反而更容易满足）见 [[../../concepts/piml/piml-paradigm#非线性问题下两个条件的走向相反|PIML 范式页 §1.3]]，各类非线性的力学定义与求解代价见 [[../../concepts/nonlinear-fem|非线性有限元页]]。以下四条为本项目尚未验证的问题，**均无本库证据支撑，不得作为结论引用**：
+承 §3.4 第 6 条。局部学习对象的两个筛选条件见 [[../../concepts/piml/piml-paradigm#1.2 普通全尺度有限元的瓶颈与学习对象的筛选|PIML 范式页 §1.2]]；这些条件在非线性下是否成立需另行验证，各类非线性的力学定义与求解代价见 [[nonlinear-fem|非线性有限元页]]。以下四条为本项目尚未验证的问题，**均无本库证据支撑，不得作为结论引用**：
 
 1. **共旋格式下缩聚刚度能否原样复用。** 若把刚体转动分离到子结构之外，PIML 学到的 $\tilde{\mathbf{K}}^j$ 是否仍然有效？转动提取的精度如何传递为缩聚刚度误差、再传递为全局解误差？这是本条路线能否成立的第一个判据。
 2. **路径相关本构的两条替代路线如何取舍。** 是把高斯点内变量并入模型输入（样本须沿加载路径生成），还是改为学习局部本构的返回映射？两者的训练数据成本、覆盖性与分布外风险各是多少？
@@ -177,15 +177,15 @@ PIML 局部表示线的选题价值不是再训练一个只追求局部 MSE 的�
 | Ma 2026 | 局部密度到缩减 $N$；使用既有训练模型 | 六类刚体运动构造 | CPU/MPI 局部计算、组装粗矩阵、MG-GMRES、完整优化 | CPU/MPI、PETSc | 支持并行与按需预测；不支持 GPU 或全局算子级 Matrix-Free |
 | Zhang 2024（draft） | 单元几何形状与材料分布到数值形函数；摘要级监督学习描述 | 等参单元；全文结构处理待精读 | 复杂设计域结构分析与拓扑优化 | 摘要未形成统一硬件证据 | 支持几何感知输入与复杂设计域扩展；不支持全文级性能或结构结论 |
 | Xu 2025（draft） | PIML 表征三维点阵复合结构力学响应；具体局部接口待精读 | MMC、分区坐标映射与完全连通 | 三维梯度点阵复合结构优化 | 摘要未形成统一硬件证据 | 支持应用范围扩展；不单独证明新的通用局部表示或 Matrix-Free |
-| Guo 2026 Bézier（draft） | 三次 Bézier 边界位移场到子结构内部位移场；DeepONet | 边界位移参数化；其他结构性质待精读 | 子结构分析与拓扑优化 | 摘要未形成统一硬件证据 | 支持边界场参数化与响应映射候选；不支持全局 MF/GPU 结论 |
-| Guo 2026 PIML-OFEM（draft；arXiv v1） | 杨氏模量分布到超采样数值基函数；U-Net | 重叠有限元、分片统一、角节点自由度 | 大规模异质结构分析与高分辨率拓扑优化 | 预印本摘要级 | 支持另一类局部降阶表示；期刊发表、全文细节与闭环性能待核验 |
+| Guo 2026 Bézier | 子结构内弹性模量分布到控制点–内部数值形函数；DeepONet 监督学习（MSE） | 三次 Bézier 曲线／双三次曲面边界插值（三维每子结构 56 个控制点）；证明平移与旋转不变性，网络只输出 $3\times162$ 降维矩阵，其余 6 列由刚体模态补全 | 构造 $K_{\text{ML}}$ 组装控制点缩聚系统，用于结构分析与 SIMP／ITDF 拓扑优化（飞翼算例约 1038 万单元） | i9-13900K、128 GB 台式机，全部算例单 CPU 串行；文中 100 亿自由度并行算例采用线性插值 | 支持高阶边界场参数化、刚体不变性硬约束与更小滤波半径；不支持 GPU 或全局 Matrix-Free 结论 |
+| Guo 2026 PIML-OFEM（arXiv v1） | 杨氏模量分布到超采样数值基函数；U-Net 监督学习（Smooth L1 + 刚度保真度项） | 重叠有限元、单位分解、刚体模态补全与角节点 Kronecker-$\delta$ 归一化 | 大规模异质结构分析与高分辨率拓扑优化（含细尺度 Jacobi PCG 残差修正） | 单卡 RTX 4090 训练，i9-13900K + RTX 4090 工作站求解 | 支持超采样重叠局部降阶表示；属 arXiv v1 预印本，不支持全局 Matrix-Free 结论 |
 
-国际五篇目前只满足公开来源层级的核验，仍在 [[../../literature/_index#当前 ingest 队列|文献总索引]]中标记为 `to-ingest`；Huang–Ma 单篇全文事实由各自中文译文维护，并以 `sources/` 中的原始 PDF 为核验基准。新增四篇保持 `draft`，本表只使用已核验元数据／摘要并明确外推边界，不等同于正式精读。
+国际五篇目前只满足公开来源层级的核验，仍在 [[../../literature/_index#当前 ingest 队列|文献总索引]]中标记为 `to-ingest`；Huang–Ma、Guo 2026 Bézier 及 Guo 2026 PIML-OFEM 单篇全文事实由各自中文译文维护，并以 `sources/` 中的原始 PDF 为核验基准。其余两篇（Zhang 2024、Xu 2025）本表只使用已核验元数据／摘要并明确外推边界。
 
 ## 五、权威事实来源
 
 - [[../../concepts/_index#6-机器学习与-piml|PIML 概念总览]] — 项目 PIML 的 Problem-Independent 正式释义及 Physics-Informed 外部方法背景边界。
-- [[../../concepts/piml/piml-paradigm]]、[[../../concepts/exact-substructural]] — Problem-Independent 局部力学学习的分类、计算流程与文献谱系，子结构缩聚数学基础。
+- [[../../concepts/piml/piml-paradigm]]、[[../../concepts/substructure/exact-substructural]] — Problem-Independent 局部力学学习的分类、计算流程与文献谱系，子结构缩聚数学基础。
 - [[../../literature/_index#当前 ingest 队列]] — Physics-Informed ML、PINN、neural operator 和结构保持类比的当前待入库文献。
 - Huang 2022/2023/2024、Ma 2026 与 Lei 2018/2019 的全文事实 — 由 `literature/topopt/<子类>/translations/` 中对应中文译文维护，以各自 `sources/` 中的原始 PDF 为核验基准。
 - [[matrix-free-research-guide]]、[[gpu-hpc-research-guide]] — Matrix-Free 与 GPU/HPC 项目分支。

@@ -1,0 +1,58 @@
+{
+  "case_id": "cantilever-middle-2d-stress",
+  "design": "huzhang-2-pad-solid",
+  "design_run_dir": "cantilever-middle-2d-stress/analyzer-huzhang__lfem_constraint-apparent__load_pad_radius-1.5__order-2__solid_thr-None",
+  "design_digest": {
+    "path": "/mnt/c/workspace/dut-postdoc/papers/huzhang-topopt/results/stress-all-cells-blis1/cantilever-middle-2d-stress/analyzer-huzhang__lfem_constraint-apparent__load_pad_radius-1.5__order-2__solid_thr-None/density_final.vtu",
+    "sha256": "bc5c5b52094943d2e8d477a229624dfd1913bce08e72ea0c522b427f8fea4881",
+    "bytes": 311106
+  },
+  "design_summary": {
+    "optimization_iterations": 292,
+    "converged": 1,
+    "volume_fraction": 0.3473445820887013,
+    "max_constraint": 0.004994573599562507,
+    "max_relative_violation": 0.004994573599562507,
+    "max_relative_violation_solid_region": 0.004994573599562507,
+    "acceptance_solid_threshold": null,
+    "load_pad_radius": 1.5,
+    "pad_cells": 16,
+    "lambda_max": 3000.0,
+    "multiplier_capped_count": 0
+  },
+  "discretization": "huzhang-2",
+  "delta_g": 0.005,
+  "pad_cells": 16,
+  "accepted_cells": 6384,
+  "max_g_accepted": 0.004994573599562507,
+  "seconds": 3.6700735309859738,
+  "traction_jump": {
+    "integration_order": 6,
+    "interior_faces": 9480,
+    "relative_jump_max": 1.9385728746994482e-13,
+    "solid_cells": 1748,
+    "cell_abs_solid_median": 5.724931856019987e-17,
+    "cell_abs_solid_p95": 1.091319416493666e-16,
+    "cell_abs_solid_max": 1.659470013802386e-16
+  },
+  "checks": {
+    "huzhang_jump_gate": {
+      "value": 1.9385728746994482e-13,
+      "threshold": 1e-10,
+      "passed": 1
+    },
+    "accepted_max_g_matches_summary": {
+      "reproduced": 0.004994573599562507,
+      "recorded": 0.004994573599562507,
+      "passed": 1
+    }
+  },
+  "all_constrained_review": {
+    "count": 6384,
+    "max_g": 0.004994573599562507,
+    "above_tolerance": 0,
+    "tolerance": 0.005,
+    "density_cutoff": null
+  },
+  "probe_source_sha256": "4f6bd1c1edfce0f88f2cd29cedde3b73ea3cb7b11718620ef675f8334eb52265"
+}

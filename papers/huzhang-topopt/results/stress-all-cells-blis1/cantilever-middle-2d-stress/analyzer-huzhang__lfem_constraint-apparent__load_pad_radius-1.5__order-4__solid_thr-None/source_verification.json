@@ -1,0 +1,6 @@
+{
+  "changed_during_run": [
+    "src/soptx/fem/analyzers/lagrange_fem_analyzer.py",
+    "src/soptx/fem/analyzers/substructure_analyzer.py"
+  ]
+}

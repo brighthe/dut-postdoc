@@ -1,0 +1,7 @@
+{
+  "status": "interrupted",
+  "reason": "BLIS thread count was not explicitly limited; the three runs created 22 threads each and were restarted with all BLAS/OpenMP thread counts set to 1.",
+  "replacement": "../stress-all-cells-blis1",
+  "usable_final_results": false,
+  "original_data_deleted": false
+}

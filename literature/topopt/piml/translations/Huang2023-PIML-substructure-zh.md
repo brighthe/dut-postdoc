@@ -1,16 +1,15 @@
 ---
-title: "翻译：A problem-independent machine learning (PIML) enhanced substructure-based approach for large-scale structural analysis and topology optimization of linear elastic structures"
+title: 翻译：A problem-independent machine learning (PIML) enhanced substructure-based approach for large-scale structural analysis and topology optimization of linear elastic structures
 tags:
   - translation
   - PIML
   - topology-opt
   - substructure
-status: "done"
+status: done
 date_created: 2026-06-30
-date_updated: 2026-09-22
-source: "../sources/Huang2023-PIML-substructure.pdf"
-citekey: "huangProblemindependentMachineLearning2023"
-language: "zh-CN"
+date_updated: 2026-10-24
+source: "[[Huang2023-PIML-substructure-zh]]"
+language: zh-CN
 ---
 
 # A problem-independent machine learning (PIML) enhanced substructure-based approach for large-scale structural analysis and topology optimization of linear elastic structures
@@ -42,7 +41,7 @@ language: "zh-CN"
 
 近年来，随着机器学习技术的快速发展，ML 在高维空间建立端到端函数映射的能力已得到广泛证实和接受，例如在图像识别 [21]、机器翻译 [22] 以及求解高维偏微分方程 [23] 等方面。这些成功的应用为 ML 在极少人工干预下从高维数据集中提取独特特征的能力提供了有力证据。受这些成就的鼓舞，研究人员开始探索为湍流建模 [24,25]、材料发现 [26,27] 和数值模拟 [28] 等开发 ML 增强方法的可能性。特别地，许多研究人员利用机器学习技术来减少与连续体结构拓扑优化相关的计算量。例如，在最近一些研究的方法中，机器学习技术被用于在给定的优化参数（如设计域的宽度/长度、边界条件以及外部载荷的位置/大小）与优化结构之间建立端到端的关联 [29–31]，从而实现实时拓扑优化。尽管沿着这个方向已经取得了令人信服的结果，但是当这些端到端方法被用于处理与训练数据集中的样本问题截然不同的问题时，它们的表现仍缺乏深入的探索 [32]。
 
-与基于端到端 ML 模型建立雄心勃勃的实时拓扑优化方法的尝试相反，许多研究人员也提出在多尺度拓扑优化框架下开发 ML 增强的拓扑优化方法。例如，Chi 等人提出了一种有效的拓扑优化在线机器学习（ML）方法，该方法在多分辨率框架下运行，通过从拓扑优化过程的初始迭代中收集训练数据 [33]。后来，通过集成离线训练策略进一步增强了该方法，将模型训练过程与实际拓扑优化中的实施分离开来 [34]。在这个改进的方法中，建立了一个 ML 模型来预测在精细分辨率下更新设计变量所需的灵敏度。这是通过将粗分辨率超单元上的单一排布位移场和局部材料密度作为输入来实现的。数值算例表明，该方法可以处理规模高达 3800 万设计变量的设计问题，并可提供高达 30 倍的加速比。在文献 [35] 中，提出了一种有限元卷积神经网络（FE-CNNs）来构建高效的结构拓扑优化算法。构建的 FE-CNN 函数充当高分辨率和低分辨率有限元解之间的映射，以减少优化的计算时间。数值实验表明，使用该方法可以大幅减少高分辨率拓扑优化中涉及的计算工作量。最近，Li 等人提出了一种被称为卷积层次深度学习神经网络-张量分解（C-HiDeNN-TD）的新框架，仅使用单台个人计算机（PC）来处理计算上极具挑战性的十亿级规模拓扑优化问题 [36]。通过应用精心设计的变量分离方案，C-HiDeNN-TD 技术将超大规模 3D FEA 问题的求解分解为一系列较小的一维（one-dimensional, 1D）问题，从而显著降低了搜索高分辨率 3D 拓扑设计的计算成本。
+与基于端到端 ML 模型建立雄心勃勃的实时拓扑优化方法的尝试相反，许多研究人员也提出在多尺度拓扑优化框架下开发 ML 增强的拓扑优化方法。例如，Chi 等人提出了一种有效的拓扑优化在线机器学习（ML）方法，该方法在多分辨率框架下运行，通过从拓扑优化过程的初始迭代中收集训练数据 [33]。后来，通过集成离线训练策略进一步增强了该方法，将模型训练过程与实际拓扑优化中的实施分离开来 [34]。在这个改进的方法中，建立了一个 ML 模型来预测在精细分辨率下更新设计变量所需的灵敏度。这是通过将粗分辨率超单元上的单个位移场和局部材料密度作为输入来实现的。数值算例表明，该方法可以处理规模高达 3800 万设计变量的设计问题，并可提供高达 30 倍的加速比。在文献 [35] 中，提出了一种有限元卷积神经网络（FE-CNNs）来构建高效的结构拓扑优化算法。构建的 FE-CNN 函数充当高分辨率和低分辨率有限元解之间的映射，以减少优化的计算时间。数值实验表明，使用该方法可以大幅减少高分辨率拓扑优化中涉及的计算工作量。最近，Li 等人提出了一种被称为卷积层次深度学习神经网络-张量分解（C-HiDeNN-TD）的新框架，仅使用单台个人计算机（PC）来处理计算上极具挑战性的十亿级规模拓扑优化问题 [36]。通过应用精心设计的变量分离方案，C-HiDeNN-TD 技术将超大规模 3D FEA 问题的求解分解为一系列较小的一维（one-dimensional, 1D）问题，从而显著降低了搜索高分辨率 3D 拓扑设计的计算成本。
 
 尽管上述方法取得了显著成就，但仍然存在一些值得进一步探索的挑战性问题。首先，开发出的 ML 模型并非完全独立于问题设置，特别是在端到端方法中。这些模型中的大多数仅适用于一组特定的问题设置。一旦涉及的参数发生改变，就必须相应地建立一个新的 ML 模型。这极大地削弱了 ML 增强方法的通用性。其次，由于在大多数端到端 ML 增强方法中，必须求解一定数量的边值甚至优化问题以生成样本，因此训练过程可能非常耗时。在这种情况下，只能生成数量有限的样本（特别是对于大规模高分辨率拓扑优化问题），这将不可避免地降低生成的 ML 模型的预测能力，因为基于 ML 的预测的准确性高度依赖于训练样本的数量和质量。第三，在建立 ML 模型时必须遵守的输入和输出参数之间明确无误的关系，尚未得到认真考虑。例如，粗分辨率超晶胞的位移场实际上是由设计域中所有单元的材料密度决定的，而不仅仅如某些先前工作中所假设的那样，只由位于超晶胞内的单元的材料密度决定。最后，宏观上假设的材料密度场（例如文献 [34] 中）无法表征具有微尺度特征尺寸的结构细节，因此无法充分发挥高分辨率拓扑优化的优势。
 
@@ -52,7 +51,7 @@ language: "zh-CN"
 
 本文的其余部分组织如下。在第 2 节中，详细描述了提出的问题无关机器学习（PIML）增强的子结构方法。在第 3 节中，讨论了与其数值实现相关的问题。在第 4 节中，求解了一组大规模拓扑优化问题以证明提出方法的有效性。在第 5 节中，我们对当前工作进行了总结，并探讨了可能的扩展和未来工作。
 
-# 2 基于子结构的 PIML 方法
+# 2 方法论
 
 ## 2.1 线弹性分析与拓扑优化问题的数学模型
 
@@ -100,7 +99,7 @@ $$
 
 其中 $a_\rho(\boldsymbol{u}, \boldsymbol{v}) = \int_{\Omega} (\rho(\boldsymbol{x}))^p \mathbb{E}(\boldsymbol{x}) : \nabla \boldsymbol{u} : \nabla \boldsymbol{v} \,\mathrm{d}V$，$p$ 表示惩罚参数。在式 (4) 中，$f(\rho, \boldsymbol{u})$ 和 $g_i(\rho, \boldsymbol{u}) \leq 0$（$i = 1, \dots, m$）分别是一般的目标泛函/函数和约束泛函/函数。
 
-## 2.2 有限元分析的子结构方法
+ ## 2.2 有限元分析的子结构方法
 
 经过适当的有限元（FE）离散化后，式 (1) 中边值问题的近似解 $\boldsymbol{u}^h \in \mathbb{R}^n$ 可以通过求解以下线性代数方程组找到：
 
@@ -150,7 +149,7 @@ $$
 
 其中 $\tilde{\boldsymbol{K}}_j^h = \boldsymbol{K}_{jbb}^h - (\boldsymbol{K}_{jib}^h)^{\mathrm{T}} (\boldsymbol{K}_{jii}^h)^{-1} (\boldsymbol{K}_{jib}^h)$ 就是所谓的缩聚刚度矩阵（condensed stiffness matrix）。一旦确定了 $\boldsymbol{u}_{jb}^h$，我们就得到了 $\boldsymbol{u}_{ji}^h = - (\boldsymbol{K}_{jii}^h)^{-1} (\boldsymbol{K}_{jib}^h) \boldsymbol{u}_{jb}^h$。
 
-缩聚刚度矩阵 $\tilde{\boldsymbol{K}}_j^h$ 和 $\tilde{\boldsymbol{f}}_{jb}^h$（$j = 1, \dots, N_s$）可以分别组装成全局缩聚刚度矩阵 $\tilde{\boldsymbol{K}}^h = \bigwedge_{j=1}^{N_s} \tilde{\boldsymbol{K}}_j^h$ 和全局缩聚外载荷向量 $\tilde{\boldsymbol{f}}^h = \bigwedge_{j=1}^{N_s} \tilde{\boldsymbol{f}}_j^h$。缩聚位移向量 $\boldsymbol{u}_b^h = ((\boldsymbol{u}_{1b}^h)^{\mathrm{T}}, \dots, (\boldsymbol{u}_{N_s b}^h)^{\mathrm{T}})^{\mathrm{T}}$ 可以通过求解 $\tilde{\boldsymbol{K}}^h \boldsymbol{u}_b^h = \tilde{\boldsymbol{f}}^h$ 确定。进一步地，如果在 $\Omega_h^j$ 中的位移场 $\boldsymbol{u}_j(\boldsymbol{x}) \in \mathbb{R}^N$ 被插值为
+缩聚刚度矩阵 $\tilde{\boldsymbol{K}}_j^h$ 和 $\tilde{\boldsymbol{f}}_j^h$（$j = 1, \dots, N_s$）可以分别组装成全局缩聚刚度矩阵 $\tilde{\boldsymbol{K}}^h = \bigwedge_{j=1}^{N_s} \tilde{\boldsymbol{K}}_j^h$ 和全局缩聚外载荷向量 $\tilde{\boldsymbol{f}}^h = \bigwedge_{j=1}^{N_s} \tilde{\boldsymbol{f}}_j^h$。缩聚位移向量 $\boldsymbol{u}_b^h = ((\boldsymbol{u}_{1b}^h)^{\mathrm{T}}, \dots, (\boldsymbol{u}_{N_s b}^h)^{\mathrm{T}})^{\mathrm{T}}$ 可以通过求解 $\tilde{\boldsymbol{K}}^h \boldsymbol{u}_b^h = \tilde{\boldsymbol{f}}^h$ 确定。进一步地，如果在 $\Omega_h^j$ 中的位移场 $\boldsymbol{u}_j(\boldsymbol{x}) \in \mathbb{R}^N$ 被插值为
 
 $$
 \boldsymbol{u}_j^h(\boldsymbol{x}) = \boldsymbol{N}_b(\boldsymbol{x})\boldsymbol{u}_{jb}^h + \boldsymbol{N}_i(\boldsymbol{x})\boldsymbol{u}_{ji}^h,
@@ -192,14 +191,14 @@ $$
 
 ## 2.3 通过机器学习高效构建 $\tilde{\boldsymbol{K}}_j^h$ 和 $\boldsymbol{N}_j(\boldsymbol{x})$
 
-尽管子结构方法在减少自由度数量（即全局刚度矩阵的维度）方面非常有效，但如果缩聚刚度矩阵 $\tilde{\boldsymbol{K}}^h$ 是通过**在线（online）**过程生成的，则结构分析的计算效率无法得到显著提升。这是因为计算每个子结构（$j = 1, \dots, N_s$）的 $\tilde{\boldsymbol{K}}_j^h = \boldsymbol{K}_{jbb}^h - (\boldsymbol{K}_{jib}^h)^{\mathrm{T}} (\boldsymbol{K}_{jii}^h)^{-1} (\boldsymbol{K}_{jib}^h)$ 和 $\boldsymbol{N}_j(\boldsymbol{x})$ 所涉及的矩阵求逆和乘法操作同样非常耗时，特别是当子结构的数量（即 $N_s$）非常大时。这就解释了为什么子结构方法并没有被广泛用于求解包含高度非均质材料的通用大规模结构分析和拓扑优化问题，在这些问题中，不同子结构的 $\tilde{\boldsymbol{K}}_j^h$ 和 $\boldsymbol{N}_j(\boldsymbol{x})$ 总是有很大差异（在结构分析中），因此必须经常以耗时的、逐个子结构计算的方式动态构建（在拓扑优化中）。
+尽管子结构方法在减少自由度数量（即全局刚度矩阵的维度）方面非常有效，但如果缩聚刚度矩阵 $\tilde{\boldsymbol{K}}^h$ 是通过 **在线（online）** 过程生成的，则结构分析的计算效率无法得到显著提升。这是因为计算每个子结构（$j = 1, \dots, N_s$）的 $\tilde{\boldsymbol{K}}_j^h = \boldsymbol{K}_{jbb}^h - (\boldsymbol{K}_{jib}^h)^{\mathrm{T}} (\boldsymbol{K}_{jii}^h)^{-1} (\boldsymbol{K}_{jib}^h)$ 和 $\boldsymbol{N}_j(\boldsymbol{x})$ 所涉及的矩阵求逆和乘法操作同样非常耗时，特别是当子结构的数量（即 $N_s$）非常大时。这就解释了为什么子结构方法并没有被广泛用于求解包含高度非均质材料的通用大规模结构分析和拓扑优化问题，在这些问题中，不同子结构的 $\tilde{\boldsymbol{K}}_j^h$ 和 $\boldsymbol{N}_j(\boldsymbol{x})$ 总是有很大差异（在结构分析中），因此必须经常以耗时的、逐个子结构计算的方式动态构建（在拓扑优化中）。
 
-为了充分利用子结构方法带来的显著自由度缩减优势，同时又有效地节省生成 $\tilde{\boldsymbol{K}}_j^h$ 和 $\boldsymbol{N}_j(\boldsymbol{x})$ 的计算开销，在当前工作中，我们提出通过**离线（offline）**机器学习过程，在表征 $\Omega_h^j$ 内材料分布的参数与 $\tilde{\boldsymbol{K}}_j^h$ 及 $\boldsymbol{N}_j(\boldsymbol{x})$ 的元素之间建立某种**与问题无关（problem-independent）**的隐式映射，从而构建 $\tilde{\boldsymbol{K}}_j^h$ 和 $\boldsymbol{N}_j(\boldsymbol{x})$（示意图见图 2）。
+为了充分利用子结构方法带来的显著自由度缩减优势，同时又有效地节省生成 $\tilde{\boldsymbol{K}}_j^h$ 和 $\boldsymbol{N}_j(\boldsymbol{x})$ 的计算开销，在当前工作中，我们提出通过**离线（offline）** 机器学习过程，在表征 $\Omega_h^j$ 内材料分布的参数与 $\tilde{\boldsymbol{K}}_j^h$ 及 $\boldsymbol{N}_j(\boldsymbol{x})$ 的元素之间建立某种**与问题无关（problem-independent）** 的隐式映射，从而构建 $\tilde{\boldsymbol{K}}_j^h$ 和 $\boldsymbol{N}_j(\boldsymbol{x})$（示意图见图 2）。
 
 ![[Huang2023_Fig2.png]]
 
 <center><b>
-图 2：PIML 方案示意图。
+图 2：用于结构分析的问题无关机器学习（PIML）示意图。
 </b></center>
 
 一旦建立了这些映射，就可以绕过相应的矩阵操作，因此 $\tilde{\boldsymbol{K}}_j^h$ 和 $\boldsymbol{N}_j(\boldsymbol{x})$ 几乎可以瞬间构建完成。
@@ -211,9 +210,39 @@ $$
 
 尽管学习缩聚刚度和子结构形函数的核心思想很简单，但获得高质量的机器学习结果并不是一项微不足道的任务。在下一节中，将描述训练过程的实施细节。
 
-# 3 PIML 增强子结构方法的数值实施
+# 3 数值实施
 
-## 3.1 神经网络架构
+## 3.1 人工神经网络（ANN）的构建
+
+考虑子结构中各有限元节点形函数的单位分解性质（即 $N_l(\boldsymbol{x}_k)=\delta_{lk}$，其中 $N_l=N_l(\boldsymbol{x})$ 表示节点 $l$ 的形函数，$\boldsymbol{x}_k\in\mathbb{R}^N$ 是节点 $k$ 的坐标），由式 (9) 可得
+
+$$
+\boldsymbol{u}_j^h = \begin{pmatrix}\boldsymbol{u}_{jb}^h \\ \boldsymbol{u}_{ji}^h\end{pmatrix} = \boldsymbol{N}_j^h\boldsymbol{u}_{jb}^h,
+\tag{10}
+$$
+
+其中
+
+$$
+\boldsymbol{N}_j^h = \begin{bmatrix}\boldsymbol{I}_{Nn_{jb}\times Nn_{jb}} \\ -(\boldsymbol{K}_{jii}^h)^{-1}(\boldsymbol{K}_{jib}^h)\end{bmatrix} \in \mathbb{R}^{N(n_{jb}+n_{ji})\times Nn_{jb}}
+$$
+
+是常数矩阵。式 (10) 中的 $\boldsymbol{u}_j^h$ 是由子结构中各有限元节点位移组成的向量。为便于描述，将 $\boldsymbol{N}_j^h$ 形式上写作 $\boldsymbol{N}_j^h=\begin{bmatrix}\boldsymbol{N}^{j1}\\\boldsymbol{N}^{j2}\end{bmatrix}$，其中 $\boldsymbol{N}^{j1}=\boldsymbol{I}_{Nn_{jb}\times Nn_{jb}}$ 是 $Nn_{jb}\times Nn_{jb}$ 的单位矩阵；$\boldsymbol{N}^{j2}=-(\boldsymbol{K}_{jii}^h)^{-1}(\boldsymbol{K}_{jib}^h)$ 是大小为 $Nn_{ji}\times Nn_{jb}$ 的矩阵，对于三维情况，有
+
+$$
+\boldsymbol{N}^{j2}=\begin{bmatrix}
+N_{11,xx}^{j2} & N_{11,xy}^{j2} & N_{11,xz}^{j2} & \cdots & N_{1n_{jb},xx}^{j2} & N_{1n_{jb},xy}^{j2} & N_{1n_{jb},xz}^{j2} \\
+N_{11,yx}^{j2} & N_{11,yy}^{j2} & N_{11,yz}^{j2} & \cdots & N_{1n_{jb},yx}^{j2} & N_{1n_{jb},yy}^{j2} & N_{1n_{jb},yz}^{j2} \\
+N_{11,zx}^{j2} & N_{11,zy}^{j2} & N_{11,zz}^{j2} & \cdots & N_{1n_{jb},zx}^{j2} & N_{1n_{jb},zy}^{j2} & N_{1n_{jb},zz}^{j2} \\
+\vdots & \vdots & \vdots & \ddots & \vdots & \vdots & \vdots \\
+N_{n_{ji}1,xx}^{j2} & N_{n_{ji}1,xy}^{j2} & N_{n_{ji}1,xz}^{j2} & \cdots & N_{n_{ji}n_{jb},xx}^{j2} & N_{n_{ji}n_{jb},xy}^{j2} & N_{n_{ji}n_{jb},xz}^{j2} \\
+N_{n_{ji}1,yx}^{j2} & N_{n_{ji}1,yy}^{j2} & N_{n_{ji}1,yz}^{j2} & \cdots & N_{n_{ji}n_{jb},yx}^{j2} & N_{n_{ji}n_{jb},yy}^{j2} & N_{n_{ji}n_{jb},yz}^{j2} \\
+N_{n_{ji}1,zx}^{j2} & N_{n_{ji}1,zy}^{j2} & N_{n_{ji}1,zz}^{j2} & \cdots & N_{n_{ji}n_{jb},zx}^{j2} & N_{n_{ji}n_{jb},zy}^{j2} & N_{n_{ji}n_{jb},zz}^{j2}
+\end{bmatrix}
+\tag{11}
+$$
+
+根据式 (7) 和式 (10)，对于每个 $j=1,\dots,N_s$，计算 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 都涉及矩阵求逆和乘法。
 
 为了降低计算 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 的时间成本，本文构建了一个离线训练的机器学习模型，以取代耗时的在线计算过程。为了说明该方法的通用性，本文使用的机器学习模型仅仅是一个普通的前馈神经网络。该前馈神经网络由一个输入层、几个隐藏层和一个输出层组成，可以简单地表示为：
 
@@ -224,21 +253,21 @@ $$
 
 其中向量 $\boldsymbol{\rho} \in \mathbb{R}^{M \times 1}$ 和 $\boldsymbol{y} \in \mathbb{R}^{N \times 1}$ 分别表示输入层和输出层。符号 $f_1, \dots, f_l$ 表示隐藏层，它们是预先编程的函数表达式。
 
-针对不同的问题，$\boldsymbol{\rho}$ 和 $\boldsymbol{y}$ 是不同的，需要根据问题进行具体设置。在本文提出的方法中，分别使用了两个前馈神经网络来预测 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 的元素。值得注意的是，并非 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 的所有元素都需要作为前馈神经网络的输出。对于 $\boldsymbol{N}_j^h = \begin{bmatrix} \boldsymbol{N}_{j1} \\ \boldsymbol{N}_{j2} \end{bmatrix}$，由于 $\boldsymbol{N}_{j1}$ 是一个已知的单位矩阵，因此只需要预测 $\boldsymbol{N}_{j2}$ 部分；对于 $\tilde{\boldsymbol{K}}_j^h$，利用其作为对称矩阵的性质，只需要学习 $\tilde{\boldsymbol{K}}_j^h$ 的上三角阵列部分。
+针对不同的问题，$\boldsymbol{\rho}$ 和 $\boldsymbol{y}$ 是不同的，需要根据问题进行具体设置。在本文提出的方法中，分别使用了两个前馈神经网络来预测 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 的元素。值得注意的是，并非 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 的所有元素都需要作为前馈神经网络的输出。对于 $\boldsymbol{N}_j^h = \begin{bmatrix} \boldsymbol{N}^{j1} \\ \boldsymbol{N}^{j2} \end{bmatrix}$，由于 $\boldsymbol{N}^{j1}$ 是一个已知的单位矩阵，因此只需要预测 $\boldsymbol{N}^{j2}$ 部分；对于 $\tilde{\boldsymbol{K}}_j^h$，利用其作为对称矩阵的性质，只需要学习 $\tilde{\boldsymbol{K}}_j^h$ 的上三角阵列部分。
 
-此外，根据式 (7) 和式 (10)，对于每个 $j = 1, \dots, N_s$，基于有限元分析（FEA）的理论知识，$\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 可以由该子结构内每个有限元的材料属性和单元类型唯一确定。因此，当模型中的单元类型一致时（在当前工作中，对于二维问题使用了双线性插值单元，即 $N_l(\boldsymbol{x}) = \frac{1}{4}(1-x_{1l} x_1)(1-x_{2l} x_2)$），$\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 仅由子结构中单元的材料属性决定。
+此外，对于每个 $j = 1, \dots, N_s$，基于有限元分析（FEA）的理论知识，$\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 可以由该子结构内每个有限元的材料属性和单元类型唯一确定。因此，当模型中的单元类型一致时（在当前工作中，对于二维问题使用了双线性插值单元，即 $N_l(\boldsymbol{x}) = \frac{1}{4}(1-x_l^1 x)(1-x_l^2 x)$），$\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 仅由子结构中单元的材料属性决定。
 
 对于线弹性材料，材料参数包括杨氏模量和泊松比。与泊松比相比，杨氏模量在工业设计和分析过程中更为关键。因此，在本文提出的方法中，子结构内单元的杨氏模量被用作前馈神经网络的输入参数，而泊松比固定为 0.3。对于均匀离散为 $m \times m$ 个单元的子结构，输入参数 $\boldsymbol{\rho}$ 的维度（即 $M$）等于 $m \times m$。
 
 ## 3.2 内嵌力学机制的机器学习
 
-在 3.1 节中，尽管我们利用单位矩阵和对称矩阵的性质显著减少了前馈神经网络的输出参数，但 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 仍然分别有高达 $N n_{ji} \times N n_{jb}$ 和 $(N n_{jb} + 1)N n_{jb} / 2$ 个输出参数。此外，从力学原理出发，为了保证子结构发生刚体位移时结构应变能为零，有限元分析的解空间应包含子结构的平动和转动。因此，在机器学习过程中，必须对 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 施加相应的几何约束。同时，这些几何约束也可以进一步大幅减少与 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 对应的神经网络输出参数。对于 $\boldsymbol{N}_j^h = \begin{bmatrix} \boldsymbol{N}_{j1} \\ \boldsymbol{N}_{j2} \end{bmatrix}$，由于 $\boldsymbol{N}_{j1}$ 是已知的，几何约束只需施加在 $\boldsymbol{N}_{j2}$ 上。以三维情形为例，如果子结构发生整体平移，则需要满足以下约束：
+在 3.1 节中，尽管我们利用 $\boldsymbol{N}^{j1}$ 为单位矩阵和 $\tilde{\boldsymbol{K}}_j^h$ 为对称矩阵的性质显著减少了前馈神经网络的输出参数，但 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 仍然分别有高达 $N n_{ji} \times N n_{jb}$ 和 $(N n_{jb} + 1)N n_{jb} / 2$ 个输出参数。此外，从力学原理出发，为了保证子结构发生刚体位移时结构应变能为零，有限元分析的解空间应包含子结构的平动和转动。因此，在机器学习过程中，必须对 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 施加相应的几何约束。同时，这些几何约束也可以进一步大幅减少与 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 对应的神经网络输出参数。对于 $\boldsymbol{N}_j^h = \begin{bmatrix} \boldsymbol{N}^{j1} \\ \boldsymbol{N}^{j2} \end{bmatrix}$，由于 $\boldsymbol{N}^{j1}$ 是已知的，几何约束只需施加在 $\boldsymbol{N}^{j2}$ 上。以三维情形为例，如果子结构发生整体平移，则需要满足以下约束：
 
 $$
 \begin{aligned}
-&\sum_{l=1}^{n_{jb}} (\boldsymbol{N}_{j2})_{l,xx}^k = 1, \quad \sum_{l=1}^{n_{jb}} (\boldsymbol{N}_{j2})_{l,xy}^k = 0, \quad \sum_{l=1}^{n_{jb}} (\boldsymbol{N}_{j2})_{l,xz}^k = 0, \quad k=1,\dots,n_{ji}, \\
-&\sum_{l=1}^{n_{jb}} (\boldsymbol{N}_{j2})_{l,yx}^k = 0, \quad \sum_{l=1}^{n_{jb}} (\boldsymbol{N}_{j2})_{l,yy}^k = 1, \quad \sum_{l=1}^{n_{jb}} (\boldsymbol{N}_{j2})_{l,yz}^k = 0, \quad k=1,\dots,n_{ji}, \\
-&\sum_{l=1}^{n_{jb}} (\boldsymbol{N}_{j2})_{l,zx}^k = 0, \quad \sum_{l=1}^{n_{jb}} (\boldsymbol{N}_{j2})_{l,zy}^k = 0, \quad \sum_{l=1}^{n_{jb}} (\boldsymbol{N}_{j2})_{l,zz}^k = 1, \quad k=1,\dots,n_{ji}.
+&\sum_{l=1}^{n_{jb}} \left(N_{kl,xx}^{j2}\right) = 1, \quad \sum_{l=1}^{n_{jb}} \left(N_{kl,xy}^{j2}\right) = 0, \quad \sum_{l=1}^{n_{jb}} \left(N_{kl,xz}^{j2}\right) = 0, \quad k=1,\dots,n_{ji}, \\
+&\sum_{l=1}^{n_{jb}} \left(N_{kl,yx}^{j2}\right) = 0, \quad \sum_{l=1}^{n_{jb}} \left(N_{kl,yy}^{j2}\right) = 1, \quad \sum_{l=1}^{n_{jb}} \left(N_{kl,yz}^{j2}\right) = 0, \quad k=1,\dots,n_{ji}, \\
+&\sum_{l=1}^{n_{jb}} \left(N_{kl,zx}^{j2}\right) = 0, \quad \sum_{l=1}^{n_{jb}} \left(N_{kl,zy}^{j2}\right) = 0, \quad \sum_{l=1}^{n_{jb}} \left(N_{kl,zz}^{j2}\right) = 1, \quad k=1,\dots,n_{ji}.
 \end{aligned}
 \tag{13}
 $$
@@ -246,11 +275,11 @@ $$
 类似地，如果子结构以恒定角位移 $\boldsymbol{\theta} \in \mathbb{R}^{3 \times 1}$ 旋转，则需要施加以下方程约束以避免虚假应变：
 
 $$
-\boldsymbol{I}_{n_{ji}} \otimes \boldsymbol{\omega_x} = \boldsymbol{N}_{j2} (\boldsymbol{I}_{n_{jb}} \otimes \boldsymbol{\omega_X})
+\boldsymbol{I}_{n_{ji}} \otimes \boldsymbol{\omega}\boldsymbol{x} = \boldsymbol{N}^{j2} (\boldsymbol{I}_{n_{jb}} \otimes \boldsymbol{\omega}\boldsymbol{X})
 \tag{14}
 $$
 
-其中，采用与单位矩阵 $\boldsymbol{I}_{n_{ji}}$（大小为 $n_{ji} \times n_{ji}$）的 Kronecker 乘积 $\otimes$ 来匹配向量 $\boldsymbol{x}$ 的维度。$\boldsymbol{\omega}$ 是由角位移 $\boldsymbol{\theta}$ 计算得到的旋转矩阵。符号 $\boldsymbol{x} = [\boldsymbol{x}_1, \dots, \boldsymbol{x}_{n_{ji}}]^{\mathrm{T}} \in \mathbb{R}^{3 n_{ji} \times 1}$ 和 $\boldsymbol{X} = [\boldsymbol{X}_1, \dots, \boldsymbol{X}_{n_{jb}}]^{\mathrm{T}} \in \mathbb{R}^{3 n_{jb} \times 1}$ 分别表示内部节点和边界节点的坐标。
+其中，采用与单位矩阵 $\boldsymbol{I}_{n_{ji}}$（大小为 $n_{ji} \times n_{ji}$）的 Kronecker 乘积 $\otimes$ 来匹配列向量 $\boldsymbol{x}$ 的维度。$\boldsymbol{\omega}\in\mathbb{R}^{3\times3}$ 是由角位移 $\boldsymbol{\theta}$ 计算得到的旋转矩阵。符号 $\boldsymbol{x} = [\boldsymbol{x}_1, \dots, \boldsymbol{x}_{n_{ji}}]^{\mathrm{T}} \in \mathbb{R}^{3 n_{ji} \times 1}$ 和 $\boldsymbol{X} = [\boldsymbol{X}_1, \dots, \boldsymbol{X}_{n_{jb}}]^{\mathrm{T}} \in \mathbb{R}^{3 n_{jb} \times 1}$ 分别是由内部节点和边界节点坐标组成的向量。此外，$\boldsymbol{x}_k=[x_k,y_k,z_k]$（$k=1,\dots,n_{ji}$）和 $\boldsymbol{X}_l=[x_l,y_l,z_l]$（$l=1,\dots,n_{jb}$）分别表示第 $k$ 个内部节点和第 $l$ 个边界节点的坐标。
 
 类似地，对于 $\tilde{\boldsymbol{K}}_j^h$，应满足以下几何约束：
 
@@ -264,49 +293,49 @@ $$
 此外，如果假设子结构边界具有固定的变形模式，如线性或抛物线形式，则可以进一步对 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 施加额外的几何约束。例如，假设子结构边界变形模式为线性（这对于大规模结构是合理的），可以添加以下几何约束：
 
 $$
-\boldsymbol{u}_j^h = \begin{bmatrix} \boldsymbol{u}_{jb}^h \\ \boldsymbol{u}_{ji}^h \end{bmatrix} = (\boldsymbol{N}_j^h)^L \boldsymbol{u}_c; \quad (\boldsymbol{N}_j^h)^L = \boldsymbol{N}_j^h \boldsymbol{L}
+\boldsymbol{u}_j^h = \begin{pmatrix} \boldsymbol{u}_{jb}^h \\ \boldsymbol{u}_{ji}^h \end{pmatrix} = (\boldsymbol{N}_j^h)^L \boldsymbol{u}_{jc}^h; \quad (\boldsymbol{N}_j^h)^L = \boldsymbol{N}_j^h \boldsymbol{L}
 \tag{16a}
 $$
 
 $$
-(\tilde{\boldsymbol{K}}_j^h)^L = \boldsymbol{L}^{\mathrm{T}} \left( \boldsymbol{K}_{jbb}^h - \boldsymbol{K}_{jib}^{h\mathrm{T}} (\boldsymbol{K}_{jii}^h)^{-1} \boldsymbol{K}_{jib}^h \right) \boldsymbol{L}
+(\tilde{\boldsymbol{K}}_j^h)^L = \boldsymbol{L}^{\mathrm{T}} \left( \boldsymbol{K}_{jbb}^h - (\boldsymbol{K}_{jib}^h)^{\mathrm{T}} (\boldsymbol{K}_{jii}^h)^{-1} (\boldsymbol{K}_{jib}^h) \right) \boldsymbol{L}
 \tag{16b}
 $$
 
-## 3.3 神经网络训练与样本生成
+其中，$\boldsymbol{u}_{jc}^h\in\mathbb{R}^{Nn_{jc}}$ 是与子结构角点相关的位移向量，$\boldsymbol{L}\in\mathbb{R}^{Nn_{jb}\times Nn_{jc}}$ 是常数线性插值矩阵。在子结构采用八节点六面体单元离散的情况下，$(\boldsymbol{N}_j^h)^L$ 和 $(\tilde{\boldsymbol{K}}_j^h)^L$ 的神经网络输出数量可进一步分别减少至 $Nn_{ji}\times18$ 和 171。
 
-上一节详细介绍了 PIML 的网络结构。本小节将简要描述 PIML 的训练过程，包括样本生成、损失函数和训练方法。
+## 3.3 样本生成与神经网络训练
+
+上一节详细介绍了 PIML 的架构。本小节将简要描述 PIML 的训练过程，包括样本生成、损失函数和训练方法。
 
 首先，与需要在一个实际优化过程中收集训练样本的端到端实时拓扑优化 [29–31,38–40] 或 Fernando 等人 [34] 提出的通用神经网络相比，本文提出的 PIML 方法的训练样本可以通过随机过程生成。这是因为 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$ 仅由子结构内部单元的杨氏模量决定。由于本文仅研究线弹性问题，因此可以将杨氏模量归一化，并在 $[0, 1]$ 范围内通过随机过程生成训练样本。对于均匀离散为 $m \times m$ 个单元的子结构，可以通过 $m \times m$ 个随机数来构成一个用于训练的样本。
 
-其次，神经网络的输出是去除了不变量（即 $\boldsymbol{N}_{j1}$）以及 $\boldsymbol{N}_{j2}$ 和 $\tilde{\boldsymbol{K}}_j^h$ 中的非独立量之后剩余的部分，这对于问题无关机器学习方法的成功至关重要。因此，为了更准确地衡量神经网络的输出，必须根据式 (13)–(15) 在神经网络输出的基础上补全 $\boldsymbol{N}_{j2}$ 和 $\tilde{\boldsymbol{K}}_j^h$。预测输出与精确输出（即 $\boldsymbol{N}_{j2}$ 和 $\tilde{\boldsymbol{K}}_j^h$）之间的均方误差被用作第一类损失函数。此外，为了保证子结构增强宏观分析的正确性，直接由神经网络预测得到的刚度矩阵 $\tilde{\boldsymbol{K}}_j^h$ 应与由神经网络预测得到的 $\boldsymbol{N}_j^h$ 计算出来的矩阵保持一致。因此，本文为用于预测 $\boldsymbol{N}_j^h$ 的神经网络的训练定义了另一类损失函数。第二类损失函数是由预测的 $\boldsymbol{N}_j^h$ 计算得到的缩聚刚度矩阵与由预测 $\tilde{\boldsymbol{K}}_j^h$ 的神经网络得到的矩阵之间的均方误差。与物理信息神经网络 [23] 类似，第二类损失函数就像是添加在 PIML 输出上的物理约束。然而，第二类损失函数不可避免地会增加训练的计算量。因此，在 PIML 的训练过程中，第二类损失函数仅在训练过程的最后阶段被加入，以检验训练效果或进一步降低预测值与真实输出之间的均方误差。
+其次，神经网络的输出是去除了不变量（即 $\boldsymbol{N}^{j1}$）以及 $\boldsymbol{N}^{j2}$ 和 $\tilde{\boldsymbol{K}}_j^h$ 中的非独立量之后剩余的部分，这对于问题无关机器学习方法的成功至关重要。因此，为了更准确地衡量神经网络的输出，必须根据式 (13)–(15) 在神经网络输出的基础上补全 $\boldsymbol{N}^{j2}$ 和 $\tilde{\boldsymbol{K}}_j^h$。预测输出与精确输出（即 $\boldsymbol{N}^{j2}$ 和 $\tilde{\boldsymbol{K}}_j^h$）之间的均方误差被用作损失函数。此外，为了保证机器学习增强子结构分析方法的自洽性，直接由神经网络预测得到的缩聚刚度矩阵 $\tilde{\boldsymbol{K}}_j^h$ 应与由神经网络预测得到的 $\boldsymbol{N}_j^h$ 计算出来的矩阵保持一致。因此，本文为用于预测 $\boldsymbol{N}_j^h$ 的神经网络的训练定义了另一类损失函数。第二类损失函数是由预测的 $\boldsymbol{N}_j^h$ 计算得到的缩聚刚度矩阵与由预测 $\tilde{\boldsymbol{K}}_j^h$ 的神经网络得到的矩阵之间的均方误差。与物理信息神经网络 [23] 类似，第二类损失函数就像是添加在 PIML 输出上的物理约束。然而，第二类损失函数不可避免地会增加训练的计算量。因此，在 PIML 的训练过程中，第二类损失函数仅在训练过程的最后阶段被加入，以检验训练效果或进一步降低预测值与真实输出之间的均方误差。
 
 在当前工作中，我们构建并训练了五组神经网络（$\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$，或 $(\boldsymbol{N}_j^h)^L$ 和 $(\tilde{\boldsymbol{K}}_j^h)^L$）。对于 $N = 2$ 的情况，共有三组神经网络。第一组用于预测 $m = 5$ 时的 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$。第二组和第三组神经网络用于预测 $(\boldsymbol{N}_j^h)^L$ 和 $(\tilde{\boldsymbol{K}}_j^h)^L$，其中一组为 $m = 5$，另一组为 $m = 10$。对于 $N = 3$ 的情况，有两组神经网络用于预测 $(\boldsymbol{N}_j^h)^L$ 和 $(\tilde{\boldsymbol{K}}_j^h)^L$，即对应的 $m = 5$ 和 $m = 10$。为了简洁起见，这里我们仅详细介绍用于预测 $m = 5$ 且 $N = 3$ 时 $(\boldsymbol{N}_j^h)^L$ 和 $\tilde{\boldsymbol{K}}_j^h$ 的神经网络。其他的神经网络与此类似。
 
-对于三维实体模型，当 $m = 5$ 时，$\boldsymbol{N}_{j2}$ 的数值总数将高达 4608。而如果 $m = 10$，输出量将达到 39,366 个。要用单一的前馈神经网络获得如此极佳的隐式映射将非常困难。为了降低训练难度，我们使用了一系列神经网络来预测 $(\boldsymbol{N}_j^h)^L$。详细而言，单一神经网络的输出仅为 $(\boldsymbol{N}_{j2})^L$ 的一部分数值，如图 3 所示。
+对于三维实体模型，当 $N_B = 5$ 时，$\boldsymbol{N}^{j2}$ 的数值总数将高达 4608，神经网络的输出数量将高达 3456。而如果 $m = 10$，将有 39,366 个输出。要用单个前馈神经网络获得如此优良的隐式映射将非常困难。为了降低训练难度，我们使用了一系列神经网络来预测 $(\boldsymbol{N}_j^h)^L$。详细而言，单个神经网络的输出仅为 $(\boldsymbol{N}^{j2})^L$ 的一部分数值，如图 3 所示。
 
 ![[Huang2023_Fig3.png]]
 
-<center><b>
-图 3：预测三维子结构 $(\boldsymbol{N}_{j2})^L$ 的神经网络架构。
-</b></center>
+**图 3：预测三维子结构 $(\boldsymbol{N}^{j2})^L$ 的神经网络架构。**
 
 对于 $m = 5$ 的情况，构建并训练了四个神经网络，并生成了 400,000 个随机样本对其进行训练。对于每个神经网络，总共有 15 个隐藏层，其中的激活函数分别设置为 [tanh, elu, tanh, elu, tanh, elu, tanh, elu, elu, tanh, elu, tanh, elu, tanh, elu]，每层中激活函数的数量分别设置为 [60, 80, 100, 120, 140, 160, 180, 200, 180, 160, 140, 120, 100, 80, 60]。对于二维问题，使用单一的前馈神经网络即足以预测 $\tilde{\boldsymbol{K}}_j^h$ 或 $(\tilde{\boldsymbol{K}}_j^h)^L$。
 
-## 3.4 基于 PIML 的拓扑优化流程
+对于用于预测 $m=5$ 时 $(\tilde{\boldsymbol{K}}_j^h)^L$ 的神经网络，共设有 11 个隐藏层，其激活函数依次为 [tanh, elu, tanh, elu, tanh, elu, elu, tanh, elu, tanh, elu]，各层激活函数的数量依次为 [50, 60, 70, 80, 90, 100, 90, 80, 70, 60, 50]。
 
-一旦本文提出的神经网络模型训练完毕，它便可用于分析和优化任何使用双线性插值单元离散化的问题。与传统的子结构分析方法相比，该方法唯一的区别在于使用神经网络来替代传统计算，以求得 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$。
+## 3.4 PIML 增强的求解流程
 
-正如前文所述，为了保证理论自洽性并确保细网格上的总应变能等于粗网格上的总应变能，在数值计算中观察到，即便预测的形函数 $\boldsymbol{N}_j^h$（或 $(\boldsymbol{N}_j^h)^L$）包含相当大的误差，利用下式 (17) 计算得到的刚度矩阵仍十分接近精确解：
+一旦本文提出的神经网络模型训练完毕，它便可用于分析和优化任何使用双线性插值单元离散化的问题。与传统的子结构分析方法相比，该方法唯一的区别在于使用神经网络来替代传统计算，以求得 $\boldsymbol{N}_j^h$ 和 $\tilde{\boldsymbol{K}}_j^h$。因此，可以充分发挥降低刚度矩阵维数所带来的时间节省优势。
+
+值得注意的是，通过神经网络获得形函数 $\boldsymbol{N}_j^h$（或 $(\boldsymbol{N}_j^h)^L$）后，可以利用以下公式计算 $\tilde{\boldsymbol{K}}_j^h$（$(\tilde{\boldsymbol{K}}_j^h)^L$）：
 
 $$
-\tilde{\boldsymbol{K}}_j^h = (\boldsymbol{N}_j^h)^{\mathrm{T}} \boldsymbol{K}_j^h \boldsymbol{N}_j^h; \quad (\tilde{\boldsymbol{K}}_j^h)^L = ((\boldsymbol{N}_j^h)^L)^{\mathrm{T}} \boldsymbol{K}_j^h (\boldsymbol{N}_j^h)^L.
+\tilde{\boldsymbol{K}}_j^h = (\boldsymbol{N}_j^h)^{\mathrm{T}} \boldsymbol{K}^h \boldsymbol{N}_j^h; \quad (\tilde{\boldsymbol{K}}_j^h)^L = ((\boldsymbol{N}_j^h)^L)^{\mathrm{T}} \boldsymbol{K}^h (\boldsymbol{N}_j^h)^L.
 \tag{17}
 $$
 
-因此，在本文框架内，提供了两种结构分析的方法，即计算 $\tilde{\boldsymbol{K}}_j^h$ 或 $(\tilde{\boldsymbol{K}}_j^h)^L$ 的两种途径：第一种方法是直接使用神经网络预测相应的缩聚刚度矩阵以追求效率；第二种方法则是仅通过神经网络预测 $\boldsymbol{N}_j^h$（或 $(\boldsymbol{N}_j^h)^L$），并结合式 (17) 计算 $\tilde{\boldsymbol{K}}_j^h$ 或 $(\tilde{\boldsymbol{K}}_j^h)^L$。通过这样做，可以充分利用刚度矩阵维数的计算优势。
-
-采用所提方法进行拓扑优化的相应流程图如图 4 所示。
+虽然与直接利用神经网络预测 $\tilde{\boldsymbol{K}}_j^h$（$(\tilde{\boldsymbol{K}}_j^h)^L$）相比，式 (17) 涉及的计算可能显得复杂，但它仅涉及矩阵乘法，即使逐个子结构循环计算，其计算成本仍然合理。值得注意的是，采用式 (17) 计算 $\tilde{\boldsymbol{K}}_j^h$（$(\tilde{\boldsymbol{K}}_j^h)^L$）在理论上是自洽的，并且保证细网格上的总应变能等于粗网格上的总应变能。此外，数值计算中观察到，即便预测的 $\boldsymbol{N}_j^h$（$(\boldsymbol{N}_j^h)^L$）包含相当大的误差，通过式 (17) 计算得到的刚度矩阵仍十分接近精确解。因此，在本文框架内，提供了两种结构分析的方法，即计算 $\tilde{\boldsymbol{K}}_j^h$（$(\tilde{\boldsymbol{K}}_j^h)^L$）的两种途径：第一种方法是直接使用神经网络预测相应的缩聚刚度矩阵以追求效率；第二种方法则是为了保证理论自洽性，仅通过神经网络预测 $\boldsymbol{N}_j^h$（$(\boldsymbol{N}_j^h)^L$），随后结合式 (17) 计算 $\tilde{\boldsymbol{K}}_j^h$（$(\tilde{\boldsymbol{K}}_j^h)^L$）。采用所提方法进行拓扑优化的相应流程图如图 4 所示。
 
 ![[Huang2023_Fig4.png]]
 
@@ -314,15 +343,17 @@ $$
 图 4：所提出的基于 PIML 的拓扑优化方法的流程图。
 </b></center>
 
-此外，在拓扑优化过程中，只有细分辨率网格的密度分布会发生变化。同时，当子结构的局部密度分布由完全相同的值组成时，$\boldsymbol{N}_{j2}$ 的值等于纯实体材料子结构的值 $(\boldsymbol{N}_{j2})_{\text{solid}}$。此外，仅包含一种材料的子结构的缩聚刚度矩阵可如下计算：$\rho_m (\tilde{\boldsymbol{K}}_j^h)_{\text{solid}}$，其中 $\rho_m$ 和 $(\tilde{\boldsymbol{K}}_j^h)_{\text{solid}}$ 分别表示该纯实体材料子结构的平均密度和缩聚刚度矩阵。因此，为了进一步提高生成子结构缩聚刚度矩阵的效率，引入了阈值 $\rho_v$ 来判断子结构的局部密度分布是否由同一个值组成。具体而言，如果局部密度分布的最大值与平均密度 $\rho_m$ 之间的绝对差值小于 $\rho_v$，则可以使用 $\rho_m (\tilde{\boldsymbol{K}}_j^h)_{\text{solid}}$ 来计算该子结构的缩聚刚度矩阵。有了这个判断准则，生成子结构缩聚刚度矩阵的计算时间可以显著减少，特别是对于大规模算例或可用体积分数较低的设计问题。
+此外，在拓扑优化过程中，只有细分辨率网格的密度分布会发生变化。同时，当子结构的局部密度分布由相同的值组成时，$\boldsymbol{N}^{j2}$ 的值等于纯实体材料子结构的值 $(\boldsymbol{N}^{j2})^{\text{solid}}$。此外，仅包含一种材料的子结构的缩聚刚度矩阵可如下计算：$\rho^m (\tilde{\boldsymbol{K}}_j^h)^{\text{solid}}$，其中 $\rho^m$ 和 $(\tilde{\boldsymbol{K}}_j^h)^{\text{solid}}$ 分别表示平均密度和纯实体材料子结构的缩聚刚度矩阵。因此，为了进一步提高生成子结构缩聚刚度矩阵的效率，引入了阈值 $\rho^v$ 来判断子结构的局部密度分布是否由同一个值组成。具体而言，如果局部密度分布的最大值与 $\rho^m$ 之间的差值的绝对值小于 $\rho^v$，则可以使用 $\rho^m (\tilde{\boldsymbol{K}}_j^h)^{\text{solid}}$ 来计算该子结构的缩聚刚度矩阵。有了这个判断准则，生成子结构缩聚刚度矩阵的计算时间可以显著减少，特别是对于大规模算例或可用体积分数较低的设计问题。
 
 # 4 数值算例
 
-本节提供了一个 MBB 梁算例、一个柔顺机构算例和一个短悬臂梁算例，以验证本文提出的通用机器学习（ML）增强拓扑优化框架的效率和普适性。最后，通过求解一个包含超过 10 亿个细分辨率单元的短悬臂梁算例，展示了该方法处理超大规模三维问题的能力。为了说明神经网络模型的问题无关性，本节中 $m$ 值相同的神经网络均完全相同。所有算例涉及的参数均假设为无量纲。实体材料和弱材料的杨氏模量分别设置为 $E_0 = 1$ 和 $E_{\min} = 10^{-7}$，泊松比均为 0.3。此外，我们设定利用神经网络生成子结构刚度矩阵的阈值 $\rho_v = 10^{-4}$。所有细分辨率单元均由八节点六面体单元（brick elements）表示，其单元刚度矩阵使用二阶高斯积分计算。密度过滤的半径 $r_{\min}$ 均相对于细分辨率单元的尺寸而定。
+本节求解了一个 MBB 梁算例和一个柔顺机构算例，以验证本文提出的通用机器学习（ML）增强拓扑优化框架的有效性和普适性。最后，求解了一个包含超过 10 亿个细分辨率单元的短悬臂梁算例，以展示所提方法处理超大规模三维问题的能力。为了说明神经网络模型的问题无关性，本节中 $m$ 值相同的神经网络均相同。这些数值算例涉及的所有参数均假设为无量纲。实体材料和弱材料的杨氏模量分别设置为 $E_0 = 1$ 和 $E_{\min} = 10^{-7}$，实体材料和弱材料的泊松比均为 0.3。此外，我们设定利用神经网络生成子结构刚度矩阵的阈值为 $\rho^v = 10^{-4}$。所有细分辨率单元均由八节点六面体单元（brick elements）表示，其单元刚度矩阵使用二阶高斯积分计算。过滤半径 $r_{\min}$ 相对于细分辨率单元的尺度定义。
+
+需要说明的是，对于 MBB 梁算例，缩聚刚度矩阵的计算通过式 (17) 获得；而在柔顺机构优化算例中，刚度矩阵由神经网络预测，以进一步提高计算效率。此外，采用优化准则（OC）法更新设计变量，并在最后五次连续迭代中目标函数值的相对变化小于 0.0002 时终止优化过程。所有算例均在一台配备 Intel(R) Xeon(R) Gold 6256 3.60 GHz CPU 和 512.0 GB RAM 的笔记本电脑上求解。
 
 ## 4.1 MBB 梁算例
 
-图 5 中的算例将展示所提方法的卓越求解效率。在顶面中心点施加单位集中载荷。为了说明所提方法对于大规模问题的效率，这里并未利用对称性进行简化，而是对整体模型进行求解。
+图 5 中的算例将展示所提方法出色的求解效率。在顶面中心点施加单位集中载荷。为了说明所提方法对于大规模问题的效率，这里并未利用对称性简化，而是对整体模型进行求解。为了检验所提方法在不同细分辨率单元数量下的性能，我们改变细分辨率网格尺寸，同时保持恒定体积分数为 0.12、子结构的 $m = 5$、过滤半径为 3，如图 6 所示。
 
 ![[Huang2023_Fig5.png]]
 
@@ -330,23 +361,17 @@ $$
 图 5：MBB 梁算例的问题设定。
 </b></center>
 
-为了检验所提方法在不同细分辨率单元数量下的性能，我们通过改变细分辨率网格尺寸来改变单元数量，同时保持可用体积分数和密度过滤半径不变。需要说明的是，对于 MBB 梁算例，缩聚刚度矩阵是通过式 (17) 计算得到的，而在柔顺机构优化算例中，刚度矩阵是由神经网络直接预测的，以进一步提高计算效率。此外，采用优化准则（OC）法更新设计变量，并在最后五次连续迭代中目标函数值的相对变化小于 0.0002 时终止优化过程。所有算例均在一台配备 Intel(R) Xeon(R) Gold 6256 3.60 GHz CPU 和 512.0 GB RAM 的工作站上求解。
-
-在图 6 中，展示了采用 $m = 5$ 的机器学习模型在细分辨率单元数量 $N_F$ 变化时得到的优化结构。显然，随着网格加密，得到的优化结构能够保留相似的宏观拓扑形状，但具有更加清晰的边界。这证明了该方法在不同网格分辨率下的适用性。这也由于以下事实：随着网格的加密，一方面，具有线性变形假设的子结构方法的解越来越接近相应的精确解，另一方面，实际的过滤半径也变得更小。此外，图 6 中所有优化结构的对称性也验证了所提方法的有效性。
+可以看到，当子结构总数（$N_C$）等于 $13,182$（$78 \times 13 \times 13$）时，优化结构的表面还不特别光滑。随着网格加密，在相同过滤半径下，优化结构变得明显更加光滑。这是因为，随着网格加密，一方面，具有线性变形假设的子结构方法的解越来越接近相应的精确解；另一方面，实际过滤半径也随之变小。此外，图 6 中所有优化结构的对称性也验证了所提方法的有效性。
 
 ![[Huang2023_Fig6.png]]
 
-<center><b>
-图 6：在细分辨率单元数量 ($N_F$) 变化时获得的优化结构，采用 $m = 5$ 的情况。
-</b></center>
+**图 6：在细分辨率单元数量 ($N_F$) 变化时获得的优化结构，采用 $m = 5$ 的情况。**
 
-图 7 展示了 $N_F = 1,647,750$ 和 $N_F = 11,718,750$ 时每次迭代的平均时间成本，其中粗网格 FEA 的时间指的是 PIML 方法中计算粗分辨率和细分辨率位移的总时间。而粗网格刚度矩阵的时间指的是由神经网络生成每个子结构的多尺度形函数和单元刚度矩阵所需的时间。最后，优化准则的时间是使用优化准则法更新设计变量的时间。值得注意的是，由于对于 $N_F = 1,647,750$ 和 $N_F = 11,718,750$ 的情况，经典的 SIMP 方法计算时间较长，本文仅报告了前 10 次迭代的平均时间，并且没有给出最终优化结果。此外，受限于计算机存储，对于 $N_F = 37,989,750$ 的模型没有应用传统的 SIMP 方法。具体而言，如图 7 所示，使用传统 SIMP 算法时，细网格下的有限元分析时间几乎占总时间的 100%，而对于本文提出的方法，即使在 $N_F = 11,718,750$ 的情况下，粗网格 FEA 的时间成本也与粗网格刚度矩阵的生成时间处于同一数量级。
+图 7 展示了 $N_F = 164,7750$ 和 $N_F = 11,718,750$ 时优化过程中每次迭代的平均时间成本，其中粗网格 FEA 的时间指 PIML 方法中计算粗分辨率和细分辨率位移的总时间；粗网格刚度矩阵的时间指由神经网络生成每个子结构的多尺度形函数和单元刚度矩阵所需的时间；最后，优化准则的时间指使用优化准则法更新设计变量的时间成本。值得注意的是，由于经典 SIMP 方法在 $N_F = 164,7750$ 和 $N_F = 11,718,750$ 的情况下计算时间很长，本文仅报告其前 10 次迭代的平均时间，没有获得最终优化结果。此外，受限于我们的计算机存储，没有对 $N_F = 37,989,750$ 的模型应用传统 SIMP 方法。具体而言，如图 7 所示，采用传统 SIMP 算法时，细网格下的有限元分析时间几乎占总时间的 100%；而对于本文提出的方法，即使在 $N_F = 11,718,750$ 的情况下，粗网格 FEA 的时间成本也与粗网格刚度矩阵上的时间处于同一数量级。所提方法可将求解效率提高约数百倍（对于 $N_F = 164,7750$，$t_t/t_{\mathrm{PIML}}=472$；对于 $N_F = 11,718,750$，$t_t/t_{\mathrm{PIML}}=328$），其中 $t_t$ 和 $t_{\mathrm{PIML}}$ 分别表示经典 SIMP 方法和所提方法单次迭代步的平均时间。
 
 ![[Huang2023_Fig7.png]]
 
-<center><b>
-图 7：在 $N_F = 1,647,750$ 和 $N_F = 11,718,750$ 的情况下，经典 SIMP 方法和基于 PIML 的方法在优化过程中每次迭代的平均时间成本。
-</b></center>
+**图 7：在 $N_F = 164,7750$ 和 $N_F = 11,718,750$ 的情况下，经典 SIMP 方法和基于 PIML 的方法在优化过程中每次迭代的平均时间成本。**
 
 ## 4.2 柔顺机构算例
 
@@ -358,7 +383,9 @@ $$
 图 8：柔顺机构算例的问题设定。
 </b></center>
 
-如图 9 所示，两种优化结果在结构上相似，呈对称的铰链状，正如预期的那样导致了输出端口的向上运动。图 9 还提供了两种方法在每一步中各部分的平均时间成本，结果表明神经网络可以将计算缩聚刚度矩阵的时间减少 60% 以上。最后，使用 EMsFEM 对最优结构进行分析，图 9 中输出点的相应位移记为 $U_{\text{EMs}}^{\text{out}}$，而 $U_{\text{PIML}}^{\text{out}}$ 表示利用神经网络预测的缩聚刚度矩阵所获得的位移。两种方法优化结果中输出点位移的相对误差（即 $|1 - U_{\text{PIML}}^{\text{out}} / U_{\text{EMs}}^{\text{out}}|$）分别为 7.56% 和 7.65%。比较这两种最优设计，可以发现图 9(a) 的结果包含了更多的细节和更平滑的边界，并且图 9(b) 中 $U_{\text{EMs}}^{\text{out}}$ 的值较小，这意味着性能较差。这可能是由于本研究采用的神经网络架构相对简单，从而牺牲了神经网络模型的预测精度。此外，预测的形函数和预测的缩聚刚度矩阵通常无法满足式 (17) 所描述的关系，换句话说，在利用神经网络预测缩聚刚度矩阵的 PIML 方法中，子结构应变能的总和必须等于细分辨率网格的应变能。我们将在未来的工作中尝试解决这一问题。
+需要指出的是，在上述两个数值算例中，子结构的缩聚刚度矩阵均基于预测形函数，通过式 (17) 计算。这种处理虽然保证了缩聚刚度矩阵与形函数的一致性，但在粗分辨率有限元数量较大时会比较耗时。在本算例中，采用缩聚刚度矩阵由式 (17) 计算的基于 PIML 的方法，以及训练良好的神经网络模型，获得优化的柔顺机构。
+
+如图 9 所示，两种优化结果在结构上相似，呈对称的铰链状，正如预期的那样导致了输出端口的向上运动。图 9 还提供了两种方法在每一步中各部分的平均时间成本，结果表明神经网络可以将计算缩聚刚度矩阵的时间减少 60% 以上。最后，使用 EMsFEM 对最优结构进行分析，图 9 中输出点的相应位移记为 $U_{\text{out}}^{\text{EMs}}$，而 $U_{\text{out}}^{\text{PIML}}$ 表示利用神经网络预测的缩聚刚度矩阵所获得的位移。两种方法优化结果中输出点位移的相对误差（即 $1 - \frac{U_{\text{out}}^{\text{PIML}}}{U_{\text{out}}^{\text{EMs}}}$）分别为 7.56% 和 7.65%。比较这两种最优设计，可以发现图 9(a) 的结果包含了更多的细节和更平滑的边界，并且图 9(b) 中 $U_{\text{out}}^{\text{EMs}}$ 的值较小，这意味着性能较差。这可能是由于本研究采用的神经网络架构相对简单，从而牺牲了神经网络模型的预测精度。此外，预测的形函数和预测的缩聚刚度矩阵通常无法满足式 (17) 所描述的关系，换句话说，在利用神经网络预测缩聚刚度矩阵的 PIML 方法中，子结构应变能的总和必须等于细分辨率网格的应变能。我们将在未来的工作中尝试解决这一问题。
 
 ![[Huang2023_Fig9.png]]
 
@@ -396,7 +423,7 @@ $$
 
 目前的工作还可以在多个方向上进行改进和扩展。相应的路线图可以总结如下：
 
-1. 在目前的工作中，仅探讨了沿子结构边界的线性位移插值。然而，这将高估子结构的刚度，尤其是当子结构数量（即 $N$）较小时。缓解该问题的一种可能方法是采用如文献 [41] 中那样的高阶位移插值方案，代价是略微增加最终线性代数方程组中的未知数数量。此外，所提出的方法可以结合其他强大的数据压缩和模型降阶技术，以减少表征材料分布和数值形函数的参数数量，从而有望构建更加轻量级且有效的 ML 模型。
+1. 在目前的工作中，仅探讨了沿子结构边界的线性位移插值。然而，这将高估子结构的刚度，尤其是当子结构数量（即 $N_s$）较小时。缓解该问题的一种可能方法是采用如文献 [41] 中那样的高阶位移插值方案，代价是略微增加最终线性代数方程组中的未知数数量。此外，所提出的方法可以结合其他强大的数据压缩和模型降阶技术，以减少表征材料分布和数值形函数的参数数量，从而有望构建更加轻量级且有效的 ML 模型。
 
 2. 所提出的方法建立在子结构框架之下，这是边界值问题数值求解的通用范式。因此，它可以应用于求解在多物理场仿真（如流固耦合）、未进行尺度分离的高度非均质材料数值均匀化、涉及裂纹扩展/相变/损伤萌生的自由边界前沿追踪等中出现的各种大规模分析/优化问题。在上述所有应用中，由于子结构中材料属性的空间或时间变化，子结构的缩聚刚度矩阵会发生动态变化，所提出的 ML 增强方法可用于对此提供瞬时预测。最后但同样重要的一点是，考虑到动态子结构方法的成功，有理由期望所提出的方法在分析机械系统的大规模动态问题方面也具有巨大的潜力。
 

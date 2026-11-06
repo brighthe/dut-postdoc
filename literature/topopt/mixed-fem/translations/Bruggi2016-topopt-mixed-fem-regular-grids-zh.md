@@ -24,15 +24,13 @@ language: "zh-CN"
 - **中文标题**：规则网格上基于混合有限元的拓扑优化
 - **英文标题**：Topology optimization with mixed finite elements on regular grids
 - **作者**：Matteo Bruggi
-- **作者单位**：米兰理工大学土木与环境工程系（Department of Civil and Environmental Engineering, Politecnico di Milano, I20133, Milano, Italy）
+- **单位**：
+	- 米兰理工大学土木与环境工程系（Department of Civil and Environmental Engineering, Politecnico di Milano；米兰 20133，意大利）
 - **期刊**：*Computer Methods in Applied Mechanics and Engineering* (CMAME)
-- **卷 / 期 / 页码**：Vol. 305, pp. 133–153 (2016)
+- **卷 / 期 / 页码**：305: 133–153 (2016)
 - **DOI**：[10.1016/j.cma.2016.03.010](https://doi.org/10.1016/j.cma.2016.03.010)
-- **收稿 / 修回 / 录用**：Received 10 October 2015; Revised 30 December 2015; Accepted 7 March 2016
-- **Better BibTeX key**：`bruggiTopologyOptimizationMixed2016`
-- **译文状态**：全文翻译完成，并已对照原始 PDF（41 页 Accepted Manuscript）逐页核验（`done`）
-- **图件资产**：全部 21 幅插图已提取并保存至 `literature/topopt/assets/Bruggi2016_Fig1.png` ~ `Bruggi2016_Fig21.png`
-- **底本说明**：本仓库所存 PDF 为 Elsevier *Accepted Manuscript*（41 页，PII `S0045-7825(16)30092-5`，Reference `CMA 10881`），非最终排版版；图件上可见 "ACCEPTED MANUSCRIPT" 斜向水印，按原样保留未作清除。正文节号、式号、图表号与正式版一致，页码不一致。
+- **收稿 / 修回 / 录用**：2015-10-10 / 2015-12-30 / 2016-03-07
+- **通讯作者**：Matteo Bruggi（[matteo.bruggi@polimi.it](mailto:matteo.bruggi@polimi.it)）
 
 ---
 
@@ -647,3 +645,12 @@ $$\sigma_{xx} = \frac{w}{2I}(l^2 - x^2)y + \frac{w}{I}\left(\frac{y^3}{3} - \fra
 [^2]: 译者注：原文式 (18) 把过滤权重印作 $H_{el} = \sum_N \max(0,\ r_{\min} - \mathrm{dist}(e, l))$，在 $H_{el}$ 的定义式中多出一个对邻域 $N$ 的求和号；按其所引文献 [1]、[35] 的标准密度过滤，$H_{el}$ 是逐单元对的权重、本身不含求和，求和只出现在式 (18) 第一式的分子与分母中。此处照原文保留。
 
 [^3]: 译者注：原文参考文献 [30] 作者名印作 "M.P. Bendse"，应为 "M.P. Bendsøe"。此处照原文保留。
+
+---
+
+# 译文维护说明
+
+- **Better BibTeX key**：`bruggiTopologyOptimizationMixed2016`
+- **译文状态**：全文翻译完成，并已对照原始 PDF（41 页 Accepted Manuscript）逐页核验（`done`）
+- **图件资产**：全部 21 幅插图已提取并保存至 `literature/topopt/assets/Bruggi2016_Fig1.png` ~ `Bruggi2016_Fig21.png`
+- **底本说明**：本仓库所存 PDF 为 Elsevier *Accepted Manuscript*（41 页，PII `S0045-7825(16)30092-5`，Reference `CMA 10881`），非最终排版版；图件上可见 "ACCEPTED MANUSCRIPT" 斜向水印，按原样保留未作清除。正文节号、式号、图表号与正式版一致，页码不一致。

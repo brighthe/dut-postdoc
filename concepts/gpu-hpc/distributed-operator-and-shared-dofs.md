@@ -139,4 +139,4 @@ $$
 - [[heterogeneous-execution-modes]] — 硬件拓扑、执行层级与编程模型的分类规范。
 - [[../matrix-free/assembly-levels]] — FA/LA/EA/PA/UA 5 级 Matrix-Free 装配层次。
 - [[parallel-levels]] — 进程/线程/设备内三层并行的卡点划分（本页是其进程层的代数事实源）。
-- [[../linear-elasticity]] — 位移型线弹性有限元离散基础。
+- [[linear-elasticity]] — 位移型线弹性有限元离散基础。

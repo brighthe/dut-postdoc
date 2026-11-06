@@ -15,14 +15,14 @@ tags:
   - adjoint-sensitivity
 status: "draft"
 date_added: 2026-09-02
-date_update: 2026-09-14
+date_update: 2026-10-25
 ---
 
 # 子结构缩聚在变密度拓扑优化中的数学闭环
 
 > 子结构缩聚消去内部位移自由度，但保留细网格上的全部密度变量；恢复完整位移后，仍按单元计算柔顺度和灵敏度，再进行过滤回传与设计更新。
 
-本文以 [[../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh|Huang et al. (2023)]] 的子结构分析与拓扑优化框架为基础，并列讨论 Exact Schur + `full_trace` 与 Exact Schur + `linear_corner`。两者共用密度映射、局部消元和优化更新，只在接口位移空间上不同。静力缩聚的详细推导见[[../exact-substructural|精确子结构分析]]，过滤与投影的定义见[[regularization-and-length-scale-control|正则化与长度尺度控制]]。
+本文以 [[../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh|Huang et al. (2023)]] 的子结构分析与拓扑优化框架为基础，并列讨论 Exact Schur + `full_trace` 与 Exact Schur + `linear_corner`。两者共用密度映射、局部消元和优化更新，只在接口位移空间上不同。静力缩聚的详细推导见[[../substructure/exact-substructural-full-trace|完整接口分析]]，过滤与投影的定义见[[regularization-and-length-scale-control|正则化与长度尺度控制]]。
 
 ## 1. 优化模型与设计变量
 
@@ -228,7 +228,7 @@ $$
 +\mathbf H^j\boldsymbol\Psi^j\mathbf G^j\mathbf Q.
 $$
 
-$\widetilde{\mathbf f}_b^j$ 与 $\mathbf w_i^j$ 的定义见[[../exact-substructural#2.1 局部静力缩聚及其变分形式|缩聚基础页 §2.1]]。此时
+$\widetilde{\mathbf f}_b^j$ 与 $\mathbf w_i^j$ 的定义见[[../substructure/exact-substructural-full-trace#4.1 形函数表示与非零内部载荷|full-trace §4.1]]。此时
 
 $$
 C=\mathbf F_T^{\mathsf T}\mathbf Q+c_0,
@@ -308,7 +308,7 @@ flowchart TD
 
 每轮密度更新后重新进行局部缩聚、所选接口空间的装配求解与位移恢复；密度过滤和 OC 规则不因路径而变。最终柔顺度应与最终交付密度对应，不能将更新后的密度配上更新前的分析结果。
 
-**完整接口路径**满足[[../exact-substructural#4.1 完整接口的代数等价|精确缩聚条件]]时，与同一细网格 FA 在固定密度下具有相同位移、柔顺度和灵敏度。初值及确定性更新规则相同时，精确算术下的迭代序列也相同；浮点实现按容差比较，不要求逐位一致。
+**完整接口路径**满足[[../substructure/exact-substructural-full-trace#4. 代数等价|精确缩聚条件]]时，与同一细网格 FA 在固定密度下具有相同位移、柔顺度和灵敏度。初值及确定性更新规则相同时，精确算术下的迭代序列也相同；浮点实现按容差比较，不要求逐位一致。
 
 **角点线性迹路径**是完整接口模型的 Ritz 子空间近似。在同一物理密度、同一外载、相容齐次支承及对称正定条件下，
 
@@ -324,7 +324,7 @@ $$
 ## 参考文献
 
 - [[../../literature/topopt/piml/translations/Huang2023-PIML-substructure-zh|Huang et al. (2023) 中文译文]]：子结构分析与拓扑优化的基本框架。`refs.bib` cite key：`huangProblemindependentMachineLearning2023`。
-- [[../exact-substructural|精确子结构分析]]、[[regularization-and-length-scale-control|正则化与长度尺度控制]]：缩聚与密度映射的符号和基础。
+- [[../substructure/exact-substructural|精确子结构分析]]、[[regularization-and-length-scale-control|正则化与长度尺度控制]]：缩聚与密度映射的符号和基础。
 - Andreassen E, Clausen A, Schevenels M, et al. *Efficient topology optimization in MATLAB using 88 lines of code*. Structural and Multidisciplinary Optimization, 2011, 43: 1–16。[DTU 官方论文与代码入口](https://www.topopt.mek.dtu.dk/apps-and-software/efficient-topology-optimization-in-matlab)：SIMP、过滤和 OC 的参考，本库尚无独立文献页。
 - [[../piml/piml-substructural|子结构 PIML]]：近似局部表示与结构保持。
 - [[../../research/piml-matrix-free-gpu/project-plan|项目计划]]：研究任务与验证状态。

@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="1040" viewBox="0 0 1320 1040" role="img" aria-labelledby="title desc">
+<title id="title">重叠覆盖的网格设计：非均匀边界单元使重叠后仍为均匀细网格</title>
+<desc id="desc">图①为一个内部型子结构的非均匀网格：内部为 h×h 单元，与邻块共享的边上最外层为 2h×h 的边缘单元，两条重叠边交汇处为 2h×2h 的角部单元。图②为两块以宽 h 重叠：两侧 2h 边缘单元交错，重叠带及其两侧各为 h 宽，分别被 1、2、1 块覆盖，重新拼成 h×h 均匀单元。图③为 2×2 块重叠后的均匀细网格，按覆盖块数 1、2、4 着色，并给出矩形排列中 9 类子结构的位置与扩展边数。示意图不按物理尺寸比例绘制，m=8 为示意取值。</desc>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#1f2d3a">
+<text x="40" y="42" font-size="26" font-weight="700">重叠覆盖的网格设计：非均匀边界单元使重叠后仍为均匀细网格</text>
+<text x="40" y="74" font-size="17" fill="#64748b">二维示意 · h 为细单元边长 · 图中 m = 8 为示意取值（来源算例 m = 10）</text>
+
+<!-- ① 单块非均匀网格 -->
+<text x="45" y="123" font-size="21" font-weight="700">① 一个内部型子结构的非均匀网格</text>
+<text x="45" y="152" font-size="17">内部 h×h（白）· 边缘 2h×h（蓝）· 角部 2h×2h（绿）</text>
+<g stroke="#395569" stroke-width="1">
+<rect x="60" y="180" width="72" height="72" fill="#cfe8d5"/><rect x="276" y="180" width="72" height="72" fill="#cfe8d5"/>
+<rect x="60" y="396" width="72" height="72" fill="#cfe8d5"/><rect x="276" y="396" width="72" height="72" fill="#cfe8d5"/>
+<rect x="132" y="180" width="144" height="72" fill="#cfdeea"/><rect x="132" y="396" width="144" height="72" fill="#cfdeea"/>
+<rect x="60" y="252" width="72" height="144" fill="#cfdeea"/><rect x="276" y="252" width="72" height="144" fill="#cfdeea"/>
+<line x1="168" y1="180" x2="168" y2="252"/><line x1="204" y1="180" x2="204" y2="252"/><line x1="240" y1="180" x2="240" y2="252"/>
+<line x1="168" y1="396" x2="168" y2="468"/><line x1="204" y1="396" x2="204" y2="468"/><line x1="240" y1="396" x2="240" y2="468"/>
+<line x1="60" y1="288" x2="132" y2="288"/><line x1="60" y1="324" x2="132" y2="324"/><line x1="60" y1="360" x2="132" y2="360"/>
+<line x1="276" y1="288" x2="348" y2="288"/><line x1="276" y1="324" x2="348" y2="324"/><line x1="276" y1="360" x2="348" y2="360"/>
+</g>
+<rect x="132" y="252" width="144" height="144" fill="#ffffff" stroke="#395569" stroke-width="1"/>
+<g stroke="#b9c8d5" stroke-width="1">
+<line x1="168" y1="252" x2="168" y2="396"/><line x1="204" y1="252" x2="204" y2="396"/><line x1="240" y1="252" x2="240" y2="396"/>
+<line x1="132" y1="288" x2="276" y2="288"/><line x1="132" y1="324" x2="276" y2="324"/><line x1="132" y1="360" x2="276" y2="360"/>
+</g>
+<rect x="60" y="180" width="288" height="288" fill="none" stroke="#395569" stroke-width="2"/>
+<g stroke="#64748b" stroke-width="1.2">
+<line x1="60" y1="170" x2="132" y2="170"/><line x1="60" y1="165" x2="60" y2="175"/><line x1="132" y1="165" x2="132" y2="175"/>
+<line x1="132" y1="170" x2="168" y2="170"/><line x1="168" y1="165" x2="168" y2="175"/>
+<line x1="50" y1="180" x2="50" y2="252"/><line x1="45" y1="180" x2="55" y2="180"/><line x1="45" y1="252" x2="55" y2="252"/>
+</g>
+<g font-size="14" fill="#64748b" text-anchor="middle">
+<text x="96" y="162">2h</text><text x="150" y="162">h</text><text x="36" y="221">2h</text>
+</g>
+<text x="45" y="500" font-size="17" fill="#64748b">36 个单元：16 内部 + 16 边缘 + 4 角部（全为 h×h 时为 64 个）</text>
+<text x="45" y="525" font-size="17" fill="#64748b">边缘与角部单元只在有邻块的边上扩展</text>
+
+<!-- ② 两块重叠 -->
+<text x="640" y="123" font-size="21" font-weight="700">② 两块以宽 h 重叠</text>
+<text x="640" y="152" font-size="17">2h 边缘单元交错，重叠带两侧各 h 宽，重新拼成 h×h 单元</text>
+<rect x="660" y="180" width="288" height="288" fill="none" stroke="#267ab8" stroke-width="2.5"/>
+<rect x="876" y="180" width="72" height="288" fill="#cfdeea" fill-opacity="0.85" stroke="#267ab8" stroke-width="1"/>
+<g stroke="#267ab8" stroke-width="1">
+<line x1="876" y1="216" x2="948" y2="216"/><line x1="876" y1="252" x2="948" y2="252"/><line x1="876" y1="288" x2="948" y2="288"/><line x1="876" y1="324" x2="948" y2="324"/><line x1="876" y1="360" x2="948" y2="360"/><line x1="876" y1="396" x2="948" y2="396"/><line x1="876" y1="432" x2="948" y2="432"/>
+</g>
+<rect x="912" y="180" width="288" height="288" fill="none" stroke="#c65c3b" stroke-width="2.5" stroke-dasharray="9 5"/>
+<rect x="912" y="180" width="72" height="288" fill="#f6d9cf" fill-opacity="0.75" stroke="#c65c3b" stroke-width="1"/>
+<g stroke="#c65c3b" stroke-width="1">
+<line x1="912" y1="216" x2="984" y2="216"/><line x1="912" y1="252" x2="984" y2="252"/><line x1="912" y1="288" x2="984" y2="288"/><line x1="912" y1="324" x2="984" y2="324"/><line x1="912" y1="360" x2="984" y2="360"/><line x1="912" y1="396" x2="984" y2="396"/><line x1="912" y1="432" x2="984" y2="432"/>
+</g>
+<rect x="912" y="180" width="36" height="288" fill="#cc7c14" fill-opacity="0.28"/>
+<g stroke="#395569" stroke-width="1.5" stroke-dasharray="5 4">
+<line x1="876" y1="178" x2="876" y2="482"/><line x1="912" y1="178" x2="912" y2="482"/><line x1="948" y1="178" x2="948" y2="482"/><line x1="984" y1="178" x2="984" y2="482"/>
+</g>
+<g font-size="13" text-anchor="middle">
+<text x="894" y="175" fill="#267ab8">I</text><text x="930" y="175" fill="#8a4b00">I+II</text><text x="966" y="175" fill="#c65c3b">II</text>
+</g>
+<text x="930" y="500" font-size="15" fill="#64748b" text-anchor="middle">三段均为 h 宽：半区（1 块）· 重叠带（2 块）· 半区（1 块）</text>
+<g font-size="18" font-weight="700">
+<text x="720" y="330" fill="#267ab8">子结构 I</text><text x="1060" y="330" fill="#c65c3b">子结构 II</text>
+</g>
+<text x="640" y="535" font-size="17" fill="#64748b">重叠宽度取 h 而非 h/2 或 2h：既不切出人为小单元，权函数分母也不为零</text>
+
+<!-- ③ 2×2 块重叠后的均匀网格 -->
+<text x="45" y="585" font-size="21" font-weight="700">③ 2×2 块重叠后的均匀细网格与覆盖块数</text>
+<text x="45" y="614" font-size="17">按覆盖块数 1、2、4 及相对位置共 16 类细单元；每类的单位模量刚度可离线预计算</text>
+<rect x="60" y="640" width="360" height="360" fill="#ffffff" stroke="none"/>
+<rect x="228" y="640" width="24" height="360" fill="#fde3d3"/>
+<rect x="60" y="808" width="360" height="24" fill="#fde3d3"/>
+<rect x="228" y="808" width="24" height="24" fill="#f5b48f"/>
+<g stroke="#b9c8d5" stroke-width="1">
+<line x1="84" y1="640" x2="84" y2="1000"/><line x1="108" y1="640" x2="108" y2="1000"/><line x1="132" y1="640" x2="132" y2="1000"/><line x1="156" y1="640" x2="156" y2="1000"/><line x1="180" y1="640" x2="180" y2="1000"/><line x1="204" y1="640" x2="204" y2="1000"/><line x1="228" y1="640" x2="228" y2="1000"/><line x1="252" y1="640" x2="252" y2="1000"/><line x1="276" y1="640" x2="276" y2="1000"/><line x1="300" y1="640" x2="300" y2="1000"/><line x1="324" y1="640" x2="324" y2="1000"/><line x1="348" y1="640" x2="348" y2="1000"/><line x1="372" y1="640" x2="372" y2="1000"/><line x1="396" y1="640" x2="396" y2="1000"/>
+<line x1="60" y1="664" x2="420" y2="664"/><line x1="60" y1="688" x2="420" y2="688"/><line x1="60" y1="712" x2="420" y2="712"/><line x1="60" y1="736" x2="420" y2="736"/><line x1="60" y1="760" x2="420" y2="760"/><line x1="60" y1="784" x2="420" y2="784"/><line x1="60" y1="808" x2="420" y2="808"/><line x1="60" y1="832" x2="420" y2="832"/><line x1="60" y1="856" x2="420" y2="856"/><line x1="60" y1="880" x2="420" y2="880"/><line x1="60" y1="904" x2="420" y2="904"/><line x1="60" y1="928" x2="420" y2="928"/><line x1="60" y1="952" x2="420" y2="952"/><line x1="60" y1="976" x2="420" y2="976"/>
+</g>
+<rect x="60" y="640" width="360" height="360" fill="none" stroke="#395569" stroke-width="2"/>
+<g fill="none" stroke-width="2" stroke-dasharray="7 4">
+<rect x="60" y="640" width="192" height="192" stroke="#267ab8"/>
+<rect x="228" y="640" width="192" height="192" stroke="#c65c3b"/>
+<rect x="60" y="808" width="192" height="192" stroke="#2e8b57"/>
+<rect x="228" y="808" width="192" height="192" stroke="#cc7c14"/>
+</g>
+<g font-size="16" font-weight="700" text-anchor="middle">
+<text x="144" y="740" fill="#267ab8">A</text><text x="336" y="740" fill="#c65c3b">B</text><text x="144" y="920" fill="#2e8b57">C</text><text x="336" y="920" fill="#cc7c14">D</text>
+</g>
+<g stroke="#395569" stroke-width="1">
+<rect x="470" y="652" width="18" height="18" fill="#ffffff"/><rect x="470" y="684" width="18" height="18" fill="#fde3d3"/><rect x="470" y="716" width="18" height="18" fill="#f5b48f"/>
+</g>
+<g font-size="16">
+<text x="498" y="667">被 1 块覆盖：内部单元与边缘半区，局部刚度块 8×8</text>
+<text x="498" y="699">被 2 块覆盖：边缘重叠带，局部刚度块 16×16</text>
+<text x="498" y="731">被 4 块覆盖：角部重叠区，局部刚度块 32×32</text>
+</g>
+<text x="470" y="770" font-size="15" fill="#64748b">1 块覆盖再按内部／四个半区／四个角邻区细分，共 16 类；</text>
+<text x="470" y="793" font-size="15" fill="#64748b">所有单元在参考坐标下全等，每类被积函数固定，</text>
+<text x="470" y="816" font-size="15" fill="#64748b">在线只做模量缩放与按预设索引组装</text>
+
+<text x="900" y="667" font-size="17" font-weight="700">9 类子结构：按有无邻块决定扩展边</text>
+<g stroke="#395569" stroke-width="1">
+<rect x="900" y="684" width="72" height="72" fill="#cfe8d5"/><rect x="980" y="684" width="72" height="72" fill="#cfdeea"/><rect x="1060" y="684" width="72" height="72" fill="#cfe8d5"/>
+<rect x="900" y="764" width="72" height="72" fill="#cfdeea"/><rect x="980" y="764" width="72" height="72" fill="#ffffff"/><rect x="1060" y="764" width="72" height="72" fill="#cfdeea"/>
+<rect x="900" y="844" width="72" height="72" fill="#cfe8d5"/><rect x="980" y="844" width="72" height="72" fill="#cfdeea"/><rect x="1060" y="844" width="72" height="72" fill="#cfe8d5"/>
+</g>
+<g font-size="13" text-anchor="middle" fill="#1f2d3a">
+<text x="936" y="716">角块</text><text x="936" y="734">扩展 2 边</text>
+<text x="1016" y="716">边块</text><text x="1016" y="734">扩展 3 边</text>
+<text x="1096" y="716">角块</text><text x="1096" y="734">扩展 2 边</text>
+<text x="936" y="796">边块</text><text x="936" y="814">扩展 3 边</text>
+<text x="1016" y="796">内部块</text><text x="1016" y="814">扩展 4 边</text>
+<text x="1096" y="796">边块</text><text x="1096" y="814">扩展 3 边</text>
+<text x="936" y="876">角块</text><text x="936" y="894">扩展 2 边</text>
+<text x="1016" y="876">边块</text><text x="1016" y="894">扩展 3 边</text>
+<text x="1096" y="876">角块</text><text x="1096" y="894">扩展 2 边</text>
+</g>
+<text x="900" y="950" font-size="15" fill="#64748b">位于结构外边界上的边不扩展；边块 2(n_x−2)+2(n_y−2) 个，</text>
+<text x="900" y="973" font-size="15" fill="#64748b">内部块 (n_x−2)(n_y−2) 个，角块 4 个</text>
+</g>
+</svg>

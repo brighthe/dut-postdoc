@@ -1,0 +1,33 @@
+{
+  "mask": "density > 0.9 and not pad_mask; count cells, not unique faces",
+  "indicator": "A_e = max of internal-face traction-jump RMS / sigma_bar; sigma_bar = 180",
+  "quantile_method": "numpy.quantile(method=linear)",
+  "rows": [
+    {
+      "k": 3,
+      "solid_cells": 1784,
+      "median": 7.360318698778704e-17,
+      "p95": 1.278666843750116e-16,
+      "maximum": 1.8964349702494436e-16
+    }
+  ],
+  "source_files_sha256": {
+    "/home/brighthe/codespace/soptx/experiments/paper_topopt_huzhang/plots/_base.py": "8548bb16ac8d7c83875c2bb759d7ce0c132a4e61b852733dfaac934ba97f561e",
+    "/home/brighthe/codespace/soptx/experiments/paper_topopt_huzhang/plots/stress_cubic_topologies.py": "b0f80383b7b7b63c89367398e9c7a3f547d15c5fcb6b7172bd8bfdcf8e9d2648",
+    "/home/brighthe/codespace/soptx/experiments/paper_topopt_huzhang/plots/stress_hz_orders_topologies.py": "a597a0376e74b9c265c1de130b2efebcbb8fdd92c746206a0328a1afade6bd24",
+    "/home/brighthe/codespace/soptx/experiments/paper_topopt_huzhang/plots/stress_traction_jump.py": "d972b810c67f86b02c4250f8a4b275634da3c7d5944c9224c69f29e8674b97e3",
+    "/home/brighthe/codespace/soptx/experiments/paper_topopt_huzhang/analysis/discretization_probe.py": "4f6bd1c1edfce0f88f2cd29cedde3b73ea3cb7b11718620ef675f8334eb52265",
+    "/home/brighthe/codespace/soptx/experiments/paper_topopt_huzhang/config.py": "bd290a2495f4722be007b10881e27e07f7d8b43cadf66db32fd5bdb059981e33",
+    "/mnt/c/workspace/dut-postdoc/papers/huzhang-topopt/figures/stress_cubic_topologies.png": "aa9765dce1a4bc6aa46d329c65b7a610493a613f540f0afe7c45f105ade89194",
+    "/mnt/c/workspace/dut-postdoc/papers/huzhang-topopt/figures/stress_cubic_convergence.png": "6ddf64a63db8652c6185381bcbbe62c457f434a6e1645b311f00b25ff2e5bf44",
+    "/mnt/c/workspace/dut-postdoc/papers/huzhang-topopt/figures/stress_hz_orders_topologies.png": "9c0183ef0738de879aa117abc82685348f8e383137a894c008d18efaa07e5f36",
+    "/mnt/c/workspace/dut-postdoc/papers/huzhang-topopt/figures/stress_traction_jump.png": "3d8f8ed615e3800c47b58b9b9df12acff4a9bf29c0f094841665c4df35bffee7",
+    "/mnt/c/workspace/dut-postdoc/papers/huzhang-topopt/figures/stress_hz_k234_topologies.png": "fcaa876dd904d23a7e1e66d581fa716c1271c5ad765afce9854410d0a2e7160e",
+    "/mnt/c/workspace/dut-postdoc/papers/huzhang-topopt/figures/stress_hz_traction_statistics.json": "b30419acf652d5e020ab0f913d8305d0ddc112aa23f559171c54d5064b0303bc",
+    "/mnt/c/workspace/dut-postdoc/papers/huzhang-topopt/results/stress-all-cells-blis1/cantilever-middle-2d-stress/postprocess/discretization_probe/huzhang-3-pad-solid__fields.npz": "8e03756babed85b5b59f0094c8f234fa5991840af937dbad667fd492f905b756",
+    "/mnt/c/workspace/dut-postdoc/papers/huzhang-topopt/results/stress-all-cells-blis1/cantilever-middle-2d-stress/postprocess/discretization_probe/huzhang-3-pad-solid__probe.json": "d2eb47364674d89672faf09af5337f99ec5893afe4eab24a9da208b090931d45",
+    "/mnt/c/workspace/dut-postdoc/papers/huzhang-topopt/results/stress-all-cells-blis1/cantilever-middle-2d-stress/analyzer-huzhang__lfem_constraint-apparent__load_pad_radius-1.5__order-3__solid_thr-None/density_final.vtu": "3fe38b26785d73cf3231533343086a19b49a18bebec95361b0a4c8200fa8aa0a",
+    "/mnt/c/workspace/dut-postdoc/papers/huzhang-topopt/results/stress-all-cells-blis1/cantilever-middle-2d-stress/analyzer-huzhang__lfem_constraint-apparent__load_pad_radius-1.5__order-3__solid_thr-None/summary.json": "592f598b446acff342c986f7292325438e318e1f06cb3cc023742c39b782cc14"
+  },
+  "source_files_unchanged": true
+}

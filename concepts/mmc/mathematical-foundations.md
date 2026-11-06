@@ -218,7 +218,7 @@ $$
 - [[../../literature/topopt/mmc-mmv/translations/Zhang2016-MMC-topology-zh]] — 可变厚度 MMC、Ersatz 有限元、灵敏度与 MATLAB 实现。
 - [[../../literature/topopt/mmc-mmv/translations/Zhang2016-MMC-topology-zh]] — 本页公式和数值实现边界的原文对应译文。
 - [[../../research/mmc-mmv/mmc-mmv-numerical-discretization-survey]] — Ersatz、精确边界积分与先进离散路线的比较。
-- [[../linear-elasticity]] — 线弹性状态方程与有限元离散。
+- [[linear-elasticity]] — 线弹性状态方程与有限元离散。
 
 ## 在我研究中的位置
 

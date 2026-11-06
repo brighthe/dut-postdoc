@@ -29,7 +29,7 @@ language: "zh-CN"
 - **论文号**：AIAA 2023-0530
 - **DOI**：https://doi.org/10.2514/6.2023-0530
 - **会议日期**：2023-01-23 至 2023-01-27（原文仅印会议日期，未印单篇发表日期）
-- **内容说明**：摘要与第 1 节为全文翻译；第 2–6 节目前为摘要式整理，**非全文翻译**。已知缺失包括式 (8) 与热传导变分形式、第 3 节 AD 文献综述与结构化微分推导（含线弹性算例）、第 4 节文献综述与 $H^1$/$H(\text{div})$/$L^2$ 基函数定义、混合 Helmholtz 预条件说明、第 5 节边界条件与参数及后处理说明、第 6 节的具体规模与未来工作细节。章节编号由原文 I–VI、A/B/C 改为阿拉伯数字。待补译。
+- **内容说明**：摘要与第 1 节为全文翻译；第 2–6 节为按原文逐节的精读整理（论述转述压缩，公式、编号、参数与数值按原文），**非逐句翻译**。章节编号由原文 I–VI、A/B/C 改为阿拉伯数字。
 
 # 摘要
 
@@ -47,125 +47,235 @@ language: "zh-CN"
 
 # 2 多物理场问题列式
 
-在本节中，我们描述了多物理场问题控制方程的变分形式，并给出了几个算例。
+> 第 2–6 节为按原文逐节的精读整理，非逐句翻译：论述以中文转述并压缩，公式、编号、参数与数值按原文给出，译者推断以脚注或“译者注”标出。
+
+本节给出框架统一处理的变分形式，并以热传导、Helmholtz 滤波、线弹性三个算例说明各自需要的导数。
 
 ## 2.1 控制方程
 
-多物理场问题的控制方程采用有限元法进行离散。利用 Galerkin 方法，近似解 $u_h \in V_h$ 满足控制方程的半线性变分形式：
+**设定。** 以 Galerkin 有限元离散，近似解 $u_h\in V_h$ 满足半线性变分形式
 $$
 R(x_h, u_h, v_h) = 0, \quad \forall v_h \in V_h \tag{1}
 $$
-其中给定设计变量 $x_h \in X_h$，$V_h$ 是适当的有限维函数空间。在控制变分陈述 (1) 中，半线性形式关于测试函数参数 $v_h$ 是线性的，关于解参数 $u_h$ 和设计变量 $x_h$ 可能是非线性的。一旦获得解 $u_h$，就可以评估感兴趣的泛函，使得 $f(x_h, u_h)$ 可以在优化问题的背景下用作目标或约束。为了简化表述，我们重点关注半线性形式 (1) 仅为全域积分而不包含边界积分的情形。
+- $x_h\in X_h$ 为给定的设计变量，$V_h$ 为相应的有限维函数空间；
+- 半线性形式对测试函数 $v_h$ 线性，对 $u_h$、$x_h$ 可以非线性；
+- 求得 $u_h$ 后，泛函 $f(x_h,u_h)$ 作为优化的目标或约束；
+- 为简化表述，只考虑全域积分，不含边界面积分。
 
-在有限元网格上使用数值积分公式计算半线性形式：
+**数值积分。** 在网格 $\mathcal T_h$（$\bigcup_{K\in\mathcal T_h}K=\Omega$）上用积分公式计算：
 $$
-R_h(x_h, u_h, v_h) = \sum_{K \in \mathcal{T}_h} \sum_{q \in Q_K} w_q |\det J_q| I_h(x_h|_q, u_h|_q, v_h|_q) \tag{2}
+R_h(x_h, u_h, v_h) = \sum_{K \in \mathcal{T}_h} \sum_{q \in Q_K} w_q |\det J_q|\, I_h(x_h|_q, u_h|_q, v_h|_q) \tag{2}
 $$
-其中计算域 $\Omega$ 划分为单元 $K \in \mathcal{T}_h$ 使得 $\bigcup_{K \in \mathcal{T}_h} K = \Omega$，$Q_K$ 是单元 $K$ 上的积分点集合，$w_q$ 是积分权重，$\det J_q$ 是单元几何变换的雅可比行列式，$I_h$ 是控制方程变分形式的离散化被积函数。
+$Q_K$ 为单元 $K$ 的积分点集，$w_q$ 与 $\det J_q$ 为积分点 $q$ 处的积分权重与单元映射 Jacobian 行列式，$I_h$ 为离散被积函数。此后省略 $|_q$，$I_h$ 的自变量一律理解为积分点上的取值。
 
-控制方程的离散形式、雅可比矩阵以及基于伴随的梯度计算所需项，是通过对被积函数 $I_h$ 关于测试函数 $v_h$、试探解 $u_h$、设计变量 $x_h$ 及其梯度、散度或旋度等微分算子求导获得的：
-- 离散残差：对 $I_h$ 关于测试函数参数 $v_h$ 及其微分算子求一阶导数；
-- 雅可比矩阵：对 $I_h$ 关于测试函数 $v_h$ 及其微分算子求一阶导，再关于试探解 $u_h$ 及其微分算子求二阶混合导数；
-- 伴随向量积：令试探函数等于伴随变量 $v_h = \psi_h$，对设计变量 $x_h$ 求导。
+**所需导数与 $I_h$ 的对应关系。** 对 $I_h$ 关于 $v_h,u_h,x_h$ 及其出现在被积函数中的梯度、旋度、散度求导：
 
-我们不采用手工推导这些导数，而是实现了一种结构化自动微分方法（Structured Differentiation）在积分点级别直接求导（见第 3.1 节）。该方法完全局限于网格积分点上计算的物理量，与计算 $x_h, u_h, v_h$ 所采用的单元基函数无关。
+| 所需项 | 对 $I_h$ 的求导方式 |
+|---|---|
+| 离散残差 | 对 $v_h$ 及作用于 $v_h$ 的微分算子求一阶导 |
+| Jacobian | 先对 $v_h$ 及其微分算子、再对 $u_h$ 及其微分算子求混合二阶导 |
+| 伴随–向量积 | 令 $v_h=\psi_h$（伴随变量），对 $x_h$ 求导 |
+
+这些导数不手工实现，而由第 3.1 节的结构化微分计算。该方法只处理积分点上的量，与计算 $x_h,u_h,v_h$ 所用的单元基函数无关。
 
 ## 2.2 势能问题
 
-在许多力学问题中，控制方程可直接从驻值原理（如总势能驻值原理）导出。总势能通常写为全域积分：
+许多力学问题可由总势能驻值原理导出。总势能写成积分点求和
 $$
-\Pi_h(x_h, u_h) = \sum_{K \in \mathcal{T}_h} \sum_{q \in Q_K} w_q |\det J_q| \pi_h(x_h|_q, u_h|_q) \tag{3}
+\Pi_h(x_h, u_h) = \sum_{K \in \mathcal{T}_h} \sum_{q \in Q_K} w_q |\det J_q|\, \pi_h(x_h|_q, u_h|_q) \tag{3}
 $$
-通过令势能的一阶变分等于零，得到变分方程：
+其中 $\pi_h$ 为积分点上的势能密度。令其关于 $u_h$ 的一阶变分为零：
 $$
-\delta \Pi_h(x_h, u_h, \delta u_h) = \sum_{K \in \mathcal{T}_h} \sum_{q \in Q_K} w_q |\det J_q| \delta \pi_h(x_h|_q, u_h|_q, \delta u_h|_q) = 0, \quad \forall \delta u_h \in V_h \tag{4}
+\delta \Pi_h(x_h, u_h, \delta u_h) = \sum_{K \in \mathcal{T}_h} \sum_{q \in Q_K} w_q |\det J_q|\, \delta \pi_h(x_h|_q, u_h|_q, \delta u_h|_q) = 0, \quad \forall \delta u_h \in V_h \tag{4}
 $$
-只要令 $R_h(x_h, u_h, v_h) = \delta \Pi_h(x_h, u_h, v_h)$ 并定义 $I_h = \delta \pi_h$，便可直接转化为半线性形式 (2)。此时构造雅可比所需的导数正是能量密度 $\pi_h$ 关于解变量 $u_h$ 及其微分算子的二阶导数。
+取 $R_h(x_h,u_h,v_h)=\delta\Pi_h(x_h,u_h,v_h)$，并在每个积分点令 $I_h=\delta\pi_h$，式 (4) 即归入半线性形式 (2)。此时形成 Jacobian 所需的是 $\pi_h$ 关于 $u_h$ 及其微分算子的二阶导数。
 
 ## 2.3 多物理场算例
 
 ### 2.3.1 热传导
-采用 RAMP 材料惩罚模型的稳态导热方程：
+
+**强形式。** 用于拓扑优化、采用 RAMP 惩罚 [48] 的稳态热传导：
 $$
--\nabla \cdot \left( \kappa_0 \frac{x}{1 + q(1-x)} \nabla u \right) = g, \quad u|_{\Gamma_0} = 0, \quad n \cdot \nabla u|_{\Gamma_1} = 0
+-\nabla \cdot \left( \kappa_0 \frac{x}{1 + q(1-x)} \nabla u \right) = g, \qquad u|_{\Gamma_0} = 0, \qquad n \cdot \nabla u|_{\Gamma_1} = 0
 $$
-变分被积函数为：
+- 温度 $u\in H^1(\Omega)$；$\Gamma_0$ 上 Dirichlet、$\Gamma_1$ 上 Neumann 条件，$\Gamma_0\cup\Gamma_1=\partial\Omega$；
+- $g$ 为体热源，$\kappa_0$ 为导热系数，$q$ 为 RAMP 惩罚参数；
+- 设计变量 $x\in L^2(\Omega)$，$0\le x\le 1$。
+
+**变分形式与被积函数。**
+$$
+R(x,u,v)=\int_\Omega \left(\kappa_0\frac{x}{1+q(1-x)}\nabla u\cdot\nabla v-gv\right)\mathrm d\Omega=0,\qquad \forall v\in H^1_0(\Omega)
+$$
+$H^1_0(\Omega)$ 为满足本质边界条件 $u|_{\Gamma_0}=0$ 的 $H^1$ 函数空间。被积函数为
 $$
 I_h(x_h, u_h, v_h) = \kappa_0 \frac{x_h}{1 + q(1-x_h)} \nabla_h u_h \cdot \nabla_h v_h - v_h g \tag{5}
 $$
-其关于 $\nabla_h v_h$ 与 $\nabla_h u_h$ 的混合二阶导数为：
+$\nabla_h$ 为离散梯度。
+
+**导数。**
+- 残差：
+$$
+\frac{\partial I_h}{\partial v_h}=-g,\qquad
+\frac{\partial I_h}{\partial \nabla_h v_h}=\kappa_0\frac{x_h}{1+q(1-x_h)}\nabla_h u_h
+$$
+- Jacobian：沿 $\nabla_h u_h$ 的搜索方向 $\nabla_h p_h$ 取方向导数，
 $$
 \frac{\partial^2 I_h}{\partial \nabla_h v_h \partial \nabla_h u_h} \cdot \nabla_h p_h = \kappa_0 \frac{x_h}{1 + q(1-x_h)} \nabla_h p_h
 $$
-关于设计变量 $x_h$ 的伴随导数为：
+- 伴随–残差积对设计变量的导数（$\psi_h$ 为伴随变量）：
 $$
 \frac{\partial I_h}{\partial x_h} = \kappa_0 \frac{1+q}{(1 + q(1-x_h))^2} \nabla_h u_h \cdot \nabla_h \psi_h
 $$
 
+作者指出这个简单算例的导数可以手推，结构化微分的价值在更复杂的导数上。
+
 ### 2.3.2 拓扑优化 Helmholtz 滤波
-Helmholtz PDE 用于拓扑优化中的长度尺度控制以实现网格无关解：
+
+Helmholtz PDE 在拓扑优化中用于控制设计的长度尺度、得到网格无关解 [28]，强形式为
 $$
 \rho - r_0^2 \nabla^2 \rho = x, \quad n \cdot \nabla u|_{\partial \Omega} = 0 \tag{6}
 $$
-引入通量 $\sigma = -r_0 \nabla \rho$，建立混合形式：
+$r_0$ 为特征长度，输入为设计变量 $x\in L^2(\Omega)$（$0\le x\le1$），输出为滤波密度 $\rho\in H^1(\Omega)$[^helmholtz-bc]。
+
+[^helmholtz-bc]: 译者注：式 (6) 边界条件按原文照录为 $n\cdot\nabla u$；按上下文，滤波问题的未知量是 $\rho$，此处应为 $n\cdot\nabla\rho$。
+
+**混合列式。** 不直接用式 (6)，而引入通量 $\sigma=-r_0\nabla\rho$：
 $$
 \begin{aligned}
 \rho + r_0 \operatorname{div}(\sigma) - x &= 0 \\
 \sigma + r_0 \nabla \rho &= 0
 \end{aligned} \tag{7}
 $$
-其中 $\rho \in L^2(\Omega)$，$\sigma \in H_0(\operatorname{div}, \Omega)$。弱混合形式的被积函数为：
+其中 $\rho\in L^2(\Omega)$、$\sigma\in H_0(\operatorname{div},\Omega)$。试探函数 $u=(\rho,\sigma)$，测试函数 $v=(\eta,\tau)$，弱形式为
+$$
+R(x,(\rho,\sigma),(\eta,\tau))=\int_\Omega\bigl(\sigma\cdot\tau-r_0\operatorname{div}(\tau)\,\rho-r_0\operatorname{div}(\sigma)\,\eta-\rho\eta+x\eta\bigr)\,\mathrm d\Omega \tag{8}
+$$
+对应的被积函数（$\operatorname{div}_h$ 为离散散度）：
 $$
 I_h(x_h, (\rho_h, \sigma_h), (\eta_h, \tau_h)) = \sigma_h \cdot \tau_h - r_0 \operatorname{div}_h(\tau_h) \rho_h - r_0 \operatorname{div}_h(\sigma_h) \eta_h - \rho_h \eta_h + x_h \eta_h \tag{9}
 $$
+与热传导相同，式 (9) 在积分点上的一阶、二阶导数给出离散方程与伴随所需的项。
 
 ### 2.3.3 拓扑优化线弹性
-三维各向同性线弹性问题，位移场 $u_h \in [H^1(\Omega)]^3$。应变张量 $E = \frac{1}{2}(\nabla_h u_h + \nabla_h u_h^{\mathsf T})$，柯西应力 $S = 2\mu E + \lambda \operatorname{tr}(E) I$。应变能密度函数为：
+
+结构拓扑优化常以各向同性线弹性为模型来优化刚度或强度 [46]。
+- 未知量为位移场 $u_h\in[H^1(\Omega)]^3$，带相应的 Dirichlet 条件；
+- 应变 $E\in\mathbb S^3$：$E=\tfrac12\bigl(\nabla_h u_h+\nabla_h u_h^{\mathsf T}\bigr)$；
+- 应力 $S\in\mathbb S^3$，各向同性 Hooke 定律：$S=2\mu E+\lambda\operatorname{tr}(E)\,I$，$\mu,\lambda$ 为 Lamé 参数。
+
+施加 RAMP 惩罚 [48] 后，总势能中的应变能密度为
 $$
 \pi_h(x_h, u_h) = \frac{1}{2} \frac{x_h}{1 + q(1-x_h)} \operatorname{tr}(S E) \tag{10}
 $$
-对 $\pi_h$ 关于 $\nabla_h u_h$ 求一阶和二阶导数分别得到离散残差和切线刚度（雅可比矩阵）。
+离散残差与 Jacobian 分别需要式 (10) 关于 $\nabla_h u_h$ 的一阶与二阶导数。
 
 # 3 自动微分
 
-自动微分（AD）通过基本算术运算、内建函数的偏导表达式和微积分链式法则，在计算机代码中精确高效地计算导数。分为前向模式（Forward mode，按输入逐列计算）与反向模式（Reverse mode，按输出逐行计算）。常见实现方式包括源码转换（Source transformation）与运算符重载（Operator overloading）。
+**基本概念。** 自动微分（AD）对代码中的数值计算求导，依赖两点：编程语言基本运算与内建函数的偏导表达式，以及链式法则 [18, 35, 37]。AD 把计算分解为一元、二元基本运算，按链式法则累积各变量的导数；可处理分支、循环与递归，且没有截断误差 [5, 18]。原文的比较是：比符号微分快 [12, 35]，比有限差分准。
+
+| 维度 | 选项 | 原文要点 |
+|---|---|---|
+| 模式 | 前向 | 逐列计算 Jacobian，代价随输入个数增长 |
+| | 反向 | 逐行计算 Jacobian，代价随输出个数增长；需存储的数据比前向多 [15, 18]，有降低内存的技术 [18] |
+| 实现 | 源码变换 | 解析源码，生成求导代码 |
+| | 运算符重载 | 定义同时携带值与导数的扩展数据类型 [35] |
+
+**文献综述（压缩）。**
+- 结构力学：Chinchalkar [11] 用 AD 构造伴随项并做形状灵敏度；Hou 等 [22] 求热有限元问题对设计变量的一、二阶导；Rothe 与 Hartmann [43] 比较手推、有限差分与 AD 求切线刚度，结论是 AD 准确且实现量小；Chandrasekhar 等 [9] 用 JAX 求二维拓扑优化导数；Vigliotti 与 Auricchio [49] 以应变能积分为自由能，用 AD 直接得到残差力向量（梯度）与切线刚度（Hessian）。
+- CFD：Mader 等 [34] 为 Euler 求解器选择性地用 AD 构造离散伴随；Lyu 等 [31] 推广到 RANS 并用着色提高效率；He 等 [19] 为 OpenFOAM [50] 实现离散伴随；Sagebaum 等 [44, 45] 基于表达式模板开发 CoDiPack，并为 SU2 [14] 实现离散伴随。
+- 机器学习：动态计算图与可微编程推动了 AD 的应用 [5]；autograd [32, 33]、PyTorch [40]、TensorFlow [1] 等支持在 CPU、GPU 上执行 AD [5, 39]。
 
 ## 3.1 面向多物理场仿真的结构化自动微分
 
-结构化微分（Structured Differentiation）的目标是高效、高精度地在单元积分点上计算物理量的导数：
-1. **积分点级密集小矩阵/向量运算**：基于 Giles [16] 的方法在积分点级别为小规模稠密矩阵和向量运算实现一阶与二阶微分；
-2. **反向模式栈**：用户管理反向模式调用栈，具备灵活性以避免对被动变量（passive variables）求导；
-3. **二阶导数（Hessian-vector products）计算流程**：
-   对于标量函数 $f(y(x)): \mathbb{R}^n \to \mathbb{R}$，沿任意方向 $\dot{x} \in \mathbb{R}^n$ 的 Hessian–向量积为：
-   $$
-   \frac{\partial^2 f}{\partial x_i \partial x_j} \dot{x}_j = \frac{\partial^2 f}{\partial y_k \partial y_l} \frac{\partial y_k}{\partial x_i} \frac{\partial y_l}{\partial x_j} \dot{x}_j + \frac{\partial f}{\partial y_k} \frac{\partial^2 y_k}{\partial x_i \partial x_j} \dot{x}_j
-   $$
-   定义前向切向量 $\dot{y}_j = \frac{\partial y_j}{\partial x_i} \dot{x}_i$，以及二阶变量 $\hat{y}_i = \frac{\partial^2 f}{\partial y_i \partial y_j} \dot{y}_j$ 和 $\hat{x}_i = \frac{\partial^2 f}{\partial x_i \partial x_j} \dot{x}_j$，则 Hessian–向量积可写为：
-   $$
-   \hat{x}_i = \hat{y}_k \frac{\partial y_k}{\partial x_i} + \bar{y}_k \frac{\partial^2 y_k}{\partial x_i \partial x_j} \dot{x}_j
-   $$
-   该算法包含三次扫描：
-   - 首先执行一次**反向 AD 扫描**计算一阶导数 $\bar{y}$；
-   - 接着执行一次**前向 AD 扫描**计算切向量 $\dot{y}$；
-   - 最后执行一次**反向 AD 扫描**累积得到 Hessian 向量积 $\hat{x}$。
-   其总内存开销仅约为原始被积函数计算代码的 4 倍。
-4. **二阶导数的两种应用途径**：
-   - 直接用于 Krylov 迭代中单次 Jacobian–向量积的实时计算；
-   - 或构造积分点处的雅可比矩阵。（译者注：原文仅称二阶导数可用于单次矩阵–向量积或构造积分点处的雅可比矩阵；对应代码 `MatrixFree::initialize` 及“PA 模式”的说法为译者推断，见摘要脚注。）
+**目标与取舍。** 结构化微分用于计算有限元积分点上各量的导数，要求在时间和内存上都高效。与通用 AD 工具的区别：
+- 按 Giles [16] 的方法，对积分点级的小型稠密矩阵、向量运算直接实现一阶与二阶导数；
+- 由这些矩阵、向量导出的标量量（如迹）的导数由用户实现，反向模式的调用栈也由用户管理；
+- 这增加了实现工作量，换来可以跳过被动变量（passive variables）求导的灵活性，从而提高计算效率。
+
+在有限元中，求导对象是被积函数 $I_h$ 或 $\pi_h$。
+
+**记号。** 设标量函数 $f(y(x)):\mathbb R^n\to\mathbb R$，输入 $x\in\mathbb R^n$，中间变量 $y\in\mathbb R^m$。链式法则（Einstein 求和）为
+$$
+\frac{\partial f}{\partial x_i}=\frac{\partial f}{\partial y_j}\frac{\partial y_j}{\partial x_i}.
+$$
+定义伴随量 $\bar y_j=\partial f/\partial y_j$、$\bar x_i=\partial f/\partial x_i$，反向模式关系为
+$$
+\bar x_i=\bar y_j\frac{\partial y_j}{\partial x_i}.
+$$
+
+**一阶导数示例：各向同性线弹性。** 取式 (10) 且不含设计变量依赖（等价于 $q=0$）。残差是 $\pi_h$ 关于 $u_h$ 与 $\nabla_h u_h$（视为独立变量）的一阶导，令 $f=\pi_h$，反向扫描依次为
+$$
+\bar S=\tfrac12\,\bar\pi_h\,E,\qquad
+\bar E=\tfrac12\,\bar\pi_h\,S+2\mu\,\bar S+\lambda\operatorname{tr}(\bar S)\,I,\qquad
+\overline{\nabla_h u_h}=\bar E .
+$$
+迹运算的输出是标量，种子 $\bar\pi_h=1$ 由用户给定。实现采用 C++ 类模板的运算符重载，所有中间量的存储与原变量相同。
+
+**二阶导数：Hessian–向量积。** 二阶导数通过 Hessian–向量积计算，有两种用途：直接做一次矩阵–向量积，或在积分点上构造 Jacobian 矩阵。（译者注：原文未说明算例采用哪一种；对应开源代码 `MatrixFree::initialize` 采用后者、即 PA 的判断为译者推断，见摘要脚注。）
+
+沿任意方向 $\dot x\in\mathbb R^n$，
+$$
+\frac{\partial^2 f}{\partial x_i \partial x_j} \dot{x}_j = \frac{\partial^2 f}{\partial y_k \partial y_l} \frac{\partial y_k}{\partial x_i} \frac{\partial y_l}{\partial x_j} \dot{x}_j + \frac{\partial f}{\partial y_k} \frac{\partial^2 y_k}{\partial x_i \partial x_j} \dot{x}_j .
+$$
+引入前向切向量 $\dot y\in\mathbb R^m$ 与 Hessian–向量积变量 $\hat x\in\mathbb R^n$、$\hat y\in\mathbb R^m$：
+$$
+\dot y_j=\frac{\partial y_j}{\partial x_i}\dot x_i,\qquad
+\hat y_i=\frac{\partial^2 f}{\partial y_i\partial y_j}\dot y_j,\qquad
+\hat x_i=\frac{\partial^2 f}{\partial x_i\partial x_j}\dot x_j ,
+$$
+则
+$$
+\hat{x}_i = \hat{y}_k \frac{\partial y_k}{\partial x_i} + \bar{y}_k \frac{\partial^2 y_k}{\partial x_i \partial x_j} \dot{x}_j .
+$$
+
+计算流程为三趟扫描：
+1. 反向扫描，求一阶伴随 $\bar y$；
+2. 前向扫描，由 $\dot x$ 求 $\dot y$；
+3. 反向扫描，累积得到 $\hat x$。
+
+中间量 $\dot y$、$\hat y$、$\bar y$ 的存储都与 $y$ 相同，因此 Hessian–向量积的总存储约为原始代码的 4 倍。
 
 # 4 高阶有限元离散
 
-高阶有限元（$p$-FEM）能够以更低的自由度达到更高的精度。然而，朴素高阶有限元装配具有 $\mathcal{O}(p^{3d})$ 的极其高昂的计算复杂度。Orszag [38] 提出了基于张量积插值的和分解（Sum-Factorization）方法，将雅可比–向量积的复杂度降低到理论最优的 $\mathcal{O}(p^{d+1})$。
+**动机与文献（压缩）。** 高阶有限元有望以更低成本获得更高的解与泛函精度，前提是有限元运算与求解流程对阶数 $p$ 的复杂度要优化好；$d$ 维问题上朴素的有限元矩阵计算可达 $\mathcal O(p^{3d})$。
+- Orszag [38]：对张量积插值用 sum factorization 计算全阶算子的 Jacobian–向量积，并以低阶算子作预条件，Jacobian–向量积达到最优的 $\mathcal O(p^{d+1})$；
+- Melenk 等 [36]：高阶单元刚度矩阵组装的高效积分算法；
+- 沿 Orszag 思路、全阶矩阵从不组装的 matrix-free 预条件研究：Deville 与 Mund [13] 评估伪谱有限元椭圆问题的低阶预条件；Bello-Maldonado 与 Fischer [6] 用高阶离散的 GLL 点构造低阶矩阵并施加 AMG，求解 Poisson 方程；Pazner 等 [41] 为 de Rham 复形单元构造低阶预条件并结合 AMG。
+
+**本文做法。** 六面体单元上的张量积基函数；用 sum factorization 计算高阶 Jacobian 的作用而不组装矩阵；在每个单元的 GLL 点上构造低阶网格作预条件，以光滑聚合多重网格作 CG 的预条件子。
 
 ## 4.1 高阶有限元基
 
-三维六面体单元参考域 $\hat{K} = [-1, 1]^3$。微分映射 $K = F(\hat{K})$，雅可比矩阵 $J(\hat{x}) = \nabla F(\hat{x})$。
-- **$H^1$ 空间基**：在参考单元上采用 Gauss–Legendre–Lobatto（GLL）节点的 Lagrange 插值多项式张量积构造；
-- **$H(\text{div})$ 空间基**：构造方向向量基，并通过 Piola 变换映射到物理单元：
-  $$
-  u_h(x) = \frac{1}{\det J} J \hat{u}_h(\hat{x}), \quad \operatorname{div}_h u_h(x) = \frac{1}{\det J} \operatorname{div}_{\hat{K}} \hat{u}_h(\hat{x})
-  $$
-- **$L^2$ 空间基**：采用 Gauss–Legendre 点构建张量积基。
+**单元映射。** 参考单元 $\hat K$ 经微分同胚 $K=F(\hat K)$ 映到物理单元，$x=F(\hat x)$，Jacobian $J(\hat x)=\nabla F(\hat x)$ 在 $\hat K$ 上处处可逆。六面体参考域 $\hat K=[-1,1]^3$；$H^1(K)$、$H(\operatorname{div},K)$、$L^2(K)$ 的基先在 $\hat K$ 上构造再映射到物理单元 [7, 47]。
+
+**一维 Lagrange 多项式。** $[-1,1]$ 上 $n$ 个 Gauss–Legendre–Lobatto（GLL）点记为 $l_n$，$n$ 个 Gauss–Legendre（GL）点记为 $g_n$。以 GLL 点插值的 $p$ 次 Lagrange 多项式记为
+$$
+\ell_i^{(p)}(\hat x;\,l_{p+1}),\qquad i=1,\dots,p+1,
+$$
+以 GL 点插值者记法类推。
+
+**三类基函数。**
+
+| 空间 | 参考单元上的基 | 个数 | 到物理单元的映射 |
+|---|---|---|---|
+| $H^1(\hat K)$ | $\ell_i^{(p)}(\hat x_1;l_{p+1})\,\ell_j^{(p)}(\hat x_2;l_{p+1})\,\ell_k^{(p)}(\hat x_3;l_{p+1})$，$i,j,k=1,\dots,p+1$ | $(p+1)^3$ | $u_h(x)=\hat u_h(\hat x)$，$\nabla_h u_h(x)=(\nabla\hat u_h(\hat x))\,J^{-1}$ |
+| $H(\operatorname{div},\hat K)$ | $B_{p,1}\cup B_{p,2}\cup B_{p,3}$，见下式 | $3(p+1)p^2$ | Piola 变换，见下式 |
+| $L^2(\hat K)$ | $\ell_i^{(p-1)}(\hat x_1;g_p)\,\ell_j^{(p-1)}(\hat x_2;g_p)\,\ell_k^{(p-1)}(\hat x_3;g_p)$，$i,j,k=1,\dots,p$ | $p^3$ | $u_h(x)=\hat u_h(\hat x)$ |
+
+$H^1$ 梯度变换中 $\nabla(\cdot)$ 按行向量约定。
+
+$H(\operatorname{div},\hat K)$ 的向量基（$e_1,e_2,e_3$ 为笛卡尔基）：法向分量方向用 $p$ 次 GLL 插值，其余两个方向用 $p-1$ 次 GL 插值，
+$$
+\begin{aligned}
+B_{p,1}&=\bigl\{e_1\,\ell_i^{(p)}(\hat x_1;l_{p+1})\,\ell_j^{(p-1)}(\hat x_2;g_p)\,\ell_k^{(p-1)}(\hat x_3;g_p)\ \big|\ i=1,\dots,p+1;\ j,k=1,\dots,p\bigr\},\\
+B_{p,2}&=\bigl\{e_2\,\ell_i^{(p-1)}(\hat x_1;g_p)\,\ell_j^{(p)}(\hat x_2;l_{p+1})\,\ell_k^{(p-1)}(\hat x_3;g_p)\ \big|\ j=1,\dots,p+1;\ i,k=1,\dots,p\bigr\},\\
+B_{p,3}&=\bigl\{e_3\,\ell_i^{(p-1)}(\hat x_1;g_p)\,\ell_j^{(p-1)}(\hat x_2;g_p)\,\ell_k^{(p)}(\hat x_3;l_{p+1})\ \big|\ k=1,\dots,p+1;\ i,j=1,\dots,p\bigr\}.
+\end{aligned}
+$$
+Piola 变换及其散度关系（$\operatorname{div}_{\hat K}$ 为参考单元上的散度）：
+$$
+u_h(x) = \frac{1}{\det J}\, J\, \hat{u}_h(\hat{x}), \qquad \operatorname{div}_h u_h(x) = \frac{1}{\det J} \operatorname{div}_{\hat{K}} \hat{u}_h(\hat{x})
+$$
 
 ## 4.2 代数多重网格预条件子
 
@@ -175,15 +285,13 @@ $$
 图 1：二维四边形单元上 $H^1$、$H(\operatorname{div})$ 和 $L^2$ 基函数的自由度示意以及低阶预条件网格剖分：（a）$H^1(\hat{K}), p=5$；（b）$H(\operatorname{div}, \hat{K}), p=5$；（c）$L^2(\hat{K}), p=4$；（d）低阶预条件网格剖分
 </b></center>
 
-为构造有限元问题的低阶预条件子：
-- **低阶离散（Low-order preconditioner）**：沿 Gauss–Legendre–Lobatto 网格剖分高阶六面体单元，形成低阶离散；
-- **装配与求解**：在低阶网格上装配稀疏低阶矩阵 $K_1$，并对其应用平滑聚合代数多重网格（Smoothed Aggregation AMG）作为全阶 Matrix-Free 高阶问题 $K$ 的预条件子；
-- **谱分析与条件数检验**：
-  广义特征值问题：
-  $$
-  K v = \lambda K_1 v \tag{11}
-  $$
-  对扭曲单元进行谱分析表明，条件数 $\kappa(K_1^{-1} K)$ 随阶数 $p$ 和畸变比（Aspect Ratio, AR）仅适度增长，在 Poisson 问题中小于 60，在线弹性问题中小于 160，在未畸变单元（$\text{AR}=1$）下分别小于 25 和 40，验证了低阶 AMG 预条件子的有效性。
+**构造。** 沿 GLL 网格把高阶六面体单元剖开，形成低阶离散；以低阶矩阵经光滑聚合 AMG 作全阶问题的预条件。四边形单元上的空间与低阶剖分见图 1。
+
+**谱检验。** 预条件效果通过单个高阶单元上的广义特征值问题间接评估：
+$$
+K v = \lambda K_1 v \tag{11}
+$$
+$K$、$K_1$ 分别为高阶单元及其低阶近似的 Jacobian 矩阵。去掉对应零空间的零特征值后，记 $\kappa(K_1^{-1}K)=|\lambda_{\max}|/|\lambda_{\min}|$。仿照 Bello-Maldonado 与 Fischer [6]，用图 2 的畸变六面体单元，分别对 Poisson 与线弹性离散考察 $\kappa$ 随阶数 $p$ 与畸变长宽比 AR 的变化（图 3）。
 
 ![[Fu2023_Fig2.png]]
 
@@ -197,18 +305,40 @@ $$
 图 3：随着多项式阶数和单元几何长宽比变化的条件数 $\kappa(K_1^{-1} K)$：（a）泊松问题雅可比矩阵的条件数；（b）线弹性问题雅可比矩阵的条件数
 </b></center>
 
+**结果。**
+- $p=1$ 时两矩阵重合，$\kappa=1$；
+- $\kappa$ 随 $p$ 与 AR 增大而增大，但在所考察范围内 Poisson 问题 $<60$、线弹性问题 $<160$；
+- $\text{AR}=1$ 时分别 $<25$ 和 $<40$。
+
+作者据此认为基于 $K_1$ 的低阶预条件用于全阶问题“有潜力”表现良好；这是单单元谱的间接证据，不是全局迭代次数的测试。
+
 ## 4.3 精度与可扩展性研究
 
-在球体域上对具有解析解的 Poisson 方程（$-\nabla^2 u = r^4$）进行了精度与可扩展性验证（$p = 1 \sim 10$）：
-- 相同自由度下，$p$-refinement 的误差下降速率显著快于全局 $h$-refinement；
-- 预条件共轭梯度法（PCG）的求解时间与自由度数呈现完美的线性可扩展性（斜率 slope = 1），证明了 Sum-Factorization 与低阶 AMG 的高效性。
-- 对混合形式 Helmholtz 问题也展示了 $p=1, 2, 3$ 的收敛性。
+用两个模型问题检验高阶离散的精度。
+
+**Poisson 问题。** 球形区域（图 4），外表面施加 Dirichlet 条件：
+$$
+-\nabla^2u=r^4,\qquad u\in H^1(\Omega),\qquad u|_{\partial\Omega}=0,
+$$
+解析解按原文为
+$$
+u^*=\frac{1}{42}\left(r^6-R^6\right),
+$$
+$R$ 为球半径[^poisson-sign]。线性系统用 PCG 求解至相对收敛容差 $10^{-14}$。
+
+[^poisson-sign]: 译者注：按原文照录。三维中 $\nabla^2 r^6=42\,r^4$，故原文 $u^*$ 满足 $-\nabla^2u^*=-r^4$，与所写方程差一个符号；与 $-\nabla^2u=r^4$ 及 $u|_{\partial\Omega}=0$ 一致的解应为 $u^*=\tfrac{1}{42}(R^6-r^6)$。已对照原文第 9 页渲染页确认原文即如此印刷。符号不影响误差曲线的形态，但无法从原文判断代码实际采用哪一种。
 
 ![[Fu2023_Fig4.png]]
 
 <center><b>
 图 4：多项式阶数 $p = 10$ 的球体网格剖面示意
 </b></center>
+
+**结果（$p=1\sim10$）。**
+- 图 5：无论以自由度数还是求解时间为横轴，阶数越高误差下降越快，作者据此认为 $p$-refinement 比全局 $h$-refinement 更高效；
+- 图 6：线性系统求解时间与自由度数呈线性关系，且与阶数无关，作者以此说明框架实现的可扩展性。图中另画有 slope = 1 的参考三角形；各阶数曲线大体贴近该斜率并彼此靠拢[^fig6-note]。
+
+[^fig6-note]: 译者注：“各阶数曲线大体贴近并彼此靠拢”是译者对图 6 的目视读数，原文正文只称线性关系。原文未给出各阶数的迭代次数或单次算子作用耗时，因此该结果反映的是 matrix-free 算子、低阶 AMG 预条件与 PCG 的整体表现，不能单独归因于其中某一项。
 
 ![[Fu2023_Fig5.png]]
 
@@ -222,6 +352,15 @@ $$
 图 6：泊松问题在不同多项式阶数下求解时间随未知量数的变化
 </b></center>
 
+**混合 Helmholtz 问题。** 作为混合单元实现的演示，求解混合形式 (7)，右端给定为
+$$
+u+r_0\operatorname{div}(\sigma)=R^2-r^2,\qquad \sigma+r_0\nabla u=0,\qquad n\cdot\sigma|_{\partial\Omega}=0,
+$$
+其中 $\sigma\in H(\operatorname{div},\Omega)$、$u\in L^2(\Omega)$。
+- 求解：对每个单元的 $L^2(\Omega)$ 自由度做静态凝聚，在低阶网格上施加常规光滑聚合 AMG 作预条件；
+- 作者明言这是此类问题公认的较差预条件，更有效的选择留待未来 [21, 27]；
+- 图 7 给出 $p=1,2,3$ 的误差随自由度数的变化。原文未写出此问题的参考解 $u^*$。
+
 ![[Fu2023_Fig7.png]]
 
 <center><b>
@@ -230,16 +369,22 @@ $$
 
 # 5 结果
 
+本节以热与力学两类拓扑优化算例演示框架：体积约束下最小化散热器热柔度，以及体积约束下最小化外载作用的结构柔度。设计更新均用 ParOpt 优化包 [10] 中的移动渐近线法（MMA）。
+
 ## 5.1 散热器拓扑优化
 
-目标函数为最小化热顺应性（在体积分数上限 $V_0 = 0.4V$ 下）：
+**问题。**
 $$
 \begin{aligned}
 \min_x \quad & \int_{\Omega} u g \, \mathrm{d}\Omega \\
 \text{s.t.} \quad & 0 \le x \le 1, \quad \int_{\Omega} x \, \mathrm{d}\Omega \le V_0 \\
-& -\nabla \cdot \left( \kappa_0 \frac{x}{1+q(1-x)} \nabla u \right) = g
+\text{governed by} \quad & -\nabla \cdot \left( \kappa_0 \frac{x}{1+q(1-x)} \nabla u \right) = g,\qquad u|_{\Gamma_0}=u_0,\qquad n\cdot\nabla u|_{\Gamma_1}=0
 \end{aligned}
 $$
+- $\Omega$ 为设计域，$\Gamma_0$ 为施加 Dirichlet（等温热沉）条件的部分边界，$u_0$ 为热沉温度；
+- $x$ 为设计变量，$u$ 为温度，$g$ 为域内给定热源，$V_0$ 为体积上限，$\kappa_0$ 为导热系数；
+- 参数：$g=1$，$u_0=0$，$V_0=0.4V$（$V$ 为设计域体积）；
+- 网格：结构化六面体网格，取不同阶数；图 8 为 $p=9$ 的实例。
 
 ![[Fu2023_Fig8.png]]
 
@@ -247,7 +392,15 @@ $$
 图 8：导热散热问题的设计域与网格示意（单元多项式阶数 $p = 9$）
 </b></center>
 
-采用 300 次 MMA 迭代优化。为了在阶数提升时保持全局自由度总数恒定（约 53 万～61 万），单元阶数从 $p=2$ 增加至 $p=9$，同时相应减少单元总数。滤波采用 Bernstein 多项式投影。
+**惩罚与后处理。** 两个算例都用 RAMP 惩罚 [48] 以求得边界清晰的 0-1 设计。经 300 次 MMA 迭代得到各阶数的设计（图 9，色标为温度分布）。
+- 六面体单元的自由度随 $p$ 立方增长，作者相应减少单元数，使全局自由度大致不变（数值见图 9）；
+- 设计变量收敛时趋近 0 或 1，但本质上仍连续，图中显示的是 $x\ge0.5$ 的等值体后处理结果。
+
+**滤波。** 滤波在拓扑优化中用于网格无关与长度尺度控制，在低阶单元下还用于抑制棋盘格。本文的做法是：
+- 用比求解空间更低阶的多项式插值密度场；
+- 再以 Bernstein 多项式把密度插值回求解空间，借其单位分解性质自动满足 $0\le x\le1$。
+
+**观察。** 图 9 的设计表现出网格依赖，并在表面出现周期性图案。作者将其归因于这种低阶 Bernstein 滤波本身不具网格无关性，计划改用带长度尺度控制的显式滤波。
 
 ![[Fu2023_Fig9.png]]
 
@@ -257,17 +410,24 @@ $$
 
 ## 5.2 最小化结构柔度拓扑优化
 
-线弹性结构柔度最小化：
+线弹性各向同性结构的柔度最小化等价于最小化变形应变能。问题写为
 $$
 \begin{aligned}
 \min_x \quad & \int_{\Omega} \pi(x, u) \, \mathrm{d}\Omega \\
 \text{s.t.} \quad & 0 \le x \le 1, \quad \int_{\Omega} x \, \mathrm{d}\Omega \le V_0 \\
-& \delta \Pi(x, u, \delta u, f) = 0, \quad \forall \delta u
+\text{governed by} \quad & \delta \Pi(x, u, \delta u, f) = 0 \quad \forall \delta u,\qquad u|_{\Gamma_0}=u_0
 \end{aligned} \tag{12}
 $$
-研究了两个算例：
-1. **三维悬臂梁弯曲问题**：全局自由度控制在约 142 万～148 万，测试阶数 $p = 2, 3, 4, 5, 7, 8, 9, 10$；
-2. **空心圆柱受扭转载荷问题**：全局自由度控制在约 104 万，测试阶数 $p = 2, 4, 5, 7, 10$。
+$u$ 为位移场，$\Gamma_0$ 为位移给定为 $u_0$ 的部分边界，$\pi$ 为点上的弹性能，$\Pi$ 为系统势能，$f$ 为外加保守面力，$V_0$ 为体积上限；控制方程以变分形式给出。
+
+**两个算例。**
+
+| 算例 | 约束 | 载荷 | 网格示意 | 全局自由度 | 阶数 |
+|---|---|---|---|---|---|
+| 悬臂梁 | 一侧全部自由度固定 | 另一侧部分区域施加竖向面力 | 图 10 | 约 142 万～149 万 | $p=2,3,4,5,7,8,9,10$ |
+| 空心圆柱 | 另一端与加载位置对应的四个部分全部自由度固定 | 一端四个等分部分施加扭转面力 | 图 11 | 约 104 万～106 万 | $p=2,4,5,7,10$ |
+
+两例均用高阶六面体单元剖分，图 10、图 11 给出 $p=10$ 网格的局部。
 
 ![[Fu2023_Fig10.png]]
 
@@ -281,7 +441,10 @@ $$
 图 11：三维空心受扭圆柱问题的计算域与网格示意（单元多项式阶数 $p = 10$）
 </b></center>
 
-图 12 表明，随着 $p$ 增加，侧部和中部连接上下两面的杆件逐渐缩小并最终消失；与热传导问题类似，随 $p$ 增加开始出现周期性齿状伪影。这类网格依赖伪影源于在 Bernstein 多项式张成的设计空间中进行优化，可通过显式滤波加以改善。另一方面，空心圆柱问题的优化设计在不同多项式阶数下保持一致。
+**结果。** 问题 (12) 经 300 次 MMA 迭代求解，设计见图 12、图 13，色标为位移大小。与散热算例一样，随 $p$ 增大相应减少单元数，使自由度大致不变。
+- 悬臂梁：随 $p$ 增大，侧部与中部连接上下两面的杆件逐渐缩小并最终消失；同时开始出现周期性齿状伪影；
+- 伪影成因与散热算例相同，即在 Bernstein 多项式张成的设计空间中优化，作者认为可用显式滤波改善；
+- 空心圆柱：各阶数下的优化设计保持一致。
 
 ![[Fu2023_Fig12.png]]
 
@@ -297,12 +460,22 @@ $$
 
 # 6 结论
 
-本文提出了一种基于结构化自动微分的面向优化的高阶多物理场有限元框架：
-1. 采用结构化自动微分技术在积分点级别自动化生成非线性多物理场 PDE 离散的残差、Jacobian 向量积与伴随灵敏度；
-2. 支持 $H^1, H(\text{div}), L^2$ 等多种函数空间的高阶混合离散；
-3. 采用和分解（Sum-Factorization）实现最优计算复杂度的无矩阵雅可比–向量积；
-4. 构造了基于 GLL 节点低阶等效网格的代数多重网格（AMG）预条件子；
-5. 在 3D 散热与线弹性拓扑优化中展示了高达 $p=10$、上百万自由度的优化计算能力。未来工作包括混合元更高效的预条件子、向 GPU 异构加速扩展等。
+**工作内容。**
+1. 高阶有限元多物理场仿真与优化框架；以结构化方式实现 AD，减少为（可能非线性的）多物理场 PDE 及其离散伴随方程形成 Jacobian 线性化的开发量与人为错误；
+2. 为以更低成本获得更高的解与泛函精度，采用 $H^1$、$H(\operatorname{div})$、$L^2$ 高阶单元离散；
+3. 以 sum factorization 优化 matrix-free Jacobian–向量积的计算复杂度；
+4. 为加速线性求解并保留使用非结构网格的灵活性，采用 AMG 预条件。
+
+**作者给出的结论。**
+- $p=1\sim10$ 的研究表明，在相同计算资源下高阶单元的误差下降更快；
+- 求解流程的计算成本随问题规模线性增长，与阶数无关；
+- 高阶单元与其低阶近似的谱研究表明，条件数随阶数与网格畸变仅温和增长，说明低阶预条件具有潜在有效性；
+- 拓扑优化演示：散热结构最小化热柔度，最多约 61.1 万自由度、$p=9$；弯曲与扭转载荷下最小化结构柔度，最多约 148 万自由度、$p=10$。
+
+**未来工作。**
+- 为含 $H(\operatorname{div})$、$H(\operatorname{curl})$ 的混合有限元列式研究更有效的预条件；
+- 把现有的多线程并行扩展到 GPU 等加速设备；
+- 探索热–弹性、结构–静磁等耦合多物理场的分析与优化。
 
 ---
 

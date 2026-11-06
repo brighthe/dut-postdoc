@@ -19,7 +19,7 @@ date_update: 2026-08-30
 
 # 连续介质实体有限元单元算子
 
-> **一句话**：基于二维与三维连续介质弹性力学（[[../linear-elasticity|linear-elasticity]]），通过全场位移多项式插值构造几何雅可比 $\boldsymbol J$ 与应变—位移矩阵 $\mathbf B_e$，融合**非协调增强应变**、**$\bar{\boldsymbol B}$ 假定体积应变**与**高斯数值/解析积分**，输出无转动自由度的标准实体刚度矩阵 $\mathbf K_e = \int_{\Omega_e} \mathbf B_e^{\mathsf T}\mathbf D\mathbf B_e\,\mathrm dx \in \mathbb R^{(d\cdot N_v)\times (d\cdot N_v)}$。
+> **一句话**：基于二维与三维连续介质弹性力学（[[linear-elasticity|linear-elasticity]]），通过全场位移多项式插值构造几何雅可比 $\boldsymbol J$ 与应变—位移矩阵 $\mathbf B_e$，融合**非协调增强应变**、**$\bar{\boldsymbol B}$ 假定体积应变**与**高斯数值/解析积分**，输出无转动自由度的标准实体刚度矩阵 $\mathbf K_e = \int_{\Omega_e} \mathbf B_e^{\mathsf T}\mathbf D\mathbf B_e\,\mathrm dx \in \mathbb R^{(d\cdot N_v)\times (d\cdot N_v)}$。
 
 ---
 
@@ -269,6 +269,6 @@ $$
 ## 相关页面
 
 - [[../_index#2-有限元单元算子体系|有限元单元体系总览]] — 有限元单元体系概念索引。
-- [[../linear-elasticity]] — 二维与三维连续介质线弹性力学母理论。
+- [[linear-elasticity]] — 二维与三维连续介质线弹性力学母理论。
 - [[shell-elements]] — 二维流形板壳单元算子与抗自锁方法体系。
 - [[../../research/benchmark-cases/10w-3d-linear-elasticity-model]] — 基于 `CTETRA4` 的三维连续体基准算例。

@@ -1,0 +1,9 @@
+{
+  "acceptance_solid_threshold": null,
+  "acceptance": "all non-exempt cells",
+  "initial_density": 0.5,
+  "exact_restart": false,
+  "order": 4,
+  "output_dir": "/mnt/c/workspace/dut-postdoc/papers/huzhang-topopt/results/stress-all-cells/cantilever-middle-2d-stress",
+  "view_root": "/mnt/c/workspace/dut-postdoc/papers/huzhang-topopt/results/stress-all-cells/frames"
+}

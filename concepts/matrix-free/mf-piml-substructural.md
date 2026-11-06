@@ -12,39 +12,43 @@ tags:
   - operator
 status: draft
 date_added: 2026-10-03
-date_update: 2026-10-03
+date_update: 2026-10-25
 ---
 
 # 子结构 PIML Matrix-Free 算子
 
-> 按 [[../piml/piml-substructural|基于 PIML 的子结构分析]] 的流程，给出两条接口路径结合 Matrix-Free 的做法。PIML 以网络预测的 $\widehat{\mathbf T}^j$（路线 A）或 $\widehat{\mathbf K}_s^j$（路线 B）替代内部求解，不再分解 $\mathbf K_{ii}^j$；Matrix-Free 作用于能量投影中的细网格作用与全局接口矩阵的不组装。精确内部求解时的做法见 [[mf-schur-substructural|子结构 Schur 补 Matrix-Free 算子]]。
+> 按 [[../piml/piml-substructural|基于 PIML 的子结构分析]] 的流程，给出两条接口路径结合 Matrix-Free 的做法。PIML 以网络预测的 $\widehat{\mathbf T}^j$（路线 A）或 $\widehat{\mathbf K}_s^j$（路线 B）替代在线局部算子构造中的内部求解；采用预测恢复时不再分解 $\mathbf K_{ii}^j$；Matrix-Free 作用于能量投影中的细网格作用与全局接口矩阵的不组装。单元层由共享参考 EA 改为 PA 的条件见 [[mf-pa-piml-substructural|子结构 PIML 算子的 PA 结合]]。
+
+任意次数 Lagrange 与 Bernstein 形函数预测的隐式作用分别见 [[../piml/piml-substructural-lagrange#2.2 隐式算子作用|Lagrange PIML §2.2]]、[[../piml/piml-substructural-bernstein#2.2 隐式算子作用|Bernstein PIML §2.2]]；单元层替换与本页角点路径采用同一能量投影原则。
 
 ## 1. 共同环节
 
-1. **局部刚度**（[[../piml/piml-substructural#1.1 局部问题与适用假设|PIML §1.1]] 式 (1.1)）：原式为
+1. **局部刚度**（[[../piml/piml-substructural-full-trace#1. 矩阵组装|full-trace PIML §1]] 式 (1)）：原式为
    $$
    \mathbf K^j(\boldsymbol\eta^j)=\begin{bmatrix}\mathbf K_{bb}^j&\mathbf K_{bi}^j\\ \mathbf K_{ib}^j&\mathbf K_{ii}^j\end{bmatrix}.
    $$
-   不组装 $\mathbf K^j$，也不分解 $\mathbf K_{ii}^j$。路线 A 能量投影所需的 $\mathbf K^j\mathbf v$ 按 [[assembly-levels#2.3.2 共享参考 EA：只保存 $\mathbf K_e^0$ 与 $s_e$|共享参考 EA]] 现算：
+   不组装 $\mathbf K^j$，也不分解 $\mathbf K_{ii}^j$。路线 A 能量投影所需的 $\mathbf K^j\mathbf v$ 按 [[assembly-levels#2.3.2 共享参考 EA|共享参考 EA]] 现算：
    $$
    \mathbf K_e=s_e\mathbf K_e^0,
    \qquad
    \mathbf K^j\mathbf v=\sum_{e\subset\Omega^j}(\mathbf G_e^j)^{\mathsf T}\,s_e\mathbf K_e^0\,\mathbf G_e^j\mathbf v ,
    $$
    其中 $\mathbf G_e^j$ 从子结构局部向量中提取单元 $e$ 的自由度，$s_e=E(\overline\rho_e)/E_0$。路线 B 在求解阶段不需要 $\mathbf K^j$。子结构材料均匀（$s_e\equiv s_j$）时可直接取精确参考值 $\mathbf T^j=\mathbf T_{\mathrm{ref}}$、$\mathbf K_s^j=s_j\mathbf K_{s,\mathrm{ref}}$，代替网络预测。
-2. **位移恢复**（[[../piml/piml-substructural#5.3 子结构位移恢复|PIML §5.3]] 式 (5.10)、(5.11)）：路线 A 用构造刚度的同一预测形函数矩阵：
+2. **位移恢复**（[[../piml/piml-substructural-full-trace#3.3 共同的位移恢复|full-trace §3.3]]、[[../piml/piml-substructural-lagrange#3.2 边界与内部位移恢复|Lagrange §3.2]]）：路线 A 用构造刚度的同一预测形函数矩阵：
    $$
    \widehat{\mathbf u}^j=\widehat{\mathbf N}^j\widehat{\mathbf q}^j,
    \qquad
    \widehat{\mathbf N}^j=\begin{bmatrix}\boldsymbol\Psi^j\\ \widehat{\mathbf T}^j\end{bmatrix},
    $$
-   完整接口取 $\boldsymbol\Psi^j=\mathbf I$、$\widehat{\mathbf q}^j=\mathbf A_b^j\widehat{\mathbf U}_\Gamma$，角点接口取 $\boldsymbol\Psi^j=\mathbf L^j$、$\widehat{\mathbf q}^j=\mathbf A_c^j\widehat{\mathbf U}_C$。$\widehat{\mathbf T}^j$ 可保存，或按需重新推理。路线 B 另配形函数模型时同上；改用局部精确求解时按式 (5.11)，需组装并分解 $\mathbf K_{ii}^j$。
+   完整接口取 $\boldsymbol\Psi^j=\mathbf I$、$\widehat{\mathbf q}^j=\mathbf A_b^j\widehat{\mathbf U}_\Gamma$，角点接口取 $\boldsymbol\Psi^j=\mathbf L^j$、$\widehat{\mathbf q}^j=\mathbf A_c^j\widehat{\mathbf U}_C$。$\widehat{\mathbf T}^j$ 可保存，或按需重新推理。路线 B 另配形函数模型时同上；改用局部精确求解时求解 $\mathbf K_{ii}^j\widehat{\mathbf u}_i^j=-\mathbf K_{ib}^j\widehat{\mathbf u}_b^j$，需组装并分解 $\mathbf K_{ii}^j$。
 
-载荷（式 (5.2)、(5.6)，内部无载荷）、支承反力或乘子不需改动。
+载荷（完整接口页式 (4)、Lagrange PIML 页式 (7)，内部无载荷）、支承反力或乘子不需改动。
 
 ## 2. 完整接口路径
 
-1. **缩聚刚度**（[[../piml/piml-substructural#4.1 完整接口空间|PIML §4.1]] 式 (4.1)–(4.4)）：路线 A 原式为
+完整接口仅讨论形函数预测（路线 A）；本页 $\widehat{\mathbf K}_{s,\mathrm{full}}^j$ 对应完整接口 PIML 页的 $\widehat{\mathbf K}_s^j$。
+
+1. **缩聚刚度**（[[../piml/piml-substructural-full-trace#2. 局部缩聚刚度的 PIML 替代|完整接口页 §2]] 式 (3)、(5)）：路线 A 原式为
    $$
    \widehat{\mathbf N}_{\mathrm{full}}^j=\begin{bmatrix}\mathbf I\\ \widehat{\mathbf T}_{\mathrm{full}}^j\end{bmatrix},
    \qquad
@@ -56,8 +60,8 @@ date_update: 2026-10-03
    \qquad
    \widehat{\mathbf K}_{s,\mathrm{full}}^j\mathbf x_b=\mathbf y_b+(\widehat{\mathbf T}_{\mathrm{full}}^j)^{\mathsf T}\mathbf y_i ,
    $$
-   其中 $\mathbf y_b$、$\mathbf y_i$ 为 $\mathbf y$ 的边界与内部分量。$\widehat{\mathbf T}_{\mathrm{full}}^j$ 不满足内部平衡，$\mathbf y_i\ne\mathbf 0$，第二项不能省去；作用需常驻 $\widehat{\mathbf T}_{\mathrm{full}}^j$（$n_i^j\times n_b^j$）或每次重新推理。路线 B 直接预测稠密 $\widehat{\mathbf K}_{s,\mathrm{full}}^j=\mathcal G_{\mathrm{full}}(\boldsymbol\eta^j;\boldsymbol\theta)$ 并保存。
-2. **组装与求解**（[[../piml/piml-substructural#5.1 完整接口组装与求解|PIML §5.1]] 式 (5.2)、(5.3)）：原式为
+   其中 $\mathbf y_b$、$\mathbf y_i$ 为 $\mathbf y$ 的边界与内部分量。$\widehat{\mathbf T}_{\mathrm{full}}^j$ 一般不满足内部平衡，$\mathbf y_i$ 一般非零，第二项不能省去；作用需常驻 $\widehat{\mathbf T}_{\mathrm{full}}^j$（$n_i^j\times n_b^j$）或每次重新推理。
+2. **组装与求解**（[[../piml/piml-substructural-full-trace#3. 求解与位移恢复|完整接口页 §3]] 式 (4)、(9)）：原式为
    $$
    \widehat{\mathbf K}_\Gamma=\sum_{j}(\mathbf A_b^j)^{\mathsf T}\widehat{\mathbf K}_{s,\mathrm{full}}^j\mathbf A_b^j,
    \qquad
@@ -71,7 +75,7 @@ date_update: 2026-10-03
 
 ## 3. 角点接口路径
 
-1. **缩聚刚度**（[[../piml/piml-substructural#4.2 角点接口空间|PIML §4.2]] 式 (4.5)–(4.9)）：路线 A 原式为
+1. **缩聚刚度**（[[../piml/piml-substructural-lagrange#2.1 显式构造与组装|Lagrange PIML §2.1]] 式 (6)，取 $p=1$）：路线 A 原式为
    $$
    \widehat{\mathbf N}_{\mathrm{corner}}^j=\begin{bmatrix}\mathbf L^j\\ \widehat{\mathbf T}_{\mathrm{corner}}^j\end{bmatrix},
    \qquad
@@ -83,8 +87,8 @@ date_update: 2026-10-03
    \qquad
    \widehat{\mathbf K}_{s,\mathrm{corner}}^j=(\widehat{\mathbf N}_{\mathrm{corner}}^j)^{\mathsf T}\mathbf Y^j .
    $$
-   路线 B 直接预测并保存 $\widehat{\mathbf K}_{s,\mathrm{corner}}^j=\mathcal G_{\mathrm{corner}}(\boldsymbol\eta^j;\boldsymbol\theta)$。
-2. **组装与求解**（[[../piml/piml-substructural#5.2 角点接口组装与求解|PIML §5.2]] 式 (5.6)、(5.9)）：原式为
+   路线 B 直接预测并保存 $\widehat{\mathbf K}_{s,\mathrm{corner}}^j=\mathcal G_{\mathrm{corner}}(\boldsymbol\eta^j;\boldsymbol\theta)$，见 [[../piml/piml-substructural#1. 方法定位与适用范围|总览 §1]]。
+2. **组装与求解**（[[../piml/piml-substructural-lagrange#3.1 位移约束与全局求解|Lagrange PIML §3.1]] 式 (7)、(12)，取 $p=1$）：原式为
    $$
    \widehat{\mathbf K}_C=\sum_{j}(\mathbf A_c^j)^{\mathsf T}\widehat{\mathbf K}_{s,\mathrm{corner}}^j\mathbf A_c^j,
    \qquad

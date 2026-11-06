@@ -9,7 +9,7 @@ tags:
   - operator-learning
 status: "done"
 date_created: 2026-07-06
-date_updated: 2026-10-04
+date_updated: 2026-10-27
 source: "../sources/Huang2024-PIML-datafree.pdf"
 citekey: "Huang2024-mechanicsbaseddatafree"
 language: "zh-CN"
@@ -29,7 +29,7 @@ language: "zh-CN"
 - **期刊**：*Journal of the Mechanics and Physics of Solids*
 - **卷 / 期 / 文章号**：193: 105893
 - **DOI**：10.1016/j.jmps.2024.105893
-- **在线发表 / 正式卷期**：2024-10-09 / 2024-10
+- **收稿 / 修回 / 录用 / 在线发表**：2024-07-13 / 2024-10-02 / 2024-10-03 / 2024-10-09
 - **通讯作者**：Zongliang Du（zldu@dlut.edu.cn）；Xu Guo（guoxu@dlut.edu.cn）
 
 # 摘要
@@ -42,7 +42,7 @@ language: "zh-CN"
 
 # 1 引言
 
-结构分析与拓扑优化已在工程中得到广泛应用（Rozvany, 2009；Deaton 和 Grandhi, 2014；Guo 和 Cheng, 2010；Sigmund 和 Maute, 2013）。然而，作为一种为结构设计出最优性能的合理方法，拓扑优化的求解过程通常需要对中间结构进行数十至数百次迭代数值分析，对于大规模优化问题，这部分可能占到 95% 以上的计算成本。因此，提高大规模结构数值分析的效率，对于推动拓扑优化研究与应用的前沿至关重要。文献中，人们已采用并行算法（Borrvall 和 Petersson, 2001；Aage 和 Lazarov, 2013；Aage 等, 2017；Liu 等, 2018a）、多重网格方法（Amir 等, 2014；Hackbusch, 2013；Le Maître 等, 2003）、冗余自由度（DOFs）消除技术（Zhang 等, 2017；Du 等, 2022）以及降阶建模（Amsallem 等, 2015；Hoang 等, 2016；Dutta 等, 2018；Xiao 等, 2020）等方法来提升拓扑优化的求解效率。
+结构分析与拓扑优化已在工程中得到广泛应用（Rozvany, 2009；Deaton 和 Grandhi, 2014；Guo 和 Cheng, 2010；Sigmund 和 Maute, 2013）。然而，尽管作为一种为结构设计出最优性能的合理方法，拓扑优化的求解过程通常需要对中间结构进行数十至数百次迭代数值分析，对于大规模优化问题，这部分可能占到 95% 以上的计算成本。因此，提高大规模结构数值分析的效率，对于推动拓扑优化研究与应用的前沿至关重要。文献中，人们已采用并行算法（Borrvall 和 Petersson, 2001；Aage 和 Lazarov, 2013；Aage 等, 2017；Liu 等, 2018a）、多重网格方法（Amir 等, 2014；Hackbusch, 2013；Le Maître 等, 2003）、冗余自由度（DOFs）消除技术（Zhang 等, 2017；Du 等, 2022）以及降阶建模（Amsallem 等, 2015；Hoang 等, 2016；Dutta 等, 2018；Xiao 等, 2020）等方法来提升拓扑优化的求解效率。
 
 随着人工智能的快速发展，机器学习（ML）增强的拓扑优化方法近来受到了广泛关注。Sosnovik 和 Oseledets 在 SIMP 框架内使用卷积神经网络（CNNs），只需少数几步迭代即可获得最终优化设计（Sosnovik 和 Oseledets, 2019）。为进一步实现实时拓扑优化，Yu 等直接构建了一个将设计信息映射到最终优化结构的 CNN 模型（Yu 等, 2019）。该工作后来通过采用基于残差学习的 Res-U-Net 网络得到改进，显著增强了预测模型在超弹性结构优化中的性能（Abueidda 等, 2020）。Lei 等在可移动变形组件（MMC）框架内使用支持向量机，将外部载荷的位置与方向映射到最终优化构型中各组件的几何参数（Lei 等, 2019），此工作又借助 Res-U-Net 网络（Zheng 等, 2021）和 CNNs（Geng 等, 2023）得到改进。更多以最优设计为输出的端到端机器学习模型可参见 Woldseth 等（2022）。
 
@@ -65,7 +65,7 @@ $$
 其中 $\boldsymbol{K}^j$ 是子结构 $\Omega_j$ 的刚度矩阵，$\boldsymbol{u}^j$ 与 $\boldsymbol{f}^j$ 分别是该子结构的位移向量与力向量。接着，如图 1(b)，将每个子结构的节点分为内部节点与边界节点，分别用下标 i 与 b 表示。于是式 (1) 可分解为如下形式：
 
 $$
-\begin{pmatrix} \boldsymbol{K}^j_{bb} & \left(\boldsymbol{K}^j_{ib}\right)^{\mathsf{T}} \\ \boldsymbol{K}^j_{ib} & \boldsymbol{K}^j_{ii} \end{pmatrix} \begin{pmatrix} \boldsymbol{u}^j_b \\ \boldsymbol{u}^j_i \end{pmatrix} = \begin{pmatrix} \boldsymbol{f}^j_b \\ \boldsymbol{f}^j_i \end{pmatrix} \tag{2}
+\boldsymbol{K}^j\boldsymbol{u}^j = \begin{pmatrix} \boldsymbol{K}^j_{bb} & \left(\boldsymbol{K}^j_{ib}\right)^{\mathsf{T}} \\ \boldsymbol{K}^j_{ib} & \boldsymbol{K}^j_{ii} \end{pmatrix} \begin{pmatrix} \boldsymbol{u}^j_b \\ \boldsymbol{u}^j_i \end{pmatrix} = \begin{pmatrix} \boldsymbol{f}^j_b \\ \boldsymbol{f}^j_i \end{pmatrix} \tag{2}
 $$
 
 不失一般性，假设外载荷不作用于内部节点，即 $\boldsymbol{f}^j_i = \boldsymbol{0}$。将其代入上式，可得 $\boldsymbol{u}^j_b$ 与 $\boldsymbol{u}^j_i$ 之间的关系式 (3)。实际上，当 $\boldsymbol{f}^j_i \neq \boldsymbol{0}$ 时子结构方法同样适用，详细推导见附录 A。
@@ -93,6 +93,7 @@ $$
 <center><b>
 图 1：(a) 由子结构划分的结构域；(b) 子结构 $\Omega_j$ 的节点位移分为内部节点位移向量 $\boldsymbol{u}^j_i$ 与边界节点位移向量 $\boldsymbol{u}^j_b$；(c) 子结构 $\Omega_j$ 边界上的线性变形假设。
 </b></center>
+
 
 ## 2.1 子结构方法的复现
 
@@ -212,7 +213,9 @@ $$
 \tilde{\boldsymbol{N}}^j_s \boldsymbol{\phi}_i = \boldsymbol{b}_i, \quad i = 1, \dots, M \tag{11}
 $$
 
-其中 $M$ 表示刚体运动的数目。如此，多尺度形函数矩阵中独立列的数目为 $(n_i - M)$，$\tilde{\boldsymbol{N}}^j_s$ 的前 $(n_i - M)$ 列构成一个缩减多尺度形函数 $\tilde{\boldsymbol{N}}^j_{sR}$。为使正文简洁，三维子结构物理约束的精确表达式见附录 B。
+其中 $M$ 表示刚体运动的数目。如此，多尺度形函数矩阵中独立列的数目为 $(n_i - M)$，$\tilde{\boldsymbol{N}}^j_s$ 的前 $(n_i - M)$ 列构成一个缩减多尺度形函数 $\tilde{\boldsymbol{N}}^j_{sR}$[^ni-nv-typo]。为使正文简洁，三维子结构物理约束的精确表达式见附录 B。
+
+[^ni-nv-typo]: 原文此处两处均印作 $(\text{ni} - M)$，疑为 $(n_v - M)$ 之笔误：由 $\tilde{\boldsymbol{N}}^j_s = \boldsymbol{N}^j_s\boldsymbol{L} \in \mathbb{R}^{n_i \times n_v}$ 可知，其列数为子结构顶点节点自由度数 $n_v$（二维为 $8$，三维为 $24$），扣除 $M$ 个刚体运动约束后独立列数应为 $(n_v - M)$（三维下即 $24 - 6 = 18$ 列，与附录 B 中“$\tilde{\boldsymbol{N}}^j_s$ 的前 18 列可归拢为 $\tilde{\boldsymbol{N}}^j_{sR}$”一致）。
 
 图 3 给出了二维子结构 PIML 模型的流程图。模型的输入是子结构内密度（或杨氏模量）的分布。通过 ANNs，预测出缩减多尺度形函数 $\tilde{\boldsymbol{N}}^j_{sR}$。最后，根据式 (11) 的物理要求，即可得到 $\tilde{\boldsymbol{N}}^j_s$。除了降低输出维数之外，这种处理还严格保证了多尺度形函数的物理要求。即使预测 $\tilde{\boldsymbol{N}}^j_{sR}$ 存在一些误差，所计算的 $\tilde{\boldsymbol{N}}^j_s$ 仍可视为具有特定变形假设的多尺度形函数。得到 $\tilde{\boldsymbol{N}}^j$ 后，应使用式 (9) 而非式 (4) 来获得物理上一致的缩聚刚度矩阵。
 
@@ -265,7 +268,7 @@ $$
 至关重要的是，对于任意给定的边界位移 $\boldsymbol{u}^j_v$，使式 (13) 中应变能最小的多尺度形函数恰好对应于精确的多尺度形函数。这一性质使得式 (13) 中适用于单个子结构的目标函数可推广到多个子结构的应变能。具体而言，
 
 $$
-\tilde{\boldsymbol{N}}^{j*}_s = \arg\min J^j\left(\tilde{\boldsymbol{N}}^j_s\right),\ j=1,\dots,N \quad\Rightarrow\quad \tilde{\boldsymbol{N}}^{1*}_s,\dots,\tilde{\boldsymbol{N}}^{N*}_s = \arg\min \sum_{j=1}^N J^j\left(\tilde{\boldsymbol{N}}^j_s\right) \tag{14}
+\tilde{\boldsymbol{N}}^{j*}_s = \arg\min J^j\left(\tilde{\boldsymbol{N}}^j_s\right),\ j=1,\dots,N \quad\Rightarrow\quad \left(\tilde{\boldsymbol{N}}^{1*}_s,\dots,\tilde{\boldsymbol{N}}^{N*}_s\right) = \arg\min \sum_{j=1}^N J^j\left(\tilde{\boldsymbol{N}}^j_s\right) \tag{14}
 $$
 
 其中 arg min 表示取最小值的自变量，$\tilde{\boldsymbol{N}}^{j*}_s$ 是第 $j$ 个子结构的精确多尺度形函数。
@@ -296,7 +299,7 @@ $$
 
 **iv. 检查收敛、更新密度并给出用于进一步训练的位移场。** 为提高 DeepONet 的预测能力，若训练过程的迭代次数尚未达到阈值，则在下一次迭代中选取另一组细网格密度分布与固定的子结构位移进行训练。
 
-以我们的经验，使用由 1000 个细网格组成的子结构的 100 万个密度分布、训练 40–50 个 epoch，DeepONet 的预测精度即可达到相当好的水平。有趣的是，如后续章节所示，所提出的无监督学习模型的精度高于监督学习训练的 PIML 模型。这主要是因为，新颖的损失函数从全局能量层面训练多尺度形函数，提高了泛化能力；而监督学习中的 MSE 只是评估预测值与精确值之间的数值差异，对多尺度形函数背后的力学机制视而不见。还发现，由于采用了新颖的损失函数，即使不采取特殊处理，所提出的无监督学习框架中也很少观察到过拟合；相比之下，在先前的监督学习模型中，必须精心设计正则化项来缓解过拟合。对于由 $10\times10\times10$ 细网格组成的子结构，在我们的台式机上训练无监督 PIML 模型约需 2–3 天。监督学习模型的训练时间与之接近，但生成训练数据集还需要多得多的时间。
+以我们的经验，使用由 1000 个细网格组成的子结构的 100 万个密度分布、训练 40–50 个 epoch，DeepONet 的预测精度即可达到相当好的水平。有趣的是，如后续章节所示，所提出的无监督学习模型的精度高于监督学习训练的 PIML 模型。这主要是因为，新颖的损失函数从全局能量层面训练多尺度形函数，提高了泛化能力；而监督学习中的 MSE 只是评估预测值与精确值之间的数值差异，对多尺度形函数背后的力学机制视而不见。还发现，由于采用了新颖的损失函数，即使不采取特殊处理，所提出的无监督学习框架中也很少观察到过拟合；相比之下，在先前的监督学习模型中，必须精心设计正则化项（原文作 normalization term）来缓解过拟合。对于由 $10\times10\times10$ 细网格组成的子结构，在我们的台式机上训练无监督 PIML 模型约需 2–3 天。监督学习模型的训练时间与之接近，但生成训练数据集还需要多得多的时间。
 
 ## 4.4 基于 PIML 模型的大规模结构分析与拓扑优化
 
@@ -334,7 +337,7 @@ $$
 
 # 5 数值算例
 
-本节研究三个示例算例，以验证无数据 PIML 模型在大规模结构分析与拓扑优化中的有效性。首先，研究一个相对小规模、通常对预测误差更敏感的悬臂梁算例，以说明无数据无监督学习模型更好的泛化能力；该算例中还讨论了子结构边界变形线性假设的影响。随后，优化一个三维扭转箱（torsion box），以探究所提出的 PIML 增强拓扑优化算法在不同过滤半径下的性能。最后，研究一个柔顺机构算例，以进一步检验 PIML 模型在大规模非自伴随结构优化问题中的有效性。基材的杨氏模量与泊松比分别为 $E_0=1$、$\nu=0.3$，$E_{\min}=10^{-7}$。在 PIML 模型中，所有算例都使用针对 $m=10$ 子结构多尺度形函数训练好的 DeepONet。在全尺度分析中，所有细尺度单元均采用八节点六面体（brick）单元建模。此外，采用优化准则（OC）法更新设计变量，当目标函数值在最后连续五次迭代中的相对变化小于 0.0002 时终止优化过程。所有算例均在配备 Intel(R) Xeon(R) Gold 6256 3.60 GHz CPU 与 512.0 GB 内存的台式机上求解。
+本节研究三个示例算例，以验证无数据 PIML 模型在大规模结构分析与拓扑优化中的有效性。首先，研究一个相对小规模、通常对预测误差更敏感的悬臂梁算例，以说明无数据无监督学习模型更好的泛化能力；该算例中还讨论了子结构边界变形线性假设的影响。随后，优化一个三维扭转箱（torsion box），以探究所提出的 PIML 增强拓扑优化算法在不同过滤半径下的性能。最后，研究一个柔顺机构算例，以进一步检验 PIML 模型在大规模非自伴随结构优化问题中的有效性。基材的杨氏模量与泊松比分别为 $E_0=1$、$\nu=0.3$，$E_{\min}=10^{-7}$。在 PIML 模型中，所有算例都使用针对 $m=10$ 子结构多尺度形函数训练好的 DeepONet。在全尺度分析中，所有细尺度单元均采用八节点六面体（brick）单元建模。此外，采用优化准则（OC）法（Sigmund 和 Maute, 2013）更新设计变量，当目标函数值在最后连续五次迭代中的相对变化小于 0.0002 时终止优化过程。所有算例均在配备 Intel(R) Xeon(R) Gold 6256 3.60 GHz CPU 与 512.0 GB 内存的台式机上求解。
 
 ## 5.1 悬臂梁算例
 
@@ -463,7 +466,9 @@ $$
 
 # 致谢
 
-本研究得到国家重点研发计划（2023YFB3309104）、国家自然科学基金（11821202、123721222）、辽宁省科学技术计划（2023JH2/101600044）以及中国 111 计划（B14013）的资助。
+本研究得到国家重点研发计划（2023YFB3309104）、国家自然科学基金（11821202、123721222[^nsfc-typo]）、辽宁省科学技术计划（2023JH2/101600044）以及中国 111 计划（B14013）的资助。
+
+[^nsfc-typo]: 原文此处印作 9 位数字 `123721222`，按国家自然科学基金项目批准号编码规则（8 位数字）应为 `12372122`；此处照原文保留。
 
 # 附录 A 面力与体力同时作用下的子结构方法
 
@@ -491,7 +496,7 @@ $$
 
 其中 $\left(N^j_s\right)^{kl}_{pq}$ 表示第 $j$ 个子结构中，由第 $l$ 个顶点节点沿 $q$ 方向的单位位移所引起的第 $k$ 个内部节点沿 $p$ 方向的位移。
 
-[^eq22-sub]: 原文式 (22) 中第 $(m-1)^3$ 个内部节点 $x$ 方向那一行的最后一项印作 $\left(N^j_s\right)^{(m-1)^3\,8}_{xy}$，与同行规律及其他各行不符，疑为笔误；译文按 $\left(N^j_s\right)^{(m-1)^3\,8}_{xz}$ 写出。
+[^eq22-sub]: 原文式 (22) 中第 $(m-1)^3$ 个内部节点 $x$ 方向那一行的最后一项印作 $\left(N^j_s\right)^{(m-1)^3\,8}_{xy}$，与同行规律及其他各行不符，疑为笔误，译文按 $\left(N^j_s\right)^{(m-1)^3\,8}_{xz}$ 写出；此外，式 (22) 右端矩阵各元素及下方说明中的 $\left(N^j_s\right)^{kl}_{pq}$ 原文均省略了顶部的波浪号。
 
 对应于六个刚体运动，六组方程（即 $\tilde{\boldsymbol{N}}^j_s\boldsymbol{\phi}_i = \boldsymbol{b}_i,\ i=1,\dots,6$）意味着：对 PIML 模型而言，$\tilde{\boldsymbol{N}}^j_s$ 的前 18 列可归拢为 $\tilde{\boldsymbol{N}}^j_{sR}$。在预测出 $\tilde{\boldsymbol{N}}^j_{sR}$ 之后，完整的 $\tilde{\boldsymbol{N}}^j_s$ 可根据六个物理要求（式 11）、利用以下表达式复现：
 

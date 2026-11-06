@@ -6,7 +6,7 @@ tags:
   - stress-constraints
 status: "read"
 date_created: 2026-09-18
-date_updated: 2026-09-18
+date_updated: 2026-10-13
 source: "../sources/GiraldoLondono2020-unified-stress-constraints.pdf"
 citekey: "GiraldoLondono2020-unified-stress-constraints"
 language: "zh-CN"
@@ -19,14 +19,16 @@ language: "zh-CN"
 # 信息
 
 - **中文标题**：考虑多种失效准则的局部应力约束拓扑优化统一方法：von Mises、Drucker–Prager、Tresca、Mohr–Coulomb、Bresler–Pister 与 Willam–Warnke
-- **作者**：Oliver Giraldo-Londoño; Glaucio H. Paulino
-- **单位**：佐治亚理工学院土木与环境工程学院（School of Civil and Environmental Engineering, Georgia Institute of Technology, Atlanta, GA 30332, USA）
+- **作者**：Oliver Giraldo-Londoño$^1$；Glaucio H. Paulino$^1$
+- **单位**：
+	- 佐治亚理工学院土木与环境工程学院（School of Civil and Environmental Engineering, Georgia Institute of Technology，亚特兰大，GA 30332，美国）
 - **期刊**：*Proceedings of the Royal Society A: Mathematical, Physical and Engineering Sciences* (Proc. R. Soc. A)
-- **卷 / 期 / 文章号**：476 / 2238 / 20190861
-- **DOI**：10.1098/rspa.2019.0861
-- **收稿 / 接收 / 出版**：2019-12-11 / 2020-05-01 / 2020-05-27
-- **题献**：谨以此文纪念 Daniel C. Drucker 教授（1918–2001）
-- **通讯作者**：Glaucio H. Paulino (paulino@gatech.edu)
+- **卷 / 期 / 文章号**：476(2238): 20190861 (2020)
+- **DOI**：[10.1098/rspa.2019.0861](https://doi.org/10.1098/rspa.2019.0861)
+- **收稿 / 接收 / 在线发表**：2019-12-11 / 2020-05-01 / 2020-05-27
+- **通讯作者**：Glaucio H. Paulino（[paulino@gatech.edu](mailto:paulino@gatech.edu)）
+
+---
 
 # 摘要
 
@@ -887,3 +889,9 @@ $$
 73. Bruyneel M, Duysinx P. 2005 Note on topology optimization of continuum structures including self-weight. *Struct. Multidiscip. Optim.* 29, 245–256.
 74. Bourdin B. 2001 Filters in topology optimization. *Int. J. Numer. Methods Eng.* 50, 2143–2158.
 75. Cheng GD, Jiang Z. 1992 Study on topology optimization with stress constraints. *Eng. Optim.* 20, 129–148.
+
+---
+
+# 其他出版信息
+
+- **题献**：谨以此文纪念 Daniel C. Drucker 教授（1918–2001）

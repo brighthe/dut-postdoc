@@ -1,0 +1,15 @@
+{
+  "acceptance_solid_threshold": null,
+  "acceptance": "all non-exempt cells",
+  "initial_density": 0.5,
+  "exact_restart": false,
+  "order": 2,
+  "output_dir": "/mnt/c/workspace/dut-postdoc/papers/huzhang-topopt/results/stress-all-cells-blis1/cantilever-middle-2d-stress",
+  "view_root": "/mnt/c/workspace/dut-postdoc/papers/huzhang-topopt/results/stress-all-cells-blis1/frames",
+  "threads": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "BLIS_NUM_THREADS": "1"
+  }
+}

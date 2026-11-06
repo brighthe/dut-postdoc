@@ -13,7 +13,7 @@ tags:
   - operator
 status: in-progress
 date_added: 2026-07-21
-date_update: 2026-10-06
+date_update: 2026-10-10
 ---
 
 # Matrix-Free 装配层次
@@ -237,7 +237,7 @@ LA 不是存储优化：界面自由度所在的行在多个 rank 上重复出�
 
 ### 2.3 EA/EbE：单元矩阵作用
 
-EA/EbE 在 setup 中为每个单元形成并保存稠密单元矩阵 $\mathbf K_e=\mathbf B_e^{\mathsf T}\mathbf D_e\mathbf B_e\in\mathbb R^{m\times m}$，但不对单元求和。每次 MatVec 为
+EA/EbE 在 setup 中为每个单元形成并保存稠密单元矩阵 $\mathbf K_e=\mathbf B_e^{\mathsf T}\mathbf D_e\mathbf B_e\in\mathbb R^{m\times m}$，但不对单元求和。若单元材料仅相对于参考实体材料作标量缩放，记其无量纲刚度缩放系数为 $s_e$。固定泊松比、仅插值弹性模量时，$s_e=E(\rho_e)/E_0$，其中 $\rho_e$ 为单元相对密度，$E(\rho_e)$ 为材料插值后的弹性模量，$E_0$ 为参考实体材料的弹性模量；采用参考实体材料时 $s_e=1$。该系数已包含在 $\mathbf D_e$ 及 $\mathbf K_e$ 中。每次 MatVec 为
 
 $$
 \mathbf y_{\mathrm{EA}}=\sum_e\mathbf G_e^{\mathsf T}\bigl(\mathbf K_e\,\mathbf G_e\mathbf x\bigr),
@@ -253,7 +253,7 @@ $$
 
 按单元矩阵的保存方式，EA 分为以下两种。
 
-#### 2.3.1 标准 EA：逐单元保存 $\mathbf K_e$
+#### 2.3.1 标准 EA
 
 标准 EA 对网格、单元类型和材料没有额外要求，是 EA 的一般形式；单元矩阵彼此不成比例时只能用它。代价是存储：对单元求和只合并落在同一全局位置的元，因此
 
@@ -261,17 +261,24 @@ $$
 \operatorname{nnz}(\mathbf K_{\mathrm{FA}})\;\le\;N_e m^2\;=\;\text{标准 EA 的存储量}.
 $$
 
-#### 2.3.2 共享参考 EA：只保存 $\mathbf K_e^0$ 与 $s_e$
+#### 2.3.2 共享参考 EA
 
-适用前提有两条。几何上，所有单元的形状、尺寸与朝向都相同，彼此只差平移，如笛卡尔规则网格上的等尺寸六面体；此时各单元的 Jacobian 相同，$\mathbf B_e=\mathbf B$。本构上，各单元只差一个标量，$\mathbf D_e=s_e\mathbf D^0$，如 SIMP 固定泊松比、只插值弹性模量时 $s_e=E(\rho_e)/E_0$。此时
+适用前提：
+
+1. 几何上，所有单元的形状、尺寸与朝向都相同，彼此只差平移，如笛卡尔规则网格上的等尺寸六面体；
+2. 此时各单元的 Jacobian 相同，$\mathbf B_e=\mathbf B$。本构上，各单元采用相同的参考材料，仅差标量系数 $s_e$，如 SIMP 固定泊松比、只插值弹性模量的情形。
+
+此时
 
 $$
 \mathbf K_e=s_e\mathbf K_e^0,
 \qquad
-\mathbf K_e^0=\mathbf B^{\mathsf T}\mathbf D^0\mathbf B,
+\mathbf y_{\mathrm{EA}}
+=\sum_e\mathbf G_e^{\mathsf T}
+\bigl(s_e\mathbf K_e^0\,\mathbf G_e\mathbf x\bigr).
 $$
 
-$\mathbf K_e^0$ 即 [[../linear-elasticity#6. Voigt 记号、应变矩阵与单元算子|linear-elasticity §6]] 式 (26) 的实体材料单元刚度，在此前提下各单元相同，$\mathbf K_e=s_e\mathbf K_e^0$ 即该页式 (27)。$\mathbf D^0=\operatorname{blkdiag}_q\bigl(w_q\lvert\det\mathbf J\rvert\,\mathbf D_0\bigr)$ 含积分权重与 Jacobian 行列式，与该页的本构矩阵 $\mathbf D_0$ 不是同一对象。
+其中 $\mathbf K_e^0$ 为采用参考实体材料计算的单元刚度矩阵。在上述几何与材料条件下，各单元的 $\mathbf K_e^0$ 相同，因而全网格只需保存一份。
 
 只需保存一份 $\mathbf K_e^0$ 与 $N_e$ 个标量 $s_e$，因此
 
@@ -302,7 +309,7 @@ PA 成立的前提是 $\mathbf B_e$ 不需要保存，能从参考单元数据�
 
 #### 2.4.1 $\mathbf B_e$ 侧：两层分解与现算
 
-第一层对任意单元类型成立。$\mathbf B_e$ 把单元位移自由度变成 Voigt 应变（见 [[../linear-elasticity#6. Voigt 记号、应变矩阵与单元算子|Voigt 记号与应变矩阵]]），可拆成三次含义明确的变换；以下把 $d\times d$ 梯度 $\partial u_i/\partial x_j$ 按 $i$ 为外层、$j$ 为内层拉直成 $d^2$ 维向量，三个因子都作用在拉直后的向量上：
+第一层对任意单元类型成立。$\mathbf B_e$ 把单元位移自由度变成 Voigt 应变（见 [[linear-elasticity#6. Voigt 记号、应变矩阵与单元算子|Voigt 记号与应变矩阵]]），可拆成三次含义明确的变换；以下把 $d\times d$ 梯度 $\partial u_i/\partial x_j$ 按 $i$ 为外层、$j$ 为内层拉直成 $d^2$ 维向量，三个因子都作用在拉直后的向量上：
 
 $$
 \mathbf x_e
@@ -371,7 +378,7 @@ $$
 \mathbf D_{e,q}=w_q\,\lvert\det\mathbf J_e\rvert\,s_e\,\mathbf D_0,
 $$
 
-$s_e=E(\rho_e)/E_0$ 为 SIMP 等材料插值给出的单元刚度缩放系数，与 2.3.2 相同，无密度场时取 1。设计更新只改这 $n_q$ 个标量（$n_q$ 为单元积分点数），三个 $\mathbf B$ 因子全部不动，也不需重新积分；该性质在第 3 节与 EA、UA 并列讨论。
+$s_e$ 为 2.3 引言中定义的单元刚度缩放系数，采用参考实体材料时取 1。设计更新只改这 $n_q$ 个标量（$n_q$ 为单元积分点数），三个 $\mathbf B$ 因子全部不动，也不需重新积分；该性质在第 3 节与 EA、UA 并列讨论。
 
 由结合律 $\mathbf B_e^{\mathsf T}\mathbf D_0\,\mathbf B_e=\hat{\mathbf B}^{\mathsf T}\boldsymbol\Gamma^{\mathsf T}(\mathbf S^{\mathsf T}\mathbf D_0\,\mathbf S)\boldsymbol\Gamma\,\hat{\mathbf B}$，$\mathbf S$ 往左归给 $\mathbf B_e$、往右归给逐点算子都成立。PA 一律往右归：$\mathbf S$ 是方程专有的——热传导没有它，混合元的不一样——而 $\hat{\mathbf B}$ 与 $\boldsymbol\Gamma$ 的依赖里没有方程，$\hat{\mathbf B}_\varphi$ 换个方程仍可共用；且 $\mathbf S$ 跨分量，$\mathbf B_e$ 一旦形成就是 $n_s\times m$ 的稠密对象，$\mathbf I_d\otimes(\cdot)$ 的块对角结构与 sum factorization 都用不上，那恰是 PA 要躲的东西。于是 $\mathbf B$ 一环只做 $\boldsymbol\Gamma\,\hat{\mathbf B}$、交出 $\nabla\boldsymbol u$ 而非 $\widehat{\boldsymbol\varepsilon}$，逐点算子实为 $w_q\lvert\det\mathbf J_e\rvert\,s_e\,\mathbf S^{\mathsf T}\mathbf D_0\,\mathbf S$，形状由 $n_s\times n_s$ 变成 $d^2\times d^2$。libCEED 的 `CeedBasis` 只出 `CEED_EVAL_GRAD`、MFEM 的 `DofToQuad` 只存标量参考基函数的值与梯度、deal.II 的 `FEEvaluation::get_gradient()` 返回张量梯度，对称化一律写在 QFunction 或用户侧，三者同此。
 

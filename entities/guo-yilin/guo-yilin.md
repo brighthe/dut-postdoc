@@ -18,38 +18,35 @@ tags:
   - GPU
 status: in-progress
 date_start: 2026-08-06
-date_update: 2026-08-27
+date_update: 2026-10-27
 ---
 
 # 郭一麟
 
-> 博士，PIML 方向（`xuProblemindependentMachineLearning2025` 作者之一），郭旭院士 2026-08 介绍的合作线索（PIML × GPU 加速）。
+> 大连理工大学工程力学系博士研究生，PIML 方向。
+> 
+> **与我的关系**：郭旭老师 2026-08 介绍，让我和他讨论 PIML 与 GPU 加速相关的内容。我阅读其 PIML 工作的调研与讨论问题见 [[entities/guo-yilin/report]]。
 
 ## 基本信息
 
-| 项 | 内容 |
-|---|---|
-| 类型 | person |
-| 身份 | 博士研究生 / 合作者 |
-| 学术谱系 | 硕士导师为刘畅教授，博士导师为申长雨院士（见 [[../relationships|师门链与人物关系]]） |
-| 合作切入点 | PIML 局部表示在 GPU 上的加速实现与多后端复用 |
+| 项    | 内容                                                                      |
+| ---- | ----------------------------------------------------------------------- |
+| 身份   | 博士研究生，合作者                                                               |
+| 学术谱系 | 硕士导师刘畅，博士导师申长雨（见 [[../relationships\|师门链与人物关系]]）                        |
+| 公开主页 | Google Scholar：<https://scholar.google.com/citations?user=1PmGKj0AAAAJ> |
+| 引荐人  | [[../guo-xu/guo-xu\|郭旭]]                                                |
 
-## 交流时间线
+## 已发表的 PIML 论文
 
-| 交流 | 状态 | 实际日期 | 核心内容 |
-|---|---|---|---|
-| [[2026-08-piml-gpu-合作交流]] | preparing | 待确定 | 介绍 GPU 加速工作（编程模型分类 + 多后端抽象路线 + MFEM 路线），了解对方 PIML 工作的 GPU 需求场景 |
-
-## 页面入口与关联
-
-- [[2026-08-piml-gpu-合作交流]] — 可独立使用的交流材料底稿与行动项。
-- [[../../concepts/_index#5-异构计算与-gpuhpc|GPU/HPC 概念总览]] — 介绍所依据的稳定知识（分类页与参考库架构页）。
-- [[../../concepts/_index#6-机器学习与-piml|PIML 概念总览]] — 对方研究方向所在主题域。
-- [[../guo-xu/guo-xu|郭旭]] — 引荐人郭旭老师实体页。
-- [[../relationships|师门链与人物关系]] — 科研讨论对象人物关系（师门链）。
-
-## 维护规则
-
-- 一次交流只维护一个页面，未实际发生时保持 `preparing`。
-- 交流页只保留本次交流所需材料、事实边界、实际结论和行动项。
-- 真实聊天、约见和关系信息由沟通仓库维护，本目录不复制。
+| 论文 | 作者位置 | 内容 |
+|---|---|---|
+| [[../../literature/topopt/piml/translations/Guo2026-AI-enhanced-mechanics-review-zh\|Guo 2026 综述]]，*Sci. China Technol. Sci.* | **第 1** | 团队 AI + 力学总述；PIML 仅 §2.4.3 与 §3.2，为既有工作复述 |
+| [[../../literature/topopt/piml/translations/Huang2024-PIML-datafree-zh\|Huang 2024]]，*JMPS* | 第 3 | DeepONet 与 data-free 训练 |
+| [[../../literature/topopt/piml/translations/Xu2025-PIML-lattice-MMC-zh\|Xu 2025]]，*Composite Structures* | 第 3 | PIML + MMC 三维点阵 |
+| [[../../literature/topopt/piml/translations/Ma2026-highperformanceparallel-zh\|Ma 2026]]，*Acta Mech. Sin.* | 第 4 | CPU/MPI 并行与按需预测 |
+| [[../../literature/topopt/piml/translations/Guo2026-highgeneralization-bezier-zh\|Guo 2026 Bézier]]，*CMAME* | **第 1** | 三次 Bézier 边界位移迹 + DeepONet |
+| [[../../literature/topopt/piml/translations/Guo2026-PIML-OFEM-zh\|Guo 2026 PIML-OFEM]]，arXiv v1 | **第 1** | 超采样基函数 + 重叠有限元 + U-Net |
+| [[../../literature/topopt/piml/translations/Cao2026-shell-graded-TPMS-MMV-PIML-zh\|Cao 2026]]，ICCES 2025 | 第 4 | TPMS + MMV + PIML 壳-梯度填充 |
+| [[../../literature/topopt/piml/translations/Zhang2026-PITL-complex-domain-zh\|Zhang 2026]]，*IJMS* | 第 3 | 规则到等参子结构的迁移学习 |
+| [[../../literature/topopt/piml/translations/Jiang2026-equivariant-PIML-substructure-zh\|Jiang 2026]]，*Composite Structures* | 第 3 | 对称解耦与投影硬约束刚体模态 |
+| [[../../literature/topopt/piml/translations/He2026-PIML-failsafe-3D-zh\|He 2026]]，*SMO* | 第 3 | PIML 加速三维失效安全优化 |

@@ -106,7 +106,7 @@ FEALPy 提供了 `Solution` 包装器，将 PyTorch 的 `nn.Module` 神经网络
 
 ## 6. 相关页面
 
-* [[../../pinn-paradigm|PINN 通用概念与范式]]
+* [[pinn-paradigm|PINN 通用概念与范式]]
 * [[../../gpu-hpc/reference-libraries/fealpy-architecture|FEALPy 多后端与张量引擎架构]]
 * **SOPTX PINN 线弹性算例数理规范**：`soptx/examples/pinn_elasticity/math_spec.md` (`/home/brighthe/workspace/soptx/examples/pinn_elasticity/math_spec.md`)
 * **SOPTX 2D/3D PINN 消融测试与诊断报告**：`soptx/examples/pinn_elasticity/outputs/results_analysis.md` (`/home/brighthe/workspace/soptx/examples/pinn_elasticity/outputs/results_analysis.md`)
