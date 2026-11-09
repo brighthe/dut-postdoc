@@ -9,8 +9,6 @@ aliases:
   - guo-yilin
   - discussions/guo-yilin
   - discussions/guo-yilin/_index
-  - entities/guo-yilin
-  - entities/guo-yilin/guo-yilin
 tags:
   - work-report
   - Guo-Yilin
@@ -25,7 +23,7 @@ date_update: 2026-10-27
 
 > 大连理工大学工程力学系博士研究生，PIML 方向。
 > 
-> **与我的关系**：郭旭老师 2026-08 介绍，让我和他讨论 PIML 与 GPU 加速相关的内容。我阅读其 PIML 工作的调研与讨论问题见 [[entities/guo-yilin/report]]。
+> **与我的关系**：郭旭老师 2026-08 介绍，让我和他讨论 PIML 与 GPU 加速相关的内容。我阅读其 PIML 工作的调研与讨论问题见 [[report]]。
 
 ## 基本信息
 

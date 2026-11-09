@@ -144,5 +144,5 @@ GPU 加速的对象至少包括局部积分或局部算子、gather/scatter、Kr
 - `C:\workspace\mfleo` — 独立单 GPU PA/Matrix-Free 工程事实源；不作为本知识库运行依赖。
 - `C:\workspace\xihe`（`origin/develop`）— `xihe/matrix_free_3` 的独立公司工程事实源；不复制公司代码、数据、日志或内部文档。
 - [[piml-research-guide]]、[[matrix-free-research-guide]] — 另外两个项目分支及其正确性门禁。
-- [[../../entities/guo-xu/reports/piml-gpu-matrix-free-demo/report|郭旭老师第一次工作汇报]] — 首次汇报准备材料中的 GPU/HPC 摘要。
+- [[../../people/guo-xu/reports/piml-gpu-matrix-free-demo/report|郭旭老师第一次工作汇报]] — 首次汇报准备材料中的 GPU/HPC 摘要。
 - [[project-plan]] — PIML–Matrix-Free–GPU 项目统一入口。

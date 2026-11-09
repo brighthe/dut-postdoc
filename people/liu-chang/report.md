@@ -53,8 +53,8 @@ related:
 
 | 材料                                                                                   | 可支撑的讨论                                   | 边界                                   |
 | ------------------------------------------------------------------------------------ | ---------------------------------------- | ------------------------------------ |
-| [[../piml-matrix-free-discussions/mbb3d_500w_fem_exact_piml\|三维 MBB 梁 500 万自由度对照]] | 以精确子结构作中间参照，区分边界降维与网络预测的影响；比较 CPU/GPU 成本 | 该报告已用于与郭一麟的第一次讨论；属于特定网格、子结构规模和实现下的结果 |
-| [[../piml-matrix-free-discussions/mbb3d_fem_exact_piml_matrix_free-disccussion1\|FEM 与 PIML 子结构的 Matrix-Free 对照]] | 区分细单元、缩聚与恢复阶段的存储和重算，比较显式与隐式实现 | 包含不同测量流程与求解设置，不能跨表直接推断完整优化的收益 |
+| [[../../research/piml-matrix-free-gpu/discussions/mbb3d_500w_fem_exact_piml\|三维 MBB 梁 500 万自由度对照]] | 以精确子结构作中间参照，区分边界降维与网络预测的影响；比较 CPU/GPU 成本 | 该报告已用于与郭一麟的第一次讨论；属于特定网格、子结构规模和实现下的结果 |
+| [[../../research/piml-matrix-free-gpu/discussions/mbb3d_fem_exact_piml_matrix_free-disccussion1\|FEM 与 PIML 子结构的 Matrix-Free 对照]] | 区分细单元、缩聚与恢复阶段的存储和重算，比较显式与隐式实现 | 包含不同测量流程与求解设置，不能跨表直接推断完整优化的收益 |
 
 旧稿中的 2026-08 实测数字不再作为本次发送内容。原来源 [[../../funding/china-postdoc-foundation-general-grant/80th-2026-application-draft|第 80 批博士后面上申请稿]] §6 已记录后续修正，其中旧版 GPU 加速 36.1 倍的比较口径已更新；若需重新使用该批实验，应先核对对应版本与原始运行记录。
 

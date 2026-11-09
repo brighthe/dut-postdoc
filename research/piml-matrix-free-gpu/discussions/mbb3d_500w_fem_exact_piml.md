@@ -66,7 +66,7 @@ PIML 子结构采用 MLP，以精确内部形函数 $N_i^j$ 为标签进行监�
 
 | 全尺度 FEM | 精确子结构 |
 |---|---|
-| ![[ea_hex_390x65x65_final_topology.png]] | ![[linear_corner_hex_390x65x65_final_topology.png]] |
+| ![[../../../people/guo-yilin/assets/ea_hex_390x65x65_final_topology.png]] | ![[../../../people/guo-yilin/assets/linear_corner_hex_390x65x65_final_topology.png]] |
 
 ### 3.2 PIML 子结构与精确子结构：网络预测的额外误差
 
@@ -79,7 +79,7 @@ PIML 子结构采用 MLP，以精确内部形函数 $N_i^j$ 为标签进行监�
 
 | 精确子结构 | PIML 子结构 |
 |---|---|
-| ![[linear_corner_hex_390x65x65_final_topology.png]] | ![[piml_shape_linear_corner_hex_390x65x65_final_topology.png]] |
+| ![[../../../people/guo-yilin/assets/linear_corner_hex_390x65x65_final_topology.png]] | ![[../../../people/guo-yilin/assets/piml_shape_linear_corner_hex_390x65x65_final_topology.png]] |
 
 ## 4. 计算成本
 
@@ -140,7 +140,7 @@ CPU 与 GPU 均用 PyTorch 后端，单进程运行，不用 MPI；CPU 侧 `--th
 | 轮数 / 优化循环总耗时 | 65 / 4308 | 68 / 275 | 83 / 488 |
 | 显存峰值（GiB） | 4.73 | 5.68 | 5.64 |
 
-![[iteration_cost_gpu_390.png]]
+![[../../../people/guo-yilin/assets/iteration_cost_gpu_390.png]]
 
 上图纵轴为对数坐标，实线为求解、虚线为装配（含边界条件）；下图为逐轮 CG 步数。
 

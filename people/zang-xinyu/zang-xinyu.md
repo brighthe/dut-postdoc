@@ -7,8 +7,6 @@ aliases:
   - Zang Xinyu
   - Zang, Xinyu
   - zang-xinyu
-  - entities/zang-xinyu
-  - entities/zang-xinyu/zang-xinyu
 tags:
   - work-report
   - Zang-Xinyu

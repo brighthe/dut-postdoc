@@ -8,8 +8,6 @@ aliases:
   - liu-chang
   - discussions/liu-chang
   - discussions/liu-chang/_index
-  - entities/liu-chang
-  - entities/liu-chang/liu-chang
 tags:
   - PIML
   - topology-opt
@@ -20,14 +18,14 @@ tags:
   - work-report
 status: in-progress
 date_added: 2026-07-30
-date_update: 2026-11-02
+date_update: 2026-11-09
 ---
 
 # 刘畅
 
 > 大连理工大学工程力学系教授，研究方向包括显式拓扑优化（MMC）与人工智能赋能的结构分析与优化。
 >
-> **与我的关系**：博士后研究中拟就 PIML、模型选型与 GPU 加速等问题请教和讨论的老师。已有讨论准备稿见 [[report]]，具体议题后续按本次讨论需要整理。
+> **与我的关系**：我因办理博士后入站手续认识刘老师。2026 年 7 月 17 日见面时，他询问了我的博士工作，请我发去简历和学位论文，以便了解后续可能的合作方向。谈到机器学习时，他提到了模型选型问题，这也是我准备就 PIML 向他请教的切入点。见 [[../../sources/wechat/liu-chang/wechat-log#2026-07-17（星期五）当面交流·海宇楼 508|当面交流记录]] 和 [[report|讨论准备稿]]。他也逐节审阅过我的博士后基金申请初稿，具体建议见 [[../../funding/grant-writing-review-notes|申请书写作意见]]。
 
 ## 基本信息
 

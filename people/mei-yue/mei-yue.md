@@ -8,8 +8,6 @@ aliases:
   - Mei, Yue
   - Yue Mei
   - mei-yue
-  - entities/mei-yue
-  - entities/mei-yue/mei-yue
 tags:
   - work-report
   - Mei-Yue
@@ -18,14 +16,14 @@ tags:
   - CAE-software
 status: in-progress
 date_added: 2026-08-31
-date_update: 2026-11-02
+date_update: 2026-11-09
 ---
 
 # 梅跃
 
 > 大连理工大学教授、博士生导师，研究方向包括 CAE 软件研发、计算力学正反问题与非线性有限元算法。身份与公开研究方向沿用本页 2026-08-31 的主页整理记录，本次未重新核验。
 >
-> **与我的关系**：博士后入站学术环节的对接老师之一，曾审阅科研计划与进站考核表，见 [[wechat-log|微信沟通档案]]。2026-08-31 就基金申请书提出七条修改意见，并谈及 Matrix-Free 与 cut 单元工作，具体记录见 [[entities/mei-yue/report#2.1 第一次讨论（2026-08-31，已进行）|第一次讨论记录]]。据 [[../zang-xinyu/zang-xinyu|臧昕禹]] 页记录，2026-09-04 臧昕禹经梅老师建议来信，交流三维 CutFEM 的 Matrix-Free 求解性能问题。
+> **与我的关系**：梅老师是我博士后入站期间的学术对接老师之一，曾审阅我的科研计划和进站考核表，见 [[../../sources/wechat/mei-yue/wechat-log|入站沟通记录]]。入站后，我继续向他请教基金申请写作，他在 [[report#2.1 第一次讨论（2026-08-31）|8 月 31 日面谈]] 中提出了七条修改意见。9 月 4 日，[[../zang-xinyu/zang-xinyu|臧昕禹]] 经他建议联系我，交流三维 CutFEM 的 Matrix-Free 求解性能问题。
 
 ## 基本信息
 

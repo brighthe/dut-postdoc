@@ -20,7 +20,7 @@ related:
 
 # 郭旭工作阅读与讨论问题
 
-> 用于向合作导师 [[guo-xu|郭旭]] 老师汇报 PIML、Matrix-Free 与 GPU 相关研究进展，以及博士阶段延续论文审阅与合作署名事宜。第一部分整理文献依据、郭老师的核心关注点与我方已有材料入口；第二部分按讨论轮次记录拟发送内容与实际反馈。目前第二部分均为待发送准备稿，历史沟通记录另见 [[wechat-log|微信沟通档案]] 与 [[reports/overview|工作汇报总览]]。
+> 用于向合作导师 [[guo-xu|郭旭]] 老师汇报 PIML、Matrix-Free 与 GPU 相关研究进展，以及博士阶段延续论文审阅与合作署名事宜。第一部分整理文献依据、郭老师的核心关注点与我方已有材料入口；第二部分按讨论轮次记录拟发送内容与实际反馈。目前第二部分均为待发送准备稿，历史沟通记录另见 [[../../sources/wechat/guo-xu/wechat-log|微信沟通档案]] 与 [[reports/overview|工作汇报总览]]。
 
 ## 一、基础调研
 
@@ -39,15 +39,15 @@ related:
 
 ### 1.2 郭老师关注的五个核心方向
 
-据 [[wechat-log|微信沟通档案]]（2026-07-01、07-05）及 [[reports/2026-09-10-sgsim-framework-meeting|2026-09-10 线下汇报]]、[[reports/overview|工作汇报总览]]，郭老师对博士后主线工作明确提出了以下五个关注重点：
+据 [[../../sources/wechat/guo-xu/wechat-log|微信沟通档案]]（2026-07-01、07-05）及 [[reports/2026-09-10-sgsim-framework-meeting|2026-09-10 线下汇报]]、[[reports/overview|工作汇报总览]]，郭老师对博士后主线工作明确提出了以下五个关注重点：
 
 | 关注点 | 具体要求与背景 | 来源入口 |
 |---|---|---|
-| Matrix-Free 在 PIML 中的应用 | 用无矩阵技术解决大规模计算中矩阵组装和内存需求过大的问题 | [[wechat-log#2026-07-01（星期三）\|2026-07-01 沟通]]、[[reports/overview#1. Matrix-Free 在 PIML 应用中的进展\|总览 §1]] |
-| GPU 在 PIML 中的应用 | 结合 GPU 编程大幅提升 PIML 训练、预测与求解效率 | [[wechat-log#2026-07-01（星期三）\|2026-07-01 沟通]]、[[wechat-log#2026-07-05（星期日，线下见面）\|2026-07-05 线下]] |
+| Matrix-Free 在 PIML 中的应用 | 用无矩阵技术解决大规模计算中矩阵组装和内存需求过大的问题 | [[../../sources/wechat/guo-xu/wechat-log#2026-07-01（星期三）\|2026-07-01 沟通]]、[[reports/overview#1. Matrix-Free 在 PIML 应用中的进展\|总览 §1]] |
+| GPU 在 PIML 中的应用 | 结合 GPU 编程大幅提升 PIML 训练、预测与求解效率 | [[../../sources/wechat/guo-xu/wechat-log#2026-07-01（星期三）\|2026-07-01 沟通]]、[[../../sources/wechat/guo-xu/wechat-log#2026-07-05（星期日，线下见面）\|2026-07-05 线下]] |
 | Matrix-Free 与 GPU 的联合应用 | 打通预测、局部算子作用与迭代求解的端到端 GPU 无矩阵流程 | [[reports/overview#3. Matrix-Free + GPU 在 PIML 应用中的进展\|总览 §3]] |
-| 可求解的问题规模 | 将计算规模持续往上推（远期目标：桌面级设备求解亿至十亿级细网格问题） | [[wechat-log#2026-07-01（星期三）\|2026-07-01 沟通]]、[[reports/overview#4. 目前能求解多大规模的问题\|总览 §4]] |
-| 在团队软件框架下运行 | 后续工作需落地到研究院软件框架（[[../software/sgsim/sgsim\|SGSim]]）中，形成可复用的软件能力 | [[wechat-log#2026-07-01（星期三）\|2026-07-01 沟通]]、[[reports/2026-09-10-sgsim-framework-meeting\|2026-09-10 线下汇报]] |
+| 可求解的问题规模 | 将计算规模持续往上推（远期目标：桌面级设备求解亿至十亿级细网格问题） | [[../../sources/wechat/guo-xu/wechat-log#2026-07-01（星期三）\|2026-07-01 沟通]]、[[reports/overview#4. 目前能求解多大规模的问题\|总览 §4]] |
+| 在团队软件框架下运行 | 后续工作需落地到研究院软件框架（[[../../software/sgsim/sgsim\|SGSim]]）中，形成可复用的软件能力 | [[../../sources/wechat/guo-xu/wechat-log#2026-07-01（星期三）\|2026-07-01 沟通]]、[[reports/2026-09-10-sgsim-framework-meeting\|2026-09-10 线下汇报]] |
 
 
 ## 二、讨论问题

@@ -1,5 +1,7 @@
 # 知识库总导航
 
+学者汇报：[[people/guo-xu/report|郭旭]] · [[people/liu-chang/report|刘畅]] · [[people/guo-yilin/report|郭一麟]] · [[people/mei-yue/report|梅跃]]
+
 ```
 dut-postdoc/
 ├── AGENTS.md           # Codex、Antigravity 和 DeepSeek Harness 的规则入口
@@ -28,22 +30,31 @@ dut-postdoc/
 ├── research/           # 后续研究安排：研究目标、任务拆分与推进计划
 │   ├── benchmark-cases/       # 外部工程 Benchmark 的数学模型复原
 │   ├── piml-matrix-free-gpu/  # 博士后核心研究项目：研究计划与技术调研
+│   │   └── discussions/      # PIML–Matrix-Free 算例与讨论材料
 │   ├── mmc-mmv/               # MMC/MMV 数值离散与高效分析调研
 │   └── assets/                # 研究插图与派生资源
+├── conferences/        # 会议资料、参会记录与报告笔记
 ├── funding/            # 基金申请材料、时间安排与写作意见
 │   ├── china-postdoc-foundation-general-grant/  # 中国博士后科学基金面上资助
 │   ├── nsfc-youth-fund/                         # 国家自然科学基金青年科学基金
 │   └── grant-writing-review-notes.md            # 申请书写作意见汇编
-├── entities/           # 人物与软件档案、科研交流和工作汇报
-│   ├── relationships.md                                  # 人物关系
-│   ├── guo-xu/                                           # 郭旭：人物档案、工作汇报与交流记录
-│   ├── liu-chang/                                        # 刘畅：人物档案、工作汇报与交流记录
-│   ├── guo-yilin/                                        # 郭一麟：人物档案与工作汇报
-│   ├── mei-yue/                                          # 梅跃：人物档案、工作汇报与交流记录
-│   ├── zang-xinyu/                                       # 臧昕禹：人物档案
-│   ├── software/                                         # 软件、计算框架与程序库档案
-│   ├── piml-matrix-free-discussions/                     # PIML–Matrix-Free 算例与讨论材料
-│   └── assets/                                           # 交流与讨论共用图件
+├── people/             # 学者档案、与我的关系和工作汇报
+│   ├── relationships.md       # 师门与合作关系
+│   ├── guo-xu/                # 郭旭
+│   │   └── report.md
+│   ├── liu-chang/             # 刘畅
+│   │   └── report.md
+│   ├── guo-yilin/             # 郭一麟
+│   │   ├── report.md
+│   │   └── assets/            # 算例图件
+│   ├── mei-yue/               # 梅跃
+│   │   └── report.md
+│   └── zang-xinyu/            # 臧昕禹
+├── software/           # 软件与计算框架档案
+│   ├── sgsim/
+│   └── tensorfem/
+├── sources/            # 只读原始资料
+│   └── wechat/                # 郭旭、刘畅、梅跃的原始沟通记录及人物页入口
 ├── concepts/           # 稳定知识概念
 │   ├── inbox/                                      # 待分类的概念文档
 │   ├── mmc/                                        # MMC 显式拓扑优化的数学基础

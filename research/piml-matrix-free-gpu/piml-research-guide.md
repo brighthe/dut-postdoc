@@ -23,7 +23,7 @@ related:
 
 ## 一、定位、事实所有权与研究目标
 
-本页是 PIML–Matrix-Free–GPU 项目的 PIML 分支研究指南，维护 PIML 局部力学表示的方法边界、能力目标、模型选型原则与证据综合。项目级任务与状态由 [[project-plan#一、PIML|项目计划的 PIML 部分]]维护，程序、配置和运行结果由 `soptx` 维护，单篇论文事实由 `literature/` 维护，具体交流内容和导师反馈由 [[../../entities/liu-chang/liu-chang|刘畅实体主页与工作汇报]]维护。
+本页是 PIML–Matrix-Free–GPU 项目的 PIML 分支研究指南，维护 PIML 局部力学表示的方法边界、能力目标、模型选型原则与证据综合。项目级任务与状态由 [[project-plan#一、PIML|项目计划的 PIML 部分]]维护，程序、配置和运行结果由 `soptx` 维护，单篇论文事实由 `literature/` 维护，具体交流内容和导师反馈由 [[../../people/liu-chang/liu-chang|刘畅实体主页与工作汇报]]维护。
 
 面向大规模结构拓扑优化，本分支的目标是自行建立覆盖二维与三维的 PIML 局部力学表示，使预测算子能够可信地进入全局结构分析，并最终与 Matrix-Free 和 GPU 求解路径连接。
 
@@ -191,5 +191,5 @@ PIML 局部表示线的选题价值不是再训练一个只追求局部 MSE 的�
 - [[matrix-free-research-guide]]、[[gpu-hpc-research-guide]] — Matrix-Free 与 GPU/HPC 项目分支。
 - [[../_index|科研主线总索引]]、[[project-plan|博士后核心研究项目实施方案]] — 博士后核心研究项目入口及 PIML 局部表示线与三线融合的目标、状态和依赖。
 - [[project-plan]] — 跨线关系、开放问题与研究切入点。
-- [[../../entities/liu-chang/liu-chang|刘畅]] — 面向刘畅老师的单次汇报、导师反馈和会后行动入口。
-- [[../../entities/guo-xu/guo-xu|郭旭]] — 面向郭旭老师的 PIML 阶段表达入口；汇报页不作为任务状态或研究事实源。
+- [[../../people/liu-chang/liu-chang|刘畅]] — 面向刘畅老师的单次汇报、导师反馈和会后行动入口。
+- [[../../people/guo-xu/guo-xu|郭旭]] — 面向郭旭老师的 PIML 阶段表达入口；汇报页不作为任务状态或研究事实源。

@@ -14,8 +14,6 @@ aliases:
   - research/teams/guo-xu-team-overview
   - discussions/guo-xu
   - discussions/guo-xu/_index
-  - entities/guo-xu
-  - entities/guo-xu/guo-xu
 tags:
   - topology-opt
   - MMC
@@ -26,14 +24,14 @@ tags:
   - work-report
 status: in-progress
 date_added: 2026-06-18
-date_update: 2026-11-03
+date_update: 2026-11-09
 ---
 
 # 郭旭
 
 > 大连理工大学教授、中国科学院院士，研究方向包括 MMC/MMV 显式拓扑优化、PIML 与高性能结构分析。
 >
-> **与我的关系**：博士后合作导师。现有研究交集包括 PIML 与高性能结构分析、MMC/MMV 数值离散，以及变分与离散方法；工作进展见 [[reports/overview|工作汇报总览]]。
+> **与我的关系**：郭老师是我的博士后合作导师。入站前，他和我讨论了 PIML 的内存开销，建议用 Matrix-Free 降低存储需求，并结合 GPU 加速。我围绕这条主线向他汇报进展。2026 年 8 月，他介绍我与 [[../guo-yilin/guo-yilin|郭一麟]] 交流相关工作。见 [[../../sources/wechat/guo-xu/wechat-log#2026-07-01（星期三）|7 月 1 日沟通记录]] 和下文的重要交流记录。
 
 ## 基本信息
 
@@ -79,7 +77,7 @@ Ma 2026 的 `matrix-free` 指多尺度形函数按需预测和释放，仍形成
 
 - [[report|郭旭工作阅读与讨论问题]]：PIML 代表作与五个核心关注点梳理、已有材料入口及按轮次组织的汇报与讨论草稿。
 - [[reports/overview|工作汇报总览]]：Matrix-Free 在 PIML 中的应用、GPU 在 PIML 中的应用、两者联合应用，以及可求解问题规模。
-- [[wechat-log|微信沟通档案]]：已入库的微信消息、线下见面记录及原有背景；记录范围以该页说明为准。
+- [[../../sources/wechat/guo-xu/wechat-log|微信沟通档案]]：已入库的微信消息、线下见面记录及原有背景；记录范围以该页说明为准。
 - [[../relationships|师门链与人物关系]]：人物关系及合作背景，师门关系的待核验标记以该页为准。
 - [[../../research/long-term-research-lines|个人长期科研主线与博士后成果路线]]、[[../../research/piml-matrix-free-gpu/project-plan|博士后核心研究项目]]：长期安排与当前项目；入站阶段计划见 [[../../archive/2026-postdoc-entry-assessment/postdoc-research-plan|入站阶段科研计划]]。
 
@@ -87,6 +85,6 @@ Ma 2026 的 `matrix-free` 指多尺度形函数按需预测和释放，仍形成
 
 | 时间 | 重要内容及后续关联 | 来源与边界 |
 |---|---|---|
-| 2026-06-17 | 郭老师同意入站科研计划。 | [[../mei-yue/wechat-log\|梅跃沟通档案]]“科研计划把关”中的回顾性记录；尚未核对郭老师原始回复。 |
-| 2026-07，入站答辩后 | 郭老师建议先留在大连，去研究院熟悉情况，具体安排联系梅老师。 | [[../mei-yue/wechat-log\|梅跃沟通档案]] 2026-07-06 条目中的线下交流转述；背景标注 7/5，但消息写“今天下午”，具体会面日期待确认。 |
+| 2026-06-17 | 郭老师同意入站科研计划。 | [[../../sources/wechat/mei-yue/wechat-log\|梅跃沟通档案]]中的回顾性记录，另见 [[../../sources/wechat/guo-xu/wechat-log#2026-06-17（星期三）\|郭老师原始回复]]。 |
+| 2026-07，入站答辩后 | 郭老师建议先留在大连，去研究院熟悉情况，具体安排联系梅老师。 | [[../../sources/wechat/mei-yue/wechat-log\|梅跃沟通档案]] 2026-07-06 条目中的线下交流转述；背景标注 7/5，但消息写“今天下午”，具体会面日期待确认。 |
 | 2026-08 | 郭老师介绍郭一麟，提供 PIML 与 GPU 加速方向的合作线索。 | [[../guo-yilin/guo-yilin\|郭一麟档案]]、[[../relationships\|人物关系页]]；具体日期与原始表述待补。 |

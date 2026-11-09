@@ -9,11 +9,12 @@
 | concepts/ | 概念笔记，包括 inbox/ 中的待分类概念文档 |
 | literature/ | 文献译文与文献整理页 |
 | papers/ | 自己的论文提纲与正文草稿 |
-| entities/ | 人物、软件档案，以及工作汇报、交流和讨论记录 |
+| people/、software/ | 人物与软件档案，以及工作汇报和交流记录 |
+| research/piml-matrix-free-gpu/discussions/ | 从原人物与软件目录迁入的算例讨论记录 |
 
 按文档用途判断，不要求上述目录中的所有文件都有属性。README.md 等辅助说明、AGENTS.md、schema/ 中的规范文档，以及代码、图件、refs.bib、.gitkeep 不强制添加笔记属性。
 
-research/、funding/、archive/ 暂不列入强制范围；已有属性保留，不批量删除。现有索引可继续使用其已有属性。
+research/ 的其他内容以及 funding/、archive/ 暂不列入强制范围；已有属性保留，不批量删除。现有索引可继续使用其已有属性。
 
 ## 通用字段
 
@@ -40,7 +41,7 @@ research/、funding/、archive/ 暂不列入强制范围；已有属性保留，
 | 文献译文 | language | 必填，译文语言，如 zh-CN |
 | 自己的论文 | authors | 作者确定后填写，按署名顺序使用列表，不臆造作者或顺序 |
 | 自己的论文 | target_journal | 可选，当前拟投期刊 |
-| 人物／软件档案 | entity_kind | 必填，区分 person、software 等对象；汇报和交流页不因位于 entities/ 而必填此字段 |
+| 人物／软件档案 | entity_kind | 必填，区分 person、software 等对象；汇报和交流页不因位于 people/ 而必填此字段 |
 | 工作汇报／交流记录 | 无额外必填字段 | 多次交流的日期、对象与结论放正文，避免用一组页面属性描述多次事件 |
 
 文献作者、DOI、期刊和发表年份等出版信息由 refs.bib 与文献页面的信息区承载，不要求全部重复写入笔记属性。译文的内容、格式与核验要求另见 [[translation]]。

@@ -10,7 +10,7 @@ tags:
   - GPU
   - 合作交流
 related:
-  - "../liu-chang/report"
+  - "../../../people/liu-chang/report"
 ---
 
 # 三维 MBB 梁：全尺度 FEM 与 PIML 子结构的 Matrix-Free 实现对照

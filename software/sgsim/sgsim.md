@@ -5,8 +5,6 @@ entity_kind: software
 aliases:
   - SGSim
   - sgsim
-  - entities/software/sgsim
-  - entities/software/sgsim/sgsim
 tags:
   - SGSim
   - CAE-software
@@ -17,8 +15,8 @@ date_added: 2026-10-17
 date_update: 2026-10-23
 source: 黄靖翔博士撰写的《SGSim_PIML说明.pdf》
 related:
-  - ../../guo-xu/reports/overview
-  - ../../guo-xu/reports/2026-09-10-sgsim-framework-meeting
+  - ../../people/guo-xu/reports/overview
+  - ../../people/guo-xu/reports/2026-09-10-sgsim-framework-meeting
 ---
 
 # SGSim

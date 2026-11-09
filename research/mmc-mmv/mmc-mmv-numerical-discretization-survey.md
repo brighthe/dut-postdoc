@@ -332,5 +332,5 @@ MMC 组件边界切割固定网格产生的正是多边形/带悬挂节点单元
 - [[../../concepts/mmc/mathematical-foundations]] — 组件参数、TDF、Ersatz、灵敏度和优化闭环
 - [[../long-term-research-lines]] — 个人长期科研主线总领；本课题是具体合作与应用课题，不单列为第三条长期主线
 - [[../../archive/2026-postdoc-entry-assessment/postdoc-research-plan]] — 博士后入站阶段科研计划历史正文（本调研对应当时的第二个研究题目）
-- [[../../entities/guo-xu/guo-xu|郭旭]] — 合作导师郭旭院士的稳定档案与研究方向入口
+- [[../../people/guo-xu/guo-xu|郭旭]] — 合作导师郭旭院士的稳定档案与研究方向入口
 - [[../../literature/topopt/piml/translations/Huang2022-problemindependentmachine-zh]] — PIML 奠基论文精读笔记

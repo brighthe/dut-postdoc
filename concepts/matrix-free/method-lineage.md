@@ -142,4 +142,4 @@ Ma2026 的粗网格线性求解属于第 1 级 FA/TA，而不是 EA、PA 或 UA�
 - [[../_index#4-矩阵无关求解matrix-free|Matrix-Free 概念总览]] — Matrix-Free 概念体系总览。
 - [[../../research/piml-matrix-free-gpu/matrix-free-research-guide]] — 长期目标、能力边界、阶段模型与统一验收原则。
 - [[../../research/piml-matrix-free-gpu/matrix-free-research-guide#五、权威事实来源]] — 实测结果、数学规格与项目级状态的事实来源路由。
-- [[../../entities/guo-xu/guo-xu|郭旭]] — 郭旭院士实体主页。
+- [[../../people/guo-xu/guo-xu|郭旭]] — 郭旭院士实体主页。

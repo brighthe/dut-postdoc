@@ -5,7 +5,6 @@ aliases:
   - 郭一麟 PIML 工作梳理
   - 郭一麟 PIML 工作的硬件口径
   - Guo Yilin PIML work
-  - entities/guo-yilin/piml-work
 tags:
   - PIML
   - GPU
